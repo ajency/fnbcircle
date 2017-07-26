@@ -8,6 +8,8 @@ use App\ListingCommunication;
 use Validator;
 use App\ListingCategory;
 use App\ListingBrand;
+use App\Common;
+
 class AddListingController extends Controller
 {
 
@@ -53,6 +55,11 @@ class AddListingController extends Controller
           'primary_phone' => 'required|boolean',
           'contacts' => 'json|contacts',
       ]);
+      //-------- Save contacts details in listing_communication table
+      $contacts=json_decode($data->contacts);
+      foreach ($contacts as $info) {
+        if(Common::verify_id($info->id,'user_communication')) abort(400, 'Contact id is fabricated. Id doesnt exist');
+      }
     }
     function business_information($request){
         $this->validate_business_information($request);
@@ -69,6 +76,19 @@ class AddListingController extends Controller
           'core' => 'required|id_json|not_empty_json',
           'brands' => 'id_json',
       ]);
+
+      $categ=json_decode($data->categories);
+      foreach($categ as $category){
+        if(Common::verify_id($category->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+      }
+      $allcores = json_decode($request->core);
+      foreach ($allcores as $core) {
+        if(Common::verify_id($core->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+      }
+      $brands=json_decode($request->brands);
+      foreach ($brands as $brand) {
+        if(Common::verify_id($brand->id,'brands')) abort(400, 'Brand id is fabricated. Id doesnt exist');
+      }
     }
     function save_business_categories($listing_id,$categories,$brands){
         ListingCategory::where('listing_id',$listing_id)->delete();
@@ -84,7 +104,7 @@ class AddListingController extends Controller
           $row = new ListingBrand;
           $row->listing_id = $listing_id;
           $row->brand_id = $brand->id;
-          $row->save(); 
+          $row->save();
         }
     }
     function business_categories($request){

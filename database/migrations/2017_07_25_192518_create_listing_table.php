@@ -35,6 +35,9 @@ class CreateListingTable extends Migration
           $table->boolean('show_primary_phone');
           $table->boolean('show_primary_email');
           $table->boolean('verified')->nullable();
+          $table->index('owner_id');
+           $table->index('created_by');
+           $table->index('locality_id');
         });
     }
 

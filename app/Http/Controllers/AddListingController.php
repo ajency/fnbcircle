@@ -8,12 +8,14 @@ use App\ListingCommunication;
 use Validator;
 use App\ListingCategory;
 use App\ListingBrand;
+use App\ListingAreasOfOperation;
+use App\ListingOperationTime;
 use App\Common;
 
 class AddListingController extends Controller
 {
 
-    public function is_user_authenticated(){
+    public function is_user_authenticated($listing_id=0){
       if (Auth::check()) {
           return True;
       }
@@ -58,7 +60,7 @@ class AddListingController extends Controller
       //-------- Save contacts details in listing_communication table
       $contacts=json_decode($data->contacts);
       foreach ($contacts as $info) {
-        if(Common::verify_id($info->id,'user_communication')) abort(400, 'Contact id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($info->id,'user_communication')) abort(400, 'Contact id is fabricated. Id doesnt exist');
       }
     }
     function business_information($request){
@@ -76,18 +78,18 @@ class AddListingController extends Controller
           'core' => 'required|id_json|not_empty_json',
           'brands' => 'id_json',
       ]);
-
+      if(!Common::verify_id($data->listing_id,'listings')) abort(400, 'Listing id is fabricated. Id doesnt exist');
       $categ=json_decode($data->categories);
       foreach($categ as $category){
-        if(Common::verify_id($category->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($category->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
       }
       $allcores = json_decode($request->core);
       foreach ($allcores as $core) {
-        if(Common::verify_id($core->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($core->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
       }
       $brands=json_decode($request->brands);
       foreach ($brands as $brand) {
-        if(Common::verify_id($brand->id,'brands')) abort(400, 'Brand id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($brand->id,'brands')) abort(400, 'Brand id is fabricated. Id doesnt exist');
       }
     }
     function save_business_categories($listing_id,$categories,$brands){
@@ -131,18 +133,52 @@ class AddListingController extends Controller
       $this->validate($data, [
           'listing_id'  => 'required|integer|min:1',
           'area_id'     => 'required|integer|min:1',
-          'latitude'    => 'numeric',
-          'longitude'   => 'numeric',
+          'latitude'    => 'numeric|min:0|max:90',
+          'longitude'   => 'numeric|min:0|max:180',
           'address'     => 'max:255',
           'display_hours'=> 'nullable|boolean',
           'operation_areas'=> 'nullable|json|id_json',
           'operation_time' => 'json|week_time',
       ]);
-      if(Common::verify_id($area->id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+      if(!Common::verify_id($data->listing_id,'listings')) abort(400, 'Listing id is fabricated. Id doesnt exist');
+      if(!Common::verify_id($data->area_id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+      $areas=json_decode($data->operation_areas);
+      foreach ($areas as $area) {
+        if(!Common::verify_id($area->id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+      }
     }
-
+    function save_loaction_operation_hours($data){
+        $listing=Listing::find($data->listing_id);
+        $listing->locality_id=$data->area_id;
+        $listing->latitude=$data->latitude;
+        $listing->longitude=$data->longitude;
+        $listing->display_address=$data->address;
+        $listing->show_hours_of_operation=$data->display_hours;
+        $areas=json_decode($data->operation_areas);
+        ListingAreasOfOperation::where('listing_id',$data->listing_id)->delete();
+        foreach ($areas as  $area) {
+            $operation= new ListingAreasOfOperation;
+            $operation->listing_id = $data->listing_id;
+            $operation->area_id = $area->id;
+            $operation->save();
+        }
+        $hours=json_decode($data->operation_time);
+        ListingOperationTime::where('listing_id',$data->listing_id)->delete();
+        foreach ($hours as $day => $time) {
+            $operation= new ListingOperationTime;
+            $operation->listing_id = $data->listing_id;
+            $operation->day_of_week = $day;
+            $operation->from=$time->from;
+            $operation->to=$time->to;
+            $operation->closed=$time->closed;
+            $operation->open24=$time->open24;
+            $operation->save();
+        }
+        $listing->save();
+    }
     function loaction_operation_hours($request){
         $this->validate_loaction_operation_hours($request);
+        $this->save_loaction_operation_hours($request);
     }
 
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateListingOperationTimesTable extends Migration
+class CreateListingAreasOfOperationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateListingOperationTimesTable extends Migration
      */
     public function up()
     {
-        Schema::create('listing_operation_times', function (Blueprint $table) {
+        Schema::create('listing_areas_of_operations', function (Blueprint $table) {
           $table->integer('listing_id');
-          $table->integer('day_of_week');
-          $table->primary(['listing_id','day_of_week']);
+          $table->integer('area_id');
+          $table->primary(['listing_id','area_id']);
           $table->timestamps();
-          $table->time('from');
-          $table->time('to');
-          $table->boolean('closed');
-          $table->boolean('open24');
         });
     }
 
@@ -32,6 +28,6 @@ class CreateListingOperationTimesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('listing_operation_times');
+        Schema::dropIfExists('listing_areas_of_operations');
     }
 }

@@ -16,6 +16,7 @@ return [
     'accepted'             => 'The :attribute must be accepted.',
     'id_json'              => 'Something went wrong when setting :attribute. Please try again',
     'not_empty_json'       => 'Atleast one :attribute required',
+    'week_time'            => 'something went wrong with time settings. Did you check both closed and open 24 hours?',
     'contacts'             => 'There was some error with your contacts',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',

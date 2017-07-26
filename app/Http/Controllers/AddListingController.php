@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Listing;
 use App\ListingCommunication;
+use Validator;
+use App\ListingCategory;
+use App\ListingBrand;
 class AddListingController extends Controller
 {
 
@@ -67,10 +70,37 @@ class AddListingController extends Controller
           'brands' => 'id_json',
       ]);
     }
-
+    function save_business_categories($listing_id,$categories,$brands){
+        ListingCategory::where('listing_id',$listing_id)->delete();
+        foreach ($categories as $id => $core) {
+            $category= new ListingCategory;
+            $category->listing_id = $listing_id;
+            $category->category_id = $id;
+            $category->core=$core;
+            $category->save();
+        }
+        ListingBrand::where('listing_id',$listing_id)->delete();
+        foreach ($brands as $brand) {
+          $row = new ListingBrand;
+          $row->listing_id = $listing_id;
+          $row->brand_id = $brand->id;
+          $row->save(); 
+        }
+    }
     function business_categories($request){
         $this->validate_business_categories($request);
-        // $this->save_business_categories($request);
+
+        $categories = array();
+        $categ=json_decode($request->categories);
+        foreach($categ as $category){
+          $categories[$category->id]=0;
+        }
+        $allcores = json_decode($request->core);
+        foreach ($allcores as $core) {
+           $categories[$core->id]=1;
+        }
+        $brands=json_decode($request->brands);
+        $this->save_business_categories($request->listing_id,$categories,$brands);
     }
 
 

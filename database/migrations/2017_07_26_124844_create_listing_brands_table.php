@@ -13,7 +13,7 @@ class CreateListingBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('listing_brands', function (Blueprint $table) {
+        Schema::create('listing_brand', function (Blueprint $table) {
           $table->integer('listing_id');
           $table->integer('brand_id');
           $table->primary(['listing_id','brand_id']);
@@ -28,6 +28,6 @@ class CreateListingBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('listing_brands');
+        Schema::dropIfExists('listing_brand');
     }
 }

@@ -38,6 +38,18 @@ class AppServiceProvider extends ServiceProvider
       if(empty($array)) return false;
       return true;
    });
+   Validator::extend('week_time', function($attribute, $value, $parameters, $validator) {
+     $array=json_decode($value,true);
+     if(json_last_error() !== JSON_ERROR_NONE) return false;
+     for($i=0;$i<7;$i++){
+       if(!isset($array[$i]['from'])) return false;
+       if(!isset($array[$i]['to'])) return false;
+       if(!isset($array[$i]['closed'])or $array[$i]['closed']!=="1" and $array[$i]['closed']!=="0") return false;
+       if(!isset($array[$i]['open24'])or $array[$i]['open24']!=="1" and $array[$i]['open24']!=="0") return false;
+       if($array[$i]['closed']==1 and $array[$i]['open24']=="1") return false;
+     }
+     return true;
+  });
     }
 
     /**

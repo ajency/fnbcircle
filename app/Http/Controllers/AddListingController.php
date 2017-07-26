@@ -131,6 +131,12 @@ class AddListingController extends Controller
       $this->validate($data, [
           'listing_id'  => 'required|integer|min:1',
           'area_id'     => 'required|integer|min:1',
+          'latitude'    => 'numeric',
+          'longitude'   => 'numeric',
+          'address'     => 'max:255',
+          'display_hours'=> 'nullable|boolean',
+          'operation_areas'=> 'nullable|json|id_json',
+          'operation_time' => 'json|week_time',
       ]);
       if(Common::verify_id($area->id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
     }

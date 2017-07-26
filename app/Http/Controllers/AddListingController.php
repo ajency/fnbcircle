@@ -120,10 +120,27 @@ class AddListingController extends Controller
            $categories[$core->id]=1;
         }
         $brands=json_decode($request->brands);
+
+
         $this->save_business_categories($request->listing_id,$categories,$brands);
     }
 
+    //------------------------step 3 --------------------
 
+    function validate_loaction_operation_hours($data){
+      $this->validate($data, [
+          'listing_id'  => 'required|integer|min:1',
+          'area_id'     => 'required|integer|min:1',
+      ]);
+      if(Common::verify_id($area->id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+    }
+
+    function loaction_operation_hours($request){
+        $this->validate_loaction_operation_hours($request);
+    }
+
+
+    //--------------------Common method ------------------------
     public function store(Request $request){
       // if($this->is_user_authenticated()){
       if(True){
@@ -138,6 +155,8 @@ class AddListingController extends Controller
           case 2:
             $this->business_categories($request);
             break;
+          case 3:
+            $this->loaction_operation_hours($request);
 
           default:
             # code...

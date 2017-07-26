@@ -19,8 +19,8 @@ class AppServiceProvider extends ServiceProvider
         if(json_last_error() !== JSON_ERROR_NONE) return false;
         foreach ($contacts as $info) {
           if(!isset($info->id) or !is_numeric($info->id) or strpos($info->id, '.') == true or $info->id<1) return false;
-          if($info->verify!=="1" and $info->verify!=="0") return false;
-          if($info->visible!=="1" and $info->visible!=="0") return false;
+          if(!isset($info->verify) or $info->verify!=="1" and $info->verify!=="0") return false;
+          if(!isset($info->visible) or $info->visible!=="1" and $info->visible!=="0") return false;
         }
         return true;
      });

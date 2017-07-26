@@ -61,7 +61,7 @@ class AddListingController extends Controller
 
     function validate_business_categories($data){
       $this->validate($data, [
-          'listing_id' => 'required|integer',
+          'listing_id' => 'required|integer|min:1',
           'categories' => 'required|id_json|not_empty_json',
           'core' => 'required|id_json|not_empty_json',
           'brands' => 'id_json',

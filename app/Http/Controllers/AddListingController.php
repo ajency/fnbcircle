@@ -15,29 +15,11 @@ class AddListingController extends Controller
       return False;
     }
     function save_business_information($data){
-      $this->validate($data, [
-          'title' => 'required|max:255',
-          'type' => 'required|integer|between:11,13',
-          'primary_email' => 'required|boolean',
-          'primary_phone' => 'required|boolean',
-          'contacts' => 'json',
-      ]);
-      $contacts=json_decode($data->contacts);
-      foreach ($contacts as $info) {
-        //info->id = integer
-        if(!is_numeric($info->id) or strpos($info->id, '.') == true) abort(400,"BAD REQUEST");
-        //info->verify = boolean
-        if($info->verify!=="1" and $info->verify!=="0") abort(400,"BAD REQUEST");
-        //info->visible = boolean
-        if($info->visible!=="1" and $info->visible!=="0") abort(400,"BAD REQUEST");
-      }
-
       $listing =  new Listing;
       $listing->title = $data->title;
       $listing->type = $data->type;
       $listing->show_primary_phone = $data->primary_phone;
       $listing->show_primary_email = $data->primary_email;
-
       $listing->status = Listing::DRAFT;
       $listing->slug="";
       $listing->owner_id="1";
@@ -54,6 +36,28 @@ class AddListingController extends Controller
         $com->save();
       }
     }
+    function validate_business_information($data){
+      $this->validate($data, [
+          'title' => 'required|max:255',
+          'type' => 'required|integer|between:11,13',
+          'primary_email' => 'required|boolean',
+          'primary_phone' => 'required|boolean',
+          'contacts' => 'contacts|json',
+      ]);
+      // $contacts=json_decode($data->contacts);
+      // foreach ($contacts as $info) {
+      //   //info->id = integer
+      //   if(!is_numeric($info->id) or strpos($info->id, '.') == true) abort(400,"BAD REQUEST");
+      //   //info->verify = boolean
+      //   if($info->verify!=="1" and $info->verify!=="0") abort(400,"BAD REQUEST");
+      //   //info->visible = boolean
+      //   if($info->visible!=="1" and $info->visible!=="0") abort(400,"BAD REQUEST");
+      // }
+    }
+    function business_information($request){
+        $this->validate_business_information($request);
+        $this->save_business_information($request);
+    }
     public function store(Request $request){
       // if($this->is_user_authenticated()){
       if(True){
@@ -63,7 +67,7 @@ class AddListingController extends Controller
         $data = $request->all();
         switch ($data['step']) {
           case 1:
-            $this->save_business_information($request);
+            $this->business_information($request);
             break;
 
           default:

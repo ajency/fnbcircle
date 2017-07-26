@@ -14,6 +14,8 @@ return [
     */
 
     'accepted'             => 'The :attribute must be accepted.',
+    'id_json'              => 'Something went wrong when setting :attribute. Please try again',
+    'not_empty_json'       => 'Atleast one :attribute required',
     'contacts'             => 'There was some error with your contacts',
     'active_url'           => 'The :attribute is not a valid URL.',
     'after'                => 'The :attribute must be a date after :date.',

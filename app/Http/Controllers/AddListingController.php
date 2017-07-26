@@ -14,7 +14,12 @@ class AddListingController extends Controller
       }
       return False;
     }
+
+
+    //-----------------------------------Step 1-----------------------
+
     function save_business_information($data){
+      //------ save listing details in listing table
       $listing =  new Listing;
       $listing->title = $data->title;
       $listing->type = $data->type;
@@ -26,6 +31,7 @@ class AddListingController extends Controller
       $listing->created_by="1";
       $listing->save();
 
+      //-------- Save contacts details in listing_communication table
       $contacts=json_decode($data->contacts);
       foreach ($contacts as $info) {
         $com= new ListingCommunication;
@@ -42,22 +48,32 @@ class AddListingController extends Controller
           'type' => 'required|integer|between:11,13',
           'primary_email' => 'required|boolean',
           'primary_phone' => 'required|boolean',
-          'contacts' => 'contacts|json',
+          'contacts' => 'json|contacts',
       ]);
-      // $contacts=json_decode($data->contacts);
-      // foreach ($contacts as $info) {
-      //   //info->id = integer
-      //   if(!is_numeric($info->id) or strpos($info->id, '.') == true) abort(400,"BAD REQUEST");
-      //   //info->verify = boolean
-      //   if($info->verify!=="1" and $info->verify!=="0") abort(400,"BAD REQUEST");
-      //   //info->visible = boolean
-      //   if($info->visible!=="1" and $info->visible!=="0") abort(400,"BAD REQUEST");
-      // }
     }
     function business_information($request){
         $this->validate_business_information($request);
         $this->save_business_information($request);
     }
+
+
+    //---------------------------step 2 ----------------------------------------
+
+    function validate_business_categories($data){
+      $this->validate($data, [
+          'listing_id' => 'required|integer',
+          'categories' => 'required|id_json|not_empty_json',
+          'core' => 'required|id_json|not_empty_json',
+          'brands' => 'id_json',
+      ]);
+    }
+
+    function business_categories($request){
+        $this->validate_business_categories($request);
+        // $this->save_business_categories($request);
+    }
+
+
     public function store(Request $request){
       // if($this->is_user_authenticated()){
       if(True){
@@ -68,6 +84,9 @@ class AddListingController extends Controller
         switch ($data['step']) {
           case 1:
             $this->business_information($request);
+            break;
+          case 2:
+            $this->business_categories($request);
             break;
 
           default:

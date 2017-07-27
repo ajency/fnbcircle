@@ -243,7 +243,27 @@ class AddListingController extends Controller
       if($check!==true) return $check;
       $this->save_business_details($request);
     }
-
+    //----------------------------step 5------------------------------
+    function validate_photos_documents($data){
+      $this->validate($data, [
+          'listing_id' => 'required|integer|min:1',
+          'photos'  => 'required|photo_json',
+          'documents'=>'required|doc_json',
+      ]);
+      if(!Common::verify_id($data->listing_id,'listings'))  return \Redirect::back()->withErrors(array('wrong_step'=>'Listing id is fabricated. Id doesnt exist'));
+      return true;
+    }
+    function save_photos_documents($data){
+      $listing=Listing::find($data->listing_id);
+      $listing->photos=$data->photos;
+      $listing->documents=$data->documents;
+      $listing->save();
+    }
+    function photos_documents($request){
+      $check = $this->validate_photos_documents($request);
+      if($check!==true) return $check;
+      $this->save_photos_documents($request);
+    }
 
     //--------------------Common method ------------------------
     public function store(Request $request){
@@ -265,6 +285,9 @@ class AddListingController extends Controller
             break;
           case 'business_details':
             return $this->business_details($request);
+            break;
+          case 'photos_documents':
+            return $this->photos_documents($request);
             break;
           default:
             return \Redirect::back()->withErrors(array('wrong_step'=>'Something went wrong. Please try again'));

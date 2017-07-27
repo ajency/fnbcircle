@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Common;
 use Validator;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,6 +33,30 @@ class AppServiceProvider extends ServiceProvider
        }
        return true;
     });
+    Validator::extend('doc_json', function($attribute, $value, $parameters, $validator) {
+      $array=json_decode($value);
+      if(json_last_error() !== JSON_ERROR_NONE) return false;
+      foreach ($array as $info) {
+        if(!isset($info->id) or !is_numeric($info->id) or strpos($info->id, '.') == true or $info->id<1) return false;
+        if(!isset($info->url) or !filter_var($info->url, FILTER_VALIDATE_URL)) return false;
+        if(!Common::verify_id($info->id,'documents')) return false;
+      }
+      return true;
+   });
+    Validator::extend('photo_json', function($attribute, $value, $parameters, $validator) {
+      $array=json_decode($value);
+      if(json_last_error() !== JSON_ERROR_NONE) return false;
+      $featured=0;
+      foreach ($array as $info) {
+        if(!isset($info->id) or !is_numeric($info->id) or strpos($info->id, '.') == true or $info->id<1) return false;
+        if(!isset($info->featured) or $info->featured!=="1" and $info->featured!=="0") return false;
+        if($featured==1 and $info->featured==1) return false;
+        if($info->featured==1) $featured =1;
+        if(!isset($info->url) or empty($info->url) or !filter_var($info->url, FILTER_VALIDATE_URL)) return false;
+        if(!Common::verify_id($info->id,'documents')) return false;
+      }
+      return true;
+   });
     Validator::extend('not_empty_json', function($attribute, $value, $parameters, $validator) {
       $array=json_decode($value,true);
       if(json_last_error() !== JSON_ERROR_NONE) return false;

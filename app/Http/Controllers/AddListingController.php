@@ -28,24 +28,29 @@ class AddListingController extends Controller
     function save_business_information($data){
       //------ save listing details in listing table
       $listing =  new Listing;
-      $listing->title = $data->title;
+      $listing->title = title_case($data->title);
       $listing->type = $data->type;
       $listing->show_primary_phone = $data->primary_phone;
       $listing->show_primary_email = $data->primary_email;
       $listing->status = Listing::DRAFT;
-      $listing->slug="";
+      // $listing->slug=str_slug($data->title.' '.str_random(7),'-');
       $listing->owner_id="1";
       $listing->created_by="1";
       $listing->save();
 
       //-------- Save contacts details in listing_communication table
-      $contacts=json_decode($data->contacts);
-      foreach ($contacts as $info) {
+      $contacts_json=json_decode($data->contacts);
+      $contacts=array();
+      foreach ($contacts_json as $contact) {
+        $contacts[$contact->id]=array('verified'=>$contact->verify,'visible'=>$contact->visible);
+      }
+      ListingCommunication::where('listing_id',$listing->id)->delete();
+      foreach ($contacts as $contact=>$info) {
         $com= new ListingCommunication;
         $com->listing_id = $listing->id;
-        $com->user_communication_id = $info->id;
-        $com->verified=$info->verify;
-        $com->visible=$info->visible;
+        $com->user_communication_id = $contact;
+        $com->verified=$info['verified'];
+        $com->visible=$info['visible'];
         $com->save();
       }
     }
@@ -55,12 +60,12 @@ class AddListingController extends Controller
           'type' => 'required|integer|between:11,13',
           'primary_email' => 'required|boolean',
           'primary_phone' => 'required|boolean',
-          'contacts' => 'json|contacts',
+          'contacts' => 'required|json|contacts',
       ]);
       //-------- Save contacts details in listing_communication table
       $contacts=json_decode($data->contacts);
       foreach ($contacts as $info) {
-        if(!Common::verify_id($info->id,'user_communication')) abort(400, 'Contact id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($info->id,'user_communication')) return \Redirect::back()->withErrors(array('wrong_step'=>'Contact id is fabricated. Id doesnt exist'));//abort(400, 'Contact id is fabricated. Id doesnt exist');
       }
     }
     function business_information($request){
@@ -76,20 +81,20 @@ class AddListingController extends Controller
           'listing_id' => 'required|integer|min:1',
           'categories' => 'required|id_json|not_empty_json',
           'core' => 'required|id_json|not_empty_json',
-          'brands' => 'id_json',
+          'brands' => 'required|id_json',
       ]);
-      if(!Common::verify_id($data->listing_id,'listings')) abort(400, 'Listing id is fabricated. Id doesnt exist');
+      if(!Common::verify_id($data->listing_id,'listings')) return \Redirect::back()->withErrors(array('wrong_step'=>'Listing id is fabricated. Id doesnt exist'));//abort(400, 'Listing id is fabricated. Id doesnt exist');
       $categ=json_decode($data->categories);
       foreach($categ as $category){
-        if(!Common::verify_id($category->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($category->id,'categories')) return \Redirect::back()->withErrors(array('wrong_step'=>'Category id is fabricated. Id doesnt exist'));//abort(400, 'Category id is fabricated. Id doesnt exist');
       }
-      $allcores = json_decode($request->core);
+      $allcores = json_decode($data->core);
       foreach ($allcores as $core) {
-        if(!Common::verify_id($core->id,'categories')) abort(400, 'Category id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($core->id,'categories')) return \Redirect::back()->withErrors(array('wrong_step'=>'Category id is fabricated. Id doesnt exist'));//abort(400, 'Category id is fabricated. Id doesnt exist');
       }
-      $brands=json_decode($request->brands);
+      $brands=json_decode($data->brands);
       foreach ($brands as $brand) {
-        if(!Common::verify_id($brand->id,'brands')) abort(400, 'Brand id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($brand->id,'brands')) return \Redirect::back()->withErrors(array('wrong_step'=>'Brand id is fabricated. Id doesnt exist'));//abort(400, 'Brand id is fabricated. Id doesnt exist');
       }
     }
     function save_business_categories($listing_id,$categories,$brands){
@@ -133,18 +138,18 @@ class AddListingController extends Controller
       $this->validate($data, [
           'listing_id'  => 'required|integer|min:1',
           'area_id'     => 'required|integer|min:1',
-          'latitude'    => 'numeric|min:0|max:90',
-          'longitude'   => 'numeric|min:0|max:180',
-          'address'     => 'max:255',
-          'display_hours'=> 'nullable|boolean',
-          'operation_areas'=> 'nullable|json|id_json',
-          'operation_time' => 'json|week_time',
+          'latitude'    => 'required|numeric|min:0|max:90',
+          'longitude'   => 'required|numeric|min:0|max:180',
+          'address'     => 'required|max:255',
+          'display_hours'=> 'required|nullable|boolean',
+          'operation_areas'=> 'required|json|id_json',
+          'operation_time' => 'required|json|week_time',
       ]);
-      if(!Common::verify_id($data->listing_id,'listings')) abort(400, 'Listing id is fabricated. Id doesnt exist');
-      if(!Common::verify_id($data->area_id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+      if(!Common::verify_id($data->listing_id,'listings')) return \Redirect::back()->withErrors(array('wrong_step'=>'Listing id is fabricated. Id doesnt exist'));//abort(400, 'Listing id is fabricated. Id doesnt exist');
+      if(!Common::verify_id($data->area_id,'areas')) return \Redirect::back()->withErrors(array('wrong_step'=>'Area id is fabricated. Id doesnt exist'));//abort(400, 'Area id is fabricated. Id doesnt exist');
       $areas=json_decode($data->operation_areas);
       foreach ($areas as $area) {
-        if(!Common::verify_id($area->id,'areas')) abort(400, 'Area id is fabricated. Id doesnt exist');
+        if(!Common::verify_id($area->id,'areas')) return \Redirect::back()->withErrors(array('wrong_step'=>'Area id is fabricated. Id doesnt exist'));//abort(400, 'Area id is fabricated. Id doesnt exist');
       }
     }
     function save_loaction_operation_hours($data){
@@ -154,12 +159,16 @@ class AddListingController extends Controller
         $listing->longitude=$data->longitude;
         $listing->display_address=$data->address;
         $listing->show_hours_of_operation=$data->display_hours;
-        $areas=json_decode($data->operation_areas);
+        $areas_json=json_decode($data->operation_areas);
         ListingAreasOfOperation::where('listing_id',$data->listing_id)->delete();
-        foreach ($areas as  $area) {
+        $areas=array();
+        foreach ($areas_json as $area) {
+          $areas[$area->id]=1;
+        }
+        foreach ($areas as  $area => $nil) {
             $operation= new ListingAreasOfOperation;
             $operation->listing_id = $data->listing_id;
-            $operation->area_id = $area->id;
+            $operation->area_id = $area;
             $operation->save();
         }
         $hours=json_decode($data->operation_time);
@@ -180,6 +189,8 @@ class AddListingController extends Controller
         $this->validate_loaction_operation_hours($request);
         $this->save_loaction_operation_hours($request);
     }
+    //--------------------------step 4 ----------------------------------------
+
 
 
     //--------------------Common method ------------------------
@@ -187,21 +198,22 @@ class AddListingController extends Controller
       // if($this->is_user_authenticated()){
       if(True){
         $this->validate($request, [
-            'step' => 'required|integer|min:1|max:6',
+            'step' => 'required',
         ]);
         $data = $request->all();
         switch ($data['step']) {
-          case 1:
+          case 'business_information':
             $this->business_information($request);
             break;
-          case 2:
+          case 'business_categories':
             $this->business_categories($request);
             break;
-          case 3:
+          case 'location_operation_hours':
             $this->loaction_operation_hours($request);
-
+            break;
+          case ''
           default:
-            # code...
+            return \Redirect::back()->withErrors(array('wrong_step'=>'Something went wrong. Please try again'));
             break;
         }
       }

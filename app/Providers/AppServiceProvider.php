@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
      for($i=0;$i<7;$i++){
        if(!isset($array[$i]['from'])) return false;
        if(!isset($array[$i]['to'])) return false;
+       if($array[$i]['from']>$array[$i]['to']) return false;
        if(!isset($array[$i]['closed'])or $array[$i]['closed']!=="1" and $array[$i]['closed']!=="0") return false;
        if(!isset($array[$i]['open24'])or $array[$i]['open24']!=="1" and $array[$i]['open24']!=="0") return false;
        if($array[$i]['closed']==1 and $array[$i]['open24']=="1") return false;

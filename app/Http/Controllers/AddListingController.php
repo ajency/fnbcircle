@@ -7,6 +7,7 @@ use App\Listing;
 use App\ListingCommunication;
 use Validator;
 use App\ListingCategory;
+use App\ListingHighlight;
 use App\ListingBrand;
 use App\ListingAreasOfOperation;
 use App\ListingOperationTime;
@@ -67,9 +68,11 @@ class AddListingController extends Controller
       foreach ($contacts as $info) {
         if(!Common::verify_id($info->id,'user_communication')) return \Redirect::back()->withErrors(array('wrong_step'=>'Contact id is fabricated. Id doesnt exist'));//abort(400, 'Contact id is fabricated. Id doesnt exist');
       }
+      return true;
     }
     function business_information($request){
-        $this->validate_business_information($request);
+        $check=$this->validate_business_information($request);
+        if($check!==true) return $check;
         $this->save_business_information($request);
     }
 
@@ -96,6 +99,7 @@ class AddListingController extends Controller
       foreach ($brands as $brand) {
         if(!Common::verify_id($brand->id,'brands')) return \Redirect::back()->withErrors(array('wrong_step'=>'Brand id is fabricated. Id doesnt exist'));//abort(400, 'Brand id is fabricated. Id doesnt exist');
       }
+      return true;
     }
     function save_business_categories($listing_id,$categories,$brands){
         ListingCategory::where('listing_id',$listing_id)->delete();
@@ -115,7 +119,8 @@ class AddListingController extends Controller
         }
     }
     function business_categories($request){
-        $this->validate_business_categories($request);
+        $check = $this->validate_business_categories($request);
+        if($check!==true) return $check;
 
         $categories = array();
         $categ=json_decode($request->categories);
@@ -151,6 +156,7 @@ class AddListingController extends Controller
       foreach ($areas as $area) {
         if(!Common::verify_id($area->id,'areas')) return \Redirect::back()->withErrors(array('wrong_step'=>'Area id is fabricated. Id doesnt exist'));//abort(400, 'Area id is fabricated. Id doesnt exist');
       }
+      return true;
     }
     function save_loaction_operation_hours($data){
         $listing=Listing::find($data->listing_id);
@@ -186,11 +192,57 @@ class AddListingController extends Controller
         $listing->save();
     }
     function loaction_operation_hours($request){
-        $this->validate_loaction_operation_hours($request);
+        $check=$this->validate_loaction_operation_hours($request);
+        if($check!==true) return $check;
         $this->save_loaction_operation_hours($request);
     }
     //--------------------------step 4 ----------------------------------------
+    function validate_business_details($data){
+      $this->validate($data, [
+          'listing_id' => 'required|integer|min:1',
+          'description'=> 'required|max:65535 ',
+          'highlights' => 'required',
+          'established' => 'nullable|numeric',
+          'website' => 'nullable|active_url',
+          'payment.*'=>'required|boolean',
+      ]);
+      if(!Common::verify_id($data->listing_id,'listings'))  return \Redirect::back()->withErrors(array('wrong_step'=>'Listing id is fabricated. Id doesnt exist'));
+      return true;
+    }
+    function save_business_details($data){
+        $listing=Listing::find($data->listing_id);
+        $listing->description = $data->description;
+        ListingHighlight::where('listing_id',$data->listing_id)->delete();
+        foreach ($data->highlights as $key => $highlight) {
+          if(!empty($highlight)){
+            $entry = new ListingHighlight;
+            $entry->listing_id = $data->listing_id;
+            $entry->highlight_id = $key;
+            $entry->highlight = $highlight;
+            $entry->save();
+          }
+        }
+        $other=array();
+        if(isset($data->established) and !empty($data->established)) $other['established']=$data->established;
+        if(isset($data->website) and !empty($data->website)) $other['website']=$data->website;
+        $other=json_encode($other);
+        $listing->other_details=$other;
+        foreach ($data->payment as $key => $value) {
+          if(!isset($payment)){
+            if($value==1) $payment=$key;
+          }else{
+            if($value==1) $payment.=', '.$key;
+          }
+        }
+        if(isset($payment))$listing->payment_modes = $payment;
+        $listing->save();
+    }
 
+    function business_details($request){
+      $check = $this->validate_business_details($request);
+      if($check!==true) return $check;
+      $this->save_business_details($request);
+    }
 
 
     //--------------------Common method ------------------------
@@ -203,15 +255,17 @@ class AddListingController extends Controller
         $data = $request->all();
         switch ($data['step']) {
           case 'business_information':
-            $this->business_information($request);
+            return $this->business_information($request);
             break;
           case 'business_categories':
-            $this->business_categories($request);
+            return $this->business_categories($request);
             break;
           case 'location_operation_hours':
-            $this->loaction_operation_hours($request);
+            return $this->loaction_operation_hours($request);
             break;
-          case ''
+          case 'business_details':
+            return $this->business_details($request);
+            break;
           default:
             return \Redirect::back()->withErrors(array('wrong_step'=>'Something went wrong. Please try again'));
             break;

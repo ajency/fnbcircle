@@ -23,6 +23,7 @@ class CreateListingTable extends Migration
           $table->string('slug')->nullable();
           $table->text('description')->nullable();
           $table->string('other_details')->comment('Serialized array of year established, website etc')->nullable();
+          $table->string('payment_modes')->nullable();
           $table->integer('owner_id')->nullable();
           $table->integer('created_by')->nullable();
           $table->integer('views_count')->default('0');

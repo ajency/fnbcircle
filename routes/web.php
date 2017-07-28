@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/add_listing', 'AddListingController@store');
+Route::post('/add_listing', 'ListingController@store');

@@ -93,12 +93,12 @@ class ListingController extends Controller
     }
     public function listingInformation($request)
     {
-        $check = $this->validateBusinessInformation($request);
+        $check = $this->validateListingInformation($request);
         if ($check !== true) {
             return $check;
         }
 
-        $this->saveBusinessInformation($request);
+        $this->saveListingInformation($request);
     }
 
     //---------------------------step 2 ----------------------------------------

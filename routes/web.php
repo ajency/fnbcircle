@@ -20,3 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/add_listing', 'ListingController@store');
+Route::get('/add_listing', function(){
+    return view('add-listing');
+});
+

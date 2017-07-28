@@ -1,0 +1,78 @@
+// ---------------------------
+// BUTTONS STYLES AND VARIANTS -----------
+// ---------------------------
+
+
+.fnb-btn{
+	font-size: 1.05em;
+	transition: all 0.6s ease;
+	font-weight: 500;
+	text-transform: capitalize;
+	border-radius: 4px;
+	&.outline{
+		background-color: #fff;
+    	color: @accent-primary;
+    	border: 1px solid;
+    	&:hover,&:active{
+			background-color: @accent-primary;
+			color: #fff;
+			border: 2px solid;
+    	}
+	}
+	&.half-border{
+    	border-bottom: 2px solid;
+    	&:hover{
+    		border: 1px solid;
+    		border-bottom: 2px solid;
+    	}
+	}
+	&.border-btn{
+		border: 2px solid;
+	}
+	&.mini{
+		padding: 6px 20px;
+	}
+	&.primary-btn{
+		background-color: @accent-primary;
+    	color: #fff;
+    	&:hover{
+    		background-color: #fff;
+    		color: @accent-primary;
+    		border: 2px solid;
+    	}
+	}
+	&.full{
+    	padding: 0.85em 1.8em;
+	}
+    &:active,&:focus{
+    	box-shadow: none;
+    	outline: 0;
+    }
+    &.bnw{
+    	background-color: #000;
+    	color: #fff;
+    	border: 1px solid;
+    }
+    &.fullwidth{
+        display: block;
+        width: 100%;
+    }
+    &.no-border{
+        border: 0;
+        background-color: transparent;
+        &:hover,&:active{
+            background-color: transparent;
+            border: 0;
+            color: @accent-primary;
+        }
+    }
+    &.alternate{
+        background-color: @accent-alternate;
+        color: #fff;
+        border: 2px solid @accent-alternate;
+        &:hover{
+            background-color: transparent;
+            color: @accent-alternate;
+        }
+    }
+}

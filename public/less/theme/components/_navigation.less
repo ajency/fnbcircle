@@ -1,0 +1,126 @@
+// ---------------------------
+// NAVIGATION STYLES -----------
+// ---------------------------
+
+
+.navbar{
+	&-default{
+		.navbar-brand{
+			font-size: 2.2em;
+	    	color: @accent-primary;
+	    	font-weight: 400;
+	    	transition: all 0.5s ease;
+	    	&:hover{
+	    		color: lighten(@accent-primary,5%);
+	    	}
+		}
+	}
+	&-nav{
+		padding-top: 8px;
+	}
+	li{
+		padding: 0 0.5em;
+	}
+	&-right{
+		li{
+			&:last-child{
+				padding-right: 0;
+			}
+		}
+	}
+	.nav-title-size.nav-title-size{
+		font-size: 1.15em;
+		font-weight: 500;
+		margin-bottom: 0;
+		color: @text-darker;
+		padding-top: 8px;
+		transition: all 0.5s ease;
+		&:hover{
+			color: lighten(@text-darker,25%);
+		}
+	}
+	.fnb-select{
+		font-weight: 500;
+	}
+	.login{
+		display: flex;
+		align-items: center;
+		padding-top: 0;
+		.user-icon{
+			padding-top: 4px;
+			font-size: 2em;
+			margin-bottom: -4px;
+			color: @text-darker;
+			&:hover{
+				color: lighten(@text-darker,25%);
+			}
+		}
+		&__title{
+			padding-top: 2px;
+		}
+	}
+	.side-menu{
+		padding-top: 4px;
+		padding-right: 0;
+		.ham{
+			font-size: 2em;
+			color: @text-darker;
+		}
+	}
+}
+
+// Mobile navigation 
+@media screen and (min-width: @tab){
+	.mobile-head{
+		&__right,.sideMenu{
+			display: none;
+		}
+	}
+	.mobile-side-title,.side-section.explore,.mobile-top{
+		display: none;
+	}	
+}
+
+
+
+
+@media screen and (max-width: @mobile){
+	.mobile-head{
+		&__left,&__right{
+			flex: 1;
+		}
+		&__right{
+			justify-content: flex-end;
+		}
+		.sideMenu{
+			font-size: 1.6em;
+    		padding-right: 0.5em;
+		}
+		.navbar-brand.navbar-brand{
+			float: none;
+    		padding: 0;
+    		font-size: 1.25em;
+    		height: auto;
+    		margin: 0;
+		}
+		.quote-btn{
+			padding: 4px 10px;
+    		font-size: 0.85em;
+    		// margin-right: 0.8em;
+    		border-bottom: 1px solid;
+		}
+		.login{
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: @sm-tab){
+	.navbar-default{
+		.navbar-brand{
+			font-size: 1.8em;
+		}
+	}
+}
+
+

@@ -12,7 +12,7 @@ class Listing extends Model
     const DRAFT = 3;
     const WHOLESALER = 11;
     const RETAILER = 12;
-    const DISTRIBUTER = 13;
+    const MANUFACTURER = 13;
 
     protected $table="listings";
 

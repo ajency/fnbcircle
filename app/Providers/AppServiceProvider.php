@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
       if(json_last_error() !== JSON_ERROR_NONE) return false;
       foreach ($array as $info) {
         if(!isset($info->id) or !is_numeric($info->id) or strpos($info->id, '.') == true or $info->id<1) return false;
+        if(!isset($info->title) or empty($info->title)) return false;
         if(!isset($info->url) or !filter_var($info->url, FILTER_VALIDATE_URL)) return false;
         if(!Common::verify_id($info->id,'documents')) return false;
       }

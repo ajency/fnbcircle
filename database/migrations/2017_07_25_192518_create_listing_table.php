@@ -19,7 +19,7 @@ class CreateListingTable extends Migration
           $table->string('title');
           $table->integer('status')->comment('1=published,2=review,3=draft');
           $table->timestamp('published_on')->nullable();
-          $table->integer('type')->comment('11=Wholeseller,12=Retailer,13=distributer');
+          $table->integer('type')->comment('11=Wholeseller,12=Retailer,13=Manufacturer');
           $table->string('slug')->nullable();
           $table->text('description')->nullable();
           $table->string('other_details')->comment('Serialized array of year established, website etc')->nullable();

@@ -1,0 +1,39 @@
+
+// ---------------------------
+// BANNER STYLES -----------
+// ---------------------------
+
+.fnb-banner{
+	background-image: url('../img/list-banner.jpg');
+	height: 200px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    background-size: cover;
+    background-position: 50% 70%;
+    &:after{
+    	content: '';
+    	position: absolute;
+    	width: 100%;
+    	height: 100%;
+    	top: 0;
+    	background-color: rgba(0,0,0,0.45);
+    }
+    &.home-banner{
+        height: 450px;
+        align-items: center;
+        &:after{
+            background-color: rgba(0,0,0,0.5);
+        }
+    }
+}
+
+@media screen and (max-width: @mobile){
+	.fnb-banner{
+		background-image: none;
+		height: auto;
+		&:after{
+			display: none;
+		}
+	}
+}

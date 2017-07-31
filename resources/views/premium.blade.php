@@ -1,8 +1,8 @@
-@extends('premium')
+@extends('add-listing')
 
-@section('premium')
+@section('form-data')
 
-<div class="premium tab-pane fade" id="premium">
+<div class="premium tab-pane fade active in" id="premium">
 <h5 class="no-m-t">Go Premium</h5>
 <h6 class="m-t-30 m-b-30">Benefits of going premium</h6>
 <div class="row">

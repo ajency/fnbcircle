@@ -112,22 +112,22 @@
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="active">
-                                    <a href="#business-info" class="form-toggle" role="tab" data-toggle="tab">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/add_listing" class="form-toggle">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#business-cats" class="form-toggle" role="tab" data-toggle="tab">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/business-categories" class="form-toggle">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#location-hours" class="form-toggle" role="tab" data-toggle="tab">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/business-location" class="form-toggle">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#business-details" class="form-toggle" role="tab" data-toggle="tab">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/business-details" class="form-toggle">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#photos" class="form-toggle" role="tab" data-toggle="tab">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/business-photos" class="form-toggle">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#premium" class="form-toggle" role="tab" data-toggle="tab">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="/business-premium" class="form-toggle">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                             <div class="view-sample m-t-20 m-b-20">

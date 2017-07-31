@@ -20,9 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/add_listing', 'ListingController@store');
+
 Route::get('/add_listing', function(){
     return view('business-info');
 });
+
 Route::get('/business-categories', function(){
     return view('business-categories');
 });
@@ -31,4 +33,14 @@ Route::get('/business-location', function(){
     return view('location');
 });
 
+Route::get('/business-details', function(){
+    return view('business-details');
+});
 
+Route::get('/business-photos', function(){
+    return view('photos');
+});
+
+Route::get('/business-premium', function(){
+    return view('premium');
+});

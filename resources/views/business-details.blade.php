@@ -1,6 +1,6 @@
 @extends('add-listing')
 
-@section('business-details')
+@section('form-data')
 
 <div class="business-details tab-pane fade in active" id="business-details">
     <h5 class="no-m-t">Business Details</h5>

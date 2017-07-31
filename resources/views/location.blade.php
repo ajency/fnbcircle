@@ -6,6 +6,24 @@
     <h5 class="no-m-t">Location &amp; Hours of Operation</h5>
     <div class="m-t-30 c-gap">
         <label>Please provide the google map address for your business</label>
+        <div class="location-select flex-row flex-wrap">
+            <div class="select-col city">
+                <select class="fnb-select select-variant form-control text-lighter">
+                    <option>Select city</option>
+                    <option>Mumbai</option>
+                    <option>Delhi</option>
+                    <option>Goa</option>
+                </select>
+            </div>
+            <div class="select-col area">
+                <select class="fnb-select select-variant form-control text-lighter">
+                    <option>Select area</option>
+                    <option>Dadar</option>
+                    <option>Bandra</option>
+                    <option>Borivili</option>
+                </select>
+            </div>
+        </div>
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
         </div>
@@ -16,15 +34,15 @@
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0;width:100%;" allowfullscreen></iframe>
         </div>
     </div>
-    <div class="m-t-30 c-gap">
+    <div class="m-t-40 c-gap">
         <label>What is the address that you want to be displayed to the users?</label>
         <label class="dis-block text-medium baseline">
             <input type="checkbox" class="checkbox remove-addr" id=""> Is the display address same as the map address?
             <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
         </label>
     </div>
-    <hr class="m-t-50 m-b-50 separate">
-    <div class="m-t-20 c-gap">
+    <!-- <hr class="m-t-50 m-b-50 separate"> -->
+    <div class="m-t-40 c-gap">
         <label>Mention the area(s) where you provide your products/services.</label>
         <div class="single-area gray-border m-t-10 m-b-20">
             <div class="row flex-row areaContainer">

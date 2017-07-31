@@ -21,6 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/add_listing', 'ListingController@store');
 Route::get('/add_listing', function(){
-    return view('add-listing');
+    return view('business-info');
 });
+Route::get('/business-categories', function(){
+    return view('business-categories');
+});
+
+Route::get('/business-location', function(){
+    return view('location');
+});
+
 

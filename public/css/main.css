@@ -1051,7 +1051,7 @@ input[type=radio].fnb-radio.disabled:before {
   width: 100%;
   height: 100%;
   opacity: 0;
-  z-index: 6;
+  z-index: 2;
 }
 .toggle__check:checked ~ .track {
   box-shadow: inset 0 0 0 20px #32bbb4;
@@ -1176,6 +1176,9 @@ input[type=radio].fnb-radio.disabled:before {
 .float-input::-moz-placeholder {
   /* Firefox 19+ */
   color: #000;
+}
+input[type="checkbox"].toggle__check {
+  width: inherit;
 }
 .switch {
   position: absolute;
@@ -5077,7 +5080,7 @@ input[type=radio].fnb-radio.disabled:before {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
   }
   .preview-header.active {
     top: 0;
@@ -5731,6 +5734,38 @@ input[type='checkbox'].remove-addr {
 input[type='checkbox'].remove-addr:checked + .another-address {
   display: none;
 }
+.location-select {
+  padding: 0.5em 0 1em 0;
+}
+.location-select .city {
+  -webkit-box-flex: 0.21;
+  -webkit-flex: 0.21;
+      -ms-flex: 0.21;
+          flex: 0.21;
+  padding-right: 4em;
+}
+.location-select .area {
+  -webkit-box-flex: 0.21;
+  -webkit-flex: 0.21;
+      -ms-flex: 0.21;
+          flex: 0.21;
+}
+.location-select .fnb-select {
+  font-size: 1em;
+  padding-left: 0;
+}
+@media screen and (max-width: 600px) {
+  .location-select .area,
+  .location-select .city {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+  }
+  .location-select .city {
+    padding-right: 2em;
+  }
+}
 @media screen and (max-width: 768px) {
   .location-hours iframe {
     height: 250px;
@@ -5997,15 +6032,27 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 @media screen and (max-width: 768px) {
   .pricing-table {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0 -15px;
+    padding: 15px 0;
   }
   .pricing-table__cards {
-    margin: 0;
     margin-bottom: 2em;
+    vertical-align: top;
+    white-space: normal;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 230px;
+        -ms-flex: 1 0 230px;
+            flex: 1 0 230px;
+  }
+  .pricing-table__cards:first-child {
+    margin-left: 1em;
   }
   .subscribe-plan {
     text-align: center;
@@ -6082,6 +6129,14 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .duration-choose .col-btn .fnb-btn {
     padding: 0.8em 1.3em;
     font-size: 0.9em;
+  }
+}
+@media screen and (min-width: 650px) and (max-width: 768px) {
+  .pricing-table__cards {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 250px;
+        -ms-flex: 1 0 250px;
+            flex: 1 0 250px;
   }
 }
 @media screen and (max-width: 320px) {

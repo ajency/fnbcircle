@@ -69,7 +69,7 @@
 	    // transition: all 0.2s ease;
 	    position: fixed;
 	    width: 100%;
-	    z-index: 1;
+	    z-index: 2;
 	    // top: 5.3em; 
     	&.active{
     		top: 0;
@@ -755,6 +755,29 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.location-select{
+	padding: 0.5em 0 1em 0;
+	.city{
+    	flex: 0.21;
+    	padding-right: 4em;
+	}
+	.area{
+		flex: 0.21;
+	}
+	.fnb-select{
+		font-size: 1em;
+    	padding-left: 0;
+	}
+	@media screen and (max-width: 600px){
+		.area,.city{
+			flex: 1
+		}
+		.city{
+    		padding-right: 2em;
+		}
+	}
+}
+
 @media screen and (max-width: @mobile){
 	.location-hours{
 		iframe{
@@ -1011,12 +1034,25 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+
 @media screen and (max-width: @mobile){
 	.pricing-table{
-		flex-direction: column;
+		// flex-direction: column;
+		white-space: nowrap;
+    	overflow-x: auto;
+    	overflow-y: hidden;
+    	display: flex;
+    	margin: 0 -15px;
+    	padding: 15px 0;	
 		&__cards{
-			margin: 0;
+			// margin: 0;
     		margin-bottom: 2em;
+    		vertical-align: top;
+    		white-space: normal;
+    		flex: 1 0 230px;
+    		&:first-child{
+    			margin-left: 1em;
+    		}
 		}
 	}
 	.subscribe-plan{
@@ -1083,6 +1119,15 @@ input[type='checkbox'].remove-addr{
     	}
 	}
 }
+
+@media screen and (min-width: 650px) and (max-width: 768px){
+	.pricing-table{
+		&__cards{
+			flex: 1 0 250px;
+		}
+	}
+}
+
 
 @media screen and (max-width: @xs-mobile){
 	.duration-choose{

@@ -2,7 +2,7 @@
 
 @section('form-data')
 
-<div class="photos tab-pane fade active in" id="photos">
+<div class="photos tab-pane fade active in" id="business_photos">
     <h5 class="no-m-t">Photos &amp; Documents</h5>
     <div class="m-t-30 add-container c-gap">
         <label>Add some images for your listing (optional)</label>

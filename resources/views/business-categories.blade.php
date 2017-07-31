@@ -2,7 +2,7 @@
 
 @section('form-data')
 
-<div class="business-cats tab-pane fade in active" id="business-cats">
+<div class="business-cats tab-pane fade in active" id="business_categories">
     <h5 class="no-m-t">Business Categories</h5>
     <div class="m-t-30 c-gap">
         <label>List of all the categories for your listing</label>

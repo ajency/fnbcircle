@@ -2,7 +2,7 @@
 
 @section('form-data')
 
-<div class="location-hours tab-pane fade active in" id="location-hours">
+<div class="location-hours tab-pane fade active in" id="business_location">
     <h5 class="no-m-t">Location &amp; Hours of Operation</h5>
     <div class="m-t-30 c-gap">
         <label>Please provide the google map address for your business</label>

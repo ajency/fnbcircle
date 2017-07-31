@@ -1,4 +1,6 @@
 (function() {
+  var getID;
+
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
   });
@@ -89,6 +91,14 @@
     $('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary');
     $('.draft-status').attr('data-original-title', 'Listing is under process');
     return $(this).addClass('hidden');
+  });
+
+  getID = $('.gs-form .tab-pane').attr('id');
+
+  $('.gs-steps .form-toggle').each(function() {
+    if ($(this).attr('id') === getID) {
+      $(this).parent().addClass('active');
+    }
   });
 
 }).call(this);

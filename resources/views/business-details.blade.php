@@ -2,7 +2,7 @@
 
 @section('form-data')
 
-<div class="business-details tab-pane fade in active" id="business-details">
+<div class="business-details tab-pane fade in active" id="business_details">
     <h5 class="no-m-t">Business Details</h5>
     <div class="m-t-30 c-gap">
         <label>Give us some more details about your listing</label>

@@ -6426,6 +6426,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   outline: 0;
   border-radius: 0;
   padding: 0.8em 1.5em;
+  font-size: 0.85em;
 }
 .capsule-btn .fnb-btn:first-child {
   border-right: 1px solid #ddd;
@@ -6481,5 +6482,83 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .fileuploader-input .fileuploader-input-caption {
   display: none;
+}
+.profile-stats {
+  color: #fff;
+  background: #f85032;
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, #f85032), color-stop(32%, #ed704e), color-stop(100%, #ed704e));
+  background: -webkit-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+  background: -webkit-linear-gradient(top, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+  background: linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f85032', endColorstr='#ed704e', GradientType=0);
+}
+.profile-stats .fnb-breadcrums .home-icon,
+.profile-stats .fnb-breadcrums__title {
+  color: #fff;
+}
+.profile-stats__title {
+  padding: 1.5em 0;
+}
+.profile-stats__numbers {
+  padding-bottom: 2.5em;
+}
+.profile-stats .profile-col {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 24%;
+      -ms-flex: 0 0 24%;
+          flex: 0 0 24%;
+  padding: 0 2em;
+  border-left: 1px solid #bc3700;
+}
+.profile-stats .profile-col:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.profile-stats .profile-col:last-child {
+  padding-right: 0;
+}
+@media screen and (min-width: 1500px) {
+  .profile-stats .profile-col {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 20%;
+        -ms-flex: 0 0 20%;
+            flex: 0 0 20%;
+  }
+}
+.profile-stats .stat-title {
+  margin-bottom: 2px;
+}
+.profile-stats .stat-caption {
+  color: #76301c;
+}
+.profile-stats .stat-info {
+  color: #fff;
+  font-size: 1.3em;
+  vertical-align: bottom;
+  padding-left: 0.2em;
+}
+.enquiries-made {
+  margin: 3em 0 1.5em 0;
+}
+.enquiries-made .fa {
+  font-size: 1.4em;
+  color: #ec6d4b;
+  vertical-align: text-bottom;
+  padding-right: 0.2em;
+}
+.enquiry-made-by {
+  padding: 0.8em 0.5em;
+  background-color: #defffe;
+}
+.enquiry-made-by .fnb-label {
+  background-color: #27b7b0;
+  color: #fff;
+  border-color: #27b7b0;
+  font-size: 0.85em;
+  font-weight: 400;
+  margin: 0 0.2em;
+}
+.enquiry-made-by a {
+  color: #000;
 }
 /*# sourceMappingURL=main.css.map */

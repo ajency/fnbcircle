@@ -118,4 +118,428 @@
 
 </div>
 
+<!-- Category modal -->
+
+ <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="level-one mobile-hide ">
+                        <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="mobile-back flex-row">
+                        <div class="back">
+                            <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                        </div>
+                        <div class="level-two">
+                            <button class="btn fnb-btn outline border-btn">save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="main-category level-one m-l-30 m-r-30 m-b-30">
+                        <!-- <div class="mobile-hide">
+                            <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <div class="clearfix"></div>
+                        </div> -->
+                        <!-- <div class="desk-hide mobile-back">
+                            <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
+                        </div> -->
+                        <div class="add-container">
+                            <h5 class="text-medium">Select categories your listing belongs to <span class="text-primary">*</span></h5>
+                            <div class="text-lighter">
+                                One category at a time
+                            </div>
+                        </div>
+                        <ul class="interested-options cat-select flex-row m-t-45">
+                            <li>
+                                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Cereals &amp; Food Grains">
+                                <div class="veg option flex-row">
+                                    <span class="fnb-icons cat-icon veg"></span>
+                                </div>
+                                <div class="interested-label">
+                                    Cereals &amp; Food Grains
+                                </div>
+                            </li>
+                            <li>
+                                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Meat &amp; Poultry">
+                                <div class="meat option flex-row">
+                                    <span class="fnb-icons cat-icon meat"></span>
+                                </div>
+                                <div class="interested-label">
+                                    Meat &amp; Poultry
+                                </div>
+                            </li>
+                            <li>
+                                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Juices, Soups &amp; Soft Drinks">
+                                <div class="drinks option flex-row">
+                                    <span class="fnb-icons cat-icon drinks"></span>
+                                </div>
+                                <div class="interested-label">
+                                    Juices, Soups &amp; Soft Drinks
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sub-category level-two">
+                        <!-- <div class="mobile-back flex-row m-b-10">
+                            <div class="back">
+                                 <button class="btn fnb-btn outline border-btn no-border sub-category-back"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
+                            </div>
+                            <button class="btn fnb-btn outline border-btn">save</button>
+                        </div> -->
+                        <div class="instructions">
+                            <p class="instructions__title bat-color">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
+                            <div class="cat-name flex-row">
+                                <span class="fnb-icons cat-icon meat m-r-15"></span>
+                                <h5 class="cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
+                            </div>
+                        </div>
+                        <div class="node-select flex-row">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs flex-row mobile-hide" role="tablist">
+                                <li role="presentation" class="active"><a href="#chicken" aria-controls="chicken" role="tab" data-toggle="tab">Chicken</a></li>
+                                <li role="presentation"><a href="#mutton" aria-controls="mutton" role="tab" data-toggle="tab">Mutton</a></li>
+                                <li role="presentation"><a href="#pork" aria-controls="pork" role="tab" data-toggle="tab">Pork</a></li>
+                                <li role="presentation"><a href="#beef" aria-controls="beef" role="tab" data-toggle="tab">Beef</a></li>
+                                <li role="presentation"><a href="#halal" aria-controls="halal" role="tab" data-toggle="tab">Halal meat</a></li>
+                                <li role="presentation"><a href="#rabbit" aria-controls="rabbit" role="tab" data-toggle="tab">Rabbit meat</a></li>
+                                <li role="presentation"><a href="#sheep" aria-controls="sheep" role="tab" data-toggle="tab">Sheep meat</a></li>
+                                <li role="presentation"><a href="#cured" aria-controls="cured" role="tab" data-toggle="tab">Cured meat</a></li>
+                                <li role="presentation"><a href="#knuckle" aria-controls="knuckle" role="tab" data-toggle="tab">Knuckle meat</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <!-- mobile collapse -->
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#chicken" aria-expanded="false" aria-controls="chicken">
+                                    Chicken <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                                <div role="tabpanel" class="tab-pane active collapse" id="chicken">
+                                    <ul class="nodes">
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label class="flex-row">
+                                                <input type="checkbox" class="checkbox" for="boneless">
+                                                <p class="lighter nodes__text" id="boneless">Boneless Chicken</p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#mutton" aria-expanded="false" aria-controls="mutton">
+                                    Mutton <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                                <div role="tabpanel" class="tab-pane collapse" id="mutton">Mutton</div>
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#pork" aria-expanded="false" aria-controls="pork">
+                                    Pork <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                                <div role="tabpanel" class="tab-pane collapse" id="pork">Pork</div>
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#beef" aria-expanded="false" aria-controls="beef">
+                                    Beef <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
+                                <div role="tabpanel" class="tab-pane collapse" id="beef">Beef</div>
+                                <div role="tabpanel" class="tab-pane" id="halal">Halal</div>
+                                <div role="tabpanel" class="tab-pane" id="rabbit">Rabbit</div>
+                                <div role="tabpanel" class="tab-pane" id="sheep">Sheep</div>
+                                <div role="tabpanel" class="tab-pane" id="cured">Cured</div>
+                                <div role="tabpanel" class="tab-pane" id="knuckle">Knuckle</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer mobile-hide">
+                    <div class="sub-category hidden">
+                        <button class="btn fnb-btn outline full border-btn">save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

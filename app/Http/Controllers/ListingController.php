@@ -49,11 +49,12 @@ class ListingController extends Controller
         $listing                     = new Listing;
         $listing->title              = title_case($data->title);
         $listing->type               = $data->type;
-        $listing->show_primary_phone = $data->primary_phone;
+        $listing->show_primary_phone = 0;
         $listing->show_primary_email = $data->primary_email;
         $listing->status             = Listing::DRAFT;
         // $listing->slug=str_slug($data->title.' '.str_random(7),'-');
         $listing->owner_id   = "1";
+        $listing->reference  =str_random(8);
         $listing->created_by = "1";
         $listing->save();
 
@@ -79,7 +80,7 @@ class ListingController extends Controller
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
-            'primary_phone' => 'required|boolean',
+            // 'primary_phone' => 'required|boolean',
             'contacts'      => 'required|json|contacts',
         ]);
         //-------- Save contacts details in listing_communication table
@@ -99,6 +100,7 @@ class ListingController extends Controller
         }
 
         $this->saveListingInformation($request);
+        return redirect('business-categories');
     }
 
     //---------------------------step 2 ----------------------------------------

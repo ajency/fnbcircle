@@ -15,6 +15,7 @@ class CreateListingTable extends Migration
     {
         Schema::create('listings', function (Blueprint $table) {
           $table->increments('id');
+          $table->string('reference');
           $table->timestamps();
           $table->string('title');
           $table->integer('status')->comment('1=published,2=review,3=draft');
@@ -38,6 +39,7 @@ class CreateListingTable extends Migration
           $table->boolean('verified')->nullable();
           $table->string('photos')->nullable();
           $table->string('documents')->nullable();
+          $table->unique('reference');
           $table->index('owner_id');
            $table->index('created_by');
            $table->index('locality_id');

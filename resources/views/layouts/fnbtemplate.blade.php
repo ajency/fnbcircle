@@ -141,6 +141,7 @@
     <script type="text/javascript" src="js/dropify.js"></script>
     <!-- jquery tags -->
     <script type="text/javascript" src="js/flex-datalist/jquery.flexdatalist.min.js"></script>
+      <script type="text/javascript" src="js/parsley.min.js" ></script>
     @yield('js')
 </body>
 

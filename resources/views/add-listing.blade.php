@@ -12,6 +12,7 @@
     <!-- custom script -->
     <script type="text/javascript" src="js/custom.js"></script>
      <script src="{{ asset('js/AddListing.js') }}"></script>
+
 @endsection
 
 @section('content')
@@ -164,6 +165,7 @@
                                         The current status of your listing is <span class="text-primary bolder">Draft</span> <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
                                     </p>
                                     <div class="gs-form tab-content">
+                                        <form id="info-form">
                                         <!-- Business Information -->
                                         @yield('form-data')
                                         <!-- Business Information End -->
@@ -194,12 +196,14 @@
                                                </div>
                                            </div>
                                         </div>
+
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
                                             <button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-                                            <button onclick="listingInformation()" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
+                                            <button onclick="listingInformation(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

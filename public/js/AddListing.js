@@ -1,27 +1,24 @@
-function listingInformation() {
+function listingInformation(event) {
+    if(!validate()) return false;
     var form = $('<form></form>');
     form.attr("method", "post");
     form.attr("action", "/add_listing");
     var contacts = {};
-    var contact = {};
-    // contact['id'] = "1";
-    // contact['verify'] = "0";
-    // contact['visible'] = "1";
-    // contacts[0] = contact;
-    // contact['id'] = "1";
-    // contact['verify'] = "1";
-    // contact['visible'] = "0";
-    // contacts[0] = contact;
-    var email_IDs=document.getElementsByName("email_IDs");
-    var emails=document.getElementsByName("emails");
-    var email_verified=document.getElementsByName("verified_emails");
-    var email_visible=document.getElementsByName("visible_emails");
-    for (var i = 0; i < emails.length; i++) {
-        contact['id']=email_IDs[i].value;
-        contact['email']=emails[i].value;
-        contact['verify']=(email_verified[i].checked)?1:0;
-        contact['visible']=(email_visible[i].checked)?1:0;
-        contacts[i]=contact;
+    var contact_IDs = document.getElementsByName("contact_IDs");
+    var value = document.getElementsByName("contacts");
+    var contact_verified = document.getElementsByName("verified_contact");
+    var contact_visible = document.getElementsByName("visible_contact");
+    var i = 0;
+    while (i < contact_IDs.length) {
+        if (value[i].value != "") {
+            var contact = {};
+            contact['id'] = contact_IDs[i].value;
+            // contact['email'] = emails[i].value;
+            contact['verify'] = (contact_verified[i].checked) ? "1" : "0";
+            contact['visible'] = (contact_visible[i].checked) ? "1" : "0";
+            contacts[i] = contact;
+        }
+        i++;
     }
     var parameters = {};
     parameters['listing_id'] = null;
@@ -34,7 +31,7 @@ function listingInformation() {
         }
     }
     // parameters['type'] = '11';
-    parameters['primary_email'] = (document.getElementsByName("primary_email")[0].checked)?1:0;
+    parameters['primary_email'] = (document.getElementsByName("primary_email")[0].checked) ? "1" : "0";
     parameters['primary_phone'] = '0';
     parameters['contacts'] = JSON.stringify(contacts);
     $.each(parameters, function(key, value) {
@@ -45,6 +42,11 @@ function listingInformation() {
         form.append(field);
         console.log(key + '=>' + value);
     });
-    // $(document.body).append(form);
-    // form.submit();
+    $(document.body).append(form);
+    form.submit();
+    event.preventDefault();
+}
+function validate(){
+    var instance = $('#info-form').parsley();
+    return instance.isValid();
 }

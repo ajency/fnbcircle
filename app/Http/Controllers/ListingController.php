@@ -43,37 +43,6 @@ class ListingController extends Controller
 
     //-----------------------------------Step 1-----------------------
 
-    public function savelistingInformation($data)
-    {
-        //------ save listing details in listing table
-        $listing                     = new Listing;
-        $listing->title              = title_case($data->title);
-        $listing->type               = $data->type;
-        $listing->show_primary_phone = 0;
-        $listing->show_primary_email = $data->primary_email;
-        $listing->status             = Listing::DRAFT;
-        // $listing->slug=str_slug($data->title.' '.str_random(7),'-');
-        $listing->owner_id   = "1";
-        $listing->reference  =str_random(8);
-        $listing->created_by = "1";
-        $listing->save();
-
-        //-------- Save contacts details in listing_communication table
-        $contacts_json = json_decode($data->contacts);
-        $contacts      = array();
-        foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
-        }
-        ListingCommunication::where('listing_id', $listing->id)->delete();
-        foreach ($contacts as $contact => $info) {
-            $com                        = new ListingCommunication;
-            $com->listing_id            = $listing->id;
-            $com->user_communication_id = $contact;
-            $com->verified              = $info['verified'];
-            $com->visible               = $info['visible'];
-            $com->save();
-        }
-    }
     public function validatelistingInformation($data)
     {
         $this->validate($data, [
@@ -92,14 +61,31 @@ class ListingController extends Controller
         }
         return true;
     }
-    public function listingInformation($request)
+    public function listingInformation($data)
     {
-        $check = $this->validateListingInformation($request);
-        if ($check !== true) {
-            return $check;
-        }
+        $this->validate($data, [
+            'title'         => 'required|max:255',
+            'type'          => 'required|integer|between:11,13',
+            'primary_email' => 'required|boolean',
 
-        $this->saveListingInformation($request);
+            'contacts'      => 'required|json|contacts',
+        ]);
+        $contacts_json = json_decode($data->contacts);
+        $contacts      = array();
+        foreach ($contacts_json as $contact) {
+            if (!Common::verify_id($contact->id, 'user_communication')) {
+                return \Redirect::back()->withErrors(array('wrong_step' => 'Contact id is fabricated. Id doesnt exist'));
+            }
+            $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
+        }
+        // print_r($contacts);
+        $listing = new Listing;
+        $listing->saveInformation($data->title, $data->type, $data->primary_email);
+        ListingCommunication::where('listing_id', $listing->id)->delete();
+        foreach ($contacts as $contact => $info) {
+            $com = new ListingCommunication;
+            $com->saveInformation($listing->id, $contact, $info['verified'], $info['visible']);
+        }
         return redirect('business-categories');
     }
 
@@ -285,7 +271,7 @@ class ListingController extends Controller
             $other['website'] = $data->website;
         }
 
-        $other = json_encode($other);
+        $other                  = json_encode($other);
         $listing->other_details = $other;
         foreach ($data->payment as $key => $value) {
             if (!isset($payment)) {

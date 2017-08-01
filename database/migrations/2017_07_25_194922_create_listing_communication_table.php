@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateListingCommunicationTable extends Migration
 {
@@ -14,12 +14,12 @@ class CreateListingCommunicationTable extends Migration
     public function up()
     {
         Schema::create('listing_communication', function (Blueprint $table) {
-          $table->integer('listing_id');
-          $table->integer('user_communication_id');
-          $table->primary(['listing_id','user_communication_id']);
-          $table->timestamps();
-          $table->boolean('verified');
-          $table->boolean('visible');
+            $table->integer('listing_id');
+            $table->integer('user_communication_id');
+            $table->primary(['listing_id', 'user_communication_id']);
+            $table->timestamps();
+            $table->boolean('is_verified');
+            $table->boolean('is_visible');
         });
     }
 

@@ -10,15 +10,15 @@
     <!-- Font awesome cdn -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <!-- Magnify css -->
-    <link rel="stylesheet" type="text/css" href="css/magnify.css">
+    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
     <!-- Dropify css -->
-    <link rel="stylesheet" type="text/css" href="css/dropify.css">
+    <link rel="stylesheet" type="text/css" href="/css/dropify.css">
     <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="c/ss/jquery.flexdatalist.min.css">
     <!-- Main styles -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
     @yield('css')
 </head>
 

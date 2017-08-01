@@ -64,7 +64,7 @@ class ListingController extends Controller
             $com = new ListingCommunication;
             $com->saveInformation($listing->id, $contact, $info['verified'], $info['visible']);
         }
-        return redirect('business-categories');
+        return redirect('/business-categories/'.$listing->reference.'/edit');
     }
 
     //---------------------------step 2 ----------------------------------------
@@ -347,5 +347,10 @@ class ListingController extends Controller
     public function index(){
         $listing = new Listing;
         return view('business-info')->with('listing',$listing);
+    }
+
+    public function categories($reference){
+        $listing = Listing::where('reference',$reference)->first();
+        return view('business-categories')->with('listing',$listing);   
     }
 }

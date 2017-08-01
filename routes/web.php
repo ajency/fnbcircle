@@ -25,9 +25,7 @@ Route::resource('/add_listing', 'ListingController');
 //     return view('business-info');
 // });
 
-Route::get('/business-categories', function(){
-    return view('business-categories');
-});
+Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 
 Route::get('/business-location', function(){
     return view('location');

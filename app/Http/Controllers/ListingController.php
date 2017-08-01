@@ -43,39 +43,17 @@ class ListingController extends Controller
 
     //-----------------------------------Step 1-----------------------
 
-    public function validatelistingInformation($data)
-    {
-        $this->validate($data, [
-            'title'         => 'required|max:255',
-            'type'          => 'required|integer|between:11,13',
-            'primary_email' => 'required|boolean',
-            // 'primary_phone' => 'required|boolean',
-            'contacts'      => 'required|json|contacts',
-        ]);
-        //-------- Save contacts details in listing_communication table
-        $contacts = json_decode($data->contacts);
-        foreach ($contacts as $info) {
-            if (!Common::verify_id($info->id, 'user_communication')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Contact id is fabricated. Id doesnt exist'));
-            }
-        }
-        return true;
-    }
     public function listingInformation($data)
     {
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
-
             'contacts'      => 'required|json|contacts',
         ]);
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            if (!Common::verify_id($contact->id, 'user_communication')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Contact id is fabricated. Id doesnt exist'));
-            }
             $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
         }
         // print_r($contacts);
@@ -363,5 +341,11 @@ class ListingController extends Controller
                     break;
             }
         }
+    }
+
+
+    public function index(){
+        $listing = new Listing;
+        return view('business-info')->with('listing',$listing);
     }
 }

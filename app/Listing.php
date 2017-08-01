@@ -49,6 +49,15 @@ class Listing extends Model
     {
         return $this->hasMany('App\ListingTimeOfOperation');
     }
+    public function isReviewable()
+    {
+        if (!empty($this->title) and !empty($this->type) and !empty($this->locality_id) and !empty($this->categories)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     public function saveInformation($title, $type, $email)
     {

@@ -1,5 +1,4 @@
-function listingInformation(event) {
-    if(!validate()) return false;
+function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");
     form.attr("action", "/add_listing");
@@ -44,18 +43,30 @@ function listingInformation(event) {
     });
     $(document.body).append(form);
     form.submit();
-    event.preventDefault();
 }
-function validate(){
+
+function validateListing(event) {
     var instance = $('#info-form').parsley();
-    return instance.isValid();
+    if (!instance.isValid()) return false;
+    event.preventDefault();
+    if ($('#listing_id').val() == "") {
+        // console.log(true);
+        $('#duplicate-listing').modal('show');
+        $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+
+            listingInformation();
+        });
+    } else {
+        // console.log(true);
+        listingInformation();
+    }
 }
-function contact_submit(event){
+
+function contact_submit(event) {
     event.preventDefault();
     // console.log(this);
-    var group=$(this).closest('.phone-row').find('.fnb-input').val();
+    var group = $(this).closest('.phone-row').find('.fnb-input').val();
     console.log(group);
     // var contact=group.;
-    
     // console.log(contact);
 }

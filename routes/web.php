@@ -19,11 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/add_listing', 'ListingController@store');
+Route::resource('/add_listing', 'ListingController');
 
-Route::get('/add_listing', function(){
-    return view('business-info');
-});
+// Route::get('/add_listing', function(){
+//     return view('business-info');
+// });
 
 Route::get('/business-categories', function(){
     return view('business-categories');

@@ -18,12 +18,15 @@ class AppServiceProvider extends ServiceProvider
       Validator::extend('contacts', function($attribute, $value, $parameters, $validator) {
         $contacts=json_decode($value);
         if(json_last_error() !== JSON_ERROR_NONE) return false;
+        $ret = true;
         foreach ($contacts as $info) {
           if(!isset($info->id) or !is_numeric($info->id) or strpos($info->id, '.') == true or $info->id<1) return false;
           if(!isset($info->verify) or $info->verify!=="1" and $info->verify!=="0") return false;
           if(!isset($info->visible) or $info->visible!=="1" and $info->visible!=="0") return false;
+          if(!Common::verify_id($info->id,'user_communication')) return false;
+          // if($info->visible=="1") $ret=true;
         }
-        return true;
+        return $ret;
      });
      Validator::extend('id_json', function($attribute, $value, $parameters, $validator) {
        $array=json_decode($value);

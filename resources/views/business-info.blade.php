@@ -74,7 +74,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input name="primary_email" type="checkbox" class="toggle__check" checked="true">
+                        <input name="primary_email" type="checkbox" class="toggle__check" checked="true" data-parsley-multiple="contacts" data-parsley-mincheck="1" required>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -96,7 +96,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -124,7 +124,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle no-m-t flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -146,7 +146,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>

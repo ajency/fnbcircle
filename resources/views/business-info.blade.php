@@ -190,8 +190,8 @@
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter new number...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Verify</button>
+                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number...">
+                            <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
                     </div>
                 </div>
@@ -250,8 +250,8 @@
                     <h6 class="sub-title">Please provide a new email for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter new email...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Verify</button>
+                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email...">
+                            <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
                     </div>
                 </div>

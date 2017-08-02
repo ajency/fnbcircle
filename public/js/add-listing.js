@@ -115,6 +115,17 @@
     $('.verificationFooter').removeClass('no-bg');
   });
 
+  $('.verify-stuff').click(function() {
+    var get_value;
+    event.preventDefault();
+    $('.default-state').removeClass('hidden');
+    $('.add-number').addClass('hidden');
+    $('.verificationFooter').removeClass('no-bg');
+    get_value = $(this).siblings('.value-enter').val();
+    $('.show-number .number').text(get_value);
+    $('.value-enter').val('');
+  });
+
   $('.code-send').click(function() {
     $('.default-state,.add-number,.verificationFooter').addClass('hidden');
     $('.processing').removeClass('hidden');

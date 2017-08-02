@@ -104,6 +104,16 @@ $('.step-back').click ->
 	$('.verificationFooter').removeClass 'no-bg'
 	return
 
+$('.verify-stuff').click ->
+	event.preventDefault();
+	$('.default-state').removeClass 'hidden'
+	$('.add-number').addClass 'hidden'
+	$('.verificationFooter').removeClass 'no-bg'
+	get_value = $(this).siblings('.value-enter').val();
+	$('.show-number .number').text(get_value);
+	$('.value-enter').val('');
+	return
+
 $('.code-send').click ->
 	$('.default-state,.add-number,.verificationFooter').addClass 'hidden'
 	$('.processing').removeClass 'hidden'

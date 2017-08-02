@@ -88,7 +88,7 @@ $('.gs-steps .form-toggle').each ->
   if $(this).attr('id') == getID
     $(this).parent().addClass 'active'
   return
-
+ 
 
 # $('.verify-link').click ->
 # 	get_val = $(this).closest('.get-val').find('.fnb-input').val()
@@ -98,18 +98,20 @@ $(document).on 'click', '.verify-link', ->
 	event.preventDefault()
 	getParent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
+	id = $(this).closest('.get-val').find('.comm-id').val()
 	validator = input.parsley()
 	valid = validator.validate()
 	# console.log valid
-	if valid == true	
+	if valid == true and input.val() != ''	
 		if getParent.hasClass('business-email')
 			$('#email-modal').modal 'show'
 		if getParent.hasClass('business-phone')
 			$('#phone-modal').modal 'show'
 		get_val = input.val()
+		# call a function to send the code to contact
 		$('.verification-step-modal .number').text get_val
 		return
-
+	return
 
 
 $('.edit-number').click ->

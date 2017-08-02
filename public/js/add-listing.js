@@ -101,6 +101,12 @@
     }
   });
 
+  $(document).on('click', '.verify-link', function() {
+    var get_val;
+    get_val = $(this).closest('.get-val').find('.fnb-input').val();
+    $('.verification-step-modal .number').text(get_val);
+  });
+
   $('.edit-number').click(function() {
     event.preventDefault();
     $('.default-state').addClass('hidden');

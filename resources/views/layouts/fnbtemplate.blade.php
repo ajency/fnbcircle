@@ -16,7 +16,7 @@
     <!-- Dropify css -->
     <link rel="stylesheet" type="text/css" href="/css/dropify.css">
     <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="c/ss/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
     <!-- Main styles -->
     <link rel="stylesheet" href="/css/main.css">
     @yield('css')

@@ -82,14 +82,14 @@
                 </div>
             </div>
         </div>
-        <div class="row p-t-10 p-b-10 no-m-b contact-group hidden">
+        <div class="row p-t-10 p-b-10 no-m-b get-val contact-group hidden">
             <div class="col-sm-5">
                 <input type="hidden" readonly value=1 name="contact_IDs">
                 <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email">
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#email-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#email-modal" onclick="contact_submit(event);">Verify now</a>
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
                 </div>
             </div>
@@ -108,7 +108,7 @@
     </div>
     <div class="m-t-40 business-phone business-contact">
         <label>Enter your business phone number <span class="text-primary">*</span></label>
-        <div class="row p-t-10 p-b-10 phone-row">
+        <div class="row p-t-10 p-b-10 phone-row get-val ">
             <div class="col-sm-5">
             <!-- <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs"> -->
                 <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
@@ -118,7 +118,7 @@
                     <!-- <span class="fnb-icons verified-icon"></span>
                     <p class="c-title">Verified</p> -->
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
@@ -132,7 +132,7 @@
                 </div>
             </div>
         </div>
-        <div class="row p-t-10 p-b-10 no-m-b contact-group hidden">
+        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val  hidden">
             <div class="col-sm-5">
                 <input type="hidden" readonly value=5 name="contact_IDs">
                 <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
@@ -140,7 +140,7 @@
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">

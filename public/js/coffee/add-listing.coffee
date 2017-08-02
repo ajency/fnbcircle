@@ -89,6 +89,19 @@ $('.gs-steps .form-toggle').each ->
     $(this).parent().addClass 'active'
   return
 
+
+# $('.verify-link').click ->
+# 	get_val = $(this).closest('.get-val').find('.fnb-input').val()
+# 	$('.verification-step-modal .number').text get_val
+
+$(document).on 'click', '.verify-link', ->
+	# event.preventDefault()
+	get_val = $(this).closest('.get-val').find('.fnb-input').val()
+	$('.verification-step-modal .number').text get_val
+	return
+
+
+
 $('.edit-number').click ->
   event.preventDefault()
   $('.default-state').addClass 'hidden'

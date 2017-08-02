@@ -89,7 +89,7 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#email-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link">Verify now</a>
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
                 </div>
             </div>
@@ -118,7 +118,7 @@
                     <!-- <span class="fnb-icons verified-icon"></span>
                     <p class="c-title">Verified</p> -->
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
@@ -140,7 +140,7 @@
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link verify-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
+                    <a href="#" class="dark-link verify-link">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">

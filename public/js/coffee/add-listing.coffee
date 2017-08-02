@@ -96,8 +96,20 @@ $('.gs-steps .form-toggle').each ->
 
 $(document).on 'click', '.verify-link', ->
 	# event.preventDefault()
-	get_val = $(this).closest('.get-val').find('.fnb-input').val()
+	getParent = $(this).closest('.business-contact')
+	input = $(this).closest('.get-val').find('.fnb-input')
+	validator = $('#info-form').parsley()
+	valid = validator.isValid()
+	console.log valid
+	if !valid
+		return false
+	if getParent.hasClass('business-email')
+		$('#email-modal').modal 'show'
+	if getParent.hasClass('business-phone')
+		$('#phone-modal').modal 'show'
+	get_val = input.val()
 	$('.verification-step-modal .number').text get_val
+	event.preventDefault();
 	return
 
 

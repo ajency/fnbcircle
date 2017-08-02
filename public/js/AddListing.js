@@ -61,11 +61,3 @@ function validateListing(event) {
         listingInformation();
     }
 }
-
-function contact_submit(event) {
-     $('.verify-click').click(function(){
-        event.preventDefault();
-        var test = $(this).closest('.test-row').find('.fnb-input').val();
-        console.log(test);
-    });
-}

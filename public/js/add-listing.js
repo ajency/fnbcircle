@@ -103,23 +103,21 @@
 
   $(document).on('click', '.verify-link', function() {
     var getParent, get_val, input, valid, validator;
+    event.preventDefault();
     getParent = $(this).closest('.business-contact');
     input = $(this).closest('.get-val').find('.fnb-input');
-    validator = $('#info-form').parsley();
-    valid = validator.isValid();
-    console.log(valid);
-    if (!valid) {
-      return false;
+    validator = input.parsley();
+    valid = validator.validate();
+    if (valid === true) {
+      if (getParent.hasClass('business-email')) {
+        $('#email-modal').modal('show');
+      }
+      if (getParent.hasClass('business-phone')) {
+        $('#phone-modal').modal('show');
+      }
+      get_val = input.val();
+      $('.verification-step-modal .number').text(get_val);
     }
-    if (getParent.hasClass('business-email')) {
-      $('#email-modal').modal('show');
-    }
-    if (getParent.hasClass('business-phone')) {
-      $('#phone-modal').modal('show');
-    }
-    get_val = input.val();
-    $('.verification-step-modal .number').text(get_val);
-    event.preventDefault();
   });
 
   $('.edit-number').click(function() {

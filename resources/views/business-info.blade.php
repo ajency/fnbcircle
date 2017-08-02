@@ -84,7 +84,7 @@
         </div>
         <div class="row p-t-10 p-b-10 no-m-b contact-group hidden">
             <div class="col-sm-5">
-                <input type="number" style="visibility: hidden;" readonly value=1 name="contact_IDs">
+                <input type="hidden" readonly value=1 name="contact_IDs">
                 <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email">
             </div>
             <div class="col-sm-3 col-xs-4">
@@ -134,7 +134,7 @@
         </div>
         <div class="row p-t-10 p-b-10 no-m-b contact-group hidden">
             <div class="col-sm-5">
-                <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs">
+                <input type="hidden" readonly value=5 name="contact_IDs">
                 <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
             </div>
             <div class="col-sm-3 col-xs-4">

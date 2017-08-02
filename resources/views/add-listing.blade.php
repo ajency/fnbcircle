@@ -6,11 +6,11 @@
 
 @section('js')
     <!-- Custom file input -->
-    <script type="text/javascript" src="js/jquery.custom-file-input.js"></script>
+    <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
     <!-- Add listing -->
-    <script type="text/javascript" src="js/add-listing.js"></script>
+    <script type="text/javascript" src="/js/add-listing.js"></script>
     <!-- custom script -->
-    <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript" src="/js/custom.js"></script>
      <script src="{{ asset('js/AddListing.js') }}"></script>
 
 @endsection
@@ -51,8 +51,8 @@
             <div class="col-xs-12">
                 <div class="flex-row page-intro m-t-20">
                     <div>
-                        <img src="img/steps.png" class="mobile-hide desk-hide">
-                        <img src="img/steps-orange.png">
+                        <img src="/img/steps.png" class="mobile-hide desk-hide">
+                        <img src="/img/steps-orange.png">
                     </div>
                     <div class="page-intro__title">
                         You are a few steps away from creating a listing on F&amp;B Circle
@@ -81,7 +81,7 @@
                     <div class="">
                         <div class="row">
                             <div class="col-sm-3 tips">
-                                <img src="img/bulb.png" class="desk-hide">
+                                <img src="/img/bulb.png" class="desk-hide">
                                 <span class="text-medium">6</span> tips
                                 <br class="mobile-hide">for an effective
                                 <br class="mobile-hide">business listing
@@ -134,8 +134,8 @@
                             <div class="view-sample m-t-20 m-b-20">
                                 View what a sample business listing would look like once created.
                                 <div class="m-t-10">
-                                    <img src="img/sample_listing.png" class="img-responsive mobile-hide sample-img">
-                                    <a href="img/sample_listing.png" class="desk-hide sample-img">View the sample</a>
+                                    <img src="/img/sample_listing.png" class="img-responsive mobile-hide sample-img">
+                                    <a href="/img/sample_listing.png" class="desk-hide sample-img">View the sample</a>
                                 </div>
                             </div>
                             <div class="why-premium">
@@ -231,7 +231,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="listing-details text-center">
-                                    <img src="img/listing-search.png" class="img-responsive center-block">
+                                    <img src="/img/listing-search.png" class="img-responsive center-block">
                                     <h5 class="listing-details__title element-title">Looks like the listing is already present on F&amp;BCircle.</h5>
                                     <p class="text-lighter lighter listing-details__caption">Please confirm if the following listing(s) belongs to you.
                                         <br> You can either Claim the listing or Delete it.</p>

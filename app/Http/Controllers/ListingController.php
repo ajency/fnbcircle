@@ -61,8 +61,8 @@ class ListingController extends Controller
         $listing->saveInformation($data->title, $data->type, $data->primary_email);
         ListingCommunication::where('listing_id', $listing->id)->delete();
         foreach ($contacts as $contact => $info) {
-            $com = new ListingCommunication;
-            $com->saveInformation($listing->id, $contact, $info['verified'], $info['visible']);
+            $com = ListingCommunication::find($contact);
+            $com->saveInformation($listing->id, $info['verified'], $info['visible']);
         }
         return redirect('/business-categories/'.$listing->reference.'/edit');
     }

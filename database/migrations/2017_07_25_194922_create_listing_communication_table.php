@@ -14,10 +14,11 @@ class CreateListingCommunicationTable extends Migration
     public function up()
     {
         Schema::create('listing_communication', function (Blueprint $table) {
-            $table->integer('listing_id');
-            $table->integer('user_communication_id');
-            $table->primary(['listing_id', 'user_communication_id']);
+            $table->increments('id');
+            $table->integer('listing_id')->nullable();
             $table->timestamps();
+            $table->string('value');
+            $table->integer('communication_type')->comment('1=email, 2=phone');
             $table->boolean('is_verified');
             $table->boolean('is_visible');
         });

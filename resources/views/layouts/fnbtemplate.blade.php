@@ -126,22 +126,22 @@
     @endif
     <!-- jquery -->
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- BS Script -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <!-- Smooth Mouse scroll -->
-    <script type="text/javascript" src="js/jquery.easeScroll.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easeScroll.min.js"></script>
     <!-- BS lightbox -->
     <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
     <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="js/magnify.min.js"></script>
+    <script type="text/javascript" src="/js/magnify.min.js"></script>
     <!-- Read more -->
-    <script type="text/javascript" src="js/readmore.min.js"></script>
+    <script type="text/javascript" src="/js/readmore.min.js"></script>
     <!-- Dropify -->
-    <script type="text/javascript" src="js/dropify.js"></script>
+    <script type="text/javascript" src="/js/dropify.js"></script>
     <!-- jquery tags -->
-    <script type="text/javascript" src="js/flex-datalist/jquery.flexdatalist.min.js"></script>
-      <script type="text/javascript" src="js/parsley.min.js" ></script>
+    <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
+      <script type="text/javascript" src="/js/parsley.min.js" ></script>
     @yield('js')
 </body>
 

@@ -63,10 +63,9 @@ function validateListing(event) {
 }
 
 function contact_submit(event) {
-    event.preventDefault();
-    // console.log(this);
-    var group = $(this).closest('.phone-row').find('.fnb-input').val();
-    console.log(group);
-    // var contact=group.;
-    // console.log(contact);
+     $('.verify-click').click(function(){
+        event.preventDefault();
+        var test = $(this).closest('.test-row').find('.fnb-input').val();
+        console.log(test);
+    });
 }

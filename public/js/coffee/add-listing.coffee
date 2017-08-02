@@ -89,4 +89,42 @@ $('.gs-steps .form-toggle').each ->
     $(this).parent().addClass 'active'
   return
 
+$('.edit-number').click ->
+  event.preventDefault()
+  $('.default-state').addClass 'hidden'
+  $('.add-number').removeClass 'hidden'
+  $('.verificationFooter').addClass 'no-bg'
+  return
 
+
+$('.step-back').click ->
+	event.preventDefault();
+	$('.default-state').removeClass 'hidden'
+	$('.add-number').addClass 'hidden'
+	$('.verificationFooter').removeClass 'no-bg'
+	return
+
+$('.code-send').click ->
+	$('.default-state,.add-number,.verificationFooter').addClass 'hidden'
+	$('.processing').removeClass 'hidden'
+	setTimeout (->
+	  $('.processing').addClass 'hidden'
+	  $('.step-success').removeClass 'hidden'
+	  return
+	), 2500
+	return
+
+$('.verification-step-modal').on 'hidden.bs.modal', (e) ->
+  $('.step-success,.add-number').addClass 'hidden'
+  $('.verificationFooter').removeClass 'no-bg'
+  $('.default-state,.verificationFooter').removeClass 'hidden'
+  return
+
+$('.resend-link').click ->
+	event.preventDefault();
+	$(this).addClass 'sending'
+	setTimeout (->
+		$('.resend-link').removeClass 'sending'
+		return
+	), 2500
+	return

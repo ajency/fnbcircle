@@ -152,6 +152,9 @@ $(function(){
 	    }, 2000);
 	});
 
+	// Global tooltip call
+	
+	$('[data-toggle="tooltip"]').tooltip()
 
 	// if($('.sticky-section').hasClass('fixed')){
 	// 	alert();

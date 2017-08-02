@@ -101,4 +101,41 @@
     }
   });
 
+  $('.edit-number').click(function() {
+    event.preventDefault();
+    $('.default-state').addClass('hidden');
+    $('.add-number').removeClass('hidden');
+    $('.verificationFooter').addClass('no-bg');
+  });
+
+  $('.step-back').click(function() {
+    event.preventDefault();
+    $('.default-state').removeClass('hidden');
+    $('.add-number').addClass('hidden');
+    $('.verificationFooter').removeClass('no-bg');
+  });
+
+  $('.code-send').click(function() {
+    $('.default-state,.add-number,.verificationFooter').addClass('hidden');
+    $('.processing').removeClass('hidden');
+    setTimeout((function() {
+      $('.processing').addClass('hidden');
+      $('.step-success').removeClass('hidden');
+    }), 2500);
+  });
+
+  $('.verification-step-modal').on('hidden.bs.modal', function(e) {
+    $('.step-success,.add-number').addClass('hidden');
+    $('.verificationFooter').removeClass('no-bg');
+    $('.default-state,.verificationFooter').removeClass('hidden');
+  });
+
+  $('.resend-link').click(function() {
+    event.preventDefault();
+    $(this).addClass('sending');
+    setTimeout((function() {
+      $('.resend-link').removeClass('sending');
+    }), 2500);
+  });
+
 }).call(this);

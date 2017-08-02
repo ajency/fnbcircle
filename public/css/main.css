@@ -6483,8 +6483,121 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .fileuploader-input .fileuploader-input-caption {
   display: none;
 }
+.verification-step-modal {
+  text-align: center;
+}
+.verification-step-modal .close {
+  font-size: 1.1em;
+}
+.verification-step-modal .modal-header {
+  padding: 0;
+}
+.verification-step-modal .modal-body {
+  padding: 0 4em;
+  text-align: center;
+}
+.verification-step-modal .number-code {
+  width: 250px;
+  margin: 1.5em auto;
+}
+.verification-step-modal .show-number {
+  padding: 0.5em;
+  background-color: #eaeaea;
+  margin-bottom: 1.2em;
+}
+.verification-step-modal .show-number .number {
+  padding-left: 0.5em;
+}
+.verification-step-modal .show-number a {
+  font-size: 0.85em;
+}
+.verification-step-modal .verify-steps img {
+  margin-bottom: 1em;
+}
+.verification-step-modal .code-submit .fnb-input {
+  font-size: 1em;
+  outline: 0;
+  padding: 0.5em 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin-right: 0.5em;
+}
+.verification-step-modal .code-submit .fnb-btn {
+  font-size: 0.95em;
+  padding: 0.5em 1.2em;
+}
+.verification-step-modal .modal-footer {
+  text-align: center;
+  margin: 0 -20px -20px;
+  padding: 20px;
+  background-color: rgba(42, 184, 177, 0.18);
+  margin-top: 2em;
+}
+.verification-step-modal .resend-code {
+  font-size: 1em;
+}
+.verification-step-modal .resend-code a {
+  padding-left: 0.5em;
+}
+.verification-step-modal .step-back {
+  display: none;
+}
+.verification-step-modal .no-bg {
+  background-color: #fff;
+}
+.verification-step-modal .no-bg .resend-code {
+  display: none;
+}
+.verification-step-modal .no-bg .step-back {
+  display: block;
+}
+.verification-step-modal .sending .send-title {
+  display: inline-block;
+}
+.verification-step-modal .sending .resent-title {
+  display: none;
+}
+.verification-step-modal .send-title {
+  display: none;
+}
+@media screen and (min-width: 769px) {
+  .verification-step-modal.in:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  .verification-step-modal.in .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }
+}
+@media screen and (max-width: 768px) {
+  .verification-step-modal .modal-body {
+    padding: 0;
+  }
+  .verification-step-modal.in {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+}
 .profile-stats {
   color: #fff;
+  box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
   background: #f85032;
   background: -webkit-gradient(left top, left bottom, color-stop(0%, #f85032), color-stop(32%, #ed704e), color-stop(100%, #ed704e));
   background: -webkit-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
@@ -6548,6 +6661,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .enquiry-made-by {
   padding: 0.8em 0.5em;
+  margin-top: 2em;
   background-color: #defffe;
 }
 .enquiry-made-by .fnb-label {
@@ -6560,5 +6674,37 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .enquiry-made-by a {
   color: #000;
+  text-transform: capitalize;
+}
+.detail-group {
+  margin: 1em 0;
+}
+.detail-group label {
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.detail-group .detail-col {
+  padding: 1.5em 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+}
+.detail-group .detail-col:last-child {
+  padding-top: 0;
+}
+.activity-panel {
+  margin: 2.5em 0;
+}
+.activity-panel__header {
+  padding: 1.5em 1em 2.5em 1em;
+  background-color: #ec6d4b;
+  color: #fff;
+  font-size: 1.15em;
+}
+.activity-panel .fa-bell {
+  font-size: 1.4em;
+  vertical-align: middle;
+  padding-right: 0.3em;
 }
 /*# sourceMappingURL=main.css.map */

@@ -1470,6 +1470,121 @@ input[type='checkbox'].remove-addr{
 }
 
 
+// verification-step modal
+
+.verification-step-modal{
+	text-align: center;
+	.close{
+		font-size: 1.1em;
+	}
+	.modal-header{
+		padding: 0;
+	}
+	.modal-body{
+		padding: 0 4em;
+    	text-align: center;
+	}
+	.number-code{
+		width: 250px;
+    	margin: 1.5em auto;
+	}
+	.show-number{
+		padding: 0.5em;
+    	background-color: #eaeaea;
+    	margin-bottom: 1.2em;
+    	.number{
+    		padding-left: 0.5em;
+    	}
+    	a{
+    		font-size: 0.85em;
+    	}
+	}
+	.verify-steps{
+		img{
+			margin-bottom: 1em;
+		}
+	}
+	.code-submit{
+		.fnb-input{
+			font-size: 1em;
+    		outline: 0;
+    		padding: 0.5em 0;
+    		flex: 1;
+    		margin-right: 0.5em;
+		}
+		.fnb-btn{
+			font-size: 0.95em;
+    		padding: 0.5em 1.2em;
+		}
+	}
+	.modal-footer{
+    	text-align: center;
+    	margin: 0 -20px -20px;
+    	padding: 20px;
+    	background-color: rgba(42, 184, 177, 0.18);
+    	margin-top: 2em;
+	}
+	.resend-code{
+		font-size: 1em;
+		a{
+			padding-left: 0.5em;
+		}
+	}
+	.step-back{
+		display: none;
+	}
+	.no-bg{
+		background-color: #fff;
+		.resend-code{
+			display: none;
+		}
+		.step-back{
+			display: block;
+		}
+	}
+	.sending{
+		.send-title{
+			display: inline-block;
+		}
+		.resent-title{
+			display: none;
+		}
+	}
+	.send-title{
+		display: none;
+	}
+	@media screen and (min-width: 769px){
+		&.in{
+			&:before{
+				content: '';
+				display: inline-block;
+					height: 100%;
+					vertical-align: middle;
+					margin-right: -4px;
+			}
+			.modal-dialog{
+				display: inline-block;
+					text-align: left;
+					vertical-align: middle;
+			}
+		}	
+	}
+}
+
+@media screen and (max-width: @mobile){
+	.verification-step-modal{
+		.modal-body{
+			padding: 0;
+		}
+		&.in{
+    		display: flex !important;
+    		align-items: center;
+    		justify-content: center;
+		}
+	}
+}
+
+
 
 
 

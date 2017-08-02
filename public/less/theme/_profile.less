@@ -1,0 +1,121 @@
+// ---------------------------
+// PROFILE STYLES -----------
+// ---------------------------
+
+.profile-stats{
+	color: #fff;
+	box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+	background: rgba(248,80,50,1);
+    background: -moz-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,1)), color-stop(32%, rgba(237,112,78,1)), color-stop(100%, rgba(237,112,78,1)));
+    background: -webkit-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+    background: -o-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+    background: -ms-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+    background: linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#ed704e', GradientType=0 );
+	.fnb-breadcrums{
+		.home-icon,&__title{
+			color: #fff;
+		}
+	}
+	&__title{
+		padding: 1.5em 0;
+	}
+	&__numbers{
+		padding-bottom: 2.5em;
+	}
+	.profile-col{
+		flex: 0 0 24%;
+		padding: 0 2em;
+		border-left: 1px solid #bc3700;
+		&:first-child{
+			padding-left: 0;
+			border-left: 0;
+		}
+		&:last-child{
+			padding-right: 0;
+		}
+		@media screen and (min-width: 1500px){
+			flex: 0 0 20%;
+		}
+	}
+	.stat-title{
+		margin-bottom: 2px;
+	}
+	.stat-caption{
+		color: #76301c;
+	}
+	.stat-info{
+		color: #fff;
+    	font-size: 1.3em;
+    	vertical-align: bottom;
+    	padding-left: 0.2em;
+	}
+}
+
+.enquiries-made{
+	margin: 3em 0 1.5em 0;
+	.fa{
+		font-size: 1.4em;
+    	color: @accent-primary;
+    	vertical-align: text-bottom;
+    	padding-right: 0.2em;
+	}
+}
+
+.enquiry-made-by{
+	padding: 0.8em 0.5em;
+	margin-top: 2em;
+    background-color: #defffe;
+    .fnb-label{
+    	background-color: @accent-secondary;
+    	color: #fff;
+    	border-color: #27b7b0;
+    	font-size: 0.85em;
+    	font-weight: 400;
+    	margin: 0 0.2em;
+    }
+    a{
+    	color: #000;
+    	text-transform: capitalize;
+    }
+}
+
+.detail-group{
+	margin: 1em 0;
+	label{
+		text-transform: uppercase;
+    	margin-bottom: 0;
+	}
+	.detail-col{
+		padding: 1.5em 0;
+    	flex: 1 0 33.33%;
+    	&:last-child{
+    		padding-top: 0;
+    	}
+	}
+}
+
+
+.activity-panel{
+	margin: 2.5em 0;
+	&__header{
+		padding: 1.5em 1em 2.5em 1em;
+    	background-color: @accent-primary;
+    	color: #fff;
+    	font-size: 1.15em;
+	}
+	.fa-bell{
+		font-size: 1.4em;
+    	vertical-align: middle;
+    	padding-right: 0.3em;
+	}
+}
+
+
+
+
+
+
+
+

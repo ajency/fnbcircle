@@ -212,9 +212,11 @@
                 </div>
                 <!-- categories select modal -->
                 <!-- Button trigger modal -->
-                <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#category-select">
+                <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#verification-step-modal">
                   Launch demo modal
                 </button> -->
+
+
                 <!-- Modal -->
                 <!-- listing present -->
                 <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

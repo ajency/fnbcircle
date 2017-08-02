@@ -74,7 +74,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input name="primary_email" type="checkbox" class="toggle__check" checked="true">
+                        <input name="primary_email" type="checkbox" class="toggle__check" checked="true" data-parsley-multiple="contacts" data-parsley-mincheck="1" required>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -89,14 +89,14 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#email-modal">Verify now</a>
+                    <a href="#" class="dark-link" data-toggle="modal" data-target="#email-modal" onclick="contact_submit(event);">Verify now</a>
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -108,9 +108,9 @@
     </div>
     <div class="m-t-40 business-phone business-contact">
         <label>Enter your business phone number <span class="text-primary">*</span></label>
-        <div class="row p-t-10 p-b-10">
+        <div class="row p-t-10 p-b-10 phone-row">
             <div class="col-sm-5">
-            <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs">
+            <!-- <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs"> -->
                 <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
             </div>
             <div class="col-sm-3 col-xs-4">
@@ -118,13 +118,13 @@
                     <!-- <span class="fnb-icons verified-icon"></span>
                     <p class="c-title">Verified</p> -->
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal">Verify now</a>
+                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle no-m-t flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -140,13 +140,13 @@
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
                     <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
-                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal">Verify now</a>
+                    <a href="#" class="dark-link" data-toggle="modal" data-target="#phone-modal" onclick="contact_submit(event);">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -181,7 +181,7 @@
                         </div>
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send">Submit</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter new number...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send">Verify</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Verify</button>
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                         </div>
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send">Submit</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter new email...">
-                            <button class="btn fnb-btn primary-btn border-btn code-send">Verify</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Verify</button>
                         </div>
                     </div>
                 </div>

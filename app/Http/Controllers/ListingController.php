@@ -43,63 +43,27 @@ class ListingController extends Controller
 
     //-----------------------------------Step 1-----------------------
 
-    public function savelistingInformation($data)
-    {
-        //------ save listing details in listing table
-        $listing                     = new Listing;
-        $listing->title              = title_case($data->title);
-        $listing->type               = $data->type;
-        $listing->show_primary_phone = 0;
-        $listing->show_primary_email = $data->primary_email;
-        $listing->status             = Listing::DRAFT;
-        // $listing->slug=str_slug($data->title.' '.str_random(7),'-');
-        $listing->owner_id   = "1";
-        $listing->reference  =str_random(8);
-        $listing->created_by = "1";
-        $listing->save();
-
-        //-------- Save contacts details in listing_communication table
-        $contacts_json = json_decode($data->contacts);
-        $contacts      = array();
-        foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
-        }
-        ListingCommunication::where('listing_id', $listing->id)->delete();
-        foreach ($contacts as $contact => $info) {
-            $com                        = new ListingCommunication;
-            $com->listing_id            = $listing->id;
-            $com->user_communication_id = $contact;
-            $com->verified              = $info['verified'];
-            $com->visible               = $info['visible'];
-            $com->save();
-        }
-    }
-    public function validatelistingInformation($data)
+    public function listingInformation($data)
     {
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
-            // 'primary_phone' => 'required|boolean',
             'contacts'      => 'required|json|contacts',
         ]);
-        //-------- Save contacts details in listing_communication table
-        $contacts = json_decode($data->contacts);
-        foreach ($contacts as $info) {
-            if (!Common::verify_id($info->id, 'user_communication')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Contact id is fabricated. Id doesnt exist'));
-            }
+        $contacts_json = json_decode($data->contacts);
+        $contacts      = array();
+        foreach ($contacts_json as $contact) {
+            $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
         }
-        return true;
-    }
-    public function listingInformation($request)
-    {
-        $check = $this->validateListingInformation($request);
-        if ($check !== true) {
-            return $check;
+        // print_r($contacts);
+        $listing = new Listing;
+        $listing->saveInformation($data->title, $data->type, $data->primary_email);
+        ListingCommunication::where('listing_id', $listing->id)->delete();
+        foreach ($contacts as $contact => $info) {
+            $com = new ListingCommunication;
+            $com->saveInformation($listing->id, $contact, $info['verified'], $info['visible']);
         }
-
-        $this->saveListingInformation($request);
         return redirect('business-categories');
     }
 
@@ -285,7 +249,7 @@ class ListingController extends Controller
             $other['website'] = $data->website;
         }
 
-        $other = json_encode($other);
+        $other                  = json_encode($other);
         $listing->other_details = $other;
         foreach ($data->payment as $key => $value) {
             if (!isset($payment)) {
@@ -377,5 +341,11 @@ class ListingController extends Controller
                     break;
             }
         }
+    }
+
+
+    public function index(){
+        $listing = new Listing;
+        return view('business-info')->with('listing',$listing);
     }
 }

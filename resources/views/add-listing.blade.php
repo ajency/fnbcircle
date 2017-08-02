@@ -67,7 +67,7 @@
                                 The current status of your listing is <span class="text-primary bolder status-changer">Draft</span> <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
                             </div>
                         </p>
-                        <button class="btn fnb-btn outline full border-btn mobile-hide review-submit">Submit for review <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
+                        @if($listing->isReviewable())<button class="btn fnb-btn outline full border-btn mobile-hide review-submit">Submit for review <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>@endif
                     </div>
                 </div>
                 <div class="white-box gray-border get-started">
@@ -185,6 +185,8 @@
                                         <!-- @yield('premium') -->
                                         <!-- Go Premium End -->
                                         <!-- Submit for review section -->
+                                        <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
+                                        @if($listing->isReviewable())
                                         <div class="m-t-50 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -196,11 +198,11 @@
                                                </div>
                                            </div>
                                         </div>
-
+                                        @endif
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
                                             <button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-                                            <button onclick="listingInformation(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
+                                            <button onclick="validateListing(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>

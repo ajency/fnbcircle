@@ -71,14 +71,13 @@ function validateListing(event) {
               myvar +=
                 '<div class="list-row flex-row">'+
                 '<div class="left">'+
-                '<h5 class="sub-title text-medium text-capitalise list-title">'+data[k]['name']+'</h5>'+
-                '<p class="text-color">';
+                '<h5 class="sub-title text-medium text-capitalise list-title">'+data[k]['name']+'</h5>';
                 for(var j in data[k]['messages']){
-                myvar +='<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">'+data[k]['messages'][j]+'</span>'+
-                '</p>'+
-                '</div>';
+                myvar +=
+                '<p class="text-color">'+'<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">'+data[k]['messages'][j]+'</span>'+
+                '</p>';
                 }
-                myvar += '<div class="right">'+
+                myvar += '</div>'+'<div class="right">'+
                 '<div class="capsule-btn flex-row">'+
                 '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>'+
                 '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>'+

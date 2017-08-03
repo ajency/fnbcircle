@@ -113,8 +113,9 @@
         <div class="row p-t-10 p-b-10 phone-row get-val ">
             <div class="col-sm-5">
                 <div class="input-row">
+
                     <input type="hidden" class="comm-id" readonly value=5 name="contact_IDs">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorBlock">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-errors-container="#errorBlock">
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
                 <div id="errorBlock"></div>
@@ -143,7 +144,7 @@
 
                 <input type="hidden" class="comm-id" readonly value=5 name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]">
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
 
@@ -172,7 +173,7 @@
             <div class="col-sm-5">
             <!-- <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs"> -->
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
                 
@@ -195,7 +196,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly value=5 name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>

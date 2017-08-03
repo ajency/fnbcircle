@@ -10,6 +10,7 @@ use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
 use App\ListingOperationTime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -67,15 +68,34 @@ class ListingController extends Controller
         }
         return redirect('/business-categories/' . $listing->reference . '/edit');
     }
+    public function saveContact(Request $request)
+    {
+        $this->validate($request, [
+            'value' => 'required',
+            'type'  => 'required',
+        ]);
+        $value                       = $request->value;
+        $type                        = $request->type;
+        $contact                     = new ListingCommunication;
+        $contact->value              = $value;
+        $contact->communication_type = $type;
+        $contact->save();
+        return response()->json(array('id' => $contact->id));
+    }
+    public function createOTP($value, $type, $id)
+    {
+        if ($id == null) {
+            $contact = new ListingCommunication;
+        } else {
+            $contact = ListingCommunication::find($id);
+        }
 
-    // public function createOTP($value,$type,$id){
-    //     if($id==null) $contact= new ListingCommunication;
-    //     else $contact= ListingCommunication::find($id);
-    //     check things;
-    //     $contact->value=value;
-    //     $contact->type =  type;
-    //     create otp on session
-    // }
+        $contact->value = value;
+        $contact->type  = type;
+        $contact->save();
+        $OTP       = rand(1000, 9999);
+        $timestamp = Carbon::now()->timestamp;
+    }
 
     public function findDuplicates(Request $request)
     {
@@ -84,7 +104,7 @@ class ListingController extends Controller
             'contacts' => 'required|json',
         ]);
 
-        $titles = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
+        $titles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
         $similar = array();
         foreach ($titles as $key => $value) {
             similar_text($request->title, $value, $percent);
@@ -93,11 +113,17 @@ class ListingController extends Controller
             }
         }
         $contact = json_decode($request->contacts, true);
-        $query   = ListingCommunication::where("id", "0");
-        foreach ($contact as $value) {
-            $query->orWhere('value', $value['value']);
-        }
-        $contacts = $query->with('listing')->get();
+        $query = ListingCommunication::whereNotNull('listing_id');
+        $query = $query->where(function ($query) use ($contact) {
+            $query->where("id", "0");
+            foreach ($contact as $value) {
+                $query->orWhere('value', $value['value']);
+            }
+        });
+        $query = $query->with('listing');
+        // echo $query->toSql();
+        $contacts = $query->get();
+
         foreach ($contacts as $row) {
             if (!isset($similar[$row->listing['reference']])) {
                 $similar[$row->listing['reference']] = array('name' => $row->listing['title'], 'messages' => array());
@@ -110,8 +136,8 @@ class ListingController extends Controller
                 $similar[$row->listing['reference']]['messages'][] = "Matches found Phone Number(<span class=\"heavier\">{$row->value}</span>)";
             }
         }
-         return response()->json($similar);
-        
+        return response()->json($similar);
+
     }
 
     //---------------------------step 2 ----------------------------------------

@@ -19,8 +19,8 @@ class CreateListingCommunicationTable extends Migration
             $table->timestamps();
             $table->string('value');
             $table->integer('communication_type')->comment('1=email, 2=phone');
-            $table->boolean('is_verified');
-            $table->boolean('is_visible');
+            $table->boolean('is_verified')->default('0');
+            $table->boolean('is_visible')->nullable();
         });
     }
 

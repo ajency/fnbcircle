@@ -22,8 +22,10 @@ function listingInformation() {
                         'type': type
                     },
                     success: function(data) {
+                        contact_IDs[i].value=data['id'];
                         console.log(data['id']);
-                    }
+                    },
+                    async: false
                 });
             }
             contact['id'] = contact_IDs[i].value;
@@ -56,7 +58,6 @@ function listingInformation() {
         form.append(field);
         console.log(key + '=>' + value);
     });
-    return;
     $(document.body).append(form);
     form.submit();
 }
@@ -96,6 +97,7 @@ function validateListing(event) {
                 }
                 $('.list-entries').html(myvar);
             }
+
         });
         $('#duplicate-listing').modal('show');
         $('#duplicate-listing').on('hidden.bs.modal', function(e) {

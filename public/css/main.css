@@ -1747,8 +1747,8 @@ input[type="checkbox"].toggle__check {
   height: 100%;
   width: 100%;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
+  background-color: rgba(255, 255, 255, 0.88);
+  color: #ec6d4b;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

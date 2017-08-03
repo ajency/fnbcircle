@@ -27,6 +27,7 @@ Route::resource('/add_listing', 'ListingController');
 
 Route::post('/duplicates','ListingController@findDuplicates');
 Route::post('/contact_save','ListingController@saveContact');
+Route::post('/create_OTP','ListingController@createOTP');
 
 Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 

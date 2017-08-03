@@ -1,5 +1,5 @@
 (function() {
-  var getID;
+  var getID, id, input, parent;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -101,32 +101,57 @@
     }
   });
 
+  parent = void 0;
+
+  input = void 0;
+
+  id = void 0;
+
   $(document).on('click', '.verify-link', function() {
-    var getParent, get_val, id, input, type, valid, validator;
+    var get_val, id_val, type, valid, validator;
     event.preventDefault();
-    getParent = $(this).closest('.business-contact');
+    parent = $(this).closest('.business-contact');
     input = $(this).closest('.get-val').find('.fnb-input');
-    id = $(this).closest('.get-val').find('.comm-id').val();
-    if (id === '') {
-      id = null;
+    id = $(this).closest('.get-val').find('.comm-id');
+    if (id.val() === '') {
+      id_val = null;
+    } else {
+      id_val = id.val();
     }
     validator = input.parsley();
     valid = validator.validate();
     if (valid === true && input.val() !== '') {
       get_val = input.val();
       console.log(get_val);
-      console.log(id);
-      if (getParent.hasClass('business-email')) {
+      console.log(id_val);
+      if (parent.hasClass('business-email')) {
         $('#email-modal').modal('show');
         type = '1';
       }
-      if (getParent.hasClass('business-phone')) {
+      if (parent.hasClass('business-phone')) {
         $('#phone-modal').modal('show');
         type = '2';
       }
-      console.log(type);
+      $.ajax({
+        type: 'post',
+        url: '/create_OTP',
+        data: {
+          'value': get_val,
+          'type': type,
+          'id': id_val
+        },
+        success: function(data) {
+          id.val(data['id']);
+          input.val(data['value']);
+          get_val = data['value'];
+          console.log(id.val());
+        },
+        async: false
+      });
       $('.verification-step-modal .number').text(get_val);
-      return;
+    } else {
+      $('#email-modal').modal('hide');
+      $('#phone-modal').modal('hide');
     }
   });
 
@@ -152,6 +177,7 @@
     $('.verificationFooter').removeClass('no-bg');
     get_value = $(this).siblings('.value-enter').val();
     $('.show-number .number').text(get_value);
+    $(input).val(get_value);
     $('.value-enter').val('');
   });
 

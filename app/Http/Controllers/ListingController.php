@@ -82,19 +82,29 @@ class ListingController extends Controller
         $contact->save();
         return response()->json(array('id' => $contact->id));
     }
-    public function createOTP($value, $type, $id)
+    public function createOTP(Request $request)
     {
-        if ($id == null) {
+        $this->validate($request, [
+            'value'    => 'required',
+            'type' => 'required|integer',
+            'id' => 'nullable|  integer',
+        ]);
+        // $request->session()->flush();
+        if ($request->id == null) {
             $contact = new ListingCommunication;
         } else {
-            $contact = ListingCommunication::find($id);
+            $contact = ListingCommunication::find($request->id);
         }
-
-        $contact->value = value;
-        $contact->type  = type;
+        $contact->value = $request->value;
+        $contact->communication_type  = $request->type;
         $contact->save();
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
+        $json = json_encode(array("id"=>$contact->id,"OTP"=>$OTP,"timestamp"=>$timestamp));
+        error_log($json);
+        $request->session()->put('contact#'.$contact->id, $json);
+        return response()->json(array('id' => $contact->id,'verify'=>$contact->is_verified,'value'=>$contact->value));
+
     }
 
     public function findDuplicates(Request $request)

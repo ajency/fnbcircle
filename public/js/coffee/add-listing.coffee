@@ -98,51 +98,49 @@ parent = undefined
 input = undefined
 id = undefined
 
+verify = ->
+  if id.val() == ''
+    id_val = null
+  else
+    id_val = id.val()
+  validator = input.parsley()
+  valid = validator.validate()
+  if valid == true and input.val() != ''
+    get_val = input.val()
+    console.log get_val
+    console.log id_val
+    if parent.hasClass('business-email')
+      $('#email-modal').modal 'show'
+      type = '1'
+    if parent.hasClass('business-phone')
+      $('#phone-modal').modal 'show'
+      type = '2'
+    $.ajax
+      type: 'post'
+      url: '/create_OTP'
+      data:
+        'value': get_val
+        'type': type
+        'id': id_val
+      success: (data) ->
+        id.val data['id']
+        input.val data['value']
+        get_val = data['value']
+        console.log id.val()
+        return
+      async: false
+    $('.verification-step-modal .number').text get_val
+  else
+    $('#email-modal').modal 'hide'
+    $('#phone-modal').modal 'hide'
+  return
+
 $(document).on 'click', '.verify-link', ->
 	event.preventDefault()
 	parent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
 	id = $(this).closest('.get-val').find('.comm-id')
-	if id.val() == ''
-		id_val = null
-	else
-		id_val = id.val()
-	validator = input.parsley()
-	valid = validator.validate()
-	# console.log valid
-	if valid == true and input.val() != ''
-		get_val = input.val()
-		console.log get_val
-		console.log id_val	
-		if parent.hasClass('business-email')
-			$('#email-modal').modal 'show'
-			type='1';
-		if parent.hasClass('business-phone')
-			$('#phone-modal').modal 'show'
-			type='2'
-		# console.log type
-		$.ajax
-            type: 'post',
-            url: '/create_OTP',
-            data: 
-                'value': get_val
-                'type': type
-                'id': id_val
-                # 'id': 35
-            success: (data) ->
-                id.val data['id']
-                input.val data['value']
-                get_val = data['value']
-                console.log id.val()
-                # console.log(data['id'])
-                return
-            async: false
-	        
-		# call a function to send the code to contact
-		$('.verification-step-modal .number').text get_val
-	else
-		$('#email-modal').modal 'hide'
-		$('#phone-modal').modal 'hide'
+	verify();
 	return
 
 $('.edit-number').click ->
@@ -169,6 +167,7 @@ $('.verify-stuff').click ->
 	$('.show-number .number').text(get_value);
 	$(input).val(get_value);
 	$('.value-enter').val('');
+	verify();
 	return
 
 $('.code-send').click ->

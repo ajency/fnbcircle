@@ -13,13 +13,14 @@ function listingInformation() {
             var contact = {};
             if($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 1
             if($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 2
-            if (contact_IDs[i].value == "") {
+            
                 $.ajax({
                     type: 'post',
                     url: '/contact_save',
                     data: {
                         'value': value[i].value,
-                        'type': type
+                        'type': type,
+                        'id': contact_IDs[i].value
                     },
                     success: function(data) {
                         contact_IDs[i].value=data['id'];
@@ -27,7 +28,7 @@ function listingInformation() {
                     },
                     async: false
                 });
-            }
+            
             contact['id'] = contact_IDs[i].value;
             // contact['email'] = emails[i].value;
             // contact['verify'] = (contact_verified[i].checked) ? "1" : "0";

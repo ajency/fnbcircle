@@ -1,5 +1,5 @@
 (function() {
-  var getID, id, input, parent;
+  var getID, id, input, parent, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -107,12 +107,8 @@
 
   id = void 0;
 
-  $(document).on('click', '.verify-link', function() {
+  verify = function() {
     var get_val, id_val, type, valid, validator;
-    event.preventDefault();
-    parent = $(this).closest('.business-contact');
-    input = $(this).closest('.get-val').find('.fnb-input');
-    id = $(this).closest('.get-val').find('.comm-id');
     if (id.val() === '') {
       id_val = null;
     } else {
@@ -153,6 +149,14 @@
       $('#email-modal').modal('hide');
       $('#phone-modal').modal('hide');
     }
+  };
+
+  $(document).on('click', '.verify-link', function() {
+    event.preventDefault();
+    parent = $(this).closest('.business-contact');
+    input = $(this).closest('.get-val').find('.fnb-input');
+    id = $(this).closest('.get-val').find('.comm-id');
+    verify();
   });
 
   $('.edit-number').click(function() {
@@ -179,6 +183,7 @@
     $('.show-number .number').text(get_value);
     $(input).val(get_value);
     $('.value-enter').val('');
+    verify();
   });
 
   $('.code-send').click(function() {

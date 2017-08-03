@@ -56,7 +56,7 @@ class ListingController extends Controller
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('verified' => $contact->verify, 'visible' => $contact->visible);
+            $contacts[$contact->id] = array('visible' => $contact->visible);
         }
         // print_r($contacts);
         $listing = new Listing;
@@ -64,7 +64,7 @@ class ListingController extends Controller
         // ListingCommunication::where('listing_id', $listing->id)->delete();
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
-            $com->saveInformation($listing->id, $info['verified'], $info['visible']);
+            $com->saveInformation($listing->id, $info['visible']);
         }
         return redirect('/business-categories/' . $listing->reference . '/edit');
     }
@@ -73,10 +73,13 @@ class ListingController extends Controller
         $this->validate($request, [
             'value' => 'required',
             'type'  => 'required',
+            'id'=>'nullable|integer'
         ]);
         $value                       = $request->value;
         $type                        = $request->type;
-        $contact                     = new ListingCommunication;
+        $id = $request->id;
+        if($id=="")$contact                     = new ListingCommunication;
+        else $contact=ListingCommunication::find($id);
         $contact->value              = $value;
         $contact->communication_type = $type;
         $contact->save();

@@ -12,7 +12,7 @@ class ListingCommunication extends Model
     public function listing(){
       return $this->belongsTo('App\Listing');
     }
-    public function saveInformation($listing_id, $verify, $visible)
+    public function saveInformation($listing_id, $visible)
     {
         $this->listing_id            = $listing_id;
         $this->is_visible            = $visible;

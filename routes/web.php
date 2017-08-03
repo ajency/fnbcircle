@@ -25,6 +25,8 @@ Route::resource('/add_listing', 'ListingController');
 //     return view('business-info');
 // });
 
+Route::post('/duplicates','ListingController@findDuplicates');
+
 Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 
 Route::get('/business-location', function(){

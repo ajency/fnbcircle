@@ -102,13 +102,14 @@
   });
 
   $(document).on('click', '.verify-link', function() {
-    var getParent, get_val, input, valid, validator;
+    var getParent, get_val, id, input, valid, validator;
     event.preventDefault();
     getParent = $(this).closest('.business-contact');
     input = $(this).closest('.get-val').find('.fnb-input');
+    id = $(this).closest('.get-val').find('.comm-id').val();
     validator = input.parsley();
     valid = validator.validate();
-    if (valid === true) {
+    if (valid === true && input.val() !== '') {
       if (getParent.hasClass('business-email')) {
         $('#email-modal').modal('show');
       }
@@ -117,6 +118,7 @@
       }
       get_val = input.val();
       $('.verification-step-modal .number').text(get_val);
+      return;
     }
   });
 

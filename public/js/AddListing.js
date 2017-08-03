@@ -51,9 +51,51 @@ function validateListing(event) {
     event.preventDefault();
     if ($('#listing_id').val() == "") {
         // console.log(true);
-        $('#duplicate-listing').modal('show');
-        $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+        var title = document.getElementsByName("listing_title")[0].value;
+        var value = document.getElementsByName("contacts");
+        var json = '[';
+        for (var i = 0; i < value.length; i++) {
+            if (value[i].value !== "") json += '{\"value\":\"' + value[i].value + '\"},'
+        }
+        json = json.slice(0, -1);
+        json += ']';
+        // console.log(json);
+        $.ajax({
+            type: 'post',
+            url: '/duplicates',
+            data: {'title':title,'contacts':json},
+            success: function(data) {
+              console.log(data);
+              var myvar = '';
+              for(var k in data) {
+              myvar +=
+                '<div class="list-row flex-row">'+
+                '<div class="left">'+
+                '<h5 class="sub-title text-medium text-capitalise list-title">'+data[k]['name']+'</h5>'+
+                '<p class="text-color">';
+                for(var j in data[k]['messages']){
+                myvar +='<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">'+data[k]['messages'][j]+'</span>'+
+                '</p>'+
+                '</div>';
+                }
+                myvar += '<div class="right">'+
+                '<div class="capsule-btn flex-row">'+
+                '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>'+
+                '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>'+
+                '</div>'+
+                '</div>'+
+                '</div>'+
+                '<hr>';
+                // console.log(myvar);
+              }
 
+              $('.list-entries').html(myvar);
+            }
+        });
+        
+        $('#duplicate-listing').modal('show');
+        return false;
+        $('#duplicate-listing').on('hidden.bs.modal', function(e) {
             listingInformation();
         });
     } else {

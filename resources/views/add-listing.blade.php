@@ -151,7 +151,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out slide-bg">
+                            <div class="pos-fixed fly-out slide-bg active">
                                 <div class="mobile-back desk-hide mobile-flex">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>

@@ -74,6 +74,7 @@
     	font-size: 0.85em;
     	font-weight: 400;
     	margin: 0 0.2em;
+    	padding: 0.3em 0.5em;
     }
     a{
     	color: #000;
@@ -110,10 +111,127 @@
     	vertical-align: middle;
     	padding-right: 0.3em;
 	}
+	.verified-toggle{
+		font-size: 0.75em;
+	}
+	.toggle{
+		width: 43px;
+    	height: 22px;
+    	box-shadow: none;
+    	.switch{
+    		width: 13px;
+    		left: 6px;
+    		top: 5px;
+    		bottom: 5px;
+    		right: 22px;
+    		background-color: @accent-primary;
+    	}
+    	&__check{
+	    	&:checked{
+	    		& ~ .track{
+					box-shadow: none;
+	    		}
+	    		& ~ .switch{
+	    			right: 2px;
+    				left: 22px;
+	    		}
+	    	}
+    	}
+	}
+	.toggle-text{
+		&.checked{
+			opacity: 0.5;
+		}
+	}
+	&__body{
+		padding: 1em 1.5em;
+    	position: relative;
+    	top: -22px;
+    	background-color: #fff;
+    	margin: 0 0.6em;
+    	box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.13);
+	}
+	.activity-col{
+		align-items: inherit;
+		&__actions{
+			align-items: flex-end;
+		}
+	}
+	.flex-col{
+		display: flex;
+    	flex-direction: column;
+    	justify-content: inherit;
+    	padding: 0.5em 0;
+	}
+	.contentTitle{
+		margin-bottom: 1em;
+	    margin-top: 0;
+	    max-width: 550px;
+	}
+	.time-cat{
+		margin-top: 1.2em;
+		.fnb-label{
+			border-width: 1px;
+    		font-size: 0.9em;
+    		text-transform: uppercase;
+    		margin-right: 5px;
+		}
+	}
 }
 
 
-
+.person-info{
+	position: fixed;
+    background-color: #fff;
+    box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+    top: 13em;
+    margin-left: 2em;
+    padding: 1.5em;
+    @media screen and (min-width: 1500px){
+    	width: 350px !important;
+    }
+    .Profile{
+    	color: #000;
+    	&__header{
+    		.fa{
+    			font-size: 3em;
+    			color: #a2a2a2;
+    			padding-right: 0.4em;
+    		}
+    	}
+    	.name-text{
+    		margin: 0;
+    		margin-bottom: 3px;
+    	}
+    	&__footer{
+    		.speciality{
+    			padding: 0.5em 1em;
+    			margin-bottom: 0.8em;
+    			border: 2px solid #ddd;
+    			border-radius: 4px;
+    			.fa{
+    				font-size: 2em;
+    				padding-right: 8px;
+    			}
+    		}
+    	}
+    }
+    .footer-title{
+    	margin: 1.5em 0;
+    }
+    .contact{
+    	align-items: flex-end;
+    }
+    .email-row{
+    	margin-bottom: 1.5em;
+    }
+    .verified{
+    	&-icon{
+    		transform: scale(0.6);
+    		width: 28px;
+    	}
+    }
+}
 
 
 

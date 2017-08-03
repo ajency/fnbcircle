@@ -1288,6 +1288,11 @@ input[type="checkbox"].toggle__check {
     width: 1600px;
   }
 }
+@media screen and (min-width: 1500px) {
+  .container.default-container {
+    width: 1300px;
+  }
+}
 .m-t-0 {
   margin-top: 0px;
 }
@@ -1704,6 +1709,14 @@ input[type="checkbox"].toggle__check {
         -ms-flex-pack: center;
             justify-content: center;
   }
+}
+.rating.rating-small {
+  width: 86px;
+  height: 20px;
+}
+.rating.rating-small .bg:before,
+.rating.rating-small .value:before {
+  font-size: 1em;
 }
 .blocked {
   overflow: hidden;
@@ -5539,6 +5552,25 @@ input[type="checkbox"].toggle__check {
 .core-selector .core-cat-select:checked + .core-selector__label .fnb-cat__title {
   color: #fff;
 }
+.business-contact .input-row {
+  position: relative;
+}
+.business-contact .input-row .fa {
+  position: absolute;
+  top: 5px;
+  font-size: 1.8em;
+  color: #868484;
+}
+.business-contact .input-row .fnb-input {
+  padding-left: 1.5em;
+}
+.landline .input-row .fa {
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+  left: -4px;
+  font-size: 1.6em;
+}
 .review-note {
   padding: 1em 1.5em;
   background-color: #fdf4f2;
@@ -6699,6 +6731,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   font-size: 0.85em;
   font-weight: 400;
   margin: 0 0.2em;
+  padding: 0.3em 0.5em;
 }
 .enquiry-made-by a {
   color: #000;
@@ -6734,5 +6767,134 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   font-size: 1.4em;
   vertical-align: middle;
   padding-right: 0.3em;
+}
+.activity-panel .verified-toggle {
+  font-size: 0.75em;
+}
+.activity-panel .toggle {
+  width: 43px;
+  height: 22px;
+  box-shadow: none;
+}
+.activity-panel .toggle .switch {
+  width: 13px;
+  left: 6px;
+  top: 5px;
+  bottom: 5px;
+  right: 22px;
+  background-color: #ec6d4b;
+}
+.activity-panel .toggle__check:checked ~ .track {
+  box-shadow: none;
+}
+.activity-panel .toggle__check:checked ~ .switch {
+  right: 2px;
+  left: 22px;
+}
+.activity-panel .toggle-text.checked {
+  opacity: 0.5;
+}
+.activity-panel__body {
+  padding: 1em 1.5em;
+  position: relative;
+  top: -22px;
+  background-color: #fff;
+  margin: 0 0.6em;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.13);
+}
+.activity-panel .activity-col {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
+.activity-panel .activity-col__actions {
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+.activity-panel .flex-col {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+      -ms-flex-pack: inherit;
+          justify-content: inherit;
+  padding: 0.5em 0;
+}
+.activity-panel .contentTitle {
+  margin-bottom: 1em;
+  margin-top: 0;
+  max-width: 550px;
+}
+.activity-panel .time-cat {
+  margin-top: 1.2em;
+}
+.activity-panel .time-cat .fnb-label {
+  border-width: 1px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  margin-right: 5px;
+}
+.person-info {
+  position: fixed;
+  background-color: #fff;
+  box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+  top: 13em;
+  margin-left: 2em;
+  padding: 1.5em;
+}
+@media screen and (min-width: 1500px) {
+  .person-info {
+    width: 350px !important;
+  }
+}
+.person-info .Profile {
+  color: #000;
+}
+.person-info .Profile__header .fa {
+  font-size: 3em;
+  color: #a2a2a2;
+  padding-right: 0.4em;
+}
+.person-info .Profile .name-text {
+  margin: 0;
+  margin-bottom: 3px;
+}
+.person-info .Profile__footer .speciality {
+  padding: 0.5em 1em;
+  margin-bottom: 0.8em;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+}
+.person-info .Profile__footer .speciality .fa {
+  font-size: 2em;
+  padding-right: 8px;
+}
+.person-info .footer-title {
+  margin: 1.5em 0;
+}
+.person-info .contact {
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+.person-info .email-row {
+  margin-bottom: 1.5em;
+}
+.person-info .verified-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 28px;
 }
 /*# sourceMappingURL=main.css.map */

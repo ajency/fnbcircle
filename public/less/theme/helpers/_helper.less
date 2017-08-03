@@ -16,6 +16,11 @@
   @media screen and (min-width: 1650px){
     width: 1600px;
   }
+  &.default-container{
+    @media screen and (min-width: 1500px) {
+      width: 1300px;
+    }
+  }
 }
 
 
@@ -211,6 +216,16 @@
       display: flex;
       justify-content: center;
   }
+}
+
+.rating.rating-small{
+    width: 86px;
+    height: 20px;
+    .bg,.value{
+      &:before{
+        font-size: 1em;
+      }
+    }
 }
 
 

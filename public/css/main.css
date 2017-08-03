@@ -6928,6 +6928,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .profile-stats .breadcrums-container {
     margin-top: 0;
   }
+  .profile-stats__numbers {
+    padding-bottom: 1em;
+  }
   .profile-stats__numbers .profile-col {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 34%;

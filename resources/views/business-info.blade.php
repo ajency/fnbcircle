@@ -89,8 +89,8 @@
         <div class="row p-t-10 p-b-10 no-m-b get-val contact-group hidden">
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly value=1 name="contact_IDs">
-                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email" data-parsley-errors-container="#erroblock">
-                <div id="erroblock"></div>
+                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email">
+                <!-- <div id="erroblock"></div> -->
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -120,9 +120,8 @@
             <div class="col-sm-5">
                 <div class="input-row">
                     <input type="hidden" class="comm-id" readonly value=5 name="contact_IDs">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorblock">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
                     <i class="fa fa-mobile" aria-hidden="true"></i>
-                    <div id="errorblock"></div>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-4">
@@ -148,9 +147,8 @@
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly value=5 name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorblock">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
                      <i class="fa fa-mobile" aria-hidden="true"></i>
-                    <div id="errorblock"></div>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-4">
@@ -180,9 +178,8 @@
             <div class="col-sm-5">
             <!-- <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs"> -->
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorBlock">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
                     <i class="fa fa-phone" aria-hidden="true"></i>
-                    <div id="errorBlock"></div>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-4 mobile-hide">
@@ -203,9 +200,8 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly value=5 name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorBlock">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
                     <i class="fa fa-phone" aria-hidden="true"></i>
-                    <div id="errorBlock"></div>
                 </div>
 
             </div>

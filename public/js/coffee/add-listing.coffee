@@ -102,12 +102,15 @@ $(document).on 'click', '.verify-link', ->
 	validator = input.parsley()
 	valid = validator.validate()
 	# console.log valid
-	if valid == true and input.val() != ''	
+	if valid == true and input.val() != ''
+		get_val = input.val()
+		console.log get_val
+		console.log id	
 		if getParent.hasClass('business-email')
 			$('#email-modal').modal 'show'
 		if getParent.hasClass('business-phone')
 			$('#phone-modal').modal 'show'
-		get_val = input.val()
+		
 		# call a function to send the code to contact
 		$('.verification-step-modal .number').text get_val
 		return

@@ -110,13 +110,15 @@
     validator = input.parsley();
     valid = validator.validate();
     if (valid === true && input.val() !== '') {
+      get_val = input.val();
+      console.log(get_val);
+      console.log(id);
       if (getParent.hasClass('business-email')) {
         $('#email-modal').modal('show');
       }
       if (getParent.hasClass('business-phone')) {
         $('#phone-modal').modal('show');
       }
-      get_val = input.val();
       $('.verification-step-modal .number').text(get_val);
       return;
     }

@@ -108,6 +108,14 @@
 	&.cat-area{
 		margin-bottom: -20px;
 	}
+
+	&.cat-area{
+		.detail-col{
+			&:last-child{
+				padding-top: 1.5em;
+			}
+		}
+	}
 }
 
 
@@ -126,6 +134,9 @@
 	}
 	.verified-toggle{
 		font-size: 0.75em;
+		margin-bottom: 0;
+		font-weight: 400;
+		cursor: pointer;
 	}
 	.toggle{
 		width: 43px;
@@ -133,13 +144,15 @@
     	box-shadow: none;
     	.switch{
     		width: 13px;
-    		left: 6px;
     		top: 5px;
+    		left: 5px;
+    		bottom: 5px;
     		bottom: 5px;
     		right: 22px;
     		background-color: @accent-primary;
     	}
     	&__check{
+    		margin-top: 0;
 	    	&:checked{
 	    		& ~ .track{
 					box-shadow: none;
@@ -245,6 +258,51 @@
     	}
     }
 }
+
+
+@media screen and (max-width: @mobile){
+	.profile-stats{
+		.breadcrums-container{
+			margin-top: 0;
+		}
+		&__numbers{
+			.profile-col{
+				flex: 0 0 34%;
+    			padding: 0 0.8em;
+    			margin-bottom: 1em;
+			}
+			.member{
+				flex-basis: 27%;
+			}
+			.bus-listing{
+				flex-basis: 37%;
+			}
+			.enquiries{
+				flex-basis: 50%;
+    			border-left: 0;
+    			padding-left: 0;
+			}
+			.profile-trigger{
+				border-left: 0;
+    			margin-bottom: 0;
+    			text-align: right;
+    			flex-basis: 50%;
+			}
+		}
+		.stat-title{
+    		font-size: 1.05em;
+		}
+		.stat-caption{
+			font-size: 0.85em;
+		}
+	}
+	.person-info{
+		position: static;
+	}
+}
+
+
+
 
 
 

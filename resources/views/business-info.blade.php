@@ -15,7 +15,7 @@
         <label>Who are you? <span class="text-primary">*</span></label>
         <ul class="business-type flex-row m-t-15">
             <li>
-                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type"  >
+                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-errors-container="#errorfield">
                 <div class="wholesaler option flex-row">
                     <span class="fnb-icons business-icon wholesaler"></span>
                     <i class="fa fa-check"></i>
@@ -25,7 +25,7 @@
                 </div>
             </li>
             <li>
-                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type">
+                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-errors-container="#errorfield">
                 <div class="retailer option flex-row">
                     <span class="fnb-icons business-icon retailer"></span>
                     <i class="fa fa-check"></i>
@@ -35,7 +35,7 @@
                 </div>
             </li>
             <li>
-                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required>
+                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required data-parsley-errors-container="#errorfield">
                 <div class="manufacturer option flex-row">
                     <span class="fnb-icons business-icon manufacturer"></span>
                     <i class="fa fa-check"></i>
@@ -45,6 +45,7 @@
                 </div>
             </li>
         </ul>
+        <div id="errorfield"></div>
         <div class="text-lighter">
             The right business type will get you the right enquiries. A listing can be only of one type.
         </div>
@@ -85,7 +86,8 @@
         <div class="row p-t-10 p-b-10 no-m-b get-val contact-group hidden">
             <div class="col-sm-5">
                 <input type="hidden" readonly value=1 name="contact_IDs">
-                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email">
+                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email" data-parsley-errors-container="#errorBlock">
+                <div id="errorBlock"></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -112,9 +114,10 @@
             <div class="col-sm-5">
             <!-- <input type="number" style="visibility: hidden;" readonly value=5 name="contact_IDs"> -->
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" data-parsley-errors-container="#errorBlock">
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
+                <div id="errorBlock"></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -170,6 +173,7 @@
                     <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
+                
             </div>
             <div class="col-sm-3 col-xs-4 mobile-hide">
                 

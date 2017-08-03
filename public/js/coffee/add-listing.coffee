@@ -111,7 +111,6 @@ $(document).on 'click', '.verify-link', ->
 		return
 
 
-
 $('.edit-number').click ->
   event.preventDefault()
   $('.default-state').addClass 'hidden'

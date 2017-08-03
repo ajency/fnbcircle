@@ -1728,6 +1728,11 @@ input[type="checkbox"].toggle__check {
     cursor: pointer;
   }
 }
+.parsley-required,
+.parsley-type {
+  color: #ff353b;
+  font-size: 0.95em;
+}
 @media screen and (max-width: 769px) {
   .mobile-hide {
     display: none !important;
@@ -6745,7 +6750,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   margin-bottom: 0;
 }
 .detail-group .detail-col {
-  padding: 1.5em 0;
+  padding: 1.5em 0.5em 1.5em 0;
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 33.33%;
       -ms-flex: 1 0 33.33%;
@@ -6753,6 +6758,19 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .detail-group .detail-col:last-child {
   padding-top: 0;
+}
+.detail-group .fnb-cat {
+  margin-top: 0.3em;
+}
+.detail-group .fnb-cat li {
+  padding: 0.4em 1em;
+  background-color: #fff;
+}
+.detail-group .fnb-cat a {
+  font-size: 0.95em;
+}
+.detail-group.cat-area {
+  margin-bottom: -20px;
 }
 .activity-panel {
   margin: 2.5em 0;

@@ -1728,10 +1728,40 @@ input[type="checkbox"].toggle__check {
     cursor: pointer;
   }
 }
-.parsley-required,
-.parsley-type {
+.fnb-icons.verified-icon.mini {
+  display: inline-block;
+  -webkit-transform: scale(0.55);
+      -ms-transform: scale(0.55);
+          transform: scale(0.55);
+  width: 28px;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+.parsley-errors-list li {
   color: #ff353b;
   font-size: 0.95em;
+}
+.site-loader {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.4em;
 }
 @media screen and (max-width: 769px) {
   .mobile-hide {
@@ -6932,6 +6962,56 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     padding-bottom: 1em;
   }
   .profile-stats__numbers .profile-col {
+    padding: 0 1.5em;
+    margin-bottom: 1.5em;
+  }
+  .profile-stats__numbers .profile-trigger {
+    border-left: 0;
+    text-align: left;
+    padding-left: 0;
+  }
+  .profile-stats .stat-title {
+    font-size: 1.15em;
+  }
+  .profile-stats .stat-caption {
+    font-size: 1em;
+  }
+  .enquiries-made {
+    font-size: 1.2em;
+    margin-top: 1.5em;
+  }
+  .enquiry-made-by {
+    padding: 1em;
+    line-height: 1.8;
+    font-size: 1.1em;
+  }
+  .person-info {
+    position: static;
+    margin-left: 0;
+    box-shadow: none;
+  }
+  .person-info .Profile__footer .speciality {
+    font-size: 0.9em;
+  }
+  .person-info .Profile__footer .speciality .fa {
+    font-size: 1.8em;
+  }
+  .form-toggle {
+    font-size: 0.9em;
+  }
+  .detail-group .detail-col {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+    padding: 0.5em 0;
+  }
+}
+@media screen and (max-width: 650px) {
+  .profile-stats__numbers {
+    padding-bottom: 1em;
+  }
+  .profile-stats__numbers .profile-col {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 34%;
         -ms-flex: 0 0 34%;
@@ -6970,8 +7050,63 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .profile-stats .stat-caption {
     font-size: 0.85em;
   }
-  .person-info {
-    position: static;
+  .enquiries-made,
+  .enquiry-made-by {
+    font-size: 1.05em;
+  }
+  .activity-panel {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  .activity-panel__header {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 1em 1em 2.5em 1em;
+  }
+  .activity-panel .activity-name {
+    margin-bottom: 0.8em;
+  }
+  .activity-panel__body {
+    margin: 0 1em;
+    top: -25px;
+    padding: 1;
+  }
+  .activity-panel .activity-col {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .activity-panel .flex-col {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin-top: 0.5em;
+  }
+  .activity-panel .flex-col:first-child {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    margin-top: 0;
+  }
+  .activity-panel .contentTitle {
+    max-width: inherit;
+    white-space: normal;
+    line-height: 1.6;
+  }
+  .activity-panel .time-cat {
+    font-size: 0.95em;
+  }
+  .detail-group label {
+    font-size: 0.9em;
   }
 }
 /*# sourceMappingURL=main.css.map */

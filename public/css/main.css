@@ -6772,6 +6772,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .detail-group.cat-area {
   margin-bottom: -20px;
 }
+.detail-group.cat-area .detail-col:last-child {
+  padding-top: 1.5em;
+}
 .activity-panel {
   margin: 2.5em 0;
 }
@@ -6788,6 +6791,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .activity-panel .verified-toggle {
   font-size: 0.75em;
+  margin-bottom: 0;
+  font-weight: 400;
+  cursor: pointer;
 }
 .activity-panel .toggle {
   width: 43px;
@@ -6796,11 +6802,14 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .activity-panel .toggle .switch {
   width: 13px;
-  left: 6px;
   top: 5px;
+  left: 5px;
   bottom: 5px;
   right: 22px;
   background-color: #ec6d4b;
+}
+.activity-panel .toggle__check {
+  margin-top: 0;
 }
 .activity-panel .toggle__check:checked ~ .track {
   box-shadow: none;
@@ -6914,5 +6923,52 @@ input[type='checkbox'].remove-addr:checked + .another-address {
       -ms-transform: scale(0.6);
           transform: scale(0.6);
   width: 28px;
+}
+@media screen and (max-width: 768px) {
+  .profile-stats .breadcrums-container {
+    margin-top: 0;
+  }
+  .profile-stats__numbers .profile-col {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 34%;
+        -ms-flex: 0 0 34%;
+            flex: 0 0 34%;
+    padding: 0 0.8em;
+    margin-bottom: 1em;
+  }
+  .profile-stats__numbers .member {
+    -webkit-flex-basis: 27%;
+        -ms-flex-preferred-size: 27%;
+            flex-basis: 27%;
+  }
+  .profile-stats__numbers .bus-listing {
+    -webkit-flex-basis: 37%;
+        -ms-flex-preferred-size: 37%;
+            flex-basis: 37%;
+  }
+  .profile-stats__numbers .enquiries {
+    -webkit-flex-basis: 50%;
+        -ms-flex-preferred-size: 50%;
+            flex-basis: 50%;
+    border-left: 0;
+    padding-left: 0;
+  }
+  .profile-stats__numbers .profile-trigger {
+    border-left: 0;
+    margin-bottom: 0;
+    text-align: right;
+    -webkit-flex-basis: 50%;
+        -ms-flex-preferred-size: 50%;
+            flex-basis: 50%;
+  }
+  .profile-stats .stat-title {
+    font-size: 1.05em;
+  }
+  .profile-stats .stat-caption {
+    font-size: 0.85em;
+  }
+  .person-info {
+    position: static;
+  }
 }
 /*# sourceMappingURL=main.css.map */

@@ -111,7 +111,7 @@
     <!-- content -->
     <div class="profile-stats">
         <div class="container">
-            <div class="row p-t-30 mobile-flex breadcrums-container mobile-hide">
+            <div class="row p-t-30 mobile-flex breadcrums-container">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -138,8 +138,8 @@
             </div>
             <div class="row">
                 <div class="col-sm-8">
-                    <h4 class="profile-stats__title text-medium">Abhay Rajput's Overview</h4>
-                    <div class="profile-stats__numbers flex-row">
+                    <h4 class="profile-stats__title text-medium mobile-hide">Abhay Rajput's Overview</h4>
+                    <div class="profile-stats__numbers flex-row flex-wrap">
                         <div class="profile-col member">
                             <h5 class="stat-title heavier">June 2017</h5>
                             <div class="stat-caption x-small">Member since</div>
@@ -156,55 +156,68 @@
                             <h5 class="stat-title heavier">12</h5>
                             <div class="stat-caption x-small">Enquiries made <i class="stat-info fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Number of enquiries made"></i></div>
                         </div>
+                        <div class="profile-col profile-trigger desk-hide">
+                            <button class="btn fnb-btn outline border-btn">View Profile</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-4 fixed-profile-info">
-                    <div class="person-info">
-                        <div class="Profile">
-                            <div class="Profile__header flex-row">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i>
-                                <div class="name">
-                                    <h3 class="element-title text-medium name-text">Abhay Rajput</h3>
-                                    <div class="text-color">Joined: June,12, 2017</div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="Profile__body">
-                                <div class="email-row contact flex-row space-between">
-                                    <div>
-                                        <h6 class="heavier sub-title">Email</h6>
-                                        <a href="mailto:contactus@mystical.com" class="sub-title dark-link lighter">contactus@mystical.com</a>
-                                    </div>
-                                    <div class="verified flex-row">
-                                        <span class="fnb-icons verified-icon"></span>
-                                        <div class="text-color">Verified</div>
-                                    </div>
-                                </div>
-                                <div class="phone-row contact flex-row space-between">
-                                    <div>
-                                        <h6 class="heavier sub-title">Phone number</h6>
-                                        <a href="tel:+919879870099" class="sub-title dark-link lighter">+91 9879870099</a>
-                                    </div>
-                                    <div class="verified flex-row">
-                                        <span class="fnb-icons verified-icon"></span>
-                                        <div class="text-color">Verified</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="Profile__footer">
-                                <h5 class="heavier sub-title footer-title">What describes him the best.</h5>
-                                <div class="speciality restaurant flex-row">
-                                    <i class="fa fa-cutlery text-color" aria-hidden="true"></i>
-                                    I'm a Restaurant owner
-                                </div>
-                                <div class="speciality f-b-industry flex-row">
-                                    <i class="fa fa-building text-color" aria-hidden="true"></i>
-                                    I work in the F&amp;B Industry
-                                </div>
+                    <div class="pos-fixed fly-out slide-bg">
+                        <div class="mobile-back desk-hide mobile-flex">
+                            <div class="left mobile-flex">
+                                <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                                <p class="element-title heavier m-b-0">Back</p>
                             </div>
                         </div>
-                    </div>    
+                        <div class="fly-out__content">
+                            <div class="person-info">
+                                <div class="Profile">
+                                    <div class="Profile__header flex-row">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                        <div class="name">
+                                            <h3 class="element-title text-medium name-text">Abhay Rajput</h3>
+                                            <div class="text-color">Joined: June,12, 2017</div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="Profile__body">
+                                        <div class="email-row contact flex-row space-between">
+                                            <div>
+                                                <h6 class="heavier sub-title">Email</h6>
+                                                <a href="mailto:contactus@mystical.com" class="sub-title dark-link lighter">contactus@mystical.com</a>
+                                            </div>
+                                            <div class="verified flex-row">
+                                                <span class="fnb-icons verified-icon"></span>
+                                                <div class="text-color">Verified</div>
+                                            </div>
+                                        </div>
+                                        <div class="phone-row contact flex-row space-between">
+                                            <div>
+                                                <h6 class="heavier sub-title">Phone number</h6>
+                                                <a href="tel:+919879870099" class="sub-title dark-link lighter">+91 9879870099</a>
+                                            </div>
+                                            <div class="verified flex-row">
+                                                <span class="fnb-icons verified-icon"></span>
+                                                <div class="text-color">Verified</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="Profile__footer">
+                                        <h5 class="heavier sub-title footer-title">What describes him the best.</h5>
+                                        <div class="speciality restaurant flex-row">
+                                            <i class="fa fa-cutlery text-color" aria-hidden="true"></i>
+                                            I'm a Restaurant owner
+                                        </div>
+                                        <div class="speciality f-b-industry flex-row">
+                                            <i class="fa fa-building text-color" aria-hidden="true"></i>
+                                            I work in the F&amp;B Industry
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>       
                 </div>
             </div>
         </div>
@@ -264,15 +277,15 @@
                             Abhay Rajput activity
                         </div>
                         <div class="activity-action">
-                            <div class="verified-toggle flex-row">
+                            <label class="verified-toggle flex-row" for="tog">
                                 <p class="toggle-text recent-activity m-b-0">Recent activity</p>
                                 <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check">
+                                    <input type="checkbox" class="toggle__check" id="tog">
                                     <b class="switch"></b>
                                     <b class="track"></b>
                                 </div>
                                 <p class="toggle-text all-activity m-b-0 checked">All time activity</p>
-                            </div>
+                            </label>
                         </div>
                     </div>
                     <div class="activity-panel__body">

@@ -6,7 +6,7 @@
     <h5 class="no-m-t">Business Information</h5>
     <div class="m-t-30 c-gap">
         <label>Tell us the name of your business <span class="text-primary">*</span></label>
-        <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required>
+        <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Business title is mandatory." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business title cannot be more than 255 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your listing.
         </div>
@@ -15,7 +15,7 @@
         <label>Who are you? <span class="text-primary">*</span></label>
         <ul class="business-type flex-row m-t-15">
             <li>
-                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
+                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
                 <div class="wholesaler option flex-row">
                     <span class="fnb-icons business-icon wholesaler"></span>
                     <i class="fa fa-check"></i>
@@ -25,7 +25,7 @@
                 </div>
             </li>
             <li>
-                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-errors-container="#errorfield" @if($listing->type=='12') checked=checked @endif>
+                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='12') checked=checked @endif>
                 <div class="retailer option flex-row">
                     <span class="fnb-icons business-icon retailer"></span>
                     <i class="fa fa-check"></i>
@@ -35,7 +35,7 @@
                 </div>
             </li>
             <li>
-                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='13') checked=checked @endif>
+                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='13') checked=checked @endif>
                 <div class="manufacturer option flex-row">
                     <span class="fnb-icons business-icon manufacturer"></span>
                     <i class="fa fa-check"></i>
@@ -78,7 +78,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -90,7 +90,7 @@
         <div class="row p-t-10 p-b-10 no-m-b get-val ">
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$email->id}}">
-                <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-type="email" @if($email->is_verified==1) readonly @endif>
+                <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-required-message="Please enter a valid email." data-parsley-type-message="Please enter a valid email." data-parsley-type="email" @if($email->is_verified==1) readonly @endif>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -122,7 +122,7 @@
         <div class="row p-t-10 p-b-10 no-m-b get-val contact-group hidden">
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="email">
+                <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -187,7 +187,7 @@
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$mobile->id}}">
 
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$mobile->value}}" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 11]" @if($mobile->is_verified==1) readonly @endif>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif>
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs">
 
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -259,7 +259,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$phone->value}}" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
@@ -284,7 +284,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]" >
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-length-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>

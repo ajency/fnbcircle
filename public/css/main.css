@@ -5247,6 +5247,37 @@ input[type="checkbox"].toggle__check {
 .gs-form__footer .save-btn.center {
   margin: auto;
 }
+.close-section {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.close-section .removeRow {
+  top: 5px;
+  position: relative;
+  color: #ec6d4b;
+  cursor: pointer;
+  margin-right: 1.5em;
+  font-size: 1.3em;
+}
+@media screen and (max-width: 768px) {
+  .close-section {
+    position: relative;
+  }
+  .close-section .removeRow {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    z-index: 1;
+    margin-right: 0;
+    font-size: 1.15em;
+  }
+}
+.business-phone .removeRow,
+.landline .removeRow {
+  top: -23px;
+}
 @media screen and (min-width: 769px) {
   .business-contact .verified {
     -webkit-box-pack: center;
@@ -5738,15 +5769,21 @@ input[type="checkbox"].toggle__check {
     font-size: 0.9em;
     padding-left: 0;
   }
-  .business-email .verified-toggle {
+  .business-contact .verified-toggle {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: reverse;
     -webkit-flex-direction: row-reverse;
         -ms-flex-direction: row-reverse;
             flex-direction: row-reverse;
   }
-  .business-email .verified-toggle .toggle {
+  .business-contact .verified-toggle .toggle {
     margin-right: 0;
+    width: 36px;
+    height: 17px;
+  }
+  .business-contact .fnb-input {
+    padding-right: 0;
+    font-size: 0.9em;
   }
   .business-email .verified,
   .business-phone .verified {
@@ -5794,6 +5831,12 @@ input[type="checkbox"].toggle__check {
   }
   .no-m-b {
     margin-bottom: 0;
+  }
+  .landline .verified-toggle {
+    -webkit-box-pack: inherit;
+    -webkit-justify-content: inherit;
+        -ms-flex-pack: inherit;
+            justify-content: inherit;
   }
 }
 @media screen and (max-width: 320px) {
@@ -6989,6 +7032,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     position: static;
     margin-left: 0;
     box-shadow: none;
+    background-color: inherit;
   }
   .person-info .Profile__footer .speciality {
     font-size: 0.9em;

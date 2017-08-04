@@ -260,11 +260,68 @@
 }
 
 
+
 @media screen and (max-width: @mobile){
 	.profile-stats{
 		.breadcrums-container{
 			margin-top: 0;
 		}
+		&__numbers{
+			padding-bottom: 1em;
+			.profile-col{
+			    padding: 0 1.5em;
+			    margin-bottom: 1.5em;
+			}
+			.profile-trigger{
+				border-left: 0;
+				text-align: left;
+				padding-left: 0;
+			}
+		}
+		.stat-title{
+    		font-size: 1.15em;
+		}
+		.stat-caption{
+			font-size: 1em;
+		}
+	}
+	.enquiries-made{
+		font-size: 1.2em;
+    	margin-top: 1.5em;
+	}
+	.enquiry-made-by{
+		padding: 1em;
+    	line-height: 1.8;
+    	font-size: 1.1em;
+	}
+	.person-info{
+		position: static;
+		margin-left: 0;
+    	box-shadow: none;
+    	background-color: inherit;
+    	.Profile__footer{
+    		.speciality{
+    			font-size: 0.9em;
+    			.fa{
+    				font-size: 1.8em;
+    			}
+    		}
+    	}
+	}
+	.form-toggle{
+		font-size: 0.9em;
+	}
+	.detail-group{
+		.detail-col{
+			flex: 1 0 100%;
+    		padding: 0.5em 0;
+		}
+	}
+}
+
+
+@media screen and (max-width: 650px){
+	.profile-stats{
 		&__numbers{
 			padding-bottom: 1em;
 			.profile-col{
@@ -297,13 +354,50 @@
 			font-size: 0.85em;
 		}
 	}
-	.person-info{
-		position: static;
+	.enquiries-made,.enquiry-made-by{
+		font-size: 1.05em;
+	}
+	.activity-panel{
+		margin-left: -15px;
+		margin-right: -15px;
+		&__header{
+			flex-direction: column;
+    		padding: 1em 1em 2.5em 1em;
+		}
+		.activity-name{
+			margin-bottom: 0.8em;
+		}
+		&__body{
+			margin: 0 1em;
+    		top: -25px;
+    		padding: 1;
+		}
+		.activity-col{
+			flex-direction: column;
+		}
+		.flex-col{
+			flex-direction: row;
+    		margin-top: 0.5em;
+    		&:first-child{
+    			flex-direction: column;
+    			margin-top: 0;
+    		}
+		}
+		.contentTitle{
+			max-width: inherit;
+    		white-space: normal;
+    		line-height: 1.6;
+		}
+		.time-cat{
+			font-size: 0.95em;
+		}
+	}
+	.detail-group{
+		label{
+			font-size: 0.9em;
+		}
 	}
 }
-
-
-
 
 
 

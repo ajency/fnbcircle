@@ -172,4 +172,12 @@
     }), 2500);
   });
 
+  $('body').on('click', '.removeRow', function() {
+    return $(this).closest('.get-val').remove();
+  });
+
+  setTimeout((function() {
+    $('.listing-sections').addClass('active');
+  }), 3000);
+
 }).call(this);

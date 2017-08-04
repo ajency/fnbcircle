@@ -196,6 +196,36 @@
 }
 
 
+.close-section{
+	justify-content: space-between;
+	.removeRow{
+		top: 5px;
+    	position: relative;
+    	color: @accent-primary;
+    	cursor: pointer;
+    	margin-right: 1.5em;
+    	font-size: 1.3em;
+	}
+	@media screen and (max-width: @mobile){
+		position: relative;
+		.removeRow{
+			position: absolute;
+    		top: -30px;
+    		right: 0;
+    		z-index: 1;
+    		margin-right: 0;
+    		font-size: 1.15em;
+		}
+	}
+}
+
+.business-phone,.landline{
+	.removeRow{
+		top: -23px;
+	}
+}
+
+
 @media screen and (min-width: 769px){
 	.business-contact{
 		.verified{
@@ -720,13 +750,20 @@
 			font-size: 0.9em;
     		padding-left: 0;
 		}
+	}
+	.business-contact{
 		.verified-toggle{
 			flex-direction: row-reverse;
 			.toggle{
 				margin-right: 0;
+				width: 36px;
+    			height: 17px;
 			}
 		}
-		
+		.fnb-input{
+			padding-right: 0;
+			font-size: 0.9em;
+		}
 	}
 	.business-email,.business-phone{
 		.verified{
@@ -762,6 +799,11 @@
 	}
 	.no-m-b{
 		margin-bottom: 0;
+	}
+	.landline{
+		.verified-toggle{
+			justify-content: inherit;
+		}
 	}
 }
 

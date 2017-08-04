@@ -94,17 +94,20 @@
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
                     <a href="#" class="dark-link verify-link">Verify now</a>
-                    <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
+                    <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <div class="verified-toggle flex-row">
-                    <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
-                        <b class="switch"></b>
-                        <b class="track"></b>
+                <div class="flex-row close-section">
+                    <div class="verified-toggle flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                     </div>
-                    <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                    <i class="fa fa-times removeRow"></i>
                 </div>
             </div>
         </div>
@@ -127,7 +130,7 @@
                 <div class="verified flex-row">
                     <!-- <span class="fnb-icons verified-icon"></span>
                     <p class="c-title">Verified</p> -->
-                    <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
+                    <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
                     <a href="#" class="dark-link verify-link">Verify now</a>
                 </div>
             </div>
@@ -154,18 +157,21 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <input type="checkbox" name="verified_contact" style="visibility: hidden;" readonly="">
+                    <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
                     <a href="#" class="dark-link verify-link">Verify now</a>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
-                <div class="verified-toggle flex-row">
-                    <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
-                        <b class="switch"></b>
-                        <b class="track"></b>
+                <div class="flex-row close-section">
+                    <div class="verified-toggle flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                     </div>
-                    <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                    <i class="fa fa-times removeRow"></i>
                 </div>
             </div>
         </div>
@@ -204,18 +210,20 @@
                     <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]" >
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
-
             </div>
             <div class="col-sm-3 col-xs-4 mobile-hide">
             </div>
             <div class="col-sm-4 col-xs-12">
-                <div class="verified-toggle flex-row">
-                    <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
-                        <b class="switch"></b>
-                        <b class="track"></b>
+                <div class="flex-row close-section">
+                    <div class="verified-toggle flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                     </div>
-                    <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                    <i class="fa fa-times removeRow"></i>
                 </div>
             </div>
         </div>

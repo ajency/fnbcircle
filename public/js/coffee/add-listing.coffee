@@ -165,3 +165,12 @@ $('.resend-link').click ->
 		return
 	), 2500
 	return
+
+$('body').on 'click', '.removeRow', ->
+	$(this).closest('.get-val').remove()	
+
+setTimeout (->
+  $('.listing-sections').addClass 'active'
+  return
+), 3000
+

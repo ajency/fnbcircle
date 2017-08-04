@@ -8,7 +8,7 @@
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <!-- Magnify css -->

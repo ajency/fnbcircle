@@ -8,7 +8,7 @@
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/font-awesome/css/font-awesome.min.css">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css">
     <!-- tags css -->
@@ -72,10 +72,23 @@
                             <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
                         </li>
                         <li class="mobile-hide">
-                            <a href="" class="login">
+                            <!-- <a href="" class="login">
                                 <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                                 <p class="login__title nav-title-size p-l-10">Login</p>
-                            </a>
+                            </a> -->
+                            <div class="dropdown login user-logged">
+                                <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                                <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger">
+                                    <span class="ellipsis userName">Amit Adav</span>
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                    <li>Test</li>
+                                    <li>test</li>
+                                    <li>test</li>
+                                </ul>
+                            </div>
+                            
                         </li>
                         <li class="mobile-hide">
                             <a href="" class="side-menu">

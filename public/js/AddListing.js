@@ -13,6 +13,7 @@ function listingInformation() {
             var contact = {};
             if($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 1
             if($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 2
+            if($(value[i]).closest('.business-contact').hasClass('landline')) var type = 3
             
                 $.ajax({
                     type: 'post',
@@ -38,7 +39,7 @@ function listingInformation() {
         i++;
     }
     var parameters = {};
-    parameters['listing_id'] = null;
+    parameters['listing_id'] = document.getElementById('listing_id').value;
     parameters['step'] = 'listing_information';
     parameters['title'] = document.getElementsByName("listing_title")[0].value;
     var type = document.getElementsByName("business_type");

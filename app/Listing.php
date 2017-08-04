@@ -67,7 +67,7 @@ class Listing extends Model
         $this->show_primary_email = $email;
         $this->status             = self::DRAFT;
         $this->owner_id           = "1";
-        $this->reference          = str_random(8);
+        if($this->reference == null) $this->reference          = str_random(8);
         $this->created_by         = "1";
         $this->save();
     }

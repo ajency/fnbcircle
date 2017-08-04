@@ -52,6 +52,7 @@ class ListingController extends Controller
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
             'contacts'      => 'required|json|contacts',
+            'listing_id'=>'required',
         ]);
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
@@ -59,7 +60,8 @@ class ListingController extends Controller
             $contacts[$contact->id] = array('visible' => $contact->visible);
         }
         // print_r($contacts);
-        $listing = new Listing;
+        if($data->listing_id == "")$listing = new Listing;
+        else $listing = Listing::where('reference',$data->listing_id)->firstorFail();
         $listing->saveInformation($data->title, $data->type, $data->primary_email);
         // ListingCommunication::where('listing_id', $listing->id)->delete();
         foreach ($contacts as $contact => $info) {
@@ -108,33 +110,40 @@ class ListingController extends Controller
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
         $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
-        error_log($json);//send sms or email here
+        error_log($json); //send sms or email here
         $request->session()->put('contact#' . $contact->id, $json);
         return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value));
 
     }
 
-    public function validateOTP(Request $request){
+    public function validateOTP(Request $request)
+    {
         $this->validate($request, [
-            'OTP'=>'integer|min:1000|max:9999',
-            'id'    => 'integer|min:1',
+            'OTP' => 'integer|min:1000|max:9999',
+            'id'  => 'integer|min:1',
         ]);
-        $json = session('contact#'.$request->id);
-        if($json==null) abort(404);
+        $json = session('contact#' . $request->id);
+        if ($json == null) {
+            abort(404);
+        }
+
         $array = json_decode($json);
-        $old = Carbon::createFromTimestamp($array->timestamp);
-        $now = Carbon::now();
-        if($now>$old->addMinutes(15)) abort(410);
-        if($request->OTP == $array->OTP){
-            $contact = ListingCommunication::find($request->id);
+        $old   = Carbon::createFromTimestamp($array->timestamp);
+        $now   = Carbon::now();
+        if ($now > $old->addMinutes(15)) {
+            abort(410);
+        }
+
+        if ($request->OTP == $array->OTP) {
+            $contact              = ListingCommunication::find($request->id);
             $contact->is_verified = 1;
             $contact->save();
             // dd($request->session);
-            $request->session()->forget('contact#'.$request->id);
-            return response()->json(array('success'=>"1"));
+            $request->session()->forget('contact#' . $request->id);
+            return response()->json(array('success' => "1"));
 
         }
-        return response()->json(array('success'=>"0"));
+        return response()->json(array('success' => "0"));
 
     }
 
@@ -460,12 +469,19 @@ class ListingController extends Controller
     public function index()
     {
         $listing = new Listing;
-        return view('business-info')->with('listing', $listing)->with('step','listing_information');
+        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails',array())->with('mobiles',array())->with('phones',array());
     }
-
+    public function edit($reference)
+    {
+        $listing = Listing::where('reference', $reference)->firstorFail();
+        $emails= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','1')->get();
+        $mobiles= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','2')->get();
+        $phones= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','3')->get();
+        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails',$emails)->with('mobiles',$mobiles)->with('phones',$phones);
+    }
     public function categories($reference)
     {
-        $listing = Listing::where('reference', $reference)->first();
-        return view('business-categories')->with('listing', $listing)->with('step','listing_categories');
+        $listing = Listing::where('reference', $reference)->firstorFail();
+        return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');
     }
 }

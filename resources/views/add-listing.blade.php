@@ -36,11 +36,29 @@
                             <p class="fnb-breadcrums__title">/</p>
                         </a>
                     </li>
+                    @if($listing->reference==null)
                     <li class="fnb-breadcrums__section">
-                        <a href="">
+                        <a href="#">
                             <p class="fnb-breadcrums__title">Add a listing</p>
                         </a>
                     </li>
+                    @else
+                    <li class="fnb-breadcrums__section">
+                        <a href="/listing/{{$listing->reference}}">
+                            <p class="fnb-breadcrums__title">{{$listing->title}}</p>
+                        </a>
+                    </li>
+                    <li class="fnb-breadcrums__section">
+                        <a href="">
+                            <p class="fnb-breadcrums__title">/</p>
+                        </a>
+                    </li>
+                    <li class="fnb-breadcrums__section">
+                        <a href="#">
+                            <p class="fnb-breadcrums__title">Edit Listing</p>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
                 <!-- Breadcrums ends -->
             </div>
@@ -64,7 +82,7 @@
                         <p class="note-row__text text-medium">
                             <!-- <span class="text-primary">Note:</span> You can add multiple listings on F&amp;BCircle. -->
                             <div class="mobile-hide p-r-10">
-                                The current status of your listing is <span class="text-primary bolder status-changer">Draft</span> <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
+                                @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">add logic to show this properly without hardcoding Draft</span> <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif
                             </div>
                         </p>
                         @if($listing->isReviewable())<button class="btn fnb-btn outline full border-btn mobile-hide review-submit">Submit for review <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>@endif
@@ -162,7 +180,8 @@
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
-                                        The current status of your listing is <span class="text-primary bolder">Draft</span> <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
+                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">add logic to show this properly without hardcoding Draft</span> <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
+                                         @endif
                                     </p>
                                     <div class="gs-form tab-content">
                                         <form id="info-form">
@@ -201,7 +220,7 @@
                                         @endif
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
-                                            <button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                                            @if($step != 'listing_information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
                                             <button onclick="validateListing(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>

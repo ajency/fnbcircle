@@ -99,6 +99,8 @@ $(document).on 'click', '.verify-link', ->
 	getParent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
 	id = $(this).closest('.get-val').find('.comm-id').val()
+	if id == ''
+		id = null
 	validator = input.parsley()
 	valid = validator.validate()
 	# console.log valid
@@ -108,9 +110,11 @@ $(document).on 'click', '.verify-link', ->
 		console.log id	
 		if getParent.hasClass('business-email')
 			$('#email-modal').modal 'show'
+			type='1';
 		if getParent.hasClass('business-phone')
 			$('#phone-modal').modal 'show'
-		
+			type='2'
+		console.log type
 		# call a function to send the code to contact
 		$('.verification-step-modal .number').text get_val
 		return

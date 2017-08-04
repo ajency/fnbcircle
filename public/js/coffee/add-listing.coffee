@@ -74,6 +74,8 @@ $('body').on 'click', '.add-another', (e)->
 	contact_group = $(this).closest('.business-contact').find('.contact-group')
 	contact_group_clone = contact_group.clone()
 	contact_group_clone.removeClass 'contact-group hidden'
+	input = contact_group_clone.find('.fnb-input')
+	input.attr('data-parsley-required',true)
 	contact_group_clone.insertBefore(contact_group)
 
 $('body').on 'click', '.review-submit', (e)->
@@ -128,8 +130,15 @@ verify = ->
         get_val = data['value']
         console.log id.val()
         return
+      error: (request, status, error) ->
+        id.val ""
+        alert("OTP failed. Try Again")
+        return
       async: false
     $('.verification-step-modal .number').text get_val
+    $('.verify-steps').addClass 'hidden'
+    $('.default-state, .verificationFooter').removeClass 'hidden'
+
   else
     $('#email-modal').modal 'hide'
     $('#phone-modal').modal 'hide'
@@ -171,14 +180,32 @@ $('.verify-stuff').click ->
 	return
 
 $('.code-send').click ->
-	$('.default-state,.add-number,.verificationFooter').addClass 'hidden'
-	$('.processing').removeClass 'hidden'
-	setTimeout (->
-	  $('.processing').addClass 'hidden'
-	  $('.step-success').removeClass 'hidden'
-	  return
-	), 2500
-	return
+  $('.default-state,.add-number,.verificationFooter').addClass 'hidden'
+  $('.processing').removeClass 'hidden'
+  OTP = $(this).closest('.code-submit').find('.fnb-input').val()
+  $.ajax
+    type: 'post'
+    url: '/validate_OTP'
+    data:
+      'OTP': OTP
+      'id': id.val()
+    success: (data) ->
+      # console.log data
+      if data['success'] == "1"
+        $('.processing').addClass 'hidden'
+        $('.step-success').removeClass 'hidden'
+        $(input).closest('.get-val').find('.verified').html '<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>'
+        $(input).attr('readonly',true)
+      else
+      return
+    error: (request, status, error) ->
+      id.val ''
+      $('#email-modal').modal 'hide'
+      $('#phone-modal').modal 'hide'
+      alert 'OTP failed. Try Again'
+      return
+    async: false
+  return
 
 $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
   $('.step-success,.add-number').addClass 'hidden'

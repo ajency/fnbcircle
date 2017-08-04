@@ -73,13 +73,17 @@ class ListingController extends Controller
         $this->validate($request, [
             'value' => 'required',
             'type'  => 'required',
-            'id'=>'nullable|integer'
+            'id'    => 'nullable|integer',
         ]);
-        $value                       = $request->value;
-        $type                        = $request->type;
-        $id = $request->id;
-        if($id=="")$contact                     = new ListingCommunication;
-        else $contact=ListingCommunication::find($id);
+        $value = $request->value;
+        $type  = $request->type;
+        $id    = $request->id;
+        if ($id == "") {
+            $contact = new ListingCommunication;
+        } else {
+            $contact = ListingCommunication::find($id);
+        }
+
         $contact->value              = $value;
         $contact->communication_type = $type;
         $contact->save();
@@ -88,25 +92,49 @@ class ListingController extends Controller
     public function createOTP(Request $request)
     {
         $this->validate($request, [
-            'value'    => 'required',
-            'type' => 'required|integer',
-            'id' => 'nullable|  integer',
+            'value' => 'required',
+            'type'  => 'required|integer',
+            'id'    => 'nullable|  integer',
         ]);
         // $request->session()->flush();
         if ($request->id == null) {
             $contact = new ListingCommunication;
         } else {
-            $contact = ListingCommunication::find($request->id);
+            $contact = ListingCommunication::findorFail($request->id);
         }
-        $contact->value = $request->value;
-        $contact->communication_type  = $request->type;
+        $contact->value              = $request->value;
+        $contact->communication_type = $request->type;
         $contact->save();
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
-        $json = json_encode(array("id"=>$contact->id,"OTP"=>$OTP,"timestamp"=>$timestamp));
-        error_log($json);
-        $request->session()->put('contact#'.$contact->id, $json);
-        return response()->json(array('id' => $contact->id,'verify'=>$contact->is_verified,'value'=>$contact->value));
+        $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
+        error_log($json);//send sms or email here
+        $request->session()->put('contact#' . $contact->id, $json);
+        return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value));
+
+    }
+
+    public function validateOTP(Request $request){
+        $this->validate($request, [
+            'OTP'=>'integer|min:1000|max:9999',
+            'id'    => 'integer|min:1',
+        ]);
+        $json = session('contact#'.$request->id);
+        if($json==null) abort(404);
+        $array = json_decode($json);
+        $old = Carbon::createFromTimestamp($array->timestamp);
+        $now = Carbon::now();
+        if($now>$old->addMinutes(15)) abort(410);
+        if($request->OTP == $array->OTP){
+            $contact = ListingCommunication::find($request->id);
+            $contact->is_verified = 1;
+            $contact->save();
+            // dd($request->session);
+            $request->session()->forget('contact#'.$request->id);
+            return response()->json(array('success'=>"1"));
+
+        }
+        return response()->json(array('success'=>"0"));
 
     }
 
@@ -126,8 +154,8 @@ class ListingController extends Controller
             }
         }
         $contact = json_decode($request->contacts, true);
-        $query = ListingCommunication::whereNotNull('listing_id');
-        $query = $query->where(function ($query) use ($contact) {
+        $query   = ListingCommunication::whereNotNull('listing_id');
+        $query   = $query->where(function ($query) use ($contact) {
             $query->where("id", "0");
             foreach ($contact as $value) {
                 $query->orWhere('value', $value['value']);
@@ -432,12 +460,12 @@ class ListingController extends Controller
     public function index()
     {
         $listing = new Listing;
-        return view('business-info')->with('listing', $listing);
+        return view('business-info')->with('listing', $listing)->with('step','listing_information');
     }
 
     public function categories($reference)
     {
         $listing = Listing::where('reference', $reference)->first();
-        return view('business-categories')->with('listing', $listing);
+        return view('business-categories')->with('listing', $listing)->with('step','listing_categories');
     }
 }

@@ -67,7 +67,7 @@
         <label>Enter your business email address <span class="text-primary">*</span></label>
         <div class="row p-t-10 p-b-10 no-m-b">
             <div class="col-sm-5">
-                <input type="email" class="form-control fnb-input p-l-5" value="quershi@gmail.com" readonly="">
+                <input type="email" class="form-control fnb-input p-l-5" value="quershi@gmail.com" readonly=""  data-parsley-required>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -122,7 +122,7 @@
             <div class="col-sm-5">
                 <div class="input-row">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -185,7 +185,7 @@
             <div class="col-sm-5">
             <input type="hidden" readonly class="comm-id" name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]">
+                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]" data-parsley-required>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>

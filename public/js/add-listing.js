@@ -78,11 +78,13 @@
   });
 
   $('body').on('click', '.add-another', function(e) {
-    var contact_group, contact_group_clone;
+    var contact_group, contact_group_clone, input;
     e.preventDefault();
     contact_group = $(this).closest('.business-contact').find('.contact-group');
     contact_group_clone = contact_group.clone();
     contact_group_clone.removeClass('contact-group hidden');
+    input = contact_group_clone.find('.fnb-input');
+    input.attr('data-parsley-required', true);
     return contact_group_clone.insertBefore(contact_group);
   });
 
@@ -142,9 +144,15 @@
           get_val = data['value'];
           console.log(id.val());
         },
+        error: function(request, status, error) {
+          id.val("");
+          alert("OTP failed. Try Again");
+        },
         async: false
       });
       $('.verification-step-modal .number').text(get_val);
+      $('.verify-steps').addClass('hidden');
+      $('.default-state, .verificationFooter').removeClass('hidden');
     } else {
       $('#email-modal').modal('hide');
       $('#phone-modal').modal('hide');
@@ -187,12 +195,35 @@
   });
 
   $('.code-send').click(function() {
+    var OTP;
     $('.default-state,.add-number,.verificationFooter').addClass('hidden');
     $('.processing').removeClass('hidden');
-    setTimeout((function() {
-      $('.processing').addClass('hidden');
-      $('.step-success').removeClass('hidden');
-    }), 2500);
+    OTP = $(this).closest('.code-submit').find('.fnb-input').val();
+    $.ajax({
+      type: 'post',
+      url: '/validate_OTP',
+      data: {
+        'OTP': OTP,
+        'id': id.val()
+      },
+      success: function(data) {
+        if (data['success'] === "1") {
+          $('.processing').addClass('hidden');
+          $('.step-success').removeClass('hidden');
+          $(input).closest('.get-val').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
+          $(input).attr('readonly', true);
+        } else {
+
+        }
+      },
+      error: function(request, status, error) {
+        id.val('');
+        $('#email-modal').modal('hide');
+        $('#phone-modal').modal('hide');
+        alert('OTP failed. Try Again');
+      },
+      async: false
+    });
   });
 
   $('.verification-step-modal').on('hidden.bs.modal', function(e) {

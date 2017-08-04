@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/add_listing', 'ListingController');
+Route::resource('/listing', 'ListingController');
 
 // Route::get('/add_listing', function(){
 //     return view('business-info');

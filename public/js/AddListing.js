@@ -1,7 +1,7 @@
 function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");
-    form.attr("action", "/add_listing");
+    form.attr("action", "/listing");
     var contacts = {};
     var contact_IDs = document.getElementsByName("contact_IDs");
     var value = document.getElementsByName("contacts");
@@ -98,13 +98,18 @@ function validateListing(event) {
                     // console.log(myvar);
                 }
                 $('.list-entries').html(myvar);
+                if(myvar!=''){    
+                    $('#duplicate-listing').modal('show');
+                    $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+                        listingInformation();
+                    });
+                }else{
+                    listingInformation();
+                }
             }
 
         });
-        $('#duplicate-listing').modal('show');
-        $('#duplicate-listing').on('hidden.bs.modal', function(e) {
-            listingInformation();
-        });
+        
     } else {
         // console.log(true);
         listingInformation();

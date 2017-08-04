@@ -52,7 +52,7 @@ class ListingController extends Controller
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
             'contacts'      => 'required|json|contacts',
-            'listing_id'=>'required',
+            
         ]);
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
@@ -175,7 +175,8 @@ class ListingController extends Controller
         $contacts = $query->get();
 
         foreach ($contacts as $row) {
-            if (!isset($similar[$row->listing['reference']])) {
+            if($row->listing['status']!=1) continue;
+            if (!isset($similar[$row->listing['reference']])/* listing is published*/) {
                 $similar[$row->listing['reference']] = array('name' => $row->listing['title'], 'messages' => array());
             }
             if ($row->communication_type == 1) {
@@ -466,7 +467,7 @@ class ListingController extends Controller
         }
     }
 
-    public function index()
+    public function create()
     {
         $listing = new Listing;
         return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails',array())->with('mobiles',array())->with('phones',array());

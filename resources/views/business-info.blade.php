@@ -87,7 +87,7 @@
             </div>
         </div>
         @foreach($emails as $email)
-        <div class="row p-t-10 p-b-10 no-m-b get-val contact-group ">
+        <div class="row p-t-10 p-b-10 no-m-b get-val ">
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$email->id}}">
                 <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-type="email" @if($email->is_verified==1) readonly @endif>
@@ -181,7 +181,7 @@
         </div>
         @endif
         @foreach ($mobiles as $mobile)
-        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val">
+        <div class="row p-t-10 p-b-10 no-m-b get-val phone-row">
             <div class="col-sm-5">
 
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$mobile->id}}">
@@ -218,7 +218,7 @@
             </div>
         </div>
         @endforeach
-        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val  hidden">
+        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val phone-row hidden">
             <div class="col-sm-5">
 
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs">
@@ -254,32 +254,8 @@
     <!-- landline -->
 
     <div class="m-t-10 business-phone landline business-contact">
-        @if($listing->reference===null)
-        <div class="row p-t-10 p-b-10 phone-row get-val ">
-            <div class="col-sm-5">
-            <input type="hidden" readonly class="comm-id" name="contact_IDs">
-                <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="0832234234" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 12]" data-parsley-required>
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div class="col-sm-3 col-xs-4 mobile-hide">
-                
-            </div>
-            <div class="col-sm-4 col-xs-12">
-                <div class="verified-toggle no-m-t flex-row">
-                    <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
-                        <b class="switch"></b>
-                        <b class="track"></b>
-                    </div>
-                    <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
-                </div>
-            </div>
-        </div>
-        @endif
         @foreach($phones as $phone)
-        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val ">
+        <div class="row p-t-10 p-b-10 no-m-b phone-row get-val ">
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
                 <div class="input-row">
@@ -304,7 +280,7 @@
             </div>
         </div>
         @endforeach
-        <div class="row p-t-10 p-b-10 no-m-b contact-group get-val  hidden">
+        <div class="row p-t-10 p-b-10 no-m-b phone-row contact-group get-val  hidden">
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs">
                 <div class="input-row">

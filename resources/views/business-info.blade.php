@@ -2,12 +2,7 @@
 
 @section('form-data')
 
-<!-- success-failure -->
-
-<div class="alert fnb-alert alert-success alert-dismissible fade in hidden" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    Success!!! You're information has been saved.
-</div>
+<!-- failure message-->
 
 <div class="alert fnb-alert alert-failure alert-dismissible fade in hidden" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>

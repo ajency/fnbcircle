@@ -2,6 +2,12 @@
 
 @section('form-data')
 
+<!-- Success message -->
+<div class="alert fnb-alert alert-success alert-dismissible fade in hidden" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    Success!!! You're information has been saved.
+</div>
+
 <div class="business-cats tab-pane fade in active" id="business_categories">
     <h5 class="no-m-t">Business Categories</h5>
     <div class="m-t-30 c-gap">

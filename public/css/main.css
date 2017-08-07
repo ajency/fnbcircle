@@ -6737,6 +6737,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   padding: 0.5em;
   background-color: #eaeaea;
   margin-bottom: 1.2em;
+  padding-left: 0;
 }
 .verification-step-modal .show-number .number {
   padding-left: 0.5em;

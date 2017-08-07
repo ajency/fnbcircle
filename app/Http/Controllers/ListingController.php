@@ -116,7 +116,7 @@ class ListingController extends Controller
         $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
         error_log($json); //send sms or email here
         $request->session()->put('contact#' . $contact->id, $json);
-        return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value));
+        return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value, 'OTP' => $OTP));
 
     }
 

@@ -277,10 +277,6 @@
     return $(this).closest('.get-val').remove();
   });
 
-  setTimeout((function() {
-    $('.listing-sections').addClass('active');
-  }), 1500);
-
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {
       $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');

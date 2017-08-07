@@ -86,7 +86,12 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
+<<<<<<< Updated upstream
                         <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+=======
+                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+                        <div class=dupError ></div>
+>>>>>>> Stashed changes
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
@@ -100,6 +105,7 @@
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$email->id}}">
                 <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-required-message="Please enter a valid email." data-parsley-type-message="Please enter a valid email." data-parsley-type="email" @if($email->is_verified==1) readonly @endif>
+                <div class=dupError ></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -133,6 +139,7 @@
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs">
                 <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                <div class=dupError ></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -168,6 +175,7 @@
                 <div class="input-row">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
                     <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                    <div class=dupError ></div>
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -200,6 +208,7 @@
 
                 <div class="input-row">
                     <input type="tel" class="form-control fnb-input p-l-5" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif>
+                    <div class=dupError ></div>
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -238,6 +247,7 @@
 
                 <div class="input-row">
                     <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                    <div class=dupError ></div>
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
@@ -274,6 +284,7 @@
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
                 <div class="input-row">
                     <input type="tel" class="form-control fnb-input p-l-5" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif>
+                    <div class=dupError ></div>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>
@@ -300,6 +311,7 @@
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs">
                 <div class="input-row">
                     <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-length-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
+                    <div class=dupError ></div>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
             </div>

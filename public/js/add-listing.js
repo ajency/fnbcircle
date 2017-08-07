@@ -1,5 +1,5 @@
 (function() {
-  var getID, id, input, parent, verify;
+  var checkDuplicates, getID, id, input, parent, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -159,11 +159,38 @@
     }
   };
 
+  checkDuplicates = function() {
+    var contacts, index, index1, others, value;
+    contacts = document.getElementsByClassName('fnb-input');
+    index = 0;
+    while (index < contacts.length) {
+      others = document.getElementsByClassName('fnb-input');
+      value = contacts[index].value;
+      console.log('value=' + value);
+      if (value !== '') {
+        index1 = 0;
+        while (index1 < others.length) {
+          if (value === others[index1].value && index !== index1) {
+            console.log('DupValue=' + others[index1].value);
+            console.log('duplicate found');
+            $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
+            return true;
+          }
+          ++index1;
+        }
+      }
+      ++index;
+    }
+  };
+
   $(document).on('click', '.verify-link', function() {
     event.preventDefault();
     parent = $(this).closest('.business-contact');
     input = $(this).closest('.get-val').find('.fnb-input');
     id = $(this).closest('.get-val').find('.comm-id');
+    if (checkDuplicates()) {
+      return false;
+    }
     verify();
   });
 
@@ -236,6 +263,7 @@
   $('.resend-link').click(function() {
     event.preventDefault();
     $(this).addClass('sending');
+    console.log(id.val());
     setTimeout((function() {
       $('.resend-link').removeClass('sending');
     }), 2500);

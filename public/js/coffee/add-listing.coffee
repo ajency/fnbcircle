@@ -144,11 +144,32 @@ verify = ->
     $('#phone-modal').modal 'hide'
   return
 
+checkDuplicates = ->
+  contacts = document.getElementsByClassName('fnb-input')
+  index = 0
+  while index < contacts.length
+    others = document.getElementsByClassName('fnb-input')
+    value = contacts[index].value
+    console.log 'value=' + value
+    if value != ''
+      index1 = 0
+      while index1 < others.length
+        if value == others[index1].value and index != index1
+          console.log 'DupValue=' + others[index1].value
+          console.log 'duplicate found'
+          $(others[index1]).closest('.get-val').find('.dupError').html 'This is duplicate value'
+          return true
+        ++index1
+    ++index
+  return
+
 $(document).on 'click', '.verify-link', ->
 	event.preventDefault()
 	parent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
 	id = $(this).closest('.get-val').find('.comm-id')
+	if(checkDuplicates()) 
+		return false
 	verify();
 	return
 
@@ -217,6 +238,7 @@ $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
 $('.resend-link').click ->
 	event.preventDefault();
 	$(this).addClass 'sending'
+	console.log id.val()
 	setTimeout (->
 		$('.resend-link').removeClass 'sending'
 		return

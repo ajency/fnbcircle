@@ -2,6 +2,19 @@
 
 @section('form-data')
 
+<!-- success-failure -->
+
+<div class="alert fnb-alert alert-success alert-dismissible fade in hidden" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    Success!!! You're information has been saved.
+</div>
+
+<div class="alert fnb-alert alert-failure alert-dismissible fade in hidden" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    Oh snap! You got an error! Please check all the required fields.
+</div>
+
+
 <div class="business-info tab-pane fade in active" id="add_listing">
     <h5 class="no-m-t fly-out-heading-size">Business Information</h5>
     <div class="m-t-30 c-gap">

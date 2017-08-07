@@ -230,6 +230,7 @@
     $('.step-success,.add-number').addClass('hidden');
     $('.verificationFooter').removeClass('no-bg');
     $('.default-state,.verificationFooter').removeClass('hidden');
+    $('.default-state .fnb-input').val('');
   });
 
   $('.resend-link').click(function() {

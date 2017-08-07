@@ -211,6 +211,7 @@ $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
   $('.step-success,.add-number').addClass 'hidden'
   $('.verificationFooter').removeClass 'no-bg'
   $('.default-state,.verificationFooter').removeClass 'hidden'
+  $('.default-state .fnb-input').val ''
   return
 
 $('.resend-link').click ->

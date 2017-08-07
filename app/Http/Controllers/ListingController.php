@@ -52,7 +52,7 @@ class ListingController extends Controller
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
             'contacts'      => 'required|json|contacts',
-            
+
         ]);
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
@@ -60,15 +60,19 @@ class ListingController extends Controller
             $contacts[$contact->id] = array('visible' => $contact->visible);
         }
         // print_r($contacts);
-        if($data->listing_id == "")$listing = new Listing;
-        else $listing = Listing::where('reference',$data->listing_id)->firstorFail();
+        if ($data->listing_id == "") {
+            $listing = new Listing;
+        } else {
+            $listing = Listing::where('reference', $data->listing_id)->firstorFail();
+        }
+
         $listing->saveInformation($data->title, $data->type, $data->primary_email);
         // ListingCommunication::where('listing_id', $listing->id)->delete();
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);
         }
-        return redirect('/business-categories/' . $listing->reference . '/edit');
+        return redirect('/listing/' . $listing->reference . '/edit/listing_categories?success=true');
     }
     public function saveContact(Request $request)
     {
@@ -175,8 +179,11 @@ class ListingController extends Controller
         $contacts = $query->get();
 
         foreach ($contacts as $row) {
-            if($row->listing['status']!=1) continue;
-            if (!isset($similar[$row->listing['reference']])/* listing is published*/) {
+            if ($row->listing['status'] != 1) {
+                continue;
+            }
+
+            if (!isset($similar[$row->listing['reference']]) /* listing is published*/) {
                 $similar[$row->listing['reference']] = array('name' => $row->listing['title'], 'messages' => array());
             }
             if ($row->communication_type == 1) {
@@ -470,19 +477,21 @@ class ListingController extends Controller
     public function create()
     {
         $listing = new Listing;
-        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails',array())->with('mobiles',array())->with('phones',array());
+        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails', array())->with('mobiles', array())->with('phones', array());
     }
-    public function edit($reference)
+    public function edit($reference, $step = 'listing_information')
     {
-        $listing = Listing::where('reference', $reference)->firstorFail();
-        $emails= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','1')->get();
-        $mobiles= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','2')->get();
-        $phones= ListingCommunication::where('listing_id',$listing->id)->where('communication_type','3')->get();
-        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails',$emails)->with('mobiles',$mobiles)->with('phones',$phones);
+        if ($step == 'listing_information') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
+            $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
+            $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
+            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones);
+        }
+        if ($step == 'listing_categories'){
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');    
+        }
     }
-    public function categories($reference)
-    {
-        $listing = Listing::where('reference', $reference)->firstorFail();
-        return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');
-    }
+    
 }

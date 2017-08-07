@@ -66,7 +66,7 @@ function listingInformation() {
 
 function validateListing(event) {
     var instance = $('#info-form').parsley();
-    checkDuplicates();
+    if (checkDuplicates()) return false;
     if (!instance.isValid()) return false;
     event.preventDefault();
     if ($('#listing_id').val() == "") {

@@ -1806,7 +1806,7 @@ input[type="checkbox"].toggle__check {
   .pos-fixed {
     position: fixed;
     background-color: #fff;
-    z-index: 2;
+    z-index: 1041;
     top: 0;
     width: 100%;
     margin: 0;
@@ -5142,6 +5142,7 @@ input[type="checkbox"].toggle__check {
   .note-row__text--status {
     margin-top: 15px;
     margin-left: 15px;
+    font-size: 1em;
   }
   .note-row.top-head {
     -webkit-box-align: start;
@@ -5150,6 +5151,9 @@ input[type="checkbox"].toggle__check {
             align-items: flex-start;
     margin-top: 15px;
     margin-bottom: 5px;
+  }
+  .fly-out-heading-size {
+    font-size: 1.25em;
   }
 }
 .preview-header {
@@ -5751,6 +5755,19 @@ input[type="checkbox"].toggle__check {
   }
   .business-cats .interested-options .interested-label {
     max-width: 100%;
+  }
+  .business-email .add-another,
+  .business-phone .add-another {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
+  .business-email .add-another:hover,
+  .business-phone .add-another:hover,
+  .business-email .add-another:focus,
+  .business-phone .add-another:focus {
+    color: #27b7b0;
   }
 }
 @media screen and (min-width: 650px) and (max-width: 768px) {
@@ -6749,6 +6766,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 @media screen and (max-width: 768px) {
   .verification-step-modal .modal-body {
     padding: 0;
+  }
+  .verification-step-modal .modal-content {
+    box-shadow: rgba(12, 12, 12, 0.5) 0 0 0 500px;
   }
   .verification-step-modal.in {
     display: -webkit-box !important;

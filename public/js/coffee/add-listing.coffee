@@ -229,7 +229,7 @@ $('body').on 'click', '.removeRow', ->
 setTimeout (->
   $('.listing-sections').addClass 'active'
   return
-), 3000
+), 1500
 
 
 $(document).on 'change', '.business-contact .toggle__check', ->

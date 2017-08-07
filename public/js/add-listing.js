@@ -247,7 +247,7 @@
 
   setTimeout((function() {
     $('.listing-sections').addClass('active');
-  }), 3000);
+  }), 1500);
 
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {

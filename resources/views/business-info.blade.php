@@ -3,7 +3,7 @@
 @section('form-data')
 
 <div class="business-info tab-pane fade in active" id="add_listing">
-    <h5 class="no-m-t">Business Information</h5>
+    <h5 class="no-m-t fly-out-heading-size">Business Information</h5>
     <div class="m-t-30 c-gap">
         <label>Tell us the name of your business <span class="text-primary">*</span></label>
         <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Business title is mandatory." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business title cannot be more than 255 characters.">

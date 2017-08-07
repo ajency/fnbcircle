@@ -46,6 +46,7 @@
     		&--status{
     			margin-top: 15px;
     			margin-left: 15px;
+    			font-size: 1em;
     		}
 		}
 		&.top-head{
@@ -53,6 +54,9 @@
     		margin-top: 15px;
     		margin-bottom: 5px;
 		}
+	}
+	.fly-out-heading-size{
+		font-size: 1.25em;
 	}
 }
 
@@ -600,6 +604,7 @@
 	}
 }
 
+
 .landline{
 	.input-row{
 		.fa{
@@ -680,6 +685,16 @@
 			.interested-label{
 				max-width: 100%;
 			}	
+		}
+	}
+	.business{
+		&-email,&-phone{
+			.add-another{
+				justify-content: flex-start;
+				&:hover,&:focus{
+					color: @accent-secondary;
+				}
+			}
 		}
 	}
 }
@@ -1670,6 +1685,9 @@ input[type='checkbox'].remove-addr{
 	.verification-step-modal{
 		.modal-body{
 			padding: 0;
+		}
+		.modal-content{
+			box-shadow: rgba(12, 12, 12, 0.5) 0 0 0 500px;
 		}
 		&.in{
     		display: flex !important;

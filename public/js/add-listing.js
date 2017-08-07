@@ -1,5 +1,5 @@
 (function() {
-  var checkDuplicates, getID, id, input, parent, verify;
+  var getID, id, input, parent, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -159,20 +159,17 @@
     }
   };
 
-  checkDuplicates = function() {
+  window.checkDuplicates = function() {
     var contacts, index, index1, others, value;
     contacts = document.getElementsByClassName('fnb-input');
     index = 0;
     while (index < contacts.length) {
       others = document.getElementsByClassName('fnb-input');
       value = contacts[index].value;
-      console.log('value=' + value);
       if (value !== '') {
         index1 = 0;
         while (index1 < others.length) {
           if (value === others[index1].value && index !== index1) {
-            console.log('DupValue=' + others[index1].value);
-            console.log('duplicate found');
             $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
             return true;
           }

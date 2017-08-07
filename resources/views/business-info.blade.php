@@ -86,11 +86,11 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" data-parsley-errors-container="#toggleError" @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required  @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
-                    <p class="m-b-0 text-color toggle-state">Visible on the listing</p>
+                    <p class="m-b-0 text-color toggle-state"> @if($listing->show_primary_email === null or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
                 </div>
                 <div id="toggleError"></div>
             </div>
@@ -122,7 +122,7 @@
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                        <p class="m-b-0 text-color toggle-state">@if($email->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
                     </div>
                     <i class="fa fa-times removeRow"></i>
                 </div>
@@ -227,7 +227,7 @@
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                        <p class="m-b-0 text-color toggle-state">@if($mobile->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
                     </div>
                     @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
                 </div>
@@ -293,7 +293,7 @@
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                        <p class="m-b-0 text-color toggle-state">@if($phone->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
                     </div>
                     @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
                 </div>

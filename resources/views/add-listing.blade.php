@@ -184,7 +184,7 @@
                                          @endif
                                     </p>
                                     <div class="gs-form tab-content">
-                                        
+                                        <form id="info-form">
                                         <!-- Business Information -->
                                         @yield('form-data')
                                         <!-- Business Information End -->

@@ -5310,10 +5310,6 @@ input[type="checkbox"].toggle__check {
     font-size: 1.15em;
   }
 }
-.business-phone .removeRow,
-.landline .removeRow {
-  top: -23px;
-}
 @media screen and (min-width: 769px) {
   .business-contact .verified {
     -webkit-box-pack: center;
@@ -6768,6 +6764,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
         -ms-flex-pack: center;
             justify-content: center;
   }
+}
+#toggleError {
+  margin: 10px 15px 0;
 }
 .profile-stats {
   color: #fff;

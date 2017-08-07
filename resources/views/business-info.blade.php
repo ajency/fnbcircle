@@ -78,12 +78,13 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
                     <p class="m-b-0 text-color toggle-state">Visible on the listing</p>
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         @foreach($emails as $email)
@@ -108,7 +109,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" @if($email->is_visible==1) checked @endif>
+                            <input type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" name="visible_contact" data-parsley-multiple="contacts" @if($email->is_visible==1) checked @endif>
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -116,6 +117,7 @@
                     </div>
                     <i class="fa fa-times removeRow"></i>
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         @endforeach
@@ -134,7 +136,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -142,6 +144,7 @@
                     </div>
                     <i class="fa fa-times removeRow"></i>
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
@@ -171,12 +174,13 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle no-m-t flex-row">
                     <div class="toggle m-l-10 m-r-10">
-                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                        <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>
                     <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         @endif
@@ -207,7 +211,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" @if($mobile->is_visible==1) checked @endif >
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" @if($mobile->is_visible==1) checked @endif >
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -215,6 +219,7 @@
                     </div>
                     @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         @endforeach
@@ -238,7 +243,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -246,6 +251,7 @@
                     </div>
                     <i class="fa fa-times removeRow"></i>
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         <a href="#" class="dark-link text-medium add-another">+ Add another phone number</a>
@@ -269,7 +275,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" @if($phone->is_visible==1) checked @endif>
+                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" @if($phone->is_visible==1) checked @endif>
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -277,6 +283,7 @@
                     </div>
                     @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
                 </div>
+                <div id="toggleError"></div>
             </div>
         </div>
         @endforeach

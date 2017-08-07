@@ -86,12 +86,7 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                     <div class="toggle m-l-10 m-r-10">
-<<<<<<< Updated upstream
-                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
-=======
-                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
-                        <div class=dupError ></div>
->>>>>>> Stashed changes
+                        <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-mincheck-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
                         <b class="switch"></b>
                         <b class="track"></b>
                     </div>

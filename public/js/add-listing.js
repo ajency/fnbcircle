@@ -172,6 +172,8 @@
           if (value === others[index1].value && index !== index1) {
             $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
             return true;
+          } else {
+            $(others[index1]).closest('.get-val').find('.dupError').html('');
           }
           ++index1;
         }
@@ -179,6 +181,11 @@
       ++index;
     }
   };
+
+  $(document).on('blur', '.fnb-input', function() {
+    checkDuplicates();
+    $('#info-form').parsley();
+  });
 
   $(document).on('click', '.verify-link', function() {
     event.preventDefault();

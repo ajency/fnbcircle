@@ -159,9 +159,18 @@ window.checkDuplicates = ->
           # console.log 'duplicate found'
           $(others[index1]).closest('.get-val').find('.dupError').html 'This is duplicate value'
           return true
+        else
+          $(others[index1]).closest('.get-val').find('.dupError').html ''
         ++index1
     ++index
   return
+
+$(document).on 'blur', '.fnb-input', ->
+	checkDuplicates()
+	$('#info-form').parsley()
+	return
+
+
 
 $(document).on 'click', '.verify-link', ->
 	event.preventDefault()

@@ -65,10 +65,10 @@ class Listing extends Model
         $this->type               = $type;
         $this->show_primary_phone = 0;
         $this->show_primary_email = $email;
-        $this->status             = self::DRAFT;
+        if($this->status == null) $this->status             = self::DRAFT;
         $this->owner_id           = "1";
         if($this->reference == null) $this->reference          = str_random(8);
-        $this->created_by         = "1";
+        if($this->created_by == null)$this->created_by         = "1";
         $this->save();
     }
 

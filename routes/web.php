@@ -19,12 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/listing', 'ListingController');
+// Route::resource('/listing', 'ListingController');
+Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+Route::get('listing/create','ListingController@create');
 
 // Route::get('/add_listing', function(){
 //     return view('business-info');
 // });
-
+Route::post('/listing','ListingController@store');
 Route::post('/duplicates','ListingController@findDuplicates');
 Route::post('/contact_save','ListingController@saveContact');
 Route::post('/create_OTP','ListingController@createOTP');

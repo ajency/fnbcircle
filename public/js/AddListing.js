@@ -66,6 +66,7 @@ function listingInformation() {
 
 function validateListing(event) {
     var instance = $('#info-form').parsley();
+    if (checkDuplicates()) return false;
     if (!instance.isValid()) return false;
     event.preventDefault();
     if ($('#listing_id').val() == "") {
@@ -115,3 +116,10 @@ function validateListing(event) {
         listingInformation();
     }
 }
+$('#info-form').on('keyup keypress', function(e) {
+  var keyCode = e.keyCode || e.which;
+  if (keyCode === 13) { 
+    e.preventDefault();
+    return false;
+  }
+});

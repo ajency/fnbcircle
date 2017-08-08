@@ -131,22 +131,22 @@
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="">
-                                    <a href="#" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'listing_information') /listing/{{$listing->reference}}/edit?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="/business-categories" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'listing_categories') /listing/{{$listing->reference}}/edit/listing_categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="/business-location" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="/business-details" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="#" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="/business-photos" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="#" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="/business-premium" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="#" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                             <div class="view-sample m-t-20 m-b-20">
@@ -169,8 +169,8 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out slide-bg listing-sections">
-                                <div class="mobile-back desk-hide mobile-flex">
+                            <div class="pos-fixed fly-out slide-bg listing-sections @if(isset($_GET['step']))active @endif">
+                                <div class="mobile-back desk-hide mobile-flex"> 
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                         <p class="element-title heavier m-b-0">Back</p>

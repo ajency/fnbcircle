@@ -228,6 +228,9 @@ $(function(){
 	    	var coreCat = $('.detach-col-1').detach();
 			$('.sell-re').after(coreCat);
 
+			var businessListing = $('.businessListing').detach();
+			$('.addShow').after(businessListing);
+			
 			$('.filter-data').each(function(){
 
 				var detailrow = $(this).find('.recent-updates__content');
@@ -239,13 +242,17 @@ $(function(){
 				$(recentrow).append(recentData);
 
 				var publishedAdd = $(this).find('.stats');
-				var publisherow = $(this).find('.published-date').detach();
+				var publisherow = $(this).find('.rat-pub').detach();
 				$(publishedAdd).append(publisherow);
+
+				var power = $(this).find('.power-seller-container');
+				var powerseller = $(this).find('.power-seller').detach();
+				$(power).append(powerseller);
 
 			});
 
 
-			var advAdd = $('.advertisement').detach();
+			var advAdd = $('.adv-row').detach();
 			$('.adv-after').append(advAdd);
 
 			$('#lookingfor').removeClass('in');
@@ -320,6 +327,7 @@ $(function(){
 		$(".recent-updates__text").click(function() {
 		    $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle('slow');
 		    $(this).toggleClass('active');
+		    $(this).find('.arrowDown').toggleClass('fa-rotate-180');
 		});
 
 		// Tags call
@@ -428,6 +436,7 @@ $(function(){
 		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
 		  }
 		});
+
 
 
 });

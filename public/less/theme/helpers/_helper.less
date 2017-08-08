@@ -218,6 +218,8 @@
   }
 }
 
+// smaller version of rating
+
 .rating.rating-small{
     width: 86px;
     height: 20px;
@@ -228,6 +230,17 @@
     }
 }
 
+
+.default-size{
+  font-size: 1em;
+}
+
+.verified{
+  &-mini{
+    transform: scale(0.6);
+    width: 28px;
+  }  
+}
 
 
 .blocked{
@@ -259,6 +272,9 @@
 .parsley-errors-list li,.dupError{
   color: #ff353b;
   font-size: 0.95em;
+  @media screen and (max-width: 650px){
+    font-size: 0.85em;
+  }
 }
 
 

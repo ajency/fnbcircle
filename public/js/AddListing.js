@@ -67,10 +67,12 @@ function listingInformation() {
 function validateListing(event) {
     var instance = $('#info-form').parsley();
     if (checkDuplicates()) return false;
+    // console.log(true);
     if (!instance.isValid()) return false;
-    event.preventDefault();
+   
+    console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {
-        // console.log(true);
+        console.log(true);
         var title = document.getElementsByName("listing_title")[0].value;
         var value = document.getElementsByName("contacts");
         var json = '[';

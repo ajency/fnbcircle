@@ -213,12 +213,24 @@ $('.code-send').click ->
   # $('.processing').removeClass 'hidden'
   errordiv=$(this).closest('.code-submit').find('.validationError')
   inp=$(this).closest('.code-submit').find('.fnb-input')
+  inp.attr('data-parsley-required','true')
+  inp.attr('data-parsley-type','digits')
+  inp.attr('data-parsley-length','[4,4]')
   validator=inp.parsley()
   if validator.isValid() != true 
     # console.log 'gandu'
-    errordiv.html('OTP is Invalid');
+    if inp.val()==''
+      errordiv.html 'Please enter OTP'
+    else
+      errordiv.html('OTP is Invalid');
     inp.val('')
+    inp.removeAttr('data-parsley-required')
+    inp.removeAttr('data-parsley-type')
+    inp.removeAttr('data-parsley-length')
     return false
+  inp.removeAttr('data-parsley-required')
+  inp.removeAttr('data-parsley-type')
+  inp.removeAttr('data-parsley-length')
   OTP = inp.val()
   $.ajax
     type: 'post'

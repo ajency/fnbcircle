@@ -352,7 +352,7 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input type="password" class="fnb-input text-color" placeholder="Enter code here..." data-parsley-required data-parsley-type="digits" data-parsley-length="[4,4]">
+                            <input type="password" class="fnb-input text-color" placeholder="Enter code here..." >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                              <div class="validationError" ></div>
                         </div>
@@ -421,7 +421,7 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..." data-parsley-required data-parsley-type="digits" data-parsley-length="[4,4]" >
+                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                             <div class="validationError" ></div>
                         </div>

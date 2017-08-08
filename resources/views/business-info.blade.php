@@ -378,6 +378,13 @@
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
+                <div class="verify-steps step-failure hidden">
+                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <div class="number-code">
+                        <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer verificationFooter">
                 <div class="resend-code sub-title text-color">
@@ -436,6 +443,13 @@
                     <h6 class="sub-title">Your email has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
+                    </div>
+                </div>
+                <div class="verify-steps step-failure hidden">
+                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <div class="number-code">
+                        <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
                     </div>
                 </div>
             </div>

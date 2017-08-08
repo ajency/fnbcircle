@@ -170,7 +170,7 @@
         index1 = 0;
         while (index1 < others.length) {
           if (value === others[index1].value && index !== index1) {
-            $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
+            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail added multiple times.');
             return true;
           } else {
             $(others[index1]).closest('.get-val').find('.dupError').html('');

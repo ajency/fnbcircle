@@ -157,7 +157,7 @@ window.checkDuplicates = ->
         if value == others[index1].value and index != index1
           # console.log 'DupValue=' + others[index1].value
           # console.log 'duplicate found'
-          $(others[index1]).closest('.get-val').find('.dupError').html 'This is duplicate value'
+          $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail added multiple times.'
           return true
         else
           $(others[index1]).closest('.get-val').find('.dupError').html ''

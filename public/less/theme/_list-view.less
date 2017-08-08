@@ -35,11 +35,12 @@
     }
     .fnb-select{
     	color: @text-color;
+    	font-size: 1.1em;
     }
     .fnb-input{
     	border-bottom: 0;
     	padding-left: 0.5em;
-    	font-size: 1.2em;
+    	font-size: 1.1em;
     	font-weight: 300;
     	color: @text-color;
     	&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
@@ -342,6 +343,18 @@
     		transform: rotate(-45deg);
     	}
     }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1399px){
+	.boost-row{
+	    &__title{
+	    	font-size: 0.85em;
+	    	padding-right: 5px;
+	    }
+	    .s-outline{
+	    	padding: 0.5em 0.6em;
+	    }
+	}
 }
 
 

@@ -4293,11 +4293,12 @@ input[type="checkbox"].toggle__check {
 }
 .search-section .fnb-select {
   color: #6b6b6b;
+  font-size: 1.1em;
 }
 .search-section .fnb-input {
   border-bottom: 0;
   padding-left: 0.5em;
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 300;
   color: #6b6b6b;
 }
@@ -4609,6 +4610,15 @@ input[type="checkbox"].toggle__check {
   -webkit-transform: rotate(-45deg);
       -ms-transform: rotate(-45deg);
           transform: rotate(-45deg);
+}
+@media screen and (min-width: 1024px) and (max-width: 1399px) {
+  .boost-row__title {
+    font-size: 0.85em;
+    padding-right: 5px;
+  }
+  .boost-row .s-outline {
+    padding: 0.5em 0.6em;
+  }
 }
 .white-space {
   padding: 1.2em 1.5em;

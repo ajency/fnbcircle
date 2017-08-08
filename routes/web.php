@@ -32,7 +32,9 @@ Route::post('/contact_save','ListingController@saveContact');
 Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
 
-Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
+Route::post('/get_clildren','ListingController@getCategories');
+
+// Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 
 Route::get('/business-location', function(){
     return view('location');

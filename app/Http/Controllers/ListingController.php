@@ -6,6 +6,7 @@ use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingBrand;
+use App\Category;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
@@ -268,6 +269,28 @@ class ListingController extends Controller
         $brands = json_decode($request->brands);
 
         $this->saveListingCategories($request->listing_id, $categories, $brands);
+    }
+
+    public function getCategories(Request $request){
+        $this->validate($request, [
+            'parent'=>'id_json|not_empty_json|required',
+        ]);
+        $children = array();
+        $parents = json_decode($request->parent);
+        foreach ($parents as $parent) {
+            if (!Common::verify_id($parent->id, 'categories')) {
+                return \Redirect::back()->withErrors(array('no_categ' => 'parent id is fabricated. Id doesnt exist'));
+            }
+        }
+        foreach($parents as $parent){
+            $child=Category::where('parent_id',$parent->id)->get();
+            $child_array = array();
+            foreach ($child as $ch) {
+                $child_array[$ch->id] = $ch->name;
+            }
+            $children[]=$child_array;
+        }
+        return response()->json($children);
     }
 
     //------------------------step 3 --------------------

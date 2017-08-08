@@ -227,6 +227,8 @@ $('.code-send').click ->
         $(input).closest('.get-val').find('.verified').html '<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>'
         $(input).attr('readonly',true)
       else
+        $('.processing').addClass 'hidden'
+        $('.step-failure').removeClass 'hidden'
       return
     error: (request, status, error) ->
       id.val ''

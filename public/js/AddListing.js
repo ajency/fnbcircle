@@ -69,10 +69,10 @@ function validateListing(event) {
     if (checkDuplicates()) return false;
     // console.log(true);
     if (!instance.isValid()) return false;
-   
-    console.log($('#listing_id').val());
+   $('.site-loader').removeClass('hidden');
+    // console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {
-        console.log(true);
+        // console.log(true);
         var title = document.getElementsByName("listing_title")[0].value;
         var value = document.getElementsByName("contacts");
         var json = '[';

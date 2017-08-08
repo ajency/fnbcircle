@@ -382,7 +382,7 @@
                     <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Some problem occurred!!!</h6>
                     <div class="number-code">
-                        <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
+                        <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

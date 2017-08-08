@@ -343,7 +343,7 @@
                 <div class="verify-steps default-state">
                     <img src="../../img/number-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Phone number verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your number via sms.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your number via sms.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -352,9 +352,11 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input type="password" class="fnb-input text-color" placeholder="Enter code here..." data-parsley-required data-parsley-type="digits" data-parsley-length="[4,4]">
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                             <div class="validationError" ></div>
                         </div>
+                       
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
@@ -380,7 +382,7 @@
                 </div>
                 <div class="verify-steps step-failure hidden">
                     <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
                     </div>
@@ -410,7 +412,7 @@
                 <div class="verify-steps default-state">
                     <img src="../../img/email-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Email verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your email address.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your email address.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -419,8 +421,9 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..." data-parsley-required data-parsley-type="digits" data-parsley-length="[4,4]" >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                            <div class="validationError" ></div>
                         </div>
                     </div>
                 </div>
@@ -447,7 +450,7 @@
                 </div>
                 <div class="verify-steps step-failure hidden">
                     <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
                     </div>

@@ -3070,6 +3070,10 @@ input[type="checkbox"].toggle__check {
     -webkit-transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
             transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
+  .fly-out.no-transition {
+    -webkit-transition: inherit;
+            transition: inherit;
+  }
   .fly-out .mobile-back {
     padding: 15px;
     background-color: #fff;

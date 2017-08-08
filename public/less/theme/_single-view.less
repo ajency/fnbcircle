@@ -1330,6 +1330,9 @@
 	.fly-out{
 		transform: translateX(100%);
 		transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+		&.no-transition{
+			transition: inherit;
+		}
 		.mobile-back{
 			padding: 15px;
     		background-color: #fff;

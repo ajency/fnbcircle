@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out slide-bg listing-sections @if(isset($_GET['step']))active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg listing-sections @if(isset($_GET['step']))active @endif">
                                 <div class="mobile-back desk-hide mobile-flex"> 
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>

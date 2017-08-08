@@ -184,6 +184,9 @@
                                          @endif
                                     </p>
                                     <div class="gs-form tab-content">
+                                        <div class="site-loader section-loader hidden">
+                                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                        </div>
                                         <form id="info-form">
                                         <!-- Business Information -->
                                         @yield('form-data')

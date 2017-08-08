@@ -285,6 +285,7 @@
     top: 0;
     height: 100%;
     width: 100%;
+    z-index: 2;
     left: 0;
     background-color: rgba(255, 255, 255, 0.88);
     color: @accent-primary;
@@ -292,6 +293,10 @@
     align-items: center;
     justify-content: center;
     font-size: 1.4em;
+    &.section-loader{
+      position: absolute;
+      z-index: 1;
+    }
 }
 
 

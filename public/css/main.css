@@ -4305,23 +4305,21 @@ input[type="checkbox"].toggle__check {
 }
 .search-section .fnb-select {
   color: #6b6b6b;
-  font-size: 1.1em;
+  font-size: 1.05em;
 }
 .search-section .fnb-input {
   border-bottom: 0;
   padding-left: 0.5em;
-  font-size: 1.1em;
-  font-weight: 300;
+  font-size: 1.05em;
+  font-weight: 400;
   color: #6b6b6b;
 }
 .search-section .fnb-input::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  font-weight: 400;
   color: #6b6b6b;
 }
 .search-section .fnb-input::-moz-placeholder {
   /* Firefox 19+ */
-  font-weight: 400;
   color: #6b6b6b;
 }
 .search-section .tab-con {
@@ -4733,6 +4731,7 @@ input[type="checkbox"].toggle__check {
 .filter-cards .cities .remain__number {
   font-weight: 400;
   font-size: 1em;
+  padding-left: 0;
 }
 .filter-cards .enquiries__count {
   -webkit-box-flex: 0.6;
@@ -4778,7 +4777,7 @@ input[type="checkbox"].toggle__check {
   font-size: 1em;
 }
 .filter-cards .operations__title {
-  margin-top: 2.5em;
+  margin-top: 2em;
 }
 .power-seller {
   margin-left: auto;

@@ -16,12 +16,48 @@
   });
 
   $('body').on('click', 'input:radio[name=\'categories\']', function() {
-    var cat_icon, cat_name;
+    var cat_icon, cat_name, id, obj;
     cat_name = $(this).data('name');
     $('.main-cat-name').html(cat_name);
     cat_icon = $(this).closest('li').find('.cat-icon').clone().addClass('m-r-15');
     $('.sub-category .cat-name').find('.cat-icon').remove();
-    return $('.sub-category .cat-name').prepend(cat_icon);
+    $('.sub-category .cat-name').prepend(cat_icon);
+    $('.categ-list').html('');
+    $('.mobile-categories').html('');
+    id = $(this).val();
+    obj = {};
+    obj[0] = {
+      "id": id
+    };
+    $.ajax({
+      type: 'post',
+      url: '/get_categories',
+      data: {
+        'parent': JSON.stringify(obj)
+      },
+      success: function(data) {
+        var html, html_mob, i, key;
+        console.log(data);
+        html = '';
+        html_mob = '';
+        i = 0;
+        for (key in data[0]) {
+          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + data[0][key] + '"  name="' + key + '" aria-expanded="false" aria-controls="' + data[0][key] + '">' + data[0][key] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+          if (i === 0) {
+            html_mob += ' active';
+          }
+          html_mob += '" id="' + data[0][key] + '" name="' + key + '">' + data[0][key] + '</div>';
+          html += '<li role="presentation"';
+          if (i === 0) {
+            html += ' class="active"';
+          }
+          html += '><a href="#' + data[0][key] + '"  name="' + key + '" aria-controls="' + data[0][key] + '" role="tab" data-toggle="tab">' + data[0][key] + '</a></li>';
+          i++;
+        }
+        $('.categ-list').html(html);
+        $('.mobile-categories').html(html_mob);
+      }
+    });
   });
 
   $('body').on('click', '.sub-category-back', function() {

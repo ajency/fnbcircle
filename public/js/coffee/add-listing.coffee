@@ -10,20 +10,47 @@ $('.dropify').dropify messages: 'default': 'Add Photo'
 
 # Add/Edit categories
 $('body').on 'click', 'input:radio[name=\'categories\']', ->
-	# Toggle wrappers
-	# $('.main-category').addClass 'hidden'
-	# $('.sub-category').addClass 'shown'
-	# Update category name
-	cat_name = $(this).data('name')
-	$('.main-cat-name').html(cat_name)
-	# Update icon
-	cat_icon = $(this).closest('li').find('.cat-icon').clone().addClass 'm-r-15'
-	$('.sub-category .cat-name').find('.cat-icon').remove()
-	$('.sub-category .cat-name').prepend(cat_icon)
+  cat_name = $(this).data('name')
+  $('.main-cat-name').html(cat_name)
+  # Update icon
+  cat_icon = $(this).closest('li').find('.cat-icon').clone().addClass 'm-r-15'
+  $('.sub-category .cat-name').find('.cat-icon').remove()
+  $('.sub-category .cat-name').prepend(cat_icon)
+  $('.categ-list').html ''
+  $('.mobile-categories').html ''
+  id = $(this).val()
+  obj={}
+  obj[0] = {"id":id}
+  $.ajax
+    type: 'post'
+    url: '/get_categories'
+    data: {
+      'parent' : JSON.stringify(obj)
+    }
+    success: (data) ->
+      console.log data
+      html = ''
+      html_mob = ''
+      i = 0
+      for key of data[0]
+        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + data[0][key] + '"  name="' + key + '" aria-expanded="false" aria-controls="' + data[0][key] + '">' + data[0][key] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+        if i == 0
+          html_mob += ' active' 
+        html_mob += '" id="' + data[0][key] + '" name="' + key + '">' + data[0][key] + '</div>'
+        html += '<li role="presentation"'
+        if i == 0
+          html += ' class="active"'
+        html += '><a href="#' + data[0][key] + '"  name="' + key + '" aria-controls="' + data[0][key] + '" role="tab" data-toggle="tab">' + data[0][key] + '</a></li>'
+        i++
+      $('.categ-list').html html
+      $('.mobile-categories').html html_mob
+      return
+  return
+
 
 $('body').on 'click', '.sub-category-back', ->
-	$('.main-category').removeClass 'hidden'
-	$('.sub-category').removeClass 'shown'
+  $('.main-category').removeClass 'hidden'
+  $('.sub-category').removeClass 'shown'
 
 # detaching sections
 if $(window).width() <= 768

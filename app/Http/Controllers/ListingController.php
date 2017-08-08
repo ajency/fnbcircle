@@ -513,7 +513,8 @@ class ListingController extends Controller
         }
         if ($step == 'listing_categories'){
             $listing = Listing::where('reference', $reference)->firstorFail();
-            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');    
+            $parent_categ = Category::whereNull('parent_id')->get();
+            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories')->with('parents',$parent_categ);    
         }
     }
     

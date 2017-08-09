@@ -32,7 +32,7 @@ Route::post('/contact_save','ListingController@saveContact');
 Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
 
-Route::post('/get_clildren','ListingController@getCategories');
+Route::post('/get_categories','ListingController@getCategories');
 
 // Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 

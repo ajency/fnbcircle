@@ -385,7 +385,7 @@
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="../../img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">

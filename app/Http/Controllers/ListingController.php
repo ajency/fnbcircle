@@ -75,7 +75,7 @@ class ListingController extends Controller
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);
         }
-        return redirect('/listing/' . $listing->reference . '/edit/business-categories?success=true');
+        return redirect('/listing/' . $listing->reference . '/edit/business-categories?success=true&step=true');
     }
     public function saveContact(Request $request)
     {

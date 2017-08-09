@@ -3,11 +3,19 @@
 @section('form-data')
 
 <!-- failure message-->
-
-<div class="alert fnb-alert alert-failure alert-dismissible fade in hidden" role="alert">
+@if ($errors->any())
+<div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
     Oh snap! You got an error! Please check all the required fields.
+    <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
 </div>
+
+    @endif
+
 
 
 <div class="business-info tab-pane fade in active" id="add_listing">
@@ -89,7 +97,7 @@
     </div>
 
     <!-- email -->
-    
+
     <div class="m-t-20 business-email business-contact">
         <label>Enter your business email address <span class="text-primary">*</span></label>
         <div class="row p-t-10 p-b-10 no-m-b">
@@ -195,10 +203,10 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    
+
                     <a href="#" class="dark-link verify-link">Verify now</a>
                     <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                   
+
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">

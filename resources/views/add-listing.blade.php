@@ -192,12 +192,12 @@
                                     @if ($errors->any())
                                     <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                        Oh snap! You got an error! Please check all the required fields.
-                                        <ul>
+                                         Oh snap! Some error occurred. Please check all the details and proceed.
+                                        <!-- <ul>
                                                   @foreach ($errors->all() as $error)
                                                       <li>{{ $error }}</li>
                                                   @endforeach
-                                              </ul>
+                                              </ul> -->
                                     </div>
 
                                         @endif

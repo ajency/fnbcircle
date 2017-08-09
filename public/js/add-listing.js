@@ -243,6 +243,7 @@
     $('.show-number .number').text(get_value);
     $(input).val(get_value);
     $('.value-enter').val('');
+    $('.validationError').html('');
     verify();
   });
 
@@ -287,12 +288,12 @@
           $(input).attr('readonly', true);
         } else {
           inp.val('');
-          errordiv.html('Validation Failed');
+          errordiv.html('OTP is Invalid');
         }
       },
       error: function(request, status, error) {
         inp.val('');
-        errordiv.html('Validation Failed');
+        errordiv.html('OTP is Invalid');
       },
       async: false
     });
@@ -324,6 +325,26 @@
     } else {
       $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
     }
+  });
+
+  $(document).on('change', '.city select', function() {
+    var city;
+    city = $(this).val();
+    return $.ajax({
+      type: 'post',
+      url: '/get_areas',
+      data: {
+        'city': city
+      },
+      success: function(data) {
+        var html, key;
+        html = '<option value="" selected>Select Area </option>';
+        for (key in data) {
+          html += '<option value="' + key + '">' + data[key] + '</option>';
+        }
+        $('.area select').html(html);
+      }
+    });
   });
 
 }).call(this);

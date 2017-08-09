@@ -59,22 +59,20 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label>Where is the business located?</label>
+        <label>Where is the business located?<span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter">
+                <select class="fnb-select select-variant form-control text-lighter" name="city" required>
                     <option>Select city</option>
-                    <option>Mumbai</option>
-                    <option>Delhi</option>
-                    <option>Goa</option>
+                    @foreach($cities as $city)
+                        <option value="{{$city->id}}"@if(isset($area) and $area->city_id == $city->id) selected @endif>{{$city->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter">
-                    <option>Select area</option>
-                    <option>Dadar</option>
-                    <option>Bandra</option>
-                    <option>Borivili</option>
+                <select class="fnb-select select-variant form-control text-lighter" required>
+                    <option value="">Select area</option>
+                    @if(isset($area))<option value="{{$area->id}}" selected>{{$area->name}}</option>@endif
                 </select>
             </div>
         </div>
@@ -288,7 +286,7 @@
                 <div id="toggleError"></div>
             </div>
         </div>
-        <a href="#" class="dark-link text-medium add-another">+ Add another phone number</a>
+        <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
     </div>
 
     <!-- landline -->

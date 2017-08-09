@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\ListingCategory;
 
 class Listing extends Model
 {
@@ -51,7 +52,9 @@ class Listing extends Model
     }
     public function isReviewable()
     {
-        if (!empty($this->title) and !empty($this->type) and !empty($this->locality_id) and !empty($this->categories)) {
+        if (!empty($this->title) and !empty($this->type) and !empty($this->locality_id)) {
+            $category=ListingCategory::where('listing_id',$this->id)->count();
+            if($category<1) return false;
             return true;
         } else {
             return false;
@@ -59,12 +62,13 @@ class Listing extends Model
 
     }
 
-    public function saveInformation($title, $type, $email)
+    public function saveInformation($title, $type, $email,$area)
     {
         $this->title              = $title;
         $this->type               = $type;
         $this->show_primary_phone = 0;
         $this->show_primary_email = $email;
+        $this->locality_id = $area;
         if($this->status == null) $this->status             = self::DRAFT;
         $this->owner_id           = "1";
         if($this->reference == null) $this->reference          = str_random(8);

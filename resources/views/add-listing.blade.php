@@ -188,24 +188,9 @@
                                             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                                         </div> -->
                                         <form id="info-form">
-                                        <!-- Business Information -->
+                                       
                                         @yield('form-data')
-                                        <!-- Business Information End -->
-                                        <!-- Business Categories -->
-                                        <!-- @yield('business-categories') -->
-                                        <!-- Business Categories End -->
-                                        <!-- Business Details -->
-                                        <!-- @yield('business-details') -->
-                                        <!-- Business Details End-->
-                                        <!-- Location & hours -->
-                                        <!-- @yield('location') -->
-                                        <!-- Location & hours End -->
-                                        <!-- Photos -->
-                                        <!-- @yield('photos') -->
-                                        <!-- Photos End -->
-                                        <!-- Go Premium -->
-                                        <!-- @yield('premium') -->
-                                        <!-- Go Premium End -->
+                                       
                                         <!-- Submit for review section -->
                                         <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable())

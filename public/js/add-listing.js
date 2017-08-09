@@ -170,7 +170,7 @@
         index1 = 0;
         while (index1 < others.length) {
           if (value === others[index1].value && index !== index1) {
-            $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
+            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail added multiple times.');
             return true;
           } else {
             $(others[index1]).closest('.get-val').find('.dupError').html('');
@@ -213,8 +213,29 @@
   });
 
   $('.verify-stuff').click(function() {
-    var get_value;
+    var get_value, inp, validator;
     event.preventDefault();
+    inp = $(this).siblings('.value-enter');
+    inp.attr('data-parsley-required', 'true');
+    if (parent.hasClass('business-email')) {
+      inp.attr('data-parsley-type', 'email');
+    } else {
+      inp.attr('data-parsley-type', 'digits');
+      inp.attr('data-parsley-length', '[10,10]');
+      inp.attr('data-parsley-length-message', 'Mobile number should be 10 digits');
+    }
+    validator = inp.parsley();
+    if (validator.validate() !== true) {
+      inp.removeAttr('data-parsley-required');
+      inp.removeAttr('data-parsley-type');
+      inp.removeAttr('data-parsley-length');
+      inp.removeAttr('data-parsley-length-message');
+      return false;
+    }
+    inp.removeAttr('data-parsley-required');
+    inp.removeAttr('data-parsley-type');
+    inp.removeAttr('data-parsley-length');
+    inp.removeAttr('data-parsley-length-message');
     $('.default-state').removeClass('hidden');
     $('.add-number').addClass('hidden');
     $('.verificationFooter').removeClass('no-bg');
@@ -226,10 +247,29 @@
   });
 
   $('.code-send').click(function() {
-    var OTP;
-    $('.default-state,.add-number,.verificationFooter').addClass('hidden');
-    $('.processing').removeClass('hidden');
-    OTP = $(this).closest('.code-submit').find('.fnb-input').val();
+    var OTP, errordiv, inp, validator;
+    errordiv = $(this).closest('.code-submit').find('.validationError');
+    inp = $(this).closest('.code-submit').find('.fnb-input');
+    inp.attr('data-parsley-required', 'true');
+    inp.attr('data-parsley-type', 'digits');
+    inp.attr('data-parsley-length', '[4,4]');
+    validator = inp.parsley();
+    if (validator.isValid() !== true) {
+      if (inp.val() === '') {
+        errordiv.html('Please enter OTP');
+      } else {
+        errordiv.html('OTP is Invalid');
+      }
+      inp.val('');
+      inp.removeAttr('data-parsley-required');
+      inp.removeAttr('data-parsley-type');
+      inp.removeAttr('data-parsley-length');
+      return false;
+    }
+    inp.removeAttr('data-parsley-required');
+    inp.removeAttr('data-parsley-type');
+    inp.removeAttr('data-parsley-length');
+    OTP = inp.val();
     $.ajax({
       type: 'post',
       url: '/validate_OTP',
@@ -239,20 +279,20 @@
       },
       success: function(data) {
         if (data['success'] === "1") {
+          errordiv.html('');
+          $('.default-state,.add-number,.verificationFooter').addClass('hidden');
           $('.processing').addClass('hidden');
           $('.step-success').removeClass('hidden');
           $(input).closest('.get-val').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
           $(input).attr('readonly', true);
         } else {
-          $('.processing').addClass('hidden');
-          $('.step-failure').removeClass('hidden');
+          inp.val('');
+          errordiv.html('Validation Failed');
         }
       },
       error: function(request, status, error) {
-        id.val('');
-        $('#email-modal').modal('hide');
-        $('#phone-modal').modal('hide');
-        alert('OTP failed. Try Again');
+        inp.val('');
+        errordiv.html('Validation Failed');
       },
       async: false
     });

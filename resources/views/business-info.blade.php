@@ -190,7 +190,7 @@
             <div class="col-sm-5">
                 <div class="input-row">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                     <div class=dupError ></div>
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
@@ -326,7 +326,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-length-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-length-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
                     <div class=dupError ></div>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
@@ -364,7 +364,7 @@
                 <div class="verify-steps default-state">
                     <img src="../../img/number-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Phone number verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your number via sms.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your number via sms.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -373,9 +373,11 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input type="password" class="fnb-input text-color" placeholder="Enter code here..." >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                             <div class="validationError" ></div>
                         </div>
+                       
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
@@ -401,7 +403,7 @@
                 </div>
                 <div class="verify-steps step-failure hidden">
                     <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
                     </div>
@@ -431,7 +433,7 @@
                 <div class="verify-steps default-state">
                     <img src="../../img/email-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Email verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your email address.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your email address.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -440,8 +442,9 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                            <div class="validationError" ></div>
                         </div>
                     </div>
                 </div>
@@ -468,7 +471,7 @@
                 </div>
                 <div class="verify-steps step-failure hidden">
                     <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
                     </div>

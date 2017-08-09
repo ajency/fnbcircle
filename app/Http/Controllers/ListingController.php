@@ -68,7 +68,7 @@ class ListingController extends Controller
         }
 
         $listing->saveInformation($data->title, $data->type, $data->primary_email);
-        // ListingCommunication::where('listing_id', $listing->id)->delete();
+        ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);

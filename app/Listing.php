@@ -61,7 +61,7 @@ class Listing extends Model
 
     public function saveInformation($title, $type, $email)
     {
-        $this->title              = title_case($title);
+        $this->title              = $title;
         $this->type               = $type;
         $this->show_primary_phone = 0;
         $this->show_primary_email = $email;

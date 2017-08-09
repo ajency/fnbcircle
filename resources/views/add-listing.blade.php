@@ -298,7 +298,7 @@
                 </div>
             </div>
         </div>
-        <div class="site-loader hidden">
+        <div class="site-loader full-loader hidden">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         </div>
         <div class="site-overlay"></div>

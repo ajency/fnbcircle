@@ -58,7 +58,28 @@
             The right business type will get you the right enquiries. A listing can be only of one type.
         </div>
     </div>
-    <div class="m-t-50 flex-row c-gap">
+    <div class="m-t-40 c-gap">
+        <label>Where is the business located?</label>
+        <div class="location-select flex-row flex-wrap">
+            <div class="select-col city">
+                <select class="fnb-select select-variant form-control text-lighter">
+                    <option>Select city</option>
+                    <option>Mumbai</option>
+                    <option>Delhi</option>
+                    <option>Goa</option>
+                </select>
+            </div>
+            <div class="select-col area">
+                <select class="fnb-select select-variant form-control text-lighter">
+                    <option>Select area</option>
+                    <option>Dadar</option>
+                    <option>Bandra</option>
+                    <option>Borivili</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="m-t-20 flex-row c-gap">
         <span class="fnb-icons contact mobile-hide"></span>
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
         <div class="m-l-10 no-m-l">

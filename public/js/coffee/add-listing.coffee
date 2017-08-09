@@ -78,6 +78,21 @@ $('body').on 'click', '.add-another', (e)->
 	input.attr('data-parsley-required',true)
 	contact_group_clone.insertBefore(contact_group)
 
+
+# 	catAdd = $(this).closest('.business-cats').find('.add-more-cat')
+# 	catAdd_group = catAdd.clone()
+# 	catAdd_group.removeClass 'add-more-cat hidden'
+# 	catAdd_group.insertBefore(catAdd)
+
+# Remove Category
+
+$('body').on 'click', '.delete-cat', ->
+	$(this).closest('.single-category').remove()
+
+$('body').on 'click', '.fnb-cat .remove', ->
+	$(this).closest('.fnb-cat__title').parent().remove()
+
+
 $('body').on 'click', '.review-submit', (e)->
 	e.preventDefault()
 	$('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary')

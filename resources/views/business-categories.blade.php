@@ -13,7 +13,7 @@
     <h5 class="no-m-t">Business Categories</h5>
     <div class="m-t-30 c-gap">
         <label>List of all the categories for your listing</label>
-        <div class="single-category gray-border">
+        <div class="single-category gray-border m-t-15">
             <div class="row flex-row categoryContainer">
                 <div class="col-sm-4 flex-row">
                     <span class="fnb-icons cat-icon meat"></span>
@@ -44,6 +44,42 @@
                 <span class="fa fa-times remove"></span>
             </div>
         </div>
+
+        <div class="single-category gray-border add-more-cat m-t-15 hidden">
+            <div class="row flex-row categoryContainer">
+                <div class="col-sm-4 flex-row">
+                    <span class="fnb-icons cat-icon meat"></span>
+                    <div class="branch-row">
+                        <div class="cat-label">Meat &amp; Poultry</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <strong class="branch">Mutton</strong>
+                </div>
+                <div class="col-sm-6">
+                    <ul class="fnb-cat small flex-row">
+                        <li><span class="fnb-cat__title">Al Kabeer <span class="fa fa-times remove"></span></span>
+                        </li>
+                        <li><span class="fnb-cat__title">Pandiyan <span class="fa fa-times remove"></span></span>
+                        </li>
+                        <li><span class="fnb-cat__title">Ezzy <span class="fa fa-times remove"></span></span>
+                        </li>
+                        <li><span class="fnb-cat__title">Royco <span class="fa fa-times remove"></span></span>
+                        </li>
+                        <li><span class="fnb-cat__title">Venkys <span class="fa fa-times remove"></span></span>
+                        </li>
+                        <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="delete-cat">
+                <span class="fa fa-times remove"></span>
+            </div>
+        </div>
+
+        <!-- <div class="test">test</div> -->
+
+
         <div class="m-t-20">
             <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier">+ Add/Edit more categories</a>
         </div>
@@ -153,7 +189,7 @@
                             <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
                         </div> -->
                         <div class="add-container">
-                            <h5 class="text-medium">Select categories your listing belongs to <span class="text-primary">*</span></h5>
+                            <h5 class="text-medium element-title">Select categories your listing belongs to <span class="text-primary">*</span></h5>
                             <div class="text-lighter">
                                 One category at a time
                             </div>
@@ -196,10 +232,10 @@
                             <button class="btn fnb-btn outline border-btn">save</button>
                         </div> -->
                         <div class="instructions">
-                            <p class="instructions__title bat-color">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
+                            <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
                             <div class="cat-name flex-row">
                                 <span class="fnb-icons cat-icon meat m-r-15"></span>
-                                <h5 class="cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
+                                <h5 class="element-title cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
                             </div>
                         </div>
                         <div class="node-select flex-row">

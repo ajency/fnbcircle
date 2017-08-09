@@ -88,6 +88,14 @@
     return contact_group_clone.insertBefore(contact_group);
   });
 
+  $('body').on('click', '.delete-cat', function() {
+    return $(this).closest('.single-category').remove();
+  });
+
+  $('body').on('click', '.fnb-cat .remove', function() {
+    return $(this).closest('.fnb-cat__title').parent().remove();
+  });
+
   $('body').on('click', '.review-submit', function(e) {
     e.preventDefault();
     $('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary');

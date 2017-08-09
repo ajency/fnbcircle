@@ -131,10 +131,10 @@
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="">
-                                    <a href="@if($listing->reference!=null and $step != 'listing_information') /listing/{{$listing->reference}}/edit?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
-                                    <a href="@if($listing->reference!=null and $step != 'listing_categories') /listing/{{$listing->reference}}/edit/listing_categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li>
                                     <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
@@ -222,7 +222,7 @@
                                         @endif
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
-                                            @if($step != 'listing_information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
+                                            @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
                                             <button onclick="validateListing(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>

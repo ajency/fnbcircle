@@ -4,7 +4,7 @@
 
 <div class="location-hours tab-pane fade active in" id="business_location">
     <h5 class="no-m-t">Location &amp; Hours of Operation</h5>
-    <div class="m-t-30 c-gap">
+<!--     <div class="m-t-30 c-gap">
         <label>Please provide the google map address for your business</label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
@@ -27,7 +27,7 @@
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
         </div>
-    </div>
+    </div> -->
     <div class="m-t-20 c-gap">
         <input type="text" class="form-control fnb-input" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
         <div class="m-t-10">

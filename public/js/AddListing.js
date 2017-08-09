@@ -67,7 +67,7 @@ function listingInformation() {
 function validateListing(event) {
     var instance = $('#info-form').parsley();
     if (checkDuplicates()) return false;
-    // console.log(true);
+    console.log(true);
     if (!instance.isValid()) return false;
    $('.site-loader').removeClass('hidden');
     // console.log($('#listing_id').val());
@@ -117,6 +117,7 @@ function validateListing(event) {
         // console.log(true);
         listingInformation();
     }
+    event.preventDefault();
 }
 $('#info-form').on('keyup keypress', function(e) {
   var keyCode = e.keyCode || e.which;

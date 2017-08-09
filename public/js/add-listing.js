@@ -213,8 +213,29 @@
   });
 
   $('.verify-stuff').click(function() {
-    var get_value;
+    var get_value, inp, validator;
     event.preventDefault();
+    inp = $(this).siblings('.value-enter');
+    inp.attr('data-parsley-required', 'true');
+    if (parent.hasClass('business-email')) {
+      inp.attr('data-parsley-type', 'email');
+    } else {
+      inp.attr('data-parsley-type', 'digits');
+      inp.attr('data-parsley-length', '[10,10]');
+      inp.attr('data-parsley-length-message', 'Mobile number should be 10 digits');
+    }
+    validator = inp.parsley();
+    if (validator.validate() !== true) {
+      inp.removeAttr('data-parsley-required');
+      inp.removeAttr('data-parsley-type');
+      inp.removeAttr('data-parsley-length');
+      inp.removeAttr('data-parsley-length-message');
+      return false;
+    }
+    inp.removeAttr('data-parsley-required');
+    inp.removeAttr('data-parsley-type');
+    inp.removeAttr('data-parsley-length');
+    inp.removeAttr('data-parsley-length-message');
     $('.default-state').removeClass('hidden');
     $('.add-number').addClass('hidden');
     $('.verificationFooter').removeClass('no-bg');

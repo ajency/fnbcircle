@@ -111,6 +111,7 @@
 
   verify = function() {
     var get_val, id_val, type, valid, validator;
+    $('.validationError').html('');
     if (id.val() === '') {
       id_val = null;
     } else {

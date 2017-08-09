@@ -101,6 +101,7 @@ input = undefined
 id = undefined
 
 verify = ->
+  $('.validationError').html ''
   if id.val() == ''
     id_val = null
   else

@@ -69,7 +69,6 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-
         $listing->saveInformation($data->title, $data->type, $data->primary_email,$data->area);
         ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
         foreach ($contacts as $contact => $info) {

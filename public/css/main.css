@@ -1797,15 +1797,20 @@ input[type="checkbox"].toggle__check {
   margin-top: -1px;
 }
 .parsley-errors-list li,
-.dupError {
+.dupError,
+.validationError {
   color: #ff353b;
   font-size: 0.95em;
 }
 @media screen and (max-width: 650px) {
   .parsley-errors-list li,
-  .dupError {
+  .dupError,
+  .validationError {
     font-size: 0.85em;
   }
+}
+.customError li {
+  text-align: left;
 }
 .site-loader {
   position: fixed;

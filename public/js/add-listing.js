@@ -248,7 +248,7 @@
 
   $('.code-send').click(function() {
     var OTP, errordiv, inp, validator;
-    errordiv = $(this).closest('.code-submit').find('.validationError');
+    errordiv = $(this).closest('.number-code').find('.validationError');
     inp = $(this).closest('.code-submit').find('.fnb-input');
     inp.attr('data-parsley-required', 'true');
     inp.attr('data-parsley-type', 'digits');

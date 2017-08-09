@@ -231,7 +231,7 @@ $('.verify-stuff').click ->
 
 $('.code-send').click ->
   # $('.processing').removeClass 'hidden'
-  errordiv=$(this).closest('.code-submit').find('.validationError')
+  errordiv=$(this).closest('.number-code').find('.validationError')
   inp=$(this).closest('.code-submit').find('.fnb-input')
   inp.attr('data-parsley-required','true')
   inp.attr('data-parsley-type','digits')

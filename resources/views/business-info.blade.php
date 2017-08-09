@@ -375,9 +375,8 @@
                         <div class="code-submit flex-row space-between">
                             <input type="password" class="fnb-input text-color" placeholder="Enter code here..." >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
-                             <div class="validationError" ></div>
                         </div>
-                       
+                       <div class="validationError text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
@@ -385,9 +384,10 @@
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number...">
+                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number..." data-parsley-errors-container="#customError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
+                        <div id="customError" class="customError"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
@@ -444,8 +444,8 @@
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
-                            <div class="validationError" ></div>
                         </div>
+                        <div class="validationError text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
@@ -453,9 +453,10 @@
                     <h6 class="sub-title">Please provide a new email for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email...">
+                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email..." data-parsley-errors-container="#customError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
+                        <div id="customError" class="customError"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">

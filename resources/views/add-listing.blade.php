@@ -187,25 +187,24 @@
                                         <!-- <div class="site-loader section-loader hidden">
                                             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                                         </div> -->
+                                        
+                                    <!-- failure message-->
+                                    @if ($errors->any())
+                                    <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        Oh snap! You got an error! Please check all the required fields.
+                                        <ul>
+                                                  @foreach ($errors->all() as $error)
+                                                      <li>{{ $error }}</li>
+                                                  @endforeach
+                                              </ul>
+                                    </div>
+
+                                        @endif
                                         <form id="info-form">
-                                        <!-- Business Information -->
+                                       
                                         @yield('form-data')
-                                        <!-- Business Information End -->
-                                        <!-- Business Categories -->
-                                        <!-- @yield('business-categories') -->
-                                        <!-- Business Categories End -->
-                                        <!-- Business Details -->
-                                        <!-- @yield('business-details') -->
-                                        <!-- Business Details End-->
-                                        <!-- Location & hours -->
-                                        <!-- @yield('location') -->
-                                        <!-- Location & hours End -->
-                                        <!-- Photos -->
-                                        <!-- @yield('photos') -->
-                                        <!-- Photos End -->
-                                        <!-- Go Premium -->
-                                        <!-- @yield('premium') -->
-                                        <!-- Go Premium End -->
+                                       
                                         <!-- Submit for review section -->
                                         <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable())

@@ -101,6 +101,7 @@ input = undefined
 id = undefined
 
 verify = ->
+  $('.validationError').html ''
   if id.val() == ''
     id_val = null
   else
@@ -226,6 +227,7 @@ $('.verify-stuff').click ->
   $('.show-number .number').text(get_value);
   $(input).val(get_value);
   $('.value-enter').val('');
+  $('.validationError').html ''
   verify();
   return
 
@@ -269,11 +271,11 @@ $('.code-send').click ->
         $(input).attr('readonly',true)
       else
         inp.val('')
-        errordiv.html('Validation Failed');
+        errordiv.html('OTP is Invalid');
       return
     error: (request, status, error) ->
       inp.val('')
-      errordiv.html('Validation Failed');
+      errordiv.html('OTP is Invalid');
       return
     async: false
   return
@@ -312,3 +314,17 @@ $(document).on 'change', '.business-contact .toggle__check', ->
 		$(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
 	return
 
+$(document).on 'change', '.city select', ->
+  city = $(this).val()
+  $.ajax
+    type: 'post'
+    url: '/get_areas'
+    data: 
+      'city': city
+    success: (data) ->
+      # console.log data
+      html='<option value="" selected>Select Area </option>'
+      for key of data
+        html += '<option value="' + key + '">' + data[key] + '</option>'
+      $('.area select').html html
+      return

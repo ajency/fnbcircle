@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\Category;
+use App\City;
 use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingBrand;
-use App\Category;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
@@ -52,6 +54,7 @@ class ListingController extends Controller
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
+            'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
 
         ]);
@@ -66,8 +69,7 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-
-        $listing->saveInformation($data->title, $data->type, $data->primary_email);
+        $listing->saveInformation($data->title, $data->type, $data->primary_email,$data->area);
         ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
@@ -199,6 +201,19 @@ class ListingController extends Controller
 
     }
 
+    public function getAreas(Request $request)
+    {
+        $this->validate($request, [
+            'city' => 'required|min:1|integer',
+        ]);
+        $areas = Area::where('city_id', $request->city)->get();
+        $res   = array();
+        foreach ($areas as $area) {
+            $res[$area->id] = $area->name;
+        }
+        return response()->json($res);
+    }
+
     //---------------------------step 2 ----------------------------------------
 
     public function validateListingcategories($data)
@@ -271,24 +286,25 @@ class ListingController extends Controller
         $this->saveListingCategories($request->listing_id, $categories, $brands);
     }
 
-    public function getCategories(Request $request){
+    public function getCategories(Request $request)
+    {
         $this->validate($request, [
-            'parent'=>'id_json|not_empty_json|required',
+            'parent' => 'id_json|not_empty_json|required',
         ]);
         $children = array();
-        $parents = json_decode($request->parent);
+        $parents  = json_decode($request->parent);
         foreach ($parents as $parent) {
             if (!Common::verify_id($parent->id, 'categories')) {
                 return \Redirect::back()->withErrors(array('no_categ' => 'parent id is fabricated. Id doesnt exist'));
             }
         }
-        foreach($parents as $parent){
-            $child=Category::where('parent_id',$parent->id)->get();
+        foreach ($parents as $parent) {
+            $child       = Category::where('parent_id', $parent->id)->get();
             $child_array = array();
             foreach ($child as $ch) {
                 $child_array[$ch->id] = $ch->name;
             }
-            $children[]=$child_array;
+            $children[] = $child_array;
         }
         return response()->json($children);
     }
@@ -500,7 +516,8 @@ class ListingController extends Controller
     public function create()
     {
         $listing = new Listing;
-        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails', array())->with('mobiles', array())->with('phones', array());
+        $cities  = City::all();
+        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
     public function edit($reference, $step = 'listing_information')
     {
@@ -509,12 +526,14 @@ class ListingController extends Controller
             $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
             $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
-            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones);
+            $cities  = City::all();
+            $area = Area::find($listing->locality_id);
+            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('area', $area);
         }
-        if ($step == 'listing_categories'){
+        if ($step == 'listing_categories') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');    
+            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');
         }
     }
-    
+
 }

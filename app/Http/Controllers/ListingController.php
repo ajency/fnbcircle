@@ -29,7 +29,7 @@ use Illuminate\Http\Response;
  *
  *    @method store will be invoked on a post request to the controller and is used to store/edit details
  *    of a listing to the database. The store method identifies the step you are on using @param step which
- *    will be retrieved from request can take following values: "listing_information", "listing_categories",
+ *    will be retrieved from request can take following values: "business-information", "business-categories",
  *    "listing_location_and_operation_hours", "listing_other_details", "listing_photos_and_documents".
  *    Based on this the function then calls appropriate method to validate and save details sent by the user.
  *    Each called functions have two seperate methods defined for validation and saving details to the database respectively
@@ -75,7 +75,7 @@ class ListingController extends Controller
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);
         }
-        return redirect('/listing/' . $listing->reference . '/edit/listing_categories?success=true');
+        return redirect('/listing/' . $listing->reference . '/edit/business-categories?success=true');
     }
     public function saveContact(Request $request)
     {
@@ -491,10 +491,10 @@ class ListingController extends Controller
             ]);
             $data = $request->all();
             switch ($data['step']) {
-                case 'listing_information':
+                case 'business-information':
                     return $this->listingInformation($request);
                     break;
-                case 'listing_categories':
+                case 'business-categories':
                     return $this->listingCategories($request);
                     break;
                 case 'listing_location_and_operation_hours':
@@ -517,11 +517,11 @@ class ListingController extends Controller
     {
         $listing = new Listing;
         $cities  = City::all();
-        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
+        return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
-    public function edit($reference, $step = 'listing_information')
+    public function edit($reference, $step = 'business-information')
     {
-        if ($step == 'listing_information') {
+        if ($step == 'business-information') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
@@ -530,9 +530,9 @@ class ListingController extends Controller
             $area = Area::find($listing->locality_id);
             return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('area', $area);
         }
-        if ($step == 'listing_categories') {
+        if ($step == 'business-categories') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories  ');
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories  ');
         }
     }
 

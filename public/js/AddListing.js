@@ -40,7 +40,7 @@ function listingInformation() {
     }
     var parameters = {};
     parameters['listing_id'] = document.getElementById('listing_id').value;
-    parameters['step'] = 'listing_information';
+    parameters['step'] = 'business-information';
     parameters['title'] = document.getElementsByName("listing_title")[0].value;
     var type = document.getElementsByName("business_type");
     for (var i = 0; i < type.length; i++) {

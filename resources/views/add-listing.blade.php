@@ -131,7 +131,7 @@
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="">
-                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference!=null and $step != 'business-information')  @else form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="@if($listing->reference!=null and $step != 'business-categories')  @else disable @endif busCat">
                                     <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>

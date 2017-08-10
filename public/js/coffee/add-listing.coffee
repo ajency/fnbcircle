@@ -85,11 +85,11 @@ $('body').on 'click', '.review-submit', (e)->
 	$(this).addClass('hidden')
 
 
-getID = $('.gs-form .tab-pane').attr('id')
-$('.gs-steps .form-toggle').each ->
-  if $(this).attr('id') == getID
-    $(this).parent().addClass 'active'
-  return
+# getID = $('.gs-form .tab-pane').attr('id')
+# $('.gs-steps .form-toggle').each ->
+#   if $(this).attr('id') == getID
+#     $(this).parent().addClass 'active'
+#   return
  
 
 # $('.verify-link').click ->

@@ -131,23 +131,23 @@
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="">
-                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference!=null and $step != 'business-information')  @else form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-information') form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="@if($listing->reference!=null and $step != 'business-categories')  @else disable @endif busCat">
-                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                <li class="@if($listing->reference!=null)  @else disable @endif busCat">
+                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true{{$step}} @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 <li>
                                 
                                 </li>
-                                <li class="disable">
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="disable">
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="disable">
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li class="disable">
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>

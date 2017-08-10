@@ -249,12 +249,20 @@
 	@media screen and (max-width: @mobile){
 		position: absolute;
 		top: 10px;
-    	right: -10px;
+    	right: 15px;
 		z-index: 1;
 		font-size: 1.15em;
+		margin-right: 0;
 	}
 }
 
+@media screen and (max-width: @mobile){
+.business-phone,.landline{
+	.removeRow{
+		right: 0;
+	}
+}
+}
 
 @media screen and (min-width: 769px){
 	.business-contact{
@@ -628,7 +636,7 @@
 .business-contact{
 	.input-row{
 		position: relative;
-		.fa{
+		.fa:not(.removeRow){
 			position: absolute;
 		    top: 5px;
 		    font-size: 1.8em;
@@ -643,7 +651,7 @@
 
 .landline{
 	.input-row{
-		.fa{
+		.fa:not(.removeRow){
 			transform: rotate(45deg);
     		left: -4px;
     		font-size: 1.6em;

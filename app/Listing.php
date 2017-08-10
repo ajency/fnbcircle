@@ -76,7 +76,7 @@ class Listing extends Model
             do {
                 $slug1 = $slug . '-' . $i;
                 $count = Listing::where('slug', $slug1)->count();
-                i++;
+                $i++;
             } while ($count > 0);
         }
 

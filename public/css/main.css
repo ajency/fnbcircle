@@ -7102,14 +7102,8 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 #toggleError.visible-error {
   padding-top: 0.5em;
 }
-@media screen and (min-width: 1024px) {
-  .business-email .parsley-error .switch {
-    bottom: -2px;
-    top: 6px;
-  }
-  .business-email .parsley-error .track {
-    bottom: -3px;
-  }
+.business-email .toggle {
+  overflow: inherit;
 }
 .profile-stats {
   color: #fff;

@@ -56,6 +56,7 @@ class ListingController extends Controller
             'primary_email' => 'required|boolean',
             'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
+            'change'        => 'nullable|boolean',
 
         ]);
         $contacts_json = json_decode($data->contacts);
@@ -69,13 +70,16 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-        $listing->saveInformation($data->title, $data->type, $data->primary_email,$data->area);
+        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
         ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);
         }
-        return redirect('/listing/' . $listing->reference . '/edit/business-categories?success=true&step=true');
+        $change = "";
+        if(isset($data->change) and $data->change == "1") $change = "&success=true";
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-categories?step=true'.$change);
     }
     public function saveContact(Request $request)
     {
@@ -527,7 +531,7 @@ class ListingController extends Controller
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
             $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
             $cities  = City::all();
-            $area = Area::find($listing->locality_id);
+            $area    = Area::find($listing->locality_id);
             return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('area', $area);
         }
         if ($step == 'business-categories') {

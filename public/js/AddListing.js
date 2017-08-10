@@ -1,3 +1,12 @@
+var change = 0;
+
+$('body').on('change', 'input', function() {
+    change=1;
+  });
+$('body').on('change', 'select', function() {
+    change=1;
+  });
+
 function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");
@@ -41,6 +50,7 @@ function listingInformation() {
     var parameters = {};
     parameters['listing_id'] = document.getElementById('listing_id').value;
     parameters['step'] = 'business-information';
+    parameters['change'] = change;
     parameters['title'] = document.getElementsByName("listing_title")[0].value;
     var type = document.getElementsByName("business_type");
     for (var i = 0; i < type.length; i++) {

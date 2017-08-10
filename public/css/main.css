@@ -1746,6 +1746,10 @@ input[type="checkbox"].toggle__check {
   position: absolute;
   left: -5px;
 }
+.disable {
+  pointer-events: none;
+  opacity: 0.3;
+}
 .input-required {
   color: #d0021b;
   padding-left: 0.3em;
@@ -6202,6 +6206,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .location-select .fnb-select {
   font-size: 1em;
   padding-left: 0;
+  color: #353535;
 }
 @media screen and (max-width: 600px) {
   .location-select .area,

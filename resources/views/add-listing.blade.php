@@ -133,19 +133,19 @@
                                 <li class="">
                                     <a href="@if($listing->reference!=null and $step != 'listing_information') /listing/{{$listing->reference}}/edit?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="disable busCat">
                                     <a href="@if($listing->reference!=null and $step != 'listing_categories') /listing/{{$listing->reference}}/edit/listing_categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="disable">
                                     <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="disable">
                                     <a href="#" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="disable">
                                     <a href="#" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="disable">
                                     <a href="#" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>

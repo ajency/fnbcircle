@@ -356,7 +356,7 @@
             </div>
             <div class="modal-body">
                 <div class="verify-steps default-state">
-                    <img src="../../img/number-default.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Phone number verification</h6>
                     <p class="text-lighter x-small">Please enter the 4 digit code sent to your number via sms.</p>
                     <div class="number-code">
@@ -374,7 +374,7 @@
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
-                    <img src="../../img/number-add.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
@@ -389,14 +389,14 @@
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your number has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
@@ -425,7 +425,7 @@
             </div>
             <div class="modal-body">
                 <div class="verify-steps default-state">
-                    <img src="../../img/email-default.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Email verification</h6>
                     <p class="text-lighter x-small">Please enter the 4 digit code sent to your email address.</p>
                     <div class="number-code">
@@ -443,7 +443,7 @@
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
-                    <img src="../../img/email-add.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please provide a new email for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
@@ -454,18 +454,18 @@
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="../../img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your email has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>

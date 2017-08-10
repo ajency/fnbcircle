@@ -1839,6 +1839,12 @@ input[type="checkbox"].toggle__check {
   position: absolute;
   z-index: 1;
 }
+@media screen and (max-width: 650px) {
+  .site-loader.section-loader {
+    position: fixed;
+    z-index: 2;
+  }
+}
 .fnb-alert {
   border-radius: 0px;
   color: #fff;

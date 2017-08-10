@@ -32,6 +32,13 @@ if $(window).width() <= 768
     branchrow = $(this).find('.branch').detach()
     $(branchAdd).append branchrow
     return
+  $('.get-val').each ->
+  	removeRow = $(this).find('.fnb-input')
+  	addRow = $(this).find('.removeRow').detach()
+  	$(removeRow).after addRow
+
+
+
 
 #jQuery flexdatalist
 

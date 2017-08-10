@@ -5551,14 +5551,6 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-.close-section .removeRow {
-  top: 5px;
-  position: relative;
-  color: #ec6d4b;
-  cursor: pointer;
-  margin-right: 1.5em;
-  font-size: 1.3em;
-}
 @media screen and (max-width: 768px) {
   .close-section {
     position: relative;
@@ -5573,6 +5565,23 @@ input[type="checkbox"].toggle__check {
     right: 0;
     z-index: 1;
     margin-right: 0;
+    font-size: 1.15em;
+  }
+}
+.removeRow {
+  top: 5px;
+  position: relative;
+  color: #ec6d4b;
+  cursor: pointer;
+  margin-right: 1.5em;
+  font-size: 1.3em;
+}
+@media screen and (max-width: 768px) {
+  .removeRow {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    z-index: 1;
     font-size: 1.15em;
   }
 }
@@ -5602,6 +5611,11 @@ input[type="checkbox"].toggle__check {
   .business-contact .add-another {
     margin-top: 5px;
     display: block;
+  }
+}
+@media screen and (max-width: 650px) {
+  .business-contact .get-val .parsley-errors-list {
+    margin-bottom: 8px;
   }
 }
 .business-type {

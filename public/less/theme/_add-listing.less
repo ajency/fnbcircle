@@ -219,14 +219,6 @@
 
 .close-section{
 	justify-content: space-between;
-	.removeRow{
-		top: 5px;
-    	position: relative;
-    	color: @accent-primary;
-    	cursor: pointer;
-    	margin-right: 1.5em;
-    	font-size: 1.3em;
-	}
 	@media screen and (max-width: @mobile){
 		position: relative;
 		justify-content: flex-end;
@@ -244,6 +236,22 @@
 .business-phone,.landline{
 	.removeRow{
 		// top: -23px;
+	}
+}
+
+.removeRow{
+	top: 5px;
+	position: relative;
+	color: @accent-primary;
+	cursor: pointer;
+	margin-right: 1.5em;
+	font-size: 1.3em;
+	@media screen and (max-width: @mobile){
+		position: absolute;
+		top: 10px;
+    	right: -10px;
+		z-index: 1;
+		font-size: 1.15em;
 	}
 }
 
@@ -273,6 +281,16 @@
 	}	
 }
 
+
+@media screen and (max-width: 650px){
+	.business-contact{
+		.get-val{
+			.parsley-errors-list{
+				margin-bottom: 8px;
+			}
+		}
+	}
+}
 
 
 .business-type{

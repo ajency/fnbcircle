@@ -135,8 +135,6 @@
                                 </li>
                                 <li class="@if($listing->reference!=null and $step != 'business-categories')  @else disable @endif busCat">
                                     <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                <li>
-                                
                                 </li>
                                 <li class="disable">
                                     <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>

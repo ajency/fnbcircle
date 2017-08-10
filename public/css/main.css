@@ -6850,6 +6850,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .duplicate-listing hr {
   margin: 10px 0;
 }
+.list-title {
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
 .listing-details__title {
   margin: 0.8em 0;
 }
@@ -6859,7 +6863,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .list-entries {
   padding: 1.3em;
   border: 1px solid #ddd;
-  margin: 1.5em 3.5em;
+  margin: 1.5em 0.5em;
 }
 .list-entries .left {
   -webkit-box-flex: 1;

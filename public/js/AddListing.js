@@ -113,11 +113,16 @@ function validateListing(event) {
                 }
                 $('.list-entries').html(myvar);
                 if(myvar!=''){    
+                    $('.section-loader').addClass('hidden');
                     $('#duplicate-listing').modal('show');
                     $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+                        event.preventDefault();
+                        $('.section-loader').removeClass('hidden');
                         listingInformation();
                     });
                 }else{
+                    event.preventDefault();
+                    $('.section-loader').removeClass('hidden');
                     listingInformation();
                 }
             }
@@ -126,6 +131,7 @@ function validateListing(event) {
         
     } else {
         // console.log(true);
+         event.preventDefault();
         listingInformation();
     }
     event.preventDefault();

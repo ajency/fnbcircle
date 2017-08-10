@@ -310,7 +310,7 @@
                         </div>
                         <p class="m-b-0 text-color toggle-state">@if($phone->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
                     </div>
-                    @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
+                    <i class="fa fa-times removeRow"></i>
                 </div>
                 <div id="toggleError"></div>
             </div>

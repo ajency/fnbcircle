@@ -6861,7 +6861,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .duplicate-listing .modal-footer .skip {
   color: #777474;
-  font-size: 1.2em;
+  font-size: 1.05em;
 }
 .duplicate-listing .modal-footer .skip:active {
   outline: 0;
@@ -6959,6 +6959,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   }
   .list-entries .left span {
     font-size: 0.9em;
+  }
+  .list-entries .right {
+    margin-top: 1em;
   }
   .capsule-btn .fnb-btn {
     padding: 0.6em 1.5em;

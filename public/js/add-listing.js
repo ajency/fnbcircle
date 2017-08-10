@@ -201,6 +201,7 @@
 
   $('.edit-number').click(function() {
     event.preventDefault();
+    $('.value-enter').val('');
     $('.default-state').addClass('hidden');
     $('.add-number').removeClass('hidden');
     $('.verificationFooter').addClass('no-bg');
@@ -243,7 +244,7 @@
     get_value = $(this).siblings('.value-enter').val();
     $('.show-number .number').text(get_value);
     $(input).val(get_value);
-    $('.value-enter').val('');
+    $(inp).val('');
     $('.validationError').html('');
     verify();
   });
@@ -272,6 +273,8 @@
     inp.removeAttr('data-parsley-type');
     inp.removeAttr('data-parsley-length');
     OTP = inp.val();
+    $('.default-state').addClass('hidden');
+    $('.processing').removeClass('hidden');
     $.ajax({
       type: 'post',
       url: '/validate_OTP',
@@ -288,11 +291,15 @@
           $(input).closest('.get-val').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
           $(input).attr('readonly', true);
         } else {
+          $('.processing').addClass('hidden');
+          $('.default-state').removeClass('hidden');
           inp.val('');
           errordiv.html('OTP is Invalid');
         }
       },
       error: function(request, status, error) {
+        $('.processing').addClass('hidden');
+        '.default-state'.removeClass('hidden');
         inp.val('');
         errordiv.html('OTP is Invalid');
       },

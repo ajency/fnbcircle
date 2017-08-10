@@ -10,9 +10,9 @@
 @endif
 
 <div class="business-cats tab-pane fade in active" id="business_categories">
-    <h5 class="no-m-t">Business Categories</h5>
+    <h5 class="no-m-t main-heading">Business Categories</h5>
     <div class="m-t-30 c-gap">
-        <label>List of all the categories for your listing</label>
+        <label class="label-size">List of all the categories for your listing</label>
         <div class="single-category gray-border">
             <div class="row flex-row categoryContainer">
                 <div class="col-sm-4 flex-row">
@@ -49,7 +49,7 @@
         </div>
     </div>
     <div class="m-t-50 c-gap">
-        <label class="required">Core categories of your listing</label>
+        <label class="required label-size">Core categories of your listing</label>
         <div class="text-lighter m-t-5">
             Note: Core categories will be displayed prominently on the listing. Maximum 10 core categories allowed
             <br> Please select your core categories from the following categories.
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label>List some brands that you deal with</label>
+        <label class="label-size">List some brands that you deal with</label>
         <!-- <div class="text-lighter m-t-5">
             Ex: Albertsons, America's Choice, Bashas
         </div> -->

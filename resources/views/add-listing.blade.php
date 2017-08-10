@@ -73,7 +73,7 @@
                         <img src="/img/steps-orange.png">
                     </div>
                     <div class="page-intro__title">
-                        You are a few steps away from creating a listing on F&amp;B Circle
+                        You are a few steps away from creating a listing on F&amp;BCircle
                     </div>
                 </div>
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
@@ -126,7 +126,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="white-box gray-border m-t-10 m-b-10">
+                <div class="m-t-20 m-b-10 white-bg-border">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out no-transition slide-bg listing-sections @if(isset($_GET['step']))active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg dsk-separator listing-sections @if(isset($_GET['step']))active @endif">
                                 <div class="mobile-back desk-hide mobile-flex"> 
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -184,9 +184,9 @@
                                          @endif
                                     </p>
                                     <div class="gs-form tab-content">
-                                        <!-- <div class="site-loader section-loader hidden">
+                                        <div class="site-loader section-loader hidden">
                                             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-                                        </div> -->
+                                        </div>
                                         
                                     <!-- failure message-->
                                     @if ($errors->any())
@@ -272,7 +272,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
+                                    
                                     <div class="list-row flex-row">
                                         <div class="left">
                                             <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>

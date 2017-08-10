@@ -70,7 +70,7 @@ function validateListing(event) {
     if (checkDuplicates()) return false;
     console.log(true);
     if (!instance.isValid()) return false;
-   $('.site-loader').removeClass('hidden');
+   $('.section-loader').removeClass('hidden');
     // console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {
         // console.log(true);

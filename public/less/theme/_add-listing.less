@@ -12,6 +12,7 @@
 		border: 1px solid @accent-primary;
 		font-size: 1.2em;
 		padding: 5px;
+		margin-bottom: 2em;
 	}
 }
 
@@ -93,6 +94,21 @@
 	padding-right: 0.5em;
 }
 
+
+.dsk-separator{
+	@media screen and (min-width: 1024px){
+		background-color: #fff;
+    	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    	padding: 0 5px;
+	}
+}
+
+.white-bg-border{
+	@media screen and (max-width: @mobile){
+		border: 1px solid #d8d8d8;
+		background-color: #fff;
+	}
+}
 
 
 
@@ -869,6 +885,7 @@ input[type='checkbox'].remove-addr{
 
 .location-select{
 	padding: 0.5em 0 1em 0;
+	align-items: inherit;
 	.city{
     	flex: 0.21;
     	padding-right: 4em;
@@ -1504,6 +1521,11 @@ input[type='checkbox'].remove-addr{
     .left{
     	flex: 1;
     }
+    .list-row:not(:first-child){
+    	margin-top: 10px;
+    	border-top: 1px solid #eee;
+    	padding-top: 10px;
+    }
 }
 
 .capsule-btn{
@@ -1544,10 +1566,11 @@ input[type='checkbox'].remove-addr{
 	}
 	.listing-details{
 		&__title{
-			font-size: 1.3em;
+			font-size: 1.1em;
     		line-height: 1.5;
 		}
 		&__caption{
+			font-size: 1em;
 			br{
 				display: none;
 			}
@@ -1559,9 +1582,18 @@ input[type='checkbox'].remove-addr{
     	.list-row{
     		flex-direction: column;
     		text-align: center;
+    		&:not(:first-child){
+    			margin-top: 15px;
+    			padding-top: 5px;
+    		}
     	}
     	.list-title{
-    		font-size: 1.3em;
+    		font-size: 1.15em;
+    	}
+    	.left{
+    		span{
+    			font-size: 0.9em;
+    		}
     	}
 	}
 	.capsule-btn{

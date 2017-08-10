@@ -1724,6 +1724,14 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: start;
           align-items: flex-start;
 }
+.label-size {
+  font-size: 1.1em;
+}
+@media screen and (max-width: 650px) {
+  .label-size {
+    font-size: 0.95em;
+  }
+}
 .required:after {
   content: '*';
   font-size: 1.1em;
@@ -5324,6 +5332,7 @@ input[type="checkbox"].toggle__check {
     border: 1px solid #ec6d4b;
     font-size: 1.2em;
     padding: 5px;
+    margin-bottom: 2em;
   }
 }
 .note-row {
@@ -5417,6 +5426,19 @@ input[type="checkbox"].toggle__check {
 .bino {
   color: #27b7b0;
   padding-right: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .dsk-separator {
+    background-color: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    padding: 0 5px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .white-bg-border {
+    border: 1px solid #d8d8d8;
+    background-color: #fff;
+  }
 }
 .get-started {
   font-size: 0.9em;
@@ -6159,6 +6181,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .location-select {
   padding: 0.5em 0 1em 0;
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
 }
 .location-select .city {
   -webkit-box-flex: 0.21;
@@ -6841,6 +6867,11 @@ input[type='checkbox'].remove-addr:checked + .another-address {
       -ms-flex: 1;
           flex: 1;
 }
+.list-entries .list-row:not(:first-child) {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
 .capsule-btn {
   border: 1px solid #ddd;
   border-radius: 25px;
@@ -6875,8 +6906,11 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     margin: 10px 0 0px;
   }
   .listing-details__title {
-    font-size: 1.3em;
+    font-size: 1.1em;
     line-height: 1.5;
+  }
+  .listing-details__caption {
+    font-size: 1em;
   }
   .listing-details__caption br {
     display: none;
@@ -6893,8 +6927,15 @@ input[type='checkbox'].remove-addr:checked + .another-address {
             flex-direction: column;
     text-align: center;
   }
+  .list-entries .list-row:not(:first-child) {
+    margin-top: 15px;
+    padding-top: 5px;
+  }
   .list-entries .list-title {
-    font-size: 1.3em;
+    font-size: 1.15em;
+  }
+  .list-entries .left span {
+    font-size: 0.9em;
   }
   .capsule-btn .fnb-btn {
     padding: 0.6em 1.5em;

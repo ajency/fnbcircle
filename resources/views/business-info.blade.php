@@ -19,16 +19,16 @@
 
 
 <div class="business-info tab-pane fade in active" id="add_listing">
-    <h5 class="no-m-t fly-out-heading-size">Business Information</h5>
+    <h5 class="no-m-t fly-out-heading-size main-heading">Business Information</h5>
     <div class="m-t-30 c-gap">
-        <label>Tell us the name of your business <span class="text-primary">*</span></label>
+        <label class="label-size">Tell us the name of your business <span class="text-primary">*</span></label>
         <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Business title is mandatory." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business title cannot be more than 255 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your listing.
         </div>
     </div>
     <div class="m-t-50 c-gap">
-        <label>Who are you? <span class="text-primary">*</span></label>
+        <label class="label-size">Who are you? <span class="text-primary">*</span></label>
         <ul class="business-type flex-row m-t-15">
             <li>
                 <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label>Where is the business located?<span class="text-primary">*</span></label>
+        <label class="label-size">Where is the business located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="city" required>
@@ -89,7 +89,7 @@
         <span class="fnb-icons contact mobile-hide"></span>
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
         <div class="m-l-10 no-m-l">
-            <label>Contact Details</label>
+            <label class="element-title">Contact Details</label>
             <div class="text-lighter">
                 Seekers would like to contact you or send enquiries. Please share your contact details below. We have pre-populated your email and phone number from your profile details.
             </div>
@@ -99,7 +99,7 @@
     <!-- email -->
 
     <div class="m-t-20 business-email business-contact">
-        <label>Enter your business email address <span class="text-primary">*</span></label>
+        <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
         <div class="row p-t-10 p-b-10 no-m-b">
             <div class="col-sm-5">
                 <input type="email" class="form-control fnb-input p-l-5" value="quershi@gmail.com" readonly=""  data-parsley-required>
@@ -190,7 +190,7 @@
     <!-- phone number -->
 
     <div class="m-t-40 business-phone business-contact">
-        <label>Enter your business phone number <span class="text-primary">*</span></label>
+        <label class="label-size">Enter your business phone number <span class="text-primary">*</span></label>
         @if($listing->reference===null)
         <div class="row p-t-10 p-b-10 phone-row get-val ">
             <div class="col-sm-5">
@@ -390,10 +390,10 @@
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number..." data-parsley-errors-container="#customError">
+                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number..." data-parsley-errors-container="#phoneError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
-                        <div id="customError" class="customError"></div>
+                        <div id="phoneError" class="customError"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">

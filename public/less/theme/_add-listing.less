@@ -99,7 +99,7 @@
 	@media screen and (min-width: 1024px){
 		background-color: #fff;
     	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    	padding: 0 5px;
+    	padding-left: 0.8em;
 	}
 }
 
@@ -1770,6 +1770,24 @@ input[type='checkbox'].remove-addr{
 
 #toggleError{
 	margin: 10px 15px 0;
+	&.visible-error{
+		padding-top: 0.5em;
+	}
 }
+
+@media screen and (min-width: 1024px){
+	.business-email{
+		.parsley-error{
+			.switch{
+				bottom: -2px;
+		    	top: 6px;
+			}
+			.track{
+				bottom: -3px;
+			}
+		}	
+	}
+}
+
 
 

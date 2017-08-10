@@ -107,7 +107,7 @@
                     </div>
                     <p class="m-b-0 text-color toggle-state"> @if($listing->show_primary_email === null or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
                 </div>
-                <div id="toggleError"></div>
+                <div id="toggleError" class="visible-error"></div>
             </div>
         </div>
         @foreach($emails as $email)

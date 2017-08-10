@@ -73,7 +73,7 @@
                         <img src="/img/steps-orange.png">
                     </div>
                     <div class="page-intro__title">
-                        You are a few steps away from creating a listing on F&amp;B Circle
+                        You are a few steps away from creating a listing on F&amp;BCircle
                     </div>
                 </div>
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
@@ -126,26 +126,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="white-box gray-border m-t-10 m-b-10">
+                <div class="m-t-20 m-b-10 white-bg-border">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
                             <ul class="gs-steps" role="tablist">
                                 <li class="">
-                                    <a href="@if($listing->reference!=null and $step != 'listing_information') /listing/{{$listing->reference}}/edit?step=true @else # @endif" class="form-toggle" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-information') form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
-                                    <a href="@if($listing->reference!=null and $step != 'listing_categories') /listing/{{$listing->reference}}/edit/listing_categories?step=true @else # @endif" class="form-toggle" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+
+                               <li class="@if($listing->reference!=null)  @else disable @endif busCat">
+                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true{{$step}} @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                <li>
+                                <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="#" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
@@ -169,7 +171,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out no-transition slide-bg listing-sections @if(isset($_GET['step']))active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg dsk-separator listing-sections @if(isset($_GET['step']))active @endif">
                                 <div class="mobile-back desk-hide mobile-flex"> 
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -187,25 +189,24 @@
                                         <div class="site-loader section-loader hidden">
                                             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                                         </div>
+                                        
+                                    <!-- failure message-->
+                                    @if ($errors->any())
+                                    <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                         Oh snap! Some error occurred. Please check all the details and proceed.
+                                        <!-- <ul>
+                                                  @foreach ($errors->all() as $error)
+                                                      <li>{{ $error }}</li>
+                                                  @endforeach
+                                              </ul> -->
+                                    </div>
+
+                                        @endif
                                         <form id="info-form">
-                                        <!-- Business Information -->
+                                       
                                         @yield('form-data')
-                                        <!-- Business Information End -->
-                                        <!-- Business Categories -->
-                                        <!-- @yield('business-categories') -->
-                                        <!-- Business Categories End -->
-                                        <!-- Business Details -->
-                                        <!-- @yield('business-details') -->
-                                        <!-- Business Details End-->
-                                        <!-- Location & hours -->
-                                        <!-- @yield('location') -->
-                                        <!-- Location & hours End -->
-                                        <!-- Photos -->
-                                        <!-- @yield('photos') -->
-                                        <!-- Photos End -->
-                                        <!-- Go Premium -->
-                                        <!-- @yield('premium') -->
-                                        <!-- Go Premium End -->
+                                       
                                         <!-- Submit for review section -->
                                         <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable())
@@ -223,7 +224,7 @@
                                         @endif
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
-                                            @if($step != 'listing_information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
+                                            @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
                                             <button onclick="validateListing(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
@@ -244,7 +245,7 @@
                 <!-- Modal -->
                 <!-- listing present -->
                 <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <div class="level-one mobile-hide">
@@ -254,15 +255,15 @@
                             <div class="modal-body">
                                 <div class="listing-details text-center">
                                     <img src="/img/listing-search.png" class="img-responsive center-block">
-                                    <h5 class="listing-details__title element-title">Looks like the listing is already present on F&amp;BCircle.</h5>
-                                    <p class="text-lighter lighter listing-details__caption">Please confirm if the following listing(s) belongs to you.
+                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on F&amp;BCircle.</h5>
+                                    <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
                                         <br> You can either Claim the listing or Delete it.</p>
                                 </div>
                                 <div class="list-entries">
                                     <div class="list-row flex-row">
                                         <div class="left">
                                             <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color">
+                                            <p class="text-color default-size">
                                                 <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
                                             </p>
                                         </div>
@@ -273,11 +274,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
+                                    
                                     <div class="list-row flex-row">
                                         <div class="left">
                                             <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color">
+                                            <p class="text-color default-size">
                                                 <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
                                             </p>
                                         </div>
@@ -298,7 +299,7 @@
                 </div>
             </div>
         </div>
-        <div class="site-loader hidden">
+        <div class="site-loader full-loader hidden">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         </div>
         <div class="site-overlay"></div>

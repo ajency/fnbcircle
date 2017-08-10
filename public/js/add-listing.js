@@ -72,6 +72,12 @@
       branchrow = $(this).find('.branch').detach();
       $(branchAdd).append(branchrow);
     });
+    $('.get-val').each(function() {
+      var addRow, removeRow;
+      removeRow = $(this).find('.fnb-input');
+      addRow = $(this).find('.removeRow').detach();
+      return $(removeRow).after(addRow);
+    });
   }
 
   $('.flexdatalist').flexdatalist();
@@ -139,13 +145,14 @@
     return $(this).addClass('hidden');
   });
 
-  getID = $('.gs-form .tab-pane').attr('id');
-
-  $('.gs-steps .form-toggle').each(function() {
-    if ($(this).attr('id') === getID) {
-      $(this).parent().addClass('active');
-    }
-  });
+  if ($(window).width() > 768) {
+    getID = $('.gs-form .tab-pane').attr('id');
+    $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+  }
 
   parent = void 0;
 
@@ -155,6 +162,7 @@
 
   verify = function() {
     var get_val, id_val, type, valid, validator;
+    $('.validationError').html('');
     if (id.val() === '') {
       id_val = null;
     } else {
@@ -214,7 +222,7 @@
         index1 = 0;
         while (index1 < others.length) {
           if (value === others[index1].value && index !== index1) {
-            $(others[index1]).closest('.get-val').find('.dupError').html('This is duplicate value');
+            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail added multiple times.');
             return true;
           } else {
             $(others[index1]).closest('.get-val').find('.dupError').html('');
@@ -244,6 +252,7 @@
 
   $('.edit-number').click(function() {
     event.preventDefault();
+    $('.value-enter').val('');
     $('.default-state').addClass('hidden');
     $('.add-number').removeClass('hidden');
     $('.verificationFooter').addClass('no-bg');
@@ -257,23 +266,66 @@
   });
 
   $('.verify-stuff').click(function() {
-    var get_value;
+    var get_value, inp, validator;
     event.preventDefault();
+    inp = $(this).siblings('.value-enter');
+    inp.attr('data-parsley-required', 'true');
+    if (parent.hasClass('business-email')) {
+      inp.attr('data-parsley-type', 'email');
+    } else {
+      inp.attr('data-parsley-type', 'digits');
+      inp.attr('data-parsley-length', '[10,10]');
+      inp.attr('data-parsley-length-message', 'Mobile number should be 10 digits');
+    }
+    validator = inp.parsley();
+    if (validator.validate() !== true) {
+      inp.removeAttr('data-parsley-required');
+      inp.removeAttr('data-parsley-type');
+      inp.removeAttr('data-parsley-length');
+      inp.removeAttr('data-parsley-length-message');
+      return false;
+    }
+    inp.removeAttr('data-parsley-required');
+    inp.removeAttr('data-parsley-type');
+    inp.removeAttr('data-parsley-length');
+    inp.removeAttr('data-parsley-length-message');
     $('.default-state').removeClass('hidden');
     $('.add-number').addClass('hidden');
     $('.verificationFooter').removeClass('no-bg');
     get_value = $(this).siblings('.value-enter').val();
     $('.show-number .number').text(get_value);
     $(input).val(get_value);
-    $('.value-enter').val('');
+    $(inp).val('');
+    $('.validationError').html('');
     verify();
   });
 
   $('.code-send').click(function() {
-    var OTP;
-    $('.default-state,.add-number,.verificationFooter').addClass('hidden');
+    var OTP, errordiv, inp, validator;
+    errordiv = $(this).closest('.number-code').find('.validationError');
+    inp = $(this).closest('.code-submit').find('.fnb-input');
+    inp.attr('data-parsley-required', 'true');
+    inp.attr('data-parsley-type', 'digits');
+    inp.attr('data-parsley-length', '[4,4]');
+    validator = inp.parsley();
+    if (validator.isValid() !== true) {
+      if (inp.val() === '') {
+        errordiv.html('Please enter OTP');
+      } else {
+        errordiv.html('OTP is Invalid');
+      }
+      inp.val('');
+      inp.removeAttr('data-parsley-required');
+      inp.removeAttr('data-parsley-type');
+      inp.removeAttr('data-parsley-length');
+      return false;
+    }
+    inp.removeAttr('data-parsley-required');
+    inp.removeAttr('data-parsley-type');
+    inp.removeAttr('data-parsley-length');
+    OTP = inp.val();
+    $('.default-state').addClass('hidden');
     $('.processing').removeClass('hidden');
-    OTP = $(this).closest('.code-submit').find('.fnb-input').val();
     $.ajax({
       type: 'post',
       url: '/validate_OTP',
@@ -283,20 +335,24 @@
       },
       success: function(data) {
         if (data['success'] === "1") {
+          errordiv.html('');
+          $('.default-state,.add-number,.verificationFooter').addClass('hidden');
           $('.processing').addClass('hidden');
           $('.step-success').removeClass('hidden');
           $(input).closest('.get-val').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
           $(input).attr('readonly', true);
         } else {
           $('.processing').addClass('hidden');
-          $('.step-failure').removeClass('hidden');
+          $('.default-state').removeClass('hidden');
+          inp.val('');
+          errordiv.html('OTP is Invalid');
         }
       },
       error: function(request, status, error) {
-        id.val('');
-        $('#email-modal').modal('hide');
-        $('#phone-modal').modal('hide');
-        alert('OTP failed. Try Again');
+        $('.processing').addClass('hidden');
+        '.default-state'.removeClass('hidden');
+        inp.val('');
+        errordiv.html('OTP is Invalid');
       },
       async: false
     });
@@ -328,6 +384,26 @@
     } else {
       $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
     }
+  });
+
+  $(document).on('change', '.city select', function() {
+    var city;
+    city = $(this).val();
+    return $.ajax({
+      type: 'post',
+      url: '/get_areas',
+      data: {
+        'city': city
+      },
+      success: function(data) {
+        var html, key;
+        html = '<option value="" selected>Select Area </option>';
+        for (key in data) {
+          html += '<option value="' + key + '">' + data[key] + '</option>';
+        }
+        $('.area select').html(html);
+      }
+    });
   });
 
 }).call(this);

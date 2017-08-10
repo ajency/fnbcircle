@@ -12,6 +12,7 @@
 		border: 1px solid @accent-primary;
 		font-size: 1.2em;
 		padding: 5px;
+		margin-bottom: 2em;
 	}
 }
 
@@ -93,6 +94,21 @@
 	padding-right: 0.5em;
 }
 
+
+.dsk-separator{
+	@media screen and (min-width: 1024px){
+		background-color: #fff;
+    	box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    	padding-left: 0.8em;
+	}
+}
+
+.white-bg-border{
+	@media screen and (max-width: @mobile){
+		border: 1px solid #d8d8d8;
+		background-color: #fff;
+	}
+}
 
 
 
@@ -203,14 +219,6 @@
 
 .close-section{
 	justify-content: space-between;
-	.removeRow{
-		top: 5px;
-    	position: relative;
-    	color: @accent-primary;
-    	cursor: pointer;
-    	margin-right: 1.5em;
-    	font-size: 1.3em;
-	}
 	@media screen and (max-width: @mobile){
 		position: relative;
 		justify-content: flex-end;
@@ -231,6 +239,30 @@
 	}
 }
 
+.removeRow{
+	top: 5px;
+	position: relative;
+	color: @accent-primary;
+	cursor: pointer;
+	margin-right: 1.5em;
+	font-size: 1.3em;
+	@media screen and (max-width: @mobile){
+		position: absolute;
+		top: 10px;
+    	right: 15px;
+		z-index: 1;
+		font-size: 1.15em;
+		margin-right: 0;
+	}
+}
+
+@media screen and (max-width: @mobile){
+.business-phone,.landline{
+	.removeRow{
+		right: 0;
+	}
+}
+}
 
 @media screen and (min-width: 769px){
 	.business-contact{
@@ -257,6 +289,16 @@
 	}	
 }
 
+
+@media screen and (max-width: 650px){
+	.business-contact{
+		.get-val{
+			.parsley-errors-list{
+				margin-bottom: 8px;
+			}
+		}
+	}
+}
 
 
 .business-type{
@@ -594,7 +636,7 @@
 .business-contact{
 	.input-row{
 		position: relative;
-		.fa{
+		.fa:not(.removeRow){
 			position: absolute;
 		    top: 5px;
 		    font-size: 1.8em;
@@ -609,7 +651,7 @@
 
 .landline{
 	.input-row{
-		.fa{
+		.fa:not(.removeRow){
 			transform: rotate(45deg);
     		left: -4px;
     		font-size: 1.6em;
@@ -869,6 +911,7 @@ input[type='checkbox'].remove-addr{
 
 .location-select{
 	padding: 0.5em 0 1em 0;
+	align-items: inherit;
 	.city{
     	flex: 0.21;
     	padding-right: 4em;
@@ -879,6 +922,7 @@ input[type='checkbox'].remove-addr{
 	.fnb-select{
 		font-size: 1em;
     	padding-left: 0;
+    	color: #353535;
 	}
 	@media screen and (max-width: 600px){
 		.area,.city{
@@ -1477,7 +1521,7 @@ input[type='checkbox'].remove-addr{
 		text-align: center;
 		.skip{
 			color: #777474;
-    		font-size: 1.2em;
+    		font-size: 1.05em;
     		&:active{
     			outline: 0;
     		}
@@ -1486,6 +1530,11 @@ input[type='checkbox'].remove-addr{
 	hr{
 		margin: 10px 0;
 	}
+}
+
+.list-title{
+	line-height: 1.4;
+	margin-bottom: 5px;
 }
 
 .listing-details{
@@ -1500,9 +1549,14 @@ input[type='checkbox'].remove-addr{
 .list-entries{
 	padding: 1.3em;
     border: 1px solid #ddd;
-    margin: 1.5em 3.5em;
+    margin: 1.5em 0.5em;
     .left{
     	flex: 1;
+    }
+    .list-row:not(:first-child){
+    	margin-top: 10px;
+    	border-top: 1px solid #eee;
+    	padding-top: 10px;
     }
 }
 
@@ -1544,10 +1598,11 @@ input[type='checkbox'].remove-addr{
 	}
 	.listing-details{
 		&__title{
-			font-size: 1.3em;
+			font-size: 1.1em;
     		line-height: 1.5;
 		}
 		&__caption{
+			font-size: 1em;
 			br{
 				display: none;
 			}
@@ -1559,9 +1614,21 @@ input[type='checkbox'].remove-addr{
     	.list-row{
     		flex-direction: column;
     		text-align: center;
+    		&:not(:first-child){
+    			margin-top: 15px;
+    			padding-top: 5px;
+    		}
     	}
     	.list-title{
-    		font-size: 1.3em;
+    		font-size: 1.15em;
+    	}
+    	.left{
+    		span{
+    			font-size: 0.9em;
+    		}
+    	}
+    	.right{
+    		margin-top: 1em;
     	}
 	}
 	.capsule-btn{
@@ -1703,6 +1770,17 @@ input[type='checkbox'].remove-addr{
 
 #toggleError{
 	margin: 10px 15px 0;
+	&.visible-error{
+		padding-top: 0.5em;
+	}
 }
+
+
+.business-email{
+	.toggle{
+		overflow: inherit;
+	}	
+}
+
 
 

@@ -115,15 +115,7 @@
     <!-- header ends -->
     @yield('content')
 
-    @if ($errors->any())
-      <div class="alert alert-danger">
-          <ul>
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-    @endif
+    
     <!-- jquery -->
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>

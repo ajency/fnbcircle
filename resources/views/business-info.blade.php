@@ -2,25 +2,20 @@
 
 @section('form-data')
 
-<!-- failure message-->
 
-<div class="alert fnb-alert alert-failure alert-dismissible fade in hidden" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    Oh snap! You got an error! Please check all the required fields.
-</div>
 
 
 <div class="business-info tab-pane fade in active" id="add_listing">
-    <h5 class="no-m-t fly-out-heading-size">Business Information</h5>
+    <h5 class="no-m-t fly-out-heading-size main-heading">Business Information</h5>
     <div class="m-t-30 c-gap">
-        <label>Tell us the name of your business <span class="text-primary">*</span></label>
+        <label class="label-size">Tell us the name of your business <span class="text-primary">*</span></label>
         <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Business title is mandatory." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business title cannot be more than 255 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your listing.
         </div>
     </div>
     <div class="m-t-50 c-gap">
-        <label>Who are you? <span class="text-primary">*</span></label>
+        <label class="label-size">Who are you? <span class="text-primary">*</span></label>
         <ul class="business-type flex-row m-t-15">
             <li>
                 <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
@@ -59,31 +54,31 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label>Where is the business located?</label>
+
+        <label class="label-size">Where is the business located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter">
-                    <option>Select city</option>
-                    <option>Mumbai</option>
-                    <option>Delhi</option>
-                    <option>Goa</option>
+                <select class="fnb-select select-variant form-control text-lighter" name="city" required>
+                    <option>Select City</option>
+                    @foreach($cities as $city)
+                        <option value="{{$city->id}}"@if(isset($area) and $area->city_id == $city->id) selected @endif>{{$city->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter">
-                    <option>Select area</option>
-                    <option>Dadar</option>
-                    <option>Bandra</option>
-                    <option>Borivili</option>
+                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="City and Area of the business is mandatory." data-parsley-errors-container="#areaError">
+                    <option value="">Select Area</option>
+                    @if(isset($area))<option value="{{$area->id}}" selected>{{$area->name}}</option>@endif
                 </select>
             </div>
         </div>
+        <div id="areaError" ></div>
     </div>
     <div class="m-t-20 flex-row c-gap">
         <span class="fnb-icons contact mobile-hide"></span>
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
         <div class="m-l-10 no-m-l">
-            <label>Contact Details</label>
+            <label class="element-title">Contact Details</label>
             <div class="text-lighter">
                 Seekers would like to contact you or send enquiries. Please share your contact details below. We have pre-populated your email and phone number from your profile details.
             </div>
@@ -91,9 +86,9 @@
     </div>
 
     <!-- email -->
-    
+
     <div class="m-t-20 business-email business-contact">
-        <label>Enter your business email address <span class="text-primary">*</span></label>
+        <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
         <div class="row p-t-10 p-b-10 no-m-b">
             <div class="col-sm-5">
                 <input type="email" class="form-control fnb-input p-l-5" value="quershi@gmail.com" readonly=""  data-parsley-required>
@@ -113,14 +108,14 @@
                     </div>
                     <p class="m-b-0 text-color toggle-state"> @if($listing->show_primary_email === null or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
                 </div>
-                <div id="toggleError"></div>
+                <div id="toggleError" class="visible-error"></div>
             </div>
         </div>
         @foreach($emails as $email)
         <div class="row p-t-10 p-b-10 no-m-b get-val ">
             <div class="col-sm-5">
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$email->id}}">
-                <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-required-message="Please enter a valid email." data-parsley-type-message="Please enter a valid email." data-parsley-type="email" @if($email->is_verified==1) readonly @endif>
+                <input type="email" class="form-control fnb-input p-l-5" value="{{$email->value}}" name="contacts" data-parsley-required-message="Please enter a valid email." data-parsley-type-message="Please enter a valid email." data-parsley-type="email" @if($email->is_verified==1) readonly @endif required>
                 <div class=dupError ></div>
             </div>
             <div class="col-sm-3 col-xs-4">
@@ -184,23 +179,23 @@
     <!-- phone number -->
 
     <div class="m-t-40 business-phone business-contact">
-        <label>Enter your business phone number <span class="text-primary">*</span></label>
+        <label class="label-size">Enter your business phone number <span class="text-primary">*</span></label>
         @if($listing->reference===null)
         <div class="row p-t-10 p-b-10 phone-row get-val ">
             <div class="col-sm-5">
                 <div class="input-row">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="9344567888" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                     <div class=dupError ></div>
                     <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    
+
                     <a href="#" class="dark-link verify-link">Verify now</a>
                     <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                   
+
                 </div>
             </div>
             <div class="col-sm-4 col-xs-8">
@@ -223,7 +218,7 @@
                 <input type="hidden" class="comm-id" readonly  name="contact_IDs" value="{{$mobile->id}}">
 
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif required>
                     <div class=dupError ></div>
                      <i class="fa fa-mobile" aria-hidden="true"></i>
                 </div>
@@ -288,7 +283,7 @@
                 <div id="toggleError"></div>
             </div>
         </div>
-        <a href="#" class="dark-link text-medium add-another">+ Add another phone number</a>
+        <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
     </div>
 
     <!-- landline -->
@@ -299,7 +294,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif>
+                    <input type="tel" class="form-control fnb-input p-l-5" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif required>
                     <div class=dupError ></div>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
@@ -316,7 +311,7 @@
                         </div>
                         <p class="m-b-0 text-color toggle-state">@if($phone->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
                     </div>
-                    @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
+                    <i class="fa fa-times removeRow"></i>
                 </div>
                 <div id="toggleError"></div>
             </div>
@@ -326,7 +321,7 @@
             <div class="col-sm-5">
                 <input type="hidden" readonly class="comm-id"  name="contact_IDs">
                 <div class="input-row">
-                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-length-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
+                    <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
                     <div class=dupError ></div>
                     <i class="fa fa-phone" aria-hidden="true"></i>
                 </div>
@@ -362,9 +357,9 @@
             </div>
             <div class="modal-body">
                 <div class="verify-steps default-state">
-                    <img src="../../img/number-default.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Phone number verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your number via sms.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your number via sms.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -373,35 +368,37 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input type="password" class="fnb-input text-color" placeholder="Enter code here..." >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                         </div>
+                       <div class="validationError text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
-                    <img src="../../img/number-add.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number...">
+                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number..." data-parsley-errors-container="#phoneError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
+                        <div id="phoneError" class="customError"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="../../img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your number has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
                     </div>
@@ -429,9 +426,9 @@
             </div>
             <div class="modal-body">
                 <div class="verify-steps default-state">
-                    <img src="../../img/email-default.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-default.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Email verification</h6>
-                    <p class="text-lighter x-small">Please enter the 6 digit code sent to your email address.</p>
+                    <p class="text-lighter x-small">Please enter the 4 digit code sent to your email address.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
                             <div class="number">
@@ -440,35 +437,37 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here...">
+                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
                         </div>
+                        <div class="validationError text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps add-number hidden">
-                    <img src="../../img/email-add.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please provide a new email for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email...">
+                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email..." data-parsley-errors-container="#customError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
+                        <div id="customError" class="customError"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="../../img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your email has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="../../img/number-sent.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Some problem occurred!!!</h6>
+                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>
                     </div>

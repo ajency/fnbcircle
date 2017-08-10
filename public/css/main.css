@@ -1724,6 +1724,14 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: start;
           align-items: flex-start;
 }
+.label-size {
+  font-size: 1.1em;
+}
+@media screen and (max-width: 650px) {
+  .label-size {
+    font-size: 0.95em;
+  }
+}
 .required:after {
   content: '*';
   font-size: 1.1em;
@@ -1737,6 +1745,10 @@ input[type="checkbox"].toggle__check {
 .required.left-star:after {
   position: absolute;
   left: -5px;
+}
+.disable {
+  pointer-events: none;
+  opacity: 0.3;
 }
 .input-required {
   color: #d0021b;
@@ -1797,15 +1809,20 @@ input[type="checkbox"].toggle__check {
   margin-top: -1px;
 }
 .parsley-errors-list li,
-.dupError {
+.dupError,
+.validationError {
   color: #ff353b;
   font-size: 0.95em;
 }
 @media screen and (max-width: 650px) {
   .parsley-errors-list li,
-  .dupError {
+  .dupError,
+  .validationError {
     font-size: 0.85em;
   }
+}
+.customError li {
+  text-align: left;
 }
 .site-loader {
   position: fixed;
@@ -1834,11 +1851,16 @@ input[type="checkbox"].toggle__check {
   position: absolute;
   z-index: 1;
 }
+@media screen and (max-width: 650px) {
+  .site-loader.section-loader {
+    position: fixed;
+    z-index: 2;
+  }
+}
 .fnb-alert {
   border-radius: 0px;
   color: #fff;
   padding: 0.8em 2em 0.8em 1em;
-  text-shadow: 0px 0px 1px #000;
   box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.11);
 }
 .fnb-alert .close {
@@ -5314,6 +5336,7 @@ input[type="checkbox"].toggle__check {
     border: 1px solid #ec6d4b;
     font-size: 1.2em;
     padding: 5px;
+    margin-bottom: 2em;
   }
 }
 .note-row {
@@ -5407,6 +5430,19 @@ input[type="checkbox"].toggle__check {
 .bino {
   color: #27b7b0;
   padding-right: 0.5em;
+}
+@media screen and (min-width: 1024px) {
+  .dsk-separator {
+    background-color: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+    padding-left: 0.8em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .white-bg-border {
+    border: 1px solid #d8d8d8;
+    background-color: #fff;
+  }
 }
 .get-started {
   font-size: 0.9em;
@@ -5515,14 +5551,6 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-.close-section .removeRow {
-  top: 5px;
-  position: relative;
-  color: #ec6d4b;
-  cursor: pointer;
-  margin-right: 1.5em;
-  font-size: 1.3em;
-}
 @media screen and (max-width: 768px) {
   .close-section {
     position: relative;
@@ -5538,6 +5566,30 @@ input[type="checkbox"].toggle__check {
     z-index: 1;
     margin-right: 0;
     font-size: 1.15em;
+  }
+}
+.removeRow {
+  top: 5px;
+  position: relative;
+  color: #ec6d4b;
+  cursor: pointer;
+  margin-right: 1.5em;
+  font-size: 1.3em;
+}
+@media screen and (max-width: 768px) {
+  .removeRow {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1;
+    font-size: 1.15em;
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .business-phone .removeRow,
+  .landline .removeRow {
+    right: 0;
   }
 }
 @media screen and (min-width: 769px) {
@@ -5566,6 +5618,11 @@ input[type="checkbox"].toggle__check {
   .business-contact .add-another {
     margin-top: 5px;
     display: block;
+  }
+}
+@media screen and (max-width: 650px) {
+  .business-contact .get-val .parsley-errors-list {
+    margin-bottom: 8px;
   }
 }
 .business-type {
@@ -5883,7 +5940,7 @@ input[type="checkbox"].toggle__check {
 .business-contact .input-row {
   position: relative;
 }
-.business-contact .input-row .fa {
+.business-contact .input-row .fa:not(.removeRow) {
   position: absolute;
   top: 5px;
   font-size: 1.8em;
@@ -5892,7 +5949,7 @@ input[type="checkbox"].toggle__check {
 .business-contact .input-row .fnb-input {
   padding-left: 1.5em;
 }
-.landline .input-row .fa {
+.landline .input-row .fa:not(.removeRow) {
   -webkit-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
           transform: rotate(45deg);
@@ -6149,6 +6206,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .location-select {
   padding: 0.5em 0 1em 0;
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
 }
 .location-select .city {
   -webkit-box-flex: 0.21;
@@ -6166,6 +6227,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .location-select .fnb-select {
   font-size: 1em;
   padding-left: 0;
+  color: #353535;
 }
 @media screen and (max-width: 600px) {
   .location-select .area,
@@ -6806,13 +6868,17 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .duplicate-listing .modal-footer .skip {
   color: #777474;
-  font-size: 1.2em;
+  font-size: 1.05em;
 }
 .duplicate-listing .modal-footer .skip:active {
   outline: 0;
 }
 .duplicate-listing hr {
   margin: 10px 0;
+}
+.list-title {
+  line-height: 1.4;
+  margin-bottom: 5px;
 }
 .listing-details__title {
   margin: 0.8em 0;
@@ -6823,13 +6889,18 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 .list-entries {
   padding: 1.3em;
   border: 1px solid #ddd;
-  margin: 1.5em 3.5em;
+  margin: 1.5em 0.5em;
 }
 .list-entries .left {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
           flex: 1;
+}
+.list-entries .list-row:not(:first-child) {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
 }
 .capsule-btn {
   border: 1px solid #ddd;
@@ -6865,8 +6936,11 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     margin: 10px 0 0px;
   }
   .listing-details__title {
-    font-size: 1.3em;
+    font-size: 1.1em;
     line-height: 1.5;
+  }
+  .listing-details__caption {
+    font-size: 1em;
   }
   .listing-details__caption br {
     display: none;
@@ -6883,8 +6957,18 @@ input[type='checkbox'].remove-addr:checked + .another-address {
             flex-direction: column;
     text-align: center;
   }
+  .list-entries .list-row:not(:first-child) {
+    margin-top: 15px;
+    padding-top: 5px;
+  }
   .list-entries .list-title {
-    font-size: 1.3em;
+    font-size: 1.15em;
+  }
+  .list-entries .left span {
+    font-size: 0.9em;
+  }
+  .list-entries .right {
+    margin-top: 1em;
   }
   .capsule-btn .fnb-btn {
     padding: 0.6em 1.5em;
@@ -7014,6 +7098,12 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 #toggleError {
   margin: 10px 15px 0;
+}
+#toggleError.visible-error {
+  padding-top: 0.5em;
+}
+.business-email .toggle {
+  overflow: inherit;
 }
 .profile-stats {
   color: #fff;

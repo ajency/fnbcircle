@@ -1,3 +1,12 @@
+var change = 0;
+
+$('body').on('change', 'input', function() {
+    change=1;
+  });
+$('body').on('change', 'select', function() {
+    change=1;
+  });
+
 function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");
@@ -40,7 +49,8 @@ function listingInformation() {
     }
     var parameters = {};
     parameters['listing_id'] = document.getElementById('listing_id').value;
-    parameters['step'] = 'listing_information';
+    parameters['step'] = 'business-information';
+    parameters['change'] = change;
     parameters['title'] = document.getElementsByName("listing_title")[0].value;
     var type = document.getElementsByName("business_type");
     for (var i = 0; i < type.length; i++) {
@@ -51,6 +61,7 @@ function listingInformation() {
     // parameters['type'] = '11';
     parameters['primary_email'] = (document.getElementsByName("primary_email")[0].checked) ? "1" : "0";
     parameters['primary_phone'] = '0';
+    parameters['area'] = $('.area select').val();
     parameters['contacts'] = JSON.stringify(contacts);
     $.each(parameters, function(key, value) {
         var field = $('<input></input>');
@@ -67,8 +78,10 @@ function listingInformation() {
 function validateListing(event) {
     var instance = $('#info-form').parsley();
     if (checkDuplicates()) return false;
+    console.log(true);
     if (!instance.isValid()) return false;
-    event.preventDefault();
+   $('.section-loader').removeClass('hidden');
+    // console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {
         // console.log(true);
         var title = document.getElementsByName("listing_title")[0].value;
@@ -93,18 +106,23 @@ function validateListing(event) {
                 for (var k in data) {
                     myvar += '<div class="list-row flex-row">' + '<div class="left">' + '<h5 class="sub-title text-medium text-capitalise list-title">' + data[k]['name'] + '</h5>';
                     for (var j in data[k]['messages']) {
-                        myvar += '<p class="text-color">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data[k]['messages'][j] + '</span>' + '</p>';
+                        myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data[k]['messages'][j] + '</span>' + '</p>';
                     }
-                    myvar += '</div>' + '<div class="right">' + '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' + '</div>' + '</div>' + '<hr>';
+                    myvar += '</div>' + '<div class="right">' + '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' + '</div>' + '</div>';
                     // console.log(myvar);
                 }
                 $('.list-entries').html(myvar);
                 if(myvar!=''){    
+                    $('.section-loader').addClass('hidden');
                     $('#duplicate-listing').modal('show');
                     $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+                        event.preventDefault();
+                        $('.section-loader').removeClass('hidden');
                         listingInformation();
                     });
                 }else{
+                    event.preventDefault();
+                    $('.section-loader').removeClass('hidden');
                     listingInformation();
                 }
             }
@@ -113,8 +131,10 @@ function validateListing(event) {
         
     } else {
         // console.log(true);
+         event.preventDefault();
         listingInformation();
     }
+    event.preventDefault();
 }
 $('#info-form').on('keyup keypress', function(e) {
   var keyCode = e.keyCode || e.which;

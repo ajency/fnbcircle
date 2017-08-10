@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\Category;
+use App\City;
 use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingBrand;
-use App\Category;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
@@ -27,7 +29,7 @@ use Illuminate\Http\Response;
  *
  *    @method store will be invoked on a post request to the controller and is used to store/edit details
  *    of a listing to the database. The store method identifies the step you are on using @param step which
- *    will be retrieved from request can take following values: "listing_information", "listing_categories",
+ *    will be retrieved from request can take following values: "business-information", "business-categories",
  *    "listing_location_and_operation_hours", "listing_other_details", "listing_photos_and_documents".
  *    Based on this the function then calls appropriate method to validate and save details sent by the user.
  *    Each called functions have two seperate methods defined for validation and saving details to the database respectively
@@ -52,7 +54,9 @@ class ListingController extends Controller
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,13',
             'primary_email' => 'required|boolean',
+            'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
+            'change'        => 'nullable|boolean',
 
         ]);
         $contacts_json = json_decode($data->contacts);
@@ -66,14 +70,19 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-
-        $listing->saveInformation($data->title, $data->type, $data->primary_email);
-        // ListingCommunication::where('listing_id', $listing->id)->delete();
+        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
+        ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
         foreach ($contacts as $contact => $info) {
             $com = ListingCommunication::find($contact);
             $com->saveInformation($listing->id, $info['visible']);
         }
-        return redirect('/listing/' . $listing->reference . '/edit/listing_categories?success=true');
+        $change = "";
+        if (isset($data->change) and $data->change == "1") {
+            $change = "&success=true";
+        }
+
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-categories?step=true' . $change);
     }
     public function saveContact(Request $request)
     {
@@ -199,6 +208,19 @@ class ListingController extends Controller
 
     }
 
+    public function getAreas(Request $request)
+    {
+        $this->validate($request, [
+            'city' => 'required|min:1|integer',
+        ]);
+        $areas = Area::where('city_id', $request->city)->get();
+        $res   = array();
+        foreach ($areas as $area) {
+            $res[$area->id] = $area->name;
+        }
+        return response()->json($res);
+    }
+
     //---------------------------step 2 ----------------------------------------
 
     public function validateListingcategories($data)
@@ -271,24 +293,25 @@ class ListingController extends Controller
         $this->saveListingCategories($request->listing_id, $categories, $brands);
     }
 
-    public function getCategories(Request $request){
+    public function getCategories(Request $request)
+    {
         $this->validate($request, [
-            'parent'=>'id_json|not_empty_json|required',
+            'parent' => 'id_json|not_empty_json|required',
         ]);
         $children = array();
-        $parents = json_decode($request->parent);
+        $parents  = json_decode($request->parent);
         foreach ($parents as $parent) {
             if (!Common::verify_id($parent->id, 'categories')) {
                 return \Redirect::back()->withErrors(array('no_categ' => 'parent id is fabricated. Id doesnt exist'));
             }
         }
-        foreach($parents as $parent){
-            $child=Category::where('parent_id',$parent->id)->get();
+        foreach ($parents as $parent) {
+            $child       = Category::where('parent_id', $parent->id)->get();
             $child_array = array();
             foreach ($child as $ch) {
                 $child_array[$ch->id] = $ch->name;
             }
-            $children[]=$child_array;
+            $children[] = $child_array;
         }
         return response()->json($children);
     }
@@ -475,10 +498,10 @@ class ListingController extends Controller
             ]);
             $data = $request->all();
             switch ($data['step']) {
-                case 'listing_information':
+                case 'business-information':
                     return $this->listingInformation($request);
                     break;
-                case 'listing_categories':
+                case 'business-categories':
                     return $this->listingCategories($request);
                     break;
                 case 'listing_location_and_operation_hours':
@@ -500,22 +523,26 @@ class ListingController extends Controller
     public function create()
     {
         $listing = new Listing;
-        return view('business-info')->with('listing', $listing)->with('step', 'listing_information')->with('emails', array())->with('mobiles', array())->with('phones', array());
+        $cities  = City::all();
+        return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
-    public function edit($reference, $step = 'listing_information')
+    public function edit($reference, $step = 'business-information')
     {
-        if ($step == 'listing_information') {
+        if ($step == 'business-information') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
             $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
-            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones);
+            $cities  = City::all();
+            $area    = Area::find($listing->locality_id);
+            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('area', $area);
         }
-        if ($step == 'listing_categories'){
-            $listing = Listing::where('reference', $reference)->firstorFail();
+        if ($step == 'business-categories') {
+            $listing      = Listing::where('reference', $reference)->firstorFail();
             $parent_categ = Category::whereNull('parent_id')->get();
-            return view('business-categories')->with('listing', $listing)->with('step', 'listing_categories')->with('parents',$parent_categ);    
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ);
+
         }
     }
-    
+
 }

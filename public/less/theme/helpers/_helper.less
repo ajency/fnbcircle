@@ -178,6 +178,13 @@
   align-items: flex-start;;
 }
 
+.label-size{
+  font-size: 1.1em;
+  @media screen and (max-width: 650px){
+    font-size: 0.95em;
+  }
+}
+
 // required asterisk
 
 .required{
@@ -196,6 +203,13 @@
     }
   }
 }
+
+
+.disable{
+    pointer-events: none;
+    opacity: 0.3;
+}
+
 
 // for input elements
 .input-required{
@@ -269,7 +283,7 @@
 
 // parsley styling
 
-.parsley-errors-list li,.dupError{
+.parsley-errors-list li,.dupError,.validationError{
   color: #ff353b;
   font-size: 0.95em;
   @media screen and (max-width: 650px){
@@ -277,6 +291,11 @@
   }
 }
 
+.customError{
+  li{
+    text-align: left;
+  }
+}
 
 // Site loader
 
@@ -296,6 +315,10 @@
     &.section-loader{
       position: absolute;
       z-index: 1;
+      @media screen and (max-width: 650px){
+        position: fixed;
+        z-index: 2;
+      }
     }
 }
 
@@ -304,7 +327,7 @@
   border-radius: 0px;  
   color: #fff;
   padding: 0.8em 2em 0.8em 1em;
-  text-shadow: 0px 0px 1px #000;
+  // text-shadow: 0px 0px 1px #000;
   box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.11);
   .close{
     opacity: 1;

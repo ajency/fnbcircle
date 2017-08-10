@@ -31,6 +31,7 @@ Route::post('/duplicates','ListingController@findDuplicates');
 Route::post('/contact_save','ListingController@saveContact');
 Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
+Route::post('/get_areas','ListingController@getAreas');
 
 Route::post('/get_categories','ListingController@getCategories');
 

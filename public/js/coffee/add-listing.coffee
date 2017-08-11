@@ -66,13 +66,17 @@ getNodes = (branchID) ->
         'parent' : JSON.stringify(obj)
       success: (data) ->
         array = []
-        $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data)->
-          console.log 'aa'
+        $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
+          array.push $(this).val()
+        console.log array
         html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
         html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
-          html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
+          html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" '
+          if _.indexOf(array,key) != -1 
+            html+='checked'
+          html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         # console.log  slugify(data[branchID]['name'])
         $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
         categ[branchID] = true

@@ -117,7 +117,9 @@
   });
 
   $('.topSelect').click(function() {
-    return $('.desk-level-two').addClass('hidden');
+    return setTimeout((function() {
+      $('.category-back').addClass('hidden');
+    }), 100);
   });
 
   if ($(window).width() <= 768) {

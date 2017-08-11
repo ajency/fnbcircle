@@ -13,48 +13,32 @@
     <h5 class="no-m-t main-heading">Business Categories</h5>
 
     <div class="m-t-30 add-container c-gap">
-        <label>Select categories your listing belongs to <span class="text-primary">*</span></label>
+        <label class="label-size">Select categories your listing belongs to <span class="text-primary">*</span></label>
         <div class="text-lighter m-t-5">
             One category at a time
         </div>
-        <ul class="interested-options cat-select flex-row m-t-20">
-            <li class="topSelect">
-                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Cereals &amp; Food Grains">
-                <div class="veg option flex-row">
-                    <span class="fnb-icons cat-icon veg"></span>
+        <ul class="interested-options cat-select flex-row m-t-45">
+           @foreach($parents as $category)
+            <li class="topSelect" data-toggle="modal" data-target="#category-select">
+                <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$category->name}}" value="{{$category->id}}">
+                <div class="option flex-row">
+                    <img class="cat-icon" src="{{$category->icon_url}}" />
                 </div>
                 <div class="interested-label">
-                    Cereals &amp; Food Grains
+                    {{$category->name}}
                 </div>
             </li>
-            <li>
-                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Meat &amp; Poultry">
-                <div class="meat option flex-row">
-                    <span class="fnb-icons cat-icon meat"></span>
-                </div>
-                <div class="interested-label">
-                    Meat &amp; Poultry
-                </div>
-            </li>
-            <li>
-                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Juices, Soups &amp; Soft Drinks">
-                <div class="drinks option flex-row">
-                    <span class="fnb-icons cat-icon drinks"></span>
-                </div>
-                <div class="interested-label">
-                    Juices, Soups &amp; Soft Drinks
-                </div>
-            </li>
-        </ul>        
+           @endforeach
+        </ul>       
     </div>
 
-    <div class="m-t-30 c-gap hidden">
+    <div class="m-t-30 c-gap addedCat hidden">
 
         <label class="label-size">List of all the categories for your listing</label>
-       <div id="categories" class="node-list">
-       </div>
+        <div id="categories" class="node-list">
+        </div>
 
-        <div class="single-category gray-border add-more-cat m-t-15 hidden">
+        <div class="single-category gray-border add-more-cat m-t-15">
             <div class="row flex-row categoryContainer">
                 <div class="col-sm-4 flex-row">
                     <span class="fnb-icons cat-icon meat"></span>
@@ -149,7 +133,7 @@
                             <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button>
+                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn primary-link m-l-5">cancel</a>
                         </div>
                     </div>
                 </div>

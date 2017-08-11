@@ -96,7 +96,11 @@ $('body').on 'click', '.category-back', ->
 
 
 $('.topSelect').click ->
-	$('.desk-level-two').addClass 'hidden'
+	setTimeout (->
+		$('.category-back').addClass 'hidden'
+		return
+	), 100
+
 
 
 # detaching sections

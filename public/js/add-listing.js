@@ -65,6 +65,11 @@
     return $('.sub-category').removeClass('shown');
   });
 
+  $('body').on('click', '.category-back', function() {
+    $('.main-category').removeClass('hidden');
+    return $('.sub-category').removeClass('shown');
+  });
+
   if ($(window).width() <= 768) {
     $('.single-category').each(function() {
       var branchAdd, branchrow;

@@ -7,11 +7,17 @@
 	&-default{
 		.navbar-brand{
 			font-size: 2.2em;
+			padding-top: 0;
 	    	color: @accent-primary;
 	    	font-weight: 400;
 	    	transition: all 0.5s ease;
 	    	&:hover{
 	    		color: lighten(@accent-primary,5%);
+	    	}
+	    	width: 100px;
+	    	img{
+	    		width: 80%;
+	    		margin: 0 auto;
 	    	}
 		}
 	}
@@ -41,6 +47,7 @@
 	}
 	.fnb-select{
 		font-weight: 500;
+		padding-right: 20px;
 	}
 	.login{
 		display: flex;
@@ -113,12 +120,20 @@
 			display: none;
 		}
 	}
+	.fnb-header{
+		.navbar.navbar-default{
+			padding: 0.5em 0;	
+		}			
+	}
 }
 
 @media screen and (max-width: @sm-tab){
 	.navbar-default{
 		.navbar-brand{
 			font-size: 1.8em;
+			img{
+				width: 45%;
+			}
 		}
 	}
 }

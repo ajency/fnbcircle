@@ -102,6 +102,7 @@ body.no-transition {
 }
 a {
   text-decoration: none;
+  outline: 0;
 }
 a:hover {
   color: inherit;
@@ -229,13 +230,19 @@ span {
 }
 .navbar-default .navbar-brand {
   font-size: 2.2em;
+  padding-top: 0;
   color: #ec6d4b;
   font-weight: 400;
   -webkit-transition: all 0.5s ease;
           transition: all 0.5s ease;
+  width: 100px;
 }
 .navbar-default .navbar-brand:hover {
   color: #ee8062;
+}
+.navbar-default .navbar-brand img {
+  width: 80%;
+  margin: 0 auto;
 }
 .navbar-nav {
   padding-top: 8px;
@@ -260,6 +267,7 @@ span {
 }
 .navbar .fnb-select {
   font-weight: 500;
+  padding-right: 20px;
 }
 .navbar .login {
   display: -webkit-box;
@@ -336,10 +344,16 @@ span {
   .mobile-head .login {
     display: none;
   }
+  .fnb-header .navbar.navbar-default {
+    padding: 0.5em 0;
+  }
 }
 @media screen and (max-width: 1024px) {
   .navbar-default .navbar-brand {
     font-size: 1.8em;
+  }
+  .navbar-default .navbar-brand img {
+    width: 45%;
   }
 }
 .fnb-breadcrums__section {

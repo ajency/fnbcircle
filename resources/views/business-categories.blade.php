@@ -174,7 +174,7 @@
                     </div>
                     <div class="mobile-back flex-row">
                         <div class="back">
-                            <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                            <button class="btn fnb-btn outline border-btn no-border category-back"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
                             <button class="btn fnb-btn outline border-btn">save</button>

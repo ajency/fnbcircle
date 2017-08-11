@@ -177,7 +177,7 @@
                             <button class="btn fnb-btn outline border-btn no-border category-back"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button class="btn fnb-btn outline border-btn">save</button>
+                            <button class="btn fnb-btn outline border-btn" type="button">save</button>
                         </div>
                     </div>
                 </div>
@@ -293,7 +293,7 @@
                 </div>
                 <div class="modal-footer mobile-hide">
                     <div class="sub-category hidden">
-                        <button class="btn fnb-btn outline full border-btn">save</button>
+                        <button class="btn fnb-btn outline full border-btn" type="button">save</button>
                     </div>
                 </div>
             </div>

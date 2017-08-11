@@ -1,5 +1,5 @@
 (function() {
-  var getID, id, input, parent, verify;
+  var categ, getID, getNodes, id, input, parent, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -37,28 +37,72 @@
       },
       success: function(data) {
         var html, html_mob, i, key;
-        console.log(data);
         html = '';
         html_mob = '';
         i = 0;
-        for (key in data[0]) {
-          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + data[0][key] + '"  name="' + key + '" aria-expanded="false" aria-controls="' + data[0][key] + '">' + data[0][key] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+        for (key in data[id]['children']) {
+          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
           if (i === 0) {
             html_mob += ' active';
           }
-          html_mob += '" id="' + data[0][key] + '" name="' + key + '">' + data[0][key] + '</div>';
+          html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + key + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>';
           html += '<li role="presentation"';
           if (i === 0) {
             html += ' class="active"';
           }
-          html += '><a href="#' + data[0][key] + '"  name="' + key + '" aria-controls="' + data[0][key] + '" role="tab" data-toggle="tab">' + data[0][key] + '</a></li>';
+          html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>';
           i++;
         }
         $('.categ-list').html(html);
         $('.mobile-categories').html(html_mob);
+        categ.length = 0;
+        for (key in data[id]['children']) {
+          getNodes(key);
+          break;
+        }
       }
     });
   });
+
+  categ = [];
+
+  getNodes = function(branchID) {
+    var obj;
+    obj = {};
+    obj[0] = {
+      'id': branchID
+    };
+    if (categ[branchID] !== true) {
+      $.ajax({
+        type: 'post',
+        url: '/get_categories',
+        data: {
+          'parent': JSON.stringify(obj)
+        },
+        success: function(data) {
+          var html, key;
+          html = "";
+          for (key in data[branchID]['children']) {
+            html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" for="' + slugify(data[branchID]['children'][key]['name']) + '"><p class="lighter nodes__text" id="' + slugify(data[branchID]['children'][key]['name']) + '">' + data[branchID]['children'][key]['name'] + '</p></label></li>';
+          }
+          $('div#' + slugify(data[branchID]['name']) + '.tab-pane ul.nodes').html(html);
+          categ[branchID] = true;
+        }
+      });
+    }
+  };
+
+  $('body').on('click', '.categ-list a', function() {
+    return getNodes($(this).attr('name'));
+  });
+
+  $('body').on('click', 'div.toggle-collapse.desk-hide', function() {
+    return getNodes($(this).attr('name'));
+  });
+
+  window.slugify = function(string) {
+    return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+  };
 
   $('body').on('click', '.sub-category-back', function() {
     $('.main-category').removeClass('hidden');
@@ -409,6 +453,15 @@
         $('.area select').html(html);
       }
     });
+  });
+
+  $(document).on('click', '.full.save-btn.gs-next', function(e) {
+    var step;
+    step = $('input#step-name').val();
+    e.preventDefault();
+    if (step === 'business-information') {
+      return window.validateListing(e);
+    }
   });
 
 }).call(this);

@@ -28,25 +28,60 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       'parent' : JSON.stringify(obj)
     }
     success: (data) ->
-      console.log data
+      # console.log data
       html = ''
       html_mob = ''
       i = 0
-      for key of data[0]
-        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + data[0][key] + '"  name="' + key + '" aria-expanded="false" aria-controls="' + data[0][key] + '">' + data[0][key] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+      for key of data[id]['children']
+        # console.log data[id]['children'][key]['name']
+        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
         if i == 0
           html_mob += ' active' 
-        html_mob += '" id="' + data[0][key] + '" name="' + key + '">' + data[0][key] + '</div>'
+        html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + key + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>'
         html += '<li role="presentation"'
         if i == 0
           html += ' class="active"'
-        html += '><a href="#' + data[0][key] + '"  name="' + key + '" aria-controls="' + data[0][key] + '" role="tab" data-toggle="tab">' + data[0][key] + '</a></li>'
+        html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>'
         i++
       $('.categ-list').html html
       $('.mobile-categories').html html_mob
+      categ.length = 0
+      for key of data[id]['children']
+        getNodes(key)
+        break
       return
   return
 
+categ = []
+
+getNodes = (branchID) ->
+  obj = {}
+  obj[0] = 'id': branchID
+  # console.log categ
+  if categ[branchID] != true
+    $.ajax
+      type : 'post'
+      url: '/get_categories'
+      data: 
+        'parent' : JSON.stringify(obj)
+      success: (data) ->
+        html = ""
+        for key of data[branchID]['children']
+          html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" for="'+slugify(data[branchID]['children'][key]['name'])+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
+        # console.log  slugify(data[branchID]['name'])
+        $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
+        categ[branchID] = true
+        return
+  return
+
+$('body').on 'click', '.categ-list a', ->
+  getNodes($(this).attr('name'))
+
+$('body').on 'click', 'div.toggle-collapse.desk-hide', ->
+  getNodes($(this).attr('name'))
+
+window.slugify = (string) ->
+  string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace /-+$/, ''
 
 $('body').on 'click', '.sub-category-back', ->
   $('.main-category').removeClass 'hidden'
@@ -392,3 +427,9 @@ $(document).on 'change', '.city select', ->
         html += '<option value="' + key + '">' + data[key] + '</option>'
       $('.area select').html html
       return
+
+$(document).on 'click', '.full.save-btn.gs-next', (e) ->
+  step = $('input#step-name').val()
+  e.preventDefault()
+  if step == 'business-information' 
+    window.validateListing(e)

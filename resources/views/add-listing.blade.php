@@ -11,7 +11,10 @@
     <script type="text/javascript" src="/js/add-listing.js"></script>
     <!-- custom script -->
     <script type="text/javascript" src="/js/custom.js"></script>
+    
      <script src="{{ asset('js/AddListing.js') }}"></script>
+    <script type="text/javascript" src="/js/handlebars.js"></script> 
+    <script type="text/javascript" src="/js/require.js"></script> 
 
 @endsection
 

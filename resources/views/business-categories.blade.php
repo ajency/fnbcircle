@@ -14,38 +14,8 @@
     <div class="m-t-30 c-gap">
 
         <label class="label-size">List of all the categories for your listing</label>
-        <div class="single-category gray-border">
-
-            <div class="row flex-row categoryContainer">
-                <div class="col-sm-4 flex-row">
-                    <span class="fnb-icons cat-icon meat"></span>
-                    <div class="branch-row">
-                        <div class="cat-label">Meat &amp; Poultry</div>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <strong class="branch">Mutton</strong>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="fnb-cat small flex-row">
-                        <li><span class="fnb-cat__title">Al Kabeer <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Pandiyan <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Ezzy <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Royco <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Venkys <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="delete-cat">
-                <span class="fa fa-times remove"></span>
-            </div>
-        </div>
+       <div id="categories" class="node-list">
+       </div>
 
         <div class="single-category gray-border add-more-cat m-t-15 hidden">
             <div class="row flex-row categoryContainer">
@@ -177,7 +147,7 @@
                             <button class="btn fnb-btn outline border-btn no-border category-back"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button class="btn fnb-btn outline border-btn" type="button">save</button>
+                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button>
                         </div>
                     </div>
                 </div>

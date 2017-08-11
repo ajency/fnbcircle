@@ -434,8 +434,16 @@ $(document).on 'change', '.city select', ->
       $('.area select').html html
       return
 
+$('body').on 'click', 'button#category-select.fnb-btn', ->
+  source = '<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>'
+  template = Handlebars.compile source
+  categories = {"image-url": 'www.google.com', "parent": "Meat n Masala", "branch":"Beef Yummy", "nodes":[{"name":"Al Kabeer ","id":"1"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"}]}
+  $('div#categories.node-list').append template(categories)
+
 $(document).on 'click', '.full.save-btn.gs-next', (e) ->
   step = $('input#step-name').val()
   e.preventDefault()
   if step == 'business-information' 
     window.validateListing(e)
+  if step == 'business-categories'
+    console.log 'save'

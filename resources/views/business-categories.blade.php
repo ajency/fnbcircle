@@ -190,13 +190,13 @@
                         <!-- <div class="desk-hide mobile-back">
                             <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
                         </div> -->
-                        <div class="add-container">
+                        <div class="add-container text-center">
                             <h5 class="text-medium element-title">Select categories your listing belongs to <span class="text-primary">*</span></h5>
                             <div class="text-lighter">
                                 One category at a time
                             </div>
                         </div>
-                        <ul class="interested-options cat-select flex-row m-t-45">
+                        <ul class="interested-options catOptions cat-select flex-row m-t-45">
                             <!-- <li>
                                 <input type="radio" class="radio level-two-toggle" name="categories" data-name="Cereals &amp; Food Grains">
                                 <div class="veg option flex-row">

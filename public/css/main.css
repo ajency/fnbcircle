@@ -1738,6 +1738,12 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: start;
           align-items: flex-start;
 }
+.justify-center {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .label-size {
   font-size: 1.1em;
 }
@@ -5969,6 +5975,17 @@ input[type="checkbox"].toggle__check {
           transform: rotate(45deg);
   left: -4px;
   font-size: 1.6em;
+}
+@media screen and (min-width: 1024px) {
+  .catOptions {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
 }
 .review-note {
   padding: 1em 1.5em;

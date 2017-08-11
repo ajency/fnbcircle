@@ -91,6 +91,12 @@ $('body').on 'click', '.sub-category-back', ->
 $('body').on 'click', '.category-back', ->
   $('.main-category').removeClass 'hidden'
   $('.sub-category').removeClass 'shown'
+  $('.desk-level-two').addClass 'hidden'
+  $('.firstStep').removeClass 'hidden'
+
+
+$('.topSelect').click ->
+	$('.desk-level-two').addClass 'hidden'
 
 
 # detaching sections

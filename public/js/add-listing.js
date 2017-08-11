@@ -111,7 +111,13 @@
 
   $('body').on('click', '.category-back', function() {
     $('.main-category').removeClass('hidden');
-    return $('.sub-category').removeClass('shown');
+    $('.sub-category').removeClass('shown');
+    $('.desk-level-two').addClass('hidden');
+    return $('.firstStep').removeClass('hidden');
+  });
+
+  $('.topSelect').click(function() {
+    return $('.desk-level-two').addClass('hidden');
   });
 
   if ($(window).width() <= 768) {

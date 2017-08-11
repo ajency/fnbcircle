@@ -338,6 +338,8 @@ $(function(){
 		  $('.level-one').addClass('hidden');
 		  $('.level-two').addClass('shown');
 		  $('.mobile-back').addClass('desk-level-two');
+		  $('.mobile-back').removeClass('hidden');
+		  $('.firstStep').removeClass('hidden');
 		});
 
 

@@ -11,7 +11,44 @@
 
 <div class="business-cats tab-pane fade in active" id="business_categories">
     <h5 class="no-m-t main-heading">Business Categories</h5>
-    <div class="m-t-30 c-gap">
+
+    <div class="m-t-30 add-container c-gap">
+        <label>Select categories your listing belongs to <span class="text-primary">*</span></label>
+        <div class="text-lighter m-t-5">
+            One category at a time
+        </div>
+        <ul class="interested-options cat-select flex-row m-t-20">
+            <li class="topSelect">
+                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Cereals &amp; Food Grains">
+                <div class="veg option flex-row">
+                    <span class="fnb-icons cat-icon veg"></span>
+                </div>
+                <div class="interested-label">
+                    Cereals &amp; Food Grains
+                </div>
+            </li>
+            <li>
+                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Meat &amp; Poultry">
+                <div class="meat option flex-row">
+                    <span class="fnb-icons cat-icon meat"></span>
+                </div>
+                <div class="interested-label">
+                    Meat &amp; Poultry
+                </div>
+            </li>
+            <li>
+                <input type="radio" class="radio level-two-toggle" name="categories" data-name="Juices, Soups &amp; Soft Drinks">
+                <div class="drinks option flex-row">
+                    <span class="fnb-icons cat-icon drinks"></span>
+                </div>
+                <div class="interested-label">
+                    Juices, Soups &amp; Soft Drinks
+                </div>
+            </li>
+        </ul>        
+    </div>
+
+    <div class="m-t-30 c-gap hidden">
 
         <label class="label-size">List of all the categories for your listing</label>
         <div class="single-category gray-border">
@@ -125,41 +162,6 @@
             <input type="text" class="form-control fnb-input" placeholder="+ Add brands you deal with">
         </div>
     </div>
-    <!-- <div class="m-t-30 add-container c-gap">
-        <label>Select categories your listing belongs to <span class="text-primary">*</span></label>
-        <div class="text-lighter m-t-5">
-            One category at a time
-        </div>
-    </div>
-    <ul class="interested-options cat-select flex-row m-t-30">
-        <li>
-            <input type="radio" class="radio" name="interests">
-            <div class="veg option flex-row">
-                <span class="fnb-icons cat-icon veg"></span>
-            </div>
-            <div class="interested-label">
-                Cereals &amp; Food Grains
-            </div>
-        </li>
-        <li>
-            <input type="radio" class="radio" name="interests" checked>
-            <div class="meat option flex-row">
-                <span class="fnb-icons cat-icon meat"></span>
-            </div>
-            <div class="interested-label">
-                Meat &amp; Poultry
-            </div>
-        </li>
-        <li>
-            <input type="radio" class="radio" name="interests" checked>
-            <div class="drinks option flex-row">
-                <span class="fnb-icons cat-icon drinks"></span>
-            </div>
-            <div class="interested-label">
-                Juices, Soups &amp; Soft Drinks
-            </div>
-        </li>
-    </ul> -->
 
 </div>
 
@@ -169,12 +171,12 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="level-one mobile-hide ">
+                    <div class="level-one mobile-hide firstStep">
                         <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
                     <div class="mobile-back flex-row">
                         <div class="back">
-                            <button class="btn fnb-btn outline border-btn no-border category-back"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                            <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
                             <button class="btn fnb-btn outline border-btn" type="button">save</button>

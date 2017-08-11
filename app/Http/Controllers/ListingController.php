@@ -298,22 +298,22 @@ class ListingController extends Controller
         $this->validate($request, [
             'parent' => 'id_json|not_empty_json|required',
         ]);
-        $children = array();
         $parents  = json_decode($request->parent);
         foreach ($parents as $parent) {
             if (!Common::verify_id($parent->id, 'categories')) {
-                return \Redirect::back()->withErrors(array('no_categ' => 'parent id is fabricated. Id doesnt exist'));
+                return abort(404);
             }
         }
         foreach ($parents as $parent) {
             $child       = Category::where('parent_id', $parent->id)->get();
             $child_array = array();
             foreach ($child as $ch) {
-                $child_array[$ch->id] = $ch->name;
+                $child_array[$ch->id] = array('name'=>$ch->name);
             }
-            $children[] = $child_array;
+            $parent_obj= Category::find($parent->id);
+            $parent_array [$parent_obj->id] = array('name'=>$parent_obj->name,'children'=>$child_array);
         }
-        return response()->json($children);
+        return response()->json($parent_array);
     }
 
     //------------------------step 3 --------------------

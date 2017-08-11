@@ -79,7 +79,7 @@ function validateListing(event) {
     var instance = $('#info-form').parsley();
     if (checkDuplicates()) return false;
     console.log(true);
-    if (!instance.isValid()) return false;
+    if (!instance.validate()) return false;
    $('.section-loader').removeClass('hidden');
     // console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {

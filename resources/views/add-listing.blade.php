@@ -135,7 +135,7 @@
                                 </li>
 
                                <li class="@if($listing->reference!=null)  @else disable @endif busCat">
-                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true{{$step}} @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
@@ -204,7 +204,7 @@
 
                                         @endif
                                         <form id="info-form">
-                                       
+                                       <input type="hidden" id="step-name" value="{{$step}}" readonly>
                                         @yield('form-data')
                                        
                                         <!-- Submit for review section -->
@@ -225,7 +225,7 @@
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
                                             @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
-                                            <button onclick="validateListing(event)" class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
+                                            <button class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>

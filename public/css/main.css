@@ -358,6 +358,7 @@ span {
   }
   .navbar-default .navbar-brand img {
     width: 45%;
+    margin-left: 0;
   }
 }
 .fnb-breadcrums__section {

@@ -65,9 +65,14 @@ getNodes = (branchID) ->
       data: 
         'parent' : JSON.stringify(obj)
       success: (data) ->
-        html = ""
+        array = []
+        $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data)->
+          console.log 'aa'
+        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
+        html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
+        html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
-          html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" for="'+slugify(data[branchID]['children'][key]['name'])+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
+          html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         # console.log  slugify(data[branchID]['name'])
         $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
         categ[branchID] = true
@@ -447,11 +452,40 @@ $(document).on 'change', '.city select', ->
       $('.area select').html html
       return
 
+
+categories = undefined
+categories = 'categories': []
+
+$('body').on 'change', '.tab-pane.collapse.active input[type=\'checkbox\']', ->
+  parentDiv = $(this).closest('div')
+  branchID = parentDiv.find('input[name="branch"]').attr('id')
+  if !categories['categories'].hasOwnProperty branchID 
+    categories['categories'][branchID] =
+    'image-url': parentDiv.find('input[name="image"]').val()
+    'parent': parentDiv.find('input[name="parent"]').val()
+    'branch': parentDiv.find('input[name="branch"]').val()
+    'nodes': []
+  if $(this)[0].checked
+    categories['categories'][branchID]['nodes'].push {'name': $(this).attr('name') , 'id':$(this).val()}
+  else
+    id=$(this).val()
+    console.log 'remove this shit'
+    categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], (node) ->
+      console.log node["id"]
+      console.log id
+      if node["id"] == id
+        true
+      else
+        false
+    )
+    console.log $(this)[0]
 $('body').on 'click', 'button#category-select.fnb-btn', ->
-  source = '<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>'
-  template = Handlebars.compile source
-  categories = {"image-url": 'www.google.com', "parent": "Meat n Masala", "branch":"Beef Yummy", "nodes":[{"name":"Al Kabeer ","id":"1"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"},{"name":"Pandiyan", "id":"2"}]}
-  $('div#categories.node-list').append template(categories)
+  source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
+  template = Handlebars.compile(source)
+  $('div#categories.node-list').html template(categories)
+  return
+
+
 
 $(document).on 'click', '.full.save-btn.gs-next', (e) ->
   step = $('input#step-name').val()

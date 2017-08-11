@@ -311,7 +311,9 @@ class ListingController extends Controller
                 $child_array[$ch->id] = array('name'=>$ch->name);
             }
             $parent_obj= Category::find($parent->id);
-            $parent_array [$parent_obj->id] = array('name'=>$parent_obj->name,'children'=>$child_array);
+            if($parent_obj->parent_id!=null) $grandparent = Category::findorFail($parent_obj->parent_id);
+            else $grandparent= new Category;
+            $parent_array [$parent_obj->id] = array('name'=>$parent_obj->name,'children'=>$child_array,'parent'=> $grandparent->name ,'image' => $grandparent->icon_url);
         }
         return response()->json($parent_array);
     }

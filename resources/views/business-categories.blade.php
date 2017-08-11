@@ -32,7 +32,8 @@
         </ul>       
     </div>
 
-    <div class="m-t-30 c-gap addedCat hidden">
+
+    <div class="m-t-30 c-gap addedCat ">
 
         <label class="label-size">List of all the categories for your listing</label>
         <div id="categories" class="node-list">

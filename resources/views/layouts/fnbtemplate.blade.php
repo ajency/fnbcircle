@@ -134,6 +134,8 @@
     <!-- jquery tags -->
     <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
       <script type="text/javascript" src="/js/parsley.min.js" ></script>
+      <script type="text/javascript" src="/js/underscore-min.js" ></script>
+
     @yield('js')
 </body>
 

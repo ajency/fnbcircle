@@ -357,7 +357,7 @@ span {
     font-size: 1.8em;
   }
   .navbar-default .navbar-brand img {
-    width: 45%;
+    width: 40%;
     margin-left: 0;
   }
 }
@@ -6886,6 +6886,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .category-modal .instructions,
   .area-modal .instructions {
     padding: 1em;
+    margin-top: 1em;
   }
   .category-modal .instructions__title,
   .area-modal .instructions__title {
@@ -6899,6 +6900,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .area-modal .operate-all {
     margin-bottom: 0;
   }
+}
+.cat-cancel:hover {
+  color: #858585;
 }
 .duplicate-listing .modal-header,
 .duplicate-listing .modal-body {

@@ -101,6 +101,15 @@ $('.topSelect').click ->
 		return
 	), 100
 
+if $(window).width() < 768
+	$('.topSelect').click ->
+		setTimeout (->
+			$('.category-back').addClass 'hidden'
+			$('.cat-cancel').addClass 'hidden'
+			$('.mobileCat-back').removeClass 'hidden'
+			return
+		), 100
+
 
 
 # detaching sections

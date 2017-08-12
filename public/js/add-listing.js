@@ -122,6 +122,16 @@
     }), 100);
   });
 
+  if ($(window).width() < 768) {
+    $('.topSelect').click(function() {
+      return setTimeout((function() {
+        $('.category-back').addClass('hidden');
+        $('.cat-cancel').addClass('hidden');
+        $('.mobileCat-back').removeClass('hidden');
+      }), 100);
+    });
+  }
+
   if ($(window).width() <= 768) {
     $('.single-category').each(function() {
       var branchAdd, branchrow;

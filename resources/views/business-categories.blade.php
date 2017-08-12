@@ -130,10 +130,11 @@
                     </div>
                     <div class="mobile-back flex-row">
                         <div class="back">
+                            <button class="hidden btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                             <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn primary-link m-l-5">cancel</a>
+                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">cancel</a>
                         </div>
                     </div>
                 </div>

@@ -190,7 +190,7 @@
                                     </p>
                                     <div class="gs-form tab-content">
                                         <div class="site-loader section-loader hidden">
-                                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                                            <div class="ball"></div>
                                         </div>
                                         
                                     <!-- failure message-->
@@ -303,7 +303,7 @@
             </div>
         </div>
         <div class="site-loader full-loader hidden">
-            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+           <div class="ball"></div>
         </div>
         <div class="site-overlay"></div>
     </div>

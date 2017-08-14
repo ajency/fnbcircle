@@ -213,7 +213,7 @@ class ListingController extends Controller
         $this->validate($request, [
             'city' => 'required|min:1|integer',
         ]);
-        $areas = Area::where('city_id', $request->city)->get();
+        $areas = Area::where('city_id', $request->city)->where('status','1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
             $res[$area->id] = $area->name;
@@ -305,7 +305,7 @@ class ListingController extends Controller
             }
         }
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->get();
+            $child       = Category::where('parent_id', $parent->id)->where('status','1')->orderBy('order')->orderBy('name')->get();
             $child_array = array();
             foreach ($child as $ch) {
                 $child_array[$ch->id] = array('name'=>$ch->name);
@@ -525,7 +525,7 @@ class ListingController extends Controller
     public function create()
     {
         $listing = new Listing;
-        $cities  = City::all();
+        $cities  = City::where('status','1')->orderBy('order')->orderBy('name')->get();
         return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
     public function edit($reference, $step = 'business-information')
@@ -535,13 +535,16 @@ class ListingController extends Controller
             $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
             $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
-            $cities  = City::all();
-            $area    = Area::find($listing->locality_id);
-            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('area', $area);
+            $cities  = City::where('status','1')->orderBy('order')->orderBy('name')->get();
+            $areas    = Area::where('city_id',function($area) use ($listing){
+                $area -> from('areas')->select('city_id')->where('id',$listing->locality_id);
+            })->where('status','1')->orderBy('order')->orderBy('name')->get();
+            // echo $areas;
+            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
         }
         if ($step == 'business-categories') {
             $listing      = Listing::where('reference', $reference)->firstorFail();
-            $parent_categ = Category::whereNull('parent_id')->get();
+            $parent_categ = Category::whereNull('parent_id')->where('status','1')->orderBy('order')->orderBy('name')->get();
             return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ);
 
         }

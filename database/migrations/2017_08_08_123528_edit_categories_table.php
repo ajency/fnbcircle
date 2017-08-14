@@ -14,7 +14,7 @@ class EditCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-          $table->string('URL');
+          $table->string('slug');
           $table->string('icon_url')->nullable();
         });
     }
@@ -27,7 +27,7 @@ class EditCategoriesTable extends Migration
     public function down()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn(['URL','icon_url']);
+            $table->dropColumn(['slug','icon_url']);
         });
     }
 }

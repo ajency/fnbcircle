@@ -37,27 +37,29 @@
       },
       success: function(data) {
         var html, html_mob, i, key;
+        console.log(data);
         html = '';
         html_mob = '';
         i = 0;
+        data[id]['children'] = _.sortBy(_.sortBy(data[id]['children'], 'name'), 'order');
         for (key in data[id]['children']) {
-          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
           if (i === 0) {
             html_mob += ' active';
           }
-          html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + key + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>';
+          html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>';
           html += '<li role="presentation"';
           if (i === 0) {
             html += ' class="active"';
           }
-          html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>';
+          html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>';
           i++;
         }
         $('.categ-list').html(html);
         $('.mobile-categories').html(html_mob);
         categ.length = 0;
         for (key in data[id]['children']) {
-          getNodes(key);
+          getNodes(data[id]['children'][key]['id']);
           break;
         }
       }
@@ -85,7 +87,6 @@
           $('ul#view-categ-node').find('input[type=\'hidden\']').each(function(index, data) {
             return array.push($(this).val());
           });
-          console.log(array);
           for (branch in categories['categories']) {
             for (node in categories['categories'][branch]['nodes']) {
               if (_.indexOf(array, categories['categories'][branch]['nodes'][node]['id']) === -1) {
@@ -273,8 +274,6 @@
     valid = validator.validate();
     if (valid === true && input.val() !== '') {
       get_val = input.val();
-      console.log(get_val);
-      console.log(id_val);
       if (parent.hasClass('business-email')) {
         $('#email-modal').modal('show');
         type = '1';
@@ -295,7 +294,6 @@
           id.val(data['id']);
           input.val(data['value']);
           get_val = data['value'];
-          console.log(id.val());
         },
         error: function(request, status, error) {
           id.val("");
@@ -469,7 +467,6 @@
   $('.resend-link').click(function() {
     event.preventDefault();
     $(this).addClass('sending');
-    console.log(id.val());
     setTimeout((function() {
       $('.resend-link').removeClass('sending');
     }), 2500);
@@ -532,17 +529,13 @@
       });
     } else {
       id = $(this).val();
-      console.log('remove this shit');
-      categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], function(node) {
-        console.log(node["id"]);
-        console.log(id);
+      return categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], function(node) {
         if (node["id"] === id) {
           return true;
         } else {
           return false;
         }
       });
-      return console.log($(this)[0]);
     }
   });
 

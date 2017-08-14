@@ -28,26 +28,27 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       'parent' : JSON.stringify(obj)
     }
     success: (data) ->
-      # console.log data
+      console.log data
       html = ''
       html_mob = ''
       i = 0
+      data[id]['children'] = _.sortBy(_.sortBy(data[id]['children'],'name'),'order');
       for key of data[id]['children']
         # console.log data[id]['children'][key]['name']
-        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
         if i == 0
           html_mob += ' active' 
-        html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + key + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>'
+        html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>'
         html += '<li role="presentation"'
         if i == 0
           html += ' class="active"'
-        html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + key + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>'
+        html += '><a href="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-controls="' + slugify(data[id]['children'][key]['name']) + '" role="tab" data-toggle="tab">' + data[id]['children'][key]['name'] + '</a></li>'
         i++
       $('.categ-list').html html
       $('.mobile-categories').html html_mob
       categ.length = 0
       for key of data[id]['children']
-        getNodes(key)
+        getNodes(data[id]['children'][key]['id'])
         break
       return
   return
@@ -68,7 +69,7 @@ getNodes = (branchID) ->
         array = []
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
           array.push $(this).val()
-        console.log array
+        # console.log array
         for branch of categories['categories']
           for node of categories['categories'][branch]['nodes']
             if _.indexOf(array, categories['categories'][branch]['nodes'][node]['id']) == -1
@@ -246,8 +247,8 @@ verify = ->
   valid = validator.validate()
   if valid == true and input.val() != ''
     get_val = input.val()
-    console.log get_val
-    console.log id_val
+    # console.log get_val
+    # console.log id_val
     if parent.hasClass('business-email')
       $('#email-modal').modal 'show'
       type = '1'
@@ -265,7 +266,7 @@ verify = ->
         id.val data['id']
         input.val data['value']
         get_val = data['value']
-        console.log id.val()
+        # console.log id.val()
         return
       error: (request, status, error) ->
         id.val ""
@@ -433,7 +434,7 @@ $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
 $('.resend-link').click ->
 	event.preventDefault();
 	$(this).addClass 'sending'
-	console.log id.val()
+	# console.log id.val()
 	setTimeout (->
 		$('.resend-link').removeClass 'sending'
 		return
@@ -489,16 +490,16 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
     categories['categories'][branchID]['nodes'].push {'name': $(this).attr('name') , 'id':$(this).val()}
   else
     id=$(this).val()
-    console.log 'remove this shit'
+    # console.log 'remove this shit'
     categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], (node) ->
-      console.log node["id"]
-      console.log id
+      # console.log node["id"]
+      # console.log id
       if node["id"] == id
         true
       else
         false
     )
-    console.log $(this)[0]
+    # console.log $(this)[0]
 
 populate = () ->
   source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'

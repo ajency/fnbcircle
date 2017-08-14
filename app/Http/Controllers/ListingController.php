@@ -308,7 +308,7 @@ class ListingController extends Controller
             $child       = Category::where('parent_id', $parent->id)->where('status','1')->orderBy('order')->orderBy('name')->get();
             $child_array = array();
             foreach ($child as $ch) {
-                $child_array[$ch->id] = array('name'=>$ch->name);
+                $child_array[$ch->id] = array('id'=>$ch->id,'name'=>$ch->name,'order'=>$ch->order);
             }
             $parent_obj= Category::find($parent->id);
             if($parent_obj->parent_id!=null) $grandparent = Category::findorFail($parent_obj->parent_id);

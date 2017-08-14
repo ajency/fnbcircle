@@ -93,7 +93,8 @@
                 <option value="Royco">Royco</option>
             </datalist> -->
             <ul class="fnb-cat small core-selector flex-row">
-                <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label" checked=""><label class="core-selector__label m-b-0" for="cat-label"><span class="fnb-cat__title text-medium">Al Kabeer </span></label></span>
+                
+                <!-- <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label" checked=""><label class="core-selector__label m-b-0" for="cat-label"><span class="fnb-cat__title text-medium">Al Kabeer </span></label></span>
                 </li>
                 <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-2"><label class="core-selector__label m-b-0" for="cat-label-2"><span class="fnb-cat__title text-medium">Pandiyan </span></label></span>
                 </li>
@@ -103,7 +104,7 @@
                 </li>
                 <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-5"><label class="core-selector__label m-b-0" for="cat-label-5"><span class="fnb-cat__title text-medium">Venkys </span></label></span>
                 </li>
-                <!--
+ -->                <!--
                 <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li> -->
             </ul>
         </div>

@@ -1,5 +1,5 @@
 (function() {
-  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, verify;
+  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, update_core, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -37,7 +37,6 @@
       },
       success: function(data) {
         var html, html_mob, i, key;
-        console.log(data);
         html = '';
         html_mob = '';
         i = 0;
@@ -541,9 +540,10 @@
 
   populate = function() {
     var source, template;
-    source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}';
+    source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}';
     template = Handlebars.compile(source);
     $('div#categories.node-list').html(template(categories));
+    update_core();
   };
 
   $('body').on('click', 'button#category-select.fnb-btn', function() {
@@ -586,11 +586,35 @@
   change_view = function() {
     if ($('div#categories.node-list').children().length === 0) {
       $('#categ-selected').addClass('hidden');
-      return $('#no-categ-select').removeClass('hidden');
+      $('#no-categ-select').removeClass('hidden');
     } else {
       $('#categ-selected').removeClass('hidden');
-      return $('#no-categ-select').addClass('hidden');
+      $('#no-categ-select').addClass('hidden');
     }
+    return update_core();
+  };
+
+  update_core = function() {
+    var core, html, item_id, item_name;
+    item_id = [];
+    item_name = [];
+    core = [];
+    $('ul#view-categ-node').find('input[type=\'hidden\']').each(function(index, data) {
+      item_id.push($(this).val());
+      return item_name.push($(this).attr('data-item-name'));
+    });
+    $('input.core-cat-select[type="checkbox"]:checked').each(function(index, data) {
+      return core.push($(this).val());
+    });
+    html = '';
+    item_id.forEach(function(item, index) {
+      html += '<li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
+      if (_.indexOf(core, item) !== -1) {
+        html += ' checked="checked"';
+      }
+      html += '><label class="core-selector__label m-b-0" for="cat-label-' + item + '"><span class="fnb-cat__title text-medium">' + item_name[index] + '</span></label></span></li>';
+    });
+    return $('.core-selector').html(html);
   };
 
 }).call(this);

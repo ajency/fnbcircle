@@ -28,7 +28,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       'parent' : JSON.stringify(obj)
     }
     success: (data) ->
-      console.log data
+      # console.log data
       html = ''
       html_mob = ''
       i = 0
@@ -502,9 +502,10 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
     # console.log $(this)[0]
 
 populate = () ->
-  source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
+  source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
   template = Handlebars.compile(source)
   $('div#categories.node-list').html template(categories)
+  update_core()
   return
 
 $('body').on 'click', 'button#category-select.fnb-btn', ->
@@ -543,3 +544,25 @@ change_view = () ->
   else
     $('#categ-selected').removeClass('hidden');
     $('#no-categ-select').addClass('hidden');
+  update_core()
+
+update_core = () -> 
+  item_id = []
+  item_name = []
+  core = []
+  $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
+    item_id.push $(this).val()
+    item_name.push $(this).attr('data-item-name')
+  $('input.core-cat-select[type="checkbox"]:checked').each (index,data) ->
+    core.push $(this).val()
+  # console.log item_id
+  # console.log item_name
+  # console.log core
+  html = ''
+  item_id.forEach (item, index) ->
+    html += '<li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-'+item+'" value="'+item+'"'
+    if _.indexOf(core, item) != -1
+      html+=' checked="checked"'
+    html += '><label class="core-selector__label m-b-0" for="cat-label-'+item+'"><span class="fnb-cat__title text-medium">'+item_name[index]+'</span></label></span></li>'
+    return
+  $('.core-selector').html html

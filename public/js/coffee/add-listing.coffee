@@ -69,6 +69,15 @@ getNodes = (branchID) ->
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
           array.push $(this).val()
         console.log array
+        for branch of categories['categories']
+          for node of categories['categories'][branch]['nodes']
+            if _.indexOf(array, categories['categories'][branch]['nodes'][node]['id']) == -1
+              delete categories['categories'][branch]['nodes'][node]
+          j=0
+          for i of categories['categories'][branch]['nodes']
+            j++
+          if j == 0
+            delete categories['categories'][branch]
         html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
         html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
@@ -84,6 +93,7 @@ getNodes = (branchID) ->
   return
 
 $('body').on 'click', '.categ-list a', ->
+  populate()
   getNodes($(this).attr('name'))
 
 $('body').on 'click', 'div.toggle-collapse.desk-hide', ->
@@ -483,10 +493,30 @@ $('body').on 'change', '.tab-pane.collapse.active input[type=\'checkbox\']', ->
         false
     )
     console.log $(this)[0]
-$('body').on 'click', 'button#category-select.fnb-btn', ->
+
+populate = () ->
   source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
   template = Handlebars.compile(source)
   $('div#categories.node-list').html template(categories)
+  return
+
+$('body').on 'click', 'button#category-select.fnb-btn', ->
+  k=0
+  if categories['categories'].length > 0
+    for branch of categories['categories']
+      k++
+      j=0
+      for i of categories['categories'][branch]['nodes']
+        j++
+      if j == 0
+        delete categories['categories'][branch]
+  populate()
+  if k>0
+    $('#categ-selected').removeClass('hidden');
+    $('#no-categ-select').addClass('hidden');
+  else
+    $('#categ-selected').addClass('hidden');
+    $('#no-categ-select').removeClass('hidden');
   return
 
 

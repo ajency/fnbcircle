@@ -12,7 +12,7 @@
 <div class="business-cats tab-pane fade in active" id="business_categories">
     <h5 class="no-m-t main-heading">Business Categories</h5>
 
-    <div class="m-t-30 add-container c-gap">
+    <div class="m-t-30 add-container c-gap" id="no-categ-select">
         <label class="label-size">Select categories your listing belongs to <span class="text-primary">*</span></label>
         <div class="text-lighter m-t-5">
             One category at a time
@@ -33,13 +33,13 @@
     </div>
 
 
-    <div class="m-t-30 c-gap addedCat ">
+    <div class="m-t-30 c-gap addedCat hidden" id="categ-selected">
 
         <label class="label-size">List of all the categories for your listing</label>
         <div id="categories" class="node-list">
         </div>
 
-        <div class="single-category gray-border add-more-cat m-t-15">
+        <!-- <div class="single-category gray-border add-more-cat m-t-15">
             <div class="row flex-row categoryContainer">
                 <div class="col-sm-4 flex-row">
                     <span class="fnb-icons cat-icon meat"></span>
@@ -69,7 +69,7 @@
             <div class="delete-cat">
                 <span class="fa fa-times remove"></span>
             </div>
-        </div>
+        </div> -->
 
         <!-- <div class="test">test</div> -->
 
@@ -135,7 +135,7 @@
                             <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">cancel</a>
+                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">cancel</a>
                         </div>
                     </div>
                 </div>

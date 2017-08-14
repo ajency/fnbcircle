@@ -61,16 +61,18 @@
                 <select class="fnb-select select-variant form-control text-lighter" name="city" required>
                     <option>Select City</option>
                     @foreach($cities as $city)
-                        <option value="{{$city->id}}"@if($areas[0]->city_id == $city->id) selected @endif>{{$city->name}}</option>
+                        <option value="{{$city->id}}"@if(isset($areas) and $areas[0]->city_id == $city->id) selected @endif>{{$city->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="City and Area of the business is mandatory." data-parsley-errors-container="#areaError">
                     <option value="">Select Area</option>
+                    @if(isset($areas))
                     @foreach($areas as $area)
                         <option value="{{$area->id}}"@if($area->id == $listing->locality_id) selected @endif>{{$area->name}}</option>
                     @endforeach
+                    @endif
                     <!-- @if(isset($area))<option value="{{$area->id}}" selected>{{$area->name}}</option>@endif -->
                 </select>
             </div>

@@ -200,10 +200,16 @@ $('body').on 'click', '.add-another', (e)->
 # Remove Category
 
 $('body').on 'click', '.delete-cat', ->
-	$(this).closest('.single-category').remove()
+  $(this).closest('.single-category').remove()
+  change_view()
 
 $('body').on 'click', '.fnb-cat .remove', ->
-	$(this).closest('.fnb-cat__title').parent().remove()
+  item = $(this).closest('.fnb-cat__title').parent()
+  list= item.parent()
+  item.remove()
+  if list.children().length == 0
+    list.closest('.single-category').remove()
+  change_view()
 
 
 $('body').on 'click', '.review-submit', (e)->
@@ -470,7 +476,7 @@ $(document).on 'change', '.city select', ->
 categories = undefined
 categories = 'categories': []
 
-$('body').on 'change', '.tab-pane.collapse.active input[type=\'checkbox\']', ->
+$('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
   parentDiv = $(this).closest('div')
   branchID = parentDiv.find('input[name="branch"]').attr('id')
   if !categories['categories'].hasOwnProperty branchID 
@@ -528,3 +534,11 @@ $(document).on 'click', '.full.save-btn.gs-next', (e) ->
     window.validateListing(e)
   if step == 'business-categories'
     console.log 'save'
+
+change_view = () ->
+  if $('div#categories.node-list').children().length == 0
+    $('#categ-selected').addClass('hidden');
+    $('#no-categ-select').removeClass('hidden');
+  else
+    $('#categ-selected').removeClass('hidden');
+    $('#no-categ-select').addClass('hidden');

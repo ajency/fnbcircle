@@ -1,5 +1,5 @@
 (function() {
-  var categ, categories, getID, getNodes, id, input, parent, populate, verify;
+  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -224,11 +224,19 @@
   });
 
   $('body').on('click', '.delete-cat', function() {
-    return $(this).closest('.single-category').remove();
+    $(this).closest('.single-category').remove();
+    return change_view();
   });
 
   $('body').on('click', '.fnb-cat .remove', function() {
-    return $(this).closest('.fnb-cat__title').parent().remove();
+    var item, list;
+    item = $(this).closest('.fnb-cat__title').parent();
+    list = item.parent();
+    item.remove();
+    if (list.children().length === 0) {
+      list.closest('.single-category').remove();
+    }
+    return change_view();
   });
 
   $('body').on('click', '.review-submit', function(e) {
@@ -505,7 +513,7 @@
     'categories': []
   };
 
-  $('body').on('change', '.tab-pane.collapse.active input[type=\'checkbox\']', function() {
+  $('body').on('change', '.tab-pane.collapse input[type=\'checkbox\']', function() {
     var branchID, parentDiv;
     parentDiv = $(this).closest('div');
     branchID = parentDiv.find('input[name="branch"]').attr('id');
@@ -581,5 +589,15 @@
       return console.log('save');
     }
   });
+
+  change_view = function() {
+    if ($('div#categories.node-list').children().length === 0) {
+      $('#categ-selected').addClass('hidden');
+      return $('#no-categ-select').removeClass('hidden');
+    } else {
+      $('#categ-selected').removeClass('hidden');
+      return $('#no-categ-select').addClass('hidden');
+    }
+  };
 
 }).call(this);

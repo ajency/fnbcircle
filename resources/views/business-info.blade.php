@@ -72,7 +72,7 @@
                     @foreach($areas as $area)
                         <option value="{{$area->id}}"@if($area->id == $listing->locality_id) selected @endif>{{$area->name}}</option>
                     @endforeach
-                    @endif
+                    @endif  
                     <!-- @if(isset($area))<option value="{{$area->id}}" selected>{{$area->name}}</option>@endif -->
                 </select>
             </div>

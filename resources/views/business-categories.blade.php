@@ -29,15 +29,15 @@
                 </div>
             </li>
            @endforeach
-        </ul>       
+        </ul>    
+        <div id="no-categ-error" class="hidden">At least one category should be added for a business.</div>   
     </div>
 
 
     <div class="m-t-30 c-gap addedCat hidden" id="categ-selected">
 
         <label class="label-size">List of all the categories for your listing</label>
-        <div id="categories" class="node-list">
-        </div>
+        <div id="categories" class="node-list"></div>
 
         <!-- <div class="single-category gray-border add-more-cat m-t-15">
             <div class="row flex-row categoryContainer">

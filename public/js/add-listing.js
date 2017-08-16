@@ -608,7 +608,7 @@
     });
     html = '';
     item_id.forEach(function(item, index) {
-      html += '<li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
+      html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
       if (_.indexOf(core, item) !== -1) {
         html += ' checked="checked"';
       }
@@ -618,8 +618,52 @@
   };
 
   validateCategories = function() {
-    var instance;
-    return instance = $('#info-form').parsley();
+    var brands, cores, form, instance, parameters;
+    instance = $('#info-form').parsley();
+    if ($('div#categories.node-list').children().length === 0) {
+      $('div#no-categ-error').removeClass('hidden');
+      return false;
+    }
+    if (!instance.validate()) {
+      return false;
+    }
+    $('.section-loader').removeClass('hidden');
+    categories = {};
+    cores = {};
+    $('#view-categ-node input[name="categories"]').each(function(index, item) {
+      var category;
+      category = {};
+      category['id'] = $(this).val();
+      return categories[index] = category;
+    });
+    $('input[data-parsley-multiple="core_categ"]:checked').each(function(index, item) {
+      var core;
+      core = {};
+      core['id'] = $(this).val();
+      return cores[index] = core;
+    });
+    brands = $('input#brandsinput').val();
+    parameters = {};
+    parameters['listing_id'] = document.getElementById('listing_id').value;
+    parameters['step'] = 'business-categories';
+    parameters['change'] = window.change;
+    parameters['categories'] = JSON.stringify(categories);
+    parameters['core'] = JSON.stringify(cores);
+    parameters['brands'] = brands;
+    form = $('<form></form>');
+    form.attr("method", "post");
+    form.attr("action", "/listing");
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr("type", "hidden");
+      field.attr("name", key);
+      field.attr("value", value);
+      form.append(field);
+      console.log(key + '=>' + value);
+    });
+    $(document.body).append(form);
+    return form.submit();
   };
 
 }).call(this);

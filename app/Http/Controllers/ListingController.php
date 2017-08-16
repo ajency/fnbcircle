@@ -223,38 +223,7 @@ class ListingController extends Controller
 
     //---------------------------step 2 ----------------------------------------
 
-    public function validateListingcategories($data)
-    {
-        $this->validate($data, [
-            'listing_id' => 'required|integer|min:1',
-            'categories' => 'required|id_json|not_empty_json',
-            'core'       => 'required|id_json|not_empty_json',
-            'brands'     => 'required|id_json',
-        ]);
-        if (!Common::verify_id($data->listing_id, 'listings')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Listing id is fabricated. Id doesnt exist'));
-        }
-        $categ = json_decode($data->categories);
-        foreach ($categ as $category) {
-            if (!Common::verify_id($category->id, 'categories')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Category id is fabricated. Id doesnt exist'));
-            }
-        }
-        $allcores = json_decode($data->core);
-        foreach ($allcores as $core) {
-            if (!Common::verify_id($core->id, 'categories')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Category id is fabricated. Id doesnt exist'));
-            }
-        }
-        $brands = json_decode($data->brands);
-        foreach ($brands as $brand) {
-            if (!Common::verify_id($brand->id, 'brands')) {
-                return \Redirect::back()->withErrors(array('wrong_step' => 'Brand id is fabricated. Id doesnt exist'));
-            }
-        }
-        return true;
-    }
-    public function saveListingCategories($listing_id, $categories, $brands)
+    public function saveListingCategories($listing_id, $categories)
     {
         ListingCategory::where('listing_id', $listing_id)->delete();
         foreach ($categories as $id => $core) {
@@ -264,33 +233,38 @@ class ListingController extends Controller
             $category->core        = $core;
             $category->save();
         }
-        ListingBrand::where('listing_id', $listing_id)->delete();
-        foreach ($brands as $brand) {
-            $row             = new ListingBrand;
-            $row->listing_id = $listing_id;
-            $row->brand_id   = $brand->id;
-            $row->save();
-        }
     }
     public function listingCategories($request)
     {
-        $check = $this->validateListingCategories($request);
-        if ($check !== true) {
-            return $check;
-        }
-
+        $this->validate($request, [
+            'listing_id' => 'required',
+            'categories' => 'required|id_json|not_empty_json',
+            'core'       => 'required|id_json|not_empty_json',
+            'change'        => 'nullable|boolean',
+            // 'brands'     => 'required|id_json',
+        ]);
         $categories = array();
-        $categ      = json_decode($request->categories);
+        $categ = json_decode($request->categories);
         foreach ($categ as $category) {
             $categories[$category->id] = 0;
+            if (!Common::verify_id($category->id, 'categories')) {
+                return \Redirect::back()->withErrors(array('wrong_step' => 'Category id is fabricated. Id doesnt exist'));
+            }
         }
         $allcores = json_decode($request->core);
         foreach ($allcores as $core) {
             $categories[$core->id] = 1;
+            if (!Common::verify_id($core->id, 'categories')) {
+                return \Redirect::back()->withErrors(array('wrong_step' => 'Category id is fabricated. Id doesnt exist'));
+            }
         }
-        $brands = json_decode($request->brands);
-
-        $this->saveListingCategories($request->listing_id, $categories, $brands);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        $this->saveListingCategories($listing->id, $categories);
+        if(isset($request->brands) and $request->brands != ''){
+            $listing->retag($request->brands);
+        }else{
+            $listing->untag();
+        }
     }
 
     public function getCategories(Request $request)
@@ -545,7 +519,7 @@ class ListingController extends Controller
         if ($step == 'business-categories') {
             $listing      = Listing::where('reference', $reference)->firstorFail();
             $parent_categ = Category::whereNull('parent_id')->where('status','1')->orderBy('order')->orderBy('name')->get();
-            // $listing->retag(array('Real Goods','Yummiez','Wendy\'s Food','Venkys'));
+            // $listing->retag('');
             return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('brands', Listing::existingTags());
 
         }

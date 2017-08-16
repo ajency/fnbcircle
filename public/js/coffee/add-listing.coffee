@@ -560,7 +560,7 @@ update_core = () ->
   # console.log core
   html = ''
   item_id.forEach (item, index) ->
-    html += '<li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-'+item+'" value="'+item+'"'
+    html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-'+item+'" value="'+item+'"'
     if _.indexOf(core, item) != -1
       html+=' checked="checked"'
     html += '><label class="core-selector__label m-b-0" for="cat-label-'+item+'"><span class="fnb-cat__title text-medium">'+item_name[index]+'</span></label></span></li>'
@@ -569,3 +569,42 @@ update_core = () ->
 
 validateCategories = ->
   instance = $('#info-form').parsley()
+  if $('div#categories.node-list').children().length == 0
+    $('div#no-categ-error').removeClass 'hidden'
+    return false
+  if !instance.validate() 
+    return false;
+  $('.section-loader').removeClass('hidden');
+  categories ={}
+  cores ={}
+  $('#view-categ-node input[name="categories"]').each (index,item) ->
+    category={}
+    category['id'] = $(this).val()
+    categories[index] = category
+  $('input[data-parsley-multiple="core_categ"]:checked').each (index,item) ->
+    core={}
+    core['id'] = $(this).val()
+    cores[index] = core
+  # console.log JSON.stringify cores
+  brands = $('input#brandsinput').val()
+  # console.log brands
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-categories'
+  parameters['change'] = window.change
+  parameters['categories'] = JSON.stringify categories
+  parameters['core'] = JSON.stringify cores
+  parameters['brands'] = brands
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()

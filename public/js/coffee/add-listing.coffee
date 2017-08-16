@@ -535,7 +535,7 @@ $(document).on 'click', '.full.save-btn.gs-next', (e) ->
   if step == 'business-information' 
     window.validateListing(e)
   if step == 'business-categories'
-    console.log 'save'
+    validateCategories()
 
 change_view = () ->
   if $('div#categories.node-list').children().length == 0
@@ -566,3 +566,6 @@ update_core = () ->
     html += '><label class="core-selector__label m-b-0" for="cat-label-'+item+'"><span class="fnb-cat__title text-medium">'+item_name[index]+'</span></label></span></li>'
     return
   $('.core-selector').html html
+
+validateCategories = ->
+  instance = $('#info-form').parsley()

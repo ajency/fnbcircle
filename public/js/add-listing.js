@@ -1,5 +1,5 @@
 (function() {
-  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, update_core, verify;
+  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, update_core, validateCategories, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -579,7 +579,7 @@
       window.validateListing(e);
     }
     if (step === 'business-categories') {
-      return console.log('save');
+      return validateCategories();
     }
   });
 
@@ -615,6 +615,11 @@
       html += '><label class="core-selector__label m-b-0" for="cat-label-' + item + '"><span class="fnb-cat__title text-medium">' + item_name[index] + '</span></label></span></li>';
     });
     return $('.core-selector').html(html);
+  };
+
+  validateCategories = function() {
+    var instance;
+    return instance = $('#info-form').parsley();
   };
 
 }).call(this);

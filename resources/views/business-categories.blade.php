@@ -115,10 +115,10 @@
             Ex: Albertsons, America's Choice, Bashas
         </div> -->
         <div class="m-t-5">
-            <input type="text" class="form-control fnb-input flexdatalist" placeholder="+ Add brands you deal with" list="brands" multiple="multiple" id=brandsinput>
+            <input type="text" class="form-control fnb-input flexdatalist" placeholder="+ Add brands you deal with" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
             <datalist id="brands">
             @foreach ($brands as $brand)
-            <option value = "{{$brand}}">{{$brand}}</option>
+            <option value = "{{$brand->slug}}">{{$brand->name}}</option>
             @endforeach
             </datalist>
         </div>

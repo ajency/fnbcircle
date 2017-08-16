@@ -5,6 +5,7 @@ namespace App;
 use App\Listing;
 use App\ListingCategory;
 use Illuminate\Database\Eloquent\Model;
+use Conner\Tagging\Taggable;
 
 class Listing extends Model
 {
@@ -14,6 +15,8 @@ class Listing extends Model
     const WHOLESALER   = 11;
     const RETAILER     = 12;
     const MANUFACTURER = 13;
+
+    use Taggable;
 
     protected $table = "listings";
 

@@ -545,7 +545,8 @@ class ListingController extends Controller
         if ($step == 'business-categories') {
             $listing      = Listing::where('reference', $reference)->firstorFail();
             $parent_categ = Category::whereNull('parent_id')->where('status','1')->orderBy('order')->orderBy('name')->get();
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('brands', array('Real Goods','Yummiez','Wendy\'s Food','Venkys'));
+            // $listing->retag(array('Real Goods','Yummiez','Wendy\'s Food','Venkys'));
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('brands', Listing::existingTags());
 
         }
     }

@@ -17,12 +17,12 @@
         <div class="text-lighter m-t-5">
             One category at a time
         </div>
-        <ul class="interested-options cat-select flex-row m-t-45">
+        <ul class="interested-options cat-select flex-row m-t-30">
            @foreach($parents as $category)
             <li class="topSelect" data-toggle="modal" data-target="#category-select">
                 <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$category->name}}" value="{{$category->id}}">
                 <div class="option flex-row">
-                    <img class="cat-icon" src="{{$category->icon_url}}" />
+                    <img class="import-icon cat-icon" src="{{$category->icon_url}}" />
                 </div>
                 <div class="interested-label">
                     {{$category->name}}
@@ -174,7 +174,7 @@
                             <li>
                                 <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$category->name}}" value="{{$category->id}}">
                                 <div class="option flex-row">
-                                    <img class="cat-icon" src="{{$category->icon_url}}" />
+                                    <img class="import-icon cat-icon" src="{{$category->icon_url}}" />
                                 </div>
                                 <div class="interested-label">
                                     {{$category->name}}

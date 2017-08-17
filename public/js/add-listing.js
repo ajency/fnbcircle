@@ -17,6 +17,7 @@
 
   $('body').on('click', 'input:radio[name=\'categories\']', function() {
     var cat_icon, cat_name, id, obj;
+    $('div.full-modal').removeClass('hidden');
     cat_name = $(this).data('name');
     $('.main-cat-name').html(cat_name);
     cat_icon = $(this).closest('li').find('.cat-icon').clone().addClass('m-r-15');
@@ -42,7 +43,7 @@
         i = 0;
         data[id]['children'] = _.sortBy(_.sortBy(data[id]['children'], 'name'), 'order');
         for (key in data[id]['children']) {
-          html_mob += '<div class="site-loader section-loader half-loader hidden"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div><div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+          html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
           if (i === 0) {
             html_mob += ' active';
           }
@@ -61,6 +62,7 @@
           getNodes(data[id]['children'][key]['id']);
           break;
         }
+        $('div.full-modal').addClass('hidden');
       },
       async: true
     });
@@ -69,11 +71,13 @@
   categ = [];
 
   getNodes = function(branchID) {
-    var obj;
+    var loader, obj;
     obj = {};
     obj[0] = {
       'id': branchID
     };
+    loader = '<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>';
+    $('div[name="' + branchID + '"].tab-pane').html(loader);
     if (categ[branchID] !== true) {
       $.ajax({
         type: 'post',
@@ -101,7 +105,7 @@
               delete categories['categories'][branch];
             }
           }
-          html = '<input type="hidden" name="parent" value="' + data[branchID]['parent'] + '">';
+          html = '<ul class="nodes"><input type="hidden" name="parent" value="' + data[branchID]['parent'] + '">';
           html += '<input type="hidden" name="image" value="' + data[branchID]['image'] + '">';
           html += '<input type="hidden" name="branch" value="' + data[branchID]['name'] + '" id="' + branchID + '">';
           for (key in data[branchID]['children']) {
@@ -111,7 +115,8 @@
             }
             html += ' for="' + slugify(data[branchID]['children'][key]['name']) + '" value="' + key + '" name="' + data[branchID]['children'][key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[branchID]['children'][key]['name']) + '">' + data[branchID]['children'][key]['name'] + '</p></label></li>';
           }
-          $('div#' + slugify(data[branchID]['name']) + '.tab-pane ul.nodes').html(html);
+          html += '</ul>';
+          $('div#' + slugify(data[branchID]['name']) + '.tab-pane').html(html);
           categ[branchID] = true;
         },
         async: true

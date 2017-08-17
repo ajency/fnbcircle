@@ -10,6 +10,7 @@ $('.dropify').dropify messages: 'default': 'Add Photo'
 
 # Add/Edit categories
 $('body').on 'click', 'input:radio[name=\'categories\']', ->
+  $('div.full-modal').removeClass 'hidden'
   # console.log categories['categories']
   cat_name = $(this).data('name')
   $('.main-cat-name').html(cat_name)
@@ -36,7 +37,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       data[id]['children'] = _.sortBy(_.sortBy(data[id]['children'],'name'),'order');
       for key of data[id]['children']
         # console.log data[id]['children'][key]['name']
-        html_mob += '<div class="site-loader section-loader half-loader hidden"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div><div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
+        html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
         if i == 0
           html_mob += ' active' 
         html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>'
@@ -51,6 +52,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       for key of data[id]['children']
         getNodes(data[id]['children'][key]['id'])
         break
+      $('div.full-modal').addClass 'hidden'
       return
     async: true
   return
@@ -60,6 +62,8 @@ categ = []
 getNodes = (branchID) ->
   obj = {}
   obj[0] = 'id': branchID
+  loader ='<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>'
+  $('div[name="'+branchID+'"].tab-pane').html loader
   # console.log categ
   if categ[branchID] != true
     $.ajax
@@ -83,7 +87,7 @@ getNodes = (branchID) ->
             j++
           if j == 0
             delete categories['categories'][branch]
-        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
+        html = '<ul class="nodes"><input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
         html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
@@ -92,7 +96,8 @@ getNodes = (branchID) ->
             html+='checked'
           html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         # console.log  slugify(data[branchID]['name'])
-        $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
+        html+='</ul>'
+        $('div#'+slugify(data[branchID]['name'])+'.tab-pane').html html
         categ[branchID] = true
         return
       async: true

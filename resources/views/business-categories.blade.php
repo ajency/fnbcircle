@@ -5,7 +5,7 @@
 <!-- Success message -->
 @if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    The details have been saved successfully.
+    Business Information details saved successfully.
 </div>
 @endif
 

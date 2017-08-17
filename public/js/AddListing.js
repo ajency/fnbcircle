@@ -6,7 +6,7 @@ $('body').on('change', 'input', function() {
 $('body').on('change', 'select', function() {
     change=1;
   });
-
+console.log(change);
 function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");

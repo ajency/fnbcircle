@@ -318,7 +318,7 @@ window.checkDuplicates = ->
         if value == others[index1].value and index != index1
           # console.log 'DupValue=' + others[index1].value
           # console.log 'duplicate found'
-          $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail added multiple times.'
+          $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail has been added multiple times.'
           return true
         else
           $(others[index1]).closest('.get-val').find('.dupError').html ''
@@ -403,9 +403,9 @@ $('.code-send').click ->
   if validator.isValid() != true 
     # console.log 'gandu'
     if inp.val()==''
-      errordiv.html 'Please enter OTP'
+      errordiv.html 'Please enter sent OTP'
     else
-      errordiv.html('OTP is Invalid');
+      errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
     inp.val('')
     inp.removeAttr('data-parsley-required')
     inp.removeAttr('data-parsley-type')
@@ -436,13 +436,13 @@ $('.code-send').click ->
         $('.processing').addClass('hidden')
         $('.default-state').removeClass('hidden')
         inp.val('')
-        errordiv.html('OTP is Invalid');
+        errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       return
     error: (request, status, error) ->
       $('.processing').addClass('hidden')
       ('.default-state').removeClass('hidden')
       inp.val('')
-      errordiv.html('OTP is Invalid');
+      errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       return
     async: false
   return

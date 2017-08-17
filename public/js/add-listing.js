@@ -335,7 +335,7 @@
         index1 = 0;
         while (index1 < others.length) {
           if (value === others[index1].value && index !== index1) {
-            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail added multiple times.');
+            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail has been added multiple times.');
             return true;
           } else {
             $(others[index1]).closest('.get-val').find('.dupError').html('');
@@ -423,9 +423,9 @@
     validator = inp.parsley();
     if (validator.isValid() !== true) {
       if (inp.val() === '') {
-        errordiv.html('Please enter OTP');
+        errordiv.html('Please enter sent OTP');
       } else {
-        errordiv.html('OTP is Invalid');
+        errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       }
       inp.val('');
       inp.removeAttr('data-parsley-required');
@@ -458,14 +458,14 @@
           $('.processing').addClass('hidden');
           $('.default-state').removeClass('hidden');
           inp.val('');
-          errordiv.html('OTP is Invalid');
+          errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
         }
       },
       error: function(request, status, error) {
         $('.processing').addClass('hidden');
         '.default-state'.removeClass('hidden');
         inp.val('');
-        errordiv.html('OTP is Invalid');
+        errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       },
       async: false
     });

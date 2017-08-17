@@ -9,7 +9,7 @@
     <h5 class="no-m-t fly-out-heading-size main-heading">Business Information</h5>
     <div class="m-t-30 c-gap">
         <label class="label-size">Tell us the name of your business <span class="text-primary">*</span></label>
-        <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Business title is mandatory." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business title cannot be more than 255 characters.">
+        <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Please enter the name of your business." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Business name cannot be less than 2 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your listing.
         </div>
@@ -18,7 +18,7 @@
         <label class="label-size">Who are you? <span class="text-primary">*</span></label>
         <ul class="business-type flex-row m-t-15">
             <li>
-                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
+                <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
                 <div class="wholesaler option flex-row">
                     <span class="fnb-icons business-icon wholesaler"></span>
                     <i class="fa fa-check"></i>
@@ -28,7 +28,7 @@
                 </div>
             </li>
             <li>
-                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-errors-container="#errorfield" @if($listing->type=='12') checked=checked @endif>
+                <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='12') checked=checked @endif>
                 <div class="retailer option flex-row">
                     <span class="fnb-icons business-icon retailer"></span>
                     <i class="fa fa-check"></i>
@@ -38,7 +38,7 @@
                 </div>
             </li>
             <li>
-                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Business type is mandatory." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='13') checked=checked @endif>
+                <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='13') checked=checked @endif>
                 <div class="manufacturer option flex-row">
                     <span class="fnb-icons business-icon manufacturer"></span>
                     <i class="fa fa-check"></i>
@@ -58,7 +58,7 @@
         <label class="label-size">Where is the business located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="city" required>
+                <select class="fnb-select select-variant form-control text-lighter" name="city" required data-parsley-required-message="Select a city where the business is located.">
                     <option>Select City</option>
                     @foreach($cities as $city)
                         <option value="{{$city->id}}"@if(isset($areas) and $areas[0]->city_id == $city->id) selected @endif>{{$city->name}}</option>
@@ -66,7 +66,7 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="City and Area of the business is mandatory." data-parsley-errors-container="#areaError">
+                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select the area where the business is located.">
                     <option value="">Select Area</option>
                     @if(isset($areas))
                     @foreach($areas as $area)

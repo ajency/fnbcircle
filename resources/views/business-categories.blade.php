@@ -123,7 +123,7 @@
                             <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">save</button><a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">cancel</a>
+                            <a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
                         </div>
                     </div>
                 </div>
@@ -172,13 +172,16 @@
                             </div>
                             <button class="btn fnb-btn outline border-btn">save</button>
                         </div> -->
-                        <div class="instructions">
+                        <div class="instructions flex-row space-between">
                             <div class="cat-name flex-row">
                                 <span class="fnb-icons cat-icon meat m-r-15"></span>
                                 <div>
-                                    <h5 class="sub-title cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
                                     <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
+                                    <h5 class="sub-title cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
                                 </div>
+                            </div>
+                            <div>
+                                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">save</button>
                             </div>
                         </div>
                         <div class="node-select flex-row">

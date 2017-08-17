@@ -6890,6 +6890,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     font-size: 0.8em;
   }
 }
+.category-modal .modal-body {
+  padding: 0.5em 0 1em 0;
+}
 .category-modal .modal-content {
   padding: 1em;
 }

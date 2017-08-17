@@ -12,7 +12,7 @@
 <div class="business-cats tab-pane fade in active" id="business_categories">
     <h5 class="no-m-t main-heading">Business Categories</h5>
 
-    <div class="m-t-30 add-container c-gap" id="no-categ-select">
+    <div class="m-t-30 add-container c-gap @if($listing->isReviewable()) hidden @endif" id="no-categ-select">
         <label class="label-size">Select categories your listing belongs to <span class="text-primary">*</span></label>
         <div class="text-lighter m-t-5">
             One category at a time
@@ -34,43 +34,19 @@
     </div>
 
 
-    <div class="m-t-30 c-gap addedCat hidden" id="categ-selected">
+    <div class="m-t-30 c-gap addedCat @if(!$listing->isReviewable()) hidden @endif" id="categ-selected">
 
         <label class="label-size">List of all the categories for your listing</label>
-        <div id="categories" class="node-list"></div>
-
-        <!-- <div class="single-category gray-border add-more-cat m-t-15">
-            <div class="row flex-row categoryContainer">
-                <div class="col-sm-4 flex-row">
-                    <span class="fnb-icons cat-icon meat"></span>
-                    <div class="branch-row">
-                        <div class="cat-label">Meat &amp; Poultry</div>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <strong class="branch">Mutton</strong>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="fnb-cat small flex-row">
-                        <li><span class="fnb-cat__title">Al Kabeer <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Pandiyan <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Ezzy <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Royco <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Venkys <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="delete-cat">
-                <span class="fa fa-times remove"></span>
-            </div>
-        </div> -->
-
+        <div id="categories" class="node-list">
+        @foreach ($categories as $branchID => $branch)
+            <div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{$branch['image-url']}}"></img><div class="branch-row"><div class="cat-label">{{$branch['parent']}}</div></div></div><div class="col-sm-2"><strong class="branch">{{$branch['branch']}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">
+            @foreach ($categories[$branchID]['nodes'] as $nodeID => $node)
+            <li><span class="fnb-cat__title">{{$node['name']}}<input type=hidden name="categories" value="{{$nodeID}}" data-item-name="{{$node['name']}}"> <span class="fa fa-times remove"></span></span></li>
+            @endforeach
+            </ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>
+        @endforeach
+        </div>
+        
         <!-- <div class="test">test</div> -->
 
 
@@ -78,7 +54,7 @@
             <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier">+ Add/Edit more categories</a>
         </div>
     </div>
-    <div class="m-t-50 c-gap core-cat-cont hidden">
+    <div class="m-t-50 c-gap core-cat-cont @if(!$listing->isReviewable()) hidden @endif">
         <label class="required label-size">Core categories of your listing</label>
         <div class="text-lighter m-t-5">
             Note: Core categories will be displayed prominently on the listing. Maximum 10 core categories allowed
@@ -93,6 +69,11 @@
                 <option value="Royco">Royco</option>
             </datalist> -->
             <ul class="fnb-cat small core-selector flex-row">
+            @foreach ($categories as $branchID => $category)
+                @foreach ($category['nodes'] as $node)
+                     <li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-{{$node['id']}}" value="{{$node['id']}}" @if ($node['core'] == '1') checked="checked" @endif ><label class="core-selector__label m-b-0" for="cat-label-{{$node['id']}}"><span class="fnb-cat__title text-medium">{{$node['name']}}</span></label></span></li>
+                @endforeach
+            @endforeach
                 
                 <!-- <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label" checked=""><label class="core-selector__label m-b-0" for="cat-label"><span class="fnb-cat__title text-medium">Al Kabeer </span></label></span>
                 </li>
@@ -114,8 +95,9 @@
         <!-- <div class="text-lighter m-t-5">
             Ex: Albertsons, America's Choice, Bashas
         </div> -->
-        <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input flexdatalist" placeholder="+ Add brands you deal with" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
+
+        <div class="m-t-5">
+            <input type="text" class="form-control fnb-input flexdatalist" placeholder="Type and hit enter" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
             <datalist id="brands">
             @foreach ($brands as $brand)
             <option value = "{{$brand->slug}}">{{$brand->name}}</option>
@@ -278,5 +260,18 @@
             </div>
         </div>
     </div>
-
+    <script type="text/javascript">
+        var categories = {'categories': []};
+        @foreach ($categories as $branchID => $category)
+            categories['categories'][{{$branchID}}]={
+                "branch" : "{{$category['branch']}}", 
+                "image-url" : "{{$category['image-url']}}", 
+                "parent" : "{{$category['parent']}}" ,
+                "nodes" : []
+            };
+            @foreach ($category['nodes'] as $node)
+                categories['categories'][{{$branchID}}]['nodes'].push({"id": "{{$node['id']}}", "name":"{{$node['name']}}"});
+            @endforeach
+        @endforeach
+    </script>
 @endsection

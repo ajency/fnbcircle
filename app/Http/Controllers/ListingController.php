@@ -16,6 +16,7 @@ use App\ListingOperationTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
@@ -519,9 +520,16 @@ class ListingController extends Controller
         if ($step == 'business-categories') {
             $listing      = Listing::where('reference', $reference)->firstorFail();
             $parent_categ = Category::whereNull('parent_id')->where('status','1')->orderBy('order')->orderBy('name')->get();
-            // $listing->retag('');
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('brands', Listing::existingTags());
-
+            $categories = DB::select("select nodes.category_id as id, nodes.name as name, nodes.core as core, info.id as branchID, info.name as branch, info.parent as parent, info.icon as icon from (select `category_id`,categories.name,categories.parent_id, `core` from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? ) as nodes join (select categories.id, categories.name, p_categ.name as parent, p_categ.icon_url as icon from categories join categories as p_categ on categories.parent_id = p_categ.id where categories.id in (select parent_id from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? group by parent_id)) as info on nodes.parent_id = info.id ", [$listing->id,$listing->id]);
+            $category_json = array();
+            foreach($categories as $category){
+                if(!isset($category_json["$category->branchID"])){
+                    $category_json["$category->branchID"] = array('branch' => "$category->branch", 'parent' => "$category->parent", 'image-url' => "$category->icon", 'nodes' => array());
+                }
+                $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id'=>"$category->id",'core' => "$category->core");
+            }
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories',$category_json)->with('brands', Listing::existingTags());
+            dd($category_json);
         }
     }
 

@@ -61,7 +61,8 @@
           getNodes(data[id]['children'][key]['id']);
           break;
         }
-      }
+      },
+      async: true
     });
   });
 
@@ -112,7 +113,8 @@
           }
           $('div#' + slugify(data[branchID]['name']) + '.tab-pane ul.nodes').html(html);
           categ[branchID] = true;
-        }
+        },
+        async: true
       });
     }
   };
@@ -501,11 +503,7 @@
     });
   });
 
-  categories = void 0;
-
-  categories = {
-    'categories': []
-  };
+  categories = window.categories;
 
   $('body').on('change', '.tab-pane.collapse input[type=\'checkbox\']', function() {
     var branchID, parentDiv;
@@ -540,6 +538,7 @@
     var source, template;
     source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}';
     template = Handlebars.compile(source);
+    console.log(template);
     $('div#categories.node-list').html(template(categories));
     update_core();
   };
@@ -585,9 +584,11 @@
   change_view = function() {
     if ($('div#categories.node-list').children().length === 0) {
       $('#categ-selected').addClass('hidden');
+      $('div.core-cat-cont').addClass('hidden');
       $('#no-categ-select').removeClass('hidden');
     } else {
       $('#categ-selected').removeClass('hidden');
+      $('div.core-cat-cont').removeClass('hidden');
       $('#no-categ-select').addClass('hidden');
     }
     return update_core();
@@ -607,7 +608,7 @@
     });
     html = '';
     item_id.forEach(function(item, index) {
-      html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
+      html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
       if (_.indexOf(core, item) !== -1) {
         html += ' checked="checked"';
       }
@@ -617,7 +618,7 @@
   };
 
   validateCategories = function() {
-    var brands, cores, form, instance, parameters;
+    var brands, cat, cores, form, instance, parameters;
     instance = $('#info-form').parsley();
     if ($('div#categories.node-list').children().length === 0) {
       $('div#no-categ-error').removeClass('hidden');
@@ -627,13 +628,13 @@
       return false;
     }
     $('.section-loader').removeClass('hidden');
-    categories = {};
+    cat = {};
     cores = {};
     $('#view-categ-node input[name="categories"]').each(function(index, item) {
       var category;
       category = {};
       category['id'] = $(this).val();
-      return categories[index] = category;
+      return cat[index] = category;
     });
     $('input[data-parsley-multiple="core_categ"]:checked').each(function(index, item) {
       var core;
@@ -646,7 +647,7 @@
     parameters['listing_id'] = document.getElementById('listing_id').value;
     parameters['step'] = 'business-categories';
     parameters['change'] = window.change;
-    parameters['categories'] = JSON.stringify(categories);
+    parameters['categories'] = JSON.stringify(cat);
     parameters['core'] = JSON.stringify(cores);
     parameters['brands'] = brands;
     form = $('<form></form>');

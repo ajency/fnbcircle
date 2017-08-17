@@ -266,6 +266,14 @@ class ListingController extends Controller
         }else{
             $listing->untag();
         }
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-location-hours?step=true' . $change);
+
     }
 
     public function getCategories(Request $request)
@@ -529,7 +537,11 @@ class ListingController extends Controller
                 $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id'=>"$category->id",'core' => "$category->core");
             }
             return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories',$category_json)->with('brands', Listing::existingTags());
-            dd($category_json);
+            // dd($category_json);
+        }
+        if($step== 'business-location-hours'){
+            $listing      = Listing::where('reference', $reference)->firstorFail();
+            return view('location')->with('listing', $listing)->with('step', $step);
         }
     }
 

@@ -11,10 +11,10 @@
     <script type="text/javascript" src="/js/add-listing.js"></script>
     <!-- custom script -->
     <script type="text/javascript" src="/js/custom.js"></script>
-    
+
      <script src="{{ asset('js/AddListing.js') }}"></script>
-    <script type="text/javascript" src="/js/handlebars.js"></script> 
-    <script type="text/javascript" src="/js/require.js"></script> 
+    <script type="text/javascript" src="/js/handlebars.js"></script>
+    <script type="text/javascript" src="/js/require.js"></script>
 
 @endsection
 
@@ -70,28 +70,20 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <div class="flex-row page-intro m-t-20">
-                    <div>
-                        <img src="/img/steps.png" class="mobile-hide desk-hide">
-                        <img src="/img/steps-orange.png">
-                    </div>
-                    <div class="page-intro__title">
-                        You are a few steps away from creating a listing on F&amp;BCircle
-                    </div>
-                </div>
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
-                    <h3 class="main-heading m-b-0 m-t-0">@if($listing->reference==null)Let's get started! @else {{$listing->title}} @endif</h3>
-                    <div class="flex-row">
+                    <h3 class="main-heading m-b-0 m-t-0">@if($listing->reference==null)Let's get started! @endif</h3>
+                    <!-- <div class="flex-row">
                         <p class="note-row__text text-medium">
-                            <!-- <span class="text-primary">Note:</span> You can add multiple listings on F&amp;BCircle. -->
                             <div class="mobile-hide p-r-10">
                                 @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer"> @if($listing->status=="3") Draft @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</span> <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif
                             </div>
                         </p>
                         @if($listing->isReviewable())<button class="btn fnb-btn outline full border-btn mobile-hide review-submit">Submit for review <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>@endif
-                    </div>
+                    </div> -->
                 </div>
-                <div class="white-box gray-border get-started">
+
+                @if($listing->reference==null)
+                <div class="get-started">
                     <!-- <div class="desk-hide mobile-flex ">
                         <select class="form-control fnb-select">
                             <option>
@@ -109,6 +101,15 @@
                                 <i class="fa fa-chevron-down pull-right desk-hide"></i>
                             </div>
                             <div class="mobile-collapse tips__steps col-sm-9">
+                                <div class="flex-row page-intro">
+                                    <div>
+                                        <img src="/img/steps.png" class="mobile-hide desk-hide">
+                                        <img src="/img/steps-orange.png">
+                                    </div>
+                                    <div class="page-intro__title">
+                                        You are a few steps away from creating a listing on F&amp;BCircle
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <ol>
@@ -129,10 +130,53 @@
                         </div>
                     </div>
                 </div>
+                @endif
+
                 <div class="m-t-20 m-b-10 white-bg-border">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
-                            <ul class="gs-steps" role="tablist">
+                            @if($listing->reference!=null)
+                                <div class="dsk-separator edit-summary-card">
+                                    <h5>{{$listing->title}} <a href="/listing/{{$listing->reference}}" target="_blank">View</a></h5>
+                                    <div class="rating">
+                                        <div class="bg"></div>
+                                        <div class="value" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="listing-status">
+                                        <div>Status: @if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
+                                        @if($listing->isReviewable())
+                                            <a href="#">Submit for Review</a>
+                                        @endif
+
+                                        @if($listing->status=="1")
+                                            <a href="#">Archive</a>
+                                        @endif
+                                    </div>
+                                    <p>
+                                        Premium listings usually get more leads than non premium.<br>
+                                        Subscribe to our paid plans and watch your business grow.
+                                    </p>
+                                    <div class="text-center">
+                                        <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="fnb-btn s-outline mini">Go Premium</a>
+                                    </div>
+                                </div>
+
+                                <ul class="edit-steps">
+                                    <li>
+                                        <a href="#">Listing Summary</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Post an Update</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">My Leads</a>
+                                    </li>
+                                    <li>
+                                        <a href="#stepsCollapse" data-toggle="collapse">Edit <i class="fa fa-chevron-down small"></i></a>
+                                    </li>
+                                </ul>
+                            @endif
+                            <ul class="gs-steps @if($listing->reference!=null) collapse in edit-mode @endif" role="tablist"  @if($listing->reference!=null)id="stepsCollapse"@endif>
                                 <li class="">
                                     <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-information') form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
@@ -140,7 +184,7 @@
                                <li class="@if($listing->reference!=null)  @else disable @endif busCat">
                                     <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
-                                
+
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
                                     <a href="@if($listing->reference!=null and $step != 'business-location-hours') /listing/{{$listing->reference}}/edit/business-location-hours?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-location-hours') form-toggle @endif" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
@@ -175,7 +219,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-9">
                             <div class="pos-fixed fly-out no-transition slide-bg dsk-separator listing-sections @if(isset($_GET['step']))active @endif">
-                                <div class="mobile-back desk-hide mobile-flex"> 
+                                <div class="mobile-back desk-hide mobile-flex">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                         <p class="element-title heavier m-b-0">Back</p>
@@ -201,7 +245,7 @@
                                                 <div class="blockG" id="rotateG_08"></div>
                                             </div>
                                         </div>
-                                        
+
                                     <!-- failure message-->
                                     @if ($errors->any())
                                     <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
@@ -218,7 +262,7 @@
                                         <form id="info-form">
                                        <input type="hidden" id="step-name" value="{{$step}}" readonly>
                                         @yield('form-data')
-                                       
+
                                         <!-- Submit for review section -->
                                         <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable())
@@ -286,7 +330,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="list-row flex-row">
                                         <div class="left">
                                             <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>

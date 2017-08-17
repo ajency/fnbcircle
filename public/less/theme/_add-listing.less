@@ -6,13 +6,13 @@
 
 .page-intro{
 	font-size: 0.85em;
-	background-color: #fff;
+	// background-color: #fff;
 	@media(min-width: @mobile){
-		justify-content: center;
-		border: 1px solid @accent-primary;
+		// justify-content: center;
+		// border: 1px solid @accent-primary;
 		font-size: 1.2em;
-		padding: 5px;
-		margin-bottom: 2em;
+		padding-bottom: 10px;
+		// margin-bottom: 2em;
 	}
 }
 
@@ -75,11 +75,11 @@
 	    position: fixed;
 	    width: 100%;
 	    z-index: 2;
-	    // top: 5.3em; 
+	    // top: 5.3em;
     	&.active{
     		top: 0;
     		font-size: 1em;
-    	}   	
+    	}
     }
     &__link{
     	padding-left: 0.5em;
@@ -115,6 +115,8 @@
 .get-started{
 	font-size: 0.9em;
 	padding: 5px;
+	background-color: #fffef2;
+	box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
 	@media(min-width: 768px){
 		font-size: 1em;
 		padding: 20px 15px;
@@ -184,8 +186,34 @@
 	}
 	@media(min-width: 768px){
 		margin-top: 20px;
+		&.edit-mode{
+			margin-top: 0;
+		}
 		a{
 			padding: 10px 15px;
+		}
+	}
+}
+
+.edit-steps{
+	a{
+		display: flex;
+		padding: 10px;
+		justify-content: space-between;
+		font-weight: 500;
+		font-size: 1.2em;
+		color: lighten(@grey-darker, 0%);
+		text-decoration: none;
+		i{
+			transition: all 0.3s ease;
+		}
+		&.collapsed{
+			i{
+				transform: rotate(-90deg);
+			}
+		}
+		&:hover{
+			color: @accent-secondary;
 		}
 	}
 }
@@ -286,7 +314,7 @@
 			margin-top: 5px;
     		display: block;
 		}
-	}	
+	}
 }
 
 
@@ -760,7 +788,7 @@
 		.interested-options{
 			.interested-label{
 				max-width: 100%;
-			}	
+			}
 		}
 	}
 	.business{
@@ -789,7 +817,7 @@
 		.interested-options{
 			li{
 				flex: 1 0 33.33%;
-			}	
+			}
 		}
 	}
 }
@@ -799,7 +827,7 @@
 		.interested-options{
 			li{
 				flex: 1 0 33.33%;
-			}	
+			}
 		}
 	}
 }
@@ -1240,7 +1268,7 @@ input[type='checkbox'].remove-addr{
     	overflow-y: hidden;
     	display: flex;
     	margin: 0 -15px;
-    	padding: 15px 0;	
+    	padding: 15px 0;
 		&__cards{
 			// margin: 0;
     		margin-bottom: 2em;
@@ -1367,7 +1395,7 @@ input[type='checkbox'].remove-addr{
 			}
 		}
 	}
-	
+
 	// @media(min-width: 768px){
 	// 	.sub-category{
 	// 		display: none;
@@ -1829,7 +1857,7 @@ input[type='checkbox'].remove-addr{
 					text-align: left;
 					vertical-align: middle;
 			}
-		}	
+		}
 	}
 }
 
@@ -1861,8 +1889,39 @@ input[type='checkbox'].remove-addr{
 .business-email{
 	.toggle{
 		overflow: inherit;
-	}	
+	}
 }
 
-
+.edit-summary-card{
+	padding: 1.5em 1em;
+	margin-bottom: 1em;
+	h5{
+		margin-top: 0;
+		margin-bottom: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		a{
+			font-size: 0.65em;
+			color: @accent-primary;
+			text-decoration: none;
+		}
+	}
+	.listing-status{
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: flex;
+		justify-content: space-between;
+		a{
+			// font-size: 0.65em;
+			color: @accent-primary;
+			text-decoration: underline;
+		}
+	}
+	p{
+		font-size: 0.95em;
+		color: @text-color;
+		margin-bottom: 20px;
+	}
+}
 

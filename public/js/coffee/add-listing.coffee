@@ -10,6 +10,7 @@ $('.dropify').dropify messages: 'default': 'Add Photo'
 
 # Add/Edit categories
 $('body').on 'click', 'input:radio[name=\'categories\']', ->
+  # console.log categories['categories']
   cat_name = $(this).data('name')
   $('.main-cat-name').html(cat_name)
   # Update icon
@@ -51,6 +52,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
         getNodes(data[id]['children'][key]['id'])
         break
       return
+    async: true
   return
 
 categ = []
@@ -70,10 +72,12 @@ getNodes = (branchID) ->
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
           array.push $(this).val()
         # console.log array
+        # console.log categories
         for branch of categories['categories']
           for node of categories['categories'][branch]['nodes']
             if _.indexOf(array, categories['categories'][branch]['nodes'][node]['id']) == -1
               delete categories['categories'][branch]['nodes'][node]
+              # console.log categories['categories'][branch]['nodes'][node]['id']
           j=0
           for i of categories['categories'][branch]['nodes']
             j++
@@ -91,6 +95,7 @@ getNodes = (branchID) ->
         $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
         categ[branchID] = true
         return
+      async: true
   return
 
 $('body').on 'click', '.categ-list a', ->
@@ -476,10 +481,12 @@ $(document).on 'change', '.city select', ->
       return
 
 
-categories = undefined
-categories = 'categories': []
+categories = window.categories
+# categories = 'categories': []
+# console.log categories
 
 $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
+  # console.log categories
   parentDiv = $(this).closest('div')
   branchID = parentDiv.find('input[name="branch"]').attr('id')
   if !categories['categories'].hasOwnProperty branchID 
@@ -506,6 +513,7 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
 populate = () ->
   source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
   template = Handlebars.compile(source)
+  console.log template
   $('div#categories.node-list').html template(categories)
   update_core()
   return
@@ -544,9 +552,11 @@ $(document).on 'click', '.full.save-btn.gs-next', (e) ->
 change_view = () ->
   if $('div#categories.node-list').children().length == 0
     $('#categ-selected').addClass('hidden');
+    $('div.core-cat-cont').addClass('hidden');
     $('#no-categ-select').removeClass('hidden');
   else
     $('#categ-selected').removeClass('hidden');
+    $('div.core-cat-cont').removeClass('hidden');
     $('#no-categ-select').addClass('hidden');
   update_core()
 
@@ -564,7 +574,7 @@ update_core = () ->
   # console.log core
   html = ''
   item_id.forEach (item, index) ->
-    html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-'+item+'" value="'+item+'"'
+    html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-'+item+'" value="'+item+'"'
     if _.indexOf(core, item) != -1
       html+=' checked="checked"'
     html += '><label class="core-selector__label m-b-0" for="cat-label-'+item+'"><span class="fnb-cat__title text-medium">'+item_name[index]+'</span></label></span></li>'
@@ -579,12 +589,12 @@ validateCategories = ->
   if !instance.validate() 
     return false;
   $('.section-loader').removeClass('hidden');
-  categories ={}
+  cat ={}
   cores ={}
   $('#view-categ-node input[name="categories"]').each (index,item) ->
     category={}
     category['id'] = $(this).val()
-    categories[index] = category
+    cat[index] = category
   $('input[data-parsley-multiple="core_categ"]:checked').each (index,item) ->
     core={}
     core['id'] = $(this).val()
@@ -596,7 +606,7 @@ validateCategories = ->
   parameters['listing_id'] = document.getElementById('listing_id').value
   parameters['step'] = 'business-categories'
   parameters['change'] = window.change
-  parameters['categories'] = JSON.stringify categories
+  parameters['categories'] = JSON.stringify cat
   parameters['core'] = JSON.stringify cores
   parameters['brands'] = brands
   form = $('<form></form>')
@@ -612,3 +622,7 @@ validateCategories = ->
     return
   $(document.body).append form
   form.submit()
+
+# console.log categories
+
+

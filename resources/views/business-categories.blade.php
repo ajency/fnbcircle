@@ -78,7 +78,7 @@
             <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier">+ Add/Edit more categories</a>
         </div>
     </div>
-    <div class="m-t-50 c-gap">
+    <div class="m-t-50 c-gap core-cat-cont hidden">
         <label class="required label-size">Core categories of your listing</label>
         <div class="text-lighter m-t-5">
             Note: Core categories will be displayed prominently on the listing. Maximum 10 core categories allowed
@@ -114,7 +114,7 @@
         <!-- <div class="text-lighter m-t-5">
             Ex: Albertsons, America's Choice, Bashas
         </div> -->
-        <div class="m-t-5">
+        <div class="m-t-5 brands-container">
             <input type="text" class="form-control fnb-input flexdatalist" placeholder="+ Add brands you deal with" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
             <datalist id="brands">
             @foreach ($brands as $brand)
@@ -211,7 +211,7 @@
                                 <li role="presentation"><a href="#knuckle" aria-controls="knuckle" role="tab" data-toggle="tab">Knuckle meat</a></li> -->
                             </ul>
                             <!-- Tab panes -->
-                            <div class="tab-content mobile-categories">
+                            <div class="tab-content mobile-categories relative">
                                 <!-- mobile collapse -->
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#chicken" aria-expanded="false" aria-controls="chicken">Chicken <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#mutton" aria-expanded="false" aria-controls="mutton">
@@ -259,6 +259,19 @@
                     <div class="sub-category hidden">
                         <button class="btn fnb-btn outline full border-btn" type="button">save</button>
                     </div>
+                </div>
+                <div class="site-loader full-modal hidden">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                    <!-- <div class="ball"></div> -->
                 </div>
             </div>
         </div>

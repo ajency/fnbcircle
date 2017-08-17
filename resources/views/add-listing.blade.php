@@ -190,7 +190,16 @@
                                     </p>
                                     <div class="gs-form tab-content">
                                         <div class="site-loader section-loader hidden">
-                                            <div class="ball"></div>
+                                            <div id="floatingBarsG">
+                                                <div class="blockG" id="rotateG_01"></div>
+                                                <div class="blockG" id="rotateG_02"></div>
+                                                <div class="blockG" id="rotateG_03"></div>
+                                                <div class="blockG" id="rotateG_04"></div>
+                                                <div class="blockG" id="rotateG_05"></div>
+                                                <div class="blockG" id="rotateG_06"></div>
+                                                <div class="blockG" id="rotateG_07"></div>
+                                                <div class="blockG" id="rotateG_08"></div>
+                                            </div>
                                         </div>
                                         
                                     <!-- failure message-->
@@ -303,7 +312,16 @@
             </div>
         </div>
         <div class="site-loader full-loader hidden">
-           <div class="ball"></div>
+           <div id="floatingBarsG">
+            <div class="blockG" id="rotateG_01"></div>
+            <div class="blockG" id="rotateG_02"></div>
+            <div class="blockG" id="rotateG_03"></div>
+            <div class="blockG" id="rotateG_04"></div>
+            <div class="blockG" id="rotateG_05"></div>
+            <div class="blockG" id="rotateG_06"></div>
+            <div class="blockG" id="rotateG_07"></div>
+            <div class="blockG" id="rotateG_08"></div>
+        </div>
         </div>
         <div class="site-overlay"></div>
     </div>

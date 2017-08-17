@@ -1339,6 +1339,9 @@ input[type='checkbox'].remove-addr{
 // ---------------------------
 
 .category-modal{
+	.modal-content{
+		padding: 1em;
+	}
 	.modal-header{
 		justify-content: space-between;
     	padding: 0;
@@ -1381,7 +1384,7 @@ input[type='checkbox'].remove-addr{
 
 .instructions{
 	background-color: #f9f9f9;
-	padding: 1.5em;
+	padding: 0.8em 1em;
 	&__title{
 		margin-bottom: 10px;
 	}
@@ -1391,7 +1394,9 @@ input[type='checkbox'].remove-addr{
 }
 
 .node-select{
-	margin-top: 2.5em;
+	margin-top: 1.5em;
+	height: 475px;
+    overflow-y: auto;
 	align-items: inherit;
 	.nav{
 		flex-direction: column;

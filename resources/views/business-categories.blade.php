@@ -17,7 +17,7 @@
         <div class="text-lighter m-t-5">
             One category at a time
         </div>
-        <ul class="interested-options cat-select flex-row m-t-30">
+        <ul class="interested-options cat-select flex-wrap flex-row m-t-30">
            @foreach($parents as $category)
             <li class="topSelect" data-toggle="modal" data-target="#category-select">
                 <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$category->name}}" value="{{$category->id}}">
@@ -191,10 +191,12 @@
                             <button class="btn fnb-btn outline border-btn">save</button>
                         </div> -->
                         <div class="instructions">
-                            <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
                             <div class="cat-name flex-row">
                                 <span class="fnb-icons cat-icon meat m-r-15"></span>
-                                <h5 class="element-title cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
+                                <div>
+                                    <h5 class="sub-title cat-title bat-color main-cat-name">Meat &amp; Poultry</h5>
+                                    <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name">Meat &amp; Poultry</span>"</p>
+                                </div>
                             </div>
                         </div>
                         <div class="node-select flex-row">

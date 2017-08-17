@@ -6890,6 +6890,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     font-size: 0.8em;
   }
 }
+.category-modal .modal-content {
+  padding: 1em;
+}
 .category-modal .modal-header {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
@@ -6926,7 +6929,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .instructions {
   background-color: #f9f9f9;
-  padding: 1.5em;
+  padding: 0.8em 1em;
 }
 .instructions__title {
   margin-bottom: 10px;
@@ -6935,7 +6938,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   margin: 0;
 }
 .node-select {
-  margin-top: 2.5em;
+  margin-top: 1.5em;
+  height: 475px;
+  overflow-y: auto;
   -webkit-box-align: inherit;
   -webkit-align-items: inherit;
       -ms-flex-align: inherit;

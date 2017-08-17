@@ -6193,7 +6193,7 @@ input[type="checkbox"].toggle__check {
   font-size: 1.6em;
 }
 .brands-container .flexdatalist-multiple li {
-  margin: 0;
+  margin-top: 0;
   margin-bottom: 10px;
 }
 @media screen and (min-width: 769px) {
@@ -7011,7 +7011,6 @@ input[type='checkbox'].remove-addr:checked + .another-address {
           flex: 1;
 }
 .node-select .tab-content .nodes {
-  height: 410px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7019,7 +7018,6 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   -webkit-flex-wrap: wrap;
       -ms-flex-wrap: wrap;
           flex-wrap: wrap;
-  overflow-y: auto;
   padding-left: 1em;
 }
 .node-select .tab-content .nodes li {
@@ -7042,6 +7040,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   margin-bottom: 0;
   cursor: pointer;
   padding-left: 3px;
+}
+.node-select .cat-dataHolder {
+  height: 410px;
+  overflow-y: auto;
 }
 @media screen and (max-width: 768px) {
   .category-modal .tab-content .collapse,

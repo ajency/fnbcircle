@@ -96,8 +96,8 @@
             Ex: Albertsons, America's Choice, Bashas
         </div> -->
 
-        <div class="m-t-5">
-            <input type="text" class="form-control fnb-input flexdatalist" placeholder="Type and hit enter" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
+        <div class="m-t-5 brands-container">
+            <input type="text" class="form-control fnb-input brand-list" placeholder="Type and hit enter" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
             <datalist id="brands">
             @foreach ($brands as $brand)
             <option value = "{{$brand->slug}}">{{$brand->name}}</option>
@@ -153,7 +153,7 @@
                                 </div>
                             </li> -->
                            @foreach($parents as $category)
-                            <li>
+                            <li class="catSelect-click">
                                 <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$category->name}}" value="{{$category->id}}">
                                 <div class="option flex-row">
                                     <img class="import-icon cat-icon" src="{{$category->icon_url}}" />
@@ -195,7 +195,7 @@
                                 <li role="presentation"><a href="#knuckle" aria-controls="knuckle" role="tab" data-toggle="tab">Knuckle meat</a></li> -->
                             </ul>
                             <!-- Tab panes -->
-                            <div class="tab-content mobile-categories relative">
+                            <div class="tab-content cat-dataHolder mobile-categories relative">
                                 <!-- mobile collapse -->
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#chicken" aria-expanded="false" aria-controls="chicken">Chicken <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#mutton" aria-expanded="false" aria-controls="mutton">

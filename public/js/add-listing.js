@@ -150,6 +150,10 @@
     }), 100);
   });
 
+  $('.catSelect-click').click(function() {
+    return $('.category-back').removeClass('hidden');
+  });
+
   if ($(window).width() < 768) {
     $('.topSelect').click(function() {
       return setTimeout((function() {
@@ -174,6 +178,12 @@
       return $(removeRow).after(addRow);
     });
   }
+
+  setTimeout((function() {
+    $('.brand-list').flexdatalist({
+      removeOnBackspace: false
+    });
+  }), 500);
 
   $('body').on('click', '.tips', function() {
     $(this).toggleClass('open');

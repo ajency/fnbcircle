@@ -662,7 +662,7 @@
 .brands-container{
 	.flexdatalist-multiple{
 		li{
-			margin: 0;
+			margin-top: 0;
 			margin-bottom: 10px;
 		}
 	}
@@ -1452,10 +1452,10 @@ input[type='checkbox'].remove-addr{
 	.tab-content{
 		flex: 1;
 		.nodes{
-			height: 410px;
+			// height: 410px;
+	  //   	overflow-y: auto;
 	    	display: flex;
 	    	flex-wrap: wrap;
-	    	overflow-y: auto;
     		padding-left: 1em;
 			li{
 				flex: 1 0 50%;
@@ -1478,6 +1478,10 @@ input[type='checkbox'].remove-addr{
 				padding-left: 3px;
 			}
 		}
+	}
+	.cat-dataHolder{
+		height: 410px;
+	  	overflow-y: auto;
 	}
 }
 

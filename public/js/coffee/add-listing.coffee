@@ -126,6 +126,11 @@ $('.topSelect').click ->
 		return
 	), 100
 
+$('.catSelect-click').click ->
+	$('.category-back').removeClass 'hidden'
+
+
+
 if $(window).width() < 768
 	$('.topSelect').click ->
 		setTimeout (->
@@ -153,10 +158,16 @@ if $(window).width() <= 768
 
 
 #jQuery flexdatalist
+# alert($('.brand-list').length)
 
-# $('.flexdatalist').flexdatalist 'removeOnBackspace', 'false'
 
-# $('.flexdatalist').flexdatalist 'options': 'removeOnBackspace': false
+# $('.brand-list').flexdatalist removeOnBackspace: false
+
+setTimeout (->
+	$('.brand-list').flexdatalist removeOnBackspace: false
+	return
+), 500
+
 
 # Tips Toggle
 $('body').on 'click', '.tips', ->

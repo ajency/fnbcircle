@@ -142,16 +142,16 @@
                                 </li>
                                 
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="#" class="form-toggle" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-location-hours') /listing/{{$listing->reference}}/edit/business-location-hours?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-location-hours') form-toggle @endif" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="#" class="form-toggle" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-details') /listing/{{$listing->reference}}/edit/business-details?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-details') form-toggle @endif" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="#" class="form-toggle" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-photos-documents') /listing/{{$listing->reference}}/edit/business-photos-documents?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-photos-documents') form-toggle @endif" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                                 <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="#" class="form-toggle" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-plans') form-toggle @endif" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                 </li>
                             </ul>
                             <div class="view-sample m-t-20 m-b-20">

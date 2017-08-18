@@ -147,7 +147,8 @@
     $('.main-category').removeClass('hidden');
     $('.sub-category').removeClass('shown');
     $('.desk-level-two').addClass('hidden');
-    return $('.firstStep').removeClass('hidden');
+    $('.firstStep').removeClass('hidden');
+    return $('.interested-options .radio').prop('checked', false);
   });
 
   $('.topSelect').click(function() {
@@ -158,6 +159,10 @@
 
   $('.catSelect-click').click(function() {
     return $('.category-back').removeClass('hidden');
+  });
+
+  $('#category-select').on('hidden.bs.modal', function(e) {
+    $('.interested-options .radio').prop('checked', false);
   });
 
   if ($(window).width() < 768) {
@@ -563,27 +568,29 @@
 
   $('body').on('click', 'button#category-select.fnb-btn', function() {
     var branch, i, j, k;
-    k = 0;
-    if (categories['categories'].length > 0) {
-      for (branch in categories['categories']) {
-        k++;
-        j = 0;
-        for (i in categories['categories'][branch]['nodes']) {
-          j++;
-        }
-        if (j === 0) {
-          delete categories['categories'][branch];
+    if ($(window).width() <= 768) {
+      k = 0;
+      if (categories['categories'].length > 0) {
+        for (branch in categories['categories']) {
+          k++;
+          j = 0;
+          for (i in categories['categories'][branch]['nodes']) {
+            j++;
+          }
+          if (j === 0) {
+            delete categories['categories'][branch];
+          }
         }
       }
-    }
-    populate();
-    if (k > 0) {
-      $('#categ-selected').removeClass('hidden');
-      $('#no-categ-select').addClass('hidden');
-      $('.core-cat-cont').removeClass('hidden');
-    } else {
-      $('#categ-selected').addClass('hidden');
-      $('#no-categ-select').removeClass('hidden');
+      populate();
+      if (k > 0) {
+        $('#categ-selected').removeClass('hidden');
+        $('#no-categ-select').addClass('hidden');
+        $('.core-cat-cont').removeClass('hidden');
+      } else {
+        $('#categ-selected').addClass('hidden');
+        $('#no-categ-select').removeClass('hidden');
+      }
     }
   });
 

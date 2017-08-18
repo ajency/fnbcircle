@@ -897,6 +897,11 @@ input[type=radio].fnb-radio.disabled:before {
     z-index: 2;
   }
 }
+@media screen and (max-width: 650px) {
+  .tab-pane .section-loader {
+    position: absolute;
+  }
+}
 #floatingBarsG {
   position: relative;
   width: 31px;

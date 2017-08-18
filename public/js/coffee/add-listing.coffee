@@ -65,7 +65,8 @@ getNodes = (branchID) ->
   loader ='<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>'
   # console.log categ
   if categ[branchID] != true
-    $('div[name="'+branchID+'"].tab-pane').html loader
+    $('div[name="'+branchID+'"].tab-pane').addClass 'relative'
+    $('div[name="'+branchID+'"].tab-pane ul.nodes').html loader
     $.ajax
       type : 'post'
       url: '/get_categories'
@@ -87,7 +88,7 @@ getNodes = (branchID) ->
             j++
           if j == 0
             delete categories['categories'][branch]
-        html = '<ul class="nodes"><input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
+        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
         html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
@@ -96,8 +97,7 @@ getNodes = (branchID) ->
             html+='checked'
           html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         # console.log  slugify(data[branchID]['name'])
-        html+='</ul>'
-        $('div#'+slugify(data[branchID]['name'])+'.tab-pane').html html
+        $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
         categ[branchID] = true
         return
       async: true

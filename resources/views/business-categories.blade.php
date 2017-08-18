@@ -1,4 +1,4 @@
-@extends('add-listing')
+    @extends('add-listing')
 
 @section('form-data')
 
@@ -108,31 +108,6 @@
     </div>
 
 </div>
-
-<!-- listing review -->
-    <div class="modal fnb-modal listing-review fade modal-center" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                </div>
-                <div class="modal-body text-center">
-                    <div class="listing-message">
-                        <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                        <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will ne notified if your listing is published.</p>
-                    </div>
-                    <div class="listing-status highlight-color">
-                        <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
-                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending review <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 <!-- Category modal -->

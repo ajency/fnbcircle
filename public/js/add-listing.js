@@ -1,5 +1,5 @@
 (function() {
-  var categ, categories, change_view, getID, getNodes, id, input, parent, populate, update_core, validateCategories, verify;
+  var $_GET, categ, categories, change_view, getID, getNodes, id, input, parent, populate, submitForm, update_core, validateCategories, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -600,7 +600,16 @@
     }
   });
 
+  $(document).on('click', 'a.review-submit-link', function(e) {
+    window.submit = 1;
+    return submitForm(e);
+  });
+
   $(document).on('click', '.full.save-btn.gs-next', function(e) {
+    return submitForm(e);
+  });
+
+  submitForm = function(e) {
     var step;
     step = $('input#step-name').val();
     e.preventDefault();
@@ -610,7 +619,7 @@
     if (step === 'business-categories') {
       return validateCategories();
     }
-  });
+  };
 
   change_view = function() {
     if ($('div#categories.node-list').children().length === 0) {
@@ -681,6 +690,9 @@
     parameters['categories'] = JSON.stringify(cat);
     parameters['core'] = JSON.stringify(cores);
     parameters['brands'] = brands;
+    if (window.submit === 1) {
+      parameters['submitReview'] = 'yes';
+    }
     form = $('<form></form>');
     form.attr("method", "post");
     form.attr("action", "/listing");
@@ -696,5 +708,16 @@
     $(document.body).append(form);
     return form.submit();
   };
+
+  $_GET = [];
+
+  window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(a, name, value) {
+    $_GET[name] = value;
+  });
+
+  if ($_GET['review'] !== void 0) {
+    console.log($_GET['review']);
+    $('#listing-review').modal('show');
+  }
 
 }).call(this);

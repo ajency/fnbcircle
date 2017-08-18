@@ -108,6 +108,8 @@ $('body').on 'click', '.categ-list a', ->
   getNodes($(this).attr('name'))
 
 $('body').on 'click', 'div.toggle-collapse.desk-hide', ->
+  # $('div.toggle-collapse.desk-hide').addClass 'collapsed'
+  # $(this).removeClass 'collapsed'
   populate()
   getNodes($(this).attr('name'))
 
@@ -541,13 +543,12 @@ populate = () ->
   return
 
 $('body').on 'click', 'button#category-select.fnb-btn', ->
-	
   k=0
   if categories['categories'].length > 0
     for branch of categories['categories']
       k++
       j=0
-      for i of categories['categories'][branch]['nodes']
+      for i of categories['categories'][branch]['nodes'] 
         j++
       if j == 0
         delete categories['categories'][branch]
@@ -567,15 +568,22 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
       branchrow = $(this).find('.branch').detach()
       $(branchAdd).append branchrow
 
-
+$(document).on 'click', 'a.review-submit-link', (e) ->
+  window.submit = 1;
+  # $('#listing-review').modal 'show'
+  submitForm(e)
 
 $(document).on 'click', '.full.save-btn.gs-next', (e) ->
+  submitForm(e)
+
+submitForm = (e) ->
   step = $('input#step-name').val()
   e.preventDefault()
   if step == 'business-information'
     window.validateListing(e)
   if step == 'business-categories'
     validateCategories()
+
 
 change_view = () ->
   if $('div#categories.node-list').children().length == 0
@@ -637,6 +645,8 @@ validateCategories = ->
   parameters['categories'] = JSON.stringify cat
   parameters['core'] = JSON.stringify cores
   parameters['brands'] = brands
+  if window.submit ==1
+    parameters['submitReview'] = 'yes'
   form = $('<form></form>')
   form.attr("method", "post")
   form.attr("action", "/listing")
@@ -653,4 +663,10 @@ validateCategories = ->
 
 # console.log categories
 
-
+$_GET = []
+window.location.href.replace /[?&]+([^=&]+)=([^&]*)/gi, (a, name, value) ->
+  $_GET[name] = value
+  return
+if $_GET['review'] != undefined
+  console.log $_GET['review']
+  $('#listing-review').modal('show')

@@ -6,6 +6,7 @@ use App\Listing;
 use App\ListingCategory;
 use Illuminate\Database\Eloquent\Model;
 use Conner\Tagging\Taggable;
+use Conner\Tagging\Model\Tagged;
 
 class Listing extends Model
 {
@@ -107,5 +108,15 @@ class Listing extends Model
 
         $this->save();
     }
+
+    public static function existingTagsLike($str)
+     {
+        return Tagged::distinct()
+            ->join('tagging_tags', 'tag_slug', '=', 'tagging_tags.slug')
+            ->where('taggable_type', '=', (new static)->getMorphClass())
+            ->where('tag_name','like', title_case($str).'%')
+            ->orderBy('tag_slug', 'ASC')
+            ->get(array('tag_slug as slug', 'tag_name as name', 'tagging_tags.count as count'));
+     }
 
 }

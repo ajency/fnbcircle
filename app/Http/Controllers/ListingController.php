@@ -8,7 +8,6 @@ use App\City;
 use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
-use App\ListingBrand;
 use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
@@ -81,6 +80,8 @@ class ListingController extends Controller
         if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";
         }
+
+        if (isset($data->submitReview) and $data->submitReview == 'yes') return ($this->submitForReview($data));
 
         // echo $data->change;
         return redirect('/listing/' . $listing->reference . '/edit/business-categories?step=true' . $change);
@@ -214,7 +215,7 @@ class ListingController extends Controller
         $this->validate($request, [
             'city' => 'required|min:1|integer',
         ]);
-        $areas = Area::where('city_id', $request->city)->where('status','1')->orderBy('order')->orderBy('name')->get();
+        $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
             $res[$area->id] = $area->name;
@@ -241,11 +242,11 @@ class ListingController extends Controller
             'listing_id' => 'required',
             'categories' => 'required|id_json|not_empty_json',
             'core'       => 'required|id_json|not_empty_json',
-            'change'        => 'nullable|boolean',
+            'change'     => 'nullable|boolean',
             // 'brands'     => 'required|id_json',
         ]);
         $categories = array();
-        $categ = json_decode($request->categories);
+        $categ      = json_decode($request->categories);
         foreach ($categ as $category) {
             $categories[$category->id] = 0;
             if (!Common::verify_id($category->id, 'categories')) {
@@ -261,15 +262,17 @@ class ListingController extends Controller
         }
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         $this->saveListingCategories($listing->id, $categories);
-        if(isset($request->brands) and $request->brands != ''){
+        if (isset($request->brands) and $request->brands != '') {
             $listing->retag($request->brands);
-        }else{
+        } else {
             $listing->untag();
         }
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
         }
+
+        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
 
         // echo $data->change;
         return redirect('/listing/' . $listing->reference . '/edit/business-location-hours?step=true' . $change);
@@ -281,26 +284,31 @@ class ListingController extends Controller
         $this->validate($request, [
             'parent' => 'id_json|not_empty_json|required',
         ]);
-        $parents  = json_decode($request->parent);
+        $parents = json_decode($request->parent);
         foreach ($parents as $parent) {
             if (!Common::verify_id($parent->id, 'categories')) {
                 return abort(404);
             }
         }
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->where('status','1')->orderBy('order')->orderBy('name')->get();
+            $child       = Category::where('parent_id', $parent->id)->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $child_array = array();
             foreach ($child as $ch) {
-                $child_array[$ch->id] = array('id'=>$ch->id,'name'=>$ch->name,'order'=>$ch->order);
+                $child_array[$ch->id] = array('id' => $ch->id, 'name' => $ch->name, 'order' => $ch->order);
             }
-            $parent_obj= Category::find($parent->id);
-            if($parent_obj->parent_id!=null) $grandparent = Category::findorFail($parent_obj->parent_id);
-            else $grandparent= new Category;
-            $parent_array [$parent_obj->id] = array('name'=>$parent_obj->name,'children'=>$child_array,'parent'=> $grandparent->name ,'image' => $grandparent->icon_url);
+            $parent_obj = Category::find($parent->id);
+            if ($parent_obj->parent_id != null) {
+                $grandparent = Category::findorFail($parent_obj->parent_id);
+            } else {
+                $grandparent = new Category;
+            }
+
+            $parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent->name, 'image' => $grandparent->icon_url);
         }
         return response()->json($parent_array);
     }
 
+    
     //------------------------step 3 --------------------
 
     public function validateListingLocationAndOperationHours($data)
@@ -371,6 +379,7 @@ class ListingController extends Controller
         }
 
         $this->saveListingLocationAndOperationHours($request);
+        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
     }
     //--------------------------step 4 ----------------------------------------
     public function validateListingOtherDetails($data)
@@ -441,6 +450,7 @@ class ListingController extends Controller
         }
 
         $this->saveListingOtherDetails($request);
+        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
     }
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
@@ -471,6 +481,7 @@ class ListingController extends Controller
         }
 
         $this->saveListingPhotosAndDocuments($request);
+        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
     }
 
     //--------------------Common method ------------------------
@@ -508,7 +519,7 @@ class ListingController extends Controller
     public function create()
     {
         $listing = new Listing;
-        $cities  = City::where('status','1')->orderBy('order')->orderBy('name')->get();
+        $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
         return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
     public function edit($reference, $step = 'business-information')
@@ -518,30 +529,47 @@ class ListingController extends Controller
             $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
             $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
             $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
-            $cities  = City::where('status','1')->orderBy('order')->orderBy('name')->get();
-            $areas    = Area::where('city_id',function($area) use ($listing){
-                $area -> from('areas')->select('city_id')->where('id',$listing->locality_id);
-            })->where('status','1')->orderBy('order')->orderBy('name')->get();
+            $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $areas   = Area::where('city_id', function ($area) use ($listing) {
+                $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
+            })->where('status', '1')->orderBy('order')->orderBy('name')->get();
             // echo $areas;
             return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
         }
         if ($step == 'business-categories') {
-            $listing      = Listing::where('reference', $reference)->firstorFail();
-            $parent_categ = Category::whereNull('parent_id')->where('status','1')->orderBy('order')->orderBy('name')->get();
-            $categories = DB::select("select nodes.category_id as id, nodes.name as name, nodes.core as core, info.id as branchID, info.name as branch, info.parent as parent, info.icon as icon from (select `category_id`,categories.name,categories.parent_id, `core` from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? ) as nodes join (select categories.id, categories.name, p_categ.name as parent, p_categ.icon_url as icon from categories join categories as p_categ on categories.parent_id = p_categ.id where categories.id in (select parent_id from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? group by parent_id)) as info on nodes.parent_id = info.id ", [$listing->id,$listing->id]);
+            $listing       = Listing::where('reference', $reference)->firstorFail();
+            $parent_categ  = Category::whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $categories    = DB::select("select nodes.category_id as id, nodes.name as name, nodes.core as core, info.id as branchID, info.name as branch, info.parent as parent, info.icon as icon from (select `category_id`,categories.name,categories.parent_id, `core` from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? ) as nodes join (select categories.id, categories.name, p_categ.name as parent, p_categ.icon_url as icon from categories join categories as p_categ on categories.parent_id = p_categ.id where categories.id in (select parent_id from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? group by parent_id)) as info on nodes.parent_id = info.id ", [$listing->id, $listing->id]);
             $category_json = array();
-            foreach($categories as $category){
-                if(!isset($category_json["$category->branchID"])){
+            foreach ($categories as $category) {
+                if (!isset($category_json["$category->branchID"])) {
                     $category_json["$category->branchID"] = array('branch' => "$category->branch", 'parent' => "$category->parent", 'image-url' => "$category->icon", 'nodes' => array());
                 }
-                $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id'=>"$category->id",'core' => "$category->core");
+                $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id' => "$category->id", 'core' => "$category->core");
             }
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories',$category_json)->with('brands', Listing::existingTags());
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', Listing::existingTags());
             // dd($category_json);
         }
-        if($step== 'business-location-hours'){
-            $listing      = Listing::where('reference', $reference)->firstorFail();
+        if ($step == 'business-location-hours') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
             return view('location')->with('listing', $listing)->with('step', $step);
+        }
+    }
+
+    public function submitForReview(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        // dd('yes'); abort();
+        if ($listing->isReviewable()) {
+            $listing->status = Listing::REVIEW;
+            $listing->save();
+            // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+            return redirect('/listing/' . $listing->reference . '/edit/'.$request->step.'?step=true&review=success');
+        } else {
+            return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
         }
     }
 

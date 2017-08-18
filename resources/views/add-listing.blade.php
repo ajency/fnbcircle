@@ -139,6 +139,7 @@
                         <div class="col-xs-12 col-sm-3">
                             @if($listing->reference!=null)
                                 <div class="dsk-separator edit-summary-card">
+<<<<<<< Updated upstream
                                     <div class="summary-info">
                                         <h5>{{$listing->title}} <!-- <a href="/listing/{{$listing->reference}}" target="_blank">View</a> --></h5>
                                         <div class="rating">
@@ -152,6 +153,18 @@
                                                 @if($listing->isReviewable())
                                                     <a href="#">Submit for Review</a>
                                                 @endif
+=======
+                                    <h5>{{$listing->title}} <a href="/listing/{{$listing->reference}}" target="_blank">View</a></h5>
+                                    <div class="rating">
+                                        <div class="bg"></div>
+                                        <div class="value" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="listing-status">
+                                        <div>Status: @if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
+                                        @if($listing->isReviewable() and $listing->status > "2")
+                                            <a href="#" class="review-submit-link">Submit for Review</a>
+                                        @endif
+>>>>>>> Stashed changes
 
                                                 @if($listing->status=="1")
                                                     <a href="#">Archive</a>
@@ -291,7 +304,7 @@
 
                                         <!-- Submit for review section -->
                                         <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
-                                        @if($listing->isReviewable())
+                                        @if($listing->isReviewable() and $listing->status > "2")
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -299,7 +312,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="#" class="primary-link sub-title">Submit for review</a>
+                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for review</a>
                                                </div>
                                            </div>
                                         </div>
@@ -307,7 +320,7 @@
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
                                             @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
-                                            <button class="btn fnb-btn primary-btn full save-btn gs-next">Save &amp; Next</button>
+                                            <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>
@@ -325,6 +338,33 @@
 
 
                 <!-- Modal -->
+@if (isset($_GET['review']))
+                <!-- listing review -->
+    <div class="modal fnb-modal listing-review fade modal-center" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="listing-message">
+                        <i class="fa fa-check-circle check" aria-hidden="true"></i>
+                        <h4 class="element-title heavier">We have sent your listing for review</h4>
+                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will ne notified if your listing is published.</p>
+                    </div>
+                    <div class="listing-status highlight-color">
+                        <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
+                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending review <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
                 <!-- listing present -->
                 <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">

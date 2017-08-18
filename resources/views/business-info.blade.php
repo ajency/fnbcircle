@@ -60,7 +60,7 @@
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="city" required data-parsley-required-message="Select a city where the business is located.">
-                    <option>Select City</option>
+                    <option value="">Select City</option>
                     @foreach($cities as $city)
                         <option value="{{$city->id}}"@if(isset($areas) and $areas[0]->city_id == $city->id) selected @endif>{{$city->name}}</option>
                     @endforeach

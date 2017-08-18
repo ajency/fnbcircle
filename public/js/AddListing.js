@@ -1,12 +1,12 @@
 var change = 0;
-
+var submit = 0;
 $('body').on('change', 'input', function() {
-    change=1;
-  });
+    change = 1;
+});
 $('body').on('change', 'select', function() {
-    change=1;
-  });
-console.log(change);
+    change = 1;
+});
+
 function listingInformation() {
     var form = $('<form></form>');
     form.attr("method", "post");
@@ -20,25 +20,23 @@ function listingInformation() {
     while (i < contact_IDs.length) {
         if (value[i].value != "") {
             var contact = {};
-            if($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 1
-            if($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 2
-            if($(value[i]).closest('.business-contact').hasClass('landline')) var type = 3
-            
-                $.ajax({
-                    type: 'post',
-                    url: '/contact_save',
-                    data: {
-                        'value': value[i].value,
-                        'type': type,
-                        'id': contact_IDs[i].value
-                    },
-                    success: function(data) {
-                        contact_IDs[i].value=data['id'];
-                        console.log(data['id']);
-                    },
-                    async: false
-                });
-            
+            if ($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 1
+            if ($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 2
+            if ($(value[i]).closest('.business-contact').hasClass('landline')) var type = 3
+            $.ajax({
+                type: 'post',
+                url: '/contact_save',
+                data: {
+                    'value': value[i].value,
+                    'type': type,
+                    'id': contact_IDs[i].value
+                },
+                success: function(data) {
+                    contact_IDs[i].value = data['id'];
+                    console.log(data['id']);
+                },
+                async: false
+            });
             contact['id'] = contact_IDs[i].value;
             // contact['email'] = emails[i].value;
             // contact['verify'] = (contact_verified[i].checked) ? "1" : "0";
@@ -63,6 +61,9 @@ function listingInformation() {
     parameters['primary_phone'] = '0';
     parameters['area'] = $('.area select').val();
     parameters['contacts'] = JSON.stringify(contacts);
+    if (submit == 1) {
+        parameters['submitReview'] = 'yes';
+    }
     $.each(parameters, function(key, value) {
         var field = $('<input></input>');
         field.attr("type", "hidden");
@@ -80,7 +81,7 @@ function validateListing(event) {
     if (checkDuplicates()) return false;
     console.log(true);
     if (!instance.validate()) return false;
-   $('.section-loader').removeClass('hidden');
+    $('.section-loader').removeClass('hidden');
     // console.log($('#listing_id').val());
     if ($('#listing_id').val() == "") {
         // console.log(true);
@@ -112,7 +113,7 @@ function validateListing(event) {
                     // console.log(myvar);
                 }
                 $('.list-entries').html(myvar);
-                if(myvar!=''){    
+                if (myvar != '') {
                     $('.section-loader').addClass('hidden');
                     $('#duplicate-listing').modal('show');
                     $('#duplicate-listing').on('hidden.bs.modal', function(e) {
@@ -120,26 +121,24 @@ function validateListing(event) {
                         $('.section-loader').removeClass('hidden');
                         listingInformation();
                     });
-                }else{
+                } else {
                     event.preventDefault();
                     $('.section-loader').removeClass('hidden');
                     listingInformation();
                 }
             }
-
         });
-        
     } else {
         // console.log(true);
-         event.preventDefault();
+        event.preventDefault();
         listingInformation();
     }
     event.preventDefault();
 }
 $('#info-form').on('keyup keypress', function(e) {
-  var keyCode = e.keyCode || e.which;
-  if (keyCode === 13) { 
-    e.preventDefault();
-    return false;
-  }
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
 });

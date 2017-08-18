@@ -590,6 +590,14 @@
       $('#categ-selected').addClass('hidden');
       $('#no-categ-select').removeClass('hidden');
     }
+    if ($(window).width() <= 768) {
+      return $('.single-category').each(function() {
+        var branchAdd, branchrow;
+        branchAdd = $(this).find('.branch-row');
+        branchrow = $(this).find('.branch').detach();
+        return $(branchAdd).append(branchrow);
+      });
+    }
   });
 
   $(document).on('click', '.full.save-btn.gs-next', function(e) {

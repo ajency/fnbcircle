@@ -560,7 +560,12 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
     $('#categ-selected').addClass('hidden');
     $('#no-categ-select').removeClass('hidden');
     #$('.core-cat-cont').addClass('hidden');
-  return
+
+  if $(window).width() <= 768
+    $('.single-category').each ->
+      branchAdd = $(this).find('.branch-row')
+      branchrow = $(this).find('.branch').detach()
+      $(branchAdd).append branchrow
 
 
 

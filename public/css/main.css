@@ -6236,6 +6236,7 @@ input[type="checkbox"].toggle__check {
 .brands-container .flexdatalist-multiple li {
   margin-top: 0;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
 @media screen and (min-width: 769px) {
   .firstStep .close {

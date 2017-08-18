@@ -838,6 +838,23 @@ input[type=radio].fnb-radio.disabled:before {
     overflow: inherit;
   }
 }
+@media (min-width: 769px) {
+  .modal-center {
+    text-align: center;
+  }
+  .modal-center.in:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  .modal-center.in .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }
+}
 @media screen and (min-width: 650px) and (max-width: 768px) {
   .multilevel-modal .modal-body .levels {
     -webkit-transform: translate(200%, 0);

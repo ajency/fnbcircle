@@ -110,7 +110,7 @@
 </div>
 
 <!-- listing review -->
-    <div class="modal fnb-modal listing-review fade" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fnb-modal listing-review fade modal-center" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

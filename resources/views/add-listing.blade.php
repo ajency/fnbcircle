@@ -311,7 +311,7 @@
                                         @endif
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-40">
-                                            @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
+                                            @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
                                             <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>

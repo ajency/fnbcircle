@@ -7498,6 +7498,37 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   color: #6b6b6b;
   margin-bottom: 20px;
 }
+.listing-review .modal-header {
+  padding: 0;
+}
+.listing-review .listing-message {
+  margin-bottom: 2.5em;
+}
+.listing-review .listing-message .check {
+  color: #6ac259;
+  font-size: 2em;
+}
+.listing-review .listing-message .list-caption {
+  padding: 0 3.5em;
+}
+.listing-review .listing-status {
+  padding: 2em 1em;
+  margin: 0 -15px;
+}
+.listing-review .listing-status .pending {
+  margin-top: 0.8em;
+}
+.listing-review .modal-footer {
+  text-align: center;
+}
+.listing-review .modal-footer .cancel-btn {
+  padding: 0.5em 1.5em;
+}
+@media screen and (max-width: 768px) {
+  .listing-review {
+    box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
+  }
+}
 .profile-stats {
   color: #fff;
   box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);

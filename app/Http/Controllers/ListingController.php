@@ -547,12 +547,12 @@ class ListingController extends Controller
                 }
                 $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id' => "$category->id", 'core' => "$category->core");
             }
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', Listing::existingTags());
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', Listing::existingTags())->with('back','business-information');
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            return view('location')->with('listing', $listing)->with('step', $step);
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back','business-categories');
         }
     }
 

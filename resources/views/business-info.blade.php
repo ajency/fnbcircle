@@ -314,7 +314,7 @@
     <div class="m-t-40 business-phone landline business-contact">
         <div class="flex-row space-between">
             <label class="label-size">Enter your business landline number <span class="text-primary">*</span></label>
-            <a href="#" class="dark-link text-medium add-another">+ Add another landline number</a>
+            <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
         </div>
         @foreach($phones as $phone)
         <div class="contact-row m-t-5">

@@ -51,7 +51,7 @@
 
 
         <div class="m-t-20">
-            <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier">+ Add/Edit more categories</a>
+            <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier add-editCat">+ Add/Edit more categories</a>
         </div>
     </div>
     <div class="m-t-50 c-gap core-cat-cont @if(!$listing->isReviewable()) hidden @endif">

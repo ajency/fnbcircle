@@ -1551,18 +1551,21 @@ input[type='checkbox'].remove-addr{
 			}
 		}
 	}
-	@media screen and (min-width: 769px){
-		.cat-dataHolder{
-			height: 410px;
-		  	overflow-y: auto;
-		}
-	}
+	// @media screen and (min-width: 769px){
+	// 	.cat-dataHolder{
+	// 		height: 410px;
+	// 	  	overflow-y: auto;
+	// 	}
+	// }
 }
 
 
 
 
 @media screen and (max-width: @mobile){
+	.add-editCat{
+		color: @accent-secondary;
+	}
 	.category-modal, .area-modal{
 		.tab-content{
 			.collapse{
@@ -1575,7 +1578,7 @@ input[type='checkbox'].remove-addr{
 				// height: 300px;
     			padding: 0.5em 1em;
     			margin-bottom: 1em;
-    			min-height: 100px;
+    			// min-height: 50px;
     			li{
     				flex: 1 0 100%;
     				padding: 0.5em 0;
@@ -1583,6 +1586,14 @@ input[type='checkbox'].remove-addr{
     			label{
     				margin-bottom: 0;
     			}
+    			&__text{
+    				font-size: 0.95em;
+    			}
+				input[type="checkbox"]{
+					&:before{
+						font-size: 1.2em;
+					}
+				}
 			}
 		}
 		.toggle-collapse{

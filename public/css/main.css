@@ -838,6 +838,23 @@ input[type=radio].fnb-radio.disabled:before {
     overflow: inherit;
   }
 }
+@media (min-width: 769px) {
+  .modal-center {
+    text-align: center;
+  }
+  .modal-center.in:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+  }
+  .modal-center.in .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  }
+}
 @media screen and (min-width: 650px) and (max-width: 768px) {
   .multilevel-modal .modal-body .levels {
     -webkit-transform: translate(200%, 0);
@@ -7309,6 +7326,37 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   font-size: 0.95em;
   color: #6b6b6b;
   margin-bottom: 20px;
+}
+.listing-review .modal-header {
+  padding: 0;
+}
+.listing-review .listing-message {
+  margin-bottom: 2.5em;
+}
+.listing-review .listing-message .check {
+  color: #6ac259;
+  font-size: 2em;
+}
+.listing-review .listing-message .list-caption {
+  padding: 0 3.5em;
+}
+.listing-review .listing-status {
+  padding: 2em 1em;
+  margin: 0 -15px;
+}
+.listing-review .listing-status .pending {
+  margin-top: 0.8em;
+}
+.listing-review .modal-footer {
+  text-align: center;
+}
+.listing-review .modal-footer .cancel-btn {
+  padding: 0.5em 1.5em;
+}
+@media screen and (max-width: 768px) {
+  .listing-review {
+    box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
+  }
 }
 .profile-stats {
   color: #fff;

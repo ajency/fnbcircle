@@ -124,6 +124,7 @@ $('body').on 'click', '.category-back', ->
   $('.sub-category').removeClass 'shown'
   $('.desk-level-two').addClass 'hidden'
   $('.firstStep').removeClass 'hidden'
+  $('.interested-options .radio').prop 'checked', false
 
 
 $('.topSelect').click ->
@@ -135,6 +136,10 @@ $('.topSelect').click ->
 $('.catSelect-click').click ->
 	$('.category-back').removeClass 'hidden'
 
+
+$('#category-select').on 'hidden.bs.modal', (e) ->
+  $('.interested-options .radio').prop 'checked', false
+  return
 
 
 if $(window).width() < 768
@@ -536,6 +541,12 @@ populate = () ->
   return
 
 $('body').on 'click', 'button#category-select.fnb-btn', ->
+	if $(window).width() <= 768
+	  # $('.single-category').each ->
+			# branchAdd = $(this).find('.branch-row')
+			# branchrow = $(this).find('.branch').detach()
+			# $(branchAdd).append branchrow
+			# return
   k=0
   if categories['categories'].length > 0
     for branch of categories['categories']

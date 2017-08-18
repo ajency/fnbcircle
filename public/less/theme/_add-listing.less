@@ -1992,3 +1992,50 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+
+
+// ---------------------------
+// LISTING REVIEW  -----------
+// ---------------------------
+
+
+.listing-review{
+	.modal-header{
+		padding: 0;
+	}
+	.listing-message{
+		margin-bottom: 2.5em;
+		.check{
+			color: #6ac259;
+    		font-size: 2em;
+		}
+		.list-caption{
+			padding: 0 3.5em;
+		}
+	}
+	.listing-status{
+		padding: 2em 1em;
+    	margin: 0 -15px;
+    	.pending{
+    		margin-top: 0.8em;
+    	}
+	}
+	.modal-footer{
+		text-align: center;
+		.cancel-btn{
+			padding: 0.5em 1.5em;
+		}
+	}
+}
+
+
+
+@media screen and (max-width: @mobile){
+	.listing-review{
+		box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
+	}
+}
+
+
+
+

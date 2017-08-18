@@ -118,6 +118,26 @@
 	}
 }
 
+@media(min-width: 769px){
+	.modal-center{
+		text-align: center;
+		&.in{
+			&:before{
+				content: '';
+				display: inline-block;
+  				height: 100%;
+  				vertical-align: middle;
+  				margin-right: -4px;
+			}
+			.modal-dialog{
+				display: inline-block;
+  				text-align: left;
+  				vertical-align: middle;
+			}
+		}
+	}
+}
+
 @media screen and (min-width: 650px) and (max-width: @mobile){
 	.multilevel-modal{
 		.modal-body{

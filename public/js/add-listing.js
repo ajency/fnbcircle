@@ -720,4 +720,22 @@
     $('#listing-review').modal('show');
   }
 
+  if ($_GET['success'] !== void 0) {
+    setTimeout((function() {
+      $('.alert-success').addClass('active');
+    }), 1500);
+    setTimeout((function() {
+      $('.alert-success').removeClass('active');
+    }), 6000);
+  }
+
+  if ($('.alert.alert-failure') !== void 0) {
+    setTimeout((function() {
+      $('.alert-failure').addClass('active');
+    }), 1500);
+    setTimeout((function() {
+      $('.alert-failure').removeClass('active');
+    }), 6000);
+  }
+
 }).call(this);

@@ -277,7 +277,11 @@
                                     @if ($errors->any())
                                     <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                         Oh snap! Some error occurred. Please check all the details and proceed.
+                                        <div class="flex-row">
+                                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                                             Oh snap! Some error occurred. Please check all the details and proceed.
+                                        </div>
+                                        
                                         <!-- <ul>
                                                   @foreach ($errors->all() as $error)
                                                       <li>{{ $error }}</li>

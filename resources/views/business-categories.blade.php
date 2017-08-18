@@ -3,9 +3,12 @@
 @section('form-data')
 
 <!-- Success message -->
-@if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
+@if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    Business Information details saved successfully.
+    <div class="flex-row">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+        Business Information details saved successfully.
+    </div>
 </div>
 @endif
 

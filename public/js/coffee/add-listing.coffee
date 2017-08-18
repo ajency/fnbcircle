@@ -670,3 +670,26 @@ window.location.href.replace /[?&]+([^=&]+)=([^&]*)/gi, (a, name, value) ->
 if $_GET['review'] != undefined
   console.log $_GET['review']
   $('#listing-review').modal('show')
+if $_GET['success'] != undefined
+  setTimeout (->
+  	$('.alert-success').addClass 'active'
+  	return
+  ), 1500
+  setTimeout (->
+  	$('.alert-success').removeClass 'active'
+  	return
+  ), 6000
+if $('.alert.alert-failure') != undefined
+  setTimeout (->
+  	$('.alert-failure').addClass 'active'
+  	return
+  ), 1500
+  setTimeout (->
+  	$('.alert-failure').removeClass 'active'
+  	return
+  ), 6000
+
+
+
+
+

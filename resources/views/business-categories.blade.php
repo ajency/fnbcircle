@@ -71,7 +71,7 @@
             <ul class="fnb-cat small core-selector flex-row">
             @foreach ($categories as $branchID => $category)
                 @foreach ($category['nodes'] as $node)
-                     <li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." data-parsley-errors-container="#core-error" class="checkbox core-cat-select" id="cat-label-{{$node['id']}}" value="{{$node['id']}}" @if ($node['core'] == '1') checked="checked" @endif ><label class="core-selector__label m-b-0" for="cat-label-{{$node['id']}}"><span class="fnb-cat__title text-medium">{{$node['name']}}</span></label></span></li>
+                     <li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." data-parsley-errors-container="#core-errors" class="checkbox core-cat-select" id="cat-label-{{$node['id']}}" value="{{$node['id']}}" @if ($node['core'] == '1') checked="checked" @endif ><label class="core-selector__label m-b-0" for="cat-label-{{$node['id']}}"><span class="fnb-cat__title text-medium">{{$node['name']}}</span></label></span></li>
                 @endforeach
             @endforeach
                 
@@ -88,7 +88,7 @@
  -->                <!--
                 <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li> -->
             </ul>
-            <div id="core-error" class="validationError m-t-10"></div>
+            <div id="core-errors" class="validationError m-t-10"></div>
         </div>
     </div>
     <div class="m-t-40 c-gap">
@@ -120,11 +120,11 @@
                     </div>
                     <div class="mobile-back flex-row">
                         <div class="back">
-                            <button class="hidden btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
-                            <button class="btn fnb-btn outline border-btn no-border category-back" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                            <button class="desk-hide btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                            <button class="btn fnb-btn outline border-btn no-border category-back mobileCat-back mobile-hide" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
                         </div>
                         <div class="level-two">
-                            <a href="#" data-dismiss="modal" class="btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
+                            <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
                         </div>
                     </div>
                 </div>

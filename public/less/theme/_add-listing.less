@@ -325,7 +325,7 @@
 @media screen and (max-width: @mobile){
 .business-phone,.landline{
 	.removeRow{
-		right: 0;
+		right: 10px;
 	}
 }
 }
@@ -2011,10 +2011,12 @@ input[type='checkbox'].remove-addr{
 			text-decoration: none;
 		}
 	}
-	.rating{
-		transform: scale(0.8);
-		left: -12px;
-		top: -2px;
+	@media(min-width: @mobile){
+		.rating{
+			transform: scale(0.8);
+			left: -12px;
+			top: -2px;
+		}
 	}
 	.listing-status{
 		margin-top: 10px;

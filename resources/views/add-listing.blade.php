@@ -166,7 +166,7 @@
                                         <div class="listing-status">
                                             <div class="label">STATUS</div>
                                             <div class="flex-row">
-                                                <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
+                                                <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
                                                 @if($listing->isReviewable() and $listing->status > "2")
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
@@ -177,7 +177,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    @if($listing->isReviewable())
                                     <div class="premium-info">
                                         <p>
                                             Premium listings usually get more leads than non premium.
@@ -185,6 +185,7 @@
                                         </p>
                                         <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="">Go Premium</a>
                                     </div>
+                                    @endif
                                 </div>
 
                                 <ul class="edit-steps">
@@ -216,7 +217,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#stepsCollapse" data-toggle="collapse">Edit <!-- <i class="fa fa-chevron-down small"></i> --></a>
+                                        <a href="#stepsCollapse" data-toggle="collapse">Edit your Listing <!-- <i class="fa fa-chevron-down small"></i> --></a>
                                     </li>
                                 </ul>
                             @endif
@@ -273,7 +274,7 @@
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
-                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</span> <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
+                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft @endif @if($listing->status=="2") Pending @endif @if($listing->status=="1") Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
                                          @endif
                                     </p>
                                     <div class="gs-form tab-content @if($listing->reference!=null) p-t-0 @endif">
@@ -327,8 +328,9 @@
                                         </div>
                                         @endif
                                         <!-- content navigation -->
-                                        <div class="gs-form__footer flex-row m-t-40">
-                                            @if($step != 'business-information')<button class="btn fnb-btn outline no-border gs-prev"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button> @endif
+                                        <div class="gs-form__footer flex-row m-t-30">
+                                            @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
+
                                             <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
@@ -359,15 +361,15 @@
                     <div class="listing-message">
                         <i class="fa fa-check-circle check" aria-hidden="true"></i>
                         <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will ne notified if your listing is published.</p>
+                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
-                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending review <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i></div>
+                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Cancel</button>
+                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

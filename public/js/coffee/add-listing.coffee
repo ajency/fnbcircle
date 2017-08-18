@@ -8,6 +8,18 @@ $('body').on 'click', '.gs-prev', ->
 # Upload file
 $('.dropify').dropify messages: 'default': 'Add Photo'
 
+# BS collapse others 
+
+$myGroup = $('.cat-dataHolder')
+$myGroup.on 'show.bs.collapse', '.collapse', ->
+  $myGroup.find('.collapse.in').collapse 'hide'
+  return
+
+# $('.cat-dataHolder .toggle-collapse').click (e) ->
+#   console.log('res')
+#   $('.collapse').collapse 'hide'
+#   return  
+
 # Add/Edit categories
 $('body').on 'click', 'input:radio[name=\'categories\']', ->
   $('div.full-modal').removeClass 'hidden'

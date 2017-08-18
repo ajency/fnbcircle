@@ -13,7 +13,7 @@
 @endif
 
 <div class="business-cats tab-pane fade in active" id="business_categories">
-    <h5 class="no-m-t main-heading">Business Categories</h5>
+    <h5 class="no-m-t main-heading @if($listing->reference!=null) white m-t-0 m-b-40 @endif ">Business Categories</h5>
 
     <div class="m-t-30 add-container c-gap @if($listing->isReviewable()) hidden @endif" id="no-categ-select">
         <label class="label-size">Select categories your listing belongs to <span class="text-primary">*</span></label>
@@ -32,8 +32,8 @@
                 </div>
             </li>
            @endforeach
-        </ul>    
-        <div id="no-categ-error" class="hidden validationError m-t-10">At least one category should be added for a business.</div>   
+        </ul>
+        <div id="no-categ-error" class="hidden validationError m-t-10">At least one category should be added for a business.</div>
     </div>
 
 
@@ -49,7 +49,7 @@
             </ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>
         @endforeach
         </div>
-        
+
         <!-- <div class="test">test</div> -->
 
 
@@ -77,7 +77,7 @@
                      <li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." data-parsley-errors-container="#core-errors" class="checkbox core-cat-select" id="cat-label-{{$node['id']}}" value="{{$node['id']}}" @if ($node['core'] == '1') checked="checked" @endif ><label class="core-selector__label m-b-0" for="cat-label-{{$node['id']}}"><span class="fnb-cat__title text-medium">{{$node['name']}}</span></label></span></li>
                 @endforeach
             @endforeach
-                
+
                 <!-- <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label" checked=""><label class="core-selector__label m-b-0" for="cat-label"><span class="fnb-cat__title text-medium">Al Kabeer </span></label></span>
                 </li>
                 <li><input type="checkbox" class="checkbox core-cat-select" id="cat-label-2"><label class="core-selector__label m-b-0" for="cat-label-2"><span class="fnb-cat__title text-medium">Pandiyan </span></label></span>
@@ -217,7 +217,7 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane active collapse" id="chicken">
                                     <ul class="nodes">
-                                        
+
                                         <li>
                                             <label class="flex-row">
                                                 <input type="checkbox" class="checkbox" for="boneless">
@@ -232,11 +232,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                
+
                                 <div role="tabpanel" class="tab-pane collapse" id="mutton">Mutton</div>
-                                
+
                                 <div role="tabpanel" class="tab-pane collapse" id="pork">Pork</div>
-                                
+
                                 <div role="tabpanel" class="tab-pane collapse" id="beef">Beef</div>
                                 <div role="tabpanel" class="tab-pane" id="halal">Halal</div>
                                 <div role="tabpanel" class="tab-pane" id="rabbit">Rabbit</div>
@@ -272,13 +272,13 @@
                 </div>
             </div>
         </div>
-    
+
     <script type="text/javascript">
         var categories = {'categories': []};
         @foreach ($categories as $branchID => $category)
             categories['categories'][{{$branchID}}]={
-                "branch" : "{{$category['branch']}}", 
-                "image-url" : "{{$category['image-url']}}", 
+                "branch" : "{{$category['branch']}}",
+                "image-url" : "{{$category['image-url']}}",
                 "parent" : "{{$category['parent']}}" ,
                 "nodes" : []
             };

@@ -22,58 +22,75 @@
 <!-- content -->
     @if($listing->reference!=null)
     <div class="preview-header text-color mobile-hide">
-        <i class="fa fa-binoculars bino" aria-hidden="true"></i> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
+        <div class="container">
+            <div class="pull-left">
+                <span class="text-primary">Note:</span> You can add multiple listings on F&amp;B Circle
+            </div>
+            <div class="pull-right">
+                <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </div>
     @endif
-    <div class="header-shifter"></div>
-    <div class="container">
-        <div class="row p-t-30 mobile-flex breadcrums-container mobile-hide">
-            <div class="col-sm-8 flex-col">
-                <!-- Breadcrums -->
-                <ul class="fnb-breadcrums flex-row">
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    @if($listing->reference==null)
-                    <li class="fnb-breadcrums__section">
-                        <a href="#">
-                            <p class="fnb-breadcrums__title">Add a listing</p>
-                        </a>
-                    </li>
-                    @else
-                    <li class="fnb-breadcrums__section">
-                        <a href="/listing/{{$listing->reference}}">
-                            <p class="fnb-breadcrums__title">{{$listing->title}}</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="#">
-                            <p class="fnb-breadcrums__title">Edit Listing</p>
-                        </a>
-                    </li>
+    <!-- <div class="header-shifter"></div> -->
+
+    <div class="profile-stats no-shadow">
+        <div class="container">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container mobile-hide @if($listing->reference!=null) edit-mode @endif ">
+                <div class="col-sm-8 flex-col">
+                    <!-- Breadcrums -->
+                    <ul class="fnb-breadcrums flex-row">
+                        <li class="fnb-breadcrums__section">
+                            <a href="">
+                                <i class="fa fa-home home-icon" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="fnb-breadcrums__section">
+                            <a href="">
+                                <p class="fnb-breadcrums__title">/</p>
+                            </a>
+                        </li>
+                        @if($listing->reference==null)
+                        <li class="fnb-breadcrums__section">
+                            <a href="#">
+                                <p class="fnb-breadcrums__title">Add a listing</p>
+                            </a>
+                        </li>
+                        @else
+                        <li class="fnb-breadcrums__section">
+                            <a href="/listing/{{$listing->reference}}">
+                                <p class="fnb-breadcrums__title">{{$listing->title}}</p>
+                            </a>
+                        </li>
+                        <li class="fnb-breadcrums__section">
+                            <a href="">
+                                <p class="fnb-breadcrums__title">/</p>
+                            </a>
+                        </li>
+                        <li class="fnb-breadcrums__section">
+                            <a href="#">
+                                <p class="fnb-breadcrums__title">Edit Listing</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                    <!-- Breadcrums ends -->
+                </div>
+                <div class="col-sm-4 flex-col text-right">
+                    @if($listing->reference!=null)
+                        <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
                     @endif
-                </ul>
-                <!-- Breadcrums ends -->
-            </div>
-            <div class="col-sm-4 flex-col">
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="container">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif ">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
-                    <h3 class="main-heading m-b-0 m-t-0">@if($listing->reference==null)Let's get started! @endif</h3>
+                    <h3 class="main-heading m-b-0 m-t-0 white">@if($listing->reference==null)Let's get started! @endif</h3>
                     <!-- <div class="flex-row">
                         <p class="note-row__text text-medium">
                             <div class="mobile-hide p-r-10">
@@ -103,7 +120,7 @@
                                 <i class="fa fa-chevron-down pull-right desk-hide"></i>
                             </div>
                             <div class="mobile-collapse tips__steps col-sm-9">
-                                <div class="flex-row page-intro">
+                                <!-- <div class="flex-row page-intro">
                                     <div>
                                         <img src="/img/steps.png" class="mobile-hide desk-hide">
                                         <img src="/img/steps-orange.png">
@@ -111,7 +128,7 @@
                                     <div class="page-intro__title">
                                         You are a few steps away from creating a listing on F&amp;BCircle
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <ol>
@@ -232,7 +249,7 @@
                                     <a href="/img/sample_listing.png" class="desk-hide sample-img">View the sample</a>
                                 </div>
                             </div>
-                            <div class="why-premium">
+                            <!-- <div class="why-premium">
                                 <div class="text-darker">
                                     <strong>Go PREMIUM!</strong> Read why...
                                 </div>
@@ -242,10 +259,10 @@
                                 <div class="text-lighter m-t-15">
                                     Premium listings have priority over non premium as they are displayed first on the list view of listings.
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out no-transition slide-bg dsk-separator listing-sections @if(isset($_GET['step']))active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if(isset($_GET['step']))active @endif">
                                 <div class="mobile-back desk-hide mobile-flex">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -259,7 +276,7 @@
                                          @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</span> <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>
                                          @endif
                                     </p>
-                                    <div class="gs-form tab-content">
+                                    <div class="gs-form tab-content @if($listing->reference!=null) p-t-0 @endif">
                                         <div class="site-loader section-loader hidden">
                                             <div id="floatingBarsG">
                                                 <div class="blockG" id="rotateG_01"></div>
@@ -281,7 +298,7 @@
                                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                                              Oh snap! Some error occurred. Please check all the details and proceed.
                                         </div>
-                                        
+
                                         <!-- <ul>
                                                   @foreach ($errors->all() as $error)
                                                       <li>{{ $error }}</li>

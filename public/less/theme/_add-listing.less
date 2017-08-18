@@ -72,6 +72,7 @@
     color: #fff;
     text-align: center;
     font-size: 1.15em;
+    display: none;
     @media screen and (min-width: 769px){
 	    // transition: all 0.2s ease;
 	    position: fixed;
@@ -81,10 +82,14 @@
     	&.active{
     		top: 0;
     		font-size: 1em;
+    		display: block;
     	}
     }
     &__link{
     	padding-left: 0.5em;
+    	&.white{
+    		color: #fff;
+    	}
     }
     @media screen and (max-width: @mobile){
     	font-size: 0.95em;
@@ -235,6 +240,9 @@
 			pointer-events: none;
 		}
 	}
+	@media(max-width: @mobile){
+		padding-left: 10px;
+	}
 }
 
 .gs-form{
@@ -259,6 +267,11 @@
 			&.center{
 				margin: auto;
 			}
+		}
+	}
+	@media(min-width: @mobile){
+		&.p-t-0{
+			padding-top: 0;
 		}
 	}
 }
@@ -484,6 +497,9 @@
 	color: @grey-darker;
 	a{
 		color: @accent-primary;
+	}
+	@media(min-width: @mobile){
+		padding: 15px 0;
 	}
 }
 
@@ -1953,6 +1969,7 @@ input[type='checkbox'].remove-addr{
 .edit-summary-card{
 	margin-bottom: 1em;
 	padding: 0;
+	border: 1px solid #e4e4e4;
 	.summary-info{
 		padding: 1.5em 1em;
 	}
@@ -2052,6 +2069,23 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+@media screen and (min-width: @mobile){
+	.breadcrums-container{
+		padding-bottom: 80px;
+		&.edit-mode{
+		}
+	}
 
+	.content-wrapper{
+		margin-top: -80px;
+		&.edit-mode{
+			// margin-top: -100px;
+		}
+	}
+	.listing-form-wrapper{
+		border-left: 1px solid #d8d8d8;
+		padding-left: 10px;
+	}
+}
 
 

@@ -34,6 +34,7 @@ Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_areas','ListingController@getAreas');
 
 Route::post('/get_categories','ListingController@getCategories');
+Route::get('/get_brands','ListingController@getBrands');
 
 // Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
 

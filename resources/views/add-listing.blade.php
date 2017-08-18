@@ -169,8 +169,9 @@
                                             <div class="flex-row space-between">
                                                 <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
                                                 @if($listing->isReviewable() and $listing->status > "2")
-                                                @endif
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
+                                                @endif
+                                                    
 
                                                 @if($listing->status=="1")
                                                     <a href="#">Archive</a>

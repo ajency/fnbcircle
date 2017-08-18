@@ -308,6 +308,13 @@ class ListingController extends Controller
         return response()->json($parent_array);
     }
 
+    public function getBrands(Request $request){
+        $this->validate($request, [
+            'keyword' => 'required',
+        ]);
+        // dd(Listing::existingTagsLike($request->keyword));
+        return response()->json(['results'=> Listing::existingTagsLike($request->keyword), 'options'=>[]]);
+    }
     
     //------------------------step 3 --------------------
 
@@ -547,7 +554,7 @@ class ListingController extends Controller
                 }
                 $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id' => "$category->id", 'core' => "$category->core");
             }
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', Listing::existingTags())->with('back','business-information');
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back','business-information');
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {

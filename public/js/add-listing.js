@@ -488,7 +488,7 @@
   });
 
   $('body').on('click', '.removeRow', function() {
-    return $(this).closest('.get-val').remove();
+    return $(this).closest('.get-val').parent().remove();
   });
 
   $(document).on('change', '.business-contact .toggle__check', function() {

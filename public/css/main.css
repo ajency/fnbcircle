@@ -5726,6 +5726,13 @@ input[type="checkbox"].toggle__check {
   .business-contact .add-another {
     margin-top: 5px;
     display: block;
+    color: #27b7b0;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .business-contact .label-size {
+    font-weight: 400;
+    margin-bottom: 0;
   }
 }
 @media screen and (max-width: 650px) {
@@ -5799,6 +5806,18 @@ input[type="checkbox"].toggle__check {
   text-align: center;
   font-size: 1em;
   font-weight: 500;
+}
+.contact-row {
+  background-color: #f7f7f7;
+  border: 1px solid #d8d8d8;
+  padding: 5px;
+}
+.contact-row .fnb-input {
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+}
+.contact-row .fnb-input[readonly] {
+  background-color: #eee;
 }
 .single-category,
 .single-area {
@@ -6041,6 +6060,7 @@ input[type="checkbox"].toggle__check {
 .business-contact .input-row .fa:not(.removeRow) {
   position: absolute;
   top: 5px;
+  left: 7px;
   font-size: 1.8em;
   color: #868484;
 }
@@ -6050,7 +6070,6 @@ input[type="checkbox"].toggle__check {
 .landline .input-row .fa:not(.removeRow) {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
-  left: -4px;
   font-size: 1.6em;
 }
 .brands-container .flexdatalist-multiple li {

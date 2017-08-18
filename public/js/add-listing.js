@@ -192,7 +192,8 @@
 
   setTimeout((function() {
     $('.brand-list').flexdatalist({
-      removeOnBackspace: false
+      removeOnBackspace: false,
+      minLength: 1
     });
   }), 500);
 
@@ -429,7 +430,7 @@
     validator = inp.parsley();
     if (validator.isValid() !== true) {
       if (inp.val() === '') {
-        errordiv.html('Please enter sent OTP');
+        errordiv.html('Please enter OTP sent');
       } else {
         errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       }

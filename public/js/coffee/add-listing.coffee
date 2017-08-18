@@ -177,9 +177,12 @@ if $(window).width() <= 768
 # $('.brand-list').flexdatalist removeOnBackspace: false
 
 setTimeout (->
-	$('.brand-list').flexdatalist removeOnBackspace: false
-	return
+  $('.brand-list').flexdatalist
+    removeOnBackspace: false
+    minLength: 1
+  return
 ), 500
+
 
 
 # Tips Toggle
@@ -411,7 +414,7 @@ $('.code-send').click ->
   if validator.isValid() != true
     # console.log 'gandu'
     if inp.val()==''
-      errordiv.html 'Please enter sent OTP'
+      errordiv.html 'Please enter OTP sent'
     else
       errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
     inp.val('')

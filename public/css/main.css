@@ -6267,7 +6267,7 @@ input[type="checkbox"].toggle__check {
   vertical-align: middle;
   position: relative;
   width: 18px;
-  top: 1px;
+  opacity: 0.5;
 }
 .core-selector .core-cat-select {
   position: absolute;
@@ -6282,6 +6282,7 @@ input[type="checkbox"].toggle__check {
 }
 .core-selector .core-cat-select:checked + .core-selector__label:before {
   content: "\f046";
+  opacity: 1;
 }
 .core-selector .core-cat-select:checked + .core-selector__label .fnb-cat__title {
   color: #fff;
@@ -7194,6 +7195,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .area-modal .tab-content .nodes {
     padding: 0.5em 1em;
     margin-bottom: 1em;
+    min-height: 30px;
   }
   .category-modal .tab-content .nodes li,
   .area-modal .tab-content .nodes li {

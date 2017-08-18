@@ -66,8 +66,10 @@
 .preview-header{
 	padding: 1em;
     background-color: #def0ef;
-    border-top: 1px solid #abece9;
-    border-bottom: 1px solid #abece9;
+    background-color: darken(@grey-darker, 10%);
+    border-top: 1px solid darken(@grey-darker, 10%);
+    border-bottom: 1px solid darken(@grey-darker, 10%);
+    color: #fff;
     text-align: center;
     font-size: 1.15em;
     @media screen and (min-width: 769px){
@@ -190,7 +192,7 @@
 			margin-top: 0;
 		}
 		a{
-			padding: 10px 15px;
+			padding: 5px 0px;
 		}
 	}
 }
@@ -198,14 +200,20 @@
 .edit-steps{
 	a{
 		display: flex;
-		padding: 10px;
+		padding: 15px 10px;
+		padding-left: 0;
 		justify-content: space-between;
+		align-items: center;
 		font-weight: 500;
 		font-size: 1.2em;
 		color: lighten(@grey-darker, 0%);
 		text-decoration: none;
+		border-bottom: 1px solid @grey-lighter;
 		i{
 			transition: all 0.3s ease;
+		}
+		.fa-info-circle{
+
 		}
 		&.collapsed{
 			i{
@@ -214,6 +222,17 @@
 		}
 		&:hover{
 			color: @accent-secondary;
+		}
+	}
+	li:last-child{
+		a{
+			border-bottom: 0;
+		}
+	}
+	.step-disable{
+		opacity: 0.4;
+		a{
+			pointer-events: none;
 		}
 	}
 }
@@ -1927,8 +1946,20 @@ input[type='checkbox'].remove-addr{
 }
 
 .edit-summary-card{
-	padding: 1.5em 1em;
 	margin-bottom: 1em;
+	padding: 0;
+	.summary-info{
+		padding: 1.5em 1em;
+	}
+	.premium-info{
+		padding: 1.5em 1em;
+		background-color: lighten(@accent-primary, 35%);
+		a{
+			color: @accent-primary;
+			font-weight: 500;
+			text-decoration: underline;
+		}
+	}
 	h5{
 		margin-top: 0;
 		margin-bottom: 0;
@@ -1941,11 +1972,24 @@ input[type='checkbox'].remove-addr{
 			text-decoration: none;
 		}
 	}
+	.rating{
+		transform: scale(0.8);
+		left: -12px;
+		top: -2px;
+	}
 	.listing-status{
 		margin-top: 10px;
-		margin-bottom: 10px;
-		display: flex;
-		justify-content: space-between;
+		// margin-bottom: 10px;
+		padding-bottom: 5px;
+		font-size: 1.2em;
+		border-bottom: 1px solid @accent-primary;
+		// display: flex;
+		// justify-content: space-between;
+		.label{
+			color: @text-lighter;
+			padding: 0;
+			font-weight: 400;
+		}
 		a{
 			// font-size: 0.65em;
 			color: @accent-primary;

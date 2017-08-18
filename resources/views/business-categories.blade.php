@@ -57,7 +57,7 @@
             <a href="#category-select" data-toggle="modal" data-target="#category-select" name="add_categories" class="dark-link heavier add-editCat">+ Add/Edit more categories</a>
         </div>
     </div>
-    <div class="m-t-50 c-gap core-cat-cont @if(!$listing->isReviewable()) hidden @endif">
+    <div class="m-t-30 c-gap core-cat-cont @if(!$listing->isReviewable()) hidden @endif">
         <label class="required label-size">Core categories of your listing</label>
         <div class="text-lighter m-t-5">
             Note: Core categories will be displayed prominently on the listing. Maximum 10 core categories allowed

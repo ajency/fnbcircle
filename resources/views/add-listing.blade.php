@@ -139,7 +139,7 @@
                         <div class="col-xs-12 col-sm-3">
                             @if($listing->reference!=null)
                                 <div class="dsk-separator edit-summary-card">
-<<<<<<< Updated upstream
+
                                     <div class="summary-info">
                                         <h5>{{$listing->title}} <!-- <a href="/listing/{{$listing->reference}}" target="_blank">View</a> --></h5>
                                         <div class="rating">
@@ -150,21 +150,9 @@
                                             <div class="label">STATUS</div>
                                             <div class="flex-row">
                                                 <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
-                                                @if($listing->isReviewable())
-                                                    <a href="#">Submit for Review</a>
+                                                @if($listing->isReviewable() and $listing->status > "2")
+                                                    <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
-=======
-                                    <h5>{{$listing->title}} <a href="/listing/{{$listing->reference}}" target="_blank">View</a></h5>
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 0%;"></div>
-                                    </div>
-                                    <div class="listing-status">
-                                        <div>Status: @if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
-                                        @if($listing->isReviewable() and $listing->status > "2")
-                                            <a href="#" class="review-submit-link">Submit for Review</a>
-                                        @endif
->>>>>>> Stashed changes
 
                                                 @if($listing->status=="1")
                                                     <a href="#">Archive</a>

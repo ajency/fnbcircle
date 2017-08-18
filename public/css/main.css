@@ -209,6 +209,17 @@ span {
   color: #fff;
   border: 1px solid;
 }
+.fnb-btn.grey {
+  background-color: rgba(173, 167, 167, 0.52);
+  color: rgba(0, 0, 0, 0.74);
+  border-color: #ada7a7;
+}
+.fnb-btn.grey:hover,
+.fnb-btn.grey:active {
+  background-color: rgba(173, 167, 167, 0.52);
+  color: rgba(0, 0, 0, 0.74);
+  border-color: #ada7a7;
+}
 .fnb-btn.fullwidth {
   display: block;
   width: 100%;
@@ -6098,6 +6109,11 @@ input[type="checkbox"].toggle__check {
   width: 20%;
   padding: 0.5em;
 }
+@media screen and (min-width: 769px) {
+  .gs-form__footer {
+    margin: 40px 15px 0 15px;
+  }
+}
 @media screen and (max-width: 768px) {
   .image-grid__cols {
     width: 50%;
@@ -6895,8 +6911,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     font-size: 0.8em;
   }
 }
-.category-modal .modal-body {
-  padding: 0.5em 0 1em 0;
+@media screen and (min-width: 769px) {
+  .category-modal .modal-body {
+    padding: 0.5em 0;
+  }
 }
 .category-modal .modal-content {
   padding: 1em;
@@ -6935,6 +6953,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     padding: 0 1em;
   }
 }
+.category-modal .footer-actions .fnb-btn {
+  padding: 0.5em 1.8em;
+  margin-left: 5px;
+}
 .instructions {
   background-color: #f9f9f9;
   padding: 0.8em 1em;
@@ -6947,12 +6969,21 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 .node-select {
   margin-top: 1.5em;
-  height: 475px;
-  overflow-y: auto;
   -webkit-box-align: inherit;
   -webkit-align-items: inherit;
       -ms-flex-align: inherit;
           align-items: inherit;
+}
+@media screen and (min-width: 769px) {
+  .node-select {
+    height: 475px;
+    overflow-y: auto;
+  }
+}
+@media screen and (max-width: 768px) {
+  .node-select {
+    margin-top: 8em;
+  }
 }
 .node-select .nav {
   -webkit-box-orient: vertical;
@@ -7049,9 +7080,11 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   cursor: pointer;
   padding-left: 3px;
 }
-.node-select .cat-dataHolder {
-  height: 410px;
-  overflow-y: auto;
+@media screen and (min-width: 769px) {
+  .node-select .cat-dataHolder {
+    height: 410px;
+    overflow-y: auto;
+  }
 }
 @media screen and (max-width: 768px) {
   .category-modal .tab-content .collapse,
@@ -7064,9 +7097,9 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   }
   .category-modal .tab-content .nodes,
   .area-modal .tab-content .nodes {
-    height: 300px;
     padding: 0.5em 1em;
     margin-bottom: 1em;
+    min-height: 100px;
   }
   .category-modal .tab-content .nodes li,
   .area-modal .tab-content .nodes li {
@@ -7124,14 +7157,23 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .area-modal .instructions {
     padding: 1em;
     margin-top: 1em;
+    position: fixed;
+    background-color: #f9f9f9;
+    z-index: 2;
+    top: 3em;
+    left: 0;
   }
   .category-modal .instructions__title,
   .area-modal .instructions__title {
-    font-size: 1em;
+    font-size: 0.95em;
   }
   .category-modal .instructions .cat-title,
   .area-modal .instructions .cat-title {
-    font-size: 1.25em;
+    font-size: 1em;
+  }
+  .category-modal .instructions .re-save,
+  .area-modal .instructions .re-save {
+    margin-left: 15px;
   }
   .category-modal .operate-all,
   .area-modal .operate-all {

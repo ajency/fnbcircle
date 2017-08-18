@@ -551,6 +551,13 @@
 		padding: 0.5em;
 	}
 }
+
+@media screen and (min-width: 769px){
+	.gs-form__footer{
+    	margin: 40px 15px 0 15px;
+	}
+}
+
 @media screen and (max-width: @mobile){
 	.image-grid{
 		&__cols{
@@ -691,6 +698,9 @@
 	padding: 1em 1.5em;
     background-color: #fdf4f2;
     border: 1px solid #f6c8bd;
+    // @media screen and (min-width: 769px){
+    // 	margin: 0 15px;
+    // }
     .fa{
     	font-size: 1.7em;
     	color: @accent-primary;
@@ -1339,8 +1349,10 @@ input[type='checkbox'].remove-addr{
 // ---------------------------
 
 .category-modal{
-	.modal-body{
-		padding: 0.5em 0 1em 0;
+	@media screen and (min-width: 769px){
+		.modal-body{
+			padding: 0.5em 0;
+		}
 	}
 	.modal-content{
 		padding: 1em;
@@ -1383,6 +1395,12 @@ input[type='checkbox'].remove-addr{
 			padding: 0 1em;
 		}
 	}
+	.footer-actions{
+		.fnb-btn{
+			padding: 0.5em 1.8em;
+    		margin-left: 5px;
+		}
+	}
 }
 
 .instructions{
@@ -1398,9 +1416,14 @@ input[type='checkbox'].remove-addr{
 
 .node-select{
 	margin-top: 1.5em;
-	height: 475px;
-    overflow-y: auto;
 	align-items: inherit;
+	@media screen and (min-width: 769px){
+		height: 475px;
+    	overflow-y: auto;
+	}
+	@media screen and (max-width: @mobile){
+		margin-top: 8em;
+	}
 	.nav{
 		flex-direction: column;
     	border: 0;
@@ -1482,9 +1505,11 @@ input[type='checkbox'].remove-addr{
 			}
 		}
 	}
-	.cat-dataHolder{
-		height: 410px;
-	  	overflow-y: auto;
+	@media screen and (min-width: 769px){
+		.cat-dataHolder{
+			height: 410px;
+		  	overflow-y: auto;
+		}
 	}
 }
 
@@ -1501,9 +1526,10 @@ input[type='checkbox'].remove-addr{
 				}
 			}
 			.nodes{
-				height: 300px;
+				// height: 300px;
     			padding: 0.5em 1em;
     			margin-bottom: 1em;
+    			min-height: 100px;
     			li{
     				flex: 1 0 100%;
     				padding: 0.5em 0;
@@ -1540,11 +1566,19 @@ input[type='checkbox'].remove-addr{
 		.instructions{
 			padding: 1em;
 			margin-top: 1em;
+			position: fixed;
+    		background-color: #f9f9f9;
+    		z-index: 2;
+    		top: 3em;
+    		left: 0;
 			&__title{
-				font-size: 1em;
+				font-size: 0.95em;
 			}
 			.cat-title{
-				font-size: 1.25em;
+				font-size: 1em;
+			}
+			.re-save{
+				margin-left: 15px;
 			}
 		}
 		.operate-all{

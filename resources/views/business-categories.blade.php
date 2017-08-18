@@ -39,7 +39,7 @@
         <label class="label-size">List of all the categories for your listing</label>
         <div id="categories" class="node-list">
         @foreach ($categories as $branchID => $branch)
-            <div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img src="{{$branch['image-url']}}"></img><div class="branch-row"><div class="cat-label">{{$branch['parent']}}</div></div></div><div class="col-sm-2"><strong class="branch">{{$branch['branch']}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">
+            <div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{$branch['image-url']}}"></img><div class="branch-row"><div class="cat-label">{{$branch['parent']}}</div></div></div><div class="col-sm-2"><strong class="branch">{{$branch['branch']}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">
             @foreach ($categories[$branchID]['nodes'] as $nodeID => $node)
             <li><span class="fnb-cat__title">{{$node['name']}}<input type=hidden name="categories" value="{{$nodeID}}" data-item-name="{{$node['name']}}"> <span class="fa fa-times remove"></span></span></li>
             @endforeach
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             <div>
-                                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">save</button>
+                                <button id="category-select" class="btn fnb-btn outline border-btn re-save" type="button" data-dismiss="modal">save</button>
                             </div>
                         </div>
                         <div class="node-select flex-row">
@@ -240,6 +240,11 @@
                                 <div role="tabpanel" class="tab-pane" id="knuckle">Knuckle</div>
                             </div>
                         </div>
+                            <div class="footer-actions mobile-hide text-right">
+                                <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
+                                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer mobile-hide">
@@ -262,7 +267,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     <script type="text/javascript">
         var categories = {'categories': []};
         @foreach ($categories as $branchID => $category)

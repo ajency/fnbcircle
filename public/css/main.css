@@ -3358,6 +3358,10 @@ input[type="checkbox"].toggle__check {
     width: 100%;
     z-index: 2;
   }
+  .fly-out .mobile-back.p-v-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
   .fly-out .mobile-back i {
     font-size: 1.25em;
     padding-right: 10px;
@@ -5529,6 +5533,10 @@ input[type="checkbox"].toggle__check {
   .fly-out-heading-size {
     font-size: 1.25em;
   }
+  .fly-out-heading-size.main-heading {
+    color: #333;
+    margin-bottom: 0;
+  }
 }
 .preview-header {
   padding: 1em;
@@ -5657,6 +5665,7 @@ input[type="checkbox"].toggle__check {
 @media (min-width: 768px) {
   .gs-steps {
     margin-top: 20px;
+    padding: 0 10px;
   }
   .gs-steps.edit-mode {
     margin-top: 0;
@@ -5664,6 +5673,9 @@ input[type="checkbox"].toggle__check {
   .gs-steps a {
     padding: 5px 0px;
   }
+}
+.edit-steps {
+  padding: 0 10px;
 }
 .edit-steps a {
   display: -webkit-box;
@@ -5702,11 +5714,6 @@ input[type="checkbox"].toggle__check {
 }
 .edit-steps .step-disable a {
   pointer-events: none;
-}
-@media (max-width: 768px) {
-  .edit-steps {
-    padding-left: 10px;
-  }
 }
 .gs-form {
   padding: 15px;
@@ -5948,11 +5955,6 @@ input[type="checkbox"].toggle__check {
 }
 .view-sample a {
   color: #ec6d4b;
-}
-@media (min-width: 768px) {
-  .view-sample {
-    padding: 15px 0;
-  }
 }
 .why-premium {
   padding: 15px;
@@ -7382,8 +7384,8 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   font-weight: 400;
 }
 .edit-summary-card .listing-status a {
+  font-size: 0.9em;
   color: #ec6d4b;
-  text-decoration: underline;
 }
 .edit-summary-card p {
   font-size: 0.95em;
@@ -7428,10 +7430,6 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   }
   .content-wrapper {
     margin-top: -80px;
-  }
-  .listing-form-wrapper {
-    border-left: 1px solid #d8d8d8;
-    padding-left: 10px;
   }
 }
 .profile-stats {

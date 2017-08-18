@@ -22,7 +22,7 @@
     @yield('css')
 </head>
 
-<body class="highlight-color">
+<body class="">
     <!-- header -->
     <header class="fnb-header">
         <nav class="navbar navbar-default">
@@ -115,7 +115,7 @@
     <!-- header ends -->
     @yield('content')
 
-    
+
     <!-- jquery -->
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>

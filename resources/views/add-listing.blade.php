@@ -165,11 +165,11 @@
                                         </div>
                                         <div class="listing-status">
                                             <div class="label">STATUS</div>
-                                            <div class="flex-row">
+                                            <div class="flex-row space-between">
                                                 <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
                                                 @if($listing->isReviewable() and $listing->status > "2")
-                                                    <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
+                                                    <a href="#" class="review-submit-link">Submit for Review</a>
 
                                                 @if($listing->status=="1")
                                                     <a href="#">Archive</a>
@@ -187,63 +187,68 @@
                                     </div>
                                     @endif
                                 </div>
+                            @endif
 
-                                <ul class="edit-steps">
-                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                        <a href="#">
-                                            <div>
-                                                Listing Summary
-                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
-                                        </a>
+                            <div class="dsk-separator">
+                                @if($listing->reference!=null)
+                                    <ul class="edit-steps">
+                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                            <a href="#">
+                                                <div>
+                                                    Listing Summary
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                                </div>
+                                                <i class="fa fa-caret-right"></i>
+                                            </a>
+                                        </li>
+                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                            <a href="#">
+                                                <div>
+                                                    Post an Update
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                                </div>
+                                                <i class="fa fa-caret-right"></i>
+                                            </a>
+                                        </li>
+                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                            <a href="#">
+                                                <div>
+                                                    My Leads
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                                </div>
+                                                <i class="fa fa-caret-right"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#stepsCollapse" data-toggle="collapse">Edit your Listing <!-- <i class="fa fa-chevron-down small"></i> --></a>
+                                        </li>
+                                    </ul>
+                                @endif
+                                <ul class="gs-steps @if($listing->reference!=null) collapse in edit-mode @endif" role="tablist"  @if($listing->reference!=null)id="stepsCollapse"@endif>
+                                    <li class="">
+                                        <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-information') form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
-                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                        <a href="#">
-                                            <div>
-                                                Post an Update
-                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
-                                        </a>
+
+                                   <li class="@if($listing->reference!=null)  @else disable @endif busCat">
+                                        <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
-                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                        <a href="#">
-                                            <div>
-                                                My Leads
-                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
-                                            </div>
-                                            <i class="fa fa-caret-right"></i>
-                                        </a>
+
+                                    <li class="@if($listing->isReviewable())  @else disable @endif">
+                                        <a href="@if($listing->reference!=null and $step != 'business-location-hours') /listing/{{$listing->reference}}/edit/business-location-hours?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-location-hours') form-toggle @endif" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
-                                    <li>
-                                        <a href="#stepsCollapse" data-toggle="collapse">Edit your Listing <!-- <i class="fa fa-chevron-down small"></i> --></a>
+                                    <li class="@if($listing->isReviewable())  @else disable @endif">
+                                        <a href="@if($listing->reference!=null and $step != 'business-details') /listing/{{$listing->reference}}/edit/business-details?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-details') form-toggle @endif" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li class="@if($listing->isReviewable())  @else disable @endif">
+                                        <a href="@if($listing->reference!=null and $step != 'business-photos-documents') /listing/{{$listing->reference}}/edit/business-photos-documents?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-photos-documents') form-toggle @endif" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li class="@if($listing->isReviewable())  @else disable @endif">
+                                        <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-plans') form-toggle @endif" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
-                            @endif
-                            <ul class="gs-steps @if($listing->reference!=null) collapse in edit-mode @endif" role="tablist"  @if($listing->reference!=null)id="stepsCollapse"@endif>
-                                <li class="">
-                                    <a href="@if($listing->reference!=null and $step != 'business-information') /listing/{{$listing->reference}}/edit/business-information?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-information') form-toggle @endif" id="add_listing">Business Information <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
+                            </div>
 
-                               <li class="@if($listing->reference!=null)  @else disable @endif busCat">
-                                    <a href="@if($listing->reference!=null and $step != 'business-categories') /listing/{{$listing->reference}}/edit/business-categories?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-categories') form-toggle @endif" id="business_categories">Business Categories <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
-
-                                <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="@if($listing->reference!=null and $step != 'business-location-hours') /listing/{{$listing->reference}}/edit/business-location-hours?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-location-hours') form-toggle @endif" id="business_location">Location &amp; Hours of Operation <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
-                                <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="@if($listing->reference!=null and $step != 'business-details') /listing/{{$listing->reference}}/edit/business-details?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-details') form-toggle @endif" id="business_details">Business Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
-                                <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="@if($listing->reference!=null and $step != 'business-photos-documents') /listing/{{$listing->reference}}/edit/business-photos-documents?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-photos-documents') form-toggle @endif" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
-                                <li class="@if($listing->isReviewable())  @else disable @endif">
-                                    <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-plans') form-toggle @endif" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                                </li>
-                            </ul>
-                            <div class="view-sample m-t-20 m-b-20">
+                            <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 View what a sample business listing would look like once created.
                                 <div class="m-t-10">
                                     <img src="/img/sample_listing.png" class="img-responsive mobile-hide sample-img">
@@ -264,11 +269,16 @@
                         </div>
                         <div class="col-xs-12 col-sm-9">
                             <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if(isset($_GET['step']))active @endif">
-                                <div class="mobile-back desk-hide mobile-flex">
+                                <div class="mobile-back desk-hide mobile-flex @if($listing->reference!=null) p-v-10 @endif ">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                         <p class="element-title heavier m-b-0">Back</p>
                                     </div>
+                                    @if($listing->reference!=null)
+                                        <div>
+                                            <a href="http://staging.fnbcircle.com/single-view.html" class="fnb-btn mini outline btn preview-header__link">Preview</a>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="fly-out__content">
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>

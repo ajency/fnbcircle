@@ -58,6 +58,10 @@
 	}
 	.fly-out-heading-size{
 		font-size: 1.25em;
+		&.main-heading{
+			color: #333;
+			margin-bottom: 0;
+		}
 	}
 }
 
@@ -193,6 +197,7 @@
 	}
 	@media(min-width: 768px){
 		margin-top: 20px;
+		padding: 0 10px;
 		&.edit-mode{
 			margin-top: 0;
 		}
@@ -203,6 +208,7 @@
 }
 
 .edit-steps{
+	padding: 0 10px;
 	a{
 		display: flex;
 		padding: 15px 10px;
@@ -241,7 +247,7 @@
 		}
 	}
 	@media(max-width: @mobile){
-		padding-left: 10px;
+		// padding-left: 10px;
 	}
 }
 
@@ -499,7 +505,7 @@
 		color: @accent-primary;
 	}
 	@media(min-width: @mobile){
-		padding: 15px 0;
+		// padding: 15px 0;
 	}
 }
 
@@ -2016,9 +2022,9 @@ input[type='checkbox'].remove-addr{
 			font-weight: 400;
 		}
 		a{
-			// font-size: 0.65em;
+			font-size: 0.9em;
 			color: @accent-primary;
-			text-decoration: underline;
+			// text-decoration: underline;
 		}
 	}
 	p{
@@ -2086,8 +2092,8 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 	.listing-form-wrapper{
-		border-left: 1px solid #d8d8d8;
-		padding-left: 10px;
+		// border-left: 1px solid #d8d8d8;
+		// padding-left: 10px;
 	}
 }
 

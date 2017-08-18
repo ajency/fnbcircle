@@ -20,9 +20,11 @@
 
 @section('content')
 <!-- content -->
+    @if($listing->reference!=null)
     <div class="preview-header text-color mobile-hide">
         <i class="fa fa-binoculars bino" aria-hidden="true"></i> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
     </div>
+    @endif
     <div class="header-shifter"></div>
     <div class="container">
         <div class="row p-t-30 mobile-flex breadcrums-container mobile-hide">
@@ -137,42 +139,66 @@
                         <div class="col-xs-12 col-sm-3">
                             @if($listing->reference!=null)
                                 <div class="dsk-separator edit-summary-card">
-                                    <h5>{{$listing->title}} <a href="/listing/{{$listing->reference}}" target="_blank">View</a></h5>
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 0%;"></div>
-                                    </div>
-                                    <div class="listing-status">
-                                        <div>Status: @if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
-                                        @if($listing->isReviewable())
-                                            <a href="#">Submit for Review</a>
-                                        @endif
+                                    <div class="summary-info">
+                                        <h5>{{$listing->title}} <!-- <a href="/listing/{{$listing->reference}}" target="_blank">View</a> --></h5>
+                                        <div class="rating">
+                                            <div class="bg"></div>
+                                            <div class="value" style="width: 50%;"></div>
+                                        </div>
+                                        <div class="listing-status">
+                                            <div class="label">STATUS</div>
+                                            <div class="flex-row">
+                                                <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Under Review @endif @if($listing->status=="1") Published @endif</div>
+                                                @if($listing->isReviewable())
+                                                    <a href="#">Submit for Review</a>
+                                                @endif
 
-                                        @if($listing->status=="1")
-                                            <a href="#">Archive</a>
-                                        @endif
+                                                @if($listing->status=="1")
+                                                    <a href="#">Archive</a>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p>
-                                        Premium listings usually get more leads than non premium.<br>
-                                        Subscribe to our paid plans and watch your business grow.
-                                    </p>
-                                    <div class="text-center">
-                                        <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="fnb-btn s-outline mini">Go Premium</a>
+
+                                    <div class="premium-info">
+                                        <p>
+                                            Premium listings usually get more leads than non premium.
+                                            Subscribe to our paid plans and watch your business grow.
+                                        </p>
+                                        <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-plans?step=true @else # @endif" class="">Go Premium</a>
                                     </div>
                                 </div>
 
                                 <ul class="edit-steps">
-                                    <li>
-                                        <a href="#">Listing Summary</a>
+                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                        <a href="#">
+                                            <div>
+                                                Listing Summary
+                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
+                                        </a>
+                                    </li>
+                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                        <a href="#">
+                                            <div>
+                                                Post an Update
+                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
+                                        </a>
+                                    </li>
+                                    <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
+                                        <a href="#">
+                                            <div>
+                                                My Leads
+                                                @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                            </div>
+                                            <i class="fa fa-caret-right"></i>
+                                        </a>
                                     </li>
                                     <li>
-                                        <a href="#">Post an Update</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">My Leads</a>
-                                    </li>
-                                    <li>
-                                        <a href="#stepsCollapse" data-toggle="collapse">Edit <i class="fa fa-chevron-down small"></i></a>
+                                        <a href="#stepsCollapse" data-toggle="collapse">Edit <!-- <i class="fa fa-chevron-down small"></i> --></a>
                                     </li>
                                 </ul>
                             @endif

@@ -120,8 +120,8 @@ $('body').on 'click', '.categ-list a', ->
   getNodes($(this).attr('name'))
 
 $('body').on 'click', 'div.toggle-collapse.desk-hide', ->
-  # $('div.toggle-collapse.desk-hide').addClass 'collapsed'
-  # $(this).removeClass 'collapsed'
+  $('.collapse').collapse 'hide'
+  # $(this).collapse
   populate()
   getNodes($(this).attr('name'))
 
@@ -552,7 +552,7 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
 populate = () ->
   source = '{{#categories}}<div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{image-url}}"></img><div class="branch-row"><div class="cat-label">{{parent}}</div></div></div><div class="col-sm-2"><strong class="branch">{{branch}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">{{#nodes}}<li><span class="fnb-cat__title">{{name}}<input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> <span class="fa fa-times remove"></span></span></li>{{/nodes}}</ul></div> </div><div class="delete-cat"><span class="fa fa-times remove"></span></div></div>{{/categories}}'
   template = Handlebars.compile(source, {noEscape: true})
-  console.log template
+  # console.log template
   $('div#categories.node-list').html template(categories)
   update_core()
   return

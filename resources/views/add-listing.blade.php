@@ -33,11 +33,12 @@
         </div>
     </div>
     @endif
+
     <!-- <div class="header-shifter"></div> -->
 
-    <div class="profile-stats no-shadow">
+    <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container mobile-hide @if($listing->reference!=null) edit-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container @if($listing->reference!=null) edit-mode @endif ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -77,7 +78,7 @@
                     </ul>
                     <!-- Breadcrums ends -->
                 </div>
-                <div class="col-sm-4 flex-col text-right">
+                <div class="col-sm-4 flex-col text-right mobile-hide">
                     @if($listing->reference!=null)
                         <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
                     @endif

@@ -6109,11 +6109,6 @@ input[type="checkbox"].toggle__check {
   width: 20%;
   padding: 0.5em;
 }
-@media screen and (min-width: 769px) {
-  .gs-form__footer {
-    margin: 40px 15px 0 15px;
-  }
-}
 @media screen and (max-width: 768px) {
   .image-grid__cols {
     width: 50%;
@@ -6996,7 +6991,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   -webkit-flex: 0.3;
       -ms-flex: 0.3;
           flex: 0.3;
-  padding-right: 3em;
+  padding-right: 1.5em;
 }
 .node-select .nav li {
   width: 100%;

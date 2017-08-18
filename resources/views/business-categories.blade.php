@@ -30,7 +30,7 @@
             </li>
            @endforeach
         </ul>    
-        <div id="no-categ-error" class="hidden">At least one category should be added for a business.</div>   
+        <div id="no-categ-error" class="hidden validationError m-t-10">At least one category should be added for a business.</div>   
     </div>
 
 

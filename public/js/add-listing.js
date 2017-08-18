@@ -567,7 +567,8 @@
   };
 
   $('body').on('click', 'button#category-select.fnb-btn', function() {
-    var branch, i, j;
+    var branch, i, j, k;
+    k = 0;
     if (categories['categories'].length > 0) {
       for (branch in categories['categories']) {
         k++;

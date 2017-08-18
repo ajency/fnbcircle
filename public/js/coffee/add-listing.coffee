@@ -541,12 +541,8 @@ populate = () ->
   return
 
 $('body').on 'click', 'button#category-select.fnb-btn', ->
-  # $('.single-category').each ->
-		# branchAdd = $(this).find('.branch-row')
-		# branchrow = $(this).find('.branch').detach()
-		# $(branchAdd).append branchrow
-		# return
-  # k=0
+	
+  k=0
   if categories['categories'].length > 0
     for branch of categories['categories']
       k++

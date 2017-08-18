@@ -7261,7 +7261,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
     margin-top: 1em;
     position: fixed;
     z-index: 2;
-    top: 3em;
+    top: 40px;
     left: 0;
     margin-left: 5px;
     margin-right: 5px;

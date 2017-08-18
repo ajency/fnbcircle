@@ -313,6 +313,13 @@
 		.add-another{
 			margin-top: 5px;
     		display: block;
+    		color: @accent-secondary;
+    		text-decoration: none;
+    		font-weight: 600;
+		}
+		.label-size{
+			font-weight: 400;
+			margin-bottom: 0;
 		}
 	}
 }
@@ -395,6 +402,19 @@
 		text-align: center;
 		font-size: 1em;
 		font-weight: 500;
+	}
+}
+
+.contact-row{
+	background-color: lighten(@grey-lighter, 12%);
+	border: 1px solid @grey-lighter;
+	padding: 5px;
+	.fnb-input{
+		border: 1px solid @grey-lighter;
+		background-color: #fff;
+		&[readonly]{
+			background-color: #eee;
+		}
 	}
 }
 
@@ -669,6 +689,7 @@
 		.fa:not(.removeRow){
 			position: absolute;
 		    top: 5px;
+		    left: 7px;
 		    font-size: 1.8em;
 		    color: #868484;
 		}
@@ -683,7 +704,7 @@
 	.input-row{
 		.fa:not(.removeRow){
 			transform: rotate(45deg);
-    		left: -4px;
+    		// left: -4px;
     		font-size: 1.6em;
 		}
 	}

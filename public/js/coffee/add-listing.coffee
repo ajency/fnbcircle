@@ -39,7 +39,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
         # console.log data[id]['children'][key]['name']
         html_mob += '<div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#' + slugify(data[id]['children'][key]['name']) + '"  name="' + data[id]['children'][key]['id'] + '" aria-expanded="false" aria-controls="' + slugify(data[id]['children'][key]['name']) + '">' + data[id]['children'][key]['name'] + ' <i class="fa fa-angle-down" aria-hidden="true"></i></div><div role="tabpanel" class="tab-pane collapse';
         if i == 0
-          html_mob += ' active' 
+          html_mob += ' active'
         html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>'
         html += '<li role="presentation"'
         if i == 0
@@ -70,7 +70,7 @@ getNodes = (branchID) ->
     $.ajax
       type : 'post'
       url: '/get_categories'
-      data: 
+      data:
         'parent' : JSON.stringify(obj)
       success: (data) ->
         array = []
@@ -93,7 +93,7 @@ getNodes = (branchID) ->
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
           html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" '
-          if _.indexOf(array,key) != -1 
+          if _.indexOf(array,key) != -1
             html+='checked'
           html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         # console.log  slugify(data[branchID]['name'])
@@ -256,7 +256,7 @@ if $(window).width() > 768
 	  if $(this).attr('id') == getID
 	    $(this).parent().addClass 'active'
 	  return
- 
+
 
 # $('.verify-link').click ->
 # 	get_val = $(this).closest('.get-val').find('.fnb-input').val()
@@ -344,7 +344,7 @@ $(document).on 'click', '.verify-link', ->
 	parent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
 	id = $(this).closest('.get-val').find('.comm-id')
-	if(checkDuplicates()) 
+	if(checkDuplicates())
 		return false
 	verify();
 	return
@@ -376,7 +376,7 @@ $('.verify-stuff').click ->
     inp.attr('data-parsley-length','[10,10]')
     inp.attr('data-parsley-length-message','Mobile number should be 10 digits')
   validator=inp.parsley()
-  if validator.validate() != true 
+  if validator.validate() != true
     # console.log 'gandu'
     inp.removeAttr('data-parsley-required')
     inp.removeAttr('data-parsley-type')
@@ -406,7 +406,7 @@ $('.code-send').click ->
   inp.attr('data-parsley-type','digits')
   inp.attr('data-parsley-length','[4,4]')
   validator=inp.parsley()
-  if validator.isValid() != true 
+  if validator.isValid() != true
     # console.log 'gandu'
     if inp.val()==''
       errordiv.html 'Please enter sent OTP'
@@ -471,7 +471,7 @@ $('.resend-link').click ->
 	return
 
 $('body').on 'click', '.removeRow', ->
-	$(this).closest('.get-val').remove()	
+	$(this).closest('.get-val').parent().remove()
 
 # setTimeout (->
 #   $('.listing-sections').addClass 'active'
@@ -492,7 +492,7 @@ $(document).on 'change', '.city select', ->
   $.ajax
     type: 'post'
     url: '/get_areas'
-    data: 
+    data:
       'city': city
     success: (data) ->
       # console.log data
@@ -511,7 +511,7 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
   # console.log categories
   parentDiv = $(this).closest('div')
   branchID = parentDiv.find('input[name="branch"]').attr('id')
-  if !categories['categories'].hasOwnProperty branchID 
+  if !categories['categories'].hasOwnProperty branchID
     categories['categories'][branchID] =
     'image-url': parentDiv.find('input[name="image"]').val()
     'parent': parentDiv.find('input[name="parent"]').val()
@@ -572,7 +572,7 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
 $(document).on 'click', '.full.save-btn.gs-next', (e) ->
   step = $('input#step-name').val()
   e.preventDefault()
-  if step == 'business-information' 
+  if step == 'business-information'
     window.validateListing(e)
   if step == 'business-categories'
     validateCategories()
@@ -588,7 +588,7 @@ change_view = () ->
     $('#no-categ-select').addClass('hidden');
   update_core()
 
-update_core = () -> 
+update_core = () ->
   item_id = []
   item_name = []
   core = []
@@ -614,7 +614,7 @@ validateCategories = ->
   if $('div#categories.node-list').children().length == 0
     $('div#no-categ-error').removeClass 'hidden'
     return false
-  if !instance.validate() 
+  if !instance.validate()
     return false;
   $('.section-loader').removeClass('hidden');
   cat ={}

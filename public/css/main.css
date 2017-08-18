@@ -6927,13 +6927,10 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   cursor: pointer;
   padding-left: 3px;
 }
-@media screen and (min-width: 769px) {
-  .node-select .cat-dataHolder {
-    height: 410px;
-    overflow-y: auto;
-  }
-}
 @media screen and (max-width: 768px) {
+  .add-editCat {
+    color: #27b7b0;
+  }
   .category-modal .tab-content .collapse,
   .area-modal .tab-content .collapse {
     display: none;
@@ -6946,7 +6943,6 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .area-modal .tab-content .nodes {
     padding: 0.5em 1em;
     margin-bottom: 1em;
-    min-height: 100px;
   }
   .category-modal .tab-content .nodes li,
   .area-modal .tab-content .nodes li {
@@ -6958,6 +6954,14 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .category-modal .tab-content .nodes label,
   .area-modal .tab-content .nodes label {
     margin-bottom: 0;
+  }
+  .category-modal .tab-content .nodes__text,
+  .area-modal .tab-content .nodes__text {
+    font-size: 0.95em;
+  }
+  .category-modal .tab-content .nodes input[type="checkbox"]:before,
+  .area-modal .tab-content .nodes input[type="checkbox"]:before {
+    font-size: 1.2em;
   }
   .category-modal .toggle-collapse,
   .area-modal .toggle-collapse {
@@ -7355,7 +7359,8 @@ input[type='checkbox'].remove-addr:checked + .another-address {
 }
 @media screen and (max-width: 768px) {
   .listing-review {
-    box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
+            box-shadow: rgba(0, 0, 0, 0.83) 0 0 0 500px inset;
   }
 }
 .profile-stats {

@@ -717,7 +717,7 @@ input[type=radio].fnb-radio:before {
   cursor: pointer;
 }
 input[type=radio].fnb-radio:checked:before {
-  content: "\f05d";
+  content: "\f192";
   color: #27b7b0;
 }
 input[type=radio].fnb-radio.disabled {
@@ -6159,15 +6159,16 @@ input[type="checkbox"].toggle__check {
   height: 25px;
   text-align: center;
   border-radius: 50%;
-  border: 2px solid #ec6d4b;
+  border: 2px solid #d8d8d8;
   background-color: #fff;
-  color: #ec6d4b;
+  color: #4d4d4e;
   cursor: pointer;
 }
 .single-category .delete-cat:hover,
 .single-area .delete-cat:hover {
   background-color: #ec6d4b;
   color: #fff;
+  border-color: #ec6d4b;
 }
 .payment-modes {
   -webkit-flex-wrap: wrap;
@@ -6236,6 +6237,7 @@ input[type="checkbox"].toggle__check {
 }
 .hours-section .fnb-select {
   width: 70%;
+  font-size: 1em;
 }
 .hours-section.open-2 {
   -webkit-box-pack: justify;
@@ -6259,6 +6261,13 @@ input[type="checkbox"].toggle__check {
   background-color: #f8fafc;
 }
 .flexdatalist-multiple li.value .fdl-remove {
+  color: rgba(0, 0, 0, 0.69);
+}
+.flexdatalist-multiple li:hover {
+  background-color: #fff;
+  border-color: #c5c5c5;
+}
+.flexdatalist-multiple li:hover .fdl-remove {
   color: #ec6d4b;
 }
 .flexdatalist-multiple .input-container {
@@ -6372,16 +6381,15 @@ input[type="checkbox"].toggle__check {
   top: 8px;
 }
 .core-selector .core-cat-select:checked + .core-selector__label {
-  background-color: #27b7b4;
-  color: #fff;
-  border-color: #fff;
+  color: #27b7b0;
+  border-color: #27b7b0;
 }
 .core-selector .core-cat-select:checked + .core-selector__label:before {
   content: "\f046";
   opacity: 1;
 }
 .core-selector .core-cat-select:checked + .core-selector__label .fnb-cat__title {
-  color: #fff;
+  color: #27b7b0;
 }
 .business-contact .input-row {
   position: relative;
@@ -6409,6 +6417,16 @@ input[type="checkbox"].toggle__check {
 }
 .corecat-container.corecat-container .fnb-cat li {
   display: block;
+}
+.corecat-container.corecat-container .fnb-cat li:hover {
+  background-color: #fff;
+  border-color: #c5c5c5;
+}
+.corecat-container.corecat-container .fnb-cat li:hover .remove {
+  color: #ec6d4b;
+}
+.corecat-container.corecat-container .fnb-cat li .remove {
+  color: rgba(0, 0, 0, 0.69);
 }
 .interested-options li {
   min-width: 100px;
@@ -6791,6 +6809,21 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .hours-section .fnb-select {
     font-size: 0.8em;
   }
+}
+.disable-hours {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.area-modal .modal-content {
+  padding: 1em 1.5em;
+}
+.area-modal .footer-actions .fnb-btn {
+  padding: 0.5em 1.8em;
+  margin-left: 5px;
+}
+.category-modal .re-save,
+.area-modal .re-save {
+  padding: 0.5em 1.8em;
 }
 .business-details .input-group-btn {
   font-size: 1.5em;

@@ -9,7 +9,7 @@
 @endif
 
 <div class="location-hours tab-pane fade active in" id="business_location">
-    <h5 class="no-m-t">Location &amp; Hours of Operation</h5>
+    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation</h5>
 <!--     <div class="m-t-30 c-gap">
         <label>Please provide the google map address for your business</label>
         <div class="location-select flex-row flex-wrap">
@@ -41,17 +41,17 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label>What is the address that you want to be displayed to the users?</label>
-        <label class="dis-block text-medium baseline">
+        <label class="label-size">What is the address that you want to be displayed to the users?</label>
+        <label class="dis-block text-medium baseline m-t-5">
             <input type="checkbox" class="checkbox remove-addr" id=""> Is the display address same as the map address?
             <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
         </label>
     </div>
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
-        <label>Mention the area(s) where you provide your products/services.</label>
+        <label class="label-size">Mention the area(s) where you provide your products/services.</label>
         <div class="single-area gray-border m-t-10 m-b-20">
-            <div class="row flex-row areaContainer">
+            <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
                     <strong class="branch">Delhi</strong>
                 </div>
@@ -80,27 +80,27 @@
         </div>
     </div>
     <div class="m-t-40 c-gap operation-hours">
-        <label>Enter the hours of operation for your business</label>
-        <div class="row">
-            <div class="col-sm-3">
+        <label class="label-size">Enter the hours of operation for your business</label>
+        <div class="flex-row flex-wrap">
+            <div class="m-t-5 m-r-20">
                 <label class="flex-row text-medium m-t-5">
-                    <input type="radio" class="fnb-radio" name="hours" id="display_hours"> Display hours of operation
+                    <input type="radio" class="fnb-radio hours-display" name="hours" id="display_hours" checked=""> Display hours of operation
                 </label>
             </div>
-            <div class="col-sm-4">
+            <div class="m-t-5">
                 <label class="flex-row text-medium m-t-5">
-                    <input type="radio" class="fnb-radio" name="hours" id="dont_display_hours"> Don't display hours of operation
+                    <input type="radio" class="fnb-radio hours-display dont-display" name="hours" id="dont_display_hours"> Don't display hours of operation
                 </label>
             </div>
         </div>
     </div>
-    <div class="m-t-40 c-gap">
+    <div class="m-t-20 c-gap hours-list">
         <div class="flex-row c-gap m-t-10">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Monday</span>
-                <select class="fnb-select border-bottom form-control text-lighter">
+                <select class="fnb-select border-bottom form-control text-lighter monday">
                     <option>Open 24 hours</option>
-                    <option>12 AM</option>
+                    <option selected="">12 AM</option>
                     <option>12.30 AM</option>
                     <option>1 AM</option>
                     <option>1.30 AM</option>
@@ -271,9 +271,9 @@
             </div>
         </div>
     </div>
-    <div class="m-t-40 c-gap">
+    <div class="m-t-20 m-b-20 c-gap">
         <div>
-            <a href="#" class="text-secondary text-decor heavier link-center">Copy timings from Monday to Saturday</a>
+            <a href="#" class="text-secondary text-decor heavier link-center copy-timing">Copy timings from Monday to Saturday</a>
         </div>
     </div>
 </div>
@@ -284,22 +284,24 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header p-l-0 p-r-0 p-t-0 p-b-0">
-                <div class="level-one mobile-hide ">
-                    <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <div class="level-one mobile-hide text-right">
+                    <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
                 </div>
-                <div class="mobile-back">
-                    <div class="back pull-left">
-                        <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                <!-- <div class="mobile-back flex-row desk-level-two">
+                    <div class="back">
+                        <button class="desk-hide btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
+                        <button class="btn fnb-btn outline border-btn no-border category-back mobile-hide" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back to Category</button>
                     </div>
-                    <div class="pull-right">
-                        <button class="btn fnb-btn outline border-btn">save</button>
+                    <div class="level-two">
+                        <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="modal-body">
                 <div class="">
-                    <div class="instructions">
-                        <h6 class="instructions__title bat-color">Select your area(s) of operation.</h6>
+                    <div class="instructions flex-row space-between">
+                        <h6 class="instructions__title bat-color sub-title">Select your area(s) of operation.</h6>
+                        <button id="" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">save</button>
                     </div>
                     <div class="node-select flex-row">
                         <!-- Nav tabs -->
@@ -411,216 +413,6 @@
                                             <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
                                         </label>
                                     </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
                                 </ul>
                             </div>
                             <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#delhi" aria-expanded="false" aria-controls="delhi">
@@ -644,10 +436,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer mobile-hide">
-                <div class="sub-category hidden">
-                    <button class="btn fnb-btn outline full border-btn">Save</button>
-                </div>
+            <div class="footer-actions mobile-hide text-right">
+                <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
+                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

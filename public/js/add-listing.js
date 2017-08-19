@@ -747,4 +747,13 @@
     }), 6000);
   }
 
+  $('.hours-display').change(function() {
+    if ($('.dont-display').is(':checked')) {
+      $('.hours-list').addClass('disable-hours');
+      $('.fnb-select').prop('selectedIndex', 0);
+    } else {
+      $('.hours-list').removeClass('disable-hours');
+    }
+  });
+
 }).call(this);

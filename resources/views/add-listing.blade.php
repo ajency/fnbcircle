@@ -27,7 +27,7 @@
     @endif
     <div class="header-shifter"></div>
     <div class="container">
-        <div class="row p-t-30 mobile-flex breadcrums-container mobile-hide">
+        <div class="row p-t-30 mobile-flex breadcrums-container">
             <div class="col-sm-8 flex-col">
                 <!-- Breadcrums -->
                 <ul class="fnb-breadcrums flex-row">

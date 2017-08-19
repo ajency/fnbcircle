@@ -2250,7 +2250,8 @@ input[type="checkbox"].toggle__check {
     width: 100%;
   }
   .breadcrums-container {
-    margin: 20px 0;
+    padding-top: 0;
+    margin: 20px 0 0 0;
   }
   .breadcrums-container .flex-col {
     padding: 0;
@@ -2266,6 +2267,10 @@ input[type="checkbox"].toggle__check {
     -webkit-flex: 0.25;
         -ms-flex: 0.25;
             flex: 0.25;
+  }
+  .fnb-breadcrums {
+    white-space: nowrap;
+    overflow-y: auto;
   }
   .fnb-breadcrums__section {
     padding: 0 0.2em;

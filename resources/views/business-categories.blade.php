@@ -42,7 +42,7 @@
         <label class="label-size">List of all the categories for your listing</label>
         <div id="categories" class="node-list">
         @foreach ($categories as $branchID => $branch)
-            <div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{$branch['image-url']}}"></img><div class="branch-row"><div class="cat-label">{{$branch['parent']}}</div></div></div><div class="col-sm-2"><strong class="branch">{{$branch['branch']}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">
+            <div class="single-category gray-border add-more-cat m-t-15"><div class="row flex-row categoryContainer corecat-container"><div class="col-sm-4 flex-row"><img class="import-icon cat-icon" src="{{$branch['image-url']}}"></img><div class="branch-row"><div class="cat-label">{{$branch['parent']}}</div></div></div><div class="col-sm-2"><strong class="branch">{{$branch['branch']}}</strong></div><div class="col-sm-6"> <ul class="fnb-cat small flex-row" id="view-categ-node">
             @foreach ($categories[$branchID]['nodes'] as $nodeID => $node)
             <li><span class="fnb-cat__title">{{$node['name']}}<input type=hidden name="categories" value="{{$nodeID}}" data-item-name="{{$node['name']}}"> <span class="fa fa-times remove"></span></span></li>
             @endforeach

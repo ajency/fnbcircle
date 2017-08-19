@@ -67,6 +67,9 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       $('div.full-modal').addClass 'hidden'
       return
     async: true
+    error: (request, status, error) ->
+      throwError()
+      return
   return
 
 categ = []
@@ -113,6 +116,9 @@ getNodes = (branchID) ->
         categ[branchID] = true
         return
       async: true
+      error: (request, status, error) ->
+        throwError()
+        return
   return
 
 $('body').on 'click', '.categ-list a', ->
@@ -317,8 +323,7 @@ verify = ->
         # console.log id.val()
         return
       error: (request, status, error) ->
-        id.val ""
-        alert("OTP failed. Try Again")
+        throwError()
         return
       async: false
     $('.verification-step-modal .number').text get_val
@@ -519,6 +524,9 @@ $(document).on 'change', '.city select', ->
       for key of data
         html += '<option value="' + key + '">' + data[key] + '</option>'
       $('.area select').html html
+      return
+    error: (request, status, error) ->
+      throwError()
       return
 
 
@@ -723,5 +731,8 @@ $('.hours-display').change ->
 # 	event.preventDefault
 # 	$('.operation-hours .fnb-select').prop('selectedIndex',mondayValue)
 
-
+throwError = () ->
+    $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
+    $('.alert-failure').addClass 'active'
+  return
 

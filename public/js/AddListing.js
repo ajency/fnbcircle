@@ -35,6 +35,10 @@ function listingInformation() {
                     contact_IDs[i].value = data['id'];
                     console.log(data['id']);
                 },
+                failure: function(){
+                    $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page');
+                    $('.alert-failure').addClass('active');
+                },
                 async: false
             });
             contact['id'] = contact_IDs[i].value;
@@ -126,7 +130,11 @@ function validateListing(event) {
                     $('.section-loader').removeClass('hidden');
                     listingInformation();
                 }
-            }
+            },
+            failure: function(){
+                    $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');
+                    $('.alert-failure').addClass('active');
+                }
         });
     } else {
         // console.log(true);

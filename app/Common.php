@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 class Common
 {
 
-    public static function verifyId($id, $table)
+    public static function verify_id($id, $table)
     {
         $row = DB::table($table)->where('id', $id)->count();
         if ($row > 0) {

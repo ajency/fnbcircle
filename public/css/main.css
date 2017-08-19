@@ -7591,8 +7591,22 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   padding: 1.5em 1em;
 }
 .edit-summary-card .premium-info {
-  padding: 1.5em 1em;
+  padding: 2em 1em;
   background-color: #fdf0ec;
+  position: relative;
+}
+.edit-summary-card .premium-info:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  background-image: url(../img/triangle.png);
+  background-position: top;
+  background-repeat: repeat-x;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
 }
 .edit-summary-card .premium-info a {
   color: #ec6d4b;

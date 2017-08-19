@@ -200,7 +200,9 @@
   setTimeout((function() {
     $('.brand-list').flexdatalist({
       removeOnBackspace: false,
-      minLength: 1
+      minLength: 1,
+      url: '/get_brands',
+      searchIn: ["name"]
     });
   }), 500);
 

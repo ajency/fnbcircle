@@ -2010,6 +2010,13 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
+.col-direction {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
 .flex-end {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
@@ -8217,6 +8224,37 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   }
   .detail-group label {
     font-size: 0.9em;
+  }
+}
+@media screen and (min-width: 769px) {
+  .nf-wrapper {
+    height: calc(100vh - 100px);
+  }
+  .nf-wrapper__title {
+    margin-top: 0;
+    font-size: 5em;
+  }
+  .nf-wrapper__sub-title {
+    font-size: 2em;
+  }
+  .nf-wrapper .img-nf {
+    margin-bottom: 1em;
+  }
+}
+.nf-wrapper__caption {
+  margin: 0.5em 0 0.8em 0;
+}
+.nf-wrapper__sub-title {
+  margin-top: 0;
+  color: #4a4a4a;
+}
+@media screen and (max-width: 768px) {
+  .nf-wrapper__title {
+    margin-top: .5em;
+  }
+  .nf-wrapper .img-nf {
+    width: 35%;
+    margin-bottom: 1em;
   }
 }
 /*# sourceMappingURL=main.css.map */

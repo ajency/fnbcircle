@@ -136,6 +136,7 @@
   });
 
   $('body').on('click', 'div.toggle-collapse.desk-hide', function() {
+    $('.collapse').collapse('hide');
     populate();
     return getNodes($(this).attr('name'));
   });
@@ -568,7 +569,6 @@
     template = Handlebars.compile(source, {
       noEscape: true
     });
-    console.log(template);
     $('div#categories.node-list').html(template(categories));
     update_core();
   };

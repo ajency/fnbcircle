@@ -2332,8 +2332,10 @@ input[type="checkbox"].toggle__check {
 .main-heading {
   font-size: 1.8em;
 }
-.main-heading.white {
-  color: #fff;
+@media screen and (min-width: 769px) {
+  .main-heading.white {
+    color: #fff;
+  }
 }
 .section-title {
   font-size: 1.3em;
@@ -5846,7 +5848,7 @@ input[type="checkbox"].toggle__check {
 .edit-steps {
   padding: 0 10px;
 }
-.edit-steps a {
+.edit-steps .links {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -5863,30 +5865,28 @@ input[type="checkbox"].toggle__check {
           align-items: center;
   font-weight: 500;
   font-size: 1.2em;
-  color: #686565;
+  color: rgba(195, 193, 193, 0.73);
   text-decoration: none;
   border-bottom: 1px solid #d8d8d8;
 }
-.edit-steps a i {
+.edit-steps .links i {
   -webkit-transition: all 0.3s ease;
           transition: all 0.3s ease;
+  color: rgba(195, 193, 193, 0.73);
 }
-.edit-steps a.collapsed i {
+.edit-steps .links.collapsed i {
   -webkit-transform: rotate(-90deg);
       -ms-transform: rotate(-90deg);
           transform: rotate(-90deg);
 }
-.edit-steps a:hover {
+.edit-steps .links.enabled {
+  color: #686565;
+}
+.edit-steps .links.enabled:hover {
   color: #27b7b0;
 }
 .edit-steps li:last-child a {
   border-bottom: 0;
-}
-.edit-steps .step-disable {
-  opacity: 0.4;
-}
-.edit-steps .step-disable a {
-  pointer-events: none;
 }
 .gs-form {
   padding: 15px;
@@ -6360,6 +6360,9 @@ input[type="checkbox"].toggle__check {
 @media screen and (min-width: 769px) {
   .firstStep .close {
     font-size: 1.2em;
+  }
+  .margin-btm {
+    margin-bottom: 40px;
   }
 }
 @media screen and (min-width: 1024px) {

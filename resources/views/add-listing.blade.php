@@ -194,35 +194,59 @@
                             <div class="dsk-separator">
                                 @if($listing->reference!=null)
                                     <ul class="edit-steps">
-                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                            <a href="#">
+                                        <li>
+                                            @if($listing->status!="1")
+                                            <div class="links inactive">
+                                            @else
+                                            <a href="#" class="links enabled">
+                                            @endif
                                                 <div>
                                                     Listing Summary
-                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this."></i> @endif
                                                 </div>
                                                 <i class="fa fa-caret-right"></i>
+                                            @if($listing->status!="1")
+                                            </div>
+                                            @else
                                             </a>
-                                        </li>
-                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                            <a href="#">
-                                                <div>
-                                                    Post an Update
-                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
-                                                </div>
-                                                <i class="fa fa-caret-right"></i>
-                                            </a>
-                                        </li>
-                                        <li @if($listing->status!="1") class="step-disable" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this." @endif >
-                                            <a href="#">
-                                                <div>
-                                                    My Leads
-                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5"></i> @endif
-                                                </div>
-                                                <i class="fa fa-caret-right"></i>
-                                            </a>
+                                            @endif
                                         </li>
                                         <li>
-                                            <a href="#stepsCollapse" data-toggle="collapse">Edit your Listing <!-- <i class="fa fa-chevron-down small"></i> --></a>
+                                            @if($listing->status!="1")
+                                            <div class="links inactive">
+                                            @else
+                                            <a href="#" class="links enabled">
+                                            @endif
+                                                <div>
+                                                    Post an Update
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this."></i> @endif
+                                                </div>
+                                                <i class="fa fa-caret-right"></i>
+                                            @if($listing->status!="1")
+                                            </div>
+                                            @else
+                                            </a>
+                                            @endif
+                                        </li>
+                                        <li>
+                                            @if($listing->status!="1")
+                                            <div class="links inactive">
+                                            @else
+                                            <a href="#" class="links enabled">
+                                            @endif
+                                                <div>
+                                                    My Leads
+                                                    @if($listing->status!="1") <i class="fa fa-info-circle small text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Business status should be published to access this."></i> @endif
+                                                </div>
+                                                <i class="fa fa-caret-right"></i>
+                                            @if($listing->status!="1")
+                                            </div>
+                                            @else
+                                            </a>
+                                            @endif
+                                        </li>
+                                        <li>
+                                            <a href="#stepsCollapse" class="links enabled" data-toggle="collapse">Edit your Listing <!-- <i class="fa fa-chevron-down small"></i> --></a>
                                         </li>
                                     </ul>
                                 @endif
@@ -286,7 +310,7 @@
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
-                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft @endif @if($listing->status=="2") Pending @endif @if($listing->status=="1") Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
+                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on F&amp;BCircle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
                                          @endif
                                     </p>
                                     <div class="gs-form tab-content @if($listing->reference!=null) p-t-0 @endif">

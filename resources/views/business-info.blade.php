@@ -6,7 +6,7 @@
 
 
 <div class="business-info tab-pane fade in active" id="add_listing">
-    <h5 class="no-m-t fly-out-heading-size main-heading @if($listing->reference!=null) white m-t-0 m-b-40 @endif ">Business Information</h5>
+    <h5 class="no-m-t fly-out-heading-size main-heading @if($listing->reference!=null) white m-t-0 margin-btm @endif ">Business Information</h5>
     <div class="m-t-30 c-gap">
         <label class="label-size">Tell us the name of your business <span class="text-primary">*</span></label>
         <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Please enter the name of your business." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Business name cannot be less than 2 characters.">

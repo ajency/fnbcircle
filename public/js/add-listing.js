@@ -655,7 +655,7 @@
     });
     html = '';
     item_id.forEach(function(item, index) {
-      html += '<li><input type="checkbox" data-parsley-required data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
+      html += '<li><input type="checkbox" data-parsley-required data-parsley-errors-container="#core-errors" data-parsley-multiple="core_categ" data-parsley-mincheck=1 data-parsley-maxcheck=10 data-parsley-maxcheck-message="Core categories cannot be more than 10." data-parsley-required-message="At least one core category should be selected for a business." class="checkbox core-cat-select" id="cat-label-' + item + '" value="' + item + '"';
       if (_.indexOf(core, item) !== -1) {
         html += ' checked="checked"';
       }

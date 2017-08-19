@@ -41,16 +41,7 @@ class ListingController extends Controller
 
      public function __construct()
     {
-        $this->middleware('auth');
-
-    }
-
-    public function isUserAuthenticated($listing_id = 0)
-    {
-        if (Auth::check()) {
-            return true;
-        }
-        return false;
+        Common::authenticate('listing',$this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -188,7 +179,7 @@ class ListingController extends Controller
         $contact = json_decode($request->contacts, true);
         $query   = ListingCommunication::whereNotNull('listing_id');
         $query   = $query->where(function ($query) use ($contact) {
-            $query->where("id", "0");
+            $query->where("value", Auth::user()->email);
             foreach ($contact as $value) {
                 $query->orWhere('value', $value['value']);
             }

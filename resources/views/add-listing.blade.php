@@ -342,15 +342,15 @@
                     <div class="listing-message">
                         <i class="fa fa-check-circle check" aria-hidden="true"></i>
                         <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will ne notified if your listing is published.</p>
+                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
-                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending review <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i></div>
+                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Cancel</button>
+                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,37 @@
+
+// ---------------------------
+// 404 STYLES -----------
+// ---------------------------
+
+
+.nf-wrapper{
+	@media screen and (min-width: 769px){
+		height: calc(~'100vh - 100px');
+		&__title{
+			margin-top: 0;
+	    	font-size: 5em;
+		}
+		&__sub-title{
+	    	font-size: 2em;
+		}
+		.img-nf{
+	    	margin-bottom: 1em;
+		}
+	}
+	&__caption{
+		margin: 0.5em 0 0.8em 0;
+	}
+	&__sub-title{
+		margin-top: 0;
+		color: #4a4a4a;
+	}
+	@media screen and (max-width: @mobile){
+		&__title{
+			margin-top: .5em;
+		}
+		.img-nf{
+	    	width: 35%;
+    		margin-bottom: 1em;
+		}
+	}
+}

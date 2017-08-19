@@ -708,5 +708,20 @@ if $('.alert.alert-failure.server-error').length != 0
 
 
 
+$('.hours-display').change ->
+  if $('.dont-display').is(':checked')
+  	$('.hours-list').addClass 'disable-hours'
+  	$('.fnb-select').prop('selectedIndex',0)
+  else
+    $('.hours-list').removeClass 'disable-hours'
+  return
+
+
+# mondayValue = $('.monday').prop('selectedIndex')
+
+# $('body').on 'click', '.copy-timing', ->
+# 	event.preventDefault
+# 	$('.operation-hours .fnb-select').prop('selectedIndex',mondayValue)
+
 
 

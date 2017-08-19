@@ -696,7 +696,7 @@ if $_GET['success'] != undefined
   	$('.alert-success').removeClass 'active'
   	return
   ), 6000
-if $('.alert.alert-failure') != undefined
+if $('.alert.alert-failure.server-error').length != 0
   setTimeout (->
   	$('.alert-failure').addClass 'active'
   	return

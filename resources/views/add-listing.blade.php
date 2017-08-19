@@ -171,7 +171,7 @@
                                                 @if($listing->isReviewable() and $listing->status > "2")
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
-                                                    
+
 
                                                 @if($listing->status=="1")
                                                     <a href="#">Archive</a>
@@ -328,8 +328,7 @@
                                         </div>
 
                                     <!-- failure message-->
-                                    @if ($errors->any())
-                                    <div class="alert fnb-alert alert-failure alert-dismissible fade in " role="alert">
+                                    <div class="alert fnb-alert @if ($errors->any()) server-error @endif alert-failure alert-dismissible fade in " role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         <div class="flex-row">
                                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -342,8 +341,6 @@
                                                   @endforeach
                                               </ul> -->
                                     </div>
-
-                                        @endif
                                         <form id="info-form">
                                        <input type="hidden" id="step-name" value="{{$step}}" readonly>
                                         @yield('form-data')

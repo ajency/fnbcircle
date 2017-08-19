@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Area;
 use App\Category;
 use App\City;
@@ -37,6 +38,12 @@ use Illuminate\Support\Facades\DB;
 
 class ListingController extends Controller
 {
+
+     public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
 
     public function isUserAuthenticated($listing_id = 0)
     {
@@ -525,6 +532,7 @@ class ListingController extends Controller
 
     public function create()
     {
+        // dd(Auth::user());
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
         return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);

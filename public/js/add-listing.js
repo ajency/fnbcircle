@@ -738,7 +738,7 @@
     }), 6000);
   }
 
-  if ($('.alert.alert-failure') !== void 0) {
+  if ($('.alert.alert-failure.server-error').length !== 0) {
     setTimeout((function() {
       $('.alert-failure').addClass('active');
     }), 1000);

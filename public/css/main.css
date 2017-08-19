@@ -7216,6 +7216,7 @@ input[type='checkbox'].remove-addr:checked + .another-address {
   .category-modal .tab-content .nodes input[type="checkbox"]:before,
   .area-modal .tab-content .nodes input[type="checkbox"]:before {
     font-size: 1.2em;
+    top: -8px;
   }
   .category-modal .toggle-collapse,
   .area-modal .toggle-collapse {

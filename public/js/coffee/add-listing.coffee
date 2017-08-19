@@ -10,10 +10,10 @@ $('.dropify').dropify messages: 'default': 'Add Photo'
 
 # BS collapse others 
 
-$myGroup = $('.cat-dataHolder')
-$myGroup.on 'show', '.collapse', ->
-  $myGroup.find('.tab-pane.in').collapse 'hide'
-  return
+# $myGroup = $('.cat-dataHolder')
+# $myGroup.on 'show', '.collapse', ->
+#   $myGroup.find('.tab-pane.in').collapse 'hide'
+#   return
 
 # $('.cat-dataHolder .toggle-collapse').click (e) ->
 #   console.log('res')

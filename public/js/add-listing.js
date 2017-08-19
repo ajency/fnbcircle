@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, $myGroup, categ, categories, change_view, getID, getNodes, id, input, parent, populate, submitForm, update_core, validateCategories, verify;
+  var $_GET, categ, categories, change_view, getID, getNodes, id, input, parent, populate, submitForm, update_core, validateCategories, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -13,12 +13,6 @@
     messages: {
       'default': 'Add Photo'
     }
-  });
-
-  $myGroup = $('.cat-dataHolder');
-
-  $myGroup.on('show', '.collapse', function() {
-    $myGroup.find('.tab-pane.in').collapse('hide');
   });
 
   $('body').on('click', 'input:radio[name=\'categories\']', function() {

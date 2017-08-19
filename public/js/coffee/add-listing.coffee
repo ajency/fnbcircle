@@ -691,7 +691,7 @@ if $_GET['success'] != undefined
   setTimeout (->
   	$('.alert-success').addClass 'active'
   	return
-  ), 1500
+  ), 1000
   setTimeout (->
   	$('.alert-success').removeClass 'active'
   	return
@@ -700,7 +700,7 @@ if $('.alert.alert-failure') != undefined
   setTimeout (->
   	$('.alert-failure').addClass 'active'
   	return
-  ), 1500
+  ), 1000
   setTimeout (->
   	$('.alert-failure').removeClass 'active'
   	return

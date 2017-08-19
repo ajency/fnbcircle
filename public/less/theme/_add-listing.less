@@ -441,6 +441,56 @@
 	}
 }
 
+@media screen and (max-width: 600px){
+	.business-type{
+		flex-wrap: inherit;
+		li{
+			margin-right: 0;
+    		flex: 1 0 33.33%;
+    		display: flex;
+    		flex-direction: column;
+    		align-items: center;
+		}
+		.radio{
+			&:checked{
+				& + .option{
+					.fa{
+					    top: 2px;
+					    right: 2px;
+					    font-size: 1em;
+					    height: 25px;
+					    width: 25px;
+					    line-height: 25px;
+					    border-radius: 50%;
+					    box-shadow: 0px 0px 0px 2px rgba(0, 182, 170, 0.45);
+					}
+				}
+			}
+		}
+		.option{
+			position: relative;
+			.business-icon{
+				transform: scale(0.7);
+			}
+		}
+		.business-label{
+			font-size: 0.95em;
+		}
+	}
+}
+
+@media screen and (max-width: 320px){
+	.business-type{
+		white-space: nowrap;
+    	overflow-y: auto;
+    	li{
+    		margin-right: 0.5em;
+    	}
+	}
+}
+
+
+
 .contact-row{
 	background-color: lighten(@grey-lighter, 12%);
 	border: 1px solid @grey-lighter;

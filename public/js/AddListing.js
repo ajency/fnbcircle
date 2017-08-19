@@ -131,7 +131,7 @@ function validateListing(event) {
                     listingInformation();
                 }
             },
-            failure: function(){
+            error: function(request, status, error){
                     $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');
                     $('.alert-failure').addClass('active');
                 }

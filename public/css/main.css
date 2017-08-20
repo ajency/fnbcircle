@@ -2043,6 +2043,9 @@ input[type="checkbox"].toggle__check {
     font-size: 0.95em;
   }
 }
+.overflow-hidden {
+  overflow: hidden;
+}
 .required:after {
   content: '*';
   font-size: 1.1em;
@@ -4616,6 +4619,78 @@ input[type="checkbox"].toggle__check {
   .suppliers-data .filter-cards .fnb-cat li:last-child {
     display: none;
   }
+}
+.breadcrums-container.single-breadcrums {
+  padding-bottom: 0;
+}
+.breadcrums-container.single-breadcrums .fnb-breadcrums .home-icon,
+.breadcrums-container.single-breadcrums .fnb-breadcrums__title {
+  color: #fff;
+}
+.single-view-head {
+  padding-bottom: 2em;
+  position: relative;
+}
+.single-view-head:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  -webkit-backface-visibility: hidden;
+  width: 100%;
+  height: 400px;
+  background: -webkit-linear-gradient(top, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+  background: linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+  top: 0;
+  -webkit-transform: skewY(5deg);
+      -ms-transform: skewY(5deg);
+          transform: skewY(5deg);
+  -webkit-transform-origin: 100% 0;
+      -ms-transform-origin: 100% 0;
+          transform-origin: 100% 0;
+}
+@media screen and (min-width: 769px) {
+  .animate-row {
+    -webkit-transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
+            transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
+    position: relative;
+    right: 0;
+  }
+}
+.page-sidebar {
+  position: fixed;
+  top: 0;
+  background-color: #fff;
+  right: 0;
+  width: 60vw;
+  height: 100%;
+  overflow: auto;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
+  padding: 1.5em;
+  -webkit-transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
+          transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
+  -webkit-transform: translate3d(1000px, 0, 0);
+          transform: translate3d(1000px, 0, 0);
+}
+.page-sidebar.active {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.body-slide {
+  height: 100vh;
+  overflow: hidden;
+  right: 60vw;
+}
+.body-slide:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .search-section {
   position: relative;

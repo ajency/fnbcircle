@@ -152,6 +152,17 @@ $(function(){
 	    }, 2000);
 	});
 
+	setTimeout((function() {
+	  $('.page-shifter').addClass('animate-row');
+	}), 2000);
+
+	$('.open-sidebar').click(function(){
+		event.preventDefault();
+		$('.animate-row').addClass('body-slide');
+		$('.page-sidebar').addClass('active');
+	});
+
+
 	// Global tooltip call
 	
 	$('[data-toggle="tooltip"]').tooltip()

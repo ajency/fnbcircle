@@ -2144,7 +2144,7 @@ input[type="checkbox"].toggle__check {
   padding: 0.8em 2em 0.8em 1em;
   position: fixed;
   bottom: 2em;
-  z-index: 10;
+  z-index: 9999;
   left: 5em;
   width: 350px;
   font-size: 1.1em;

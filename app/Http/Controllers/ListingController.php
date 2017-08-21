@@ -592,8 +592,8 @@ class ListingController extends Controller
         }
         if ($step == 'business-location-hours') {
             $listing = Listing::where('reference', $reference)->with('location')->firstorFail();
-            // dd($listing);
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories');
+            $cities = City::where('status','1')->orderBy('order')->orderBy('name')->get();
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities',$cities);
         }
     }
 

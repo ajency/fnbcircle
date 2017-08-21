@@ -7,6 +7,7 @@ use App\ListingCategory;
 use Illuminate\Database\Eloquent\Model;
 use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
+use Auth;
 
 class Listing extends Model
 {
@@ -97,13 +98,14 @@ class Listing extends Model
             $this->status = self::DRAFT;
         }
 
-        $this->owner_id = "1";
+        
         if ($this->reference == null) {
             $this->reference = str_random(8);
         }
 
         if ($this->created_by == null) {
-            $this->created_by = "1";
+            $this->created_by = Auth::user()->id;
+            $this->owner_id = Auth::user()->id;
         }
 
         $this->save();

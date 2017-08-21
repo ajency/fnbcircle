@@ -13,6 +13,7 @@ use App\ListingCategory;
 use App\ListingCommunication;
 use App\ListingHighlight;
 use App\ListingOperationTime;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -39,9 +40,9 @@ use Illuminate\Support\Facades\DB;
 class ListingController extends Controller
 {
 
-     public function __construct()
+    public function __construct()
     {
-        Common::authenticate('listing',$this);
+        Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -79,7 +80,9 @@ class ListingController extends Controller
             $change = "&success=true";
         }
 
-        if (isset($data->submitReview) and $data->submitReview == 'yes') return ($this->submitForReview($data));
+        if (isset($data->submitReview) and $data->submitReview == 'yes') {
+            return ($this->submitForReview($data));
+        }
 
         // echo $data->change;
         return redirect('/listing/' . $listing->reference . '/edit/business-categories?step=true' . $change);
@@ -168,7 +171,7 @@ class ListingController extends Controller
             'contacts' => 'required|json',
         ]);
 
-        $titles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
+        $titles = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
         $similar = array();
         foreach ($titles as $key => $value) {
             similar_text($request->title, $value, $percent);
@@ -176,6 +179,7 @@ class ListingController extends Controller
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
             }
         }
+
         $contact = json_decode($request->contacts, true);
         $query   = ListingCommunication::whereNotNull('listing_id');
         $query   = $query->where(function ($query) use ($contact) {
@@ -185,8 +189,26 @@ class ListingController extends Controller
             }
         });
         $query = $query->with('listing');
-        // echo $query->toSql();
         $contacts = $query->get();
+
+        $users = User::where(function ($query) use ($contact) {
+            $query->where('id', '0');
+            foreach ($contact as $value) {
+                $query->orWhere('email', $value['value']);
+            }
+        })->with('listing')->get();
+
+        foreach ($users as $user) {
+            foreach ($user->listing as $business) {
+                if ($business['status'] != 1) {
+                    continue;
+                }
+                if (!isset($similar[$business['reference']]) /* listing is published*/) {
+                    $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+                }
+                $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+            }
+        }
 
         foreach ($contacts as $row) {
             if ($row->listing['status'] != 1) {
@@ -270,7 +292,9 @@ class ListingController extends Controller
             $change = "&success=true";
         }
 
-        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        }
 
         // echo $data->change;
         return redirect('/listing/' . $listing->reference . '/edit/business-location-hours?step=true' . $change);
@@ -306,14 +330,15 @@ class ListingController extends Controller
         return response()->json($parent_array);
     }
 
-    public function getBrands(Request $request){
+    public function getBrands(Request $request)
+    {
         $this->validate($request, [
             'keyword' => 'required',
         ]);
         // dd(Listing::existingTagsLike($request->keyword));
-        return response()->json(['results'=> Listing::existingTagsLike($request->keyword), 'options'=>[]]);
+        return response()->json(['results' => Listing::existingTagsLike($request->keyword), 'options' => []]);
     }
-    
+
     //------------------------step 3 --------------------
 
     public function validateListingLocationAndOperationHours($data)
@@ -384,7 +409,10 @@ class ListingController extends Controller
         }
 
         $this->saveListingLocationAndOperationHours($request);
-        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        }
+
     }
     //--------------------------step 4 ----------------------------------------
     public function validateListingOtherDetails($data)
@@ -455,7 +483,10 @@ class ListingController extends Controller
         }
 
         $this->saveListingOtherDetails($request);
-        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        }
+
     }
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
@@ -486,7 +517,10 @@ class ListingController extends Controller
         }
 
         $this->saveListingPhotosAndDocuments($request);
-        if (isset($request->submitReview) and $request->submitReview == 'yes') return ($this->submitForReview($request));
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        }
+
     }
 
     //--------------------Common method ------------------------
@@ -553,12 +587,12 @@ class ListingController extends Controller
                 }
                 $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id' => "$category->id", 'core' => "$category->core");
             }
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back','business-information');
+            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back','business-categories');
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories');
         }
     }
 
@@ -573,7 +607,7 @@ class ListingController extends Controller
             $listing->status = Listing::REVIEW;
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
-            return redirect('/listing/' . $listing->reference . '/edit/'.$request->step.'?step=true&review=success');
+            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
         }

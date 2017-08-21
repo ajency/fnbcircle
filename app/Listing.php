@@ -34,7 +34,7 @@ class Listing extends Model
     }
     public function location()
     {
-        return $this->hasOne('App\Area', 'locality_id');
+        return $this->hasOne('App\Area','id', 'locality_id');
     }
     public function updates()
     {

@@ -1,5 +1,10 @@
 @extends('add-listing')
 
+@section('js')
+    @ parent
+    <script type="text/javascript" src="/js/maps.js"></script>
+@endsection
+
 @section('form-data')
 
 @if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
@@ -35,10 +40,11 @@
         </div>
     </div> -->
     <div class="m-t-20 c-gap">
-        <input type="text" class="form-control fnb-input" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
-        <div class="m-t-10">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0;width:100%;" allowfullscreen></iframe>
+        <input id="mapadd" type="text" class="form-control fnb-input" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" width="600" height="250" value={{$listing->location['name']}}>
+        <div class="m-t-10" id="map">
+            
         </div>
+        
     </div>
     <div class="m-t-40 c-gap">
         <label class="label-size">What is the address that you want to be displayed to the users?</label>

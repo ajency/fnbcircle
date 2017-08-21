@@ -591,7 +591,8 @@ class ListingController extends Controller
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
+            $listing = Listing::where('reference', $reference)->with('location')->firstorFail();
+            // dd($listing);
             return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories');
         }
     }

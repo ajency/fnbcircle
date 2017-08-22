@@ -82,7 +82,12 @@
   };
 
   $('.save-addr').on('change', function() {
-    return updateAddr();
+    updateAddr();
+    if ($('.save-addr').prop('checked')) {
+      return $('.another-address').prop('disabled', true);
+    } else {
+      return $('.another-address').prop('disabled', false);
+    }
   });
 
   replaceAll = function(str, find, replace) {

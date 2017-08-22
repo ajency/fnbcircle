@@ -61,6 +61,10 @@ updateAddr = () ->
 
 $('.save-addr').on 'change', ->
   updateAddr();
+  if $('.save-addr').prop('checked')
+    $('.another-address').prop('disabled',true)
+  else
+    $('.another-address').prop('disabled',false)
 
 
 replaceAll = (str, find, replace) ->

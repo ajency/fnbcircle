@@ -67,6 +67,9 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
       $('div.full-modal').addClass 'hidden'
       return
     async: true
+    error: (request, status, error) ->
+      throwError()
+      return
   return
 
 categ = []
@@ -113,6 +116,9 @@ getNodes = (branchID) ->
         categ[branchID] = true
         return
       async: true
+      error: (request, status, error) ->
+        throwError()
+        return
   return
 
 $('body').on 'click', '.categ-list a', ->
@@ -317,8 +323,7 @@ verify = ->
         # console.log id.val()
         return
       error: (request, status, error) ->
-        id.val ""
-        alert("OTP failed. Try Again")
+        throwError()
         return
       async: false
     $('.verification-step-modal .number').text get_val
@@ -520,6 +525,9 @@ $(document).on 'change', '.city select', ->
         html += '<option value="' + key + '">' + data[key] + '</option>'
       $('.area select').html html
       return
+    error: (request, status, error) ->
+      throwError()
+      return
 
 
 categories = window.categories
@@ -696,7 +704,7 @@ if $_GET['success'] != undefined
   	$('.alert-success').removeClass 'active'
   	return
   ), 6000
-if $('.alert.alert-failure') != undefined
+if $('.alert.alert-failure.server-error').length != 0
   setTimeout (->
   	$('.alert-failure').addClass 'active'
   	return
@@ -706,6 +714,16 @@ if $('.alert.alert-failure') != undefined
   	return
   ), 6000
 
+
+
+# copy map address
+mapaddr = $('.location-val').val()
+$('.save-addr').on 'change', ->
+  if @checked
+    $('.another-address').val(mapaddr)
+  else
+    $('.another-address').val('')
+  return
 
 
 $('.hours-display').change ->
@@ -722,6 +740,17 @@ $('.hours-display').change ->
 # $('body').on 'click', '.copy-timing', ->
 # 	event.preventDefault
 # 	$('.operation-hours .fnb-select').prop('selectedIndex',mondayValue)
+
+throwError = () ->
+    $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
+    $('.alert-failure').addClass 'active'
+  return
+
+
+
+
+
+
 
 
 

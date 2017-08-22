@@ -313,7 +313,7 @@
 	@media screen and (max-width: @mobile){
 		position: absolute;
 		top: 10px;
-    	right: 15px;
+    	right: 22px;
 		z-index: 1;
 		font-size: 1.15em;
 		margin-right: 0;
@@ -367,6 +367,13 @@
 			.parsley-errors-list{
 				margin-bottom: 8px;
 			}
+		}
+		.mobile-sp-row{
+			flex-direction: column;
+    		align-items: flex-start;
+    		.add-another{
+    			align-self: flex-end;
+    		}
 		}
 	}
 }
@@ -1119,11 +1126,11 @@ input[type='checkbox'].remove-addr{
     height: 20px;
     float: left;
     top: 8px;
-	&:checked{
-		& + .another-address{
-			display: none;
-		}
-	}
+	// &:checked{
+	// 	& + .another-address{
+	// 		display: none;
+	// 	}
+	// }
 }
 
 .location-select{

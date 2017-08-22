@@ -1,5 +1,10 @@
 @extends('add-listing')
 
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/maps.js"></script>
+@endsection
+
 @section('form-data')
 
 @if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
@@ -10,9 +15,9 @@
 
 <div class="location-hours tab-pane fade active in" id="business_location">
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation</h5>
-<!--     <div class="m-t-30 c-gap">
-        <label>Please provide the google map address for your business</label>
-        <div class="location-select flex-row flex-wrap">
+    <div class="m-t-30 c-gap">
+        <label class="label-size">Please provide the google map address for your business</label>
+<!--         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter">
                     <option>Select city</option>
@@ -29,28 +34,29 @@
                     <option>Borivili</option>
                 </select>
             </div>
-        </div>
+        </div> -->
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
         </div>
-    </div> -->
+    </div>
     <div class="m-t-20 c-gap">
-        <input type="text" class="form-control fnb-input" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
-        <div class="m-t-10">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0;width:100%;" allowfullscreen></iframe>
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" width="600" height="250" value={{$listing->location['name']}}>
+        <div class="m-t-10" id="map">
+            
         </div>
+        
     </div>
     <div class="m-t-40 c-gap">
         <label class="label-size">What is the address that you want to be displayed to the users?</label>
         <label class="dis-block text-medium baseline m-t-5">
-            <input type="checkbox" class="checkbox remove-addr" id=""> Is the display address same as the map address?
+            <input type="checkbox" class="checkbox remove-addr save-addr" id=""> Is the display address same as the map address?
             <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
         </label>
     </div>
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
         <label class="label-size">Mention the area(s) where you provide your products/services.</label>
-        <div class="single-area gray-border m-t-10 m-b-20">
+        <div class="single-area single-category gray-border m-t-10 m-b-20">
             <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
                     <strong class="branch">Delhi</strong>

@@ -53,3 +53,6 @@ Route::get('/business-photos', function(){
 Route::get('/business-premium', function(){
     return view('premium');
 });
+
+Route::post('/get-map-key', 'CommonController@mapKey');
+Route::post('/slugify', 'CommonController@slugifyCitiesAreas');

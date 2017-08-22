@@ -2147,7 +2147,7 @@ input[type="checkbox"].toggle__check {
   padding: 0.8em 2em 0.8em 1em;
   position: fixed;
   bottom: 2em;
-  z-index: 10;
+  z-index: 9999;
   left: 5em;
   width: 350px;
   font-size: 1.1em;
@@ -6031,7 +6031,7 @@ input[type="checkbox"].toggle__check {
   .removeRow {
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 22px;
     z-index: 1;
     font-size: 1.15em;
     margin-right: 0;
@@ -6081,6 +6081,22 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 650px) {
   .business-contact .get-val .parsley-errors-list {
     margin-bottom: 8px;
+  }
+  .business-contact .mobile-sp-row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .business-contact .mobile-sp-row .add-another {
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
   }
 }
 .business-type {
@@ -6785,9 +6801,6 @@ input[type='checkbox'].remove-addr {
   height: 20px;
   float: left;
   top: 8px;
-}
-input[type='checkbox'].remove-addr:checked + .another-address {
-  display: none;
 }
 .location-select {
   padding: 0.5em 0 1em 0;

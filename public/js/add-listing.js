@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, $myGroup, categ, categories, change_view, getID, getNodes, id, input, parent, populate, submitForm, update_core, validateCategories, verify;
+  var $_GET, $myGroup, categ, categories, change_view, getID, getNodes, id, input, mapaddr, parent, populate, submitForm, throwError, update_core, validateCategories, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -70,7 +70,10 @@
         }
         $('div.full-modal').addClass('hidden');
       },
-      async: true
+      async: true,
+      error: function(request, status, error) {
+        throwError();
+      }
     });
   });
 
@@ -125,7 +128,10 @@
           $('div#' + slugify(data[branchID]['name']) + '.tab-pane ul.nodes').html(html);
           categ[branchID] = true;
         },
-        async: true
+        async: true,
+        error: function(request, status, error) {
+          throwError();
+        }
       });
     }
   };
@@ -326,8 +332,7 @@
           get_val = data['value'];
         },
         error: function(request, status, error) {
-          id.val("");
-          alert("OTP failed. Try Again");
+          throwError();
         },
         async: false
       });
@@ -530,6 +535,9 @@
           html += '<option value="' + key + '">' + data[key] + '</option>';
         }
         $('.area select').html(html);
+      },
+      error: function(request, status, error) {
+        throwError();
       }
     });
   });
@@ -738,7 +746,7 @@
     }), 6000);
   }
 
-  if ($('.alert.alert-failure') !== void 0) {
+  if ($('.alert.alert-failure.server-error').length !== 0) {
     setTimeout((function() {
       $('.alert-failure').addClass('active');
     }), 1000);
@@ -746,6 +754,16 @@
       $('.alert-failure').removeClass('active');
     }), 6000);
   }
+
+  mapaddr = $('.location-val').val();
+
+  $('.save-addr').on('change', function() {
+    if (this.checked) {
+      $('.another-address').val(mapaddr);
+    } else {
+      $('.another-address').val('');
+    }
+  });
 
   $('.hours-display').change(function() {
     if ($('.dont-display').is(':checked')) {
@@ -755,5 +773,12 @@
       $('.hours-list').removeClass('disable-hours');
     }
   });
+
+  throwError = function() {
+    $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');
+    return $('.alert-failure').addClass('active');
+  };
+
+  return;
 
 }).call(this);

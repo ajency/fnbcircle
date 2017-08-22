@@ -72,7 +72,7 @@ $(function(){
 	// Custom menu click and scroll to particular ID
 
 	var topMenu = jQuery(".nav-info__tabs"),
-        offset = 10,
+        offset = 15,
         topMenuHeight = topMenu.outerHeight()+offset,
         // All list items
         menuItems =  topMenu.find('a[href*="#"]'),
@@ -89,7 +89,7 @@ $(function(){
     menuItems.click(function(e){
       var href = jQuery(this).attr("href"),
         id = href.substring(href.indexOf('#'));
-          offsetTop = href === "#" ? 0 : jQuery(id).offset().top-topMenuHeight+1;
+          offsetTop = href === "#" ? 0 : jQuery(id).offset().top-topMenuHeight+10;
       jQuery('html, body').stop().animate({
           scrollTop: offsetTop
       }, 1000);

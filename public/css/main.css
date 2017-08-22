@@ -2779,13 +2779,14 @@ input[type="checkbox"].toggle__check {
   padding-right: 1.5em;
 }
 .nav-info__tabs li a {
-  font-size: 1.2em;
+  font-size: 1.1em;
   border: 0;
-  color: #9b9ea0;
+  color: #000;
   position: relative;
   display: block;
   padding: 10px 15px 2px 15px;
   margin-bottom: 10px;
+  text-transform: uppercase;
 }
 .nav-info__tabs li a:hover,
 .nav-info__tabs li a:active {
@@ -2816,7 +2817,7 @@ input[type="checkbox"].toggle__check {
 .nav-info__tabs li a.active {
   border: 0;
   border-bottom: 2px solid #27b7b0;
-  color: #4a4a4a;
+  color: #27b7b0;
   font-weight: 500;
 }
 .nav-info__tabs li a.active:hover {

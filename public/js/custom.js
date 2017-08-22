@@ -449,6 +449,9 @@ $(function(){
 		  }
 		});
 
+		// cards equal heights
+		var getheight = $('.design-2-card').outerHeight();
+		$('.equal-col').css('height',getheight);
 
 
 });

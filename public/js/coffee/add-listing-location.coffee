@@ -180,13 +180,6 @@ $('body').on 'click','a.copy-timing', (e)->
 	return
 
 
-# copy map address
-
-$('.save-addr').on 'change', ->
-  mapaddr = $('.location-val').val()
-  if @checked
-    $('.another-address').val(mapaddr)
-  return
 
 
 $('.hours-display').change ->
@@ -196,6 +189,8 @@ $('.hours-display').change ->
   else
     $('.hours-list,.copy-timing').removeClass 'disable-hours'
   return
+
+
 
 window.validateLocationHours = () ->
   areas={}

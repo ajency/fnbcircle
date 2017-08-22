@@ -1,5 +1,5 @@
 (function() {
-  var escapeRegExp, getAddress, initMap, key, map, marker, populate, replaceAll;
+  var escapeRegExp, getAddress, initMap, key, map, marker, populate, replaceAll, updateAddr;
 
   key = void 0;
 
@@ -68,15 +68,29 @@
       success: function(data) {
         console.log(data['results'][0]['formatted_address']);
         document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
+        updateAddr();
       }
     });
   };
+
+  updateAddr = function() {
+    var mapaddr;
+    mapaddr = $('#mapadd').val();
+    if ($('.save-addr').prop('checked')) {
+      $('.another-address').val(mapaddr);
+    }
+  };
+
+  $('.save-addr').on('change', function() {
+    return updateAddr();
+  });
 
   replaceAll = function(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   };
 
   $('body').on('blur', 'input#mapadd	', function() {
+    updateAddr();
     populate(this.value);
   });
 

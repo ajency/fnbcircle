@@ -189,14 +189,6 @@
     $('.day-hours input[type="checkbox"]').prop('checked', closed);
   });
 
-  $('.save-addr').on('change', function() {
-    var mapaddr;
-    mapaddr = $('.location-val').val();
-    if (this.checked) {
-      $('.another-address').val(mapaddr);
-    }
-  });
-
   $('.hours-display').change(function() {
     if ($('.dont-display').is(':checked')) {
       $('.hours-list,.copy-timing').addClass('disable-hours');

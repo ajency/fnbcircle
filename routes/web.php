@@ -55,3 +55,4 @@ Route::get('/business-premium', function(){
 });
 
 Route::post('/get-map-key', 'CommonController@mapKey');
+Route::post('/slugify', 'CommonController@slugifyCitiesAreas');

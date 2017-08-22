@@ -78,175 +78,119 @@
         </div>
     </div>
     <div class="m-t-20 c-gap hours-list">
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Monday</span>
                 <select class="fnb-select border-bottom form-control text-lighter monday">
-                    <option>Open 24 hours</option>
-                    <option selected="">12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter monday" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
-                    <input type="checkbox" class="checkbox" id="closed"> Closed
+                    <input type="checkbox" class="checkbox monday" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Tuesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Wednesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                  {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Thursday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Friday</span>
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" >
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Saturday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                    {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
                 </label>
             </div>
         </div>
-        <div class="flex-row c-gap m-t-10">
+        <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Sunday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                    {{getTime()}}
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter">
-                    <option>Open 24 hours</option>
-                    <option>12 AM</option>
-                    <option>12.30 AM</option>
-                    <option>1 AM</option>
-                    <option>1.30 AM</option>
+                <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
+                   {{getTime()}}
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -309,8 +253,7 @@
                             </div>
                             <!-- mobile collapse -->
                             @foreach($cities as $city)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}">
-                                {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">{{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </div>
                             <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}" name={{$city->id}}>
                                 <input type=hidden name="city" value="{{$city->name}}" id="{{$city->id}}">

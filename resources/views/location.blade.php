@@ -3,6 +3,7 @@
 @section('js')
     @parent
     <script type="text/javascript" src="/js/maps.js"></script>
+    <script type="text/javascript" src="/js/add-listing-location.js"></script>
 @endsection
 
 @section('form-data')
@@ -56,31 +57,7 @@
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
         <label class="label-size">Mention the area(s) where you provide your products/services.</label>
-        <div class="single-area single-category gray-border m-t-10 m-b-20">
-            <div class="row flex-row areaContainer corecat-container">
-                <div class="col-sm-3">
-                    <strong class="branch">Delhi</strong>
-                </div>
-                <div class="col-sm-9">
-                    <ul class="fnb-cat small flex-row">
-                        <li><span class="fnb-cat__title">Adarsh nagar <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Babarpur <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Badli <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Dwarka <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li><span class="fnb-cat__title">Chandni Chowk <span class="fa fa-times remove"></span></span>
-                        </li>
-                        <li class="more-show desk-hide"><span class="fnb-cat__title text-secondary">+10 more</span></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="delete-cat">
-                <span class="fa fa-times remove"></span>
-            </div>
-        </div>
+        <div id="disp-operation-areas" class="node-list"></div>
         <div>
             <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier">+ Add / Edit area(s)</a>
         </div>
@@ -311,9 +288,9 @@
                     </div>
                     <div class="node-select flex-row">
                         <!-- Nav tabs -->
-                        <ul class="nav nav-tabs flex-row mobile-hide" role="tablist">
+                        <ul class="nav nav-tabs flex-row mobile-hide city-list" role="tablist">
                             @foreach($cities as $city)
-                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab">{{$city->name}}</a></li>                            
+                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab" name="{{$city->id}}">{{$city->name}}</a></li>                            
                             @endforeach
                         </ul>
                         <!-- Tab panes -->
@@ -335,47 +312,32 @@
                             <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}">
                                 {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </div>
-                            <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}">
+                            <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}" name={{$city->id}}>
+                                <input type=hidden name="city" value="{{$city->name}}" id="{{$city->id}}">
                                 <div class="highlight-color p-t-10 p-l-10 p-r-5 p-b-10 m-b-20 select-all operate-all">
                                     <label class="flex-row heavier">
                                         <input type="checkbox" class="checkbox all-cities" id="throughout_city"> I operate throughout the city
                                     </label>
                                 </div>
                                 <ul class="nodes">
-                                    <li>
+                                    <!-- <li>
                                         <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
+                                            <input type="checkbox" class="checkbox" for="adarsh" value="67">
                                             <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
                                         </label>
-                                    </li>
+                                    </li> -->
                                     
                                 </ul>
                             </div>
                             @endforeach
-                            <!-- <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#delhi" aria-expanded="false" aria-controls="delhi">
-                                Delhi <i class="fa fa-angle-down" aria-hidden="true"></i>
-                            </div>
-                            <div role="tabpanel" class="tab-pane collapse" id="delhi">Delhi</div>
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#bangalore" aria-expanded="false" aria-controls="bangalore">
-                                Bangalore <i class="fa fa-angle-down" aria-hidden="true"></i>
-                            </div>
-                            <div role="tabpanel" class="tab-pane collapse" id="bangalore">Bangalore</div>
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#pune" aria-expanded="false" aria-controls="pune">
-                                Pune <i class="fa fa-angle-down" aria-hidden="true"></i>
-                            </div>
-                            <div role="tabpanel" class="tab-pane collapse" id="pune">Pune</div>
-                            <div role="tabpanel" class="tab-pane" id="hyderabad">Hyderabad</div>
-                            <div role="tabpanel" class="tab-pane" id="kolkata">Kolkata</div>
-                            <div role="tabpanel" class="tab-pane" id="chennai">Chennai</div>
-                            <div role="tabpanel" class="tab-pane" id="jaipur">Jaipur</div>
-                            <div role="tabpanel" class="tab-pane" id="lucknow">Lucknow</div> -->
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <div class="footer-actions mobile-hide text-right">
                 <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
-                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
+                <button id="category-select" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

@@ -123,8 +123,9 @@ if $('.alert.alert-failure.server-error').length != 0
 
 
 # copy map address
-mapaddr = $('.location-val').val()
+
 $('.save-addr').on 'change', ->
+  mapaddr = $('.location-val').val()
   if @checked
     $('.another-address').val(mapaddr)
   else
@@ -147,7 +148,7 @@ $('.hours-display').change ->
 # 	event.preventDefault
 # 	$('.operation-hours .fnb-select').prop('selectedIndex',mondayValue)
 
-throwError = () ->
+window.throwError = () ->
     $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
     $('.alert-failure').addClass 'active'
   return

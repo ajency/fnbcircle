@@ -178,3 +178,60 @@ $('body').on 'click','a.copy-timing', (e)->
 	$('.day-hours .open-2 select').prop('disabled',eprop)
 	$('.day-hours input[type="checkbox"]').prop('checked',closed)
 	return
+
+
+# copy map address
+
+$('.save-addr').on 'change', ->
+  mapaddr = $('.location-val').val()
+  if @checked
+    $('.another-address').val(mapaddr)
+  return
+
+
+$('.hours-display').change ->
+  if $('.dont-display').is(':checked')
+    $('.hours-list').addClass 'disable-hours'
+    $('.fnb-select').prop('selectedIndex',0)
+  else
+    $('.hours-list').removeClass 'disable-hours'
+  return
+
+window.validateLocationHours = () ->
+  areas={}
+  $('.areaContainer input[name="areas"][type="hidden"]').each (index,item)->
+    area = {}
+    area['id']= $(this).val()
+    areas[index] = area
+  time={}
+  $('.day-hours').each (index,item) ->
+    day={};
+    day['from']= $(this).find('.open-1 select').val()
+    day['to']= $(this).find('.open-2 select').val()
+    if $(this).find('input#closed').prop('checked')
+      day['closed'] = "1"
+      day['from'] ="00:00"
+      day['to'] ="00:00"
+    else
+      day['closed'] = "0"
+    if day['from'] == "open24"
+      day['open24'] = "1"
+      day['from'] ="00:00"
+      day['to'] ="00:00"
+    else
+      day['open24'] = "0"
+    time[index] = day
+    return
+  console.log document.getElementById('listing_id').value
+  console.log 'business-location-hours'
+  console.log window.change
+  if window.submit ==1
+    # parameters['submitReview'] = 'yes'
+    console.log 'yes'
+  console.log $('input#mapadd').val()
+  console.log $('input.another-address').val()
+  console.log $('input[type="radio"][name="hours"]:checked').val()
+  console.log JSON.stringify time
+  console.log JSON.stringify areas
+  return
+

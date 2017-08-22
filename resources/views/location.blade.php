@@ -45,6 +45,8 @@
         <div class="m-t-10" id="map">
             
         </div>
+        <input type="hidden" id=latitude name=latitude value="15.487627">
+        <input type="hidden" id=longitude name=longitude value="73.83229899999992">
         
     </div>
     <div class="m-t-40 c-gap">
@@ -67,12 +69,12 @@
         <div class="flex-row flex-wrap">
             <div class="m-t-5 m-r-20">
                 <label class="flex-row text-medium m-t-5">
-                    <input type="radio" class="fnb-radio hours-display" name="hours" id="display_hours" checked=""> Display hours of operation
+                    <input type="radio" class="fnb-radio hours-display" name="hours" id="display_hours" checked="" value="1"> Display hours of operation
                 </label>
             </div>
             <div class="m-t-5">
                 <label class="flex-row text-medium m-t-5">
-                    <input type="radio" class="fnb-radio hours-display dont-display" name="hours" id="dont_display_hours"> Don't display hours of operation
+                    <input type="radio" class="fnb-radio hours-display dont-display" name="hours" id="dont_display_hours" value="0"> Don't display hours of operation
                 </label>
             </div>
         </div>

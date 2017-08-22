@@ -22,30 +22,40 @@ window.init = ->
     draggable: true
     title: 'your business location')
   inp=$("input#mapadd").val();
-  populate(inp);
+  lat=$('input#latitude').val()
+  lng=$('input#longitude').val()
+  if lat == ''
+    populate(inp)
+  else
+    initMap(lat,lng)
   google.maps.event.addListener marker, 'dragend', (ev) ->
-    pos = marker.getPosition()
-    console.log 'lat= ' + pos.lat()
-    console.log 'lng= ' + pos.lng()
-    $.ajax
-      type: 'GET'
-      url: 'https://maps.googleapis.com/maps/api/geocode/json'
-      data:
-        'latlng': pos.lat() + ',' + pos.lng()
-        'key': key
-      success: (data) ->
-        console.log data['results'][0]['formatted_address']
-        document.getElementById('mapadd').value = data['results'][0]['formatted_address']
-        return
-    return
+    getAddress()
   return
 escapeRegExp = (str) ->
   str.replace /([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1'
 
+getAddress = ()->
+  pos = marker.getPosition()
+  console.log 'lat= ' + pos.lat()
+  $('input#latitude').val(pos.lat())
+  console.log 'lng= ' + pos.lng()
+  $('input#longitude').val(pos.lng())
+  $.ajax
+    type: 'GET'
+    url: 'https://maps.googleapis.com/maps/api/geocode/json'
+    data:
+      'latlng': pos.lat() + ',' + pos.lng()
+      'key': key
+    success: (data) ->
+      console.log data['results'][0]['formatted_address']
+      document.getElementById('mapadd').value = data['results'][0]['formatted_address']
+      return
+  return
+
 replaceAll = (str, find, replace) ->
   str.replace new RegExp(escapeRegExp(find), 'g'), replace
 
-$('body').on 'change','input#mapadd	', ->
+$('body').on 'blur','input#mapadd	', ->
   populate(this.value)
   return
 
@@ -69,6 +79,8 @@ populate = (inp)->
 initMap = (lat, long) ->
   myLatLng = new (google.maps.LatLng)(lat, long)
   console.log myLatLng.lat(), myLatLng.lng()
+  $('input#latitude').val(myLatLng.lat())
+  $('input#longitude').val(myLatLng.lng())
   map.setCenter myLatLng
   marker.setPosition myLatLng
   marker.setMap map

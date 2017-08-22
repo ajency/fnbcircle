@@ -73,7 +73,10 @@
       window.validateListing(e);
     }
     if (step === 'business-categories') {
-      return validateCategories();
+      validateCategories();
+    }
+    if (step === 'business-location-hours') {
+      return validateLocationHours();
     }
   };
 
@@ -105,25 +108,6 @@
       $('.alert-failure').removeClass('active');
     }), 6000);
   }
-
-  $('.save-addr').on('change', function() {
-    var mapaddr;
-    mapaddr = $('.location-val').val();
-    if (this.checked) {
-      $('.another-address').val(mapaddr);
-    } else {
-      $('.another-address').val('');
-    }
-  });
-
-  $('.hours-display').change(function() {
-    if ($('.dont-display').is(':checked')) {
-      $('.hours-list').addClass('disable-hours');
-      $('.fnb-select').prop('selectedIndex', 0);
-    } else {
-      $('.hours-list').removeClass('disable-hours');
-    }
-  });
 
   window.throwError = function() {
     $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');

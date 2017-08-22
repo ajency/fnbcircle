@@ -189,4 +189,65 @@
     $('.day-hours input[type="checkbox"]').prop('checked', closed);
   });
 
+  $('.save-addr').on('change', function() {
+    var mapaddr;
+    mapaddr = $('.location-val').val();
+    if (this.checked) {
+      $('.another-address').val(mapaddr);
+    }
+  });
+
+  $('.hours-display').change(function() {
+    if ($('.dont-display').is(':checked')) {
+      $('.hours-list').addClass('disable-hours');
+      $('.fnb-select').prop('selectedIndex', 0);
+    } else {
+      $('.hours-list').removeClass('disable-hours');
+    }
+  });
+
+  window.validateLocationHours = function() {
+    var areas, time;
+    areas = {};
+    $('.areaContainer input[name="areas"][type="hidden"]').each(function(index, item) {
+      var area;
+      area = {};
+      area['id'] = $(this).val();
+      return areas[index] = area;
+    });
+    time = {};
+    $('.day-hours').each(function(index, item) {
+      var day;
+      day = {};
+      day['from'] = $(this).find('.open-1 select').val();
+      day['to'] = $(this).find('.open-2 select').val();
+      if ($(this).find('input#closed').prop('checked')) {
+        day['closed'] = "1";
+        day['from'] = "00:00";
+        day['to'] = "00:00";
+      } else {
+        day['closed'] = "0";
+      }
+      if (day['from'] === "open24") {
+        day['open24'] = "1";
+        day['from'] = "00:00";
+        day['to'] = "00:00";
+      } else {
+        day['open24'] = "0";
+      }
+      time[index] = day;
+    });
+    console.log(document.getElementById('listing_id').value);
+    console.log('business-location-hours');
+    console.log(window.change);
+    if (window.submit === 1) {
+      console.log('yes');
+    }
+    console.log($('input#mapadd').val());
+    console.log($('input.another-address').val());
+    console.log($('input[type="radio"][name="hours"]:checked').val());
+    console.log(JSON.stringify(time));
+    console.log(JSON.stringify(areas));
+  };
+
 }).call(this);

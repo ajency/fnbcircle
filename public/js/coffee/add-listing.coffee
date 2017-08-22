@@ -89,6 +89,8 @@ submitForm = (e) ->
     window.validateListing(e)
   if step == 'business-categories'
     validateCategories()
+  if step == 'business-location-hours'
+    validateLocationHours()
 
 
 
@@ -122,24 +124,6 @@ if $('.alert.alert-failure.server-error').length != 0
 
 
 
-# copy map address
-
-$('.save-addr').on 'change', ->
-  mapaddr = $('.location-val').val()
-  if @checked
-    $('.another-address').val(mapaddr)
-  else
-    $('.another-address').val('')
-  return
-
-
-$('.hours-display').change ->
-  if $('.dont-display').is(':checked')
-  	$('.hours-list').addClass 'disable-hours'
-  	$('.fnb-select').prop('selectedIndex',0)
-  else
-    $('.hours-list').removeClass 'disable-hours'
-  return
 
 
 # mondayValue = $('.monday').prop('selectedIndex')

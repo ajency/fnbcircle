@@ -56,7 +56,7 @@
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
         <label class="label-size">Mention the area(s) where you provide your products/services.</label>
-        <div class="single-area gray-border m-t-10 m-b-20">
+        <div class="single-area single-category gray-border m-t-10 m-b-20">
             <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
                     <strong class="branch">Delhi</strong>

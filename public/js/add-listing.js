@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, mapaddr, submitForm, throwError;
+  var $_GET, submitForm;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -106,9 +106,9 @@
     }), 6000);
   }
 
-  mapaddr = $('.location-val').val();
-
   $('.save-addr').on('change', function() {
+    var mapaddr;
+    mapaddr = $('.location-val').val();
     if (this.checked) {
       $('.another-address').val(mapaddr);
     } else {
@@ -125,7 +125,7 @@
     }
   });
 
-  throwError = function() {
+  window.throwError = function() {
     $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');
     return $('.alert-failure').addClass('active');
   };

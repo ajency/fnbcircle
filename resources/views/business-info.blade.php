@@ -94,7 +94,7 @@
     <!-- email -->
 
     <div class="m-t-20 business-email business-contact">
-        <div class="flex-row space-between">
+        <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
@@ -193,7 +193,7 @@
     <!-- phone number -->
 
     <div class="m-t-40 business-phone business-contact">
-        <div class="flex-row space-between">
+        <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business phone number <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
@@ -312,7 +312,7 @@
     <!-- landline -->
 
     <div class="m-t-40 business-phone landline business-contact">
-        <div class="flex-row space-between">
+        <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business landline number <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
         </div>

@@ -5956,7 +5956,7 @@ input[type="checkbox"].toggle__check {
   .removeRow {
     position: absolute;
     top: 10px;
-    right: 15px;
+    right: 22px;
     z-index: 1;
     font-size: 1.15em;
     margin-right: 0;
@@ -6006,6 +6006,22 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 650px) {
   .business-contact .get-val .parsley-errors-list {
     margin-bottom: 8px;
+  }
+  .business-contact .mobile-sp-row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .business-contact .mobile-sp-row .add-another {
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
   }
 }
 .business-type {

@@ -312,23 +312,18 @@
                     <div class="node-select flex-row">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs flex-row mobile-hide" role="tablist">
-                            <li role="presentation" class="active"><a href="#mumbai" aria-controls="mumbai" role="tab" data-toggle="tab">Mumbai</a></li>
-                            <li role="presentation"><a href="#delhi" aria-controls="delhi" role="tab" data-toggle="tab">Delhi</a></li>
-                            <li role="presentation"><a href="#bangalore" aria-controls="bangalore" role="tab" data-toggle="tab">Bangalore</a></li>
-                            <li role="presentation"><a href="#pune" aria-controls="pune" role="tab" data-toggle="tab">Pune</a></li>
-                            <li role="presentation"><a href="#hyderabad" aria-controls="hyderabad" role="tab" data-toggle="tab">Hyderabad</a></li>
-                            <li role="presentation"><a href="#kolkata" aria-controls="kolkata" role="tab" data-toggle="tab">Kolkata</a></li>
-                            <li role="presentation"><a href="#chennai" aria-controls="chennai" role="tab" data-toggle="tab">Chennai</a></li>
-                            <li role="presentation"><a href="#jaipur" aria-controls="jaipur" role="tab" data-toggle="tab">Jaipur</a></li>
-                            <li role="presentation"><a href="#lucknow" aria-controls="lucknow" role="tab" data-toggle="tab">Lucknow</a></li>
+                            @foreach($cities as $city)
+                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab">{{$city->name}}</a></li>                            
+                            @endforeach
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <!-- mobile collapse -->
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#mumbai" aria-expanded="false" aria-controls="mumbai">
-                                Mumbai <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            @foreach($cities as $city)
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}">
+                                {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </div>
-                            <div role="tabpanel" class="tab-pane active collapse" id="mumbai">
+                            <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}">
                                 <div class="highlight-color p-t-10 p-l-10 p-r-5 p-b-10 m-b-20 select-all operate-all">
                                     <label class="flex-row heavier">
                                         <input type="checkbox" class="checkbox all-cities" id="throughout_city"> I operate throughout the city
@@ -341,87 +336,11 @@
                                             <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
                                         </label>
                                     </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label class="flex-row">
-                                            <input type="checkbox" class="checkbox" for="adarsh">
-                                            <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
-                                        </label>
-                                    </li>
+                                    
                                 </ul>
                             </div>
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#delhi" aria-expanded="false" aria-controls="delhi">
+                            @endforeach
+                            <!-- <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#delhi" aria-expanded="false" aria-controls="delhi">
                                 Delhi <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </div>
                             <div role="tabpanel" class="tab-pane collapse" id="delhi">Delhi</div>
@@ -437,7 +356,7 @@
                             <div role="tabpanel" class="tab-pane" id="kolkata">Kolkata</div>
                             <div role="tabpanel" class="tab-pane" id="chennai">Chennai</div>
                             <div role="tabpanel" class="tab-pane" id="jaipur">Jaipur</div>
-                            <div role="tabpanel" class="tab-pane" id="lucknow">Lucknow</div>
+                            <div role="tabpanel" class="tab-pane" id="lucknow">Lucknow</div> -->
                         </div>
                     </div>
                 </div>

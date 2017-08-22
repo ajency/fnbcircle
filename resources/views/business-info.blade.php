@@ -1,5 +1,8 @@
 @extends('add-listing')
-
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/add-listing-info.js"></script>
+@endsection
 @section('form-data')
 
 

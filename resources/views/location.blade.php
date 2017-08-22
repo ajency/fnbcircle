@@ -1,7 +1,7 @@
 @extends('add-listing')
 
 @section('js')
-    @ parent
+    @parent
     <script type="text/javascript" src="/js/maps.js"></script>
 @endsection
 
@@ -15,9 +15,9 @@
 
 <div class="location-hours tab-pane fade active in" id="business_location">
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation</h5>
-<!--     <div class="m-t-30 c-gap">
-        <label>Please provide the google map address for your business</label>
-        <div class="location-select flex-row flex-wrap">
+    <div class="m-t-30 c-gap">
+        <label class="label-size">Please provide the google map address for your business</label>
+<!--         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter">
                     <option>Select city</option>
@@ -34,13 +34,13 @@
                     <option>Borivili</option>
                 </select>
             </div>
-        </div>
+        </div> -->
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
         </div>
-    </div> -->
+    </div>
     <div class="m-t-20 c-gap">
-        <input id="mapadd" type="text" class="form-control fnb-input" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" width="600" height="250" value={{$listing->location['name']}}>
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" width="600" height="250" value={{$listing->location['name']}}>
         <div class="m-t-10" id="map">
             
         </div>
@@ -49,7 +49,7 @@
     <div class="m-t-40 c-gap">
         <label class="label-size">What is the address that you want to be displayed to the users?</label>
         <label class="dis-block text-medium baseline m-t-5">
-            <input type="checkbox" class="checkbox remove-addr" id=""> Is the display address same as the map address?
+            <input type="checkbox" class="checkbox remove-addr save-addr" id=""> Is the display address same as the map address?
             <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
         </label>
     </div>

@@ -6711,9 +6711,6 @@ input[type='checkbox'].remove-addr {
   float: left;
   top: 8px;
 }
-input[type='checkbox'].remove-addr:checked + .another-address {
-  display: none;
-}
 .location-select {
   padding: 0.5em 0 1em 0;
   -webkit-box-align: inherit;

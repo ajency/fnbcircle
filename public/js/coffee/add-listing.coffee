@@ -716,6 +716,16 @@ if $('.alert.alert-failure.server-error').length != 0
 
 
 
+# copy map address
+mapaddr = $('.location-val').val()
+$('.save-addr').on 'change', ->
+  if @checked
+    $('.another-address').val(mapaddr)
+  else
+    $('.another-address').val('')
+  return
+
+
 $('.hours-display').change ->
   if $('.dont-display').is(':checked')
   	$('.hours-list').addClass 'disable-hours'
@@ -735,4 +745,12 @@ throwError = () ->
     $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
     $('.alert-failure').addClass 'active'
   return
+
+
+
+
+
+
+
+
 

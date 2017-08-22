@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, $myGroup, categ, categories, change_view, getID, getNodes, id, input, parent, populate, submitForm, throwError, update_core, validateCategories, verify;
+  var $_GET, $myGroup, categ, categories, change_view, getID, getNodes, id, input, mapaddr, parent, populate, submitForm, throwError, update_core, validateCategories, verify;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -754,6 +754,16 @@
       $('.alert-failure').removeClass('active');
     }), 6000);
   }
+
+  mapaddr = $('.location-val').val();
+
+  $('.save-addr').on('change', function() {
+    if (this.checked) {
+      $('.another-address').val(mapaddr);
+    } else {
+      $('.another-address').val('');
+    }
+  });
 
   $('.hours-display').change(function() {
     if ($('.dont-display').is(':checked')) {

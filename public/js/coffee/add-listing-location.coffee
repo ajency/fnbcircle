@@ -60,6 +60,11 @@ window.cities = 'cities':[]
 # }
 
 $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', ->
+  if @checked
+    if $(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length == $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length
+      $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',true);
+  else
+    $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
 	return	
 
 $('body').on 'click', '.fnb-modal button.operation-save', ->

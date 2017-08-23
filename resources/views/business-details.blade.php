@@ -2,6 +2,12 @@
 
 @section('form-data')
 
+@if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    Location &amp; Hours of Operation details saved successfully.
+</div>
+@endif
+
 <div class="business-details tab-pane fade in active" id="business_details">
     <h5 class="no-m-t">Business Details</h5>
     <div class="m-t-30 c-gap">

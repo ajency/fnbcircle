@@ -393,16 +393,14 @@ class ListingController extends Controller
             $operation->save();
         }
         $listing->save();
-        if (isset($request->submitReview) and $request->submitReview == 'yes') {
-            return ($this->submitForReview($request));
-        }
+        
         $change = "";
-        if (isset($request->change) and $request->change == "1") {
+        if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";
         }
 
-        if (isset($request->submitReview) and $request->submitReview == 'yes') {
-            return ($this->submitForReview($request));
+        if (isset($data->submitReview) and $data->submitReview == 'yes') {
+            return ($this->submitForReview($data));
         }
 
         // echo $data->change;

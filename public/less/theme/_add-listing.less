@@ -288,8 +288,8 @@
 		justify-content: flex-end;
 		.removeRow{
 			position: absolute;
-    		top: -30px;
-    		right: 0;
+    		top: -36px;
+    		right: 6px;
     		z-index: 1;
     		margin-right: 0;
     		font-size: 1.15em;
@@ -321,11 +321,12 @@
 }
 
 @media screen and (max-width: @mobile){
-.business-phone,.landline{
-	.removeRow{
-		right: 10px;
+	.business-phone,.landline{
+		.removeRow{
+			right: 8px;
+	    	top: -25px;
+		}
 	}
-}
 }
 
 @media screen and (min-width: 769px){

@@ -109,14 +109,13 @@
     }), 6000);
   }
 
-  if ($(window).width() > 768) {
-    getID = $('.gs-form .tab-pane').attr('id');
-    $('.gs-steps .form-toggle').each(function() {
-      if ($(this).attr('id') === getID) {
-        $(this).parent().addClass('active');
-      }
-    });
-  }
+  getID = $('.gs-form .tab-pane').attr('id');
+
+  $('.gs-steps .form-toggle').each(function() {
+    if ($(this).attr('id') === getID) {
+      $(this).parent().addClass('active');
+    }
+  });
 
   $('body').on('click', '.review-submit', function(e) {
     e.preventDefault();

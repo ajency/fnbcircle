@@ -5937,8 +5937,8 @@ input[type="checkbox"].toggle__check {
   }
   .close-section .removeRow {
     position: absolute;
-    top: -30px;
-    right: 0;
+    top: -36px;
+    right: 6px;
     z-index: 1;
     margin-right: 0;
     font-size: 1.15em;
@@ -5965,7 +5965,8 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 768px) {
   .business-phone .removeRow,
   .landline .removeRow {
-    right: 10px;
+    right: 8px;
+    top: -25px;
   }
 }
 @media screen and (min-width: 769px) {

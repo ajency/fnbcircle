@@ -516,7 +516,7 @@
 			}
 		}
 		&__footer{
-			padding-top: 10px;
+			padding-top: 5px;
 		}
 		.contact__title{
 			font-size: 0.95em;
@@ -608,15 +608,16 @@
 	.fnb-cat{
 		li{
 			margin: 0.3em 0.5em 0.3em 0;
-			padding: 0.5em 0.95em;
+			padding: 0.3em 0.9em;
 			a{
 				font-size: 0.95em;
 			}
 		}
 	}
 	.claim{
-		padding-top: 20px;
-		padding-bottom: 10px;
+		padding-top: 15px;
+    	padding-bottom: 15px;
+    	margin: 1.5em 0 2em 0;
 	}
 	.docs{
 		padding-top: 0;
@@ -1175,7 +1176,7 @@
 
 @media screen and (max-width: @mobile){
 	.similar-business{
-		padding-top: 10px;
+		padding-top: 0;
     	padding-bottom: 10px;
 		&__section{
 			white-space: nowrap;
@@ -1452,6 +1453,9 @@
     		border: 0;
     		background-color: transparent;
     		box-shadow: none;
+    		&__body{
+    			margin-top: -10px;
+    		}
 		}
 		&.active{
 			transform: translateX(0);
@@ -2682,9 +2686,9 @@ and (max-device-width: 650px) {
 
 .animate-row{
 	@media screen and (min-width: 769px){
-		transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
+		// transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
 		position: relative;
-		right: 0;
+		transition: transform 1s ease;
 	}
 }
 
@@ -2692,26 +2696,83 @@ and (max-device-width: 650px) {
 // page sidebar
 
 .page-sidebar{
-	position: fixed;
+	position: absolute;
 	top: 0;
 	background-color: #fff;
 	right: 0;
-	width: 60vw;
-	height: 100%;
+	width: 50vw;
+	height: 100vh;
 	overflow: auto;
 	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
     padding: 1.5em;
-    transition: all 1s cubic-bezier(0.44, -0.25, 0.75, 1);
-    transform: translate3d(5000px, 0, 0);
-    &.active{
-    	transform: translate3d(0, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    &__header{
+    	border-bottom: 1px solid #ddd;
+    	padding-bottom: 1.5em;
+    	.fnb-select{
+    		border: 1px solid #ddd;
+    		padding: 0.5em;
+    		font-size: 1em;
+    		margin-left: 1em;
+    	}
+    }
+    @media screen and (max-width: @mobile){
+    	padding: 0;
+    	position: relative;
+    	width: 100%;
+    	height: 100%;
+    	padding-bottom: 1em;
+    	transform: translate3d(0, 0, 0); 
+    	.update-sec__heading{
+    		margin-bottom: 10px;
+    	}
+    	.posted-date{
+    		font-size: 0.95em;
+    	}
     }
 }
 
+
+@media screen and (max-width: @mobile){
+	.side-toggle{
+		.fnb-select{
+			border: 1px solid #ddd;
+	    	padding: 0.5em;
+	    	font-size: 0.9em;
+	    	margin-left: 1em;
+		}
+	}
+}
+
+.sidebar-article{
+	box-shadow: none;
+	.update-sec__body{
+		border-top: 1px solid #ddd;
+		margin: 1em 0;
+	}
+	.posted-date{
+		margin-top: 1.2em;
+	}
+	&:first-child{
+		.update-sec__body{
+			margin-top: 0;
+			border-top: none;
+		}
+	}
+	&:last-child{
+		.update-sec__body{
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}	
+	}
+}
+
+
+
 .body-slide{
-	height: 100vh;
-    overflow: hidden;
-	right: 60vw;
+	transform: translate3d(-50%, 0, 0);
+	position: fixed;
+    width: 100%;
 	&:after{
 		content:'';
 		position: absolute;
@@ -2836,6 +2897,189 @@ and (max-device-width: 650px) {
 	margin-top: 1em;
 	padding: 0 1em;
 }
+
+
+
+@media screen and (max-width: @mobile){
+	.breadcrums-container.single-breadcrums{
+		flex-direction: column;
+	}
+	.slide-nav{
+		margin-top: 0;
+    	justify-content: space-between;
+    	padding: 0.8em 0;
+    	.published-title{
+    		font-size: 1em;
+    	}
+    	.share-btn{
+    		font-size: 1em;
+    		padding: 0.1em 0.5em;
+    		.share{
+    			height: 26px;
+    			width: 30px;
+    			transform: scale(0.6);
+    		}
+    	}
+	}
+	.design-2-card{
+		margin: 0 auto;
+    	padding: 1em;
+    	.seller-info__title{
+    		font-size: 1.2em;
+    		padding-right: 0.5em;
+    		margin-top: 0;
+    	}
+    	.rating{
+    		width: 85px;
+    		.value,.bg{
+    			&:before{
+    				font-size: 1em;	
+    			}
+    		}
+    	}
+    	.verified-icon{
+    		width: 25px;
+    		height: 25px;
+    		background-position: -149px -519px;
+    		transform: inherit;
+    	}
+    	.stats{
+    		flex-direction: column;
+    		margin-top: 0;
+    		.rating-view{
+    			order: 2;
+    			margin-top: 10px;
+    			width: 100%;
+    			justify-content: space-between;
+    		}
+    		.views,.verified{
+    			padding: 0;
+    			.c-title{
+    				display: block;
+    			}
+    		}
+    		.fnb-label{
+    			order: 1;
+    			align-self: flex-end;
+    			margin-top: -24px;
+    		}
+    	}
+    	.map-icon{
+    		position: relative;
+    		left: -5px;
+    		width: 20px;
+    		transform: scale(0.6);
+    	}
+    	.operations{
+    		&__title{
+    			line-height: 1.4;
+    		}
+    		.opertaions__container{
+    			align-items: flex-start;
+    			margin-top: 15px;
+    			.location{
+    				flex: 1;
+    				margin-top: -4px;
+    			}
+    			.cities{
+    				padding-left: 0;
+    				flex: 2.2;
+    			}
+    		}
+    	}
+    	.seller-info__footer{
+    		.contact{
+    			display: block;
+    			&__info{
+    				width: 100%;
+    				display: flex;
+    				.fnb-btn{
+    					padding: 0.5em 1em;
+    					flex: 1;
+    				}
+    			}
+    		}
+    	}
+	}
+	.equal-col{
+		margin: 0 auto;
+    	background-color: transparent;
+    	box-shadow: none;
+    	padding: 0;
+	}
+	.photo-gallery__thumbnails{
+		margin-bottom: 0.5em;
+	}
+	.catalogue{
+		padding: 1em 0;
+	}
+	.nav-info li a{
+		font-size: 1em;
+		&.active{
+			&:hover{
+				color: @accent-secondary;
+			}
+		}
+	}
+	.updateTitle,.update-sec__caption{
+		font-size: 1em;
+	}
+	.update-sec__link{
+		margin-top: 1em;
+    	display: block;
+    	font-size: 0.9em;
+	}
+	.update-sec__heading{
+		margin-bottom: 0;
+	}
+	.payment-mode{
+		margin-top: 0.8em;
+		&__title{
+			margin-bottom: 10px;
+		}
+		li{
+    		font-size: 1.05em;
+    		margin-bottom: 1em;
+    		flex: 1 0 33.33%;
+		}
+	}
+	.boost-row.single-boost{
+		.fa-rocket{
+			font-size: 2.5em;	
+		}
+		.s-outline{
+			padding: 0.6em 1.5em;
+    		font-size: 1em;
+		}
+	}
+	.why-row{
+		margin-top: 10px;
+		li:not(:last-child){
+			margin-bottom: 1em;
+		}
+	}
+	.single-view-head{
+		&:after{
+			height: 300px;
+			transform: skewY(12deg);
+		}
+	}
+	.browse-cat__list{
+		p{
+			font-size: 1em;
+		}
+	}
+}
+
+@media screen and (max-width: 650px){
+	.design-2-card{
+		.seller-info .c-title{
+			width: 160px;
+		}
+	}
+}
+
+
 
 
 

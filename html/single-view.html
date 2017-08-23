@@ -169,11 +169,11 @@
                     </div>
                 </div>
                 <!-- premium benefits -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-sm-12">
                         <div class="pre-benefits flex-row">
                             <div class="pre-benefits__intro flex-row">
-                                <!-- <span class="fnb-icons note medal-icon"></span> -->
+                                
                                 <img src="../public/img/power-icon.png" class="img-repsonsive" width="50">
                                 <div class="pre-benefits__content">
                                     <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
@@ -183,7 +183,7 @@
                             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- premium benefits ends -->
                 <!-- edit business listing -->
 <!--                 <div class="row">
@@ -211,7 +211,8 @@
                                     <div class="flex-row space-between">
                                         <h3 class="seller-info__title main-heading">Mystical the meat and fish store</h3>
                                         <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
-                                        <img src="../public/img/power-seller.png" class="img-responsive" width="130">
+                                        <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130">
+                                        <img src="../public/img/power-icon.png" class="img-responsive desk-hide" width="30">
                                     </div>
                                     
                                     <div class="location flex-row">
@@ -398,7 +399,7 @@
                                     <h6 class="element-title update-sec__heading m-t-15 bolder">
                                         Mystical the meat and fish store recent updates
                                     </h6>
-                                    <p class="m-t-20 m-b-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, velit.</p>
+                                    <p class="m-t-20 m-b-5 updateTitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, velit.</p>
                                     <p class="update-sec__caption text-lighter">
                                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                                     </p>
@@ -543,8 +544,8 @@
         						</div>
                                 <div class="detail-4 flex-row m-t-25">
                                     <div class="payment-mode">
-                                        <p class="element-title heavier m-b-20">Modes of payment</p>
-                                        <ul class="credit-card flex-row">
+                                        <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
+                                        <ul class="credit-card flex-row flex-wrap">
                                             <li><i class="fa fa-credit-card" aria-hidden="true"></i> Cash
                                             </li>
                                             <li><i class="fa fa-credit-card" aria-hidden="true"></i> Master Card
@@ -733,7 +734,7 @@
                                         <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
                                     </ul>
                                 </div> 
-                                <div class="contact__enquiry text-center">                                
+                                <div class="contact__enquiry text-center mobile-hide">                                
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                     <!-- <div class="approval">
@@ -1937,16 +1938,106 @@
                 
             </div>
         </div>
+
+        <div class="pos-fixed fly-out side-toggle">
+            <div class="mobile-back desk-hide mobile-flex">
+                <div class="left mobile-flex">
+                    <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                    <p class="element-title heavier m-b-0">Back</p>
+                </div>
+                <div class="right">
+                </div>
+            </div>
+            <div class="fly-out__content">
+                <div class="sidebar-updates page-sidebar">
+                    <div class="page-sidebar__header flex-row space-between mobile-hide">
+                        <div class="backLink flex-row">
+                            <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                            <div class="element-title bolder">Updates of Mystical The Meat And Fish Store</div>
+                        </div>
+                       <div class="sort flex-row">
+                           <p class="m-b-0 text-lighter default-size">Sort</p>
+                           <select name="" id="" class="fnb-select">
+                               <option>Recent</option>
+                               <option>Newer</option>
+                               <option>Older</option>
+                           </select>
+                       </div>
+                    </div>
+                    <div class="page-sidebar__body">
+                        <div class="update-sec sidebar-article">
+                            <div class="update-sec__body update-space">
+                                <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                    Mystical the meat and fish store recent updates
+                                </h6>
+                                <p class="update-sec__caption text-lighter">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
+                                </p>
+                                <ul class="flex-row update-img">
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                </ul>
+                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
+                            </div>
+                        </div>
+                        <div class="update-sec sidebar-article">
+                            <div class="update-sec__body update-space">
+                                <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                    Mystical the meat and fish store recent updates
+                                </h6>
+                                <p class="update-sec__caption text-lighter">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
+                                </p>
+                                <ul class="flex-row update-img">
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                </ul>
+                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
+                            </div>
+                        </div>
+                        <div class="update-sec sidebar-article">
+                            <div class="update-sec__body update-space">
+                                <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                    Mystical the meat and fish store recent updates
+                                </h6>
+                                <p class="update-sec__caption text-lighter">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
+                                </p>
+                                <ul class="flex-row update-img">
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                </ul>
+                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
+                            </div>
+                        </div>
+                        <div class="update-sec sidebar-article">
+                            <div class="update-sec__body update-space">
+                                <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                    Mystical the meat and fish store recent updates
+                                </h6>
+                                <p class="update-sec__caption text-lighter">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
+                                </p>
+                                <ul class="flex-row update-img">
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
+                                </ul>
+                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-sidebar__footer"></div>
+                </div>  
+            </div>
+        </div>
     </div>    
         <!-- updates sidebar -->
 
-    <div class="sidebar-updates page-sidebar">
-        <div class="page-sidebar__header">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores impedit magnam fugit nobis quae consequuntur, assumenda voluptas libero nisi iusto.
-        </div>
-        <div class="page-sidebar__body"></div>
-        <div class="page-sidebar__footer"></div>
-    </div>   
+ 
 
     <div class="site-overlay"></div>
     <!-- jquery -->

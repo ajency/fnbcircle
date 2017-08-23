@@ -49,6 +49,13 @@
   $('.fnb-modal.area-modal').on('show.bs.modal', function(e) {
     var cityID;
     array = [];
+    $('.city-list li').each(function(index, item) {
+      if (index === 0) {
+        return $(this).addClass('active');
+      } else {
+        return $(this).removeClass('active');
+      }
+    });
     cityID = $('.city-list .active a').attr('name');
     $('div#disp-operation-areas').find('input[type=\'hidden\']').each(function(index, data) {
       array.push($(this).val());
@@ -72,14 +79,14 @@
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
     if (this.checked) {
       if ($(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length === $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length) {
-        return $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', true);
+        $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', true);
       }
     } else {
-      return $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', false);
+      if ($(this).closest('.tab-pane').find('input#throughout_city').prop('checked')) {
+        $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', false);
+      }
     }
   });
-
-  return;
 
   $('body').on('click', '.fnb-modal button.operation-save', function() {
     $('.tab-pane.collapse ul.nodes input[type=\'checkbox\']').each(function() {
@@ -124,11 +131,19 @@
     }
     source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20"> <div class="row flex-row areaContainer corecat-container"> <div class="col-sm-3"> <strong class="branch">{{name}}</strong> </div> <div class="col-sm-9"> <ul class="fnb-cat small flex-row"> {{#areas}}<li><span class="fnb-cat__title"><input type=hidden name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span> </li>{{/areas}} </ul> </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div>{{/cities}}';
     template = Handlebars.compile(source);
-    return $('div#disp-operation-areas.node-list').html(template(cities));
+    $('div#disp-operation-areas.node-list').html(template(cities));
+    if (document.getElementById('disp-operation-areas').children.length === 0) {
+      return $('#area-modal-link').html('+ Add area(s)');
+    } else {
+      return $('#area-modal-link').html('+ Add / Edit area(s)');
+    }
   };
 
   $('body').on('click', '.delete-cat', function() {
-    return $(this).closest('.single-category').remove();
+    $(this).closest('.single-category').remove();
+    if (document.getElementById('disp-operation-areas').children.length === 0) {
+      return $('#area-modal-link').html('+ Add area(s)');
+    }
   });
 
   $('body').on('click', '.fnb-cat .remove', function() {
@@ -137,7 +152,10 @@
     list = item.parent();
     item.remove();
     if (list.children().length === 0) {
-      return list.closest('.single-category').remove();
+      list.closest('.single-category').remove();
+    }
+    if (document.getElementById('disp-operation-areas').children.length === 0) {
+      return $('#area-modal-link').html('+ Add area(s)');
     }
   });
 

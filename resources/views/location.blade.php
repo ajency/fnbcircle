@@ -61,7 +61,7 @@
         <label class="label-size">Mention the area(s) where you provide your products/services.</label>
         <div id="disp-operation-areas" class="node-list"></div>
         <div>
-            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier">+ Add / Edit area(s)</a>
+            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier" id="area-modal-link">+ Add area(s)</a>
         </div>
     </div>
     <div class="m-t-40 c-gap operation-hours">

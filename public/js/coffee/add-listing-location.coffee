@@ -38,6 +38,11 @@ array = []
         
 $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
   array=[]
+  $('.city-list li').each (index,item)->
+    if index == 0
+      $(this).addClass('active')
+    else
+      $(this).removeClass('active')
   cityID =$('.city-list .active a').attr('name');
   $('div#disp-operation-areas').find('input[type=\'hidden\']').each (index,data) ->
     array.push $(this).val()
@@ -64,8 +69,9 @@ $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', -
     if $(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length == $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',true);
   else
-    $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
-	return	
+    if $(this).closest('.tab-pane').find('input#throughout_city').prop('checked')
+      $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
+  return
 
 $('body').on 'click', '.fnb-modal button.operation-save', ->
   $('.tab-pane.collapse ul.nodes input[type=\'checkbox\']').each ->
@@ -120,9 +126,15 @@ populate = () ->
           </div>{{/cities}}'
   template = Handlebars.compile(source)
   $('div#disp-operation-areas.node-list').html template(cities)
-
+  if document.getElementById('disp-operation-areas').children.length == 0
+    $('#area-modal-link').html '+ Add area(s)'
+  else
+    $('#area-modal-link').html '+ Add / Edit area(s)'
+    
 $('body').on 'click', '.delete-cat', ->
   $(this).closest('.single-category').remove()
+  if document.getElementById('disp-operation-areas').children.length == 0
+    $('#area-modal-link').html '+ Add area(s)'
 
 $('body').on 'click', '.fnb-cat .remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
@@ -130,6 +142,8 @@ $('body').on 'click', '.fnb-cat .remove', ->
   item.remove()
   if list.children().length == 0
     list.closest('.single-category').remove()
+  if document.getElementById('disp-operation-areas').children.length == 0
+    $('#area-modal-link').html '+ Add area(s)'
 
 $('body').on 'change','input#closed[type="checkbox"]', ->
   if $(this)[0].checked == true

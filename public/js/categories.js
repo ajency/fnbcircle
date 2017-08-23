@@ -1,5 +1,5 @@
 (function() {
-  var categ, categories, change_view, getID, getNodes, populate, update_core;
+  var categ, categories, change_view, getNodes, populate, update_core;
 
   $('body').on('click', 'input:radio[name=\'categories\']', function() {
     var cat_icon, cat_name, id, obj;
@@ -366,21 +366,5 @@
     }
     return change_view();
   });
-
-  $('body').on('click', '.review-submit', function(e) {
-    e.preventDefault();
-    $('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary');
-    $('.draft-status').attr('data-original-title', 'Listing is under process');
-    return $(this).addClass('hidden');
-  });
-
-  if ($(window).width() > 768) {
-    getID = $('.gs-form .tab-pane').attr('id');
-    $('.gs-steps .form-toggle').each(function() {
-      if ($(this).attr('id') === getID) {
-        $(this).parent().addClass('active');
-      }
-    });
-  }
 
 }).call(this);

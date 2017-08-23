@@ -333,18 +333,8 @@ $('body').on 'click', '.fnb-cat .remove', ->
   change_view()
 
 
-$('body').on 'click', '.review-submit', (e)->
-  e.preventDefault()
-  $('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary')
-  $('.draft-status').attr('data-original-title','Listing is under process')
-  $(this).addClass('hidden')
 
 
 
-if $(window).width() > 768
-  getID = $('.gs-form .tab-pane').attr('id')
-  $('.gs-steps .form-toggle').each ->
-    if $(this).attr('id') == getID
-      $(this).parent().addClass 'active'
-    return
+
 

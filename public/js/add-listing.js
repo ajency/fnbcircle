@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, submitForm;
+  var $_GET, getID, submitForm;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -108,6 +108,22 @@
       $('.alert-failure').removeClass('active');
     }), 6000);
   }
+
+  if ($(window).width() > 768) {
+    getID = $('.gs-form .tab-pane').attr('id');
+    $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+  }
+
+  $('body').on('click', '.review-submit', function(e) {
+    e.preventDefault();
+    $('.status-changer').text('Processing').removeClass('text-primary').addClass('text-secondary');
+    $('.draft-status').attr('data-original-title', 'Listing is under process');
+    return $(this).addClass('hidden');
+  });
 
   window.throwError = function() {
     $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');

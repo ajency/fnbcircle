@@ -191,10 +191,10 @@ $('.save-addr').on 'change', ->
 
 $('.hours-display').change ->
   if $('.dont-display').is(':checked')
-    $('.hours-list').addClass 'disable-hours'
+    $('.hours-list,.copy-timing').addClass 'disable-hours'
     $('.fnb-select').prop('selectedIndex',0)
   else
-    $('.hours-list').removeClass 'disable-hours'
+    $('.hours-list,.copy-timing').removeClass 'disable-hours'
   return
 
 window.validateLocationHours = () ->

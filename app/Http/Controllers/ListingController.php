@@ -42,7 +42,7 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        // Common::authenticate('listing', $this);
+        Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------

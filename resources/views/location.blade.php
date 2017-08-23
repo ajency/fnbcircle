@@ -43,17 +43,17 @@
     <div class="m-t-20 c-gap">
         <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address == null) {{$listing->location['name']}} @else {{$listing->map_address}} @endif">
         <div class="m-t-10" id="map">
-            
+
         </div>
         <input type="hidden" id=latitude name=latitude value="{{$listing->latitude}}">
         <input type="hidden" id=longitude name=longitude value="{{$listing->longitude}}">
-        
+
     </div>
     <div class="m-t-40 c-gap">
         <label class="label-size">What is the address that you want to be displayed to the users?</label>
         <label class="dis-block text-medium baseline m-t-5">
-            <input type="checkbox" class="checkbox remove-addr save-addr" id=""> Is the display address same as the map address?
-            <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai">
+            <input type="checkbox" class="checkbox remove-addr save-addr" id="" @if($listing->map_address !== null and $listing->map_address == $listing->display_address) checked="" @endif> Is the display address same as the map address?
+            <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->display_address == null) @else {{$listing->display_address}} @endif" @if($listing->map_address != null and $listing->map_address == $listing->display_address) disabled="disabled" @endif>
         </label>
     </div>
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
@@ -65,7 +65,7 @@
             <div class="single-area single-category gray-border m-t-10 m-b-20">
               <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
-                
+
                     <strong class="branch">{{$city['name']}}</strong>
                 </div>
                 <div class="col-sm-9">
@@ -261,7 +261,7 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs flex-row mobile-hide city-list" role="tablist">
                             @foreach($cities as $city)
-                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab" name="{{$city->id}}">{{$city->name}}</a></li>                            
+                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab" name="{{$city->id}}">{{$city->name}}</a></li>
                             @endforeach
                         </ul>
                         <!-- Tab panes -->
@@ -296,11 +296,11 @@
                                             <p class="lighter nodes__text" id="adarsh">Adarsh nagar</p>
                                         </label>
                                     </li> -->
-                                    
+
                                 </ul>
                             </div>
                             @endforeach
-                            
+
                         </div>
                     </div>
                 </div>

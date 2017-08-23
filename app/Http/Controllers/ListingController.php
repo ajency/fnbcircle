@@ -346,9 +346,9 @@ class ListingController extends Controller
         $this->validate($data, [
             'latitude'        => 'required|numeric|min:0|max:90',
             'longitude'       => 'required|numeric|min:0|max:180',
-            'address'         => 'required|max:255',
-            'map_address'     => 'required|max:255',
-            'display_hours'   => 'required|nullable|boolean',
+            'address'         => 'nullable|max:255',
+            'map_address'     => 'nullable|max:255',
+            'display_hours'   => 'required|boolean',
             'operation_areas' => 'required|json|id_json',
             'operation_time'  => 'required|json|week_time',
         ]);
@@ -393,15 +393,6 @@ class ListingController extends Controller
             $operation->save();
         }
         $listing->save();
-    }
-    public function listingLocationAndOperationHours($request)
-    {
-        $check = $this->validateListingLocationAndOperationHours($request);
-        if ($check !== true) {
-            return $check;
-        }
-
-        $this->saveListingLocationAndOperationHours($request);
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
         }
@@ -415,7 +406,17 @@ class ListingController extends Controller
         }
 
         // echo $data->change;
-        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
+        return redirect('/listing/' . $listing->reference . '/edit/business-details?step=true' . $change);
+    }
+    public function listingLocationAndOperationHours($request)
+    {
+        $check = $this->validateListingLocationAndOperationHours($request);
+        if ($check !== true) {
+            return $check;
+        }
+
+        return $this->saveListingLocationAndOperationHours($request);
+        
 
     }
     //--------------------------step 4 ----------------------------------------
@@ -583,7 +584,7 @@ class ListingController extends Controller
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();
             $parent_categ  = Category::whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
-            $categories    = DB::select("select nodes.category_id as id, nodes.name as name, nodes.core as core, info.id as branchID, info.name as branch, info.parent as parent, info.icon as icon from (select `category_id`,categories.name,categories.parent_id, `core` from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? ) as nodes join (select categories.id, categories.name, p_categ.name as parent, p_categ.icon_url as icon from categories join categories as p_categ on categories.parent_id = p_categ.id where categories.id in (select parent_id from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? group by parent_id)) as info on nodes.parent_id = info.id ", [$listing->id, $listing->id]);
+            $categories    = DB::select("SELECT nodes.category_id as id, nodes.name as name, nodes.core as core, info.id as branchID, info.name as branch, info.parent as parent, info.icon as icon from (select `category_id`,categories.name,categories.parent_id, `core` from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? ) as nodes join (select categories.id, categories.name, p_categ.name as parent, p_categ.icon_url as icon from categories join categories as p_categ on categories.parent_id = p_categ.id where categories.id in (select parent_id from listing_category join categories on listing_category.category_id = categories.id where `listing_id` = ? group by parent_id)) as info on nodes.parent_id = info.id ", [$listing->id, $listing->id]);
             $category_json = array();
             foreach ($categories as $category) {
                 if (!isset($category_json["$category->branchID"])) {
@@ -595,12 +596,16 @@ class ListingController extends Controller
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
-            $listing = Listing::where('reference', $reference)->with('location')->firstorFail();
+            $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
+            $operationAreas = ListingAreasOfOperation::city($listing->id);
             $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities);
+            // dd($listing);
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas',$operationAreas);
         }
-        if ($step == 'business-photos') {
-            return view('photos');
+        if ($step == 'business-details') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            // dd($listing);
+            return view('business-details')->with('listing',$listing)->with('step','business-details')->with('back','business-location-hours');
         }
     }
 

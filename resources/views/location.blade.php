@@ -41,12 +41,12 @@
         </div>
     </div>
     <div class="m-t-20 c-gap">
-        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="{{$listing->location['name']}}">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address == null) {{$listing->location['name']}} @else {{$listing->map_address}} @endif">
         <div class="m-t-10" id="map">
             
         </div>
-        <input type="hidden" id=latitude name=latitude value="15.487627">
-        <input type="hidden" id=longitude name=longitude value="73.83229899999992">
+        <input type="hidden" id=latitude name=latitude value="{{$listing->latitude}}">
+        <input type="hidden" id=longitude name=longitude value="{{$listing->longitude}}">
         
     </div>
     <div class="m-t-40 c-gap">
@@ -59,11 +59,34 @@
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
         <label class="label-size">Mention the area(s) where you provide your products/services.</label>
-        <div id="disp-operation-areas" class="node-list"></div>
+        <div id="disp-operation-areas" class="node-list">
+
+            @foreach($areas as $city)
+            <div class="single-area single-category gray-border m-t-10 m-b-20">
+              <div class="row flex-row areaContainer corecat-container">
+                <div class="col-sm-3">
+                
+                    <strong class="branch">{{$city['name']}}</strong>
+                </div>
+                <div class="col-sm-9">
+                    <ul class="fnb-cat small flex-row">
+                        @foreach($city['areas'] as $area)
+                        <li><span class="fnb-cat__title"><input type=hidden name="areas" value="{{$area['id']}}" data-item-name="{{$area['name']}}">{{$area['name']}}<span class="fa fa-times remove"></span></span>
+                        </li>@endforeach
+                    </ul>
+                </div>
+              </div>
+              <div class="delete-cat">
+                <span class="fa fa-times remove"></span>
+              </div>
+          </div>
+            @endforeach
+        </div>
         <div>
-            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier" id="area-modal-link">+ Add area(s)</a>
+            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier" id="area-modal-link">@if(empty($areas))+ Add area(s) @else + Add/Edit area(s) @endif</a>
         </div>
     </div>
+
     <div class="m-t-40 c-gap operation-hours">
         <label class="label-size">Enter the hours of operation for your business</label>
         <div class="flex-row flex-wrap">
@@ -84,13 +107,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Monday</span>
                 <select class="fnb-select border-bottom form-control text-lighter monday">
-                    {{getTime()}}
+                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[0])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter monday" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])){{getOperationTime($listing->operationTimings[0],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox monday" id="closed"> Closed
@@ -101,13 +124,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Tuesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -118,13 +141,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Wednesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                  {{getTime()}}
+                  @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[2])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[2],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -135,13 +158,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Thursday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[3])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[3],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -152,13 +175,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Friday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" >
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[4])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[4],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -169,13 +192,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Saturday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[5])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[5],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -186,13 +209,13 @@
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Sunday</span>
                 <select class="fnb-select border-bottom form-control text-lighter">
-                    {{getTime()}}
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" disabled="disabled">
-                   {{getTime()}}
+                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed"> Closed
@@ -288,5 +311,16 @@
     </div>
 </div>
 <!-- Areas of operation modal -->
-
+<script type="text/javascript">
+        var cities = {'cities': []};
+        @foreach ($areas as $city)
+            cities['cities'][{{$city['id']}}]={
+                "name" : "{{$city['name']}}",
+                "areas" : []
+            };
+            @foreach ($city['areas'] as $area)
+                cities['cities'][{{$city['id']}}]['areas'].push({"id": "{{$area['id']}}", "name":"{{$area['name']}}"});
+            @endforeach
+        @endforeach
+    </script>
 @endsection

@@ -58,7 +58,7 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
 
   return
 
-window.cities = 'cities':[]
+# window.cities = 'cities':[]
 # cities['cities'][1] = {
 # 	name: 'Mumbai'
 # 	areas: [{name: 'Bandra' , id: '2'},{name: 'Worli' , id: '3'},{name: 'juhu' , id: '4'}]

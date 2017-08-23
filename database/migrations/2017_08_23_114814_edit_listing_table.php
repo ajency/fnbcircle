@@ -14,7 +14,7 @@ class EditListingTable extends Migration
     public function up()
     {
         Schema::table('listings', function (Blueprint $table) {
-            $table->text('map_address');
+            $table->text('map_address')->nullable();
         });
     }
 

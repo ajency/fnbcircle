@@ -46,7 +46,7 @@ class Listing extends Model
     }
     public function operationAreas()
     {
-        return $this->belongsToMany('App\Area')->using('App\ListingOperationAreas');
+        return $this->belongsToMany('App\Area')->using('App\ListingAreasOfOperation');
     }
     public function contacts()
     {
@@ -54,7 +54,7 @@ class Listing extends Model
     }
     public function operationTimings()
     {
-        return $this->hasMany('App\ListingTimeOfOperation');
+        return $this->hasMany('App\ListingOperationTime');
     }
     public function isReviewable()
     {

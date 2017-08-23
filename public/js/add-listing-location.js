@@ -72,10 +72,6 @@
     });
   });
 
-  window.cities = {
-    'cities': []
-  };
-
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
     if (this.checked) {
       if ($(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length === $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length) {

@@ -49,13 +49,25 @@ getAddress = ()->
     success: (data) ->
       console.log data['results'][0]['formatted_address']
       document.getElementById('mapadd').value = data['results'][0]['formatted_address']
+      updateAddr()
       return
   return
+
+updateAddr = () ->
+  mapaddr = $('#mapadd').val()
+  if $('.save-addr').prop('checked')
+    $('.another-address').val(mapaddr)
+  return
+
+$('.save-addr').on 'change', ->
+  updateAddr();
+
 
 replaceAll = (str, find, replace) ->
   str.replace new RegExp(escapeRegExp(find), 'g'), replace
 
 $('body').on 'blur','input#mapadd	', ->
+  updateAddr()
   populate(this.value)
   return
 

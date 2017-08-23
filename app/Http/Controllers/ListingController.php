@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Area;
 use App\Category;
 use App\City;
@@ -14,6 +13,7 @@ use App\ListingCommunication;
 use App\ListingHighlight;
 use App\ListingOperationTime;
 use App\User;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -42,7 +42,7 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        Common::authenticate('listing', $this);
+        // Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -171,7 +171,7 @@ class ListingController extends Controller
             'contacts' => 'required|json',
         ]);
 
-        $titles = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
+        $titles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
         $similar = array();
         foreach ($titles as $key => $value) {
             similar_text($request->title, $value, $percent);
@@ -188,7 +188,7 @@ class ListingController extends Controller
                 $query->orWhere('value', $value['value']);
             }
         });
-        $query = $query->with('listing');
+        $query    = $query->with('listing');
         $contacts = $query->get();
 
         $users = User::where(function ($query) use ($contact) {
@@ -344,21 +344,14 @@ class ListingController extends Controller
     public function validateListingLocationAndOperationHours($data)
     {
         $this->validate($data, [
-            'listing_id'      => 'required|integer|min:1',
-            'area_id'         => 'required|integer|min:1',
             'latitude'        => 'required|numeric|min:0|max:90',
             'longitude'       => 'required|numeric|min:0|max:180',
             'address'         => 'required|max:255',
+            'map_address'     => 'required|max:255',
             'display_hours'   => 'required|nullable|boolean',
             'operation_areas' => 'required|json|id_json',
             'operation_time'  => 'required|json|week_time',
         ]);
-        if (!Common::verify_id($data->listing_id, 'listings')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Listing id is fabricated. Id doesnt exist'));
-        }
-        if (!Common::verify_id($data->area_id, 'areas')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Area id is fabricated. Id doesnt exist'));
-        }
         $areas = json_decode($data->operation_areas);
         foreach ($areas as $area) {
             if (!Common::verify_id($area->id, 'areas')) {
@@ -369,29 +362,29 @@ class ListingController extends Controller
     }
     public function saveListingLocationAndOperationHours($data)
     {
-        $listing                          = Listing::find($data->listing_id);
-        $listing->locality_id             = $data->area_id;
+        $listing                          = Listing::where('reference', $data->listing_id)->firstorFail();
         $listing->latitude                = $data->latitude;
         $listing->longitude               = $data->longitude;
+        $listing->map_address             = $data->map_address;
         $listing->display_address         = $data->address;
         $listing->show_hours_of_operation = $data->display_hours;
         $areas_json                       = json_decode($data->operation_areas);
-        ListingAreasOfOperation::where('listing_id', $data->listing_id)->delete();
+        ListingAreasOfOperation::where('listing_id', $listing->id)->delete();
         $areas = array();
         foreach ($areas_json as $area) {
             $areas[$area->id] = 1;
         }
         foreach ($areas as $area => $nil) {
             $operation             = new ListingAreasOfOperation;
-            $operation->listing_id = $data->listing_id;
+            $operation->listing_id = $listing->id;
             $operation->area_id    = $area;
             $operation->save();
         }
         $hours = json_decode($data->operation_time);
-        ListingOperationTime::where('listing_id', $data->listing_id)->delete();
+        ListingOperationTime::where('listing_id', $listing->id)->delete();
         foreach ($hours as $day => $time) {
             $operation              = new ListingOperationTime;
-            $operation->listing_id  = $data->listing_id;
+            $operation->listing_id  = $listing->id;
             $operation->day_of_week = $day;
             $operation->from        = $time->from;
             $operation->to          = $time->to;
@@ -412,6 +405,17 @@ class ListingController extends Controller
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
         }
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        }
+
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
 
     }
     //--------------------------step 4 ----------------------------------------
@@ -539,7 +543,7 @@ class ListingController extends Controller
                 case 'business-categories':
                     return $this->listingCategories($request);
                     break;
-                case 'listing_location_and_operation_hours':
+                case 'business-location-hours':
                     return $this->listingLocationAndOperationHours($request);
                     break;
                 case 'listing_other_details':
@@ -592,8 +596,11 @@ class ListingController extends Controller
         }
         if ($step == 'business-location-hours') {
             $listing = Listing::where('reference', $reference)->with('location')->firstorFail();
-            $cities = City::where('status','1')->orderBy('order')->orderBy('name')->get();
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities',$cities);
+            $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities);
+        }
+        if ($step == 'business-photos') {
+            return view('photos');
         }
     }
 

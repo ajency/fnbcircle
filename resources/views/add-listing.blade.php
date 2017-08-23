@@ -334,11 +334,11 @@
                                              Oh snap! Some error occurred. Please check all the details and proceed.
                                         </div>
 
-                                        <!-- <ul>
+                                        <ul>
                                                   @foreach ($errors->all() as $error)
                                                       <li>{{ $error }}</li>
                                                   @endforeach
-                                              </ul> -->
+                                              </ul>
                                     </div>
                                         <form id="info-form">
                                        <input type="hidden" id="step-name" value="{{$step}}" readonly>

@@ -227,7 +227,8 @@
   });
 
   window.validateLocationHours = function() {
-    var areas, time;
+    var areas, form, parameters, time;
+    $('.section-loader').removeClass('hidden');
     areas = {};
     $('.areaContainer input[name="areas"][type="hidden"]').each(function(index, item) {
       var area;
@@ -257,17 +258,34 @@
       }
       time[index] = day;
     });
-    console.log(document.getElementById('listing_id').value);
-    console.log('business-location-hours');
-    console.log(window.change);
+    parameters = {};
+    parameters['listing_id'] = document.getElementById('listing_id').value;
+    parameters['step'] = 'business-location-hours';
+    parameters['change'] = window.change;
     if (window.submit === 1) {
-      console.log('yes');
+      parameters['submitReview'] = 'yes';
     }
-    console.log($('input#mapadd').val());
-    console.log($('input.another-address').val());
-    console.log($('input[type="radio"][name="hours"]:checked').val());
-    console.log(JSON.stringify(time));
-    console.log(JSON.stringify(areas));
+    parameters['latitude'] = $('input#latitude').val();
+    parameters['longitude'] = $('input#longitude').val();
+    parameters['map_address'] = $('input#mapadd').val();
+    parameters['address'] = $('input.another-address').val();
+    parameters['display_hours'] = $('input[type="radio"][name="hours"]:checked').val();
+    parameters['operation_time'] = JSON.stringify(time);
+    parameters['operation_areas'] = JSON.stringify(areas);
+    form = $('<form></form>');
+    form.attr("method", "post");
+    form.attr("action", "/listing");
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr("type", "hidden");
+      field.attr("name", key);
+      field.attr("value", value);
+      form.append(field);
+      console.log(key + '=>' + value);
+    });
+    $(document.body).append(form);
+    form.submit();
   };
 
 }).call(this);

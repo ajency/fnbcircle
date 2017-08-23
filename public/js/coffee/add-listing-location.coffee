@@ -212,6 +212,7 @@ $('.hours-display').change ->
 
 
 window.validateLocationHours = () ->
+  $('.section-loader').removeClass('hidden');
   areas={}
   $('.areaContainer input[name="areas"][type="hidden"]').each (index,item)->
     area = {}
@@ -236,16 +237,32 @@ window.validateLocationHours = () ->
       day['open24'] = "0"
     time[index] = day
     return
-  console.log document.getElementById('listing_id').value
-  console.log 'business-location-hours'
-  console.log window.change
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-location-hours'
+  parameters['change'] = window.change
   if window.submit ==1
-    # parameters['submitReview'] = 'yes'
-    console.log 'yes'
-  console.log $('input#mapadd').val()
-  console.log $('input.another-address').val()
-  console.log $('input[type="radio"][name="hours"]:checked').val()
-  console.log JSON.stringify time
-  console.log JSON.stringify areas
+    parameters['submitReview'] = 'yes'
+    # console.log 'yes'
+  parameters['latitude'] = $('input#latitude').val()
+  parameters['longitude'] = $('input#longitude').val()
+  parameters['map_address'] = $('input#mapadd').val()
+  parameters['address'] = $('input.another-address').val()
+  parameters['display_hours'] = $('input[type="radio"][name="hours"]:checked').val()
+  parameters['operation_time'] = JSON.stringify time
+  parameters['operation_areas'] = JSON.stringify areas
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
   return
 

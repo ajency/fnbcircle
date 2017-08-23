@@ -141,7 +141,7 @@
 // Spacer
 
 .spacer{
-	padding-right: 3em;
+	padding-right: 5em;
 }
 
 
@@ -361,12 +361,21 @@
 
 
 .claim{
+	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
+    padding: 1.5em 2em;
+    margin-top: 3em;
+    position: relative;
+    .exclamation{
+    	position: absolute;
+    	top: -4px;
+    	right: 0;
+    }
 	&__icon{
 		font-size: 1.75em;
     	color: @text-darker;
 	}
 	&__text{
-    	margin-top: 0.5em;
+    	margin: 0;
     	line-height: 1.5;
     	a{
     		color: @accent-secondary;
@@ -633,7 +642,7 @@
 		li{
 			padding-right: 1.5em;
 			a{
-				font-size: 1.1em;
+				font-size: 1.05em;
     			border: 0;
     			color: #000;
     			position: relative;
@@ -784,7 +793,8 @@
 // nav tabs details
 
 .update-sec{
-	border: 1px solid #e2e2e2;
+	// border: 1px solid #e2e2e2;
+	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
 	.update-space{
 		padding: 1em 1.5em;
 	}
@@ -794,16 +804,21 @@
     	border-bottom: 1px solid #e2e2e2;
 	}
 	&__link{
-		font-size: 1.1em;
+		// font-size: 1.1em;
 	}
 	&__heading{
-		color: @text-darker;
+		// color: @text-darker;
 	}
 	&__caption{
-		margin: 1.5em 0;
-		color: @text-color;
+		margin-bottom: 1em;
+		// color: @text-color;
 		line-height: 1.5;
 		font-weight: 300;
+	}
+	.update-img{
+		li{
+			margin-right: 0.8em;
+		}
 	}
 	.time{
 		font-weight: 300;
@@ -839,6 +854,19 @@
 		}
 		&__title{
 			color: @text-color;
+		}
+	}
+	.parent-cat{
+		.fnb-icons{
+			height: 40px;
+    		width: 40px;
+    		line-height: 40px;
+    		&.meat{
+    			background-position: -43px -388px;
+    		}
+    		&.veg{
+    			background-position: -2px -386px;
+    		}
 		}
 	}
 }
@@ -1051,42 +1079,56 @@
 .similar-business{
 	&__section{
 		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+	.powerSeller{
+		margin-top: -20px;
+    	margin-bottom: 8px;
 	}
 	.business-card{
-		padding: 1.5em;
+		padding: 1em;
 		&__header{
-			justify-content: space-between;
+			// justify-content: space-between;
+			margin: -14px;
+    		padding: 14px;
+    		margin-bottom: 14px;
+    		background-color: #f7f7f7;
+		}
+		&__body{
+			padding-bottom: 15px;
 		}
 		&__footer{
-			margin: 0 -1.5em -1.5em;
+			margin: 0 -1em -1em;
     		padding: 1em 1.5em;
-    		border-top: 1px solid #ddd;
+    		border-top: 1px solid #ececec;
     		justify-content: space-between;
 		}
 	}
 	.verified-icon{
 		width: 26px;
+		transform: scale(0.7);
 	}
 	.rating{
-		width: 98px;
+		width: 90px;
     	height: 23px;
     	.bg,.value{
     		&:before{
-    			font-size: 1.2em;
+    			font-size: 1.05em;
     		}
     	}
 	}
 	.fnb-cat{
 		li{
-			background-color: transparent;
-			border: 1px solid #ddd;
+			background-color: #fff;
+			border: 1px solid #000;
 			padding: 0.3em 1em;
-    		margin: 0.2em 0.6em 0.4em 0;
-			border-bottom: 2px solid #ddd;
+    		margin: 0.2em 0.6em 0.2em 0;
+			// border-bottom: 2px solid #ddd;
 		}
 		&__title{
 			font-size: 0.9em;
 			color: #000;
+			font-weight: 500;
 		}
 	}
 	.operations{
@@ -1095,7 +1137,7 @@
 		}
 		.areas{
 			flex-wrap: wrap;
-			.sub-title{
+			&__title{
 				margin-bottom: 0;
 				margin-right: 0.5em;
 				color: @text-darker;
@@ -1106,20 +1148,20 @@
 		.sub-title{
 			margin-bottom: 0;
 			margin-top: 2px;
-			&:not(.address-title){
-				color: @text-darker;
-			}
+			// &:not(.address-title){
+			// 	color: @text-darker;
+			// }
 		}
 		&-title{
-			font-size: 1.1em;
+			font-size: 1em;
 			color: @text-lighter;
 		}
 	}
 	.footer-text{
 		margin-bottom: 0;
-		font-size: 1.25em;
+		font-size: 1em;
 		a{
-			color: #000;
+			color: @accent-primary;
 			&:hover{
 				text-decoration: none;
 			}
@@ -1205,7 +1247,7 @@
 			text-transform: capitalize;
 		}
 		&__caption{
-			color: @grey-darker;
+			// color: @grey-darker;
 		}
 		.date{
 			opacity: 0.5;
@@ -1279,13 +1321,30 @@
 	}
 	label{
 		font-weight: 400;
-    	color: @text-lighter;
-    	font-size: 1.1em;
+    	color: #4a4a4a;
+    	font-size: 1em;
 	}
 	.fnb-select{
 		border-bottom: 1px solid #ddd;
     	border-radius: 0;
-    	font-size: 1.05em;
+    	font-size: 0.95em;
+    	padding: 0;
+	}
+	// .custom-label{
+	// 	color: #4a4a4a;
+	// }
+	.fnb-input,.fnb-textarea{
+		&::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	      color: #9b9ea0;
+	      font-size: 0.9em;
+	    }
+	    &::-moz-placeholder { /* Firefox 19+ */
+	      color: #9b9ea0;
+	      font-size: 0.9em;
+	    }
+	}
+	.float-label.filled{
+		font-size: 1.15em;
 	}
 }
 
@@ -1420,9 +1479,12 @@
 // Browse category
 
 .browse-cat{
+	padding: 1.5em;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
+    margin: 2em 0;
 	li{
-		margin-top: 15px;
-    	padding-bottom: 15px;
+		margin-top: 5px;
+    	padding-bottom: 5px;
     	border-bottom: 2px solid rgba(204, 204, 204, 0.25);
     	a{
     		color: inherit;
@@ -1432,15 +1494,20 @@
     			color: @accent-primary;
     		}
     	}
+    	&:last-child{
+    		border-bottom: 0;
+    		padding-bottom: 0;
+    	}
 	}
 	.sub-title{
 		margin-bottom: 0;
 	}
 	.cat-icon{
-		margin-right: 20px;
+		margin-right: 8px;
+		box-shadow: none;
 	}
 	.total{
-		color: @text-lighter;
+		// color: @text-lighter;
 	}
 }
 
@@ -1564,23 +1631,47 @@
 		width: 100%;
 	}
 	&__thumbnails{
+		align-items: inherit;
 		li{
-			flex: 1 0 25%;
+			flex: 1;
 	    	padding-right: 0.4em;
+	    	position: relative;
+	    	cursor: pointer;
 	    	a{
 	    		color: inherit;
 				&:hover{
 					text-decoration: none;
 				}
 	    	}
+	    	&:last-child{
+	    		padding-right: 0;
+	    		// flex: 1;
+	    		// .gal-img{
+	    		// 	height: 100%;
+	    		// }
+	    	}
 		}
 	}
 	.sub-title{
-		margin-bottom: 0;
+		position: absolute;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		width: 100%;
+		color: #fff;
+		background-color: rgba(0,0,0,0.5);
 	}
 	.count{
 		justify-content: center;
 		padding-right: 0;
+	}
+	.gal-img{
+		min-height: 120px;
+    	background-size: cover;
+    	background-repeat: no-repeat;
+    	background-position: center;
 	}
 }
 
@@ -1694,10 +1785,11 @@
 .pre-benefits{
 	justify-content: space-between;
     padding: 1.3em 1.5em;
-    border: 1px solid rgba(0, 0, 0, 0.34);
-    margin-bottom: 2.5em;
+    border: 1px dashed #ff353b;
+    margin-bottom: 1em;
+    background-color: #fff;
     &__content{
-    	padding-left: 1.2em;
+    	padding-left: 1em;
     }
     &__title{
     	margin-top: 0;
@@ -2636,7 +2728,7 @@ and (max-device-width: 650px) {
 }
 
 .design-2-card{
-	margin-right: -3em;
+	margin-right: -5em;
 	padding: 1.5em;
 	.map-icon{
 		transform: scale(0.8);
@@ -2650,6 +2742,7 @@ and (max-device-width: 650px) {
 	.seller-info__title{
 		margin-bottom: 0.2em;
 		font-size: 1.65em;
+		flex: 1;
 	}
 	.stats{
 		padding-bottom: 0.8em;
@@ -2692,6 +2785,57 @@ and (max-device-width: 650px) {
     }
 }
 
+
+// Boost row
+
+.boost-row.single-boost{
+	border: 1px solid #ddd;
+    margin-top: 0;
+    padding: 2em;
+    .s-outline{
+    	padding: 0.8em 1.5em;
+    	font-size: 1.1em;
+    }
+    .fa-rocket{
+    	transform: rotate(-45deg);
+    	font-size: 3em;
+    }
+	.boost-row__title{
+		margin: 1em 0;
+		font-size: initial;
+	}
+}
+
+
+
+// Increase sales row
+
+.increase-sale{
+	border: 1px solid #ddd;
+    padding: 1.5em;
+    margin-top: 2em;
+}
+
+
+// credit card row
+
+.credit-card{
+	li{
+		margin-right: 1em;
+		font-size: 1.1em;
+	}
+	.fa{
+		color: #a7a7a7;
+		font-size: 0.9em;
+		padding-right: 0.2em;
+	}
+}
+
+
+.why-captions{
+	margin-top: 1em;
+	padding: 0 1em;
+}
 
 
 

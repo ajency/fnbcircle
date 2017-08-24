@@ -82,7 +82,7 @@
     $('#info-form').parsley();
   });
 
-  $(document).on('click', '.verify-link', function() {
+  $(document).on('click', '.verify-link', function(event) {
     event.preventDefault();
     parent = $(this).closest('.business-contact');
     input = $(this).closest('.get-val').find('.fnb-input');
@@ -93,7 +93,7 @@
     verify();
   });
 
-  $('.edit-number').click(function() {
+  $('.edit-number').click(function(event) {
     event.preventDefault();
     $('.value-enter').val('');
     $('.default-state').addClass('hidden');
@@ -101,14 +101,14 @@
     $('.verificationFooter').addClass('no-bg');
   });
 
-  $('.step-back').click(function() {
+  $('.step-back').click(function(event) {
     event.preventDefault();
     $('.default-state').removeClass('hidden');
     $('.add-number').addClass('hidden');
     $('.verificationFooter').removeClass('no-bg');
   });
 
-  $('.verify-stuff').click(function() {
+  $('.verify-stuff').click(function(event) {
     var get_value, inp, validator;
     event.preventDefault();
     inp = $(this).siblings('.value-enter');
@@ -208,7 +208,7 @@
     $('.default-state .fnb-input').val('');
   });
 
-  $('.resend-link').click(function() {
+  $('.resend-link').click(function(event) {
     event.preventDefault();
     $(this).addClass('sending');
     setTimeout((function() {

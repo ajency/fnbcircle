@@ -74,7 +74,7 @@ $(document).on 'blur', '.fnb-input', ->
 
 
 
-$(document).on 'click', '.verify-link', ->
+$(document).on 'click', '.verify-link', (event) ->
 	event.preventDefault()
 	parent = $(this).closest('.business-contact')
 	input = $(this).closest('.get-val').find('.fnb-input')
@@ -84,7 +84,7 @@ $(document).on 'click', '.verify-link', ->
 	verify();
 	return
 
-$('.edit-number').click ->
+$('.edit-number').click (event)->
   event.preventDefault()
   $('.value-enter').val('')
   $('.default-state').addClass 'hidden'
@@ -93,14 +93,14 @@ $('.edit-number').click ->
   return
 
 
-$('.step-back').click ->
+$('.step-back').click (event)->
 	event.preventDefault();
 	$('.default-state').removeClass 'hidden'
 	$('.add-number').addClass 'hidden'
 	$('.verificationFooter').removeClass 'no-bg'
 	return
 
-$('.verify-stuff').click ->
+$('.verify-stuff').click (event)->
   event.preventDefault();
   inp = $(this).siblings '.value-enter'
   inp.attr('data-parsley-required','true')
@@ -195,7 +195,7 @@ $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
   $('.default-state .fnb-input').val ''
   return
 
-$('.resend-link').click ->
+$('.resend-link').click (event)->
 	event.preventDefault();
 	$(this).addClass 'sending'
 	# console.log id.val()

@@ -6825,6 +6825,10 @@ input[type='checkbox'].remove-addr {
         -ms-flex-align: baseline;
             align-items: baseline;
   }
+  .hours-section.open-2 .closed-label input[type='checkbox'].checkbox:before {
+    font-size: 1.2em;
+    top: -12px;
+  }
   .hours-section .hours__day {
     min-width: auto;
     padding-right: 0;

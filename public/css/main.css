@@ -5750,6 +5750,7 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 768px) {
   .preview-header {
     font-size: 0.95em;
+    display: block;
   }
 }
 .bino {

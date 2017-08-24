@@ -112,7 +112,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter monday" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[0]->closed == "1" or $listing->operationTimings[0]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter monday" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[0]->closed == "1" or $listing->operationTimings[0]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])){{getOperationTime($listing->operationTimings[0],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -129,7 +129,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[1]->closed == "1" or $listing->operationTimings[1]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[1]->closed == "1" or $listing->operationTimings[1]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -146,7 +146,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[2]->closed == "1" or $listing->operationTimings[2]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[2]->closed == "1" or $listing->operationTimings[2]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[2],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -163,7 +163,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[3]->closed == "1" or $listing->operationTimings[3]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[3]->closed == "1" or $listing->operationTimings[3]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[3],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -180,7 +180,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[4]->closed == "1" or $listing->operationTimings[4]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[4]->closed == "1" or $listing->operationTimings[4]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[4],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -198,7 +198,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[5]->closed == "1" or $listing->operationTimings[5]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[5]->closed == "1" or $listing->operationTimings[5]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[5],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -216,7 +216,7 @@
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and ($listing->operationTimings[6]->closed == "1" or $listing->operationTimings[6]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[6]->closed == "1" or $listing->operationTimings[6]->open24 == "1" )) disabled="disabled" @endif >
                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6],"to")}} @else {{getOperationTime()}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">

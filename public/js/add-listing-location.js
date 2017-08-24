@@ -168,11 +168,10 @@
     } else {
       parent = $(this).closest('.day-hours');
       start = parent.find('.open-1 select');
-      start.prop('selectedIndex', 2);
+      start.prop('selectedIndex', 0);
       start.removeAttr('disabled');
       end = parent.find('.open-2 select');
-      end.prop('selectedIndex', 3);
-      return end.removeAttr('disabled');
+      return end.prop('selectedIndex', 0);
     }
   });
 

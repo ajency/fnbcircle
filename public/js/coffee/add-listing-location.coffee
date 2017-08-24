@@ -160,11 +160,11 @@ $('body').on 'change','input#closed[type="checkbox"]', ->
     parent = $(this).closest('.day-hours')
     # console.log parent
     start = parent.find('.open-1 select')
-    start.prop('selectedIndex',2)
+    start.prop('selectedIndex',0)
     start.removeAttr('disabled');
     end = parent.find('.open-2 select')
-    end.prop('selectedIndex',3)
-    end.removeAttr('disabled')
+    end.prop('selectedIndex',0)
+    # end.removeAttr('disabled')
 
 $('body').on 'change','.day-hours select', ->
   parent = $(this).closest('.day-hours')

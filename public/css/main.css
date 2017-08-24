@@ -5823,6 +5823,10 @@ input[type="checkbox"].toggle__check {
   display: -ms-flexbox;
   display: flex;
   padding: 15px 10px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
@@ -5843,6 +5847,14 @@ input[type="checkbox"].toggle__check {
 }
 .gs-steps li.active a i {
   display: block;
+}
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+  .gs-steps a {
+    font-size: 1em;
+  }
+  .gs-steps i {
+    font-size: 0.95em;
+  }
 }
 @media (min-width: 768px) {
   .gs-steps {

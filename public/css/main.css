@@ -363,6 +363,10 @@ span {
     height: auto;
     margin: 0;
   }
+  .mobile-head .navbar-brand.navbar-brand img {
+    width: 40%;
+    margin-left: 0;
+  }
   .mobile-head .quote-btn {
     padding: 4px 10px;
     font-size: 0.85em;

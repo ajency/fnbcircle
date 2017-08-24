@@ -2166,6 +2166,10 @@ input[type="checkbox"].toggle__check {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
 }
+.fnb-alert a {
+  color: #fff;
+  text-decoration: underline;
+}
 .fnb-alert .fa {
   font-size: 1.8em;
   padding-right: 0.3em;
@@ -5848,7 +5852,7 @@ input[type="checkbox"].toggle__check {
 .gs-steps li.active a i {
   display: block;
 }
-@media screen and (min-width: 1024px) and (max-width: 1300px) {
+@media screen and (min-width: 1024px) and (max-width: 1366px) {
   .gs-steps a {
     font-size: 1em;
   }
@@ -7820,6 +7824,12 @@ input[type='checkbox'].remove-addr {
   font-size: 0.95em;
   color: #6b6b6b;
   margin-bottom: 20px;
+}
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+  .edit-summary-card .statusMsg,
+  .edit-summary-card .listing-status a {
+    font-size: 0.8em;
+  }
 }
 .listing-review .modal-header {
   padding: 0;

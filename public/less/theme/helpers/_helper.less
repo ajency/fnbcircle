@@ -96,7 +96,7 @@
 
 .primary-link{
   color: @accent-primary;
-  &:hover{
+  &:hover,&:active,&:focus{
     color: lighten(@accent-primary,10%);
     text-decoration: none;
   }
@@ -104,7 +104,7 @@
 
 .secondary-link{
   color: @accent-secondary;
-  &:hover,&:active{
+  &:hover,&:active,&:focus{
     color: lighten(@accent-secondary,10%);
     text-decoration: none;
   }

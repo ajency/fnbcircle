@@ -1946,7 +1946,9 @@ input[type="checkbox"].toggle__check {
 .primary-link {
   color: #ec6d4b;
 }
-.primary-link:hover {
+.primary-link:hover,
+.primary-link:active,
+.primary-link:focus {
   color: #f19279;
   text-decoration: none;
 }
@@ -1954,7 +1956,8 @@ input[type="checkbox"].toggle__check {
   color: #27b7b0;
 }
 .secondary-link:hover,
-.secondary-link:active {
+.secondary-link:active,
+.secondary-link:focus {
   color: #3cd5ce;
   text-decoration: none;
 }

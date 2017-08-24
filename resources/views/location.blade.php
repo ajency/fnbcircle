@@ -83,7 +83,7 @@
             @endforeach
         </div>
         <div>
-            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="text-secondary text-decor heavier" id="area-modal-link">@if(empty($areas))+ Add area(s) @else + Add/Edit area(s) @endif</a>
+            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link text-decor heavier" id="area-modal-link">@if(empty($areas))+ Add area(s) @else + Add/Edit area(s) @endif</a>
         </div>
     </div>
 
@@ -227,7 +227,7 @@
     </div>
     <div class="m-t-20 m-b-20 c-gap">
         <div>
-            <a href="#" class="text-secondary text-decor heavier link-center copy-timing @if($listing->show_hours_of_operation != '1') disable-hours @endif ">Copy timings from Monday to Saturday</a>
+            <a href="#" class="secondary-link text-decor heavier link-center copy-timing @if($listing->show_hours_of_operation != '1') disable-hours @endif ">Copy timings from Monday to Saturday</a>
         </div>
     </div>
 </div>

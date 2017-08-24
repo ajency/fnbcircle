@@ -6856,6 +6856,14 @@ input[type='checkbox'].remove-addr {
   padding: 0.5em 1.8em;
   margin-left: 5px;
 }
+@media screen and (max-width: 768px) {
+  .area-modal .instructions {
+    width: calc(100% - 10px);
+  }
+  .area-modal .node-select {
+    margin: 5em -5px 0 -5px;
+  }
+}
 .category-modal .re-save,
 .area-modal .re-save {
   padding: 0.5em 1.8em;
@@ -7386,6 +7394,7 @@ input[type='checkbox'].remove-addr {
   .category-modal .tab-content .nodes__text,
   .area-modal .tab-content .nodes__text {
     font-size: 0.95em;
+    font-weight: 400;
   }
   .category-modal .tab-content .nodes input[type="checkbox"]:before,
   .area-modal .tab-content .nodes input[type="checkbox"]:before {

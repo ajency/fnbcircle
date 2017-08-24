@@ -241,15 +241,11 @@
                 <div class="level-one mobile-hide text-right">
                     <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
                 </div>
-                <!-- <div class="mobile-back flex-row desk-level-two">
+                <div class="mobile-back flex-row desk-level-two">
                     <div class="back">
                         <button class="desk-hide btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
-                        <button class="btn fnb-btn outline border-btn no-border category-back mobile-hide" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back to Category</button>
                     </div>
-                    <div class="level-two">
-                        <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
-                    </div>
-                </div> -->
+                </div>
             </div>
             <div class="modal-body">
                 <div class="">

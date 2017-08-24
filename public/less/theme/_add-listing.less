@@ -1243,6 +1243,17 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+@media screen and (max-width: @mobile){
+	.area-modal{
+		.instructions{
+			width: calc(~'100% - 10px');
+		}
+		.node-select{
+			margin: 5em -5px 0 -5px;
+		}
+	}
+}
+
 .category-modal,.area-modal{
 	.re-save{
 		padding: 0.5em 1.8em;
@@ -1762,6 +1773,7 @@ input[type='checkbox'].remove-addr{
     			}
     			&__text{
     				font-size: 0.95em;
+    				font-weight: 400;
     			}
 				input[type="checkbox"]{
 					&:before{

@@ -430,7 +430,7 @@
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <i class="fa fa-exclamation-triangle text-danger failIcon"></i>
                     <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
@@ -488,18 +488,18 @@
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your email has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <i class="fa fa-exclamation-triangle text-danger failIcon"></i>
                     <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>

@@ -7876,6 +7876,10 @@ input[type='checkbox'].remove-addr {
     margin-top: -80px;
   }
 }
+.failIcon {
+  font-size: 2em;
+  padding-bottom: 0.5em;
+}
 .profile-stats {
   color: #fff;
   box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);

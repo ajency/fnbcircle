@@ -229,8 +229,13 @@
   });
 
   $(document).on('change', '.city select', function() {
-    var city;
+    var city, html;
+    html = '<option value="" selected>Select Area </option>';
+    $('.area select').html(html);
     city = $(this).val();
+    if (city === '') {
+      return;
+    }
     return $.ajax({
       type: 'post',
       url: '/get_areas',
@@ -238,8 +243,7 @@
         'city': city
       },
       success: function(data) {
-        var html, key;
-        html = '<option value="" selected>Select Area </option>';
+        var key;
         for (key in data) {
           html += '<option value="' + key + '">' + data[key] + '</option>';
         }

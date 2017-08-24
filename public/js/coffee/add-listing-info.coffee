@@ -223,7 +223,11 @@ $(document).on 'change', '.business-contact .toggle__check', ->
 	return
 
 $(document).on 'change', '.city select', ->
+  html='<option value="" selected>Select Area </option>'
+  $('.area select').html html
   city = $(this).val()
+  if city == ''
+    return
   $.ajax
     type: 'post'
     url: '/get_areas'
@@ -231,7 +235,6 @@ $(document).on 'change', '.city select', ->
       'city': city
     success: (data) ->
       # console.log data
-      html='<option value="" selected>Select Area </option>'
       for key of data
         html += '<option value="' + key + '">' + data[key] + '</option>'
       $('.area select').html html

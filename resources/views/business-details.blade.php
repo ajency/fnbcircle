@@ -1,5 +1,8 @@
 @extends('add-listing')
-
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/add-listing-details.js"></script>
+@endsection
 @section('form-data')
 
 @if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
@@ -12,13 +15,27 @@
     <h5 class="no-m-t">Business Details</h5>
     <div class="m-t-30 c-gap">
         <label>Give us some more details about your listing</label>
-        <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here"></textarea>
+        <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
         <label>What are the highlights of your business?</label>
         <div class="text-lighter">
             Tell your customer about yourself and what makes your business unique
         </div>
+        @php $highlights = json_decode($listing->highlights) @endphp
+        @foreach($highlights as $highlight)
+        <div class="input-group highlight-input-group">
+            <input type="text" class="form-control fnb-input highlight-input" placeholder="" value="{{$highlight}}">
+            <span class="input-group-btn">
+                <button class="btn fnb-btn outline no-border add-highlight hidden" type="button">
+                    <i class="fa fa-plus-circle"></i>
+                </button>
+                <button class="btn fnb-btn outline no-border delete-highlight" type="button">
+                    <small><i class="fa fa-times"></i></small>
+                </button>
+            </span>
+        </div>
+        @endforeach
         <div class="input-group highlight-input-group">
             <input type="text" class="form-control fnb-input highlight-input" placeholder="">
             <span class="input-group-btn">
@@ -32,14 +49,15 @@
         </div>
     </div>
     <div class="m-t-30 c-gap">
+        @php $details = json_decode($listing->other_details); @endphp
         <div class="row">
             <div class="col-sm-6">
                 <label>When was your business established?</label>
-                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988">
+                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Your business cannot be established in the Future" value="{{$details->established}}">
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website?</label>
-                <input type="text" class="form-control fnb-input" placeholder="http://">
+                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="{{$details->website}}">
             </div>
         </div>
     </div>
@@ -53,50 +71,52 @@
                 <input type="checkbox" class="checkbox" id="selectall"> Select All
             </label>
         </div>
+        @php $payment = json_decode($listing->payment_modes); @endphp
+        
         <ul class="flex-row payment-modes">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa"> Visa cards
+                    <input type="checkbox" class="checkbox" id="visa" @if($payment->visa) checked @endif> Visa cards
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit"> Debit Card
+                    <input type="checkbox" class="checkbox" id="debit" @if($payment->debit) checked @endif > Debit Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order"> Money Order
+                    <input type="checkbox" class="checkbox" id="money_order" @if($payment->money_order) checked @endif > Money Order
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cheque"> Cheque
+                    <input type="checkbox" class="checkbox" id="cheque" @if($payment->cheque) checked @endif > Cheque
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit"> Credit Card
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment->credit) checked @endif > Credit Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers"> Travelers Cheque
+                    <input type="checkbox" class="checkbox" id="travelers" @if($payment->travelers) checked @endif > Travelers Cheque
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash"> Cash
+                    <input type="checkbox" class="checkbox" id="cash" @if($payment->cash) checked @endif > Cash
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master"> Master Card
+                    <input type="checkbox" class="checkbox" id="master" @if($payment->master) checked @endif > Master Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners"> Diner's Club
+                    <input type="checkbox" class="checkbox" id="diners" @if($payment->diners) checked @endif > Diner's Club
                 </label>
             </li>
         </ul>

@@ -48,17 +48,7 @@ $('body').on 'change', 'input:checkbox.all-cities', ->
 
 $('[data-toggle="tooltip"]').tooltip()
 
-# Add/Delete Highlights
-$('body').on 'click', '.add-highlight', ->
-	highlight_group = $(this).closest('.highlight-input-group')
-	highlight_group_clone = highlight_group.clone()
-	highlight_group_clone.find('.add-highlight').remove()
-	highlight_group_clone.find('.delete-highlight').removeClass('hidden')
-	highlight_group_clone.insertBefore(highlight_group)
-	highlight_group.find('.highlight-input').val('')
 
-$('body').on 'click', '.delete-highlight', ->
-	$(this).closest('.highlight-input-group').remove()
 
 
 
@@ -91,6 +81,8 @@ submitForm = (e) ->
     validateCategories()
   if step == 'business-location-hours'
     validateLocationHours()
+  if step == 'business-details'
+    validateBusinessDetails()
 
 
 

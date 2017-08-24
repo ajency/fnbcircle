@@ -23,6 +23,7 @@
             Tell your customer about yourself and what makes your business unique
         </div>
         @php $highlights = json_decode($listing->highlights) @endphp
+        @if ($highlights != null)
         @foreach($highlights as $highlight)
         <div class="input-group highlight-input-group">
             <input type="text" class="form-control fnb-input highlight-input" placeholder="" value="{{$highlight}}">
@@ -36,6 +37,7 @@
             </span>
         </div>
         @endforeach
+        @endif
         <div class="input-group highlight-input-group">
             <input type="text" class="form-control fnb-input highlight-input" placeholder="">
             <span class="input-group-btn">
@@ -53,11 +55,11 @@
         <div class="row">
             <div class="col-sm-6">
                 <label>When was your business established?</label>
-                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Your business cannot be established in the Future" value="{{$details->established}}">
+                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Your business cannot be established in the Future" value="@if($details!=null){{$details->established}}@endif ">
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website?</label>
-                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="{{$details->website}}">
+                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="@if($details!=null){{$details->website}}@endif">
             </div>
         </div>
     </div>
@@ -76,47 +78,47 @@
         <ul class="flex-row payment-modes">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa" @if($payment->visa) checked @endif> Visa cards
+                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> Visa cards
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit" @if($payment->debit) checked @endif > Debit Card
+                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > Debit Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order" @if($payment->money_order) checked @endif > Money Order
+                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > Money Order
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cheque" @if($payment->cheque) checked @endif > Cheque
+                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > Cheque
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit" @if($payment->credit) checked @endif > Credit Card
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > Credit Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers" @if($payment->travelers) checked @endif > Travelers Cheque
+                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > Travelers Cheque
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash" @if($payment->cash) checked @endif > Cash
+                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > Cash
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master" @if($payment->master) checked @endif > Master Card
+                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > Master Card
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners" @if($payment->diners) checked @endif > Diner's Club
+                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > Diner's Club
                 </label>
             </li>
         </ul>

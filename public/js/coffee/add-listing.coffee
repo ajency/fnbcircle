@@ -123,11 +123,12 @@ if $('.alert.alert-failure.server-error').length != 0
   ), 6000
 
 
-getID = $('.gs-form .tab-pane').attr('id')
-$('.gs-steps .form-toggle').each ->
-  if $(this).attr('id') == getID
-    $(this).parent().addClass 'active'
-  return
+if $(window).width() > 769
+  getID = $('.gs-form .tab-pane').attr('id')
+  $('.gs-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return
 
 
 $('body').on 'click', '.review-submit', (e)->

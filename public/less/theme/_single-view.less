@@ -2702,7 +2702,7 @@ and (max-device-width: 650px) {
 	right: 0;
 	width: 50vw;
 	height: 100vh;
-	overflow: auto;
+	// overflow: auto;
 	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
     padding: 1.5em;
     transform: translate3d(100%, 0, 0);
@@ -2716,6 +2716,13 @@ and (max-device-width: 650px) {
     		margin-left: 1em;
     	}
     }
+    &__body{
+    	overflow: auto;
+    	height: 100%;
+    	margin: 0 -15px;
+    	padding: 0 15px;
+    	padding-bottom: 4em;
+    }
     @media screen and (max-width: @mobile){
     	padding: 0;
     	position: relative;
@@ -2728,6 +2735,9 @@ and (max-device-width: 650px) {
     	}
     	.posted-date{
     		font-size: 0.95em;
+    	}
+    	&__body{
+    		padding-bottom: 0;
     	}
     }
 }

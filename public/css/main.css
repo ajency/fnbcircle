@@ -320,6 +320,13 @@ span {
   font-size: 2em;
   color: #4a4a4a;
 }
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+  .navbar .nav-title-size.nav-title-size,
+  .navbar .fnb-select,
+  .navbar .fnb-btn {
+    font-size: 1em;
+  }
+}
 @media screen and (min-width: 769px) {
   .mobile-head__right,
   .mobile-head .sideMenu {
@@ -368,12 +375,11 @@ span {
     padding: 0.5em 0;
   }
 }
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
   .navbar-default .navbar-brand {
     font-size: 1.8em;
   }
   .navbar-default .navbar-brand img {
-    width: 40%;
     margin-left: 0;
   }
 }

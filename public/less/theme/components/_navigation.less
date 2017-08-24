@@ -74,6 +74,11 @@
 			color: @text-darker;
 		}
 	}
+	@media screen and (min-width: @sm-tab) and (max-width: 1300px){
+		.nav-title-size.nav-title-size,.fnb-select,.fnb-btn{
+			font-size: 1em;
+		}
+	}
 }
 
 // Mobile navigation 
@@ -127,12 +132,11 @@
 	}
 }
 
-@media screen and (max-width: @sm-tab){
+@media screen and (min-width: @sm-tab) and (max-width: 1300px){
 	.navbar-default{
 		.navbar-brand{
 			font-size: 1.8em;
 			img{
-				width: 40%;
 				margin-left: 0;
 			}
 		}

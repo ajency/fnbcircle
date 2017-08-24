@@ -320,6 +320,13 @@ span {
   font-size: 2em;
   color: #4a4a4a;
 }
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+  .navbar .nav-title-size.nav-title-size,
+  .navbar .fnb-select,
+  .navbar .fnb-btn {
+    font-size: 1em;
+  }
+}
 @media screen and (min-width: 769px) {
   .mobile-head__right,
   .mobile-head .sideMenu {
@@ -356,6 +363,10 @@ span {
     height: auto;
     margin: 0;
   }
+  .mobile-head .navbar-brand.navbar-brand img {
+    width: 40%;
+    margin-left: 0;
+  }
   .mobile-head .quote-btn {
     padding: 4px 10px;
     font-size: 0.85em;
@@ -368,12 +379,11 @@ span {
     padding: 0.5em 0;
   }
 }
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
   .navbar-default .navbar-brand {
     font-size: 1.8em;
   }
   .navbar-default .navbar-brand img {
-    width: 40%;
     margin-left: 0;
   }
 }
@@ -1149,17 +1159,11 @@ input[type=radio].fnb-radio.disabled:before {
   font-size: 1.3em;
   color: #6b6b6b;
 }
-.fnb-header.trans-header.change .navbar li {
-  padding: 0 1em;
-}
 .fnb-header.trans-header.change .navbar li a {
   padding-bottom: 8px;
 }
 .fnb-header.trans-header.change .navbar .quote-btn {
   color: #ec6d4b;
-  border: 0;
-  font-size: 1.15em;
-  padding-top: 8px;
 }
 .fnb-header.trans-header.change .navbar-brand,
 .fnb-header.trans-header.change .navbar .city-select,
@@ -1216,9 +1220,6 @@ input[type=radio].fnb-radio.disabled:before {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-.fnb-header.home-header.change .navbar li {
-  padding: 0 0.5em;
 }
 .fnb-header.home-header.change .navbar .fnb-select {
   background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#6b6b6b' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
@@ -1918,7 +1919,9 @@ input[type="checkbox"].toggle__check {
 .primary-link {
   color: #ec6d4b;
 }
-.primary-link:hover {
+.primary-link:hover,
+.primary-link:active,
+.primary-link:focus {
   color: #f19279;
   text-decoration: none;
 }
@@ -1926,7 +1929,8 @@ input[type="checkbox"].toggle__check {
   color: #27b7b0;
 }
 .secondary-link:hover,
-.secondary-link:active {
+.secondary-link:active,
+.secondary-link:focus {
   color: #3cd5ce;
   text-decoration: none;
 }
@@ -2123,7 +2127,6 @@ input[type="checkbox"].toggle__check {
   left: 5em;
   width: 350px;
   font-size: 1.1em;
-  text-shadow: 0px 0px 1px #000;
   -webkit-transform: translate3d(-500px, 0, 0);
           transform: translate3d(-500px, 0, 0);
   -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
@@ -2137,6 +2140,10 @@ input[type="checkbox"].toggle__check {
 .fnb-alert.active {
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
+}
+.fnb-alert a {
+  color: #fff;
+  text-decoration: underline;
 }
 .fnb-alert .fa {
   font-size: 1.8em;
@@ -6270,6 +6277,7 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 768px) {
   .preview-header {
     font-size: 0.95em;
+    display: block;
   }
 }
 .bino {
@@ -6342,6 +6350,10 @@ input[type="checkbox"].toggle__check {
   display: -ms-flexbox;
   display: flex;
   padding: 15px 10px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
@@ -6362,6 +6374,14 @@ input[type="checkbox"].toggle__check {
 }
 .gs-steps li.active a i {
   display: block;
+}
+@media screen and (min-width: 1024px) and (max-width: 1366px) {
+  .gs-steps a {
+    font-size: 1em;
+  }
+  .gs-steps i {
+    font-size: 0.95em;
+  }
 }
 @media (min-width: 768px) {
   .gs-steps {
@@ -6460,11 +6480,16 @@ input[type="checkbox"].toggle__check {
   }
   .close-section .removeRow {
     position: absolute;
-    top: -30px;
-    right: 0;
+    top: -36px;
+    right: 6px;
     z-index: 1;
     margin-right: 0;
     font-size: 1.15em;
+  }
+}
+@media screen and (min-width: 769px) {
+  .close-section .toggle {
+    margin-left: 0;
   }
 }
 .removeRow {
@@ -6474,6 +6499,11 @@ input[type="checkbox"].toggle__check {
   cursor: pointer;
   margin-right: 1.5em;
   font-size: 1.3em;
+}
+@media screen and (min-width: 769px) {
+  .removeRow {
+    margin-right: 5px;
+  }
 }
 @media screen and (max-width: 768px) {
   .removeRow {
@@ -6488,7 +6518,8 @@ input[type="checkbox"].toggle__check {
 @media screen and (max-width: 768px) {
   .business-phone .removeRow,
   .landline .removeRow {
-    right: 10px;
+    right: 8px;
+    top: -25px;
   }
 }
 @media screen and (min-width: 769px) {
@@ -6784,6 +6815,10 @@ input[type="checkbox"].toggle__check {
 .hours-section .fnb-select {
   width: 70%;
   font-size: 1em;
+  color: #000;
+}
+.hours-section .fnb-select:disabled {
+  color: #9a9898;
 }
 .hours-section.open-2 {
   -webkit-box-pack: justify;
@@ -7333,6 +7368,10 @@ input[type='checkbox'].remove-addr {
         -ms-flex-align: baseline;
             align-items: baseline;
   }
+  .hours-section.open-2 .closed-label input[type='checkbox'].checkbox:before {
+    font-size: 1.2em;
+    top: -12px;
+  }
   .hours-section .hours__day {
     min-width: auto;
     padding-right: 0;
@@ -7363,6 +7402,14 @@ input[type='checkbox'].remove-addr {
 .area-modal .footer-actions .fnb-btn {
   padding: 0.5em 1.8em;
   margin-left: 5px;
+}
+@media screen and (max-width: 768px) {
+  .area-modal .instructions {
+    width: calc(100% - 10px);
+  }
+  .area-modal .node-select {
+    margin: 5em -5px 0 -5px;
+  }
 }
 .category-modal .re-save,
 .area-modal .re-save {
@@ -7894,6 +7941,7 @@ input[type='checkbox'].remove-addr {
   .category-modal .tab-content .nodes__text,
   .area-modal .tab-content .nodes__text {
     font-size: 0.95em;
+    font-weight: 400;
   }
   .category-modal .tab-content .nodes input[type="checkbox"]:before,
   .area-modal .tab-content .nodes input[type="checkbox"]:before {
@@ -8300,6 +8348,12 @@ input[type='checkbox'].remove-addr {
   color: #6b6b6b;
   margin-bottom: 20px;
 }
+@media screen and (min-width: 1024px) and (max-width: 1300px) {
+  .edit-summary-card .statusMsg,
+  .edit-summary-card .listing-status a {
+    font-size: 0.8em;
+  }
+}
 .listing-review .modal-header {
   padding: 0;
 }
@@ -8338,6 +8392,10 @@ input[type='checkbox'].remove-addr {
   .content-wrapper {
     margin-top: -80px;
   }
+}
+.failIcon {
+  font-size: 2em;
+  padding-bottom: 0.5em;
 }
 .profile-stats {
   color: #fff;

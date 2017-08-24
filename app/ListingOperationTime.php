@@ -14,6 +14,7 @@ class ListingOperationTime extends Model
   const SATURDAY= 5;
   const SUNDAY= 6;
 
+  protected $table = 'listing_operation_times';
   public function listing(){
     return $this->belongsTo('App\Listing');
   }

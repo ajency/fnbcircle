@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use app\Area;
-use app\City;
+use App\Area;
+use App\City;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller

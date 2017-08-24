@@ -1,5 +1,8 @@
 @extends('add-listing')
-
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/add-listing-info.js"></script>
+@endsection
 @section('form-data')
 
 
@@ -194,7 +197,7 @@
 
     <div class="m-t-40 business-phone business-contact">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business phone number <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business mobile number <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
         @if($listing->reference===null)
@@ -427,7 +430,7 @@
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <i class="fa fa-exclamation-triangle text-danger failIcon"></i>
                     <h6 class="sub-title">Validation Failed. Please Try Again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Close</button>
@@ -485,18 +488,18 @@
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
-                    <img src="/img/processing.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-processing.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please wait, we are verifying the code...</h6>
                 </div>
                 <div class="verify-steps step-success hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <img src="/img/email-sent.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your email has been verified successfully!</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Continue</button>
                     </div>
                 </div>
                 <div class="verify-steps step-failure hidden">
-                    <img src="/img/number-sent.png" class="img-responsive center-block" width="60">
+                    <i class="fa fa-exclamation-triangle text-danger failIcon"></i>
                     <h6 class="sub-title">Validation Failed. Please try again</h6>
                     <div class="number-code">
                         <button class="btn fnb-btn outline border-btn" type="button">Resend</button>

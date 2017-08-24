@@ -96,7 +96,7 @@
 
 .primary-link{
   color: @accent-primary;
-  &:hover{
+  &:hover,&:active,&:focus{
     color: lighten(@accent-primary,10%);
     text-decoration: none;
   }
@@ -104,7 +104,7 @@
 
 .secondary-link{
   color: @accent-secondary;
-  &:hover,&:active{
+  &:hover,&:active,&:focus{
     color: lighten(@accent-secondary,10%);
     text-decoration: none;
   }
@@ -325,7 +325,7 @@
   left: 5em;
   width: 350px;
   font-size: 1.1em;
-  text-shadow: 0px 0px 1px #000;
+  // text-shadow: 0px 0px 1px #000;
   transform: translate3d(-500px, 0, 0);
   transition: transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.36);
@@ -335,6 +335,10 @@
   }
   &.active{
     transform: translate3d(0, 0, 0);
+  }
+  a{
+    color: #fff;
+    text-decoration: underline;
   }
   .fa{
     font-size: 1.8em;

@@ -97,6 +97,7 @@
     }
     @media screen and (max-width: @mobile){
     	font-size: 0.95em;
+    	display: block;
     }
 }
 
@@ -175,6 +176,7 @@
 	a{
 		display: flex;
 		padding: 15px 10px;
+		align-items: center;
 		justify-content: space-between;
 		font-weight: 500;
 		font-size: 1.1em;
@@ -193,6 +195,14 @@
 			i{
 				display: block;
 			}
+		}
+	}
+	@media screen and (min-width: 1024px) and (max-width: 1366px){
+		a{
+			font-size: 1em;
+		}
+		i{
+			font-size: 0.95em;
 		}
 	}
 	@media(min-width: 768px){
@@ -288,11 +298,16 @@
 		justify-content: flex-end;
 		.removeRow{
 			position: absolute;
-    		top: -30px;
-    		right: 0;
+    		top: -36px;
+    		right: 6px;
     		z-index: 1;
     		margin-right: 0;
     		font-size: 1.15em;
+		}
+	}
+	@media screen and (min-width: 769px){
+		.toggle{
+			margin-left: 0;
 		}
 	}
 }
@@ -310,6 +325,9 @@
 	cursor: pointer;
 	margin-right: 1.5em;
 	font-size: 1.3em;
+	@media screen and (min-width: 769px){
+		margin-right: 5px;
+	}
 	@media screen and (max-width: @mobile){
 		position: absolute;
 		top: 10px;
@@ -321,11 +339,12 @@
 }
 
 @media screen and (max-width: @mobile){
-.business-phone,.landline{
-	.removeRow{
-		right: 10px;
+	.business-phone,.landline{
+		.removeRow{
+			right: 8px;
+	    	top: -25px;
+		}
 	}
-}
 }
 
 @media screen and (min-width: 769px){
@@ -619,6 +638,10 @@
 	.fnb-select{
 		width: 70%;
 		font-size: 1em;
+		color: #000;
+		&:disabled{
+			color: #9a9898;
+		}
 	}
 	&.open-2{
 		justify-content: space-between;
@@ -1185,6 +1208,12 @@ input[type='checkbox'].remove-addr{
     		.closed-label{
     			padding: 0;
     			align-items: baseline;
+    			input[type='checkbox'].checkbox{
+					&:before{
+						font-size: 1.2em;
+						top: -12px;
+					}
+    			}
     		}
 		}
 		.hours__day{
@@ -1226,6 +1255,17 @@ input[type='checkbox'].remove-addr{
 		.fnb-btn{
 			padding: 0.5em 1.8em;
     		margin-left: 5px;
+		}
+	}
+}
+
+@media screen and (max-width: @mobile){
+	.area-modal{
+		.instructions{
+			width: calc(~'100% - 10px');
+		}
+		.node-select{
+			margin: 5em -5px 0 -5px;
 		}
 	}
 }
@@ -1749,6 +1789,7 @@ input[type='checkbox'].remove-addr{
     			}
     			&__text{
     				font-size: 0.95em;
+    				font-weight: 400;
     			}
 				input[type="checkbox"]{
 					&:before{
@@ -2161,6 +2202,11 @@ input[type='checkbox'].remove-addr{
 		color: @text-color;
 		margin-bottom: 20px;
 	}
+	@media screen and (min-width: 1024px) and (max-width: 1300px){
+		.statusMsg,.listing-status a{
+			font-size: 0.8em;
+		}
+	}
 }
 
 
@@ -2225,5 +2271,12 @@ input[type='checkbox'].remove-addr{
 		// padding-left: 10px;
 	}
 }
+
+
+.failIcon{
+	font-size: 2em;
+    padding-bottom: 0.5em;
+}
+
 
 

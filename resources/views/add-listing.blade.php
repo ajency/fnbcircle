@@ -166,7 +166,7 @@
                                         <div class="listing-status">
                                             <div class="label">STATUS</div>
                                             <div class="flex-row space-between">
-                                                <div>@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
+                                                <div class="statusMsg">@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
                                                 @if($listing->isReviewable() and $listing->status > "2")
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
@@ -334,11 +334,11 @@
                                              Oh snap! Some error occurred. Please check all the details and proceed.
                                         </div>
 
-                                        <!-- <ul>
+                                        <ul>
                                                   @foreach ($errors->all() as $error)
                                                       <li>{{ $error }}</li>
                                                   @endforeach
-                                              </ul> -->
+                                              </ul>
                                     </div>
                                         <form id="info-form">
                                        <input type="hidden" id="step-name" value="{{$step}}" readonly>
@@ -354,7 +354,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for review</a>
+                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for Review</a>
                                                </div>
                                            </div>
                                         </div>

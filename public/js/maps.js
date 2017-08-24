@@ -1,5 +1,5 @@
 (function() {
-  var escapeRegExp, initMap, key, map, marker, populate, replaceAll;
+  var escapeRegExp, getAddress, initMap, key, map, marker, populate, replaceAll, updateAddr;
 
   key = void 0;
 
@@ -25,7 +25,7 @@
   };
 
   window.init = function() {
-    var inp;
+    var inp, lat, lng;
     document.getElementById('map').style.height = "300px";
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
@@ -35,24 +35,15 @@
       title: 'your business location'
     });
     inp = $("input#mapadd").val();
-    populate(inp);
+    lat = $('input#latitude').val();
+    lng = $('input#longitude').val();
+    if (lat === '') {
+      populate(inp);
+    } else {
+      initMap(lat, lng);
+    }
     google.maps.event.addListener(marker, 'dragend', function(ev) {
-      var pos;
-      pos = marker.getPosition();
-      console.log('lat= ' + pos.lat());
-      console.log('lng= ' + pos.lng());
-      $.ajax({
-        type: 'GET',
-        url: 'https://maps.googleapis.com/maps/api/geocode/json',
-        data: {
-          'latlng': pos.lat() + ',' + pos.lng(),
-          'key': key
-        },
-        success: function(data) {
-          console.log(data['results'][0]['formatted_address']);
-          document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
-        }
-      });
+      return getAddress();
     });
   };
 
@@ -60,11 +51,51 @@
     return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
   };
 
+  getAddress = function() {
+    var pos;
+    pos = marker.getPosition();
+    console.log('lat= ' + pos.lat());
+    $('input#latitude').val(pos.lat());
+    console.log('lng= ' + pos.lng());
+    $('input#longitude').val(pos.lng());
+    $.ajax({
+      type: 'GET',
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      data: {
+        'latlng': pos.lat() + ',' + pos.lng(),
+        'key': key
+      },
+      success: function(data) {
+        console.log(data['results'][0]['formatted_address']);
+        document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
+        updateAddr();
+      }
+    });
+  };
+
+  updateAddr = function() {
+    var mapaddr;
+    mapaddr = $('#mapadd').val();
+    if ($('.save-addr').prop('checked')) {
+      $('.another-address').val(mapaddr);
+    }
+  };
+
+  $('.save-addr').on('change', function() {
+    updateAddr();
+    if ($('.save-addr').prop('checked')) {
+      return $('.another-address').prop('disabled', true);
+    } else {
+      return $('.another-address').prop('disabled', false);
+    }
+  });
+
   replaceAll = function(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   };
 
-  $('body').on('change', 'input#mapadd	', function() {
+  $('body').on('blur', 'input#mapadd	', function() {
+    updateAddr();
     populate(this.value);
   });
 
@@ -93,6 +124,8 @@
     var myLatLng;
     myLatLng = new google.maps.LatLng(lat, long);
     console.log(myLatLng.lat(), myLatLng.lng());
+    $('input#latitude').val(myLatLng.lat());
+    $('input#longitude').val(myLatLng.lng());
     map.setCenter(myLatLng);
     marker.setPosition(myLatLng);
     marker.setMap(map);

@@ -456,6 +456,18 @@ class ListingController extends Controller
         }
         $listing->payment_modes = json_encode($payment);
         $listing->save();
+
+        $change = "";
+        if (isset($data->change) and $data->change == "1") {
+            $change = "&success=true";
+        }
+
+        if (isset($data->submitReview) and $data->submitReview == 'yes') {
+            return ($this->submitForReview($data));
+        }
+
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
     }
 
     public function listingOtherDetails($request)
@@ -466,10 +478,8 @@ class ListingController extends Controller
             return $check;
         }
         
-        $this->saveListingOtherDetails($request);
-        if (isset($request->submitReview) and $request->submitReview == 'yes') {
-            return ($this->submitForReview($request));
-        }
+        return $this->saveListingOtherDetails($request);
+        
 
     }
     //----------------------------step 5------------------------------
@@ -584,6 +594,11 @@ class ListingController extends Controller
             $listing = Listing::where('reference', $reference)->firstorFail();
             
             return view('business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
+        }
+        if ($step == 'business-photos') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            
+            return view('photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
         }
     }
 

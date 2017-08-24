@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <label>When was your business established?</label>
-                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Your business cannot be established in the Future" value="@if($details!=null){{$details->established}}@endif ">
+                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Your business cannot be established in the Future" value="@if($details!=null){{$details->established}}@endif">
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website?</label>

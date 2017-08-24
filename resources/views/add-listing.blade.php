@@ -354,7 +354,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for review</a>
+                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for Review</a>
                                                </div>
                                            </div>
                                         </div>

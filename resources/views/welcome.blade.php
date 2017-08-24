@@ -26,7 +26,7 @@
                 <div class="navbar-header mobile-head mobile-flex">
                     <div class="mobile-head__left mobile-flex">
                         <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
-                        <a class="navbar-brand nav-color" href="#">F&amp;BCircle.in</a>
+                        <a class="navbar-brand nav-color" href="#"><img src="/img/logo-fnb.png" class="img-responsive"></a>
                     </div>
                     <div class="mobile-head__right mobile-flex">
                         <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
@@ -217,7 +217,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="elment-title text-center m-t-10"><a href="" class="view-all-cat">View All Categories</a></p>
+                    <p class="elment-title text-center m-t-40"><a href="" class="view-all-cat">View All Categories</a></p>
                 </div>
                 <!-- Categories listing ends -->
             </div>

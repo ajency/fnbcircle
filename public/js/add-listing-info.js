@@ -177,6 +177,7 @@
         'id': id.val()
       },
       success: function(data) {
+        $('.success-spinner').removeClass('hidden');
         if (data['success'] === "1") {
           errordiv.html('');
           $('.default-state,.add-number,.verificationFooter').addClass('hidden');
@@ -192,6 +193,7 @@
         }
       },
       error: function(request, status, error) {
+        $('.success-spinner').addClass('hidden');
         $('.processing').addClass('hidden');
         $('.default-state').removeClass('hidden');
         inp.val('');

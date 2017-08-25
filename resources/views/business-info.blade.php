@@ -402,7 +402,7 @@
                         </div>
                         <div class="code-submit flex-row space-between">
                             <input type="password" class="fnb-input text-color" placeholder="Enter code here..." >
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                         </div>
                        <div class="validationError text-left"></div>
                     </div>
@@ -471,7 +471,7 @@
                         </div>
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit</button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit <i class="fa fa-circle-o-notch fa-spin"></i></button>
                         </div>
                         <div class="validationError text-left"></div>
                     </div>

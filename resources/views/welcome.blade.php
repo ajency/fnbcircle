@@ -246,6 +246,44 @@
     </div>
 
 
+    <div class="modal fnb-modal login-modal" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="logo-style">
+                        <img src='/img/logo-fnb.png' class="img-responsive center-block">
+                    </div>
+                    <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="login-body">
+                        <h3 class="welcome-text text-medium">Welcome Back!</h3>
+                        <div class="social-login flex-row col-direction">
+                            <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button>
+                            <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button>
+                        </div>
+                        <div class="alternate-login">
+                            <p class="element-title text-medium m-b-0 alternate-login__title">or use your email address</p>
+                            <div class="form-group p-t-10 m-b-0">
+                                <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
+                                <input type="text" class="form-control fnb-input float-input" id="email">
+                            </div>
+                            <div class="form-group p-t-10 m-b-0">
+                                <label class="m-b-0 text-lighter float-label required" for="password">Password</label>
+                                <input type="password" class="form-control fnb-input float-input" id="password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- banner ends -->
     <div class="site-overlay"></div>
     <!-- jquery -->

@@ -83,7 +83,7 @@
             @endforeach
         </div>
         <div>
-            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link text-decor heavier" id="area-modal-link">@if(empty($areas))+ Add area(s) @else + Add/Edit area(s) @endif</a>
+            <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link text-decor heavier addArea" id="area-modal-link">@if(empty($areas))+ Add area(s) @else + Add/Edit area(s) @endif</a>
         </div>
     </div>
 

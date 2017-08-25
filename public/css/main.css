@@ -7874,6 +7874,11 @@ input[type='checkbox'].remove-addr {
   font-size: 2em;
   padding-bottom: 0.5em;
 }
+.addArea:hover,
+.addArea:active,
+.addArea:focus {
+  text-decoration: underline;
+}
 .profile-stats {
   color: #fff;
   box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);

@@ -48,19 +48,7 @@ $('body').on 'change', 'input:checkbox.all-cities', ->
 
 
 
-# All payment modes select
-
-$('body').on 'change', 'input:checkbox#selectall', ->
-  if $(this).is(':checked')
-    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true)
-  else
-    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false)
-
-
 $('[data-toggle="tooltip"]').tooltip()
-
-
-
 
 
 # 	catAdd = $(this).closest('.business-cats').find('.add-more-cat')
@@ -152,8 +140,6 @@ window.throwError = () ->
     $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
     $('.alert-failure').addClass 'active'
   return
-
-
 
 
 

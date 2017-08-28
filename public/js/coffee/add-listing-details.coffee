@@ -46,6 +46,28 @@ setTimeout (->
 ), 500
 
 
+
+# All payment modes select
+
+$('body').on 'change', 'input:checkbox#selectall', ->
+  if $(this).is(':checked')
+    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true)
+  else
+    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false)
+
+setTimeout (->
+  $('.payment-add').on 'change:flexdatalist', ->
+    value = $(this).val()
+    console.log(value);
+    if $(this).val().length != 0
+      $(this).closest('.business-details').find('.payment-modes').append '<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa">' + value + '</label></li>'
+    $(this).val ''
+  return
+), 500
+
+
+
+
 window.validateBusinessDetails = () ->
   instance = $('#info-form').parsley()
   if !instance.validate()
@@ -81,3 +103,10 @@ window.validateBusinessDetails = () ->
   $(document.body).append form
   form.submit()
   return
+
+
+
+
+
+
+

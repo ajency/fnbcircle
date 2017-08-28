@@ -127,7 +127,7 @@
     </div>
     <div class="m-t-20 c-gap">
 
-        <input type="text" class="form-control fnb-input payment-add flexdatalist" placeholder="+ Add modes of payment &amp; press enter" multiple='multiple'>
+        <input type="text" class="form-control fnb-input payment-add flexdatalist" multiple="multiple" placeholder="+ Add modes of payment &amp; press enter">
 
     </div>
 </div>

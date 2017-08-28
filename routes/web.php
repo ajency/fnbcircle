@@ -36,19 +36,8 @@ Route::post('/get_areas','ListingController@getAreas');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
-// Route::get('/business-categories/{reference}/edit', 'ListingController@categories');
-
-Route::get('/business-location', function(){
-    return view('location');
-});
-
-Route::get('/business-details', function(){
-    return view('business-details');
-});
-
-Route::get('/business-photos', function(){
-    return view('photos');
-});
+Route::post('/save-location','AdminConfigurationController@saveLocationData');
+Route::post('/view-location','AdminConfigurationController@listLocationConfig');
 
 Route::get('/business-premium', function(){
     return view('premium');

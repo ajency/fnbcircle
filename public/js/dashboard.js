@@ -107,7 +107,23 @@ function init_DataTables() {
 
 	// Location Table
 	var loc_table = $('#datatable-locations').DataTable({
-		"order": [[ 7, 'desc' ]],
+		 "processing": true,
+        
+        "ajax": {
+            "url": "/view-location",
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "isCity" },
+            { "data": "isArea" },
+            { "data": "city" },
+            { "data": "sort_order" },
+            { "data": "publish" },
+            { "data": "update" },
+            { "data": "status" }
+        ],
+		"order": [[ 6, 'desc' ]],
 		"columnDefs": [
 		  {
 		  	"targets": 'no-sort',
@@ -124,7 +140,7 @@ function init_DataTables() {
 	} );
 	$('#locationNameSearch').on( 'keyup', function () {
 	    loc_table
-	        .columns( 1 )
+	        .columns( 0 )
 	        .search( this.value )
 	        .draw();
 	} );

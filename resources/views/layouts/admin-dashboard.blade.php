@@ -1,5 +1,5 @@
 @extends('layouts.fnbtemplate')
-@section('title', 'Add Listing')
+@section('title', 'Admin-Dashboard')
 @section('css')
     <!-- Datatables -->
     <link href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">

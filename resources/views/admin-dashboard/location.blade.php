@@ -4,48 +4,6 @@
 	<div class="right_col" role="main">
       <div class="">
 
-        <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title main-name">Admin Control Panel</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title">/</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title main-name">Business</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title">/</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title main-name">Configuration</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title">/</p>
-                </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                <a href="">
-                    <p class="fnb-breadcrums__title main-name">Locations</p>
-                </a>
-            </li>
-        </ul>
 
         <div class="page-title">
           <div class="title_left">
@@ -66,16 +24,16 @@
                 <table id="datatable-locations" class="table table-striped  nowrap" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort"></th>
+                      
                       <th>Name</th>
-                      <th class="no-sort text-center" data-col="2">
+                      <th class="no-sort text-center" data-col="1">
                         isCity
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort text-center" data-col="3">
+                      <th class="no-sort text-center" data-col="2">
                         isArea
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
@@ -88,11 +46,11 @@
                             <option value="goa">Goa</option>
                           </select>
                       </th>
-                      <th>Area</th>
+                      
                       <th class="text-center">Sort Order</th>
                       <th>Published on</th>
                       <th>Last Updated on</th>
-                      <th class="no-sort" data-col="9">
+                      <th class="no-sort" data-col="10">
                         Status
                         <select multiple class="form-control multi-dd">
                           <option value="Published">Published</option>
@@ -104,66 +62,7 @@
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Goa</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td class="text-center">1</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/05</td>
-                      <td>Published</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Panjim</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td>Goa</td>
-                      <td>-</td>
-                      <td class="text-center">4</td>
-                      <td>-</td>
-                      <td>2017/06/12</td>
-                      <td>Draft</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Mumbai</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td class="text-center">2</td>
-                      <td>2017/06/05</td>
-                      <td>2017/07/31</td>
-                      <td>Archived</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Margao</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td>Goa</td>
-                      <td>-</td>
-                      <td class="text-center">3</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/20</td>
-                      <td>Published</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Delhi</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td class="text-center">1</td>
-                      <td>2017/06/05</td>
-                      <td>2017/05/05</td>
-                      <td>Published</td>
-                    </tr>
+                    
                   </tbody>
                 </table>
 

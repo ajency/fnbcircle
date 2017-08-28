@@ -82,7 +82,7 @@
       value = $(this).val();
       console.log(value);
       if ($(this).val().length !== 0) {
-        $(this).closest('.business-details').find('.payment-modes').append('<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa">' + value + '</label></li>');
+        $(this).closest('.business-details').find('.payment-modes').append('<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa"><span class="text-color">' + value + '</span></label></li>');
       }
       return $(this).val('');
     });

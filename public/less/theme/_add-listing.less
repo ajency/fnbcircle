@@ -1298,12 +1298,25 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.add-highlight{
+	&:active{
+		&:focus{
+			outline: 0;	
+		}
+	}
+}
 
 .payment-modes{
 	.checkbox{
 		&:before{
 			font-size: 1.3em;
 			width: 16px;
+		}
+		&:checked{
+			& + span{
+				font-weight: 500;
+				color: #000;
+			}
 		}
 	}
 }
@@ -1325,6 +1338,14 @@ input[type='checkbox'].remove-addr{
 		.checkbox{
 			margin-top: -2px;
 			margin-right: 12px;
+		}
+	}
+	.business-details{
+		.select-all,.payment-modes{
+			.checkbox{
+				margin-top: 5px;
+				margin-right: 8px;
+			}
 		}
 	}
 	.payment-modes{

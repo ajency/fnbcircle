@@ -6903,9 +6903,16 @@ input[type='checkbox'].remove-addr {
   font-size: 1.3em;
   width: 16px;
 }
+.add-highlight:active:focus {
+  outline: 0;
+}
 .payment-modes .checkbox:before {
   font-size: 1.3em;
   width: 16px;
+}
+.payment-modes .checkbox:checked + span {
+  font-weight: 500;
+  color: #000;
 }
 @media screen and (max-width: 768px) {
   .fly-out [class*='col-'].col-xs-6 {
@@ -6921,6 +6928,11 @@ input[type='checkbox'].remove-addr {
   .payment-modes .checkbox {
     margin-top: -2px;
     margin-right: 12px;
+  }
+  .business-details .select-all .checkbox,
+  .business-details .payment-modes .checkbox {
+    margin-top: 5px;
+    margin-right: 8px;
   }
   .payment-modes {
     -webkit-box-align: baseline;

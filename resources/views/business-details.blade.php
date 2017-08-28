@@ -77,50 +77,50 @@
         </div>
         @php $payment = json_decode($listing->payment_modes); @endphp
         
-        <ul class="flex-row payment-modes">
+        <ul class="flex-row payment-modes m-t-10">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> Visa cards
+                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> <span class="text-color">Visa cards</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > Debit Card
+                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > <span class="text-color">Debit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > Money Order
+                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > <span class="text-color">Money Order</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > Cheque
+                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > <span class="text-color">Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > Credit Card
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > <span class="text-color">Credit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > Travelers Cheque
+                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > <span class="text-color">Travelers Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > Cash
+                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > <span class="text-color">Cash</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > Master Card
+                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > <span class="text-color">Master Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > Diner's Club
+                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > <span class="text-color">Diner's Club</span>
                 </label>
             </li>
         </ul>

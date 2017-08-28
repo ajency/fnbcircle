@@ -6260,7 +6260,7 @@ input[type="checkbox"].toggle__check {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 2;
+    z-index: 3;
   }
   .preview-header.active {
     top: 0;
@@ -7418,6 +7418,15 @@ input[type='checkbox'].remove-addr {
 .business-details .input-group-btn {
   font-size: 1.5em;
 }
+.select-all .checkbox:before {
+  background-color: #f9f9f9;
+  font-size: 1.3em;
+  width: 16px;
+}
+.payment-modes .checkbox:before {
+  font-size: 1.3em;
+  width: 16px;
+}
 @media screen and (max-width: 768px) {
   .fly-out [class*='col-'].col-xs-6 {
     width: 50%;
@@ -8397,6 +8406,11 @@ input[type='checkbox'].remove-addr {
   font-size: 2em;
   padding-bottom: 0.5em;
 }
+.addArea:hover,
+.addArea:active,
+.addArea:focus {
+  text-decoration: underline;
+}
 .profile-stats {
   color: #fff;
   box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
@@ -8819,6 +8833,60 @@ input[type='checkbox'].remove-addr {
   .detail-group label {
     font-size: 0.9em;
   }
+}
+.login-modal .modal-content {
+  padding: 1em;
+}
+.login-modal .modal-header {
+  padding: 0;
+}
+.login-modal .close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.05em;
+  opacity: 1;
+}
+.login-modal .welcome-text {
+  font-size: 1.7em;
+  margin-bottom: 0.8em;
+}
+.login-modal .social-btn {
+  padding: 0.8em 2em;
+  border: 0;
+  background-color: transparent;
+  color: #fff;
+  font-weight: 300;
+  border-radius: 0;
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+}
+.login-modal .social-btn.fb {
+  background-color: #3b5998;
+}
+.login-modal .social-btn.google {
+  background-color: #ec2c2c;
+}
+.login-modal .social-btn i {
+  position: absolute;
+  left: 10px;
+  font-size: 1.35em;
+}
+.logo-style {
+  position: relative;
+  top: -40px;
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid #fff;
+}
+.login-body {
+  text-align: center;
+  width: 320px;
+  margin: -3.5em auto 0 auto;
 }
 @media screen and (min-width: 769px) {
   .nf-wrapper {

@@ -166,6 +166,7 @@ $('.code-send').click ->
       'id': id.val()
     success: (data) ->
       # console.log data
+      $('.success-spinner').removeClass 'hidden'
       if data['success'] == "1"
         errordiv.html('');
         $('.default-state,.add-number,.verificationFooter').addClass 'hidden'
@@ -180,6 +181,7 @@ $('.code-send').click ->
         errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       return
     error: (request, status, error) ->
+      $('.success-spinner').addClass 'hidden'
       $('.processing').addClass('hidden')
       $('.default-state').removeClass('hidden')
       inp.val('')

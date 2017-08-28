@@ -81,7 +81,7 @@
 	    // transition: all 0.2s ease;
 	    position: fixed;
 	    width: 100%;
-	    z-index: 2;
+	    z-index: 3;
 	    // top: 5.3em;
     	&.active{
     		top: 0;
@@ -1285,6 +1285,27 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.select-all{
+	.checkbox{
+		&:before{
+			background-color: #f9f9f9;
+			font-size: 1.3em;
+			width: 16px;
+		}
+	}
+}
+
+
+.payment-modes{
+	.checkbox{
+		&:before{
+			font-size: 1.3em;
+			width: 16px;
+		}
+	}
+}
+
+
 @media screen and (max-width: @mobile){
 	.fly-out{
 		[class*='col-'].col-xs-6{
@@ -2278,5 +2299,9 @@ input[type='checkbox'].remove-addr{
     padding-bottom: 0.5em;
 }
 
-
+.addArea{
+	&:hover,&:active,&:focus{
+		text-decoration: underline;
+	}
+}
 

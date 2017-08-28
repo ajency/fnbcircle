@@ -16,7 +16,7 @@
     @yield('css')
 </head>
 
-<body class="">
+<body class="nav-md">
     <!-- header -->
     <header class="fnb-header">
         <nav class="navbar navbar-default">
@@ -119,17 +119,8 @@
     <script type="text/javascript" src="/js/jquery.easeScroll.min.js"></script>
     <!-- BS lightbox -->
     <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
-    <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="/js/magnify.min.js"></script>
-    <!-- Read more -->
-    <script type="text/javascript" src="/js/readmore.min.js"></script>
-    <!-- Dropify -->
-    <script type="text/javascript" src="/js/dropify.js"></script>
-    <!-- jquery tags -->
-    <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
+ 
       <script type="text/javascript" src="/js/parsley.min.js" ></script>
-      <script type="text/javascript" src="/js/underscore-min.js" ></script>
-
     @yield('js')
 </body>
 

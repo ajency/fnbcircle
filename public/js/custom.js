@@ -478,6 +478,21 @@ $(function(){
 			});
 		}
 
+		// Login
+
+		$('.forget-link').click(function(){
+			event.preventDefault();
+			$('.forget-password').addClass('active');
+		});
+
+		$('.back-login').click(function(){
+			$('.forget-password').removeClass('active');
+		});
+		
+		$('#login-modal').on('hidden.bs.modal', function (e) {
+		  $('.forget-password').removeClass('active');
+		})
+
 });
 
 

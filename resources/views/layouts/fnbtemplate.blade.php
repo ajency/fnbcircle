@@ -11,12 +11,6 @@
     <link rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css">
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <!-- Magnify css -->
-    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
-    <!-- Dropify css -->
-    <link rel="stylesheet" type="text/css" href="/css/dropify.css">
-    <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
     <!-- Main styles -->
     <link rel="stylesheet" href="/css/main.css">
     @yield('css')

@@ -1,4 +1,4 @@
-@extends('add-listing')
+@extends('layouts.add-listing')
 @section('js')
     @parent
     <script type="text/javascript" src="/js/add-listing-info.js"></script>

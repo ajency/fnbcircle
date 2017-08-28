@@ -553,7 +553,7 @@ class ListingController extends Controller
         // dd(Auth::user());
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-        return view('business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
     }
     public function edit($reference, $step = 'business-information')
     {
@@ -567,7 +567,7 @@ class ListingController extends Controller
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
             // echo $areas;
-            return view('business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
         }
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();
@@ -580,7 +580,7 @@ class ListingController extends Controller
                 }
                 $category_json["$category->branchID"]['nodes']["$category->id"] = array('name' => "$category->name", 'id' => "$category->id", 'core' => "$category->core");
             }
-            return view('business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
+            return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
@@ -588,17 +588,17 @@ class ListingController extends Controller
             $operationAreas = ListingAreasOfOperation::city($listing->id);
             $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas);
+            return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas);
         }
         if ($step == 'business-details') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             
-            return view('business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
+            return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
         }
         if ($step == 'business-photos') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             
-            return view('photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
+            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
         }
     }
 

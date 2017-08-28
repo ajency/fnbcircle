@@ -1,4 +1,4 @@
-@extends('add-listing')
+@extends('layouts.add-listing')
 
 @section('js')
     @parent

@@ -1,7 +1,12 @@
 @extends('layouts.fnbtemplate')
 @section('title', 'Add Listing')
 @section('css')
-
+    <!-- Magnify css -->
+    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
+    <!-- Dropify css -->
+    <link rel="stylesheet" type="text/css" href="/css/dropify.css">
+    <!-- tags css -->
+    <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
 @endsection
 
 @section('js')

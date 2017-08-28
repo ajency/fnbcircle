@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Email Notifications - F&amp;B Circle Admin Control</title>
+    <!-- Google font cdn -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+    <!-- Font awesome cdn -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css">
+    <!-- Main styles -->
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link href="../public/css/dashboard.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+    <!-- header -->
+    <header class="fnb-header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid nav-gap">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header mobile-head mobile-flex">
+                    <div class="mobile-head__left mobile-flex">
+                        <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
+                        <a class="navbar-brand nav-color" href="#">
+                          <img src="../public/img/logo-fnb.png" class="img-responsive">
+                        </a>
+                    </div>
+                    <div class="mobile-head__right mobile-flex">
+                         <a href="" class="login">
+                            <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                  <ul class="nav navbar-nav navbar-right side-section">
+                    <li class="mobile-hide">
+                        <a href="" class="login dropdown-toggle" data-toggle="dropdown" >
+                            <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                            <p class="login__title nav-title-size p-l-10">Admin <span class=" fa fa-angle-down"></span></p>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                          <li><a href="javascript:;"> Profile</a></li>
+                          <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- header ends -->
+
+    <!-- content -->
+
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+          <div class="menu_section">
+            <ul class="nav side-menu">
+              <li class=""><a><i class="fa fa-building"></i> Business <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a>Moderation<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li class="sub_menu"><a href="listing_approval.html">Listing Approval</a>
+                        </li>
+                        <li class=""><a href="#">Manage Listings</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a>Configuration<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li class="sub_menu"><a href="categories.html">Categories</a>
+                        </li>
+                        <li class=""><a href="locations.html">Locations</a>
+                        </li>
+                      </ul>
+                    </li>
+                </ul>
+              </li>
+              <li><a><i class="fa fa-briefcase"></i> Jobs </a>
+                <!-- <ul class="nav child_menu">
+                  <li><a href="form.html">General Form</a></li>
+                  <li><a href="form_advanced.html">Advanced Components</a></li>
+                </ul> -->
+              </li>
+              <li><a><i class="fa fa-user"></i> Users </a>
+              </li>
+              <li class="active"><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: block">
+                  <li class="current-page"><a href="email_notifications.html">Notifications</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- /sidebar menu -->
+      </div>
+    </div>
+
+    <div class="right_col" role="main">
+      <div class="">
+
+        <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <i class="fa fa-home home-icon" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Admin Control Panel</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title">/</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Emails</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title">/</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Notifications</p>
+                </a>
+            </li>
+        </ul>
+
+        <div class="page-title">
+          <div class="title_left">
+            <h5>Email Notifications <!-- <small>Some examples to get you started</small> --></h5>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_content">
+
+                <table id="" class="table table-striped nowrap" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Email Type</th>
+                      <th>Recipients</th>
+                      <th class="no-sort"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>New User Registration</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Business Listing for Approval</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Advertise with us</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com, a1@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Get Featured</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com, a1@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Job Listings Posted</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">job@xxx.com, j2@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Contact Us</td>
+                      <td><textarea class="form-control no-edit" name="" tabindex="-1">job@xxx.com, j2@xxx.com</textarea></td>
+                      <td class="row-actions">
+                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
+                        <div class="edit-actions hidden">
+                          <a href="#" title="Save" class="save_email_type"><i class="fa fa-check text-success"></i></a>
+                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+    <div class="site-overlay"></div>
+
+
+
+    <!-- jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- BS Script -->
+    <script type="text/javascript" src="../public/js/bootstrap.min.js"></script>
+    <!-- Smooth Mouse scroll -->
+    <script type="text/javascript" src="../public/js/jquery.easeScroll.min.js"></script>
+    <!-- BS lightbox -->
+    <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
+    <!-- Magnify popup plugin -->
+    <script type="text/javascript" src="../public/js/magnify.min.js"></script>
+    <!-- Read more -->
+    <script type="text/javascript" src="../public/js/readmore.min.js"></script>
+
+    <script src="../public/js/bootstrap-multiselect.js"></script>
+
+    <!-- Datatables -->
+    <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- Autosize textarea -->
+    <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>
+
+    <!-- custom script -->
+    <script type="text/javascript" src="../public/js/custom.js"></script>
+
+    <script type="text/javascript" src="../public/js/dashboard.js"></script>
+</body>
+
+</html>

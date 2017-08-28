@@ -46,6 +46,17 @@ $('body').on 'change', 'input:checkbox.all-cities', ->
 	else
 		$(this).closest('.tab-pane').find('input:checkbox').prop('checked', false)
 
+
+
+# All payment modes select
+
+$('body').on 'change', 'input:checkbox#selectall', ->
+  if $(this).is(':checked')
+    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true)
+  else
+    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false)
+
+
 $('[data-toggle="tooltip"]').tooltip()
 
 

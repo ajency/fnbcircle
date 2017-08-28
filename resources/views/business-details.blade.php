@@ -12,13 +12,13 @@
 @endif
 
 <div class="business-details tab-pane fade in active" id="business_details">
-    <h5 class="no-m-t">Business Details</h5>
+    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
     <div class="m-t-30 c-gap">
-        <label>Give us some more details about your listing</label>
+        <label class="label-size">Give us some more details about your listing</label>
         <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
-        <label>What are the highlights of your business?</label>
+        <label class="label-size">What are the highlights of your business?</label>
         <div class="text-lighter">
             Tell your customer about yourself and what makes your business unique
         </div>
@@ -54,8 +54,10 @@
         @php $details = json_decode($listing->other_details); @endphp
         <div class="row">
             <div class="col-sm-6">
-                <label>When was your business established?</label>
+
+                <label class="label-size">When was your business established?</label>
                 <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Business established cannot be a future date" value="@isset($details->established){{$details->established}}@endisset">
+
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website?</label>
@@ -64,7 +66,7 @@
         </div>
     </div>
     <div class="m-t-30 c-gap">
-        <label>Payment modes accepted by you:</label>
+        <label class="label-size">Payment modes accepted by you:</label>
         <div class="text-lighter">
             Select from the list below or add your own mode
         </div>
@@ -124,7 +126,9 @@
         </ul>
     </div>
     <div class="m-t-20 c-gap">
-        <input type="text" class="form-control fnb-input flexdatalist" placeholder="+ Add modes of payment &amp; press enter" multiple='multiple'>
+
+        <input type="text" class="form-control fnb-input payment-add flexdatalist" placeholder="+ Add modes of payment &amp; press enter" multiple='multiple'>
+
     </div>
 </div>
 

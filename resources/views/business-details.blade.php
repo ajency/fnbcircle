@@ -12,7 +12,7 @@
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
     <div class="m-t-30 c-gap">
         <label class="label-size">Give us some more details about your listing</label>
-        <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here"></textarea>
+        <textarea type="text" rows="3" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here"></textarea>
     </div>
     <div class="m-t-30 c-gap">
         <label class="label-size">What are the highlights of your business?</label>

@@ -6895,6 +6895,9 @@ input[type='checkbox'].remove-addr {
 .business-details .input-group-btn {
   font-size: 1.5em;
 }
+.business-details .flexdatalist-multiple-value {
+  margin-top: 0;
+}
 .select-all .checkbox:before {
   background-color: #f9f9f9;
   font-size: 1.3em;

@@ -31,6 +31,12 @@ getAreas = (cityID) ->
       error: (request, status, error) ->
         throwError()
         return
+      async: false
+  if $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']:checked').length == $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']').length
+    $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',true);
+  else 
+    if $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked')
+      $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',false)
   
 
 
@@ -40,7 +46,9 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
   array=[]
   $('.city-list li').each (index,item)->
     if index == 0
+      $('.tab-pane').removeClass('active')
       $(this).addClass('active')
+      $('div[name="'+$(this).find('a').attr('name')+'"].tab-pane').addClass('active')
     else
       $(this).removeClass('active')
   cityID =$('.city-list .active a').attr('name');
@@ -55,7 +63,6 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
       $(this).prop("checked",true)
     else
       $(this).prop("checked",false)
-
   return
 
 # window.cities = 'cities':[]

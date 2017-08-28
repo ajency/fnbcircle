@@ -12,7 +12,7 @@
       }
     },
     messages: {
-      en: 'Must be a valid URL'
+      en: 'Please enter a valid url'
     }
   });
 
@@ -59,6 +59,14 @@
   $('body').on('click', '.delete-highlight', function() {
     return $(this).closest('.highlight-input-group').remove();
   });
+
+  setTimeout((function() {
+    $('.flexdatalist').flexdatalist({
+      removeOnBackspace: false,
+      minLength: 1,
+      searchIn: ["name"]
+    });
+  }), 500);
 
   window.validateBusinessDetails = function() {
     var form, instance, parameters;

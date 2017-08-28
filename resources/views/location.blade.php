@@ -317,7 +317,7 @@
                 "areas" : []
             };
             @foreach ($city['areas'] as $area)
-                cities['cities'][{{$city['id']}}]['areas'].push({"id": "{{$area['id']}}", "name":"{{$area['name']}}"});
+                cities['cities'][{{$city['id']}}]['areas']["{{$area['id']}}"] = {"id": "{{$area['id']}}", "name":"{{$area['name']}}"};
             @endforeach
         @endforeach
     </script>

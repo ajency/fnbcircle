@@ -40,6 +40,14 @@
     }
   });
 
+  $('body').on('change', 'input:checkbox#selectall', function() {
+    if ($(this).is(':checked')) {
+      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true);
+    } else {
+      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false);
+    }
+  });
+
   $('[data-toggle="tooltip"]').tooltip();
 
   $('body').on('click', '.add-highlight', function() {

@@ -102,7 +102,7 @@
         </ul>
     </div>
     <div class="m-t-20 c-gap">
-        <input type="text" class="form-control fnb-input" placeholder="+ Add modes of payment &amp; press enter">
+        <input type="text" class="form-control fnb-input payment-add" placeholder="+ Add modes of payment &amp; press enter">
     </div>
 </div>
 

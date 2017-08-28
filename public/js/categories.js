@@ -203,19 +203,13 @@
       };
     }
     if ($(this)[0].checked) {
-      return categories['categories'][branchID]['nodes'].push({
+      return categories['categories'][branchID]['nodes'][$(this).val()] = {
         'name': $(this).attr('name'),
         'id': $(this).val()
-      });
+      };
     } else {
       id = $(this).val();
-      return categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], function(node) {
-        if (node["id"] === id) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      return delete categories['categories'][branchID]['nodes'][id];
     }
   });
 

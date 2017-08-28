@@ -5737,7 +5737,7 @@ input[type="checkbox"].toggle__check {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 2;
+    z-index: 3;
   }
   .preview-header.active {
     top: 0;

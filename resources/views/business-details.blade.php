@@ -9,13 +9,13 @@
 @endif
 
 <div class="business-details tab-pane fade in active" id="business_details">
-    <h5 class="no-m-t">Business Details</h5>
+    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
     <div class="m-t-30 c-gap">
-        <label>Give us some more details about your listing</label>
+        <label class="label-size">Give us some more details about your listing</label>
         <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here"></textarea>
     </div>
     <div class="m-t-30 c-gap">
-        <label>What are the highlights of your business?</label>
+        <label class="label-size">What are the highlights of your business?</label>
         <div class="text-lighter">
             Tell your customer about yourself and what makes your business unique
         </div>
@@ -34,7 +34,7 @@
     <div class="m-t-30 c-gap">
         <div class="row">
             <div class="col-sm-6">
-                <label>When was your business established?</label>
+                <label class="label-size">When was your business established?</label>
                 <input type="text" class="form-control fnb-input" placeholder="Eg: 1988">
             </div>
             <div class="col-sm-6 c-gap">
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="m-t-30 c-gap">
-        <label>Payment modes accepted by you:</label>
+        <label class="label-size">Payment modes accepted by you:</label>
         <div class="text-lighter">
             Select from the list below or add your own mode
         </div>

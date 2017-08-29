@@ -42,6 +42,43 @@
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  $('.list-image').dropify({
+    messages: {
+      'default': 'Add photo',
+      'replace': 'Replace photo',
+      'remove': '<i class="">&#10005;</i>',
+      'error': 'Ooops, something wrong happended.'
+    }
+  });
+
+  $('.doc-upload').dropify({
+    messages: {
+      'default': 'Upload file',
+      'replace': 'Replace file',
+      'remove': '<i class="">&#10005;</i>',
+      'error': 'Ooops, something wrong happended.'
+    }
+  });
+
+  $('body').on('click', '.add-uploader', function(e) {
+    var contact_group, contact_group_clone, getTarget;
+    e.preventDefault();
+    contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
+    contact_group_clone = contact_group.clone();
+    contact_group_clone.removeClass('uppend-uploader hidden');
+    getTarget = $(this).closest('.fileUpload').find('.addCol');
+    contact_group_clone.insertBefore(getTarget);
+    console.log(contact_group_clone);
+    return contact_group_clone.find('.doc-uploadd').dropify({
+      messages: {
+        'default': 'Upload file',
+        'replace': 'Replace file',
+        'remove': '<i class="">&#10005;</i>',
+        'error': 'Ooops, something wrong happended.'
+      }
+    });
+  });
+
   $(document).on('click', 'a.review-submit-link', function(e) {
     window.submit = 1;
     return submitForm(e);

@@ -274,7 +274,7 @@ span {
   padding-right: 0;
 }
 .navbar .nav-title-size.nav-title-size {
-  font-size: 1.15em;
+  font-size: 1.05em;
   font-weight: 500;
   margin-bottom: 0;
   color: #4a4a4a;
@@ -288,6 +288,7 @@ span {
 .navbar .fnb-select {
   font-weight: 500;
   padding-right: 20px;
+  font-size: 1.05em;
 }
 .navbar .login {
   display: -webkit-box;
@@ -6368,6 +6369,57 @@ input[type="checkbox"].toggle__check {
 .image-grid__cols {
   width: 20%;
   padding: 0.5em;
+}
+.dropify-wrapper {
+  overflow: inherit;
+}
+.dropify-wrapper .dropify-message p {
+  font-size: 1em;
+}
+.dropify-wrapper .dropify-message p.dropify-error {
+  padding-bottom: 0.5em;
+  line-height: 1.3;
+  font-size: 0.85em;
+}
+.dropify-wrapper .dropify-clear {
+  top: -10px;
+  right: -5px;
+  border-radius: 50%;
+  color: #000;
+  border-color: #fff;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  padding: 0;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+  font-size: 0.95em;
+}
+.dropify-wrapper .dropify-clear i {
+  font-style: normal;
+}
+.dropify-wrapper .dropify-clear:hover {
+  background-color: #fff;
+}
+.fileUpload {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.fileUpload .title-input {
+  width: 100%;
+  font-size: 0.9em;
+  outline: 0;
+  margin: 0.5em 0;
+}
+.fileUpload .image-grid__cols:nth-child(6) {
+  top: 0;
+}
+.fileUpload .addCol {
+  text-align: center;
+  position: relative;
+  top: -20px;
 }
 @media screen and (max-width: 768px) {
   .image-grid__cols {

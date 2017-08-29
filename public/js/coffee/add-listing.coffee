@@ -62,6 +62,43 @@ $('[data-toggle="tooltip"]').tooltip()
 # 	$('.verification-step-modal .number').text get_val
 
 
+$('.list-image').dropify messages:
+  'default': 'Add photo'
+  'replace': 'Replace photo'
+  'remove': '<i class="">&#10005;</i>'
+  'error': 'Ooops, something wrong happended.'
+
+
+
+$('.doc-upload').dropify messages:
+  'default': 'Upload file'
+  'replace': 'Replace file'
+  'remove': '<i class="">&#10005;</i>'
+  'error': 'Ooops, something wrong happended.'
+
+
+$('body').on 'click', '.add-uploader', (e)->
+  e.preventDefault()
+  # drDestroy = $('.doc-upload').dropify()
+  # drDestroy = drDestroy.data('dropify')
+  # setTimeout (->
+  #   $('.doc-uploadd').dropify()
+  #   return
+  # ), 1000
+
+  contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
+  contact_group_clone = contact_group.clone()
+  contact_group_clone.removeClass 'uppend-uploader hidden'
+  getTarget = $(this).closest('.fileUpload').find('.addCol')
+  # getTarget.insertBefore(contact_group_clone)
+  contact_group_clone.insertBefore(getTarget)
+  console.log(contact_group_clone)
+  contact_group_clone.find('.doc-uploadd').dropify messages:
+    'default': 'Upload file'
+    'replace': 'Replace file'
+    'remove': '<i class="">&#10005;</i>'
+    'error': 'Ooops, something wrong happended.'
+
 
 $(document).on 'click', 'a.review-submit-link', (e) ->
   window.submit = 1;

@@ -49,8 +49,10 @@
                       </th>
                       <th class="no-sort" data-col="5">
                           City
-                          <select multiple class="form-control multi-dd">
-                            <option value="goa">Goa</option>
+                          <select multiple class="form-control multi-dd" id="filtercities">
+                            @foreach ($cities as $city)
+                            <option value="{{$city->name}}">{{$city->name}}</option>
+                          @endforeach
                           </select>
                       </th>
                       

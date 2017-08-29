@@ -50,7 +50,7 @@
         "area_id": area_id
       },
       success: function(data) {
-        var $status, city, isarea, iscity, node, opt, table;
+        var $status, city, isarea, iscity, node, opt, opt1, table;
         if (data.hasOwnProperty('city_id')) {
           iscity = '-<span class="hidden">no</span>';
           isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
@@ -63,6 +63,11 @@
           opt.value = data['id'];
           opt.innerHTML = data['name'];
           document.getElementById('allcities').appendChild(opt);
+          opt1 = document.createElement('option');
+          opt1.value = data['name'];
+          opt1.innerHTML = data['name'];
+          document.getElementById('filtercities').appendChild(opt1);
+          $('#filtercities').multiselect('rebuild');
         }
         if (data['status'] === 0) {
           $status = 'Draft';

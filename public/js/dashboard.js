@@ -264,9 +264,19 @@ function init_Multiselect() {
 
 // Email Notifications - Edit Emails
 function init_addEmailType(){
-	if (typeof autosize !== 'undefined') {
-		autosize($('textarea'));
+	var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;// Email address
+	if (typeof $.fn.tagsInput !== 'undefined') {
+		$('.recipients').tagsInput({
+			width: 'auto',
+			pattern: emailRegex // default: false
+		});
 	}
+
+	// if (typeof autosize !== 'undefined') {
+	// 	autosize($('textarea'));
+	// }
+
+	$('.tagsinput').addClass('no-edit');
 
 	$('.edit_email_type').on('click', function() {
 		$(this).closest('tr').find('textarea').removeClass('no-edit');

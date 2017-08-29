@@ -1575,6 +1575,14 @@ input[type="checkbox"].toggle__check {
           box-shadow: inset 0 0 0 2px rgba(202, 199, 199, 0.11);
   border-radius: 40px;
 }
+.has-error .form-control {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.has-error .form-control:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
 .fnb-banner {
   background-image: url('../img/list-banner.jpg');
   height: 200px;

@@ -25,7 +25,9 @@
                   <thead>
                     <tr>
                       
+                      <th>#</th>
                       <th>Name</th>
+                      <th>slug</th>
                       <th class="no-sort text-center" data-col="1">
                         isCity
                         <select multiple class="form-control multi-dd">

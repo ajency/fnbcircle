@@ -115,9 +115,11 @@ class AdminConfigurationController extends Controller
     	foreach($cities as $city){
     		$pub = ($city->published_date != null)? $city->published_date->toDateString():"-";
     		$data[] = array(
+    			"id"=>"<a href=\"#\"><i class=\"fa fa-pencil\"></i></a><span class=\"hidden\">".$city->id."</span>",
+    			"slug" => $city->slug,
     			"name"=>$city->name,
-    			"isCity"=>"yes",
-    			"isArea"=>"no",
+    			"isCity"=>"<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>",
+    			"isArea"=>"-<span class=\"hidden\">no</span>",
     			"city"=>"",
     			"sort_order"=>$city->order,
     			"update"=>$city->updated_at->toDateString(),
@@ -130,9 +132,11 @@ class AdminConfigurationController extends Controller
     	foreach($areas as $area){
     		$pub = ($area->published_date != null)? $area->published_date->toDateString():"-";
     		$data[] = array(
+    			"id"=>"<a href=\"#\"><i class=\"fa fa-pencil\"></i></a><span class=\"hidden\">".$area->id."</span>",
+    			"slug" => $area->slug,
     			"name"=>$area->name,
-    			"isCity"=>"no",
-    			"isArea"=>"yes",
+    			"isCity"=>"-<span class=\"hidden\">no</span>",
+    			"isArea"=>"<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>",
     			"city"=>$area->city['name'],
     			"sort_order"=>$area->order,
     			"update"=>$area->updated_at->toDateString(),

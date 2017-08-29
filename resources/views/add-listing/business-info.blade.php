@@ -70,7 +70,7 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select the area where the business is located.">
+                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select an area where the business is located.">
                     <option value="">Select Area</option>
                     @if(isset($areas))
                     @foreach($areas as $area)

@@ -24,7 +24,7 @@ Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
 Route::get('listing/create','ListingController@create');
 
 
-Route::get('admin-dashboard/config/{locations}','AdminConfigurationController@locationView');
+Route::get('admin-dashboard/config/locations','AdminConfigurationController@locationView');
 
 Route::post('/listing','ListingController@store');
 Route::post('/duplicates','ListingController@findDuplicates');

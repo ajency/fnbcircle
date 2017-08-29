@@ -286,7 +286,7 @@
                 "nodes" : []
             };
             @foreach ($category['nodes'] as $node)
-                categories['categories'][{{$branchID}}]['nodes'].push({"id": "{{$node['id']}}", "name":"{{$node['name']}}"});
+                categories['categories'][{{$branchID}}]['nodes']["{{$node['id']}}"]={"id": "{{$node['id']}}", "name":"{{$node['name']}}"};
             @endforeach
         @endforeach
     </script>

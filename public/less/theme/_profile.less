@@ -2,9 +2,413 @@
 // PROFILE STYLES -----------
 // ---------------------------
 
+// .profile-stats{
+// 	color: #fff;
+// 	box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+// 	background: rgba(248,80,50,1);
+//     background: -moz-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+//     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,1)), color-stop(32%, rgba(237,112,78,1)), color-stop(100%, rgba(237,112,78,1)));
+//     background: -webkit-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+//     background: -o-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+//     background: -ms-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+//     background: linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
+// 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#ed704e', GradientType=0 );
+// 	.fnb-breadcrums{
+// 		.home-icon,&__title{
+// 			color: #fff;
+// 		}
+// 	}
+// 	&__title{
+// 		padding: 1.5em 0;
+// 	}
+// 	&__numbers{
+// 		padding-bottom: 2.5em;
+// 	}
+// 	.profile-col{
+// 		flex: 0 0 24%;
+// 		padding: 0 2em;
+// 		border-left: 1px solid #bc3700;
+// 		&:first-child{
+// 			padding-left: 0;
+// 			border-left: 0;
+// 		}
+// 		&:last-child{
+// 			padding-right: 0;
+// 		}
+// 		@media screen and (min-width: 1500px){
+// 			flex: 0 0 20%;
+// 		}
+// 	}
+// 	.stat-title{
+// 		margin-bottom: 2px;
+// 	}
+// 	.stat-caption{
+// 		color: #76301c;
+// 	}
+// 	.stat-info{
+// 		color: #fff;
+//     	font-size: 1.3em;
+//     	vertical-align: bottom;
+//     	padding-left: 0.2em;
+// 	}
+// 	&.no-shadow{
+// 		box-shadow: none;
+// 	}
+// }
+
+// .enquiries-made{
+// 	margin: 3em 0 1.5em 0;
+// 	.fa{
+// 		font-size: 1.4em;
+//     	color: @accent-primary;
+//     	vertical-align: text-bottom;
+//     	padding-right: 0.2em;
+// 	}
+// }
+
+// .enquiry-made-by{
+// 	padding: 0.8em 0.5em;
+// 	margin-top: 2em;
+//     background-color: #defffe;
+//     .fnb-label{
+//     	background-color: @accent-secondary;
+//     	color: #fff;
+//     	border-color: #27b7b0;
+//     	font-size: 0.85em;
+//     	font-weight: 400;
+//     	margin: 0 0.2em;
+//     	padding: 0.3em 0.5em;
+//     }
+//     a{
+//     	color: #000;
+//     	text-transform: capitalize;
+//     }
+// }
+
+// .detail-group{
+// 	margin: 1em 0;
+// 	label{
+// 		text-transform: uppercase;
+//     	margin-bottom: 0;
+// 	}
+// 	.detail-col{
+// 		padding: 1.5em 0.5em 1.5em 0;
+//     	flex: 1 0 33.33%;
+//     	&:last-child{
+//     		padding-top: 0;
+//     	}
+// 	}
+// 	.fnb-cat{
+// 		margin-top: 0.3em;
+// 		li{
+// 			padding: 0.4em 1em;
+// 			background-color: #fff;
+// 		}
+// 		a{
+// 			font-size: 0.95em;
+// 		}
+// 	}
+// 	&.cat-area{
+// 		margin-bottom: -20px;
+// 	}
+
+// 	&.cat-area{
+// 		.detail-col{
+// 			&:last-child{
+// 				padding-top: 1.5em;
+// 			}
+// 		}
+// 	}
+// }
+
+
+// .activity-panel{
+// 	margin: 2.5em 0;
+// 	&__header{
+// 		padding: 1.5em 1em 2.5em 1em;
+//     	background-color: @accent-primary;
+//     	color: #fff;
+//     	font-size: 1.15em;
+// 	}
+// 	.fa-bell{
+// 		font-size: 1.4em;
+//     	vertical-align: middle;
+//     	padding-right: 0.3em;
+// 	}
+// 	.verified-toggle{
+// 		font-size: 0.75em;
+// 		margin-bottom: 0;
+// 		font-weight: 400;
+// 		cursor: pointer;
+// 	}
+// 	.toggle{
+// 		width: 43px;
+//     	height: 22px;
+//     	box-shadow: none;
+//     	.switch{
+//     		width: 13px;
+//     		top: 5px;
+//     		left: 5px;
+//     		bottom: 5px;
+//     		bottom: 5px;
+//     		right: 22px;
+//     		background-color: @accent-primary;
+//     	}
+//     	&__check{
+//     		margin-top: 0;
+// 	    	&:checked{
+// 	    		& ~ .track{
+// 					box-shadow: none;
+// 	    		}
+// 	    		& ~ .switch{
+// 	    			right: 2px;
+//     				left: 22px;
+// 	    		}
+// 	    	}
+//     	}
+// 	}
+// 	.toggle-text{
+// 		&.checked{
+// 			opacity: 0.5;
+// 		}
+// 	}
+// 	&__body{
+// 		padding: 1em 1.5em;
+//     	position: relative;
+//     	top: -22px;
+//     	background-color: #fff;
+//     	margin: 0 0.6em;
+//     	box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.13);
+// 	}
+// 	.activity-col{
+// 		align-items: inherit;
+// 		&__actions{
+// 			align-items: flex-end;
+// 		}
+// 	}
+// 	.flex-col{
+// 		display: flex;
+//     	flex-direction: column;
+//     	justify-content: inherit;
+//     	padding: 0.5em 0;
+// 	}
+// 	.contentTitle{
+// 		margin-bottom: 1em;
+// 	    margin-top: 0;
+// 	    max-width: 550px;
+// 	}
+// 	.time-cat{
+// 		margin-top: 1.2em;
+// 		.fnb-label{
+// 			border-width: 1px;
+//     		font-size: 0.9em;
+//     		text-transform: uppercase;
+//     		margin-right: 5px;
+// 		}
+// 	}
+// }
+
+
+// .person-info{
+// 	position: fixed;
+//     background-color: #fff;
+//     box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+//     top: 13em;
+//     margin-left: 2em;
+//     padding: 1.5em;
+//     @media screen and (min-width: 1500px){
+//     	width: 350px !important;
+//     }
+//     .Profile{
+//     	color: #000;
+//     	&__header{
+//     		.fa{
+//     			font-size: 3em;
+//     			color: #a2a2a2;
+//     			padding-right: 0.4em;
+//     		}
+//     	}
+//     	.name-text{
+//     		margin: 0;
+//     		margin-bottom: 3px;
+//     	}
+//     	&__footer{
+//     		.speciality{
+//     			padding: 0.5em 1em;
+//     			margin-bottom: 0.8em;
+//     			border: 2px solid #ddd;
+//     			border-radius: 4px;
+//     			.fa{
+//     				font-size: 2em;
+//     				padding-right: 8px;
+//     			}
+//     		}
+//     	}
+//     }
+//     .footer-title{
+//     	margin: 1.5em 0;
+//     }
+//     .contact{
+//     	align-items: flex-end;
+//     }
+//     .email-row{
+//     	margin-bottom: 1.5em;
+//     }
+//     .verified{
+//     	&-icon{
+//     		transform: scale(0.6);
+//     		width: 28px;
+//     	}
+//     }
+// }
+
+
+
+// @media screen and (max-width: @mobile){
+// 	.profile-stats{
+// 		.breadcrums-container{
+// 			margin-top: 0;
+// 		}
+// 		&__numbers{
+// 			padding-bottom: 1em;
+// 			.profile-col{
+// 			    padding: 0 1.5em;
+// 			    margin-bottom: 1.5em;
+// 			}
+// 			.profile-trigger{
+// 				border-left: 0;
+// 				text-align: left;
+// 				padding-left: 0;
+// 			}
+// 		}
+// 		.stat-title{
+//     		font-size: 1.15em;
+// 		}
+// 		.stat-caption{
+// 			font-size: 1em;
+// 		}
+// 	}
+// 	.enquiries-made{
+// 		font-size: 1.2em;
+//     	margin-top: 1.5em;
+// 	}
+// 	.enquiry-made-by{
+// 		padding: 1em;
+//     	line-height: 1.8;
+//     	font-size: 1.1em;
+// 	}
+// 	.person-info{
+// 		position: static;
+// 		margin-left: 0;
+//     	box-shadow: none;
+//     	background-color: inherit;
+//     	.Profile__footer{
+//     		.speciality{
+//     			font-size: 0.9em;
+//     			.fa{
+//     				font-size: 1.8em;
+//     			}
+//     		}
+//     	}
+// 	}
+// 	.form-toggle{
+// 		font-size: 0.9em;
+// 	}
+// 	.detail-group{
+// 		.detail-col{
+// 			flex: 1 0 100%;
+//     		padding: 0.5em 0;
+// 		}
+// 	}
+// }
+
+
+// @media screen and (max-width: 650px){
+// 	.profile-stats{
+// 		&__numbers{
+// 			padding-bottom: 1em;
+// 			.profile-col{
+// 				flex: 0 0 34%;
+//     			padding: 0 0.8em;
+//     			margin-bottom: 1em;
+// 			}
+// 			.member{
+// 				flex-basis: 27%;
+// 			}
+// 			.bus-listing{
+// 				flex-basis: 37%;
+// 			}
+// 			.enquiries{
+// 				flex-basis: 50%;
+//     			border-left: 0;
+//     			padding-left: 0;
+// 			}
+// 			.profile-trigger{
+// 				border-left: 0;
+//     			margin-bottom: 0;
+//     			text-align: right;
+//     			flex-basis: 50%;
+// 			}
+// 		}
+// 		.stat-title{
+//     		font-size: 1.05em;
+// 		}
+// 		.stat-caption{
+// 			font-size: 0.85em;
+// 		}
+// 	}
+// 	.enquiries-made,.enquiry-made-by{
+// 		font-size: 1.05em;
+// 	}
+// 	.activity-panel{
+// 		margin-left: -15px;
+// 		margin-right: -15px;
+// 		&__header{
+// 			flex-direction: column;
+//     		padding: 1em 1em 2.5em 1em;
+// 		}
+// 		.activity-name{
+// 			margin-bottom: 0.8em;
+// 		}
+// 		&__body{
+// 			margin: 0 1em;
+//     		top: -25px;
+//     		padding: 1;
+// 		}
+// 		.activity-col{
+// 			flex-direction: column;
+// 		}
+// 		.flex-col{
+// 			flex-direction: row;
+//     		margin-top: 0.5em;
+//     		&:first-child{
+//     			flex-direction: column;
+//     			margin-top: 0;
+//     		}
+// 		}
+// 		.contentTitle{
+// 			max-width: inherit;
+//     		white-space: normal;
+//     		line-height: 1.6;
+// 		}
+// 		.time-cat{
+// 			font-size: 0.95em;
+// 		}
+// 	}
+// 	.detail-group{
+// 		label{
+// 			font-size: 0.9em;
+// 		}
+// 	}
+// }
+
+
+// ---------------------------
+// PROFILE STYLES -----------
+// ---------------------------
+
 .profile-stats{
 	color: #fff;
-	box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
 	background: rgba(248,80,50,1);
     background: -moz-linear-gradient(to bottom, rgba(248, 80, 50, 0.7) 8%, #ed704e 30%, #ed704e 100%);
     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,1)), color-stop(32%, rgba(237,112,78,1)), color-stop(100%, rgba(237,112,78,1)));
@@ -19,7 +423,7 @@
 		}
 	}
 	&__title{
-		padding: 1.5em 0;
+		padding:.5em 0;
 	}
 	&__numbers{
 		padding-bottom: 2.5em;
@@ -51,13 +455,82 @@
     	vertical-align: bottom;
     	padding-left: 0.2em;
 	}
-	&.no-shadow{
-		box-shadow: none;
+	.gs-steps{
+		a{
+			padding: 10px 0;
+		}
 	}
+
+	.fly-out__content{
+		position: absolute;
+	    top: 3em;
+		.person-info{
+		    background-color: #fff;
+		    box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
+		    padding: 1.5em;
+		    @media screen and (min-width: 1500px){
+		    	width: 350px !important;
+		    }
+		    .Profile{
+		    	color: #000;
+		    	&__header{
+		    		.fa{
+		    			font-size: 3em;
+		    			color: #a2a2a2;
+		    			padding-right: 0.4em;
+		    		}
+		    	}
+		    	.name-text{
+		    		margin: 0;
+		    		margin-bottom: 3px;
+		    	}
+		    	&__footer{
+		    		.speciality{
+		    			padding: 0.5em 1em;
+		    			margin-bottom: 0.8em;
+		    			border: 2px solid #ddd;
+		    			border-radius: 4px;
+		    			.fa{
+		    				font-size: 1em;
+		   				    width: 25px;
+		   				    color:@accent-primary;
+		    			}
+		    		}
+		    	}
+		    }
+		    .footer-title{
+		    	margin: 1.5em 0;
+		    }
+		    .contact{
+		    	align-items: flex-end;
+		    }
+		    .email-row{
+		    	margin-bottom: 1.5em;
+		    }
+		    .verified{
+		    	&-icon{
+		    		transform: scale(0.6);
+		    		width: 28px;
+		    	}
+		    }
+		}
+	}
+	
 }
 
+dl{
+	dd{
+		margin-bottom: 15px;
+	}
+}
+.b-r{
+	border-right: 1px solid #ccc;
+}
+.activity-action{
+	float: right;
+}
 .enquiries-made{
-	margin: 3em 0 1.5em 0;
+	margin: 2em 0 1.5em 0;
 	.fa{
 		font-size: 1.4em;
     	color: @accent-primary;
@@ -66,10 +539,28 @@
 	}
 }
 
+.panel-group{
+	.panel-title{
+		a{
+			text-decoration: none;
+			display: block;
+			i{
+				color: @accent-secondary;
+				width: 30px;
+			}
+		}	
+	}
+	.panel-collapse{
+		padding: 15px;
+	}
+}
 .enquiry-made-by{
-	padding: 0.8em 0.5em;
-	margin-top: 2em;
-    background-color: #defffe;
+		padding: 0.8em 0.4em;
+	    margin-top: 2em;
+	    background-color: #defffe;
+	    font-size: 1.1em;
+	    border-radius: 5px;
+	    color: #656565;
     .fnb-label{
     	background-color: @accent-secondary;
     	color: #fff;
@@ -102,7 +593,7 @@
 		margin-top: 0.3em;
 		li{
 			padding: 0.4em 1em;
-			background-color: #fff;
+			background-color: #fff;	
 		}
 		a{
 			font-size: 0.95em;
@@ -144,7 +635,7 @@
 	.toggle{
 		width: 43px;
     	height: 22px;
-    	box-shadow: none;
+    	background: #f9f9f9;
     	.switch{
     		width: 13px;
     		top: 5px;
@@ -206,60 +697,6 @@
     		margin-right: 5px;
 		}
 	}
-}
-
-
-.person-info{
-	position: fixed;
-    background-color: #fff;
-    box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
-    top: 13em;
-    margin-left: 2em;
-    padding: 1.5em;
-    @media screen and (min-width: 1500px){
-    	width: 350px !important;
-    }
-    .Profile{
-    	color: #000;
-    	&__header{
-    		.fa{
-    			font-size: 3em;
-    			color: #a2a2a2;
-    			padding-right: 0.4em;
-    		}
-    	}
-    	.name-text{
-    		margin: 0;
-    		margin-bottom: 3px;
-    	}
-    	&__footer{
-    		.speciality{
-    			padding: 0.5em 1em;
-    			margin-bottom: 0.8em;
-    			border: 2px solid #ddd;
-    			border-radius: 4px;
-    			.fa{
-    				font-size: 2em;
-    				padding-right: 8px;
-    			}
-    		}
-    	}
-    }
-    .footer-title{
-    	margin: 1.5em 0;
-    }
-    .contact{
-    	align-items: flex-end;
-    }
-    .email-row{
-    	margin-bottom: 1.5em;
-    }
-    .verified{
-    	&-icon{
-    		transform: scale(0.6);
-    		width: 28px;
-    	}
-    }
 }
 
 
@@ -401,6 +838,16 @@
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

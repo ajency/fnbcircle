@@ -54,6 +54,7 @@
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg pdf" />
+                <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input" placeholder="Enter file name">
             </div>
         </div>

@@ -79,6 +79,11 @@
     });
   });
 
+  $('body').on('click', '.removeCol', function(e) {
+    e.preventDefault();
+    return $(this).parent().remove();
+  });
+
   $(document).on('click', 'a.review-submit-link', function(e) {
     window.submit = 1;
     return submitForm(e);

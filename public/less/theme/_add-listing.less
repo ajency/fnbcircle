@@ -769,6 +769,7 @@
     	margin: 0.5em 0;
 	}
 	.image-grid__cols{
+		position: relative;
 		&:nth-child(6){
 			top: 0;
 		}
@@ -777,6 +778,32 @@
 		text-align: center;
     	position: relative;
     	top: -20px;
+	}
+	.has-preview{
+		& + .removeCol{
+			opacity: 0;
+		}
+	}
+	.removeCol{
+		top: -5px;
+    	right: 0px;
+	    border-radius: 50%;
+	    color: #000;
+	    border-color: #fff;
+	    width: 25px;
+	    height: 25px;
+	    line-height: 25px;
+	    padding: 0;
+	    background-color: #fff;
+	    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+	    font-size: 0.95em;
+	    position: absolute;
+	    z-index: 1;
+	    text-align: center;
+	    cursor: pointer;
+    	i{
+    		font-style: normal;
+    	}
 	}
 }
 

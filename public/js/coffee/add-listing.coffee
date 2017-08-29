@@ -62,12 +62,13 @@ $('[data-toggle="tooltip"]').tooltip()
 # 	$('.verification-step-modal .number').text get_val
 
 
+# Init dropify
+
 $('.list-image').dropify messages:
   'default': 'Add photo'
   'replace': 'Replace photo'
   'remove': '<i class="">&#10005;</i>'
   'error': 'Ooops, something wrong happended.'
-
 
 
 $('.doc-upload').dropify messages:
@@ -76,16 +77,10 @@ $('.doc-upload').dropify messages:
   'remove': '<i class="">&#10005;</i>'
   'error': 'Ooops, something wrong happended.'
 
+# add more files
 
 $('body').on 'click', '.add-uploader', (e)->
   e.preventDefault()
-  # drDestroy = $('.doc-upload').dropify()
-  # drDestroy = drDestroy.data('dropify')
-  # setTimeout (->
-  #   $('.doc-uploadd').dropify()
-  #   return
-  # ), 1000
-
   contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
   contact_group_clone = contact_group.clone()
   contact_group_clone.removeClass 'uppend-uploader hidden'
@@ -98,6 +93,16 @@ $('body').on 'click', '.add-uploader', (e)->
     'replace': 'Replace file'
     'remove': '<i class="">&#10005;</i>'
     'error': 'Ooops, something wrong happended.'
+
+# Remove file section
+
+$('body').on 'click', '.removeCol', (e)->
+  e.preventDefault()
+  $(this).parent().remove()
+
+# test = $('.doc-upload').dropify()
+# test.on 'dropify.beforeClear', (event, element) ->
+#     confirm 'Do you really want to delete "' + element.file.name + '" ?'
 
 
 $(document).on 'click', 'a.review-submit-link', (e) ->

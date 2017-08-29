@@ -228,14 +228,15 @@
     k = 0;
     if (categories['categories'].length > 0) {
       for (branch in categories['categories']) {
-        k++;
         j = 0;
         for (i in categories['categories'][branch]['nodes']) {
           j++;
         }
         if (j === 0) {
           delete categories['categories'][branch];
+          continue;
         }
+        k++;
       }
     }
     populate();
@@ -246,6 +247,7 @@
     } else {
       $('#categ-selected').addClass('hidden');
       $('#no-categ-select').removeClass('hidden');
+      $('.core-cat-cont').addClass('hidden');
     }
     if ($(window).width() <= 768) {
       return $('.single-category').each(function() {

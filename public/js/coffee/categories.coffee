@@ -212,13 +212,16 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
   k=0
   if categories['categories'].length > 0
     for branch of categories['categories']
-      k++
+      # console.log categories['categories'][branch]
       j=0
       for i of categories['categories'][branch]['nodes'] 
         j++
       if j == 0
         delete categories['categories'][branch]
+        continue
+      k++
   populate()
+  # console.log k
   if k>0
     $('#categ-selected').removeClass('hidden');
     $('#no-categ-select').addClass('hidden');
@@ -226,7 +229,7 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
   else
     $('#categ-selected').addClass('hidden');
     $('#no-categ-select').removeClass('hidden');
-    #$('.core-cat-cont').addClass('hidden');
+    $('.core-cat-cont').addClass('hidden');
 
   if $(window).width() <= 768
     $('.single-category').each ->

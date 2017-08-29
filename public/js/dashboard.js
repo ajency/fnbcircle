@@ -214,14 +214,7 @@ $('body').on("change", "input[type=radio][name=categoryType]", function() {
         $('.parent_cat_icon').addClass('hidden')
     }
 });
-$('body').on("change", "input[type=radio][name=locationType]", function() {
-    if (this.value == 'city_type') {
-        $('.select_city').addClass('hidden')
-    } else if (this.value == 'area_type') {
-        $('.select_city').removeClass('hidden')
-        // $('.select-branch-cat, .parent_cat_icon').addClass('hidden')
-    }
-});
+
 // Multiselect filter on Datatables
 function init_Multiselect() {
     $('.multi-dd').multiselect({

@@ -1,5 +1,10 @@
 @extends('layouts.admin-dashboard')
 
+@section('js')
+  @parent
+  <script type="text/javascript" src="/js/dashboard-location.js"></script>
+@endsection
+
 @section('page-data')
 	<div class="right_col" role="main">
       <div class="">
@@ -28,21 +33,21 @@
                       <th>#</th>
                       <th>Name</th>
                       <th>slug</th>
-                      <th class="no-sort text-center" data-col="1">
+                      <th class="no-sort text-center" data-col="3">
                         isCity
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort text-center" data-col="2">
+                      <th class="no-sort text-center" data-col="4">
                         isArea
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort" data-col="4">
+                      <th class="no-sort" data-col="5">
                           City
                           <select multiple class="form-control multi-dd">
                             <option value="goa">Goa</option>
@@ -52,7 +57,7 @@
                       <th class="text-center">Sort Order</th>
                       <th>Published on</th>
                       <th>Last Updated on</th>
-                      <th class="no-sort" data-col="10">
+                      <th class="no-sort" data-col="9">
                         Status
                         <select multiple class="form-control multi-dd">
                           <option value="Published">Published</option>
@@ -79,7 +84,7 @@
         <div class="modal fade" id="add_location_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form>
+              <form id="locationForm">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <h6 class="modal-title">Add New Location</h6>
@@ -88,10 +93,10 @@
                   <label>Type of Location <span class="text-danger">*</span></label>
                   <div class="form-group ">
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="city" value="city_type" class="fnb-radio"> City
+                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio"> City
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="locationType" id="area" value="area_type" class="fnb-radio" checked=""> Area
+                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked=""> Area
                     </label>
                   </div>
 
@@ -99,40 +104,39 @@
                     <div class="col-sm-6">
                       <div class="form-group select_city">
                         <label>Select the City <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border">
-                          <option value="">City Name</option>
-                          <option value="">City Name</option>
-                          <option value="">City Name</option>
+                        <select class="form-control fnb-select w-border" id="allcities" required>
+                          <option value="">Select City</option>
+                          @foreach ($cities as $city)
+                            <option value="{{$city->id}}">{{$city->name}}</option>
+                          @endforeach
                         </select>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label>Area Name  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter a Area name">
+                    <label>Location Name  <span class="text-danger" >*</span></label>
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Area name" required>
                   </div>
 
                   <div class="form-group">
-                    <label>Area Url  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter the Area Url">
+                    <label>Location Slug  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Area Slug" required>
                   </div>
 
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Sort Order  <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control fnb-input" name="" value="1" min="1">
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1">
                       </div>
                     </div>
 
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border">
-                          <option value="">Published</option>
-                          <option value="">Draft</option>
-                          <option value="">Archived</option>
+                        <select class="form-control fnb-select w-border" name="status" required>
+                          <option value="0">Draft</option>
                         </select>
                       </div>
                     </div>
@@ -141,7 +145,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn primary-btn fnb-btn border-btn">Save</button>
+                  <button type="button" class="btn primary-btn fnb-btn border-btn save-btn">Save</button>
                 </div>
               </form>
             </div>

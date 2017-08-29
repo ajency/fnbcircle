@@ -139,7 +139,7 @@ function init_DataTables() {
         $(loc_table.column(idx).header()).append('<span class="sort-icon"/>');
     });
     $('#locationNameSearch').on('keyup', function() {
-        loc_table.columns(0).search(this.value).draw();
+        loc_table.columns(1).search(this.value).draw();
     });
     // Approval Table
     var approval_table = $('#datatable-listing_approval').DataTable({

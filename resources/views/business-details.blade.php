@@ -20,7 +20,7 @@
     <div class="m-t-30 c-gap">
         <label class="label-size">What are the highlights of your business?</label>
         <div class="text-lighter">
-            Tell your customer about yourself and what makes your business unique
+            Mention your business strengths, advantages over competition, top customers/clients, etc to get more leads.
         </div>
         @php $highlights = json_decode($listing->highlights) @endphp
         @if ($highlights != null)

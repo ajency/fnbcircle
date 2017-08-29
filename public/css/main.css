@@ -6303,14 +6303,14 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
-.flexdatalist-multiple {
+.flexdatalist-multiple.flexdatalist-multiple {
   border-bottom: 1px solid #ddd !important;
   outline: 0;
 }
-.flexdatalist-multiple li {
+.flexdatalist-multiple.flexdatalist-multiple li {
   float: none;
 }
-.flexdatalist-multiple li.value {
+.flexdatalist-multiple.flexdatalist-multiple li.value {
   margin: 0.2em 0.6em 0.2em 0;
   border: 1px solid #676767;
   border-radius: 4px;
@@ -6318,17 +6318,17 @@ input[type="checkbox"].toggle__check {
   font-size: 0.95em;
   background-color: #f8fafc;
 }
-.flexdatalist-multiple li.value .fdl-remove {
+.flexdatalist-multiple.flexdatalist-multiple li.value .fdl-remove {
   color: rgba(0, 0, 0, 0.69);
 }
-.flexdatalist-multiple li:hover {
+.flexdatalist-multiple.flexdatalist-multiple li:hover {
   background-color: #fff;
   border-color: #c5c5c5;
 }
-.flexdatalist-multiple li:hover .fdl-remove {
+.flexdatalist-multiple.flexdatalist-multiple li:hover .fdl-remove {
   color: #ec6d4b;
 }
-.flexdatalist-multiple .input-container {
+.flexdatalist-multiple.flexdatalist-multiple .input-container {
   display: block;
   margin-top: 30px;
 }
@@ -6907,7 +6907,7 @@ input[type='checkbox'].remove-addr {
   outline: 0;
 }
 .payment-modes .checkbox:before {
-  font-size: 1.3em;
+  font-size: 1.2em;
   width: 16px;
 }
 .payment-modes .checkbox:checked + span {

@@ -172,7 +172,7 @@ class AdminConfigurationController extends Controller
             
         } else {
             $areas = City::find($request->city_id)->areas()->get();
-            $count = 0;
+            $count = City::find($request->city_id)->areas()->where('status','1')->count();
             // echo $areas;
             foreach ($areas as $area) {
                 // echo $area;

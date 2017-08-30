@@ -1,5 +1,5 @@
 (function() {
-  var editrow;
+  var editrow, status;
 
   $('body').on('change', 'input[type=radio][name=locationType]', function() {
     if (this.value === '0') {
@@ -120,7 +120,7 @@
 
   editrow = void 0;
 
-  $('#datatable-locations').on('click', 'i.fa-pencil', function() {
+  status = $('#datatable-locations').on('click', 'i.fa-pencil', function() {
     var loc, table;
     table = $('#datatable-locations').DataTable();
     editrow = $(this).closest('td');
@@ -152,9 +152,11 @@
       $('#edit_location_modal select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('#edit_location_modal .select_city select').prop('disabled', false);
       $('#edit_location_modal input[name="slug"]').prop('disabled', false);
+      status = 0;
     }
     if (loc['status'] === "Published") {
       $('#edit_location_modal select[name="status"]').val("1");
+      status = 1;
       $('#edit_location_modal select[name="status"] option[value="0"]').attr("hidden", "hidden");
       $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
       $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr("hidden");
@@ -163,6 +165,7 @@
     }
     if (loc['status'] === "Archived") {
       $('#edit_location_modal select[name="status"]').val("2");
+      status = 2;
       $('#edit_location_modal select[name="status"] option[value="0"]').attr("hidden", "hidden");
       $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
       $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr("hidden");
@@ -171,7 +174,7 @@
   });
 
   $('#edit_location_modal').on('click', '.save-btn', function(e) {
-    var area_id, city_id, instance, name, slug, sort_order, status, type;
+    var area_id, city_id, instance, name, slug, sort_order, type;
     e.preventDefault();
     instance = $('#editlocationForm').parsley();
     if (!instance.validate()) {
@@ -276,7 +279,15 @@
         success: function(data) {
           console.log(data['warning']);
           if (data['warning']) {
-            $('#listing_warning').html('this location has listings under it.');
+            if (type === "0") {
+              if (!confirm('This city has published areas/listings associated with it. Archiving the city will archive the areas/listings too. Do you want to continue?')) {
+                $('#edit_location_modal select[name="status"]').val(status);
+              }
+            } else {
+              if (!confirm('This area has published listings associated with it. Archiving the areas will archive the listings too. Do you want to continue?')) {
+                $('#edit_location_modal select[name="status"]').val(status);
+              }
+            }
           } else {
             $('#listing_warning').html('');
           }

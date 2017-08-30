@@ -36,8 +36,10 @@ Route::post('/get_areas','ListingController@getAreas');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
+Route::post('/has_listing','AdminConfigurationController@hasListing');
 Route::post('/save-location','AdminConfigurationController@saveLocationData');
 Route::post('/view-location','AdminConfigurationController@listLocationConfig');
+Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');
 
 Route::get('/business-premium', function(){
     return view('premium');

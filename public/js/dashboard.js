@@ -89,13 +89,14 @@ function init_DataTables() {
     });
     // Location Table
     var loc_table = $('#datatable-locations').DataTable({
+        "pageLength": 25,
         "processing": true,
         "ajax": {
             "url": "/view-location",
             "type": "POST"
         },
         "columns": [{
-            "data": "id"
+            "data": "#"
         }, {
             "data": "name"
         }, {
@@ -114,6 +115,12 @@ function init_DataTables() {
             "data": "update"
         }, {
             "data": "status"
+        }, {
+            "data": "id"
+        }, {
+            "data": "area"
+        }, {
+            "data": "city_id"
         }],
         "order": [
             [8, 'desc']
@@ -124,15 +131,13 @@ function init_DataTables() {
             }, {
                 className: "text-center",
                 "targets": [0, 1, 2, 3, 4, 5, 6, 7,8,9]
-            }, {
-                "targets": [2],
+            }, 
+            {
+                "targets": [2,10,11,12],
                 "visible": false,
                 "searchable": false
-            },
-            // {
-            // 	"targets": [0,2,3,4,5,6,7,8],
-            // 	"searchable": false
-            // }
+            }
+            
         ]
     });
     loc_table.columns().iterator('column', function(ctx, idx) {

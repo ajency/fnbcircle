@@ -17,7 +17,7 @@ class AdminConfigurationController extends Controller
 
     public function locationView(Request $request)
     {
-        $cities = City::all();
+        $cities = City::orderBy('order')->get();
         return view('admin-dashboard.location')->with('cities', $cities);
     }
 
@@ -119,7 +119,7 @@ class AdminConfigurationController extends Controller
         $cities = City::all();
         $data   = array();
         foreach ($cities as $city) {
-            $pub    = ($city->published_date != null) ? $city->published_date->toDateTimeString() : "-";
+            $pub    = ($city->published_date != null) ? $city->published_date->toDateString() : "-";
             $data[] = array(
                 "#"          => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
                 "slug"       => $city->slug,
@@ -139,7 +139,7 @@ class AdminConfigurationController extends Controller
         }
         $areas = Area::with('city')->get();
         foreach ($areas as $area) {
-            $pub    = ($area->published_date != null) ? $area->published_date->toDateTimeString() : "-";
+            $pub    = ($area->published_date != null) ? $area->published_date->toDateString() : "-";
             $data[] = array(
                 "#"             => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
                 "slug"          => $area->slug,

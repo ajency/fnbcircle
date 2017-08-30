@@ -103,11 +103,14 @@
           "area": area,
           "city_id": city_id
         }).draw().node();
-        return $('#add_location_modal').modal('hide');
+        $('#add_location_modal').modal('hide');
+        $('.alert-success #message').html("Location added successfully.");
+        return $('.alert-success').addClass('active');
       },
       error: function(request, status, error) {
         console.log(status);
         console.log(error);
+        $('.alert-failure').addClass('active');
       }
     });
   });
@@ -138,21 +141,21 @@
     $('#edit_location_modal input[name="order"]').val(loc['sort_order']);
     if (loc['status'] === "Draft") {
       $('#edit_location_modal select[name="status"]').val("0");
-      $('select[name="status"] option[value="0"]').removeAttr("hidden");
-      $('select[name="status"] option[value="1"]').removeAttr("hidden");
-      $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
+      $('#edit_location_modal select[name="status"] option[value="0"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="2"]').attr("hidden", "hidden");
     }
     if (loc['status'] === "Published") {
       $('#edit_location_modal select[name="status"]').val("1");
-      $('select[name="status"] option[value="0"]').attr("hidden", "hidden");
-      $('select[name="status"] option[value="1"]').removeAttr("hidden");
-      $('select[name="status"] option[value="2"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="0"]').attr("hidden", "hidden");
+      $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr("hidden");
     }
     if (loc['status'] === "Archived") {
       $('#edit_location_modal select[name="status"]').val("2");
-      $('select[name="status"] option[value="0"]').attr("hidden", "hidden");
-      $('select[name="status"] option[value="1"]').removeAttr("hidden");
-      $('select[name="status"] option[value="2"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="0"]').attr("hidden", "hidden");
+      $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
+      $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr("hidden");
     }
     return $('#edit_location_modal').modal('show');
   });
@@ -231,11 +234,14 @@
           "area": area,
           "city_id": city_id
         }).draw();
-        return $('#edit_location_modal').modal('hide');
+        $('#edit_location_modal').modal('hide');
+        $('.alert-success #message').html("Location edited successfully.");
+        return $('.alert-success').addClass('active');
       },
       error: function(request, status, error) {
         console.log(status);
         console.log(error);
+        $('.alert-failure').addClass('active');
       }
     });
   });

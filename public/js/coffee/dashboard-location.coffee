@@ -96,10 +96,13 @@ $('#add_location_modal').on 'click','.save-btn', (e)->
         "city_id": city_id
       }).draw().node()
       $('#add_location_modal').modal('hide')
+      $('.alert-success #message').html "Location added successfully."
+      $('.alert-success').addClass 'active'
       # $(node).css( 'color', 'red' ).animate( { color: 'black' } )
     error: (request, status, error) ->
       console.log status
       console.log error
+      $('.alert-failure').addClass 'active'
       return
 
 editrow = undefined
@@ -127,19 +130,19 @@ $('#datatable-locations').on 'click', 'i.fa-pencil', ->
 	$('#edit_location_modal input[name="order"]').val(loc['sort_order'])
 	if loc['status'] == "Draft"
 		$('#edit_location_modal select[name="status"]').val("0")
-		$('select[name="status"] option[value="0"]').removeAttr "hidden"
-		$('select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('select[name="status"] option[value="2"]').attr "hidden","hidden"
+		$('#edit_location_modal select[name="status"] option[value="0"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="2"]').attr "hidden","hidden"
 	if loc['status'] == "Published"
 		$('#edit_location_modal select[name="status"]').val("1")
-		$('select[name="status"] option[value="0"]').attr "hidden","hidden"
-		$('select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('select[name="status"] option[value="2"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
+		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
 	if loc['status'] == "Archived"
 		$('#edit_location_modal select[name="status"]').val("2")
-		$('select[name="status"] option[value="0"]').attr "hidden","hidden"
-		$('select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('select[name="status"] option[value="2"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
+		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+		$('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
 	$('#edit_location_modal').modal('show')
 
 
@@ -214,10 +217,13 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
         "city_id": city_id
       }).draw()
       $('#edit_location_modal').modal('hide')
+      $('.alert-success #message').html "Location edited successfully."
+      $('.alert-success').addClass 'active'
       # $(node).css( 'color', 'red' ).animate( { color: 'black' } )
     error: (request, status, error) ->
       console.log status
       console.log error
+      $('.alert-failure').addClass 'active'
       return
 
 $('#edit_location_modal').on 'change','select[name="status"]', (e)->

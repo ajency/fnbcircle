@@ -16,6 +16,6 @@ class Area extends Model
     return $this->belongsTo('App\City', 'city_id');
   }
   public function listings(){
-    return $this->hasMany('App\Listing')->using('App\ListingAreasOfOperation');
+    return $this->hasMany('App\Listing','locality_id');
   }
 }

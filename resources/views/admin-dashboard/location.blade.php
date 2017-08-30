@@ -30,7 +30,7 @@
                   <thead>
                     <tr>
                       
-                      <th>#</th>
+                      <th class="no-sort"></th>
                       <th>Name</th>
                       <th>slug</th>
                       <th class="no-sort text-center" data-col="3">
@@ -67,6 +67,9 @@
                           <option value="Archived">Archived</option>
                         </select>
                       </th>
+                      <th>id</th>
+                      <th>city/area</th>
+                      <th>city_id</th>
                     </tr>
                   </thead>
 
@@ -94,7 +97,7 @@
     <!-- Success Message-->
       <div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-          Details saved successfully.
+          <span id="message"></span>
       </div>
 
 
@@ -133,13 +136,13 @@
                   </div>
 
                   <div class="form-group">
-                    <label>Location Name  <span class="text-danger" >*</span></label>
-                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Area name" required>
+                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
                   </div>
 
                   <div class="form-group">
-                    <label>Location Slug  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Area Slug" required>
+                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
                   </div>
 
                   <div class="row">
@@ -154,7 +157,10 @@
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
                         <select class="form-control fnb-select w-border" name="status" required>
+                          <option value="">Select Status</option>
                           <option value="0">Draft</option>
+                          <option value="1" hidden>Published</option>
+                          <option value="2" hidden>Archived</option>
                         </select>
                       </div>
                     </div>
@@ -170,6 +176,71 @@
           </div>
         </div>
 
+        <div class="modal fade" id="edit_location_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form id="editlocationForm">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h6 class="modal-title">Edit Location</h6>
+                </div>
+                <div class="modal-body">
+                  <input type="hidden" name="type">
+                  <input type="hidden" name="area_id">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group select_city">
+                        <label>Select the City <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border" id="allcities" required>
+                          <option value="">Select City</option>
+                          @foreach ($cities as $city)
+                            <option value="{{$city->id}}">{{$city->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Sort Order  <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1">
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Status <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border" name="status" required>
+                          <option value="0">Draft</option>
+                          <option value="1" hidden>Published</option>
+                          <option value="2" hidden>Archived</option>
+                        </select>
+                        <div id="listing_warning"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn primary-btn fnb-btn border-btn save-btn">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

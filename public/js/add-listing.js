@@ -40,15 +40,49 @@
     }
   });
 
-  $('body').on('change', 'input:checkbox#selectall', function() {
-    if ($(this).is(':checked')) {
-      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true);
-    } else {
-      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false);
+  $('[data-toggle="tooltip"]').tooltip();
+
+  $('.list-image').dropify({
+    messages: {
+      'default': 'Add photo',
+      'replace': 'Replace photo',
+      'remove': '<i class="">&#10005;</i>',
+      'error': 'Ooops, something wrong happended.'
     }
   });
 
-  $('[data-toggle="tooltip"]').tooltip();
+  $('.doc-upload').dropify({
+    messages: {
+      'default': 'Upload file',
+      'replace': 'Replace file',
+      'remove': '<i class="">&#10005;</i>',
+      'error': 'Ooops, something wrong happended.'
+    }
+  });
+
+  $('body').on('click', '.add-uploader', function(e) {
+    var contact_group, contact_group_clone, getTarget;
+    e.preventDefault();
+    contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
+    contact_group_clone = contact_group.clone();
+    contact_group_clone.removeClass('uppend-uploader hidden');
+    getTarget = $(this).closest('.fileUpload').find('.addCol');
+    contact_group_clone.insertBefore(getTarget);
+    console.log(contact_group_clone);
+    return contact_group_clone.find('.doc-uploadd').dropify({
+      messages: {
+        'default': 'Upload file',
+        'replace': 'Replace file',
+        'remove': '<i class="">&#10005;</i>',
+        'error': 'Ooops, something wrong happended.'
+      }
+    });
+  });
+
+  $('body').on('click', '.removeCol', function(e) {
+    e.preventDefault();
+    return $(this).parent().remove();
+  });
 
   $(document).on('click', 'a.review-submit-link', function(e) {
     window.submit = 1;

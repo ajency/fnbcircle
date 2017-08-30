@@ -68,6 +68,26 @@
     });
   }), 500);
 
+  $('body').on('change', 'input:checkbox#selectall', function() {
+    if ($(this).is(':checked')) {
+      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true);
+    } else {
+      return $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false);
+    }
+  });
+
+  setTimeout((function() {
+    $('.payment-add').on('change:flexdatalist', function() {
+      var value;
+      value = $(this).val();
+      console.log(value);
+      if ($(this).val().length !== 0) {
+        $(this).closest('.business-details').find('.payment-modes').append('<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa"><span class="text-color">' + value + '</span></label></li>');
+      }
+      return $(this).val('');
+    });
+  }), 500);
+
   window.validateBusinessDetails = function() {
     var form, instance, parameters;
     instance = $('#info-form').parsley();

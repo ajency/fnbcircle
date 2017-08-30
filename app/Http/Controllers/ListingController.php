@@ -10,7 +10,6 @@ use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingCommunication;
-use App\ListingHighlight;
 use App\ListingOperationTime;
 use App\User;
 use Auth;
@@ -393,7 +392,7 @@ class ListingController extends Controller
             $operation->save();
         }
         $listing->save();
-        
+
         $change = "";
         if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";
@@ -414,40 +413,34 @@ class ListingController extends Controller
         }
 
         return $this->saveListingLocationAndOperationHours($request);
-        
 
     }
     //--------------------------step 4 ----------------------------------------
     public function validateListingOtherDetails($data)
     {
         $this->validate($data, [
-            'listing_id'  => 'required|integer|min:1',
-            'description' => 'required|max:65535 ',
+            'listing_id'  => 'required',
+            'description' => 'max:65535 ',
             'highlights'  => 'required',
             'established' => 'nullable|numeric',
-            'website'     => 'nullable|active_url',
+            'website'     => 'nullable|url',
             'payment.*'   => 'required|boolean',
         ]);
-        if (!Common::verify_id($data->listing_id, 'listings')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Listing id is fabricated. Id doesnt exist'));
-        }
         return true;
     }
     public function saveListingOtherDetails($data)
     {
-        $listing              = Listing::find($data->listing_id);
+        $listing              = Listing::where('reference', $data->listing_id)->firstorFail();
         $listing->description = $data->description;
-        ListingHighlight::where('listing_id', $data->listing_id)->delete();
+        $highlights           = array();
         foreach ($data->highlights as $key => $highlight) {
             if (!empty($highlight)) {
-                $entry               = new ListingHighlight;
-                $entry->listing_id   = $data->listing_id;
-                $entry->highlight_id = $key;
-                $entry->highlight    = $highlight;
-                $entry->save();
+                $highlights[] = $highlight;
             }
         }
-        $other = array();
+        $highlights          = json_encode($highlights);
+        $listing->highlights = $highlights;
+        $other               = array();
         if (isset($data->established) and !empty($data->established)) {
             $other['established'] = $data->established;
         }
@@ -455,40 +448,38 @@ class ListingController extends Controller
         if (isset($data->website) and !empty($data->website)) {
             $other['website'] = $data->website;
         }
-
         $other                  = json_encode($other);
         $listing->other_details = $other;
+        $payment                = array();
         foreach ($data->payment as $key => $value) {
-            if (!isset($payment)) {
-                if ($value == 1) {
-                    $payment = $key;
-                }
-
-            } else {
-                if ($value == 1) {
-                    $payment .= ', ' . $key;
-                }
-
-            }
+            $payment[$key] = $value;
         }
-        if (isset($payment)) {
-            $listing->payment_modes = $payment;
-        }
-
+        $listing->payment_modes = json_encode($payment);
         $listing->save();
+
+        $change = "";
+        if (isset($data->change) and $data->change == "1") {
+            $change = "&success=true";
+        }
+
+        if (isset($data->submitReview) and $data->submitReview == 'yes') {
+            return ($this->submitForReview($data));
+        }
+
+        // echo $data->change;
+        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
     }
 
     public function listingOtherDetails($request)
     {
+
         $check = $this->validateListingOtherDetails($request);
         if ($check !== true) {
             return $check;
         }
-
-        $this->saveListingOtherDetails($request);
-        if (isset($request->submitReview) and $request->submitReview == 'yes') {
-            return ($this->submitForReview($request));
-        }
+        
+        return $this->saveListingOtherDetails($request);
+        
 
     }
     //----------------------------step 5------------------------------
@@ -529,7 +520,6 @@ class ListingController extends Controller
     //--------------------Common method ------------------------
     public function store(Request $request)
     {
-        // if($this->is_user_authenticated()){
         if (true) {
             $this->validate($request, [
                 'step' => 'required',
@@ -545,7 +535,7 @@ class ListingController extends Controller
                 case 'business-location-hours':
                     return $this->listingLocationAndOperationHours($request);
                     break;
-                case 'listing_other_details':
+                case 'business-details':
                     return $this->listingOtherDetails($request);
                     break;
                 case 'listing_photos_and_documents':
@@ -594,16 +584,21 @@ class ListingController extends Controller
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
-            $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
+            $listing        = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
             $operationAreas = ListingAreasOfOperation::city($listing->id);
-            $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
-            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas',$operationAreas);
+            return view('location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas);
         }
         if ($step == 'business-details') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            // dd($listing);
-            return view('business-details')->with('listing',$listing)->with('step','business-details')->with('back','business-location-hours');
+            
+            return view('business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
+        }
+        if ($step == 'business-photos') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            
+            return view('photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
         }
     }
 

@@ -31,6 +31,12 @@ getAreas = (cityID) ->
       error: (request, status, error) ->
         throwError()
         return
+      async: false
+  if $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']:checked').length == $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']').length
+    $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',true);
+  else 
+    if $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked')
+      $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',false)
   
 
 
@@ -40,7 +46,9 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
   array=[]
   $('.city-list li').each (index,item)->
     if index == 0
+      $('.tab-pane').removeClass('active')
       $(this).addClass('active')
+      $('div[name="'+$(this).find('a').attr('name')+'"].tab-pane').addClass('active')
     else
       $(this).removeClass('active')
   cityID =$('.city-list .active a').attr('name');
@@ -55,7 +63,6 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
       $(this).prop("checked",true)
     else
       $(this).prop("checked",false)
-
   return
 
 # window.cities = 'cities':[]
@@ -160,11 +167,11 @@ $('body').on 'change','input#closed[type="checkbox"]', ->
     parent = $(this).closest('.day-hours')
     # console.log parent
     start = parent.find('.open-1 select')
-    start.prop('selectedIndex',2)
+    start.prop('selectedIndex',0)
     start.removeAttr('disabled');
     end = parent.find('.open-2 select')
-    end.prop('selectedIndex',3)
-    end.removeAttr('disabled')
+    end.prop('selectedIndex',0)
+    # end.removeAttr('disabled')
 
 $('body').on 'change','.day-hours select', ->
   parent = $(this).closest('.day-hours')

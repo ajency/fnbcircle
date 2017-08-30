@@ -22,5 +22,10 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 		else $html.='<option>'.$day->format('H:i').'</option>';
 		$day=$day->addMinutes($diff);
 	}
+	if($type == 'to'){
+		if ($time == '24:00') $html.='<option selected>24:00</option>';
+		else $html.='<option>24:00</option>';
+	} 
+		
 	echo $html;
 }

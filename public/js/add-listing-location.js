@@ -18,7 +18,7 @@
     if (city[cityID] !== true) {
       $('div[name="' + cityID + '"].tab-pane').addClass('relative');
       $('div[name="' + cityID + '"].tab-pane ul.nodes').html(loader);
-      return $.ajax({
+      $.ajax({
         type: 'post',
         url: '/get_areas',
         data: {
@@ -39,8 +39,16 @@
         },
         error: function(request, status, error) {
           throwError();
-        }
+        },
+        async: false
       });
+    }
+    if ($('div[name="' + cityID + '"].tab-pane ul.nodes input[type=\'checkbox\']:checked').length === $('div[name="' + cityID + '"].tab-pane ul.nodes input[type=\'checkbox\']').length) {
+      return $('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked', true);
+    } else {
+      if ($('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked')) {
+        return $('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked', false);
+      }
     }
   };
 
@@ -51,7 +59,9 @@
     array = [];
     $('.city-list li').each(function(index, item) {
       if (index === 0) {
-        return $(this).addClass('active');
+        $('.tab-pane').removeClass('active');
+        $(this).addClass('active');
+        return $('div[name="' + $(this).find('a').attr('name') + '"].tab-pane').addClass('active');
       } else {
         return $(this).removeClass('active');
       }
@@ -168,11 +178,10 @@
     } else {
       parent = $(this).closest('.day-hours');
       start = parent.find('.open-1 select');
-      start.prop('selectedIndex', 2);
+      start.prop('selectedIndex', 0);
       start.removeAttr('disabled');
       end = parent.find('.open-2 select');
-      end.prop('selectedIndex', 3);
-      return end.removeAttr('disabled');
+      return end.prop('selectedIndex', 0);
     }
   });
 

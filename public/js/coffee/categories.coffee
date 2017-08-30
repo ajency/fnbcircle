@@ -193,18 +193,11 @@ $('body').on 'change', '.tab-pane.collapse input[type=\'checkbox\']', ->
     'branch': parentDiv.find('input[name="branch"]').val()
     'nodes': []
   if $(this)[0].checked
-    categories['categories'][branchID]['nodes'].push {'name': $(this).attr('name') , 'id':$(this).val()}
+    categories['categories'][branchID]['nodes'][$(this).val()] = {'name': $(this).attr('name') , 'id':$(this).val()}
   else
     id=$(this).val()
     # console.log 'remove this shit'
-    categories['categories'][branchID]['nodes'] = _.reject(categories['categories'][branchID]['nodes'], (node) ->
-      # console.log node["id"]
-      # console.log id
-      if node["id"] == id
-        true
-      else
-        false
-    )
+    delete(categories['categories'][branchID]['nodes'][id])
     # console.log $(this)[0]
 
 populate = () ->

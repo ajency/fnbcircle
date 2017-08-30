@@ -48,29 +48,7 @@ $('body').on 'change', 'input:checkbox.all-cities', ->
 
 
 
-# All payment modes select
-
-$('body').on 'change', 'input:checkbox#selectall', ->
-  if $(this).is(':checked')
-    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', true)
-  else
-    $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false)
-
-
 $('[data-toggle="tooltip"]').tooltip()
-
-# Add/Delete Highlights
-$('body').on 'click', '.add-highlight', ->
-	highlight_group = $(this).closest('.highlight-input-group')
-	highlight_group_clone = highlight_group.clone()
-	highlight_group_clone.find('.add-highlight').remove()
-	highlight_group_clone.find('.delete-highlight').removeClass('hidden')
-	highlight_group_clone.insertBefore(highlight_group)
-	highlight_group.find('.highlight-input').val('')
-
-$('body').on 'click', '.delete-highlight', ->
-	$(this).closest('.highlight-input-group').remove()
-
 
 
 # 	catAdd = $(this).closest('.business-cats').find('.add-more-cat')
@@ -83,6 +61,48 @@ $('body').on 'click', '.delete-highlight', ->
 # 	get_val = $(this).closest('.get-val').find('.fnb-input').val()
 # 	$('.verification-step-modal .number').text get_val
 
+
+# Init dropify
+
+$('.list-image').dropify messages:
+  'default': 'Add photo'
+  'replace': 'Replace photo'
+  'remove': '<i class="">&#10005;</i>'
+  'error': 'Ooops, something wrong happended.'
+
+
+$('.doc-upload').dropify messages:
+  'default': 'Upload file'
+  'replace': 'Replace file'
+  'remove': '<i class="">&#10005;</i>'
+  'error': 'Ooops, something wrong happended.'
+
+# add more files
+
+$('body').on 'click', '.add-uploader', (e)->
+  e.preventDefault()
+  contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
+  contact_group_clone = contact_group.clone()
+  contact_group_clone.removeClass 'uppend-uploader hidden'
+  getTarget = $(this).closest('.fileUpload').find('.addCol')
+  # getTarget.insertBefore(contact_group_clone)
+  contact_group_clone.insertBefore(getTarget)
+  console.log(contact_group_clone)
+  contact_group_clone.find('.doc-uploadd').dropify messages:
+    'default': 'Upload file'
+    'replace': 'Replace file'
+    'remove': '<i class="">&#10005;</i>'
+    'error': 'Ooops, something wrong happended.'
+
+# Remove file section
+
+$('body').on 'click', '.removeCol', (e)->
+  e.preventDefault()
+  $(this).parent().remove()
+
+# test = $('.doc-upload').dropify()
+# test.on 'dropify.beforeClear', (event, element) ->
+#     confirm 'Do you really want to delete "' + element.file.name + '" ?'
 
 
 $(document).on 'click', 'a.review-submit-link', (e) ->
@@ -102,6 +122,8 @@ submitForm = (e) ->
     validateCategories()
   if step == 'business-location-hours'
     validateLocationHours()
+  if step == 'business-details'
+    validateBusinessDetails()
 
 
 
@@ -160,8 +182,6 @@ window.throwError = () ->
     $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>'
     $('.alert-failure').addClass 'active'
   return
-
-
 
 
 

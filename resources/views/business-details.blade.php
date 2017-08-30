@@ -1,5 +1,8 @@
 @extends('add-listing')
-
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/add-listing-details.js"></script>
+@endsection
 @section('form-data')
 
 @if(isset($_GET['success']) and $_GET['success']=='true') <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
@@ -12,13 +15,29 @@
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
     <div class="m-t-30 c-gap">
         <label class="label-size">Give us some more details about your listing</label>
-        <textarea type="text" rows="3" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here"></textarea>
+        <textarea type="text" rows="4" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
         <label class="label-size">What are the highlights of your business?</label>
         <div class="text-lighter">
-            Tell your customer about yourself and what makes your business unique
+            Mention your business strengths, advantages over competition, top customers/clients, etc to get more leads.
         </div>
+        @php $highlights = json_decode($listing->highlights) @endphp
+        @if ($highlights != null)
+        @foreach($highlights as $highlight)
+        <div class="input-group highlight-input-group">
+            <input type="text" class="form-control fnb-input highlight-input" placeholder="" value="{{$highlight}}">
+            <span class="input-group-btn">
+                <button class="btn fnb-btn outline no-border add-highlight hidden" type="button">
+                    <i class="fa fa-plus-circle"></i>
+                </button>
+                <button class="btn fnb-btn outline no-border delete-highlight" type="button">
+                    <small><i class="fa fa-times"></i></small>
+                </button>
+            </span>
+        </div>
+        @endforeach
+        @endif
         <div class="input-group highlight-input-group">
             <input type="text" class="form-control fnb-input highlight-input" placeholder="">
             <span class="input-group-btn">
@@ -32,14 +51,17 @@
         </div>
     </div>
     <div class="m-t-30 c-gap">
+        @php $details = json_decode($listing->other_details); @endphp
         <div class="row">
             <div class="col-sm-6">
+
                 <label class="label-size">When was your business established?</label>
-                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988">
+                <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Business established cannot be a future date" value="@isset($details->established){{$details->established}}@endisset">
+
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website?</label>
-                <input type="text" class="form-control fnb-input" placeholder="http://">
+                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="@isset($details->website){{$details->website}}@endisset">
             </div>
         </div>
     </div>
@@ -53,56 +75,60 @@
                 <input type="checkbox" class="checkbox" id="selectall"> Select All
             </label>
         </div>
-        <ul class="flex-row payment-modes">
+        @php $payment = json_decode($listing->payment_modes); @endphp
+        
+        <ul class="flex-row payment-modes m-t-10">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa"> Visa cards
+                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> <span class="text-color">Visa cards</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit"> Debit Card
+                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > <span class="text-color">Debit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order"> Money Order
+                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > <span class="text-color">Money Order</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cheque"> Cheque
+                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > <span class="text-color">Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit"> Credit Card
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > <span class="text-color">Credit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers"> Travelers Cheque
+                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > <span class="text-color">Travelers Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash"> Cash
+                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > <span class="text-color">Cash</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master"> Master Card
+                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > <span class="text-color">Master Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners"> Diner's Club
+                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > <span class="text-color">Diner's Club</span>
                 </label>
             </li>
         </ul>
     </div>
     <div class="m-t-20 c-gap">
-        <input type="text" class="form-control fnb-input payment-add" placeholder="+ Add modes of payment &amp; press enter">
+
+        <input type="text" class="form-control fnb-input payment-add flexdatalist" multiple="multiple" placeholder="+ Add modes of payment &amp; press enter">
+
     </div>
 </div>
 

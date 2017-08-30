@@ -37,6 +37,7 @@ Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
 Route::post('/has_listing','AdminConfigurationController@hasListing');
+Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');
 Route::post('/save-location','AdminConfigurationController@saveLocationData');
 Route::post('/view-location','AdminConfigurationController@listLocationConfig');
 Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Area;
+use App\Category;
 use App\City;
 use App\Common;
+use App\Listing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -141,19 +143,19 @@ class AdminConfigurationController extends Controller
         foreach ($areas as $area) {
             $pub    = ($area->published_date != null) ? $area->published_date->toDateString() : "-";
             $data[] = array(
-                "#"             => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
-                "slug"          => $area->slug,
-                "name"          => $area->name,
-                "isCity"        => "-<span class=\"hidden\">no</span>",
-                "isArea"        => "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>",
-                "city"          => $area->city['name'],
+                "#"          => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
+                "slug"       => $area->slug,
+                "name"       => $area->name,
+                "isCity"     => "-<span class=\"hidden\">no</span>",
+                "isArea"     => "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>",
+                "city"       => $area->city['name'],
                 "sort_order" => $area->order,
-                "update"        => $area->updated_at->toDateTimeString(),
-                "publish"       => $pub,
-                "status"        => $status[$area->status],
-                "id"            => $area->id,
-                "area"          => "1",
-                "city_id"       => $area->city['id'],
+                "update"     => $area->updated_at->toDateTimeString(),
+                "publish"    => $pub,
+                "status"     => $status[$area->status],
+                "id"         => $area->id,
+                "area"       => "1",
+                "city_id"    => $area->city['id'],
 
             );
         }
@@ -169,10 +171,10 @@ class AdminConfigurationController extends Controller
         ]);
         if ($request->type == "1") {
             $count = Area::find($request->area_id)->listings()->count();
-            
+
         } else {
             $areas = City::find($request->city_id)->areas()->get();
-            $count = City::find($request->city_id)->areas()->where('status','1')->count();
+            $count = City::find($request->city_id)->areas()->where('status', '1')->count();
             // echo $areas;
             foreach ($areas as $area) {
                 // echo $area;
@@ -180,16 +182,87 @@ class AdminConfigurationController extends Controller
             }
             // echo $count;
         }
-        if($count>0) return response()->json(array("warning"=>true));
-        else return response()->json(array("warning"=>false));
+        if ($count > 0) {
+            return response()->json(array("warning" => true));
+        } else {
+            return response()->json(array("warning" => false));
+        }
+
     }
 
-    public function hasPublishedAreas(Request $request){
+    public function hasPublishedAreas(Request $request)
+    {
         $this->validate($request, [
             'city_id' => 'required|integer',
         ]);
-        $count = City::find($request->city_id)->areas()->where('status','1')->count();
-        if($count>0) return response()->json(true);
-        else return response()->json(false);   
+        $count = City::find($request->city_id)->areas()->where('status', '1')->count();
+        if ($count > 0) {
+            return response()->json(true);
+        } else {
+            return response()->json(false);
+        }
+
+    }
+
+    public function getAssociatedListings(Request $request)
+    {
+        $this->validate($request, [
+            'category' => 'required|json',
+            'location' => 'required|json',
+        ]);
+        $list       = array();
+        $categories = json_decode($request->category);
+        foreach ($categories as $category) {
+            if ($category->type == "parent") {
+                $branches = Category::where('parent_id', $category->id)->get();
+                foreach ($branches as $branch) {
+                    $nodes = Category::where('parent_id', $branch->id)->get();
+                    foreach ($nodes as $node) {
+                        $listings = Category::find($node->id)->listing()->get();
+                        foreach ($listings as $listing) {
+                            $list[$listing->id] = ["ref" => $listing->reference];
+                        }
+                    }
+                }
+            }
+            if ($category->type == "branch") {
+                $nodes = Category::where('parent_id', $category->id)->get();
+                foreach ($nodes as $node) {
+                    $listings = Category::find($node->id)->listing()->get();
+                    foreach ($listings as $listing) {
+                        $list[$listing->id] = ["ref" => $listing->reference];
+                    }
+                }
+            }
+            if ($category->type == "node") {
+                $listings = Category::find($category->id)->listing()->get();
+                foreach ($listings as $listing) {
+                    $list[$listing->id] = ["ref" => $listing->reference];
+                }
+            }
+        }
+        $categ_list = $list;
+        $list       = array();
+        $locations  = json_decode($request->location);
+        foreach ($locations as $location) {
+            if ($location->type == "city") {
+                $areas = City::find($location->id)->areas()->get();
+                foreach ($areas as $area) {
+                    $listings = Area::find($area->id)->listings()->get();
+                    foreach ($listings as $listing) {
+                        $list[$listing->id] = ["ref" => $listing->reference];
+                    }
+                }
+            }
+            if ($location->type == "area") {
+                $listings = Area::find($location->id)->listings()->get();
+                foreach ($listings as $listing) {
+                    $list[$listing->id] = ["ref" => $listing->reference];
+                }
+            }
+        }
+        $loc_list = $list;
+        $list = array_intersect_key ($categ_list,$loc_list);
+        return response()->json($list);
     }
 }

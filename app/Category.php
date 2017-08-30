@@ -16,6 +16,10 @@ class Category extends Model
     function level(){
       return intval($this->level)+1;
     }
+    public function listing()
+    {
+        return $this->belongsToMany('App\Listing', 'listing_category');
+    }
   //   function __construct() {
   //           if(!empty($this->parent_id)) {
   //               $this->parent->with('App\Category');

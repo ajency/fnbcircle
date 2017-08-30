@@ -75,6 +75,22 @@
 
         </div>
 
+      <!-- Failure Message-->
+      <div class="alert fnb-alert  alert-failure alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <div class="flex-row">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+               Oh snap! Some error occurred. Please check all the details and proceed.
+          </div>
+      </div>
+
+    <!-- Success Message-->
+      <div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+          Details saved successfully.
+      </div>
+
+
         <!-- Add Location Modal -->
         <div class="modal fade" id="add_location_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">

@@ -7065,6 +7065,9 @@ input[type='checkbox'].remove-addr {
   .payment-modes .checkbox {
     top: -2px;
   }
+  .add-highlight {
+    padding-right: 0.5em;
+  }
 }
 .premium-points {
   margin-bottom: 1em;

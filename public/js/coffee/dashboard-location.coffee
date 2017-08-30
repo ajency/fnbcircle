@@ -4,12 +4,14 @@ $('body').on 'change', 'input[type=radio][name=locationType]', ->
     $('#locationForm select').val("")
     $('.select_city select').removeAttr('required')
     $('select[name="status"] option[value="1"]').attr("hidden","hidden")
+    $('.namelabel').html "City"
   else if @value == '1'
     $('.select_city').removeClass 'hidden'
     $('.select_city select').attr('required','required')
     $('select[name="status"] option[value="1"]').removeAttr("hidden")
     # $('.select-branch-cat, .parent_cat_icon').addClass('hidden')
     $('#add_location_modal select').val ''
+    $('.namelabel').html "Area"
   $('input[type="text"]').val ''
   $('input[type="number"]').val '1'
   return
@@ -22,6 +24,7 @@ $('#add_location_modal').on 'show.bs.modal', (e) ->
   $('input[type="text"]').val ''
   $('input[type="number"]').val '1'
   $('select[name="status"] option[value="1"]').attr("hidden","hidden")
+  $('.namelabel').html "City"
   return
 
 $('#add_location_modal').on 'click','.save-btn', (e)->
@@ -123,8 +126,11 @@ $('#datatable-locations').on 'click', 'i.fa-pencil', ->
 		$('#edit_location_modal .select_city select').removeAttr 'required'
 		$('#edit_location_modal input[name="area_id"]').val("")
 		$('#edit_location_modal select#allcities').val(loc['id'])
+		$('.namelabel').html "City"
 	else
 		$('#edit_location_modal .select_city select').attr 'required','required'
+		$('.namelabel').html "Area"
+		$('#edit_location_modal .select_city').removeClass 'hidden'
 	$('#edit_location_modal input[name="name"]').val(loc['name'])
 	$('#edit_location_modal input[name="slug"]').val(loc['slug'])
 	$('#edit_location_modal input[name="order"]').val(loc['sort_order'])
@@ -133,11 +139,15 @@ $('#datatable-locations').on 'click', 'i.fa-pencil', ->
 		$('#edit_location_modal select[name="status"] option[value="0"]').removeAttr "hidden"
 		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
 		$('#edit_location_modal select[name="status"] option[value="2"]').attr "hidden","hidden"
+		$('#edit_location_modal .select_city select').prop 'disabled',false
+		$('#edit_location_modal input[name="slug"]').prop 'disabled',false
 	if loc['status'] == "Published"
 		$('#edit_location_modal select[name="status"]').val("1")
 		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
 		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
 		$('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
+		$('#edit_location_modal .select_city select').prop 'disabled',true
+		$('#edit_location_modal input[name="slug"]').prop 'disabled',true
 	if loc['status'] == "Archived"
 		$('#edit_location_modal select[name="status"]').val("2")
 		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"

@@ -463,6 +463,9 @@ table.dataTable tr th.selected.select-checkbox:after {
   background-color: #27b7b0;
   border-color: #27b7b0;
 }
+.multiselect-container {
+  padding: 0.5em;
+}
 .multiselect-container.dropdown-menu {
   left: -75px;
 }

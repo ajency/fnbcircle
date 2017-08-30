@@ -220,11 +220,12 @@ function init_Multiselect() {
     $('.multi-dd').multiselect({
         buttonContainer: '<span></span>',
         buttonClass: '',
+        maxHeight: 200,
         templates: {
             button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
         },
         onChange: function(element, checked) {
-            var categories = $('.multi-dd option:selected');
+            var categories = $(this)[0]['$select'].find('option:selected');
             var selected = [];
             $(categories).each(function(index, city) {
                 selected.push($(this).val());

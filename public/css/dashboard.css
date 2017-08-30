@@ -103,6 +103,28 @@
   color: #fff;
   background-color: transparent;
 }
+.social-btn {
+  padding: 0.8em 2em;
+  border: 0;
+  background-color: transparent;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 0;
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+}
+.social-btn.fb {
+  background-color: #3b5998;
+}
+.social-btn.google {
+  background-color: #ec2c2c;
+}
+.social-btn i {
+  position: absolute;
+  left: 10px;
+  font-size: 1.35em;
+}
 body {
   background: #4e4c4c;
 }

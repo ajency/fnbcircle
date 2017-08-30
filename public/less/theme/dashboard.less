@@ -389,11 +389,13 @@ a{
 .dataTables_filter{
 	display: none;
 }
-.dataTables_wrapper>.row {
-    overflow: auto!important;
-}
-.dataTable{
-	min-height: 355px;
+@media(max-width: 767px){
+	.dataTables_wrapper>.row {
+	    overflow: auto!important;
+	}
+	.dataTable{
+		min-height: 220px;
+	}
 }
 
 /* Datatable Select Row */
@@ -452,6 +454,9 @@ table.dataTable tr th.selected.select-checkbox:after {
 		border: 0;
 		width: auto;
 		display: inline;
+	}
+	&.dropdown-toggle{
+		cursor: pointer;
 	}
 }
 .form-inline .multiselect-container label.checkbox{

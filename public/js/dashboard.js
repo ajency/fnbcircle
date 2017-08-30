@@ -91,6 +91,8 @@ function init_DataTables() {
     var loc_table = $('#datatable-locations').DataTable({
         "pageLength": 25,
         "processing": true,
+        // "scrollY": 500,
+        // "scrollX": true,
         "ajax": {
             "url": "/view-location",
             "type": "POST"
@@ -130,14 +132,14 @@ function init_DataTables() {
                 "orderable": false
             }, {
                 className: "text-center",
-                "targets": [0, 1, 2, 3, 4, 5, 6, 7,8,9]
-            }, 
+                "targets": [0, 2, 3, 4, 6]
+            },
             {
                 "targets": [2,10,11,12],
                 "visible": false,
                 "searchable": false
             }
-            
+
         ]
     });
     loc_table.columns().iterator('column', function(ctx, idx) {

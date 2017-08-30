@@ -52,7 +52,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container @if($listing->reference!=null) edit-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">

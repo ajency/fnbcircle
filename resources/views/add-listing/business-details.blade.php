@@ -15,12 +15,12 @@
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
     <div class="m-t-30 c-gap">
         <label class="label-size">Give us some more details about your listing</label>
-        <textarea type="text" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here">{{$listing->description}}</textarea>
+        <textarea type="text" rows="3" class="form-control fnb-textarea no-m-t" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
         <label class="label-size">What are the highlights of your business?</label>
         <div class="text-lighter">
-            Tell your customer about yourself and what makes your business unique
+            Mention your business strengths, advantages over competition, top customers/clients, etc to get more leads.
         </div>
         @php $highlights = json_decode($listing->highlights) @endphp
         @if ($highlights != null)
@@ -77,57 +77,57 @@
         </div>
         @php $payment = json_decode($listing->payment_modes); @endphp
         
-        <ul class="flex-row payment-modes">
+        <ul class="flex-row payment-modes m-t-10">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> Visa cards
+                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> <span class="text-color">Visa cards</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > Debit Card
+                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > <span class="text-color">Debit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > Money Order
+                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > <span class="text-color">Money Order</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > Cheque
+                    <input type="checkbox" class="checkbox" id="cheque" @if($payment!=null and $payment->cheque) checked @endif > <span class="text-color">Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > Credit Card
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > <span class="text-color">Credit Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > Travelers Cheque
+                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > <span class="text-color">Travelers Cheque</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > Cash
+                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > <span class="text-color">Cash</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > Master Card
+                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > <span class="text-color">Master Card</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > Diner's Club
+                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > <span class="text-color">Diner's Club</span>
                 </label>
             </li>
         </ul>
     </div>
     <div class="m-t-20 c-gap">
 
-        <input type="text" class="form-control fnb-input payment-add flexdatalist" placeholder="+ Add modes of payment &amp; press enter" multiple='multiple'>
+        <input type="text" class="form-control fnb-input payment-add flexdatalist" multiple="multiple" placeholder="+ Add modes of payment &amp; press enter">
 
     </div>
 </div>

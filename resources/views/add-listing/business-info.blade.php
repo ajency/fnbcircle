@@ -25,32 +25,74 @@
         <ul class="business-type flex-row m-t-25">
             <li>
                 <input value="11" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='11') checked=checked @endif>
-                <div class="wholesaler option flex-row">
-                    <span class="fnb-icons business-icon wholesaler"></span>
-                    <i class="fa fa-check"></i>
-                </div>
-                <div class="business-label">
-                    Wholesaler
+                <div class="wholesaler option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon wholesaler"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Wholesaler
+                    </div>
                 </div>
             </li>
             <li>
                 <input value="12" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='12') checked=checked @endif>
-                <div class="retailer option flex-row">
-                    <span class="fnb-icons business-icon retailer"></span>
-                    <i class="fa fa-check"></i>
-                </div>
-                <div class="business-label">
-                    Retailer
+                <div class="retailer option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon retailer"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Retailer
+                    </div>                    
                 </div>
             </li>
             <li>
                 <input value="13" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='13') checked=checked @endif>
-                <div class="manufacturer option flex-row">
-                    <span class="fnb-icons business-icon manufacturer"></span>
-                    <i class="fa fa-check"></i>
+                <div class="manufacturer option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon manufacturer"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Manufacturer
+                    </div>
                 </div>
-                <div class="business-label">
-                    Manufacturer
+            </li>
+            <li>
+                <input value="14" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='14') checked=checked @endif>
+                <div class="wholesaler option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon wholesaler"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Importer
+                    </div>
+                </div>
+            </li>
+            <li>
+                <input value="15" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='15') checked=checked @endif>
+                <div class="retailer option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon retailer"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Exporter
+                    </div>                    
+                </div>
+            </li>
+            <li>
+                <input value="16" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='16') checked=checked @endif>
+                <div class="manufacturer option flex-row col-direction">
+                    <div>
+                        <span class="fnb-icons business-icon manufacturer"></span>
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div class="business-label">
+                        Service Provider
+                    </div>
                 </div>
             </li>
         </ul>

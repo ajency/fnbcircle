@@ -17,7 +17,8 @@ class AdminConfigurationController extends Controller
 
     public function locationView(Request $request)
     {
-        return view('admin-dashboard.location');
+        $cities = City::all();
+        return view('admin-dashboard.location')->with('cities',$cities);
     }
 
     public function saveLocationData(Request $request)
@@ -56,7 +57,7 @@ class AdminConfigurationController extends Controller
                     abort(412, 'You cannot archive a draft location');
                 }
                 if ($city->status != "0" and $request->status == "0") {
-                    abort(412, 'Once the city is published, It cannot be made draft');
+                    abort(412, 'Once the location is published, It cannot be made draft');
                 }
                 if($request->status=="1"){
                 	$city->published_date = Carbon::now();
@@ -70,6 +71,7 @@ class AdminConfigurationController extends Controller
             $city->name       = $request->name;
             $city->order = $request->sort_order;
             $city->save();
+            $city = City::find($city->id);
             return response()->json($city);
         } else {
             if ($request->city_id == '') {
@@ -86,7 +88,7 @@ class AdminConfigurationController extends Controller
                     abort(412, 'You cannot archive a draft area');
                 }
                 if ($area->status != "0" and $request->status == "0") {
-                    abort(412, 'Once the area is published, It cannot be made draft');
+                    abort(412, 'Once the location is published, It cannot be made draft');
                 }
                 if($request->status=="1"){
                 	$area->published_date = Carbon::now();
@@ -104,6 +106,7 @@ class AdminConfigurationController extends Controller
             $area->name       = $request->name;
             $area->order = $request->sort_order;
             $area->save();
+            $area=Area::with('city')->find($area->id);
             return response()->json($area);
         }
     }
@@ -137,7 +140,7 @@ class AdminConfigurationController extends Controller
     			"name"=>$area->name,
     			"isCity"=>"-<span class=\"hidden\">no</span>",
     			"isArea"=>"<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>",
-    			"city"=>$area->city['name'],
+    			"city"=>$area->city['name'].'<span class="hidden">'.$area->city['id'].'</span>',
     			"sort_order"=>$area->order,
     			"update"=>$area->updated_at->toDateString(),
     			"publish"=>$pub,

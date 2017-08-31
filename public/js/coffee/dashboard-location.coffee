@@ -101,6 +101,10 @@ $('#add_location_modal').on 'click','.save-btn', (e)->
       $('#add_location_modal').modal('hide')
       $('.alert-success #message').html "Location added successfully."
       $('.alert-success').addClass 'active'
+      setTimeout (->
+        $('.alert-success').removeClass 'active'
+        return
+      ), 2000
       # $(node).css( 'color', 'red' ).animate( { color: 'black' } )
     error: (request, status, error) ->
       console.log status
@@ -112,52 +116,54 @@ editrow = undefined
 status = 
 
 $('#datatable-locations').on 'click', 'i.fa-pencil', ->
-	# console.log 'pitasha'
-	table = $('#datatable-locations').DataTable()
-	editrow = $(this).closest('td')
-	loc = table.row(editrow).data()
-	console.log loc
-	$('#listing_warning').html ''
-	$('#edit_location_modal .save-btn').prop('disabled',false)
-	$('#edit_location_modal input[name="type"]').val(loc['area'])
-	$('#edit_location_modal input[name="area_id"]').val(loc["id"])
-	$('#edit_location_modal select#allcities').val(loc['city_id'])
-	if loc['city_id'] == ""
-		$('#edit_location_modal .select_city').addClass 'hidden'
-		$('#edit_location_modal .select_city select').removeAttr 'required'
-		$('#edit_location_modal input[name="area_id"]').val("")
-		$('#edit_location_modal select#allcities').val(loc['id'])
-		$('.namelabel').html "City"
-	else
-		$('#edit_location_modal .select_city select').attr 'required','required'
-		$('.namelabel').html "Area"
-		$('#edit_location_modal .select_city').removeClass 'hidden'
-	$('#edit_location_modal input[name="name"]').val(loc['name'])
-	$('#edit_location_modal input[name="slug"]').val(loc['slug'])
-	$('#edit_location_modal input[name="order"]').val(loc['sort_order'])
-	if loc['status'] == "Draft"
-		$('#edit_location_modal select[name="status"]').val("0")
-		$('#edit_location_modal select[name="status"] option[value="0"]').removeAttr "hidden"
-		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('#edit_location_modal select[name="status"] option[value="2"]').attr "hidden","hidden"
-		$('#edit_location_modal .select_city select').prop 'disabled',false
-		$('#edit_location_modal input[name="slug"]').prop 'disabled',false
-		status=0
-	if loc['status'] == "Published"
-		$('#edit_location_modal select[name="status"]').val("1")
-		status=1
-		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
-		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
-		$('#edit_location_modal .select_city select').prop 'disabled',true
-		$('#edit_location_modal input[name="slug"]').prop 'disabled',true
-	if loc['status'] == "Archived"
-		$('#edit_location_modal select[name="status"]').val("2")
-		status=2
-		$('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
-		$('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
-		$('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
-	$('#edit_location_modal').modal('show')
+  # console.log 'pitasha'
+  table = $('#datatable-locations').DataTable()
+  editrow = $(this).closest('td')
+  loc = table.row(editrow).data()
+  console.log loc
+  $('#listing_warning').html ''
+  $('#edit_location_modal .save-btn').prop('disabled',false)
+  $('#edit_location_modal input[name="type"]').val(loc['area'])
+  $('#edit_location_modal input[name="area_id"]').val(loc["id"])
+  $('#edit_location_modal select#allcities').val(loc['city_id'])
+  if loc['city_id'] == ""
+    $('#edit_location_modal .select_city').addClass 'hidden'
+    $('#edit_location_modal .select_city select').removeAttr 'required'
+    $('#edit_location_modal input[name="area_id"]').val("")
+    $('#edit_location_modal select#allcities').val(loc['id'])
+    $('.namelabel').html "City"
+  else
+    $('#edit_location_modal .select_city select').attr 'required','required'
+    $('.namelabel').html "Area"
+    $('#edit_location_modal .select_city').removeClass 'hidden'
+  $('#edit_location_modal input[name="name"]').val(loc['name'])
+  $('#edit_location_modal input[name="slug"]').val(loc['slug'])
+  $('#edit_location_modal input[name="order"]').val(loc['sort_order'])
+  if loc['status'] == "Draft"
+    $('#edit_location_modal select[name="status"]').val("0")
+    $('#edit_location_modal select[name="status"] option[value="0"]').removeAttr "hidden"
+    $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+    $('#edit_location_modal select[name="status"] option[value="2"]').attr "hidden","hidden"
+    $('#edit_location_modal .select_city select').prop 'disabled',false
+    $('#edit_location_modal input[name="slug"]').prop 'disabled',false
+    status=0
+  if loc['status'] == "Published"
+    $('#edit_location_modal select[name="status"]').val("1")
+    status=1
+    $('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
+    $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+    $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
+    $('#edit_location_modal .select_city select').prop 'disabled',true
+    $('#edit_location_modal input[name="slug"]').prop 'disabled',true
+  if loc['status'] == "Archived"
+    $('#edit_location_modal select[name="status"]').val("2")
+    status=2
+    $('#edit_location_modal select[name="status"] option[value="0"]').attr "hidden","hidden"
+    $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr "hidden"
+    $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr "hidden"
+    $('#edit_location_modal .select_city select').prop 'disabled',true
+    $('#edit_location_modal input[name="slug"]').prop 'disabled',true
+  $('#edit_location_modal').modal('show')
 
 
 
@@ -233,6 +239,10 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
       $('#edit_location_modal').modal('hide')
       $('.alert-success #message').html "Location edited successfully."
       $('.alert-success').addClass 'active'
+      setTimeout (->
+        $('.alert-success').removeClass 'active'
+        return
+      ), 2000
       # $(node).css( 'color', 'red' ).animate( { color: 'black' } )
     error: (request, status, error) ->
       console.log status
@@ -257,14 +267,8 @@ $('#edit_location_modal').on 'change','select[name="status"]', (e)->
 				"area_id" : area_id
 			success: (data) ->
 				console.log data['warning']
-				if data['warning']
-					if type == "0"
-						if !confirm('This city has published areas/listings associated with it. Archiving the city will archive the areas/listings too.
-Do you want to continue?')
-							$('#edit_location_modal select[name="status"]').val(status)
-					else
-						if !confirm('This area has published listings associated with it. Archiving the areas will archive the listings too.
-Do you want to continue?')
+				if data['warning']!=false
+						if !confirm(data['warning'])
 							$('#edit_location_modal select[name="status"]').val(status)
 				else
 					$('#listing_warning').html ''
@@ -282,6 +286,6 @@ Do you want to continue?')
 					$('#listing_warning').html ''
 					$('#edit_location_modal .save-btn').prop('disabled',false)
 				else
-					$('#listing_warning').html 'There are no published areas'
+					$('#listing_warning').html 'City cannot be published as there is no published area under this city.'
 				return
 	return

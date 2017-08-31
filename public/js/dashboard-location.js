@@ -108,7 +108,10 @@
         }).draw().node();
         $('#add_location_modal').modal('hide');
         $('.alert-success #message').html("Location added successfully.");
-        return $('.alert-success').addClass('active');
+        $('.alert-success').addClass('active');
+        return setTimeout((function() {
+          $('.alert-success').removeClass('active');
+        }), 2000);
       },
       error: function(request, status, error) {
         console.log(status);
@@ -169,6 +172,8 @@
       $('#edit_location_modal select[name="status"] option[value="0"]').attr("hidden", "hidden");
       $('#edit_location_modal select[name="status"] option[value="1"]').removeAttr("hidden");
       $('#edit_location_modal select[name="status"] option[value="2"]').removeAttr("hidden");
+      $('#edit_location_modal .select_city select').prop('disabled', true);
+      $('#edit_location_modal input[name="slug"]').prop('disabled', true);
     }
     return $('#edit_location_modal').modal('show');
   });
@@ -249,7 +254,10 @@
         }).draw();
         $('#edit_location_modal').modal('hide');
         $('.alert-success #message').html("Location edited successfully.");
-        return $('.alert-success').addClass('active');
+        $('.alert-success').addClass('active');
+        return setTimeout((function() {
+          $('.alert-success').removeClass('active');
+        }), 2000);
       },
       error: function(request, status, error) {
         console.log(status);
@@ -278,15 +286,9 @@
         },
         success: function(data) {
           console.log(data['warning']);
-          if (data['warning']) {
-            if (type === "0") {
-              if (!confirm('This city has published areas/listings associated with it. Archiving the city will archive the areas/listings too. Do you want to continue?')) {
-                $('#edit_location_modal select[name="status"]').val(status);
-              }
-            } else {
-              if (!confirm('This area has published listings associated with it. Archiving the areas will archive the listings too. Do you want to continue?')) {
-                $('#edit_location_modal select[name="status"]').val(status);
-              }
+          if (data['warning'] !== false) {
+            if (!confirm(data['warning'])) {
+              $('#edit_location_modal select[name="status"]').val(status);
             }
           } else {
             $('#listing_warning').html('');
@@ -308,7 +310,7 @@
             $('#listing_warning').html('');
             $('#edit_location_modal .save-btn').prop('disabled', false);
           } else {
-            $('#listing_warning').html('There are no published areas');
+            $('#listing_warning').html('City cannot be published as there is no published area under this city.');
           }
         }
       });

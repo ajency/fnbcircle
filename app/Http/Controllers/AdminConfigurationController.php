@@ -19,7 +19,7 @@ class AdminConfigurationController extends Controller
 
     public function locationView(Request $request)
     {
-        $cities = City::orderBy('order')->get();
+        $cities = City::orderBy('order')->orderBy('name')->get();
         return view('admin-dashboard.location')->with('cities', $cities);
     }
 
@@ -61,20 +61,21 @@ class AdminConfigurationController extends Controller
                 if ($city->status != "0" and $request->status == "0") {
                     abort(412, 'Once the location is published, It cannot be made draft');
                 }
-                if ($request->status == "1") {
-                    $city->published_date = Carbon::now();
-                }
 
                 if ($city->status != "0" and $city->slug != $request->slug) {
                     abort(400, 'slug can be edited only in draft');
                 }
                 $city->slug = $request->slug;
             }
+            if ($request->status == "1") {
+                $city->published_date = Carbon::now()->toDateString();
+            }
             $city->status = $request->status;
             $city->name   = $request->name;
             $city->order  = $request->sort_order;
             $city->save();
-            $city = City::find($city->id);
+            $city                 = City::find($city->id);
+            
             return response()->json($city);
         } else {
             if ($request->city_id == '') {
@@ -93,9 +94,6 @@ class AdminConfigurationController extends Controller
                 if ($area->status != "0" and $request->status == "0") {
                     abort(412, 'Once the location is published, It cannot be made draft');
                 }
-                if ($request->status == "1") {
-                    $area->published_date = Carbon::now();
-                }
 
                 if ($area->status != "0" and $area->slug != $request->slug) {
                     abort(400, 'slug can be edited only in draft');
@@ -106,11 +104,16 @@ class AdminConfigurationController extends Controller
                 }
                 $area->city_id = $request->city_id;
             }
+            if ($request->status == "1") {
+                $area->published_date = Carbon::now()->toDateString();
+            }
+
             $area->status = $request->status;
             $area->name   = $request->name;
             $area->order  = $request->sort_order;
             $area->save();
-            $area = Area::with('city')->find($area->id);
+            $area                 = Area::with('city')->find($area->id);
+            
             return response()->json($area);
         }
     }
@@ -121,7 +124,7 @@ class AdminConfigurationController extends Controller
         $cities = City::all();
         $data   = array();
         foreach ($cities as $city) {
-            $pub    = ($city->published_date != null) ? $city->published_date->toDateString() : "-";
+            $pub    = ($city->published_date != null) ? $city->published_date->toDateTimeString() : "";
             $data[] = array(
                 "#"          => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
                 "slug"       => $city->slug,
@@ -141,7 +144,7 @@ class AdminConfigurationController extends Controller
         }
         $areas = Area::with('city')->get();
         foreach ($areas as $area) {
-            $pub    = ($area->published_date != null) ? $area->published_date->toDateString() : "-";
+            $pub    = ($area->published_date != null) ? $area->published_date->toDateTimeString() : "";
             $data[] = array(
                 "#"          => "<a href=\"#\"><i class=\"fa fa-pencil\"></i></a>",
                 "slug"       => $area->slug,
@@ -171,7 +174,9 @@ class AdminConfigurationController extends Controller
         ]);
         if ($request->type == "1") {
             $count = Area::find($request->area_id)->listings()->count();
-
+            if ($count > 0) {
+                return response()->json(array("warning" => "This city has listings associated with it. Click here to view the listings.<br>You can archive this city only once this is removed from all the listings."));
+            }
         } else {
             $areas = City::find($request->city_id)->areas()->get();
             $count = City::find($request->city_id)->areas()->where('status', '1')->count();
@@ -180,13 +185,12 @@ class AdminConfigurationController extends Controller
                 // echo $area;
                 $count += Area::find($area->id)->listings()->count();
             }
-            // echo $count;
+            if ($count > 0) {
+                return response()->json(array("warning" => "This area has listings associated with it. Click here to view the listings.<br>You can archive this area only once this is removed from all the listings."));
+            }
         }
-        if ($count > 0) {
-            return response()->json(array("warning" => true));
-        } else {
-            return response()->json(array("warning" => false));
-        }
+
+        return response()->json(array("warning" => false));
 
     }
 
@@ -262,7 +266,7 @@ class AdminConfigurationController extends Controller
             }
         }
         $loc_list = $list;
-        $list = array_intersect_key ($categ_list,$loc_list);
+        $list     = array_intersect_key($categ_list, $loc_list);
         return response()->json($list);
     }
 }

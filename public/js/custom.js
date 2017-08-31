@@ -72,7 +72,7 @@ $(function(){
 	// Custom menu click and scroll to particular ID
 
 	var topMenu = jQuery(".nav-info__tabs"),
-        offset = 10,
+        offset = 15,
         topMenuHeight = topMenu.outerHeight()+offset,
         // All list items
         menuItems =  topMenu.find('a[href*="#"]'),
@@ -89,7 +89,7 @@ $(function(){
     menuItems.click(function(e){
       var href = jQuery(this).attr("href"),
         id = href.substring(href.indexOf('#'));
-          offsetTop = href === "#" ? 0 : jQuery(id).offset().top-topMenuHeight+1;
+          offsetTop = href === "#" ? 0 : jQuery(id).offset().top-topMenuHeight+10;
       jQuery('html, body').stop().animate({
           scrollTop: offsetTop
       }, 1000);
@@ -151,6 +151,13 @@ $(function(){
 	        scrollTop: 0
 	    }, 2000);
 	});
+
+	setTimeout((function() {
+	  $('.page-shifter').addClass('animate-row');
+	}), 2000);
+
+
+
 
 	// Global tooltip call
 	
@@ -438,6 +445,54 @@ $(function(){
 		  }
 		});
 
+		// cards equal heights
+		if ($(window).width() > 769){
+			var getheight = $('.design-2-card').outerHeight();
+			$('.equal-col').css('height',getheight);
 
+			$('.open-sidebar').click(function(){
+				event.preventDefault();
+				$('.animate-row').addClass('body-slide');
+			});
+
+			$('.article-back').click(function(){
+				event.preventDefault();
+				$('.animate-row').removeClass('body-slide');
+			});
+
+			$(document).mouseup(function(e) {
+			  var Click_todo;
+			  Click_todo = $('.page-sidebar');
+			  if (!Click_todo.is(e.target) && Click_todo.has(e.target).length === 0) {
+			    $('.animate-row').removeClass('body-slide');
+			  }
+			});
+		}
+		// detach sort
+		if ($(window).width() < 768){
+			$('.open-sidebar').click(function(){
+				event.preventDefault();
+				$('.side-toggle').toggleClass('active');
+				var sort = $('.page-sidebar .sort').detach();
+				$('.page-sidebar').closest('.fly-out').find('.right').append(sort);
+			});
+		}
+
+		// Login
+
+		$('.forget-link').click(function(){
+			event.preventDefault();
+			$('.forget-password').addClass('active');
+		});
+
+		$('.back-login').click(function(){
+			$('.forget-password').removeClass('active');
+		});
+		
+		$('#login-modal').on('hidden.bs.modal', function (e) {
+		  $('.forget-password').removeClass('active');
+		})
 
 });
+
+

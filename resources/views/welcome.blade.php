@@ -246,7 +246,7 @@
     </div>
 
 
-    <div class="modal fnb-modal login-modal" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fnb-modal login-modal modal-center" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -257,20 +257,48 @@
                 </div>
                 <div class="modal-body">
                     <div class="login-body">
-                        <h3 class="welcome-text text-medium">Welcome Back!</h3>
-                        <div class="social-login flex-row col-direction">
-                            <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button>
-                            <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button>
-                        </div>
-                        <div class="alternate-login">
-                            <p class="element-title text-medium m-b-0 alternate-login__title">or use your email address</p>
-                            <div class="form-group p-t-10 m-b-0">
-                                <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                                <input type="text" class="form-control fnb-input float-input" id="email">
+                        <div class="login-container">
+                            <h3 class="welcome-text lighter text-color">Let's get you inside the Circle.</h3>
+                            <div class="social-login flex-row col-direction">
+                                <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button>
+                                <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button>
                             </div>
-                            <div class="form-group p-t-10 m-b-0">
-                                <label class="m-b-0 text-lighter float-label required" for="password">Password</label>
-                                <input type="password" class="form-control fnb-input float-input" id="password">
+                            <div class="alternate-login">
+                                <p class="sub-title text-color text-medium m-b-0 alternate-login__title"><span>Already part of the Circle?</span></p>
+                                <div class="form-group text-left m-b-0">
+                                    <input type="text" class="form-control fnb-input float-input required" id="email" placeholder="Email">
+                                </div>
+                                <div class="form-group text-left m-b-0">
+                                    <input type="password" class="form-control fnb-input float-input required" id="password" placeholder="Password">
+                                </div>
+                                <div class="form-group m-b-0 flex-row space-between forgot-actions">
+                                    <label class="stay-logged flex-row text-medium m-b-0 text-color">
+                                        <input type="checkbox" class="checkbox"> Stay Logged in
+                                    </label>
+                                    <a href="#" class="primary-link forget-link">Forgot password?</a>
+                                </div>
+                                <div class="form-group m-b-0">
+                                    <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="button">Log In <i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-group m-b-0 flex-row space-between no-account">
+                                <div class="text-color">
+                                    Don't have an account yet?
+                                </div>
+                                <button class="btn fnb-btn outline border-btn" type="button">Sign Up</button>
+                            </div>                            
+                        </div>
+                       <div class="forget-password">
+                            <h3 class="welcome-text lighter text-color">Forgot Password</h3>
+                            <div class="form-group text-left m-b-0">
+                                <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
+                            </div>
+                            <div class="form-group m-b-0 m-t-20">
+                                <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin"></i></button>
+                            </div>
+                            <div class="form-group m-b-0">
+                                <div class="text-primary back-login m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
                             </div>
                         </div>
                     </div>

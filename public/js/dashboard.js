@@ -68,13 +68,59 @@ function init_sidebar() {
 function init_DataTables() {
     //Categories Table
     var cat_table = $('#datatable-categories').DataTable({
+        "pageLength": 25,
+        "processing": true,
+        "ajax": {
+            "url": "/list-categories",
+            "type": "POST"
+        },
+        "columns": [{
+            "data": "#"
+        }, {
+            "data": "name"
+        }, {
+            "data": "slug"
+        }, {
+            "data": "isParent"
+        }, {
+            "data": "isBranch"
+        }, {
+            "data": "isNode"
+        }, {
+            "data": "parent"
+        }, {
+            "data": "branch"
+        }, {
+            "data": "sort_order"
+        }, {
+            "data": "publish"
+        }, {
+            "data": "update"
+        }, {
+            "data": "status"
+        }, {
+            "data": "id"
+        }, {
+            "data": "level"
+        }, {
+            "data": "parent_id"
+        }, {
+            "data": "branch_id"
+        }],
         "order": [
-            [9, 'desc']
+            [10, 'desc']
         ],
         "columnDefs": [{
                 "targets": 'no-sort',
                 "orderable": false
-            },
+            },{
+                "targets": [2,12,13,14,15],
+                "visible": false,
+                "searchable": false
+            }, {
+                className: "text-center",
+                "targets": [0, 3, 4, 5,8,]
+            }
             // {
             // 	"targets": [0,2,3,4,5,6,7,8,9,10],
             // 	"searchable": false

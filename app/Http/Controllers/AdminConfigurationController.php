@@ -22,6 +22,11 @@ class AdminConfigurationController extends Controller
         $cities = City::orderBy('order')->orderBy('name')->get();
         return view('admin-dashboard.location')->with('cities', $cities);
     }
+    public function getCities(Request $request)
+    {
+        $cities = City::orderBy('order')->orderBy('name')->get();
+        return response()->json($cities);
+    }
 
     public function saveLocationData(Request $request)
     {

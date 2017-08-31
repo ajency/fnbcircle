@@ -63,7 +63,7 @@
                 <input value="14" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='14') checked=checked @endif>
                 <div class="wholesaler option flex-row col-direction">
                     <div>
-                        <span class="fnb-icons business-icon wholesaler"></span>
+                        <span class="fnb-icons business-icon wholesaler importer"></span>
                         <i class="fa fa-check"></i>
                     </div>
                     <div class="business-label">
@@ -75,7 +75,7 @@
                 <input value="15" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-errors-container="#errorfield" @if($listing->type=='15') checked=checked @endif>
                 <div class="retailer option flex-row col-direction">
                     <div>
-                        <span class="fnb-icons business-icon retailer"></span>
+                        <span class="fnb-icons business-icon retailer exporter"></span>
                         <i class="fa fa-check"></i>
                     </div>
                     <div class="business-label">
@@ -87,7 +87,7 @@
                 <input value="16" type="radio" class="radio" name="business_type" data-parsley-multiple="listing_type" data-parsley-required-message="Please select a business type." data-parsley-required data-parsley-errors-container="#errorfield" @if($listing->type=='16') checked=checked @endif>
                 <div class="manufacturer option flex-row col-direction">
                     <div>
-                        <span class="fnb-icons business-icon manufacturer"></span>
+                        <span class="fnb-icons business-icon manufacturer service-provider"></span>
                         <i class="fa fa-check"></i>
                     </div>
                     <div class="business-label">

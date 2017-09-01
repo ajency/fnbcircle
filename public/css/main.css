@@ -615,14 +615,16 @@ span {
 }
 .fnb-icons.cat-icon {
   border-radius: 50%;
-  height: 50px;
+  height: 70px;
   width: 50px;
   line-height: 50px;
   box-shadow: 0px 0px 0px 2px rgba(27, 189, 148, 0.76);
-  background-size: 700%;
+  -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
 }
 .fnb-icons.veg {
-  background-position: -3px -482px;
+  background-position: -36px -437px;
 }
 .fnb-icons.drinks {
   background-position: -230px -482px;
@@ -647,6 +649,15 @@ span {
   background-position: -282px -544px;
   height: 100px;
   width: 100px;
+}
+.fnb-icons.importer {
+  background-position: -519px -544px;
+}
+.fnb-icons.exporter {
+  background-position: -608px -544px;
+}
+.fnb-icons.service-provider {
+  background-position: -28px -637px;
 }
 .fnb-icons.contact {
   background-position: -425px -540px;
@@ -1650,6 +1661,95 @@ input[type="checkbox"].toggle__check {
   border-width: 11px;
   margin-top: -11px;
 }
+.sign-up-row .float-label {
+  font-size: 1em;
+}
+.sign-up-row .float-label.filled {
+  font-size: 0.85em;
+}
+.sign-up-row .fnb-select {
+  padding-left: 0;
+  font-size: 1em;
+}
+.number-code {
+  margin-top: 5px;
+}
+.number-code input {
+  padding-top: 0;
+  font-size: 1em;
+}
+.number-code__region {
+  width: 10%;
+  outline: 0;
+  border-right: 1px solid #efefef;
+  padding-right: 0px;
+}
+.number-code__region:focus,
+.number-code__region:active {
+  border-right: 1px solid #efefef;
+}
+.number-code__value {
+  padding-left: 10px;
+}
+.select-required {
+  position: relative;
+}
+.select-required:after {
+  position: absolute;
+  top: 8px;
+  right: -10px;
+}
+.describe-best + .btn-group .multiselect-selected-text {
+  color: #9b9ea0;
+}
+.describe-best + .btn-group .multiselect-container {
+  padding: 0.5em 0;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox {
+  padding: 5px 28px 4px 28px;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox'] {
+  margin-right: 6px;
+  position: relative;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
+  top: -7px;
+}
+@media screen and (max-width: 650px) {
+  .log-sign .welcome-text {
+    font-size: 1.4em;
+  }
+  .log-sign .have-acc,
+  .log-sign .no-post-text {
+    font-size: 1em;
+  }
+  .log-sign .social-btn {
+    width: 80%;
+  }
+  .formTitle.formTitle {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-top: 30px;
+  }
+  .sign-up-row {
+    padding: 0 1.5em;
+  }
+  .accept-row.accept-row {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    padding-top: 1em;
+  }
+  .accept_terms {
+    padding-left: 0.8em;
+    margin-top: -8px;
+    font-size: 0.95em;
+  }
+  .signBtn {
+    margin-bottom: -20px;
+  }
+}
 .m-t-0 {
   margin-top: 0px;
 }
@@ -2560,31 +2660,31 @@ input[type="checkbox"].toggle__check {
   margin-bottom: 0;
   color: #9b9ea0;
 }
-.claim {
+.claim-box {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
   padding: 1.5em 2em;
   margin-top: 3em;
   position: relative;
 }
-.claim .exclamation {
+.claim-box .exclamation {
   position: absolute;
   top: -4px;
   right: 0;
 }
-.claim__icon {
+.claim-box__icon {
   font-size: 1.75em;
   color: #4a4a4a;
 }
-.claim__text {
+.claim-box__text {
   margin: 0;
   line-height: 1.5;
 }
-.claim__text a {
+.claim-box__text a {
   color: #27b7b0;
   font-weight: 500;
   border-bottom: 1px solid #777;
 }
-.claim__text a:hover {
+.claim-box__text a:hover {
   text-decoration: none;
 }
 .rating {
@@ -2786,7 +2886,7 @@ input[type="checkbox"].toggle__check {
   .fnb-cat li a {
     font-size: 0.95em;
   }
-  .claim {
+  .claim-box {
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 1.5em 0 2em 0;
@@ -3611,33 +3711,57 @@ input[type="checkbox"].toggle__check {
   }
 }
 .why-fnb .why-icon {
-  background-image: url('../img/sprite.png');
+  background-image: url('../img/sprite-na.png');
   display: block;
-  height: 66px;
-  width: 76px;
+  height: 95px;
+  width: 110px;
   margin: 0 auto 0.8em auto;
+  -webkit-transform: scale(0.85);
+      -ms-transform: scale(0.85);
+          transform: scale(0.85);
 }
 .why-fnb .why-icon.quote {
-  background-position: -48px -31px;
+  background-position: -36px -1708px;
 }
 .why-fnb .why-icon.supplier {
-  background-position: -134px -36px;
+  background-position: -173px -1708px;
 }
 .why-fnb .why-icon.jobs {
-  background-position: -248px -31px;
+  background-position: -316px -1708px;
 }
 .why-fnb .why-icon.news {
-  background-position: -358px -36px;
+  background-position: -447px -1708px;
 }
 .why-fnb .element-title {
   font-weight: 500;
   padding: 0 4em;
   margin-bottom: 1em;
+  font-size: 2em;
 }
 @media screen and (max-width: 1400px) {
   .why-fnb .element-title {
-    padding: 0 1em;
+    padding: 0 3em;
+    font-size: 1.3em;
   }
+}
+.why-fnb.sign-up-adv .element-title {
+  padding: 0;
+  font-size: 1.7em;
+  margin-bottom: 0;
+}
+.why-fnb.sign-up-adv .why-icon {
+  margin-bottom: 0;
+  -webkit-transform: scale(0.7);
+      -ms-transform: scale(0.7);
+          transform: scale(0.7);
+}
+.why-fnb.sign-up-adv .subTitle {
+  padding: 0;
+  font-size: 1.15em;
+  margin-bottom: 0.3em;
+}
+.why-fnb.sign-up-adv .points li {
+  margin-bottom: 2em;
 }
 @media screen and (max-width: 768px) {
   .why-row {
@@ -6743,9 +6867,9 @@ input[type="checkbox"].toggle__check {
     position: relative;
   }
   .business-type .option .business-icon {
-    -webkit-transform: scale(0.7);
-        -ms-transform: scale(0.7);
-            transform: scale(0.7);
+    -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+            transform: scale(0.9);
   }
   .business-type .business-label {
     font-size: 0.85em;
@@ -9085,7 +9209,7 @@ dl dd {
   background-color: transparent;
   border: 0;
   color: #fff;
-  font-weight: 300;
+  font-weight: 500;
   border-radius: 0;
   width: 100%;
   margin-bottom: 1em;
@@ -9140,8 +9264,8 @@ dl dd {
 .logo-style {
   position: relative;
   top: -40px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   margin: 0 auto;
   border-radius: 50%;
   background-color: #fff;
@@ -9207,6 +9331,10 @@ dl dd {
   }
   .no-account {
     font-size: 0.9em;
+  }
+  .logo-style {
+    width: 50px;
+    height: 50px;
   }
 }
 @media screen and (min-width: 769px) {

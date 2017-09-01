@@ -258,7 +258,7 @@
                 <div class="modal-body">
                     <div class="login-body">
                         <div class="login-container">
-                            <h3 class="welcome-text lighter text-color">Let's get you inside the Circle.</h3>
+                            <h3 class="welcome-text text-medium">Let's get you inside the Circle.</h3>
                             <div class="social-login flex-row col-direction">
                                 <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button>
                                 <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button>
@@ -273,7 +273,7 @@
                                 </div>
                                 <div class="form-group m-b-0 flex-row space-between forgot-actions">
                                     <label class="stay-logged flex-row text-medium m-b-0 text-color">
-                                        <input type="checkbox" class="checkbox"> Stay Logged in
+                                        <input type="checkbox" class="checkbox"> Stay Logged In
                                     </label>
                                     <a href="#" class="primary-link forget-link">Forgot password?</a>
                                 </div>
@@ -290,7 +290,7 @@
                             </div>                            
                         </div>
                        <div class="forget-password">
-                            <h3 class="welcome-text lighter text-color">Forgot Password</h3>
+                            <h3 class="welcome-text text-medium">Forgot Password</h3>
                             <div class="form-group text-left m-b-0">
                                 <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
                             </div>
@@ -298,7 +298,7 @@
                                 <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin"></i></button>
                             </div>
                             <div class="form-group m-b-0">
-                                <div class="text-primary back-login m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
+                                <div class="text-primary back-login heavier m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,4 @@
+
 $(function(){
 
 	$(window).scroll(function (event) {
@@ -170,14 +171,14 @@ $(function(){
 	// else{
 	// 	$('.enquiry-btn').hide(300);
 	// }
-
-	$('.description').readmore({
-	   speed: 25,
-	   collapsedHeight: 170,
-	   moreLink: '<a href="#" class="more vm text-secondary">View more</a>',
-	   lessLink: '<a href="#" class="vm less text-secondary">View Less</a>'
-	 });
-
+	if($('.description').length){
+		$('.description').readmore({
+		   speed: 25,
+		   collapsedHeight: 170,
+		   moreLink: '<a href="#" class="more vm text-secondary">View more</a>',
+		   lessLink: '<a href="#" class="vm less text-secondary">View Less</a>'
+		 });
+	}
 	// Smooth scroll
 
 	$("html").easeScroll();
@@ -204,23 +205,26 @@ $(function(){
  	//    	event.preventDefault();
 	//     $(this).ekkoLightbox();
 	// });
+
 		$(document).ready(function() {
-		  $('.image-link').magnificPopup({type:'image'});
-		});
-
-
-		$('.photo-gallery').magnificPopup({
-			delegate: 'a',
-			type: 'image',
-			gallery:{
-			enabled:true
-			},
-			zoom: {
-				enabled: true,
-				duration: 300 // don't foget to change the duration also in CSS
+			if($('.image-link').length){
+			  $('.image-link').magnificPopup({type:'image'});
 			}
 		});
 
+		if($('.photo-gallery').length){
+			$('.photo-gallery').magnificPopup({
+				delegate: 'a',
+				type: 'image',
+				gallery:{
+				enabled:true
+				},
+				zoom: {
+					enabled: true,
+					duration: 300 // don't foget to change the duration also in CSS
+				}
+			});
+		}
 
 		// orientationchange reload
 
@@ -367,6 +371,19 @@ $(function(){
 		  }
 		});
 
+		$('.floatInput').on('focus', function() {
+		  $(this).parent().closest('.form-group').find('.float-label').addClass('filled focused');
+		});
+
+		$('.floatInput').on('blur', function() {
+		  $(this).parent().closest('.form-group').find('.float-label').removeClass('focused');
+
+		  if (this.value === '') {
+		    $(this).parent().closest('.form-group').find('.float-label').removeClass('filled')
+		  }
+		});
+
+
 		// value checking floating label
 
 		function checkForInput(element) {
@@ -385,6 +402,24 @@ $(function(){
 		$('.float-input').each(function() {
 		  checkForInput(this);
 		});
+
+		// function checkForInputPhone(element) {
+
+		//   const $label = $(element).parent().closest('.form-group').find('.float-label');
+
+		//   if ($(element).val().length > 0) {
+		//   	alert('hasvalue');
+		//     $label.addClass('filled lab-color');
+		//   } else {
+		//   	alert('novalue');
+		//     $label.removeClass('filled lab-color');
+		//   }
+		// }
+
+
+		// $('.floatInput').each(function() {
+		//   checkForInputPhone(this);
+		// });
 
 		// Bootstrap multiselect
 		if($('.multi-select').length){
@@ -492,6 +527,18 @@ $(function(){
 		$('#login-modal').on('hidden.bs.modal', function (e) {
 		  $('.forget-password').removeClass('active');
 		})
+
+		if($('#describe-best').length){
+			$('#describe-best').multiselect({
+				nonSelectedText: 'What describes you the best?',
+				numberDisplayed: 1,
+				includeSelectAllOption: true,
+				selectAllValue: 'select-all-value',
+				enableHTML: true
+			});
+		}
+
+
 
 });
 

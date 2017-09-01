@@ -2,14 +2,17 @@
 @section('title', 'Create your F&B Circle Account')
 
 @section('css')
+<link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
 @endsection
 
 @section('js')
     <!-- Custom file input -->
     <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
     <!-- Add listing -->
-    <script type="text/javascript" src="/js/add-listing.js"></script>
+    <!-- <script type="text/javascript" src="/js/add-listing.js"></script> -->
     <!-- custom script -->
+    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+
     <script type="text/javascript" src="/js/custom.js"></script>
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
@@ -42,7 +45,7 @@
     <div class="row">
         <div class="col-sm-9">
             <div class="dsk-separator m-t-20 m-b-50">
-                <div class="text-center m-t-50">
+                <div class="text-center m-t-30">
                     <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
                     <p class="text-medium">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
 
@@ -55,13 +58,13 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-medium m-b-40"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
+                    <p class="text-medium m-b-40 m-t-10"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
                     <hr>
                     <h6 class="text-medium m-t-40">You can also sign up with email. Please enter your details below.</h6>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3">
+                    <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 sign-up-row">
                         <form class="" method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}
 
@@ -88,38 +91,51 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="m-b-0 text-lighter float-label required" for="phone">Phone Number</label>
-                                <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required>
+                                <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
+                                <!-- <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required> -->
+                                <div class="number-code flex-row">
+                                  <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
+                                  <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
+                                </div>
                             </div>
 
                             <div class="form-group p-t-10 p-b-10">
                                 <!-- <label class=" text-lighter required">What describes you the best?</label> -->
-                                <select class="form-control fnb-select border-bottom text-lighter">
-                                    <option>Please select at least one</option>
-                                    <option>1</option>
-                                    <option>2</option>
+                                
+                                <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
+                                    <option data-icon="glyphicon-link">Hospitality Business Owner <i class="fa fa-info-circle" aria-hidden="true"></i></option>
+                                    <option>Working Professional</option>
+                                    <option>Vendor/Supplier/Service provider</option>
+                                    <option>Student</option>
+                                    <option>Prospective Entrepreneur</option>
+                                    <option>Others</option>
                                 </select>
+    
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group p-t-10 p-b-10">
                                         <!-- <label class=" text-lighter required">City</label> -->
-                                        <select class="form-control fnb-select border-bottom text-lighter">
-                                            <option>City</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                        </select>
+                                        <div class="required select-required">
+                                            <select class="form-control fnb-select border-bottom text-lighter">
+                                                <option>City</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group p-t-10 p-b-10">
                                         <!-- <label class=" text-lighter required">Area</label> -->
-                                        <select class="form-control fnb-select border-bottom text-lighter">
-                                            <option>Area</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                        </select>
+                                        <div class="required select-required">
+                                            <select class="form-control fnb-select border-bottom text-lighter">
+                                                <option>Area</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -143,13 +159,13 @@
                             <div class="form-group m-t-30 m-b-40">
                                 <label class="flex-row">
                                       <input type="checkbox" class="checkbox" for="accept_terms">
-                                      <div class="text-medium m-b-0" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of F&amp;B Circle</div>
+                                      <div class="text-medium m-b-0" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
                                 </label>
                             </div>
 
                             <div class="form-group text-center m-t-20 m-b-20">
                                 <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn">
-                                    Register
+                                    Sign Up
                                 </button>
                             </div>
                         </form>

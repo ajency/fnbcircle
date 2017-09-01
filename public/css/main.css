@@ -1661,6 +1661,60 @@ input[type="checkbox"].toggle__check {
   border-width: 11px;
   margin-top: -11px;
 }
+.sign-up-row .float-label {
+  font-size: 1em;
+}
+.sign-up-row .float-label.filled {
+  font-size: 0.85em;
+}
+.sign-up-row .fnb-select {
+  padding-left: 0;
+  font-size: 1em;
+}
+.number-code {
+  margin-top: 5px;
+}
+.number-code input {
+  padding-top: 0;
+  font-size: 1em;
+}
+.number-code__region {
+  width: 10%;
+  outline: 0;
+  border-right: 1px solid #efefef;
+  padding-right: 0px;
+}
+.number-code__region:focus,
+.number-code__region:active {
+  border-right: 1px solid #efefef;
+}
+.number-code__value {
+  padding-left: 10px;
+}
+.select-required {
+  position: relative;
+}
+.select-required:after {
+  position: absolute;
+  top: 8px;
+  right: -10px;
+}
+.describe-best + .btn-group .multiselect-selected-text {
+  color: #9b9ea0;
+}
+.describe-best + .btn-group .multiselect-container {
+  padding: 0.5em 0;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox {
+  padding: 5px 28px 4px 28px;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox'] {
+  margin-right: 6px;
+  position: relative;
+}
+.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
+  top: -7px;
+}
 .m-t-0 {
   margin-top: 0px;
 }

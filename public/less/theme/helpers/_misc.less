@@ -38,6 +38,77 @@
 
 
 
+// Sign up 
+
+.sign-up-row{
+	.float-label{
+		font-size: 1em;
+		&.filled{
+			font-size: 0.85em;
+		}
+	}
+	.fnb-select{
+		padding-left: 0;
+		font-size: 1em;
+	}
+}
+
+
+.number-code{
+	margin-top: 5px;
+	input{
+		padding-top: 0;
+		font-size: 1em;
+	}
+	&__region{
+		width: 10%;
+    	outline: 0;
+    	border-right: 1px solid #efefef;
+    	padding-right: 0px;
+    	&:focus,&:active{
+			border-right: 1px solid #efefef;
+    	}
+	}
+	&__value{
+		padding-left: 10px;
+	}
+}
+
+
+.select-required{
+	position: relative;
+	&:after{
+		position: absolute;
+    	top: 8px;
+    	right: -10px;
+	}
+}
+
+
+.describe-best{
+	& + .btn-group{
+	.multiselect-selected-text{
+		color: #9b9ea0;
+	}
+	.multiselect-container{
+		padding: 0.5em 0;
+			label.checkbox{
+				padding: 5px 28px 4px 28px;
+				input[type='checkbox']{
+					margin-right: 6px;
+	    			position: relative;	
+	    			&:before{
+	    				top: -7px;
+	    			}
+				}
+			}
+		}
+	} 
+}
+
+
+
+
 
 
 

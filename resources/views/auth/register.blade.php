@@ -45,9 +45,9 @@
     <div class="row">
         <div class="col-sm-9">
             <div class="dsk-separator m-t-20 m-b-50">
-                <div class="text-center m-t-30">
+                <div class="text-center m-t-30 log-sign">
                     <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
-                    <p class="text-medium">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
+                    <p class="text-medium have-acc">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
 
                     <div class="row">
                         <div class="col-sm-4 col-sm-offset-4">
@@ -58,9 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-medium m-b-40 m-t-10"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
+                    <p class="text-medium m-b-40 m-t-10 no-post-text"><i class="fa fa-lock" aria-hidden="true"></i> We will not post anything without your permission</p>
                     <hr>
-                    <h6 class="text-medium m-t-40">You can also sign up with email. Please enter your details below.</h6>
+                    <h6 class="text-medium m-t-40 formTitle">You can also sign up with email. Please enter your details below.</h6>
                 </div>
 
                 <div class="row">
@@ -157,13 +157,13 @@
                             </div>
 
                             <div class="form-group m-t-30 m-b-40">
-                                <label class="flex-row">
+                                <label class="flex-row accept-row">
                                       <input type="checkbox" class="checkbox" for="accept_terms">
-                                      <div class="text-medium m-b-0" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
+                                      <div class="text-medium m-b-0 accept_terms" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
                                 </label>
                             </div>
 
-                            <div class="form-group text-center m-t-20 m-b-20">
+                            <div class="form-group text-center m-t-20 m-b-20 signBtn">
                                 <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn">
                                     Sign Up
                                 </button>

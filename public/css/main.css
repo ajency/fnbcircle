@@ -1715,6 +1715,41 @@ input[type="checkbox"].toggle__check {
 .describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
   top: -7px;
 }
+@media screen and (max-width: 650px) {
+  .log-sign .welcome-text {
+    font-size: 1.4em;
+  }
+  .log-sign .have-acc,
+  .log-sign .no-post-text {
+    font-size: 1em;
+  }
+  .log-sign .social-btn {
+    width: 80%;
+  }
+  .formTitle.formTitle {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-top: 30px;
+  }
+  .sign-up-row {
+    padding: 0 1.5em;
+  }
+  .accept-row.accept-row {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    padding-top: 1em;
+  }
+  .accept_terms {
+    padding-left: 0.8em;
+    margin-top: -8px;
+    font-size: 0.95em;
+  }
+  .signBtn {
+    margin-bottom: -20px;
+  }
+}
 .m-t-0 {
   margin-top: 0px;
 }

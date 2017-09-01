@@ -2136,14 +2136,16 @@ input[type="checkbox"].toggle__check {
 }
 .parsley-errors-list li,
 .dupError,
-.validationError {
+.validationError,
+.fnb-errors {
   color: #ff353b;
   font-size: 0.95em;
 }
 @media screen and (max-width: 650px) {
   .parsley-errors-list li,
   .dupError,
-  .validationError {
+  .validationError,
+  .fnb-errors {
     font-size: 0.85em;
   }
 }

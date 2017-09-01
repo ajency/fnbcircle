@@ -236,7 +236,7 @@
                           <option value="1" hidden>Published</option>
                           <option value="2" hidden>Archived</option>
                         </select>
-                        <div id="listing_warning"></div>
+                        <div id="listing_warning" class="fnb-errors"></div>
                       </div>
                     </div>
                   </div>

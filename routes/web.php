@@ -28,6 +28,7 @@ Route::get('listing/create','ListingController@create');
 
 Route::get('admin-dashboard/config/categories','AdminConfigurationController@categoriesView');
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
+Route::post('/save-category','AdminConfigurationController@saveCategory');
 
 
 

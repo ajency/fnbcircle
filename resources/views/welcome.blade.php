@@ -140,6 +140,16 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="home-text text-center">
+                        @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
                         @if(Auth::guest())<h1 class="home-text__title text-medium">What is F&amp;BCircle?</h1>@else
                         <h1 class="home-text__title text-medium">Welcome {{Auth::user()->name}}</h1>@endif
                         <p class="home-text__caption element-title lighter">We provide information related to businesses, jobs, news in the F&amp;B industry.<br> Find suppliers, jobs, read news and a lot more.</p>

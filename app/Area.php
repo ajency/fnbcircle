@@ -18,4 +18,7 @@ class Area extends Model
   public function listings(){
     return $this->hasMany('App\Listing','locality_id');
   }
+  public function siblingCount(){
+    return Area::where('city_id',$this->city_id)->where('id','!=',$this->id)->where('status','1')->count();
+  }
 }

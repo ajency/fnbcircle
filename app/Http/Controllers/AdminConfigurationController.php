@@ -154,7 +154,7 @@ class AdminConfigurationController extends Controller
                 $data[$category->id]['isNode']   = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['parent']   = "";
                 $data[$category->id]['branch']   = "";
-                $data[$category->id]['name']   = $category->name.'<img src="'.$category->icon_url.'" class="img-circle" width="20">';
+                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle" width="20">';
             }
             if ($category->level == "2") {
                 $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
@@ -278,8 +278,9 @@ class AdminConfigurationController extends Controller
             'category' => 'required|json',
             'location' => 'required|json',
         ]);
-        $list       = array();
-        $categories = json_decode($request->category);
+        $list          = array();
+        $categories    = json_decode($request->category);
+        $categSibCount = array();
         foreach ($categories as $category) {
             if ($category->type == "parent") {
                 $branches = Category::where('parent_id', $category->id)->get();
@@ -292,6 +293,7 @@ class AdminConfigurationController extends Controller
                         }
                     }
                 }
+                $categSibCount[$category->id] = array();
             }
             if ($category->type == "branch") {
                 $nodes = Category::where('parent_id', $category->id)->get();
@@ -301,17 +303,23 @@ class AdminConfigurationController extends Controller
                         $list[$listing->id] = ["ref" => $listing->reference];
                     }
                 }
+                $count                        = Category::find($category->id)->siblingCount();
+                $categSibCount[$category->id] = array('branch' => $count);
             }
             if ($category->type == "node") {
                 $listings = Category::find($category->id)->listing()->get();
                 foreach ($listings as $listing) {
                     $list[$listing->id] = ["ref" => $listing->reference];
                 }
+                $count                        = Category::find($category->id)->siblingCount();
+                $p_count                      = Category::find(Category::find($category->id)->parent_id)->siblingCount();
+                $categSibCount[$category->id] = array('node' => $count, 'branch' => $p_count);
             }
         }
-        $categ_list = $list;
-        $list       = array();
-        $locations  = json_decode($request->location);
+        $categ_list   = $list;
+        $list         = array();
+        $locations    = json_decode($request->location);
+        $areaSibCount = array();
         foreach ($locations as $location) {
             if ($location->type == "city") {
                 $areas = City::find($location->id)->areas()->get();
@@ -327,10 +335,72 @@ class AdminConfigurationController extends Controller
                 foreach ($listings as $listing) {
                     $list[$listing->id] = ["ref" => $listing->reference];
                 }
+                $count        = Area::find($location->id)->siblingCount();
+                $areaSibCount = array('areas' => $count);
             }
         }
         $loc_list = $list;
         $list     = array_intersect_key($categ_list, $loc_list);
-        return response()->json($list);
+
+        return response()->json(array('status' => 'success', 'msg' => "", "data" => array("listings" => $list, "category_sibling_count" => $categSibCount, 'area_sibling_count' => $areaSibCount)));
     }
+
+    public function saveCategory(Request $request)
+    {
+        $this->validate($request, [
+            'level'      => 'required|integer|min:1|max:3',
+            'id'         => 'nullable|integer',
+            'parent_id'  => 'nullable|integer',
+            'name'       => 'required|string|max:255',
+            'slug'       => 'required|string|max:255',
+            'sort_order' => 'required|integer',
+            'status'     => 'required|integer|min:0|max:2',
+            'image_url'  => 'nullable|url',
+        ]);
+        // dd($request);
+        if ($request->id != '') {
+            if (!Common::verify_id($request->id, 'categories')) {
+                return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
+            }
+        }
+        if ($request->level != "1") {
+            if (!Common::verify_id($request->parent_id, 'categories')) {
+                return response()->json(array("status" => "404", "msg" => "parent category not found", "data" => array()));
+            }
+        }
+        // dd(Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count());
+        if (Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count()!="0") {
+            return response()->json(array("status" => "400", "msg" => "duplicate slug", "data" => array()));
+        }
+
+        if (Category::where('name', $request->name)->where('id', '!=', $request->id)->where('parent_id', $request->parent_id)->count()!= "0") {
+            return response()->json(array("status" => "400", "msg" => "duplicate Name", "data" => array()));
+        }
+        if ($request->id == '') {
+            $category         = new Category;
+            $category->status = "0";
+            $category->level  = $request->level;
+        } else {
+            $category = Category::find($request->id);
+        }
+        if ($category->status == "0") {
+            $category->parent_id = $request->parent_id;
+            $category->slug      = $request->slug;
+            $category->path      = Category::find($category->parent_id)->path . str_pad($category->parent_id, 5, '0', STR_PAD_LEFT);
+        }
+        $category->name     = $request->name;
+        $category->order    = $request->sort_order;
+        $category->icon_url = $category->icon_url;
+        $message = $category->saveStatus($request->status);
+        if($message != true){
+            return response()->json(array("status" => "400", "msg" => $message, "data" => array()));
+        }
+
+        $category->save();
+        $category = Category::find($category->id);
+        $parents = Category::where('level','1')->get();
+        $branches = Category::where('level','2')->get();
+        return response()->json(array("status" => "200", "msg" => "", "data" => array("item"=>$category,"other_data"=>array("parents"=>$parents,"branches"=>$branches))));
+    }
+
 }

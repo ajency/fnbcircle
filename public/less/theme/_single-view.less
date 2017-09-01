@@ -862,11 +862,12 @@
 			height: 40px;
     		width: 40px;
     		line-height: 40px;
+    		background-size: 300px;
     		&.meat{
-    			background-position: -43px -388px;
+    			background-position: -47px -525px;
     		}
     		&.veg{
-    			background-position: -2px -386px;
+    			background-position: -4px -525px;
     		}
 		}
 	}
@@ -1497,6 +1498,13 @@
     			text-decoration: none;
     			color: @accent-primary;
     		}
+    		& > p{
+    			margin-bottom: -5px;
+    			margin-top: -5px;
+    		}
+    	}
+    	.cat-icon{
+        	transform: scale(0.5);
     	}
     	&:last-child{
     		border-bottom: 0;
@@ -1565,6 +1573,9 @@
 // why fnb
 
 .why-fnb{
+	.points{
+		align-items: flex-start;
+	}
 	.why-icon{
 		background-image: url('../img/sprite-na.png');
 		display: block;

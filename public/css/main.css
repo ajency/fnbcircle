@@ -619,21 +619,22 @@ span {
   width: 50px;
   line-height: 50px;
   box-shadow: 0px 0px 0px 2px rgba(27, 189, 148, 0.76);
-  -webkit-transform: scale(0.5);
-      -ms-transform: scale(0.5);
-          transform: scale(0.5);
 }
 .fnb-icons.veg {
   background-position: -36px -437px;
 }
 .fnb-icons.drinks {
-  background-position: -230px -482px;
+  background-position: -534px -433px;
+  height: 82px;
+  width: 50px;
 }
 .fnb-icons.grocery {
-  background-position: -281px -484px;
+  background-position: -648px -440px;
+  height: 75px;
 }
 .fnb-icons.meat {
-  background-position: -54px -483px;
+  background-position: -144px -433px;
+  width: 60px;
 }
 .fnb-icons.wholesaler {
   background-position: -32px -544px;
@@ -3098,12 +3099,13 @@ input[type="checkbox"].toggle__check {
   height: 40px;
   width: 40px;
   line-height: 40px;
+  background-size: 300px;
 }
 .listed .parent-cat .fnb-icons.meat {
-  background-position: -43px -388px;
+  background-position: -47px -525px;
 }
 .listed .parent-cat .fnb-icons.veg {
-  background-position: -2px -386px;
+  background-position: -4px -525px;
 }
 @media screen and (max-width: 768px) {
   .listed {
@@ -3665,6 +3667,15 @@ input[type="checkbox"].toggle__check {
   text-decoration: none;
   color: #ec6d4b;
 }
+.browse-cat li a > p {
+  margin-bottom: -5px;
+  margin-top: -5px;
+}
+.browse-cat li .cat-icon {
+  -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
+}
 .browse-cat li:last-child {
   border-bottom: 0;
   padding-bottom: 0;
@@ -3709,6 +3720,12 @@ input[type="checkbox"].toggle__check {
   .business-listing {
     padding: 5px 0;
   }
+}
+.why-fnb .points {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 .why-fnb .why-icon {
   background-image: url('../img/sprite-na.png');

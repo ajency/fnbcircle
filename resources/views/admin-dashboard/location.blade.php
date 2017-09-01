@@ -136,12 +136,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Name  <span class="text-danger" >*</span></label>
                     <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
                   </div>
 
@@ -211,12 +211,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Name  <span class="text-danger" >*</span></label>
                     <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
                   </div>
 
@@ -236,7 +236,7 @@
                           <option value="1" hidden>Published</option>
                           <option value="2" hidden>Archived</option>
                         </select>
-                        <div id="listing_warning"></div>
+                        <div id="listing_warning" class="fnb-errors"></div>
                       </div>
                     </div>
                   </div>

@@ -24,9 +24,9 @@ class AdminConfigurationController extends Controller
     }
     public function categoriesView(Request $request)
     {
-        $parents = Category::where('level','1')->get();
-        $branches = Category::where('level','2')->get();
-        return view('admin-dashboard.categories')->with('parents',$parents)->with('branches',$branches);
+        $parents  = Category::where('level', '1')->get();
+        $branches = Category::where('level', '2')->get();
+        return view('admin-dashboard.categories')->with('parents', $parents)->with('branches', $branches);
     }
     public function getCities(Request $request)
     {
@@ -85,8 +85,8 @@ class AdminConfigurationController extends Controller
             $city->name   = $request->name;
             $city->order  = $request->sort_order;
             $city->save();
-            $city                 = City::find($city->id);
-            
+            $city = City::find($city->id);
+
             return response()->json($city);
         } else {
             if ($request->city_id == '') {
@@ -123,17 +123,18 @@ class AdminConfigurationController extends Controller
             $area->name   = $request->name;
             $area->order  = $request->sort_order;
             $area->save();
-            $area                 = Area::with('city')->find($area->id);
-            
+            $area = Area::with('city')->find($area->id);
+
             return response()->json($area);
         }
     }
-    public function categConfigList(Request $request){
-        $status = array("0" => "Draft", "1" => "Published", "2" => "Archived");
+    public function categConfigList(Request $request)
+    {
+        $status     = array("0" => "Draft", "1" => "Published", "2" => "Archived");
         $categories = Category::all();
-        $data = array();
+        $data       = array();
         foreach ($categories as $category) {
-            $pub    = ($category->published_date != null) ? $category->published_date->toDateTimeString() : "";
+            $pub                 = ($category->published_date != null) ? $category->published_date->toDateTimeString() : "";
             $data[$category->id] = array(
                 "#"          => '<a href="#"><i class="fa fa-pencil"></i></a>',
                 "slug"       => $category->slug,
@@ -143,39 +144,40 @@ class AdminConfigurationController extends Controller
                 "publish"    => $pub,
                 "status"     => $status[$category->status],
                 "id"         => $category->id,
-                "level"       => $category->level,
-                "parent_id"    => "",
-                "branch_id"    => "",
+                "level"      => $category->level,
+                "parent_id"  => "",
+                "branch_id"  => "",
             );
-            if($category->level=="1"){
-             $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+            if ($category->level == "1") {
+                $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
                 $data[$category->id]['isBranch'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['isNode'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['parent'] = "";
-                $data[$category->id]['branch'] = "";
+                $data[$category->id]['isNode']   = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['parent']   = "";
+                $data[$category->id]['branch']   = "";
+                $data[$category->id]['name']   = $category->name.'<img src="'.$category->icon_url.'" class="img-circle" width="20">';
             }
-            if($category->level=="2"){
-             $data[$category->id]['isParent'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['isBranch'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
-                $data[$category->id]['isNode'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['parent'] = $data[$category->parent_id]['name'];
-                $data[$category->id]['branch'] = "";
+            if ($category->level == "2") {
+                $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isBranch']  = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+                $data[$category->id]['isNode']    = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['parent']    = $data[$category->parent_id]['name'];
+                $data[$category->id]['branch']    = "";
                 $data[$category->id]['parent_id'] = $data[$category->parent_id]['id'];
             }
-            if($category->level=="3"){
-             $data[$category->id]['isParent'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['isBranch'] = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['isNode'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
-                $data[$category->id]['parent'] = $data[$data[$category->parent_id]['parent_id']]['name'];
-                $data[$category->id]['branch'] = $data[$category->parent_id]['name'];
+            if ($category->level == "3") {
+                $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isBranch']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isNode']    = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+                $data[$category->id]['parent']    = $data[$data[$category->parent_id]['parent_id']]['name'];
+                $data[$category->id]['branch']    = $data[$category->parent_id]['name'];
                 $data[$category->id]['parent_id'] = $data[$category->parent_id]['parent_id'];
                 $data[$category->id]['branch_id'] = $data[$category->parent_id]['id'];
             }
         }
         // print_r($data);
-        $data1=array();
+        $data1 = array();
         foreach ($data as $category) {
-            $data1[]=$category;
+            $data1[] = $category;
         }
         return response()->json(array("data" => $data1));
     }

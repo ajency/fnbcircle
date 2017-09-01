@@ -648,6 +648,15 @@ span {
   height: 100px;
   width: 100px;
 }
+.fnb-icons.importer {
+  background-position: -519px -544px;
+}
+.fnb-icons.exporter {
+  background-position: -608px -544px;
+}
+.fnb-icons.service-provider {
+  background-position: -28px -637px;
+}
 .fnb-icons.contact {
   background-position: -425px -540px;
   height: 100px;
@@ -2560,31 +2569,31 @@ input[type="checkbox"].toggle__check {
   margin-bottom: 0;
   color: #9b9ea0;
 }
-.claim {
+.claim-box {
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
   padding: 1.5em 2em;
   margin-top: 3em;
   position: relative;
 }
-.claim .exclamation {
+.claim-box .exclamation {
   position: absolute;
   top: -4px;
   right: 0;
 }
-.claim__icon {
+.claim-box__icon {
   font-size: 1.75em;
   color: #4a4a4a;
 }
-.claim__text {
+.claim-box__text {
   margin: 0;
   line-height: 1.5;
 }
-.claim__text a {
+.claim-box__text a {
   color: #27b7b0;
   font-weight: 500;
   border-bottom: 1px solid #777;
 }
-.claim__text a:hover {
+.claim-box__text a:hover {
   text-decoration: none;
 }
 .rating {
@@ -2786,7 +2795,7 @@ input[type="checkbox"].toggle__check {
   .fnb-cat li a {
     font-size: 0.95em;
   }
-  .claim {
+  .claim-box {
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 1.5em 0 2em 0;
@@ -6743,9 +6752,9 @@ input[type="checkbox"].toggle__check {
     position: relative;
   }
   .business-type .option .business-icon {
-    -webkit-transform: scale(0.7);
-        -ms-transform: scale(0.7);
-            transform: scale(0.7);
+    -webkit-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+            transform: scale(0.9);
   }
   .business-type .business-label {
     font-size: 0.85em;

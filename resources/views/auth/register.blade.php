@@ -99,16 +99,16 @@
                                 </div>
                             </div>
 
-                            <div class="form-group p-t-10 p-b-10">
+                            <div class="form-group p-t-10 p-b-10 multipleOptions">
                                 <!-- <label class=" text-lighter required">What describes you the best?</label> -->
                                 
                                 <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
-                                    <option data-icon="glyphicon-link">Hospitality Business Owner <i class="fa fa-info-circle" aria-hidden="true"></i></option>
-                                    <option>Working Professional</option>
-                                    <option>Vendor/Supplier/Service provider</option>
-                                    <option>Student</option>
-                                    <option>Prospective Entrepreneur</option>
-                                    <option>Others</option>
+                                    <option value="hospital">Hospitality Business Owner</option>
+                                    <option value="pro">Working Professional</option>
+                                    <option value="vendor">Vendor/Supplier/Service provider</option>
+                                    <option value="student">Student</option>
+                                    <option value="enterpreneur">Prospective Entrepreneur</option>
+                                    <option value="others">Others</option>
                                 </select>
     
                             </div>

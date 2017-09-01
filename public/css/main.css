@@ -9208,6 +9208,10 @@ dl dd {
   .no-account {
     font-size: 0.9em;
   }
+  .logo-style {
+    width: 50px;
+    height: 50px;
+  }
 }
 @media screen and (min-width: 769px) {
   .nf-wrapper {

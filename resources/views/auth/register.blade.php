@@ -32,7 +32,7 @@
         </li>
         <li class="fnb-breadcrums__section">
             <a href="">
-                <p class="fnb-breadcrums__title">Sign up</p>
+                <p class="fnb-breadcrums__title">Sign Up</p>
             </a>
         </li>
     </ul>
@@ -43,8 +43,8 @@
         <div class="col-sm-9">
             <div class="dsk-separator m-t-20 m-b-50">
                 <div class="text-center m-t-50">
-                    <h4 class="welcome-text text-medium">Create your F&amp;B Circle Account</h4>
-                    <p class="text-medium">Already have and account? <a href="#" class="primary-link">Log in</a></p>
+                    <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
+                    <p class="text-medium">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
 
                     <div class="row">
                         <div class="col-sm-4 col-sm-offset-4">
@@ -160,32 +160,32 @@
         <div class="col-sm-3">
             <hr class="desk-hide">
             <!-- why fnb -->
-            <div class="why-fnb text-center m-b-30 p-b-30">
-                <h3 class="main-title">Why F&amp;B Circle?</h3>
-                <ul class="points m-t-30">
+            <div class="why-fnb sign-up-adv text-center m-b-30 p-b-30">
+                <h3 class="element-title">Why FnB Circle?</h3>
+                <ul class="points m-t-20">
                     <li>
                         <!-- <img src="img/quotes.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
                         <span class="why-icon quote"></span>
-                        <p class="element-title">Hospitality News</p>
-                        <p class="sub-title">Stay upto date and profit from the latest Hospitality industry News, Trends and Research.</p>
+                        <p class="element-title subTitle">Hospitality News</p>
+                        <p class="default-size subCaption text-lighter">Stay upto date and profit from the latest Hospitality industry News, Trends and Research.</p>
                     </li>
                     <li>
                         <span class="why-icon supplier"></span>
                         <!-- <img src="img/suppliers.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
-                        <p class="element-title">Vendor/Supplier Directory</p>
-                        <p class="sub-title">Find the best Vendors/Suppliers for your business or make them come to you.</p>
+                        <p class="element-title subTitle">Your own Purchase Department</p>
+                        <p class="default-size subCaption text-lighter">Find the best vendors for your products & services or let them come to you.</p>
                     </li>
                     <li>
                         <!-- <img src="img/jobs.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
                         <span class="why-icon jobs"></span>
-                        <p class="element-title">Hospitality Jobs Portal</p>
-                        <p class="sub-title">Hire the best talent to manage your business, or find the most suitable Hospitality Job for yourself.</p>
+                        <p class="element-title subTitle">Your own H.R. Department</p>
+                        <p class="default-size subCaption text-lighter">Hire the best talent to manage your business or find the most suitable job for yourself.</p>
                     </li>
                     <li>
                         <!-- <img src="img/updates.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
                         <span class="why-icon news"></span>
-                        <p class="element-title">Business promotion for Vendors/Suppliers &amp; Service providers</p>
-                        <p class="sub-title">Discover new business opportunities and promote your business to find new customers.</p>
+                        <p class="element-title subTitle">Sales for Vendors/Suppliers</p>
+                        <p class="default-size subCaption text-lighter">Find new products &amp; opportunities and take your products to news customers.</p>
                     </li>
                 </ul>
             </div>

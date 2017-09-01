@@ -615,14 +615,16 @@ span {
 }
 .fnb-icons.cat-icon {
   border-radius: 50%;
-  height: 50px;
+  height: 70px;
   width: 50px;
   line-height: 50px;
   box-shadow: 0px 0px 0px 2px rgba(27, 189, 148, 0.76);
-  background-size: 700%;
+  -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
 }
 .fnb-icons.veg {
-  background-position: -3px -482px;
+  background-position: -36px -437px;
 }
 .fnb-icons.drinks {
   background-position: -230px -482px;
@@ -3620,32 +3622,37 @@ input[type="checkbox"].toggle__check {
   }
 }
 .why-fnb .why-icon {
-  background-image: url('../img/sprite.png');
+  background-image: url('../img/sprite-na.png');
   display: block;
-  height: 66px;
-  width: 76px;
+  height: 95px;
+  width: 110px;
   margin: 0 auto 0.8em auto;
+  -webkit-transform: scale(0.85);
+      -ms-transform: scale(0.85);
+          transform: scale(0.85);
 }
 .why-fnb .why-icon.quote {
-  background-position: -48px -31px;
+  background-position: -36px -1708px;
 }
 .why-fnb .why-icon.supplier {
-  background-position: -134px -36px;
+  background-position: -173px -1708px;
 }
 .why-fnb .why-icon.jobs {
-  background-position: -248px -31px;
+  background-position: -316px -1708px;
 }
 .why-fnb .why-icon.news {
-  background-position: -358px -36px;
+  background-position: -447px -1708px;
 }
 .why-fnb .element-title {
   font-weight: 500;
   padding: 0 4em;
   margin-bottom: 1em;
+  font-size: 2em;
 }
 @media screen and (max-width: 1400px) {
   .why-fnb .element-title {
-    padding: 0 1em;
+    padding: 0 3em;
+    font-size: 1.3em;
   }
 }
 @media screen and (max-width: 768px) {

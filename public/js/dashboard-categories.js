@@ -219,7 +219,10 @@
       },
       success: function(data) {
         console.log(data);
-        return saveCategory(level, data);
+        if (saveCategory(level, data)) {
+          $('.alert-success #message').html("Category added successfully.");
+          return $('#add_category_modal').modal('hide');
+        }
       },
       error: function(request, status, error) {
         console.log(status);
@@ -238,7 +241,7 @@
       setTimeout((function() {
         $('.alert-failure').removeClass('active');
       }), 5000);
-      return;
+      return false;
     }
     cat_table.ajax.reload();
     if (level === "1") {
@@ -247,12 +250,11 @@
     if (level === "2") {
       updateCategories(level, data['data']['other_data']['branches']);
     }
-    $('.alert-success #message').html("Category added successfully.");
     $('.alert-success').addClass('active');
     setTimeout((function() {
       $('.alert-success').removeClass('active');
     }), 5000);
-    $('#add_category_modal').modal('hide');
+    return true;
   };
 
   updateCategories = function(level, data) {
@@ -308,23 +310,32 @@
     }
     $('input[name="categoryType"]:checked').change();
     $('input[name="categoryType"]').prop('disabled', true);
+    $('#edit_category_modal input[name="slug"]').prop('disabled', true);
+    $('.select-parent-cat select').prop('disabled', true);
+    $('.select-branch-cat select').prop('disabled', true);
     if (cat['status'] === 'Draft') {
       $('select[name="status"] option[value="1"]').prop('hidden', false);
       $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="0"]').prop("hidden", false);
       $('select[name="status"]').val('0');
+      $('#edit_category_modal input[name="slug"]').prop('disabled', false);
+      $('.select-parent-cat select').prop('disabled', false);
+      $('.select-branch-cat select').prop('disabled', false);
+      status = 0;
     }
     if (cat['status'] === 'Published') {
       $('select[name="status"] option[value="1"]').prop('hidden', false);
       $('select[name="status"] option[value="2"]').prop("hidden", false);
       $('select[name="status"] option[value="0"]').attr("hidden", "hidden");
       $('select[name="status"]').val('1');
+      status = 1;
     }
     if (cat['status'] === 'Archived') {
       $('select[name="status"] option[value="1"]').prop('hidden', false);
       $('select[name="status"] option[value="2"]').prop("hidden", false);
       $('select[name="status"] option[value="0"]').attr("hidden", "hidden");
       $('select[name="status"]').val('2');
+      status = 2;
     }
     $('#edit_category_modal input[name="level"]').val(cat['level']);
     $('#edit_category_modal input[name="id"]').val(cat['id']);
@@ -333,6 +344,43 @@
     $('#edit_category_modal input[name="order"]').val(cat['sort_order']);
     $('#edit_category_modal .save-btn').prop('disabled', false);
     return $('#edit_category_modal').modal('show');
+  });
+
+  status = void 0;
+
+  $('#edit_category_modal').on('change', 'select[name="status"]', function(e) {
+    var id, new_status;
+    $('#edit_category_modal .save-btn').prop('disabled', true);
+    id = $('#edit_category_modal input[name="id"]').val();
+    new_status = $(this).val();
+    $.ajax({
+      type: 'post',
+      url: '/check-category-status',
+      data: {
+        "id": id,
+        "status": new_status
+      },
+      success: function(data) {
+        console.log(data);
+        if (data['data']['continue'] === true) {
+          return $('#edit_category_modal .save-btn').prop('disabled', false);
+        } else {
+          if (new_status === "1") {
+            alert(data['data']['message']);
+            $('#edit_category_modal select[name="status"]').val(status);
+            $('#edit_category_modal .save-btn').prop('disabled', false);
+          }
+          if (new_status === "2") {
+            if (!confirm(data['data']['message'])) {
+              $('#edit_category_modal select[name="status"]').val(status);
+              return $('#edit_category_modal .save-btn').prop('disabled', false);
+            } else {
+              return $('#edit_category_modal .save-btn').prop('disabled', false);
+            }
+          }
+        }
+      }
+    });
   });
 
   $('#edit_category_modal').on('click', '.save-btn', function(e) {
@@ -377,8 +425,10 @@
       },
       success: function(data) {
         console.log(data);
-        saveCategory(level, data);
-        return $('#edit_category_modal').modal('hide');
+        if (saveCategory(level, data)) {
+          $('.alert-success #message').html("Category edited successfully.");
+          return $('#edit_category_modal').modal('hide');
+        }
       },
       error: function(request, status, error) {
         console.log(status);

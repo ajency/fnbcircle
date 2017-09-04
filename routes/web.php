@@ -30,6 +30,7 @@ Route::get('admin-dashboard/config/categories','AdminConfigurationController@cat
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
 Route::post('/save-category','AdminConfigurationController@saveCategory');
 Route::post('/get-branches','AdminConfigurationController@getBranches');
+Route::post('/check-category-status','AdminConfigurationController@checkStatus');
 
 
 

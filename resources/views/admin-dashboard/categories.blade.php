@@ -260,6 +260,7 @@
                           <option value="1">Published</option>
                           <option value="2">Archived</option>
                         </select>
+                        <div id="listing_warning"></div>
                       </div>
                     </div>
                   </div>

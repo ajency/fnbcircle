@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Http\Controllers\AdminConfigurationController;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class Category extends Model
 {
@@ -44,11 +44,55 @@ class Category extends Model
                 $this->published_date = Carbon::now();
                 return true;
             } else {
-                return "Cannot be pubished becaused no published categories under it";
+                if($this->level == 1)
+                    return "Parent category cannot be published as there is no published node category under this parent";
+                if($this->level == 2)
+                    return "Branch category cannot be published as there is no published node category under this branch";
             }
         }
     }
-    public function isArchivable(){
+    public function isArchivable()
+    {
+        if ($this->status == '2') {
+            return true;
+        }
+        if ($this->status == '0') {
+            return "You cannot archive a draft category";
+        }
+        if ($this->status == '1') {
+            $req      = new Request;
+            $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
+            $category = '[{"id":"' . $this->id . '","type":"' . $level[$this->level] . '"}]';
+            $location = "[]";
+            $req->merge(array("category" => $category, "location" => $location));
+            // dd($req);
+            $adc  = new AdminConfigurationController;
+            $al   = $adc->getAssociatedListings($req);
+            $data = json_decode(json_encode($al), true)['original'];
+            if (count($data['data']['listings']) != 0) {
+                return 'This category has listings associated with it. <a href="#">Click here</a> to view the listings.<br>You can archive this node only once this is removed from all the listings.';
+            }
+            if ($this->level == "1") {
+                return true;
+            }
+            if ($this->level == "2") {
+                if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
+                   return "Warning! Archiving the branch will archive the parent too. Do you want to continue?";
+                }
+                return true;
+            }
+            if ($this->level == "3") {
+                if ($data['data']['category_sibling_count'][$this->id]['node'] == "0") {
+                    $y = "Warning! Archiving the node will archive the branch too. Do you want to continue? ";
+                    if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
+                        $y = "Archiving the node will archive the branch and the parent too. Do you want to continue? ";
+                    }
+                    return $y;
+                }
+                return true;
+            }
+            return true;
+        }
 
     }
     public function saveStatus($status)

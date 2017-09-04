@@ -408,12 +408,40 @@ class AdminConfigurationController extends Controller
     public function getBranches(Request $request)
     {
         $this->validate($request, [
-            'id' => 'nullable|integer',
+            'id' => 'required|integer',
         ]);
         if (!Common::verify_id($request->id, 'categories')) {
             return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
         }
         $branches = Category::where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
         return response()->json(array("status" => "200", "msg" => "", "data" => $branches));
+    }
+    public function checkStatus(Request $request)
+    {
+        $this->validate($request, [
+            'id'     => 'required|integer',
+            'status' => 'required|integer|min:0|max:2',
+        ]);
+        if (!Common::verify_id($request->id, 'categories')) {
+            return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
+        }
+        $category = Category::find($request->id);
+        if ($request->status == '1' and $category->level!='3') {
+            $x =$category->isPublishable();
+            if($x === true){
+                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
+            }else{
+                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue'=> false, 'message' => $x)));
+            }
+        }
+        if ($request->status == '2') {
+             $x =$category->isArchivable();
+            if($x === true){
+                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
+            }else{
+                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue'=> false, 'message' => $x)));
+            }
+        }
+        return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
     }
 }

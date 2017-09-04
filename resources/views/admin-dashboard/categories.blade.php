@@ -120,7 +120,7 @@
                     <div class="col-sm-6">
                       <div class="form-group select-parent-cat hidden">
                         <label>Select Parent Category <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" id="allparents">
+                        <select class="form-control fnb-select w-border" id="allparents" data-parsley-required-message="Please select the parent category">
                             <option value="">Select Parent</option>
                           @foreach($parents as $parent)
                             <option value="{{$parent->id}}">{{$parent->name}}</option>
@@ -131,7 +131,7 @@
                     <div class="col-sm-6">
                       <div class="form-group select-branch-cat hidden">
                         <label>Select Branch Category <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border">
+                        <select class="form-control fnb-select w-border" data-parsley-required-message="Please select the branch category">
                           <option value="">Select Branch</option>
                         </select>
                       </div>
@@ -140,12 +140,12 @@
 
                   <div class="form-group">
                     <label><div class="dis-inline namelabel"></div> Category Name  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Category name" required="">
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Category name" required="" data-parsley-required-message="Please enter the category name">
                   </div>
 
                   <div class="form-group">
                     <label><div class="dis-inline namelabel"></div> Category Slug  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Slug" required="" data-parsley-slug>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Slug" required="" data-parsley-slug data-parsley-required-message="Please enter the category slug">
                   </div>
 
                   <div class="form-group parent_cat_icon">
@@ -157,13 +157,13 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Sort Order  <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1" placeholder="Enter a Sort value" required="">
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1" placeholder="Enter a Sort value" required="" data-parsley-required-message="Sort order for the category is required">
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select name="status" class="form-control fnb-select w-border" required>
+                        <select name="status" class="form-control fnb-select w-border" required data-parsley-required-message="Please choose a status" >
                           <option value="">Select</option>
                           <option value="0">Draft</option>
                           <option value="1">Published</option>

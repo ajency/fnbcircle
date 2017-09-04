@@ -294,7 +294,7 @@
             <div class="modal-footer">
                 <div class="form-group text-center m-b-0 m-t-10">
                     <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn">
-                        Save
+                        Save <i class="fa fa-circle-o-notch fa-spin"></i>
                     </button>
                 </div>
             </div>

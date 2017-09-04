@@ -159,7 +159,7 @@
           $('#add_category_modal .save-btn').prop('disabled', false);
           setTimeout((function() {
             $('.alert-failure').removeClass('active');
-          }), 2000);
+          }), 5000);
           return;
         }
         html = '<option value="">Select Branch</option>';
@@ -237,7 +237,7 @@
       $('.save-btn').prop('disabled', false);
       setTimeout((function() {
         $('.alert-failure').removeClass('active');
-      }), 2000);
+      }), 5000);
       return;
     }
     cat_table.ajax.reload();
@@ -251,7 +251,7 @@
     $('.alert-success').addClass('active');
     setTimeout((function() {
       $('.alert-success').removeClass('active');
-    }), 2000);
+    }), 5000);
     $('#add_category_modal').modal('hide');
   };
 

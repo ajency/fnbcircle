@@ -146,7 +146,7 @@ $('body').on 'change', '.select-parent-cat select', ->
         setTimeout (->
           $('.alert-failure').removeClass 'active'
           return
-        ), 2000
+        ), 5000
         return
       html = '<option value="">Select Branch</option>'
       for key of data['data']
@@ -212,7 +212,7 @@ saveCategory = (level,data) ->
     setTimeout (->
       $('.alert-failure').removeClass 'active'
       return
-    ), 2000
+    ), 5000
     return
   cat_table.ajax.reload();
   if level == "1" 
@@ -224,7 +224,7 @@ saveCategory = (level,data) ->
   setTimeout (->
     $('.alert-success').removeClass 'active'
     return
-  ), 2000
+  ), 5000
   $('#add_category_modal').modal('hide')
   return
 

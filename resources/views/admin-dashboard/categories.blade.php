@@ -139,12 +139,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel"></span> Category Name  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel"></div> Category Name  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Category name" required="">
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel"></span> Category Slug  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel"></div> Category Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
                   </div>
 

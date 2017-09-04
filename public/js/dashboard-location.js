@@ -382,7 +382,21 @@
                 rootSelector: '[data-toggle=confirmation]',
                 title: 'Confirm',
                 content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>',
-                html: true
+                html: true,
+                buttons: [
+                  {
+                    "class": 'btn btn-info',
+                    label: 'OK',
+                    onClick: function() {
+                      var currency;
+                      currency = 'US Dollar';
+                    }
+                  }, {
+                    "class": 'btn btn-default',
+                    label: 'Cancel',
+                    cancel: true
+                  }
+                ]
               });
               $('.confirm-section').confirmation('show');
             }

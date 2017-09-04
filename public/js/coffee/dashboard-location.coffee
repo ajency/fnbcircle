@@ -365,6 +365,22 @@ $('#edit_location_modal').on 'change','select[name="status"]', (e)->
               title: 'Confirm'
               content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>'
               html: true
+              buttons: [
+                {
+                  class: 'btn btn-info'
+                  label: 'OK'
+                  # icon: 'glyphicon glyphicon-usd'
+                  onClick: ->
+                    currency = 'US Dollar'
+                    return
+                }
+                {
+                  class: 'btn btn-default'
+                  label: 'Cancel'
+                  # icon: 'glyphicon glyphicon-remove'
+                  cancel: true
+                }
+              ]
             $('.confirm-section').confirmation('show')
 						$('#edit_location_modal select[name="status"]').val(status)
 				else

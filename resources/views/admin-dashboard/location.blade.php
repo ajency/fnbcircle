@@ -219,7 +219,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <div class="confirm-section" data-toggle="confirmation" data-popout="true"></div>
+                        <div class="confirm-section" data-toggle="confirmation"></div>
                         <select class="form-control fnb-select w-border statusSelect" name="status" required>
                           <option value="0">Draft</option>
                           <option value="1" hidden>Published</option>

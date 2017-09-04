@@ -203,35 +203,35 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
                       <td>Valenie Lourenco</td>
                       <td>valenie@ajency.in</td>
                       <td>Listing Manger, User Manager</td>
                       <td>Active</td>
                     </tr>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
                       <td>Amit Adav</td>
                       <td>amit@ajency.in</td>
                       <td>Listing Manger</td>
                       <td>Active</td>
                     </tr>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
                       <td>Nutan kamat</td>
                       <td>nutan@ajency.in</td>
                       <td>Listing Manger, User Manager</td>
                       <td>Active</td>
                     </tr>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
                       <td>Harshita Gauns</td>
                       <td>harshita@ajency.in</td>
                       <td>Jobs Manager</td>
                       <td>Active</td>
                     </tr>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
                       <td>Ajaj Rajguru</td>
                       <td>ajaj@ajency.in</td>
                       <td>News Manager</td>
@@ -282,7 +282,6 @@
                           <option >Archived</option>
                         </select>
                       </div>
-                      
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
@@ -297,7 +296,13 @@
                   </div>
                   
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 hidden old-password">
+                      <div class="form-group">
+                        <label>Old Password  <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control fnb-input" name="" placeholder="Old password">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 new-password">
                       <div class="form-group">
                         <label>Password  <span class="text-danger">*</span></label>
                         <input type="password" class="form-control fnb-input" name="" placeholder="Enter a password">

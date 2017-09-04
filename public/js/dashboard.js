@@ -374,3 +374,22 @@ $(document).ready(function() {
 slugify = function(string) {
     return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
 };
+
+
+$(function(){
+    $('.editUser').on('click',function(){
+        $('#add_newuser_modal .old-password').removeClass('hidden');
+        $('#add_newuser_modal .new-password label').text('New Password');
+        $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter new password");
+    });
+})
+
+$('#add_newuser_modal').on('hidden.bs.modal', function (e) {
+    $('#add_newuser_modal .old-password').addClass('hidden');
+    $('#add_newuser_modal .new-password label').text('Password');
+    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");    
+})
+
+
+
+

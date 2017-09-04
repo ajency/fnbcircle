@@ -75,7 +75,7 @@
                             </li>
                             @if(!isset($user))
                             <li class="mobile-hide">
-                                <a href="/login" class="login">
+                                <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
                                     <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
                                     <p class="login__title nav-title-size p-l-10 nav-color">Login</p>
                                 </a>
@@ -270,8 +270,10 @@
                         <div class="login-container">
                             <h3 class="welcome-text text-medium">Let's get you inside the Circle.</h3>
                             <div class="social-login flex-row col-direction">
-                                <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button>
-                                <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button>
+                                <!-- <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button> -->
+                                <a href="{{ url('redirect/facebook') }}" class="fnb-btn social-btn fb"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</a>
+                                <!-- <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button> -->
+                                <a href="{{ url('redirect/google') }}" class="fnb-btn social-btn google"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</a>
                             </div>
                             <div class="alternate-login">
                                 <p class="sub-title text-color text-medium m-b-0 alternate-login__title"><span>Already part of the Circle?</span></p>
@@ -296,7 +298,8 @@
                                 <div class="text-color">
                                     Don't have an account yet?
                                 </div>
-                                <button class="btn fnb-btn outline border-btn" type="button">Sign Up</button>
+                                <!-- <button class="btn fnb-btn outline border-btn" type="button">Sign Up</button> -->
+                                <a href="{{ url('register') }}" class="btn fnb-btn outline border-btn" type="button">Sign Up</a>
                             </div>                            
                         </div>
                        <div class="forget-password">

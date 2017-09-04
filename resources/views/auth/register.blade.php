@@ -52,9 +52,11 @@
                     <div class="row">
                         <div class="col-sm-4 col-sm-offset-4">
                             <div class="social-login flex-row col-direction m-t-10">
-                                <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Sign up with Facebook</button>
+                                <!-- <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Sign up with Facebook</button> -->
+                                <a href="{{ url('redirect/facebook') }}" class="fnb-btn social-btn fb"><i class="fa fa-facebook-official" aria-hidden="true"></i>Sign up with Facebook</a>
                                 <div class="m-b-10">OR</div>
-                                <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Sign up with Google</button>
+                                <!-- <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Sign up with Google</button> -->
+                                <a href="{{ url('redirect/google') }}" class="fnb-btn social-btn google"><i class="fa fa-google-plus" aria-hidden="true"></i>Sign up with Google</a>
                             </div>
                         </div>
                     </div>

@@ -40,6 +40,13 @@
 
 // Sign up 
 
+.sign-up-row,.require-modal{
+	.float-label,.fnb-select{
+		color: #5a5a5a;
+	}
+}
+
+
 .sign-up-row{
 	.float-label{
 		font-size: 1em;
@@ -88,7 +95,7 @@
 .describe-best{
 	& + .btn-group{
 	.multiselect-selected-text{
-		color: #9b9ea0;
+		color: #5a5a5a;
 	}
 	.multiselect-container{
 		padding: 0.5em 0;
@@ -140,6 +147,68 @@
 		margin-bottom: -20px;
 	}
 }
+
+
+
+// Signup Require modal
+
+.require-modal{
+	@media (min-width: 768px){
+		.modal-dialog {
+		    width: 500px;
+		}
+	}
+	.verify-container{
+		margin-top: 2em;
+    	text-align: center;
+    	@media screen and (max-width: @mobile){
+			text-align: right;
+    		margin-top: 0;
+    		margin-bottom: -25px;
+    		position: relative;
+    		top: 10px;
+    		display: flex;
+    		justify-content: flex-end;
+    	}
+	}
+	.phone-col{
+		@media screen and (max-width: @mobile){
+			display: flex;
+    		flex-direction: column-reverse;
+    	}
+	}
+	.modal-content{
+		padding: 1em 1.5em;
+	}
+	.modal-header{
+		position: relative;
+	}
+	&__title{
+		text-align: center;
+    	margin-top: 0.5em;
+    	font-size: 1.25em;
+    	font-weight: 500;
+	}
+	.close{
+		position: absolute;
+		top: 0;
+		right: -5px;
+		font-size: 1.1em;
+	}
+	.modal-body{
+		padding: 0;
+	}
+	@media screen and (max-width: @mobile){
+		&__title{
+			font-size: 1.2em;
+		}
+		.verifyPhone{
+			font-size: 0.9em;
+		}
+	}
+}
+
+
 
 
 

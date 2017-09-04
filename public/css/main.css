@@ -1661,6 +1661,12 @@ input[type="checkbox"].toggle__check {
   border-width: 11px;
   margin-top: -11px;
 }
+.sign-up-row .float-label,
+.require-modal .float-label,
+.sign-up-row .fnb-select,
+.require-modal .fnb-select {
+  color: #5a5a5a;
+}
 .sign-up-row .float-label {
   font-size: 1em;
 }
@@ -1700,7 +1706,7 @@ input[type="checkbox"].toggle__check {
   right: -10px;
 }
 .describe-best + .btn-group .multiselect-selected-text {
-  color: #9b9ea0;
+  color: #5a5a5a;
 }
 .describe-best + .btn-group .multiselect-container {
   padding: 0.5em 0;
@@ -1748,6 +1754,74 @@ input[type="checkbox"].toggle__check {
   }
   .signBtn {
     margin-bottom: -20px;
+  }
+}
+@media (min-width: 768px) {
+  .require-modal .modal-dialog {
+    width: 500px;
+  }
+}
+.require-modal .verify-container {
+  margin-top: 2em;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .require-modal .verify-container {
+    text-align: right;
+    margin-top: 0;
+    margin-bottom: -25px;
+    position: relative;
+    top: 10px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
+}
+@media screen and (max-width: 768px) {
+  .require-modal .phone-col {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+  }
+}
+.require-modal .modal-content {
+  padding: 1em 1.5em;
+}
+.require-modal .modal-header {
+  position: relative;
+}
+.require-modal__title {
+  text-align: center;
+  margin-top: 0.5em;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+.require-modal .close {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  font-size: 1.1em;
+}
+.require-modal .modal-body {
+  padding: 0;
+}
+@media screen and (max-width: 768px) {
+  .require-modal__title {
+    font-size: 1.2em;
+  }
+  .require-modal .verifyPhone {
+    font-size: 0.9em;
   }
 }
 .m-t-0 {
@@ -2210,6 +2284,15 @@ input[type="checkbox"].toggle__check {
   font-size: 1em;
 }
 .verified-mini {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 28px;
+}
+.verifiedMini {
+  font-size: 0.8em;
+}
+.verifiedMini .verified-icon {
   -webkit-transform: scale(0.6);
       -ms-transform: scale(0.6);
           transform: scale(0.6);

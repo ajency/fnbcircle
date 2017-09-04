@@ -106,6 +106,7 @@
 
   $('#add_location_modal').on('click', '.save-btn', function(e) {
     var area_id, city_id, instance, name, slug, sort_order, status, type;
+    $('#add_location_modal .save-btn').prop('disabled', true);
     e.preventDefault();
     instance = $('#locationForm').parsley();
     if (!instance.validate()) {
@@ -264,6 +265,7 @@
 
   $('#edit_location_modal').on('click', '.save-btn', function(e) {
     var area_id, city_id, instance, name, slug, sort_order, type;
+    $('#edit_location_modal .save-btn').prop('disabled', true);
     e.preventDefault();
     instance = $('#editlocationForm').parsley();
     if (!instance.validate()) {
@@ -379,7 +381,19 @@
               $('.confirm-section').confirmation({
                 rootSelector: '[data-toggle=confirmation]',
                 title: 'Confirm',
-                content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?'
+                content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>',
+                html: true,
+                buttons: [
+                  {
+                    "class": 'btn btn-info',
+                    label: 'OK',
+                    onClick: function() {}
+                  }, {
+                    "class": 'btn btn-default',
+                    label: 'Cancel',
+                    cancel: true
+                  }
+                ]
               });
               $('.confirm-section').confirmation('show');
             }

@@ -67,26 +67,72 @@ function init_sidebar() {
 // /Sidebar End
 function init_DataTables() {
     //Categories Table
-    var cat_table = $('#datatable-categories').DataTable({
-        "order": [
-            [9, 'desc']
-        ],
-        "columnDefs": [{
-                "targets": 'no-sort',
-                "orderable": false
-            },
-            // {
-            // 	"targets": [0,2,3,4,5,6,7,8,9,10],
-            // 	"searchable": false
-            // }
-        ]
-    });
-    cat_table.columns().iterator('column', function(ctx, idx) {
-        $(cat_table.column(idx).header()).append('<span class="sort-icon"/>');
-    });
-    $('#catNameSearch').on('keyup', function() {
-        cat_table.columns(1).search(this.value).draw();
-    });
+    // var cat_table = $('#datatable-categories').DataTable({
+    //     "pageLength": 25,
+    //     "processing": true,
+    //     "ajax": {
+    //         "url": "/list-categories",
+    //         "type": "POST"
+    //     },
+    //     "columns": [{
+    //         "data": "#"
+    //     }, {
+    //         "data": "name"
+    //     }, {
+    //         "data": "slug"
+    //     }, {
+    //         "data": "isParent"
+    //     }, {
+    //         "data": "isBranch"
+    //     }, {
+    //         "data": "isNode"
+    //     }, {
+    //         "data": "parent"
+    //     }, {
+    //         "data": "branch"
+    //     }, {
+    //         "data": "sort_order"
+    //     }, {
+    //         "data": "publish"
+    //     }, {
+    //         "data": "update"
+    //     }, {
+    //         "data": "status"
+    //     }, {
+    //         "data": "id"
+    //     }, {
+    //         "data": "level"
+    //     }, {
+    //         "data": "parent_id"
+    //     }, {
+    //         "data": "branch_id"
+    //     }],
+    //     "order": [
+    //         [10, 'desc']
+    //     ],
+    //     "columnDefs": [{
+    //             "targets": 'no-sort',
+    //             "orderable": false
+    //         },{
+    //             "targets": [2,12,13,14,15],
+    //             "visible": false,
+    //             "searchable": false
+    //         }, {
+    //             className: "text-center",
+    //             "targets": [0, 3, 4, 5,8,]
+    //         }
+    //         // {
+    //         //   "targets": [0,2,3,4,5,6,7,8,9,10],
+    //         //   "searchable": false
+    //         // }
+    //     ]
+    // });
+    // cat_table.columns().iterator('column', function(ctx, idx) {
+    //     $(cat_table.column(idx).header()).append('<span class="sort-icon"/>');
+    // });
+    // $('#catNameSearch').on('keyup', function() {
+    //     cat_table.columns(1).search(this.value).draw();
+    // });
     // Location Table
     // var loc_table = $('#datatable-locations').DataTable({
     //     "pageLength": 25,
@@ -139,7 +185,6 @@ function init_DataTables() {
     //             "visible": false,
     //             "searchable": false
     //         }
-
     //     ]
     // });
     // loc_table.columns().iterator('column', function(ctx, idx) {
@@ -168,8 +213,8 @@ function init_DataTables() {
                 "targets": 0
             }
             // {
-            // 	"targets": [1,2,3,4,5,6,7,8],
-            // 	"searchable": false
+            //  "targets": [1,2,3,4,5,6,7,8],
+            //  "searchable": false
             // }
         ]
     });
@@ -221,7 +266,6 @@ $('body').on("change", "input[type=radio][name=categoryType]", function() {
         $('.parent_cat_icon').addClass('hidden')
     }
 });
-
 // Multiselect filter on Datatables
 function init_Multiselect() {
     $('.multi-dd').multiselect({
@@ -294,3 +338,6 @@ $(document).ready(function() {
     init_addEmailType();
     init_daterangepicker_submission();
 });
+slugify = function(string) {
+    return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+};

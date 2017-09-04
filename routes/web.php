@@ -24,7 +24,14 @@ Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
 Route::get('listing/create','ListingController@create');
 
 
-Route::get('admin-dashboard/config/locations','AdminConfigurationController@locationView');
+
+
+Route::get('admin-dashboard/config/categories','AdminConfigurationController@categoriesView');
+Route::post('/list-categories','AdminConfigurationController@categConfigList');
+Route::post('/save-category','AdminConfigurationController@saveCategory');
+Route::post('/get-branches','AdminConfigurationController@getBranches');
+
+
 
 Route::post('/listing','ListingController@store');
 Route::post('/duplicates','ListingController@findDuplicates');
@@ -32,10 +39,10 @@ Route::post('/contact_save','ListingController@saveContact');
 Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_areas','ListingController@getAreas');
-
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
+Route::get('admin-dashboard/config/locations','AdminConfigurationController@locationView');
 Route::post('/has_listing','AdminConfigurationController@hasListing');
 Route::post('/get-cities','AdminConfigurationController@getCities');
 Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');

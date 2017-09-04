@@ -52,9 +52,9 @@
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: block">
-                        <li class=""><a href="">Categories</a>
+                        <li class="@if(Request::path() == 'admin-dashboard/config/categories')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/config/categories')#@else {{action('AdminConfigurationController@categoriesView')}} @endif"">Categories</a>
                         </li>
-                        <li class="sub_menu current-page"><a href="@if(Request::path() == 'admin-dashboard/config/locations')#@else {{link_to_action('AdminConfigurationController@locationView')}}@endif">Locations</a>
+                        <li class="sub_menu @if(Request::path() == 'admin-dashboard/config/locations')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/config/locations')#@else {{action('AdminConfigurationController@locationView')}} @endif">Locations</a>
                         </li>
                       </ul>
                     </li>
@@ -82,6 +82,19 @@
     </div>
 
     @yield('page-data')
+    <!-- Failure Message-->
+      <div class="alert fnb-alert  alert-failure alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <div class="flex-row">
+              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+               <span id="message"></span>
+          </div>
+      </div>
 
+    <!-- Success Message-->
+      <div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <span id="message"></span>
+      </div>
     <div class="site-overlay"></div>
 @endsection

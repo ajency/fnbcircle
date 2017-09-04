@@ -22,6 +22,12 @@ class AdminConfigurationController extends Controller
         $cities = City::orderBy('order')->orderBy('name')->get();
         return view('admin-dashboard.location')->with('cities', $cities);
     }
+    public function categoriesView(Request $request)
+    {
+        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
+        return view('admin-dashboard.categories')->with('parents', $parents)->with('branches', $branches);
+    }
     public function getCities(Request $request)
     {
         $cities = City::orderBy('order')->orderBy('name')->get();
@@ -73,14 +79,14 @@ class AdminConfigurationController extends Controller
                 $city->slug = $request->slug;
             }
             if ($request->status == "1") {
-                $city->published_date = Carbon::now()->toDateString();
+                $city->published_date = Carbon::now()->toDateTimeString();
             }
             $city->status = $request->status;
             $city->name   = $request->name;
             $city->order  = $request->sort_order;
             $city->save();
-            $city                 = City::find($city->id);
-            
+            $city = City::find($city->id);
+
             return response()->json($city);
         } else {
             if ($request->city_id == '') {
@@ -110,17 +116,71 @@ class AdminConfigurationController extends Controller
                 $area->city_id = $request->city_id;
             }
             if ($request->status == "1") {
-                $area->published_date = Carbon::now()->toDateString();
+                $area->published_date = Carbon::now()->toDateTimeString();
             }
 
             $area->status = $request->status;
             $area->name   = $request->name;
             $area->order  = $request->sort_order;
             $area->save();
-            $area                 = Area::with('city')->find($area->id);
-            
+            $area = Area::with('city')->find($area->id);
+
             return response()->json($area);
         }
+    }
+    public function categConfigList(Request $request)
+    {
+        $status     = array("0" => "Draft", "1" => "Published", "2" => "Archived");
+        $categories = Category::all();
+        $data       = array();
+        foreach ($categories as $category) {
+            $pub                 = ($category->published_date != null) ? $category->published_date->toDateTimeString() : "";
+            $data[$category->id] = array(
+                "#"          => '<a href="#"><i class="fa fa-pencil"></i></a>',
+                "slug"       => $category->slug,
+                "name"       => $category->name,
+                "sort_order" => $category->order,
+                "update"     => $category->updated_at->toDateTimeString(),
+                "publish"    => $pub,
+                "status"     => $status[$category->status],
+                "id"         => $category->id,
+                "level"      => $category->level,
+                "parent_id"  => "",
+                "branch_id"  => "",
+                "name_data"  => $category->name,
+            );
+            if ($category->level == "1") {
+                $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+                $data[$category->id]['isBranch'] = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isNode']   = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['parent']   = "";
+                $data[$category->id]['branch']   = "";
+                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle" width="20">';
+            }
+            if ($category->level == "2") {
+                $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isBranch']  = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+                $data[$category->id]['isNode']    = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['parent']    = $data[$category->parent_id]['name_data'];
+                $data[$category->id]['branch']    = "";
+                $data[$category->id]['parent_id'] = $data[$category->parent_id]['id'];
+            }
+            if ($category->level == "3") {
+                $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isBranch']  = "-<span class=\"hidden\">no</span>";
+                $data[$category->id]['isNode']    = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
+                $data[$category->id]['parent']    = $data[$data[$category->parent_id]['parent_id']]['name_data'];
+                $data[$category->id]['branch']    = $data[$category->parent_id]['name'];
+                $data[$category->id]['parent_id'] = $data[$category->parent_id]['parent_id'];
+                $data[$category->id]['branch_id'] = $data[$category->parent_id]['id'];
+            }
+        }
+        // print_r($data);
+        $data1 = array();
+        foreach ($data as $category) {
+            $data1[] = $category;
+        }
+        return response()->json(array("data" => $data1));
     }
 
     public function listLocationConfig(Request $request)
@@ -219,8 +279,9 @@ class AdminConfigurationController extends Controller
             'category' => 'required|json',
             'location' => 'required|json',
         ]);
-        $list       = array();
-        $categories = json_decode($request->category);
+        $list          = array();
+        $categories    = json_decode($request->category);
+        $categSibCount = array();
         foreach ($categories as $category) {
             if ($category->type == "parent") {
                 $branches = Category::where('parent_id', $category->id)->get();
@@ -233,6 +294,7 @@ class AdminConfigurationController extends Controller
                         }
                     }
                 }
+                $categSibCount[$category->id] = array();
             }
             if ($category->type == "branch") {
                 $nodes = Category::where('parent_id', $category->id)->get();
@@ -242,17 +304,23 @@ class AdminConfigurationController extends Controller
                         $list[$listing->id] = ["ref" => $listing->reference];
                     }
                 }
+                $count                        = Category::find($category->id)->siblingCount();
+                $categSibCount[$category->id] = array('branch' => $count);
             }
             if ($category->type == "node") {
                 $listings = Category::find($category->id)->listing()->get();
                 foreach ($listings as $listing) {
                     $list[$listing->id] = ["ref" => $listing->reference];
                 }
+                $count                        = Category::find($category->id)->siblingCount();
+                $p_count                      = Category::find(Category::find($category->id)->parent_id)->siblingCount();
+                $categSibCount[$category->id] = array('node' => $count, 'branch' => $p_count);
             }
         }
-        $categ_list = $list;
-        $list       = array();
-        $locations  = json_decode($request->location);
+        $categ_list   = $list;
+        $list         = array();
+        $locations    = json_decode($request->location);
+        $areaSibCount = array();
         foreach ($locations as $location) {
             if ($location->type == "city") {
                 $areas = City::find($location->id)->areas()->get();
@@ -268,10 +336,84 @@ class AdminConfigurationController extends Controller
                 foreach ($listings as $listing) {
                     $list[$listing->id] = ["ref" => $listing->reference];
                 }
+                $count        = Area::find($location->id)->siblingCount();
+                $areaSibCount = array('areas' => $count);
             }
         }
         $loc_list = $list;
         $list     = array_intersect_key($categ_list, $loc_list);
-        return response()->json($list);
+
+        return response()->json(array('status' => 'success', 'msg' => "", "data" => array("listings" => $list, "category_sibling_count" => $categSibCount, 'area_sibling_count' => $areaSibCount)));
+    }
+
+    public function saveCategory(Request $request)
+    {
+        $this->validate($request, [
+            'level'      => 'required|integer|min:1|max:3',
+            'id'         => 'nullable|integer',
+            'parent_id'  => 'nullable|integer',
+            'name'       => 'required|string|max:255',
+            'slug'       => 'required|string|max:255',
+            'sort_order' => 'required|integer',
+            'status'     => 'required|integer|min:0|max:2',
+            'image_url'  => 'nullable|url',
+        ]);
+        // dd($request);
+        if ($request->id != '') {
+            if (!Common::verify_id($request->id, 'categories')) {
+                return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
+            }
+        }
+        if ($request->level != "1") {
+            if (!Common::verify_id($request->parent_id, 'categories')) {
+                return response()->json(array("status" => "404", "msg" => "parent category not found", "data" => array()));
+            }
+        }
+        // dd(Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count());
+        if (Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count() != "0") {
+            return response()->json(array("status" => "400", "msg" => "Category with same slug exists", "data" => array()));
+        }
+
+        if (Category::where('name', $request->name)->where('id', '!=', $request->id)->where('parent_id', $request->parent_id)->count() != "0") {
+            return response()->json(array("status" => "400", "msg" => "Category with same name exists", "data" => array()));
+        }
+        if ($request->id == '') {
+            $category         = new Category;
+            $category->status = "0";
+            $category->level  = $request->level;
+        } else {
+            $category = Category::find($request->id);
+        }
+        if ($category->status == "0") {
+            $category->slug = $request->slug;
+            if ($category->level != "1") {
+                $category->parent_id = $request->parent_id;
+                $category->path      = Category::find($category->parent_id)->path . str_pad($category->parent_id, 5, '0', STR_PAD_LEFT);
+            }
+        }
+        $category->name     = $request->name;
+        $category->order    = $request->sort_order;
+        $category->icon_url = $request->image_url;
+        $message            = $category->saveStatus($request->status);
+        if ($message != true) {
+            return response()->json(array("status" => "400", "msg" => $message, "data" => array()));
+        }
+
+        $category->save();
+        $category = Category::find($category->id);
+        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
+        return response()->json(array("status" => "200", "msg" => "", "data" => array("item" => $category, "other_data" => array("parents" => $parents, "branches" => $branches))));
+    }
+    public function getBranches(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'nullable|integer',
+        ]);
+        if (!Common::verify_id($request->id, 'categories')) {
+            return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
+        }
+        $branches = Category::where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
+        return response()->json(array("status" => "200", "msg" => "", "data" => $branches));
     }
 }

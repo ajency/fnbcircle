@@ -528,17 +528,105 @@ $(function(){
 		  $('.forget-password').removeClass('active');
 		})
 
+		// Multiselect options for signup
+
 		if($('#describe-best').length){
 			$('#describe-best').multiselect({
 				nonSelectedText: 'What describes you the best?',
 				numberDisplayed: 1,
 				includeSelectAllOption: true,
 				selectAllValue: 'select-all-value',
-				enableHTML: true
+				enableHTML: true,
+				optionClass: function(element) {
+	                var value = $(element).val();
+	 
+	                if (value == 'hospital') {
+	                    return 'hospital';
+	                }
+	                else if(value == 'pro') {
+	                    return 'pro';
+	                }
+	                else if(value == 'vendor') {
+	                    return 'vendor';
+	                }
+	                else if(value == 'student') {
+	                    return 'student';
+	                }
+	                else if(value == 'enterpreneur') {
+	                    return 'enterpreneur';
+	                }
+	                else if(value == 'others') {
+	                    return 'others';
+	                }
+	            }
+
 			});
 		}
 
 
+		$('.hospital').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business';
+		        return value;
+		    }
+		});
+
+
+		$('.pro').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'If you are a chef, senior Manager, mid level Manager, Supervisor, Order Taker, Customer Representative, etc';
+		        return value;
+		    }
+		});
+
+		$('.vendor').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'If you or your company trades in or supplies/provides anything to the Hospitality Industry. This category includes Food & Beverage Traders, Manufacturers, Importers, Exporters, Service/Solution Providers';
+		        return value;
+		    }
+		});
+
+		$('.student').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'If you are pursuing your education in hospitality sector currently';
+		        return value;
+		    }
+		});
+
+
+		$('.enterpreneur').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'If you see yourself becoming a part of the awesome Hospitality Industry in the near or distant future';
+		        return value;
+		    }
+		});
+
+		$('.others').tooltip({
+		    placement: 'top',
+		    container: 'body',
+		    title: function () {
+		        // put whatever you want here
+		        var value = 'Consultants, Media, Investors, etc';
+		        return value;
+		    }
+		});
+		var infoIcon = '<i class="fa fa-info-circle p-l-5" aria-hidden="true"></i>'
+		$('.multipleOptions .multiselect-container li:not(.multiselect-all) .checkbox').append(infoIcon);
 
 });
 

@@ -283,7 +283,7 @@ function init_Multiselect() {
             });
             var search = selected.join("|");
             var col = $(this)[0]['$select'].closest('th').data('col')
-            $('#datatable-categories, #datatable-locations, #datatable-listing_approval').DataTable().column(col).search(search, true, false).draw();
+            $('#datatable-users,#datatable-categories, #datatable-locations, #datatable-listing_approval').DataTable().column(col).search(search, true, false).draw();
             // Show/hide first column for Listing Approval table
             if (selected == "Pending Review") {
                 $(".select-checkbox").css("display", "table-cell");
@@ -326,6 +326,38 @@ function init_daterangepicker_submission() {
         maxDate: moment()
     });
 }
+
+
+function individual_Search(){
+    // $('#datatable-users tfoot th').each( function () {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    // } );
+    // var table = $('#datatable-users').DataTable({
+    //         "columnDefs": [ {
+    //         "targets": [ 1 ],
+            
+    //       } ]
+    //     });
+    // table.columns().every( function () {
+    //     var that = this;
+ 
+    //     $( 'input', this.footer() ).on( 'keyup change', function () {
+    //         if ( that.search() !== this.value ) {
+    //             that
+    //                 .search( this.value )
+    //                 .draw();
+    //         }
+    //     } );
+    // } );
+    $('.roles-select').multiselect({
+        numberDisplayed: 1,
+        includeSelectAllOption: true,
+        selectAllValue: 'select-all-value'
+    });
+}
+
+
 // Category select modal on mobile
 $myGroup = $('.cat-dataHolder');
 $myGroup.on('show.bs.collapse', '.collapse', function() {
@@ -337,6 +369,7 @@ $(document).ready(function() {
     init_Multiselect();
     init_addEmailType();
     init_daterangepicker_submission();
+    individual_Search();
 });
 slugify = function(string) {
     return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');

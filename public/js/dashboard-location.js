@@ -387,10 +387,7 @@
                   {
                     "class": 'btn btn-info',
                     label: 'OK',
-                    onClick: function() {
-                      var currency;
-                      currency = 'US Dollar';
-                    }
+                    onClick: function() {}
                   }, {
                     "class": 'btn btn-default',
                     label: 'Cancel',

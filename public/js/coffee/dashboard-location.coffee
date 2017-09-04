@@ -371,7 +371,7 @@ $('#edit_location_modal').on 'change','select[name="status"]', (e)->
                   label: 'OK'
                   # icon: 'glyphicon glyphicon-usd'
                   onClick: ->
-                    currency = 'US Dollar'
+                    # currency = 'US Dollar'
                     return
                 }
                 {

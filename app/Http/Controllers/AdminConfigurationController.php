@@ -24,8 +24,8 @@ class AdminConfigurationController extends Controller
     }
     public function categoriesView(Request $request)
     {
-        $parents  = Category::where('level', '1')->get();
-        $branches = Category::where('level', '2')->get();
+        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
         return view('admin-dashboard.categories')->with('parents', $parents)->with('branches', $branches);
     }
     public function getCities(Request $request)
@@ -147,6 +147,7 @@ class AdminConfigurationController extends Controller
                 "level"      => $category->level,
                 "parent_id"  => "",
                 "branch_id"  => "",
+                "name_data"  => $category->name,
             );
             if ($category->level == "1") {
                 $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
@@ -160,7 +161,7 @@ class AdminConfigurationController extends Controller
                 $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['isBranch']  = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
                 $data[$category->id]['isNode']    = "-<span class=\"hidden\">no</span>";
-                $data[$category->id]['parent']    = $data[$category->parent_id]['name'];
+                $data[$category->id]['parent']    = $data[$category->parent_id]['name_data'];
                 $data[$category->id]['branch']    = "";
                 $data[$category->id]['parent_id'] = $data[$category->parent_id]['id'];
             }
@@ -168,7 +169,7 @@ class AdminConfigurationController extends Controller
                 $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['isBranch']  = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['isNode']    = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
-                $data[$category->id]['parent']    = $data[$data[$category->parent_id]['parent_id']]['name'];
+                $data[$category->id]['parent']    = $data[$data[$category->parent_id]['parent_id']]['name_data'];
                 $data[$category->id]['branch']    = $data[$category->parent_id]['name'];
                 $data[$category->id]['parent_id'] = $data[$category->parent_id]['parent_id'];
                 $data[$category->id]['branch_id'] = $data[$category->parent_id]['id'];
@@ -369,11 +370,11 @@ class AdminConfigurationController extends Controller
             }
         }
         // dd(Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count());
-        if (Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count()!="0") {
+        if (Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count() != "0") {
             return response()->json(array("status" => "400", "msg" => "duplicate slug", "data" => array()));
         }
 
-        if (Category::where('name', $request->name)->where('id', '!=', $request->id)->where('parent_id', $request->parent_id)->count()!= "0") {
+        if (Category::where('name', $request->name)->where('id', '!=', $request->id)->where('parent_id', $request->parent_id)->count() != "0") {
             return response()->json(array("status" => "400", "msg" => "duplicate Name", "data" => array()));
         }
         if ($request->id == '') {
@@ -384,23 +385,35 @@ class AdminConfigurationController extends Controller
             $category = Category::find($request->id);
         }
         if ($category->status == "0") {
-            $category->parent_id = $request->parent_id;
-            $category->slug      = $request->slug;
-            $category->path      = Category::find($category->parent_id)->path . str_pad($category->parent_id, 5, '0', STR_PAD_LEFT);
+            $category->slug = $request->slug;
+            if ($category->level != "1") {
+                $category->parent_id = $request->parent_id;
+                $category->path      = Category::find($category->parent_id)->path . str_pad($category->parent_id, 5, '0', STR_PAD_LEFT);
+            }
         }
         $category->name     = $request->name;
         $category->order    = $request->sort_order;
-        $category->icon_url = $category->icon_url;
-        $message = $category->saveStatus($request->status);
-        if($message != true){
+        $category->icon_url = $request->image_url;
+        $message            = $category->saveStatus($request->status);
+        if ($message != true) {
             return response()->json(array("status" => "400", "msg" => $message, "data" => array()));
         }
 
         $category->save();
         $category = Category::find($category->id);
-        $parents = Category::where('level','1')->get();
-        $branches = Category::where('level','2')->get();
-        return response()->json(array("status" => "200", "msg" => "", "data" => array("item"=>$category,"other_data"=>array("parents"=>$parents,"branches"=>$branches))));
+        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
+        return response()->json(array("status" => "200", "msg" => "", "data" => array("item" => $category, "other_data" => array("parents" => $parents, "branches" => $branches))));
     }
-
+    public function getBranches(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'nullable|integer',
+        ]);
+        if (!Common::verify_id($request->id, 'categories')) {
+            return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
+        }
+        $branches = Category::where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
+        return response()->json(array("status" => "200", "msg" => "", "data" => $branches));
+    }
 }

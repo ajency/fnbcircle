@@ -51,7 +51,7 @@
                       </th>
                       <th class="no-sort" data-col="6">
                           Parent
-                          <select multiple class="form-control multi-dd">
+                          <select multiple class="form-control multi-dd" id="filterparents">
                             @foreach($parents as $parent)
                             <option>{{$parent->name}}</option>
                             @endforeach
@@ -59,7 +59,7 @@
                       </th>
                       <th class="no-sort" data-col="7">
                         Branch
-                        <select multiple class="form-control multi-dd">
+                        <select multiple class="form-control multi-dd" id="filterbranches">
                           @foreach($branches as $branch)
                             <option>{{$branch->name}}</option>
                             @endforeach
@@ -83,76 +83,6 @@
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Meat</a> <img src="../public/img/meat.png" width="20" alt="" class="img-circle"></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>Sea Foods</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>1</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/05</td>
-                      <td>Published</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Chicken Distributors</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td>Meat</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>2</td>
-                      <td>-</td>
-                      <td>2017/06/12</td>
-                      <td>Draft</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Venky's</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td>Meat</td>
-                      <td>Chicken Distributors</td>
-                      <td>-</td>
-                      <td>2</td>
-                      <td>2017/06/05</td>
-                      <td>2017/07/31</td>
-                      <td>Archived</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Milk Products</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>3</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/20</td>
-                      <td>Published</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Sea Foods</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>4</td>
-                      <td>2017/06/05</td>
-                      <td>2017/05/05</td>
-                      <td>Published</td>
-                    </tr>
                   </tbody>
                 </table>
 
@@ -167,7 +97,7 @@
         <div class="modal fade" id="add_category_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <form>
+              <form id="categoryForm">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   <h6 class="modal-title">Add New Category</h6>
@@ -176,13 +106,13 @@
                   <label>Type of Category <span class="text-danger">*</span></label>
                   <div class="form-group flex flex-space-between">
                     <label class="radio-inline">
-                      <input type="radio" name="categoryType" id="parent_cat" value="parent_cat" class="fnb-radio" checked> Parent Category
+                      <input type="radio" name="categoryType" id="parent_cat" value="1" class="fnb-radio" checked required=""> Parent Category
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="categoryType" id="branch_cat" value="branch_cat" class="fnb-radio"> Branch Category
+                      <input type="radio" name="categoryType" id="branch_cat" value="2" class="fnb-radio"> Branch Category
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="categoryType" id="node_cat" value="node_cat" class="fnb-radio"> Node Category
+                      <input type="radio" name="categoryType" id="node_cat" value="3" class="fnb-radio"> Node Category
                     </label>
                   </div>
 
@@ -190,10 +120,11 @@
                     <div class="col-sm-6">
                       <div class="form-group select-parent-cat hidden">
                         <label>Select Parent Category <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border">
-                          <option value="">Meat Products</option>
-                          <option value="">Meat Products</option>
-                          <option value="">Meat Products</option>
+                        <select class="form-control fnb-select w-border" id="allparents">
+                            <option value="">Select Parent</option>
+                          @foreach($parents as $parent)
+                            <option value="{{$parent->id}}">{{$parent->name}}</option>
+                            @endforeach
                         </select>
                       </div>
                     </div>
@@ -201,22 +132,20 @@
                       <div class="form-group select-branch-cat hidden">
                         <label>Select Branch Category <span class="text-danger">*</span></label>
                         <select class="form-control fnb-select w-border">
-                          <option value="">Chicken Suppliers</option>
-                          <option value="">Chicken Suppliers</option>
-                          <option value="">Chicken Suppliers</option>
+                          <option value="">Select Branch</option>
                         </select>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label>Category Name  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter a Category name">
+                    <label><span class="namelabel"></span> Category Name  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Category name" required="">
                   </div>
 
                   <div class="form-group">
-                    <label>Category Url  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter the Category Url">
+                    <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="">
                   </div>
 
                   <div class="form-group parent_cat_icon">
@@ -228,16 +157,17 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Sort Order  <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control fnb-input" name="" value="1" min="1" placeholder="Enter a Sort value">
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1" placeholder="Enter a Sort value" required="">
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border">
-                          <option value="">Published</option>
-                          <option value="">Draft</option>
-                          <option value="">Archived</option>
+                        <select name="status" class="form-control fnb-select w-border" required>
+                          <option value="">Select</option>
+                          <option value="0">Draft</option>
+                          <option value="1">Published</option>
+                          <option value="2">Archived</option>
                         </select>
                       </div>
                     </div>
@@ -246,7 +176,98 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn primary-btn fnb-btn border-btn">Save</button>
+                  <button type="button" class="btn primary-btn fnb-btn border-btn save-btn">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+<!-- edit Category Modal -->
+        <div class="modal fade" id="edit_category_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form id="categoryForm">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h6 class="modal-title">Edit Category</h6>
+                </div>
+                <input type="hidden" name="id">
+                <div class="modal-body">
+                  <label>Type of Category <span class="text-danger">*</span></label>
+                  <div class="form-group flex flex-space-between">
+                    <label class="radio-inline">
+                      <input type="radio" name="categoryType" id="parent_cat" value="1" class="fnb-radio" checked required=""> Parent Category
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="categoryType" id="branch_cat" value="2" class="fnb-radio"> Branch Category
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="categoryType" id="node_cat" value="3" class="fnb-radio"> Node Category
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group select-parent-cat hidden">
+                        <label>Select Parent Category <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border" id="allparents">
+                            <option value="">Select Parent</option>
+                          @foreach($parents as $parent)
+                            <option value="{{$parent->id}}">{{$parent->name}}</option>
+                            @endforeach
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group select-branch-cat hidden">
+                        <label>Select Branch Category <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border">
+                          <option value="">Select Branch</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label><span class="namelabel"></span> Category Name  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Category name" required="">
+                  </div>
+
+                  <div class="form-group">
+                    <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="">
+                  </div>
+
+                  <div class="form-group parent_cat_icon">
+                    <label>Icon  <span class="text-danger">*</span></label>
+                    <input type="file" name="">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Sort Order  <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1" placeholder="Enter a Sort value" required="">
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Status <span class="text-danger">*</span></label>
+                        <select name="status" class="form-control fnb-select w-border" required>
+                          <option value="">Select</option>
+                          <option value="0">Draft</option>
+                          <option value="1">Published</option>
+                          <option value="2">Archived</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn primary-btn fnb-btn border-btn save-btn">Save</button>
                 </div>
               </form>
             </div>

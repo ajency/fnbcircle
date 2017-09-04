@@ -99,6 +99,7 @@ $('#add_location_modal').on 'show.bs.modal', (e) ->
   return
 
 $('#add_location_modal').on 'click','.save-btn', (e)->
+  $('#add_location_modal .save-btn').prop('disabled',true)
   e.preventDefault()
   instance = $('#locationForm').parsley()
   if !instance.validate()
@@ -247,6 +248,7 @@ $('#datatable-locations').on 'click', 'i.fa-pencil', ->
 
 
 $('#edit_location_modal').on 'click','.save-btn', (e)->
+  $('#edit_location_modal .save-btn').prop('disabled',true)
   e.preventDefault()
   instance = $('#editlocationForm').parsley()
   if !instance.validate()
@@ -315,7 +317,7 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
         "area": area
         "city_id": city_id
       }).draw()
-      $('#edit_location_modal').modal('hide')
+      $('#edit_location_modal').modal('hide') 
       $('.alert-success #message').html "Location edited successfully."
       $('.alert-success').addClass 'active'
       if city == ""

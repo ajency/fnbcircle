@@ -2,6 +2,7 @@
 
 @section('js')
   @parent
+  <script type="text/javascript" src="/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js"></script>
   <script type="text/javascript" src="/js/dashboard-location.js"></script>
 @endsection
 
@@ -218,7 +219,8 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" name="status" required>
+                        <div class="confirm-section" data-toggle="confirmation" data-popout="true"></div>
+                        <select class="form-control fnb-select w-border statusSelect" name="status" required>
                           <option value="0">Draft</option>
                           <option value="1" hidden>Published</option>
                           <option value="2" hidden>Archived</option>

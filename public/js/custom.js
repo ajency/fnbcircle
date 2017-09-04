@@ -531,38 +531,39 @@ $(function(){
 		// Multiselect options for signup
 
 		if($('#describe-best').length){
-			$('#describe-best').multiselect({
-				nonSelectedText: 'What describes you the best?',
-				numberDisplayed: 1,
-				includeSelectAllOption: true,
-				selectAllValue: 'select-all-value',
-				enableHTML: true,
-				optionClass: function(element) {
-	                var value = $(element).val();
-	 
-	                if (value == 'hospital') {
-	                    return 'hospital';
-	                }
-	                else if(value == 'pro') {
-	                    return 'pro';
-	                }
-	                else if(value == 'vendor') {
-	                    return 'vendor';
-	                }
-	                else if(value == 'student') {
-	                    return 'student';
-	                }
-	                else if(value == 'enterpreneur') {
-	                    return 'enterpreneur';
-	                }
-	                else if(value == 'others') {
-	                    return 'others';
-	                }
-	            }
+			// setTimeout((function() {
+	  			$('.describe-best').multiselect({
+					nonSelectedText: 'What describes you the best?',
+					numberDisplayed: 1,
+					includeSelectAllOption: true,
+					selectAllValue: 'select-all-value',
+					enableHTML: true,
+					optionClass: function(element) {
+		                var value = $(element).val();
+		 
+		                if (value == 'hospital') {
+		                    return 'hospital';
+		                }
+		                else if(value == 'pro') {
+		                    return 'pro';
+		                }
+		                else if(value == 'vendor') {
+		                    return 'vendor';
+		                }
+		                else if(value == 'student') {
+		                    return 'student';
+		                }
+		                else if(value == 'enterpreneur') {
+		                    return 'enterpreneur';
+		                }
+		                else if(value == 'others') {
+		                    return 'others';
+		                }
+		            }
 
-			});
+				});
+			// }), 500);
 		}
-
 
 		$('.hospital').tooltip({
 		    placement: 'top',

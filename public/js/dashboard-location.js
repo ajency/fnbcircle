@@ -378,8 +378,14 @@
           console.log(data['warning']);
           if (data['warning'] !== false) {
             if (!confirm(data['warning'])) {
-              $('#edit_location_modal select[name="status"]').val(status);
+              $('.confirm-section').confirmation({
+                rootSelector: '[data-toggle=confirmation]',
+                title: 'Confirm',
+                content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?'
+              });
+              $('.confirm-section').confirmation('show');
             }
+            $('#edit_location_modal select[name="status"]').val(status);
           } else {
             $('#listing_warning').html('');
           }

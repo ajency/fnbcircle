@@ -98,6 +98,7 @@ $('#add_location_modal').on 'show.bs.modal', (e) ->
   $('input[name="order"]').attr('data-parsley-required-message','Sort order for the city is required')
   return
 
+
 $('#add_location_modal').on 'click','.save-btn', (e)->
   $('#add_location_modal .save-btn').prop('disabled',true)
   e.preventDefault()
@@ -334,6 +335,12 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
       $('.alert-failure').addClass 'active'
       return
 
+
+# $('.test').on 'canceled.bs.confirmation  ', ->
+#   $('.statusSelect').prop('selectedIndex',0)
+#   return
+
+
 $('#edit_location_modal').on 'change','select[name="status"]', (e)->
 	$('#edit_location_modal .save-btn').prop('disabled',false)
 	console.log $(this).val()  
@@ -352,11 +359,17 @@ $('#edit_location_modal').on 'change','select[name="status"]', (e)->
 			success: (data) ->
 				console.log data['warning']
 				if data['warning']!=false
-						if !confirm(data['warning'])
-							$('#edit_location_modal select[name="status"]').val(status)
+					if !confirm(data['warning'])
+            $('.confirm-section').confirmation 
+              rootSelector: '[data-toggle=confirmation]'
+              title: 'Confirm'
+              content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?'
+            $('.confirm-section').confirmation('show')
+						$('#edit_location_modal select[name="status"]').val(status)
 				else
 					$('#listing_warning').html ''
 				return
+
 	if $(this).val() == "1" and type == "0"
 		$('#edit_location_modal .save-btn').prop('disabled',true)
 		$.ajax

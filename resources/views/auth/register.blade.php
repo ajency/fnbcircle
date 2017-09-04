@@ -101,16 +101,16 @@
 
                             <div class="form-group p-t-10 p-b-10 multipleOptions">
                                 <!-- <label class=" text-lighter required">What describes you the best?</label> -->
-                                
-                                <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
-                                    <option value="hospital">Hospitality Business Owner</option>
-                                    <option value="pro">Working Professional</option>
-                                    <option value="vendor">Vendor/Supplier/Service provider</option>
-                                    <option value="student">Student</option>
-                                    <option value="enterpreneur">Prospective Entrepreneur</option>
-                                    <option value="others">Others</option>
-                                </select>
-    
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
+                                        <option value="hospital">Hospitality Business Owner</option>
+                                        <option value="pro">Working Professional</option>
+                                        <option value="vendor">Vendor/Supplier/Service provider</option>
+                                        <option value="student">Student</option>
+                                        <option value="enterpreneur">Prospective Entrepreneur</option>
+                                        <option value="others">Others</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -208,5 +208,101 @@
         </div>
     </div>
 </div>
+
+<!-- requirement popup signup -->
+
+<div class="modal fnb-modal require-modal modal-center" id="require-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="require-modal__title">
+                    Please fill/confirm the required details of your profile on Fnb Circle
+                </div>
+                <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
+                        <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
+                        <input id="email" type="text" class="form-control fnb-input float-input" name="name" value="" required="">
+                    </div>
+                    <div class="row phone-col">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
+                                <div class="number-code flex-row">
+                                  <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
+                                  <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="verify-container">
+                                <a href="#" class="secondary-link text-decor verifyPhone">Verify Now</a>
+                                <!-- <div class="verified verifiedMini flex-row">
+                                    <span class="fnb-icons verified-icon"></span>
+                                    <p class="c-title m-b-0">Verified</p>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group p-t-10 p-b-10 multipleOptions">
+                        <div class="required select-required">
+                            <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
+                                <option value="hospital">Hospitality Business Owner</option>
+                                <option value="pro">Working Professional</option>
+                                <option value="vendor">Vendor/Supplier/Service provider</option>
+                                <option value="student">Student</option>
+                                <option value="enterpreneur">Prospective Entrepreneur</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">City</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>City</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">Area</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>Area</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group text-center m-b-0 m-t-10">
+                    <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn">
+                        Save <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 @endsection

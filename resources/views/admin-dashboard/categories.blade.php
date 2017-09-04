@@ -145,7 +145,7 @@
 
                   <div class="form-group">
                     <label><div class="dis-inline namelabel"></div> Category Slug  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Slug" required="" data-parsley-slug>
                   </div>
 
                   <div class="form-group parent_cat_icon">

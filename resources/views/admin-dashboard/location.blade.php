@@ -2,6 +2,7 @@
 
 @section('js')
   @parent
+  <script type="text/javascript" src="/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js"></script>
   <script type="text/javascript" src="/js/dashboard-location.js"></script>
 @endsection
 
@@ -12,7 +13,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Manage Locations <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_location_modal">+ Add new</button></h5>
+            <h5>Manage Locations <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_location_modal">+ Add new</button><button id="resetfilter" class="btn btn-link btn-sm">Reset Filters</button></h5>
           </div>
         </div>
 
@@ -51,7 +52,7 @@
                           City
                           <select multiple class="form-control multi-dd" id="filtercities">
                             @foreach ($cities as $city)
-                            <option value="{{$city->name}}">{{$city->name}}</option>
+                            <option>{{$city->name}}</option>
                           @endforeach
                           </select>
                       </th>
@@ -125,7 +126,7 @@
                     <div class="col-sm-6">
                       <div class="form-group select_city">
                         <label>Select the City <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" id="allcities" required>
+                        <select class="form-control fnb-select w-border" id="allcities" required data-parsley-required-message="Please select the city">
                           <option value="">Select City</option>
                           @foreach ($cities as $city)
                             <option value="{{$city->id}}">{{$city->name}}</option>
@@ -136,12 +137,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Name  <span class="text-danger" >*</span></label>
                     <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
                   </div>
 
@@ -156,7 +157,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" name="status" required>
+                        <select class="form-control fnb-select w-border" name="status" required data-parsley-required-message="Please choose a status.">
                           <option value="">Select Status</option>
                           <option value="0">Draft</option>
                           <option value="1" hidden>Published</option>
@@ -187,11 +188,20 @@
                 <div class="modal-body">
                   <input type="hidden" name="type">
                   <input type="hidden" name="area_id">
+                  <label>Type of Location <span class="text-danger">*</span></label>
+                  <div class="form-group ">
+                    <label class="radio-inline">
+                      <input type="radio" name="locationType" id="city" value="0" class="fnb-radio" disabled=""> City
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="locationType" id="area" value="1" class="fnb-radio" checked="" disabled="disabled"> Area
+                    </label>
+                  </div>
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="form-group select_city">
                         <label>Select the City <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" id="allcities" required>
+                        <select class="form-control fnb-select w-border" id="allcities" data-parsley-required-message="Please select the city" required>
                           <option value="">Select City</option>
                           @foreach ($cities as $city)
                             <option value="{{$city->id}}">{{$city->name}}</option>
@@ -202,12 +212,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Name  <span class="text-danger" >*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Name  <span class="text-danger" >*</span></label>
                     <input type="text" class="form-control fnb-input" name="name" placeholder="Enter a Location name" required>
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel">Location</span> Slug  <span class="text-danger">*</span></label>
+                    <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
                   </div>
 
@@ -222,12 +232,13 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Status <span class="text-danger">*</span></label>
-                        <select class="form-control fnb-select w-border" name="status" required>
+                        <div class="confirm-section" data-toggle="confirmation" data-popout="true"></div>
+                        <select class="form-control fnb-select w-border statusSelect" name="status" required>
                           <option value="0">Draft</option>
                           <option value="1" hidden>Published</option>
                           <option value="2" hidden>Archived</option>
                         </select>
-                        <div id="listing_warning"></div>
+                        <div id="listing_warning" class="fnb-errors"></div>
                       </div>
                     </div>
                   </div>

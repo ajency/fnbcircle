@@ -52,9 +52,9 @@
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: block">
-                        <li class=""><a href="categories.html">Categories</a>
+                        <li class=""><a href="">Categories</a>
                         </li>
-                        <li class="sub_menu current-page"><a href="locations.html">Locations</a>
+                        <li class="sub_menu current-page"><a href="@if(Request::path() == 'admin-dashboard/config/locations')#@else {{link_to_action('AdminConfigurationController@locationView')}}@endif">Locations</a>
                         </li>
                       </ul>
                     </li>

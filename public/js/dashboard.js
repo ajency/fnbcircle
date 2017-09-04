@@ -88,66 +88,66 @@ function init_DataTables() {
         cat_table.columns(1).search(this.value).draw();
     });
     // Location Table
-    var loc_table = $('#datatable-locations').DataTable({
-        "pageLength": 25,
-        "processing": true,
-        // "scrollY": 500,
-        // "scrollX": true,
-        "ajax": {
-            "url": "/view-location",
-            "type": "POST"
-        },
-        "columns": [{
-            "data": "#"
-        }, {
-            "data": "name"
-        }, {
-            "data": "slug"
-        }, {
-            "data": "isCity"
-        }, {
-            "data": "isArea"
-        }, {
-            "data": "city"
-        }, {
-            "data": "sort_order"
-        }, {
-            "data": "publish"
-        }, {
-            "data": "update"
-        }, {
-            "data": "status"
-        }, {
-            "data": "id"
-        }, {
-            "data": "area"
-        }, {
-            "data": "city_id"
-        }],
-        "order": [
-            [8, 'desc']
-        ],
-        "columnDefs": [{
-                "targets": 'no-sort',
-                "orderable": false
-            }, {
-                className: "text-center",
-                "targets": [0, 2, 3, 4, 6]
-            },
-            {
-                "targets": [2,10,11,12],
-                "visible": false,
-                "searchable": false
-            }
+    // var loc_table = $('#datatable-locations').DataTable({
+    //     "pageLength": 25,
+    //     "processing": true,
+    //     // "scrollY": 500,
+    //     // "scrollX": true,
+    //     "ajax": {
+    //         "url": "/view-location",
+    //         "type": "POST"
+    //     },
+    //     "columns": [{
+    //         "data": "#"
+    //     }, {
+    //         "data": "name"
+    //     }, {
+    //         "data": "slug"
+    //     }, {
+    //         "data": "isCity"
+    //     }, {
+    //         "data": "isArea"
+    //     }, {
+    //         "data": "city"
+    //     }, {
+    //         "data": "sort_order"
+    //     }, {
+    //         "data": "publish"
+    //     }, {
+    //         "data": "update"
+    //     }, {
+    //         "data": "status"
+    //     }, {
+    //         "data": "id"
+    //     }, {
+    //         "data": "area"
+    //     }, {
+    //         "data": "city_id"
+    //     }],
+    //     "order": [
+    //         [8, 'desc']
+    //     ],
+    //     "columnDefs": [{
+    //             "targets": 'no-sort',
+    //             "orderable": false
+    //         }, {
+    //             className: "text-center",
+    //             "targets": [0, 2, 3, 4, 6]
+    //         },
+    //         {
+    //             "targets": [2,10,11,12],
+    //             "visible": false,
+    //             "searchable": false
+    //         }
 
-        ]
-    });
-    loc_table.columns().iterator('column', function(ctx, idx) {
-        $(loc_table.column(idx).header()).append('<span class="sort-icon"/>');
-    });
-    $('#locationNameSearch').on('keyup', function() {
-        loc_table.columns(1).search(this.value).draw();
-    });
+    //     ]
+    // });
+    // loc_table.columns().iterator('column', function(ctx, idx) {
+    //     $(loc_table.column(idx).header()).append('<span class="sort-icon"/>');
+    // });
+    // $('#locationNameSearch').on('keyup', function() {
+    //     loc_table.columns(1).search(this.value).draw();
+    // });
     // Approval Table
     var approval_table = $('#datatable-listing_approval').DataTable({
         "order": [

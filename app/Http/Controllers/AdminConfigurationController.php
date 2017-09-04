@@ -371,11 +371,11 @@ class AdminConfigurationController extends Controller
         }
         // dd(Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count());
         if (Category::where('slug', $request->slug)->where('id', '!=', $request->id)->count() != "0") {
-            return response()->json(array("status" => "400", "msg" => "duplicate slug", "data" => array()));
+            return response()->json(array("status" => "400", "msg" => "Category with same slug exists", "data" => array()));
         }
 
         if (Category::where('name', $request->name)->where('id', '!=', $request->id)->where('parent_id', $request->parent_id)->count() != "0") {
-            return response()->json(array("status" => "400", "msg" => "duplicate Name", "data" => array()));
+            return response()->json(array("status" => "400", "msg" => "Category with same name exists", "data" => array()));
         }
         if ($request->id == '') {
             $category         = new Category;

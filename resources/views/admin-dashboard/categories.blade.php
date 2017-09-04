@@ -144,7 +144,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
+                    <label><span class="namelabel"></span> Category Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
                   </div>
 
@@ -235,7 +235,7 @@
                   </div>
 
                   <div class="form-group">
-                    <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
+                    <label><span class="namelabel"></span> Category Slug  <span class="text-danger">*</span></label>
                     <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
                   </div>
 

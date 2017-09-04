@@ -125,7 +125,7 @@
       $('select[name="status"] option[value="1"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="0"]').prop("hidden", false);
-      $('.namelabel').html("branch");
+      $('.namelabel').html("Branch");
     } else if (this.value === '3') {
       $('.select-parent-cat, .select-branch-cat').removeClass('hidden');
       $('.parent_cat_icon').addClass('hidden');
@@ -134,7 +134,7 @@
       $('select[name="status"] option[value="1"]').prop('hidden', false);
       $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="0"]').prop("hidden", false);
-      $('.namelabel').html("node");
+      $('.namelabel').html("Node");
     }
     $('#add_category_modal select').val("");
     $('#add_category_modal input[type="text"]').val("");
@@ -219,8 +219,7 @@
       },
       success: function(data) {
         console.log(data);
-        saveCategory(level, data);
-        return $('#add_category_modal').modal('hide');
+        return saveCategory(level, data);
       },
       error: function(request, status, error) {
         console.log(status);
@@ -248,11 +247,12 @@
     if (level === "2") {
       updateCategories(level, data['data']['other_data']['branches']);
     }
-    $('.alert-success #message').html("category added successfully.");
+    $('.alert-success #message').html("Category added successfully.");
     $('.alert-success').addClass('active');
     setTimeout((function() {
       $('.alert-success').removeClass('active');
     }), 2000);
+    $('#add_category_modal').modal('hide');
   };
 
   updateCategories = function(level, data) {

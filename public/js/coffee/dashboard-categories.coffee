@@ -111,7 +111,7 @@ $('body').on 'change', 'input[type=radio][name=categoryType]', ->
     $('select[name="status"] option[value="1"]').attr("hidden","hidden")
     $('select[name="status"] option[value="2"]').attr("hidden","hidden")
     $('select[name="status"] option[value="0"]').prop "hidden",false
-    $('.namelabel').html "branch"
+    $('.namelabel').html "Branch"
   else if @value == '3'
     $('.select-parent-cat, .select-branch-cat').removeClass 'hidden'
     $('.parent_cat_icon').addClass 'hidden'
@@ -120,7 +120,7 @@ $('body').on 'change', 'input[type=radio][name=categoryType]', ->
     $('select[name="status"] option[value="1"]').prop('hidden', false)
     $('select[name="status"] option[value="2"]').attr("hidden","hidden")
     $('select[name="status"] option[value="0"]').prop "hidden",false
-    $('.namelabel').html "node"
+    $('.namelabel').html "Node"
   # $('.select-parent-cat select, .select-branch-cat select').val ""
   $('#add_category_modal select').val ""
   $('#add_category_modal input[type="text"]').val ""
@@ -196,7 +196,7 @@ $('#add_category_modal').on 'click','.save-btn', (e)->
     success : (data) ->
       console.log data
       saveCategory(level,data)
-      $('#add_category_modal').modal('hide')
+      
     error: (request, status, error) ->
       console.log status
       console.log error
@@ -219,12 +219,13 @@ saveCategory = (level,data) ->
     updateCategories(level,data['data']['other_data']['parents'])
   if level == "2"
     updateCategories(level,data['data']['other_data']['branches'])
-  $('.alert-success #message').html "category added successfully."
+  $('.alert-success #message').html "Category added successfully."
   $('.alert-success').addClass 'active'
   setTimeout (->
     $('.alert-success').removeClass 'active'
     return
   ), 2000
+  $('#add_category_modal').modal('hide')
   return
 
 updateCategories = (level,data) ->

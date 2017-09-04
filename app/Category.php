@@ -5,6 +5,7 @@ namespace App;
 use App\Http\Controllers\AdminConfigurationController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class Category extends Model
 {
@@ -40,6 +41,7 @@ class Category extends Model
         } else {
             $count = Category::where('parent_id', $this->id)->where('status', '1')->count();
             if ($count > 0 or $this->level == '3') {
+                $this->published_date = Carbon::now();
                 return true;
             } else {
                 return "Cannot be pubished becaused no published categories under it";

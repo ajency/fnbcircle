@@ -248,7 +248,7 @@
     if (level === "2") {
       updateCategories(level, data['data']['other_data']['branches']);
     }
-    $('.alert-success #message').html("Location edited successfully.");
+    $('.alert-success #message').html("category added successfully.");
     $('.alert-success').addClass('active');
     setTimeout((function() {
       $('.alert-success').removeClass('active');

@@ -219,7 +219,7 @@ saveCategory = (level,data) ->
     updateCategories(level,data['data']['other_data']['parents'])
   if level == "2"
     updateCategories(level,data['data']['other_data']['branches'])
-  $('.alert-success #message').html "Location edited successfully."
+  $('.alert-success #message').html "category added successfully."
   $('.alert-success').addClass 'active'
   setTimeout (->
     $('.alert-success').removeClass 'active'

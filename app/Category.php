@@ -33,6 +33,22 @@ class Category extends Model
     {
         return Category::where('parent_id', $this->parent_id)->where('id', '!=', $this->id)->where('status', '1')->count();
     }
+    public function isPublishable()
+    {
+        if ($this->status == '1') {
+            return true;
+        } else {
+            $count = Category::where('parent_id', $this->id)->where('status', '1')->count();
+            if ($count > 0 or $this->level == '3') {
+                return true;
+            } else {
+                return "Cannot be pubished becaused no published categories under it";
+            }
+        }
+    }
+    public function isArchivable(){
+
+    }
     public function saveStatus($status)
     {
         if ($status == '0') {
@@ -44,17 +60,12 @@ class Category extends Model
 
         }
         if ($status == '1') {
-            if ($this->status == '1') {
-                return true;
-            } else {
-                $count = Category::where('parent_id', $this->id)->where('status', '1')->count();
-                if ($count > 0 or $this->level == '3') {
-                    $this->status = "1";
-                    return true;
-                } else {
-                    return "Cannot be pubished becaused no published categories under it";
-                }
+            $var = $this->isPublishable();
+            if ($var != true) {
+                return $var;
             }
+            $this->status = "1";
+            return true;
         }
         if ($status == "2") {
             if ($this->status == '2') {

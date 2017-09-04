@@ -1,6 +1,19 @@
 (function() {
   var cat_table, editrow, resetFilters, saveCategory, status, updateCategories;
 
+  window.Parsley.addValidator('slug', {
+    validateString: function(value) {
+      if (value === slugify(value)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    messages: {
+      en: 'Please enter a valid slug'
+    }
+  });
+
   resetFilters = function() {
     $('#datatable-categories th option:selected').each(function() {
       return $(this).prop('selected', false);
@@ -143,6 +156,7 @@
         if (data['status'] !== "200") {
           $('.alert-failure #message').html(data['msg']);
           $('.alert-failure').addClass('active');
+          $('#add_category_modal .save-btn').prop('disabled', false);
           setTimeout((function() {
             $('.alert-failure').removeClass('active');
           }), 2000);
@@ -159,7 +173,7 @@
       error: function(request, status, error) {
         console.log(status);
         console.log(error);
-        $('.alert-failure #message').html("An unknown error occured.");
+        $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again.");
         $('.alert-failure').addClass('active');
       }
     });
@@ -211,7 +225,7 @@
       error: function(request, status, error) {
         console.log(status);
         console.log(error);
-        $('.alert-failure #message').html("An unknown error occured.");
+        $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
         $('.alert-failure').addClass('active');
       }
     });
@@ -221,6 +235,7 @@
     if (data['status'] !== "200") {
       $('.alert-failure #message').html(data['msg']);
       $('.alert-failure').addClass('active');
+      $('.save-btn').prop('disabled', false);
       setTimeout((function() {
         $('.alert-failure').removeClass('active');
       }), 2000);
@@ -316,6 +331,7 @@
     $('#edit_category_modal input[name="name"]').val(cat['name_data']);
     $('#edit_category_modal input[name="slug"]').val(cat['slug']);
     $('#edit_category_modal input[name="order"]').val(cat['sort_order']);
+    $('#edit_category_modal .save-btn').prop('disabled', false);
     return $('#edit_category_modal').modal('show');
   });
 
@@ -367,7 +383,7 @@
       error: function(request, status, error) {
         console.log(status);
         console.log(error);
-        $('.alert-failure #message').html("An unknown error occured.");
+        $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
         $('.alert-failure').addClass('active');
       }
     });

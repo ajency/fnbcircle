@@ -122,8 +122,8 @@ function init_DataTables() {
     //             "targets": [0, 3, 4, 5,8,]
     //         }
     //         // {
-    //         // 	"targets": [0,2,3,4,5,6,7,8,9,10],
-    //         // 	"searchable": false
+    //         //   "targets": [0,2,3,4,5,6,7,8,9,10],
+    //         //   "searchable": false
     //         // }
     //     ]
     // });
@@ -185,7 +185,6 @@ function init_DataTables() {
     //             "visible": false,
     //             "searchable": false
     //         }
-
     //     ]
     // });
     // loc_table.columns().iterator('column', function(ctx, idx) {
@@ -214,8 +213,8 @@ function init_DataTables() {
                 "targets": 0
             }
             // {
-            // 	"targets": [1,2,3,4,5,6,7,8],
-            // 	"searchable": false
+            //  "targets": [1,2,3,4,5,6,7,8],
+            //  "searchable": false
             // }
         ]
     });
@@ -267,7 +266,6 @@ $('body').on("change", "input[type=radio][name=categoryType]", function() {
         $('.parent_cat_icon').addClass('hidden')
     }
 });
-
 // Multiselect filter on Datatables
 function init_Multiselect() {
     $('.multi-dd').multiselect({
@@ -340,3 +338,6 @@ $(document).ready(function() {
     init_addEmailType();
     init_daterangepicker_submission();
 });
+slugify = function(string) {
+    return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+};

@@ -1,3 +1,10 @@
+window.Parsley.addValidator 'slug',
+  validateString: (value) ->
+    if(value == slugify(value)) 
+      return true 
+    else 
+      return false
+  messages: en: 'Please enter a valid slug'
 resetFilters = () ->
   $('#datatable-categories th option:selected').each () -> 
     $(this).prop('selected', false);
@@ -135,6 +142,7 @@ $('body').on 'change', '.select-parent-cat select', ->
       if(data['status']!="200")
         $('.alert-failure #message').html data['msg']
         $('.alert-failure').addClass 'active'
+        $('#add_category_modal .save-btn').prop('disabled',false)
         setTimeout (->
           $('.alert-failure').removeClass 'active'
           return
@@ -149,7 +157,7 @@ $('body').on 'change', '.select-parent-cat select', ->
     error: (request, status, error) ->
       console.log status
       console.log error
-      $('.alert-failure #message').html "An unknown error occured."
+      $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again."
       $('.alert-failure').addClass 'active'
       return
 
@@ -192,7 +200,7 @@ $('#add_category_modal').on 'click','.save-btn', (e)->
     error: (request, status, error) ->
       console.log status
       console.log error
-      $('.alert-failure #message').html "An unknown error occured."
+      $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
       $('.alert-failure').addClass 'active'
       return
 
@@ -200,6 +208,7 @@ saveCategory = (level,data) ->
   if(data['status']!="200")
     $('.alert-failure #message').html data['msg']
     $('.alert-failure').addClass 'active'
+    $('.save-btn').prop('disabled',false)
     setTimeout (->
       $('.alert-failure').removeClass 'active'
       return
@@ -281,6 +290,7 @@ $('#datatable-categories').on 'click', 'i.fa-pencil', ->
   $('#edit_category_modal input[name="name"]').val(cat['name_data'])
   $('#edit_category_modal input[name="slug"]').val(cat['slug'])
   $('#edit_category_modal input[name="order"]').val(cat['sort_order'])
+  $('#edit_category_modal .save-btn').prop('disabled',false)
   $('#edit_category_modal').modal('show')
 
 
@@ -325,6 +335,6 @@ $('#edit_category_modal').on 'click','.save-btn', (e)->
     error: (request, status, error) ->
       console.log status
       console.log error
-      $('.alert-failure #message').html "An unknown error occured."
+      $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
       $('.alert-failure').addClass 'active'
       return

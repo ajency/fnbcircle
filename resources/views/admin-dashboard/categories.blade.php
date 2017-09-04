@@ -32,7 +32,7 @@
                       <th>Name</th>
                       <th>Slug</th>
                       <th class="no-sort text-center" data-col="3">isParent
-                        <select multiple class="form-control multi-dd">
+                        <select multiple class="form-control multi-dd" >
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
@@ -145,7 +145,7 @@
 
                   <div class="form-group">
                     <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="">
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
                   </div>
 
                   <div class="form-group parent_cat_icon">
@@ -236,7 +236,7 @@
 
                   <div class="form-group">
                     <label><span class="namelabel"></span>Category Url  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="">
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Category Url" required="" data-parsley-slug>
                   </div>
 
                   <div class="form-group parent_cat_icon">

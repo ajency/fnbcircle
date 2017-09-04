@@ -203,7 +203,7 @@
     slug = $('#add_category_modal input[name="slug"]').val();
     sort_order = $('#add_category_modal input[name="order"]').val();
     status = $('#add_category_modal select[name="status"]').val();
-    image_url = "http://google.co";
+    image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png";
     return $.ajax({
       type: 'post',
       url: '/save-category',
@@ -361,7 +361,7 @@
     slug = $('#edit_category_modal input[name="slug"]').val();
     sort_order = $('#edit_category_modal input[name="order"]').val();
     status = $('#edit_category_modal select[name="status"]').val();
-    image_url = "http://google.co";
+    image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png";
     return $.ajax({
       type: 'post',
       url: '/save-category',

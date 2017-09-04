@@ -1665,6 +1665,12 @@ input[type="checkbox"].toggle__check {
 .confirmation-content {
   font-size: 1em;
 }
+.form-disabled {
+  pointer-events: none;
+}
+.popover.confirmation {
+  pointer-events: auto;
+}
 .sign-up-row .float-label,
 .require-modal .float-label,
 .sign-up-row .fnb-select,

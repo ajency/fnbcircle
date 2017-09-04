@@ -1662,6 +1662,9 @@ input[type="checkbox"].toggle__check {
   border-width: 11px;
   margin-top: -11px;
 }
+.confirmation-content {
+  font-size: 1em;
+}
 .sign-up-row .float-label,
 .require-modal .float-label,
 .sign-up-row .fnb-select,

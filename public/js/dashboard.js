@@ -333,7 +333,7 @@ function individual_Search(){
     //     var title = $(this).text();
     //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     // } );
-    // var table = $('#datatable-users').DataTable({
+    $('#datatable-users').DataTable();
     //         "columnDefs": [ {
     //         "targets": [ 1 ],
             

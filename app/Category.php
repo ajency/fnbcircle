@@ -124,14 +124,14 @@ class Category extends Model
             }
             if ($this->status == '1') {
                 $req      = new Request;
-                $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
-                $category = '[{"id":"' . $this->id . '","type":"' . $level[$this->level] . '"}]';
+                // $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
+                $category = '[{"id":"' . $this->id . '","type":"' . $this->level . '"}]';
                 $location = "[]";
                 $req->merge(array("category" => $category, "location" => $location));
-                // dd($req);
                 $adc  = new AdminConfigurationController;
                 $al   = $adc->getAssociatedListings($req);
                 $data = json_decode(json_encode($al), true)['original'];
+                // dd($data);
                 if (count($data['data']['listings']) != 0) {
                     return "This Category has listings associated with it";
                 }
@@ -152,7 +152,7 @@ class Category extends Model
                     $this->status = "2";
                     if ($data['data']['category_sibling_count'][$this->id]['node'] == "0") {
                         $parent         = Category::find($this->parent_id);
-                        $parent->status = "0";
+                        $parent->status = "2";
                         if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
                             $gparent         = Category::find($parent->parent_id);
                             $gparent->status = "2";

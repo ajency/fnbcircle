@@ -45,7 +45,7 @@ class Category extends Model
                 return true;
             } else {
                 if($this->level == 1)
-                    return "Parent category cannot be published as there is no published node category under this parent";
+                    return "Parent category cannot be published as there is no published branch category under this parent";
                 if($this->level == 2)
                     return "Branch category cannot be published as there is no published node category under this branch";
             }
@@ -141,7 +141,7 @@ class Category extends Model
                     $this->status = "2";
                     if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
                         $parent         = Category::find($this->parent_id);
-                        $parent->status = "0";
+                        $parent->status = "2";
                         $parent->save();
                     }
                     return true;
@@ -153,7 +153,7 @@ class Category extends Model
                         $parent->status = "0";
                         if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
                             $gparent         = Category::find($parent->parent_id);
-                            $gparent->status = "0";
+                            $gparent->status = "2";
                             $gparent->save();
                         }
                         $parent->save();

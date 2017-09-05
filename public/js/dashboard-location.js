@@ -385,67 +385,29 @@
   });
 
   $('#edit_location_modal').on('change', 'select[name="status"]', function(e) {
-    var area_id, city_id, type;
+    var id, new_status, type;
     $('#edit_location_modal .save-btn').prop('disabled', false);
-    console.log($(this).val());
-    city_id = $('#edit_location_modal .select_city select').val();
-    area_id = $('#edit_location_modal input[name=area_id]').val();
     type = $('#edit_location_modal input[name=type]').val();
-    console.log(city_id, area_id, type);
-    if ($(this).val() === "2") {
-      $.ajax({
-        type: 'post',
-        url: '/has_listing',
-        data: {
-          "type": type,
-          "city_id": city_id,
-          "area_id": area_id
-        },
-        success: function(data) {
-          console.log(data['warning']);
-          if (data['warning'] !== false) {
-            if (!confirm(data['warning'])) {
-              $('.confirm-section').confirmation({
-                rootSelector: '[data-toggle=confirmation]',
-                title: 'Confirm',
-                content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>',
-                html: true,
-                buttons: [
-                  {
-                    "class": 'btn btn-info',
-                    label: 'OK',
-                    onClick: function() {}
-                  }, {
-                    "class": 'btn btn-default',
-                    label: 'Cancel',
-                    cancel: true
-                  }
-                ]
-              });
-              $('.confirm-section').confirmation('show');
-            }
-            $('#edit_location_modal select[name="status"]').val(status);
-          } else {
-            $('#listing_warning').html('');
-          }
-        }
-      });
+    if (type === "0") {
+      id = $('#edit_location_modal .select_city select').val();
+    } else {
+      id = $('#edit_location_modal input[name=area_id]').val();
     }
-    if ($(this).val() === "1" && type === "0") {
-      $('#edit_location_modal .save-btn').prop('disabled', true);
+    new_status = $(this).val();
+    console.log(id, type, new_status);
+    if (new_status === "1" || new_status === "2") {
       $.ajax({
         type: 'post',
-        url: '/has_areas',
+        url: '/check-location-status',
         data: {
-          "city_id": city_id
+          'id': id,
+          'type': type,
+          'status': new_status
         },
         success: function(data) {
-          console.log(data);
-          if (data) {
-            $('#listing_warning').html('');
-            $('#edit_location_modal .save-btn').prop('disabled', false);
-          } else {
-            $('#listing_warning').html('City cannot be published as there is no published area under this city.');
+          if (data['data']['response'] === false) {
+            alert(data['data']['message']);
+            $('#edit_location_modal select[name="status"]').val(status);
           }
         }
       });

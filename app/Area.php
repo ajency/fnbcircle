@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Listing;
+use App\City;
 
 class Area extends Model
 {
@@ -20,5 +22,25 @@ class Area extends Model
   }
   public function siblingCount(){
     return Area::where('city_id',$this->city_id)->where('id','!=',$this->id)->where('status','1')->count();
+  }
+  public function isArchivable(){
+    $listings=Listing::where('locality_id', $this->id)->count();
+    if($listings == "0") return array("response"=>true, "message"=>"");
+    else array("response"=>false, "message"=>"Listings are associated with this Area");
+  }
+  public function archieve(){
+    $perm = $this->isArchivable();
+    if($perm['response']){
+      $this->status = 2;
+      $this->save();
+      if($this->siblingCount()==0){
+        $city = City::find($this->city_id);
+        $city->status = 2;
+        $city->save();
+      }
+      return true;
+    }else{
+      return false;
+    } 
   }
 }

@@ -365,69 +365,95 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
 #   $('.statusSelect').prop('selectedIndex',0)
 #   return
 
-
 $('#edit_location_modal').on 'change','select[name="status"]', (e)->
-	$('#edit_location_modal .save-btn').prop('disabled',false)
-	console.log $(this).val()  
-	city_id = $('#edit_location_modal .select_city select').val()
-	area_id = $('#edit_location_modal input[name=area_id]').val()
-	type = $('#edit_location_modal input[name=type]').val()
-	console.log city_id, area_id, type
-	if $(this).val() == "2"
-		$.ajax
-			type:'post'
-			url: '/has_listing'
-			data:
-				"type" : type
-				"city_id" : city_id
-				"area_id" : area_id
-			success: (data) ->
-				console.log data['warning']
-				if data['warning']!=false
-					if !confirm(data['warning'])
-            $('.confirm-section').confirmation 
-              rootSelector: '[data-toggle=confirmation]'
-              title: 'Confirm'
-              content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>'
-              html: true
-              buttons: [
-                {
-                  class: 'btn btn-info'
-                  label: 'OK'
-                  # icon: 'glyphicon glyphicon-usd'
-                  onClick: ->
-                    # currency = 'US Dollar'
-                    return
-                }
-                {
-                  class: 'btn btn-default'
-                  label: 'Cancel'
-                  # icon: 'glyphicon glyphicon-remove'
-                  cancel: true
-                }
-              ]
-            $('.confirm-section').confirmation('show')
-						$('#edit_location_modal select[name="status"]').val(status)
-				else
-					$('#listing_warning').html ''
-				return
+  $('#edit_location_modal .save-btn').prop('disabled',false)
+  type = $('#edit_location_modal input[name=type]').val()
+  if type == "0"
+    id = $('#edit_location_modal .select_city select').val()
+  else
+    id = $('#edit_location_modal input[name=area_id]').val()
+  new_status = $(this).val()
+  console.log id, type, new_status
+  if(new_status == "1" or new_status == "2")
+    $.ajax
+      type:'post'
+      url: '/check-location-status'
+      data:
+        'id':id
+        'type':type
+        'status': new_status
+      success: (data) ->
+        if data['data']['response'] == false
+          alert(data['data']['message']);
+          $('#edit_location_modal select[name="status"]').val(status)
+        return
+  return
+        
 
-	if $(this).val() == "1" and type == "0"
-		$('#edit_location_modal .save-btn').prop('disabled',true)
-		$.ajax
-			type:'post'
-			url: '/has_areas'
-			data:
-				"city_id" : city_id
-			success: (data) ->
-				console.log data
-				if data
-					$('#listing_warning').html ''
-					$('#edit_location_modal .save-btn').prop('disabled',false)
-				else
-					$('#listing_warning').html 'City cannot be published as there is no published area under this city.'
-				return
-	return
+  
+ 
+# $('#edit_location_modal').on 'change','select[name="status"]', (e)->
+# 	$('#edit_location_modal .save-btn').prop('disabled',false)
+# 	console.log $(this).val()  
+# 	city_id = $('#edit_location_modal .select_city select').val()
+# 	area_id = $('#edit_location_modal input[name=area_id]').val()
+# 	type = $('#edit_location_modal input[name=type]').val()
+# 	console.log city_id, area_id, type
+# 	if $(this).val() == "2"
+# 		$.ajax
+# 			type:'post'
+# 			url: '/has_listing'
+# 			data:
+# 				"type" : type
+# 				"city_id" : city_id
+# 				"area_id" : area_id
+# 			success: (data) ->
+# 				console.log data['warning']
+# 				if data['warning']!=false
+# 					if !confirm(data['warning'])
+#             # $('.confirm-section').confirmation 
+#             #   rootSelector: '[data-toggle=confirmation]'
+#             #   title: 'Confirm'
+#             #   content: 'This area has published listings associated with it. Archiving the areas will archive the listings too.Do you want to continue?<a href="">sdsdfs</a>'
+#             #   html: true
+#             #   buttons: [
+#             #     {
+#             #       class: 'btn btn-info'
+#             #       label: 'OK'
+#             #       # icon: 'glyphicon glyphicon-usd'
+#             #       onClick: ->
+#             #         # currency = 'US Dollar'
+#             #         return
+#             #     }
+#             #     {
+#             #       class: 'btn btn-default'
+#             #       label: 'Cancel'
+#             #       # icon: 'glyphicon glyphicon-remove'
+#             #       cancel: true
+#             #     }
+#             #   ]
+#             # $('.confirm-section').confirmation('show')
+# 						$('#edit_location_modal select[name="status"]').val(status)
+# 				else
+# 					$('#listing_warning').html ''
+# 				return
+
+# 	if $(this).val() == "1" and type == "0"
+# 		$('#edit_location_modal .save-btn').prop('disabled',true)
+# 		$.ajax
+# 			type:'post'
+# 			url: '/has_areas'
+# 			data:
+# 				"city_id" : city_id
+# 			success: (data) ->
+# 				console.log data
+# 				if data
+# 					$('#listing_warning').html ''
+# 					$('#edit_location_modal .save-btn').prop('disabled',false)
+# 				else
+# 					$('#listing_warning').html 'City cannot be published as there is no published area under this city.'
+# 				return
+# 	return
 
 resetFilters = () ->
   $('#datatable-locations th option:selected').each () -> 

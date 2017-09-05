@@ -61,23 +61,25 @@ class Category extends Model
         }
         if ($this->status == '1') {
             $req      = new Request;
-            $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
-            $category = '[{"id":"' . $this->id . '","type":"' . $level[$this->level] . '"}]';
+            // $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
+            $category = '[{"id":"' . $this->id . '","type":"' . $this->level . '"}]';
             $location = "[]";
             $req->merge(array("category" => $category, "location" => $location));
             // dd($req);
             $adc  = new AdminConfigurationController;
             $al   = $adc->getAssociatedListings($req);
             $data = json_decode(json_encode($al), true)['original'];
+            // dd($data['data']['category_sibling_count'][$this->id]);
             if (count($data['data']['listings']) != 0) {
-                return 'This category has listings associated with it. <a href="#">Click here</a> to view the listings.<br>You can archive this node only once this is removed from all the listings.';
+                return response()->json(array("status" => "405", "msg" => "", "data" => array('continue' => false, 'message' => 'This category has listings associated with it. <a href="#">Click here</a> to view the listings.<br>You can archive this node only once this is removed from all the listings.')));
+                return ;
             }
             if ($this->level == "1") {
                 return true;
             }
             if ($this->level == "2") {
                 if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
-                   return "Warning! Archiving the branch will archive the parent too. Do you want to continue?";
+                    return response()->json(array("status" => "400", "msg" => "", "data" => array('continue' => false, 'message' => "Warning! Archiving the branch will archive the parent too. Do you want to continue?")));
                 }
                 return true;
             }
@@ -87,7 +89,7 @@ class Category extends Model
                     if ($data['data']['category_sibling_count'][$this->id]['branch'] == "0") {
                         $y = "Archiving the node will archive the branch and the parent too. Do you want to continue? ";
                     }
-                    return $y;
+                    return response()->json(array("status" => "400", "msg" => "", "data" => array('continue' => false, 'message' => $y)));
                 }
                 return true;
             }

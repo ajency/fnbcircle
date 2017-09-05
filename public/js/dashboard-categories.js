@@ -1,19 +1,6 @@
 (function() {
   var cat_table, editrow, resetFilters, saveCategory, status, updateCategories;
 
-  window.Parsley.addValidator('slug', {
-    validateString: function(value) {
-      if (value === slugify(value)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    messages: {
-      en: 'Please enter a valid slug'
-    }
-  });
-
   resetFilters = function() {
     $('#datatable-categories th option:selected').each(function() {
       return $(this).prop('selected', false);
@@ -371,11 +358,17 @@
             $('#edit_category_modal .save-btn').prop('disabled', false);
           }
           if (new_status === "2") {
-            if (!confirm(data['data']['message'])) {
+            if (data['status'] === '405') {
+              alert(data['data']['message']);
               $('#edit_category_modal select[name="status"]').val(status);
               return $('#edit_category_modal .save-btn').prop('disabled', false);
             } else {
-              return $('#edit_category_modal .save-btn').prop('disabled', false);
+              if (!confirm(data['data']['message'])) {
+                $('#edit_category_modal select[name="status"]').val(status);
+                return $('#edit_category_modal .save-btn').prop('disabled', false);
+              } else {
+                return $('#edit_category_modal .save-btn').prop('disabled', false);
+              }
             }
           }
         }

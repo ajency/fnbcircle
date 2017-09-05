@@ -1,3 +1,16 @@
+window.Parsley.addValidator('slug', {
+  validateString: function(value) {
+    if (value === slugify(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  messages: {
+    en: 'Please enter a valid slug'
+  }
+});
+
 var $BODY = $('body'),
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),

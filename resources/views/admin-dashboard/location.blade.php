@@ -130,7 +130,7 @@
 
                   <div class="form-group">
                     <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required  data-parsley-slug>
                   </div>
 
                   <div class="row">
@@ -205,7 +205,7 @@
 
                   <div class="form-group">
                     <label><div class="dis-inline namelabel">Location</div> Slug  <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required>
+                    <input type="text" class="form-control fnb-input" name="slug" placeholder="Enter the Location Slug" required data-parsley-slug>
                   </div>
 
                   <div class="row">

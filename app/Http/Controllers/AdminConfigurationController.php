@@ -101,7 +101,7 @@ class AdminConfigurationController extends Controller
             if (Area::where('slug', $request->slug)->where('id', '!=', $request->area_id)->count() != "0") {
                 return response()->json(array("status" => "400", "msg" => "Area with same slug exists", "data" => array()));
             }
-            if (Area::where('name', $request->name)->where('id', '!=', $request->area_id)->where('city_id',$request->city_id)->count() != "0") {
+            if (Area::where('name', $request->name)->where('id', '!=', $request->area_id)->where('city_id', $request->city_id)->count() != "0") {
                 return response()->json(array("status" => "400", "msg" => "Area with same name exists", "data" => array()));
             }
             if ($request->area_id == '') {
@@ -294,7 +294,7 @@ class AdminConfigurationController extends Controller
         $categories    = json_decode($request->category);
         $categSibCount = array();
         foreach ($categories as $category) {
-            if ($category->type == "parent") {
+            if ($category->type == "1") {
                 $branches = Category::where('parent_id', $category->id)->get();
                 foreach ($branches as $branch) {
                     $nodes = Category::where('parent_id', $branch->id)->get();
@@ -307,7 +307,7 @@ class AdminConfigurationController extends Controller
                 }
                 $categSibCount[$category->id] = array();
             }
-            if ($category->type == "branch") {
+            if ($category->type == "2") {
                 $nodes = Category::where('parent_id', $category->id)->get();
                 foreach ($nodes as $node) {
                     $listings = Category::find($node->id)->listing()->get();
@@ -318,8 +318,9 @@ class AdminConfigurationController extends Controller
                 $count                        = Category::find($category->id)->siblingCount();
                 $categSibCount[$category->id] = array('branch' => $count);
             }
-            if ($category->type == "node") {
+            if ($category->type == "3") {
                 $listings = Category::find($category->id)->listing()->get();
+                // dd($listings);
                 foreach ($listings as $listing) {
                     $list[$listing->id] = ["ref" => $listing->reference];
                 }
@@ -352,7 +353,13 @@ class AdminConfigurationController extends Controller
             }
         }
         $loc_list = $list;
-        $list     = array_intersect_key($categ_list, $loc_list);
+        if (count($categories) == 0) {
+            $list = $loc_list;
+        } else if (count($locations) == 0) {
+            $list = $categ_list;
+        } else {
+            $list = array_intersect_key($categ_list, $loc_list);
+        }
 
         return response()->json(array('status' => 'success', 'msg' => "", "data" => array("listings" => $list, "category_sibling_count" => $categSibCount, 'area_sibling_count' => $areaSibCount)));
     }
@@ -427,7 +434,7 @@ class AdminConfigurationController extends Controller
         $branches = Category::where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
         return response()->json(array("status" => "200", "msg" => "", "data" => $branches));
     }
-    public function checkStatus(Request $request)
+    public function checkCategStatus(Request $request)
     {
         $this->validate($request, [
             'id'     => 'required|integer',
@@ -450,9 +457,46 @@ class AdminConfigurationController extends Controller
             if ($x === true) {
                 return response()->json(array("status" => "200", "msg" => "", "data" => array('continue' => true)));
             } else {
-                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue' => false, 'message' => $x)));
+                return $x;
             }
         }
         return response()->json(array("status" => "200", "msg" => "", "data" => array('continue' => true)));
+    }
+    public function checkLocStatus(Request $request)
+    {
+        $this->validate($request, [
+            'id'     => 'required|integer',
+            'status' => 'required|integer|min:0|max:2',
+            'type'   => 'required|boolean',
+        ]);
+        if ($request->type == "1") {
+            if (!Common::verify_id($request->id, 'areas')) {
+                return response()->json(array("status" => "404", "msg" => "area not found", "data" => array()));
+            }
+            if ($request->status == "1") {
+                return response()->json(array("status" => "200", "msg" => "", "data" => array('response' => true, 'message' => "")));
+            }
+
+            if ($request->status == "2") {
+                $area = Area::find($request->id);
+                return response()->json(array("status" => "200", "msg" => "", "data" => $area->isArchivable()));
+            }
+            return response()->json(array("status" => "200", "msg" => "", "data" => array('response' => true, 'message' => "")));
+        } else {
+            if (!Common::verify_id($request->id, 'cities')) {
+                return response()->json(array("status" => "404", "msg" => "city not found", "data" => array()));
+            }
+            if ($request->status == "1") {
+                $city = City::find($request->id);
+                return response()->json(array("status" => "200", "msg" => "", "data" => $city->isPublishable()));
+            }
+            if ($request->status == "2") {
+                $city = City::find($request->id);
+                // dd($city->isArchivable());
+                return response()->json(array("status" => "200", "msg" => "", "data" => $city->isArchivable()));
+            }
+            return response()->json(array("status" => "200", "msg" => "", "data" => array('response' => true, 'message' => "")));
+        }
+
     }
 }

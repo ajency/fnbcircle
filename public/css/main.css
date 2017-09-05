@@ -1686,6 +1686,16 @@ input[type="checkbox"].toggle__check {
 .sign-up-row .form-group {
   margin: 0.8em 0;
 }
+.sign-up-row .form-group.phoneNumber {
+  margin: 0 0 0.8em 0;
+}
+.sign-up-row .form-group.city,
+.sign-up-row .form-group.area {
+  margin: 1.5em 0;
+}
+.sign-up-row .form-group.describe-section {
+  margin-bottom: 0;
+}
 .describe-section__title {
   color: rgba(0, 0, 0, 0.72);
   margin-bottom: 0.5em;
@@ -1775,11 +1785,11 @@ input[type="checkbox"].toggle__check {
     padding-top: 0;
     padding-bottom: 0;
   }
-  .sign-up-row .city,
-  .sign-up-row .area {
-    margin: 1em 0 0.8em 0;
+  .sign-up-row .form-group.city,
+  .sign-up-row .form-group.area {
+    margin: 0.5em 0 0.8em 0;
   }
-  .sign-up-row .area {
+  .sign-up-row .form-group.area {
     padding-top: 0.5em;
   }
   .sign-up-row .describe-section {

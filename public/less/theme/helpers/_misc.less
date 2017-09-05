@@ -68,6 +68,15 @@
 	}
 	.form-group{
 		margin: 0.8em 0;
+		&.phoneNumber{
+			margin: 0 0 0.8em 0;
+		}
+		&.city,&.area{
+			margin: 1.5em 0;
+		}
+		&.describe-section{
+			margin-bottom: 0;
+		}
 	}
 }
 
@@ -173,13 +182,14 @@
 			margin: 0.5em 0;
 			padding-top: 0;
 			padding-bottom: 0;
+			&.city,&.area{
+				margin: 0.5em 0 0.8em 0;
+			}
+			&.area{
+				padding-top: 0.5em;
+			}
 		}
-		.city,.area{
-			margin: 1em 0 0.8em 0;
-		}
-		.area{
-			padding-top: 0.5em;
-		}
+		
 		.describe-section{
 			margin: 1em 0 0 0;
 			&__title{

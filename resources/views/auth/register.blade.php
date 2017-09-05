@@ -96,6 +96,16 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div class="col-sm-12">
+                                     <div class="form-group phoneNumber">
+                                        <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
+                                        <!-- <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required> -->
+                                        <div class="number-code flex-row">
+                                          <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
+                                          <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
                                     <div class="form-group m-b-0 city">
                                         <!-- <label class=" text-lighter required">City</label> -->
@@ -118,24 +128,6 @@
                                                 <option>2</option>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} p-b-10 m-t-10">
-                                        <label class="m-b-0 text-lighter float-label required" for="password">Password</label>
-                                        <input id="password" type="password" class="form-control fnb-input float-input" name="password" required>
-
-                                        @if ($errors->has('password'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                     <div class="form-group m-t-10 p-b-10">
-                                        <label class="m-b-0 text-lighter float-label required" for="password-confirm">Confirm Password</label>
-                                        <input id="password-confirm" type="password" class="form-control fnb-input float-input" name="password_confirmation" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 describe-section m-b-10 form-group">
@@ -179,14 +171,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                     <div class="form-group">
-                                        <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
-                                        <!-- <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required> -->
-                                        <div class="number-code flex-row">
-                                          <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
-                                          <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
-                                        </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} p-b-10 m-t-10">
+                                        <label class="m-b-0 text-lighter float-label required" for="password">Password</label>
+                                        <input id="password" type="password" class="form-control fnb-input float-input" name="password" required>
+
+                                        @if ($errors->has('password'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                     <div class="form-group m-t-10 p-b-10">
+                                        <label class="m-b-0 text-lighter float-label required" for="password-confirm">Confirm Password</label>
+                                        <input id="password-confirm" type="password" class="form-control fnb-input float-input" name="password_confirmation" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">

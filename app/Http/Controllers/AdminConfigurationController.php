@@ -134,6 +134,7 @@ class AdminConfigurationController extends Controller
             $area->status = $request->status;
             $area->name   = $request->name;
             $area->order  = $request->sort_order;
+            if($request->status == "2") $area->archieve();
             $area->save();
             $area = Area::with('city')->find($area->id);
             return response()->json(array("status" => "200", "msg" => "area saved successfully", "data" => $area));

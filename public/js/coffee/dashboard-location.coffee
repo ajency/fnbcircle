@@ -105,6 +105,7 @@ $('#add_location_modal').on 'click','.save-btn', (e)->
   e.preventDefault()
   instance = $('#locationForm').parsley()
   if !instance.validate()
+    $('#add_location_modal .save-btn').prop('disabled',false)
     return false;
   city_id = $('.select_city select').val()
   area_id = ""
@@ -266,6 +267,7 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
   e.preventDefault()
   instance = $('#editlocationForm').parsley()
   if !instance.validate()
+    $('#add_location_modal .save-btn').prop('disabled',true)
     return false;
   city_id = $('#edit_location_modal .select_city select').val()
   area_id = $('#edit_location_modal input[name=area_id]').val()
@@ -301,54 +303,11 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
       # console.log data
       if serverData['status'] == "200"
         data = serverData['data']
-        if data.hasOwnProperty('city_id')
-        	iscity = '-<span class="hidden">no</span>'
-        	isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>'
-        	city = data['city']['name']
-        	area = "1"
-        	city_id = data['city_id']
-        else
-        	iscity = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>'
-        	isarea = '-<span class="hidden">no</span>'
-        	city = ""
-        	area="0"
-        	city_id = ""
-        	opt = $('#allcities option[value="'+data['id']+'"]')
-        	opt.val(data['id'])
-        	opt.html(data['name'])
-        	opt1 = $('#filtercities option[value="'+data['id']+'"]')
-        	opt1.val(data['id'])
-        	opt1.html(data['name'])
-        	$('#filtercities').multiselect('rebuild')
-        if(data['status'] == 0) 
-        	$status = 'Draft'
-        	# console.log "woohoo"
-        if(data['status'] == 1) 
-        	$status = 'Published'
-        if(data['status'] == 2) 
-        	$status = 'Archived'
-        table = $('#datatable-locations').DataTable()
-        node= table.row(editrow).data({
-          "#" : '<a href="#"><i class="fa fa-pencil"></i></a>',
-          "name":data['name']
-          "slug":data['slug']
-          "isCity":iscity
-          "isArea":isarea
-          "city" : city
-          "sort_order": data['order']
-          "publish":data['published_date']
-          "update" : data['updated_at']
-          "status" : $status
-          "id": data['id']
-          "area": area
-          "city_id": city_id
-        }).draw()
+        loc_table.ajax.reload();
+        updateCities();
         $('#edit_location_modal').modal('hide') 
         $('.alert-success #message').html "Location edited successfully."
         $('.alert-success').addClass 'active'
-        if city == ""
-          loc_table.ajax.reload();
-          updateCities();
         setTimeout (->
           $('.alert-success').removeClass 'active'
           return

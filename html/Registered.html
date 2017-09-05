@@ -15,6 +15,7 @@
     <!-- Datatables -->
     <link href="../public/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../public/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="../public/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Main styles -->
     <link rel="stylesheet" href="../public/css/main.css">
     <link href="../public/css/dashboard.css" rel="stylesheet">
@@ -160,7 +161,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Manage Categories <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_category_modal">+ Add new</button></h5>
+            <h5>Registered Users </h5>
           </div>
         </div>
 
@@ -172,128 +173,131 @@
             <div class="x_panel">
               <div class="x_content">
 
+                <div class="row">
+                  <div class="col-sm-4">
+                    <label>Date created</label>
+                    <a href="#" class="btn btn-link btn-sm clearDate">Clear</a>
+                    <div class="form-group">
+                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                    </div>
+                  </div>
+
+                  <div class="col-sm-4">
+                    <label>Last Login</label>
+                    <a href="#" class="btn btn-link btn-sm clearDate">Clear</a>
+                    <div class="form-group">
+                      <input type="text" id="loginDate" name="" class="form-control fnb-input">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                    </div>
+                  </div>
+                    
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-3">
+                      <button class="btn fnb-btn outline no-border">Reset all Filters</button>
+                      <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
+                  </div>
+                </div>
+
                 <input type="text" name="" placeholder="Search by Name" id="catNameSearch" class="form-control fnb-input pull-right customDtSrch" >
 
-                <table id="datatable-categories" class="table table-striped  no-wrap" cellspacing="0" width="100%">
+                <table id="datatable-registered" class="table table-striped  no-wrap" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort"></th>
-                      <th>Name</th>
-                      <th class="no-sort text-center" data-col="2">isParent
+                      <th class="text-center" rowspan="2" >Name</th>
+                      <th rowspan="2" class="no-sort text-center" data-col="2">Registration Type
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort text-center" data-col="3">isBranch
+                      <th class="text-center" rowspan="2">Email</th>
+                      <th class="text-center" rowspan="2">Phone</th>
+                      <th rowspan="2" class="no-sort text-center" data-col="3">What describe you the best?
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort text-center" data-col="4">isNode
+                      <th rowspan="2" class="no-sort text-center" data-col="4">City
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="no-sort" data-col="5">
-                          Parent
+                      <th class="text-center" rowspan="2" class="no-sort" data-col="5">
+                          Area
                           <select multiple class="form-control multi-dd">
                             <option value="meat">Meat</option>
                             <option value="sea foods">Sea Foods</option>
                           </select>
                       </th>
-                      <th class="no-sort" data-col="6">
-                        Branch
+                      <th class="text-center" rowspan="2" class="no-sort" data-col="6">
+                        Status
                         <select multiple class="form-control multi-dd">
                           <option value="Chicken Distributors">Chicken Distributors</option>
                         </select>
                       </th>
-                      <th class="no-sort">Node</th>
-                      <th class="">Sort Order</th>
-                      <th>Published on</th>
-                      <th>Last Updated on</th>
-                      <th class="no-sort" data-col="10">Status
-                        <select multiple class="form-control multi-dd">
-                          <option value="published">Published</option>
-                          <option value="draft">Draft</option>
-                          <option value="archived">Archived</option>
-                        </select>
-                      </th>
+                      <th class="text-center" rowspan="2" class="no-sort">Date Created</th>
+                      <th class="text-center" rowspan="2" class="">Last Login</th>
+                      <th class="text-center" colspan="2">Business Listings</th>
+                      <th class="text-center" colspan="2">Restaurant Listings</th>
+                      <th class="text-center" colspan="2">Jobs Added</th>
+                      <th class="text-center" rowspan="2">Jobs Applied to</th>
+                      <th class="text-center" rowspan="2">Resume Uploaded (Y/N)</th>
+                    </tr>
+                    <tr>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Published</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Published</th>
+                      <th class="text-center">Total</th>
+                      <th class="text-center">Published</th>
                     </tr>
                   </thead>
 
                   <tbody>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Meat</a> <img src="../public/img/meat.png" width="20" alt="" class="img-circle"></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>Sea Foods</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>1</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/05</td>
-                      <td>Published</td>
+                      <td class="text-center">Amit Adav</td>
+                      <td class="text-center">Email</td>
+                      <td class="text-center">amit@ajency.in</td>
+                      <td class="text-center">8087854125</td>
+                      <td class="text-center">Others</td>
+                      <td class="text-center">Goa</td>
+                      <td class="text-center">Panjim</td>
+                      <td class="text-center">Active</td>
+                      <td class="text-center">12/01/2017</td>
+                      <td class="text-center">21/06/2017</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">N</td>
                     </tr>
                     <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Chicken Distributors</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td>Meat</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>2</td>
-                      <td>-</td>
-                      <td>2017/06/12</td>
-                      <td>Draft</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Venky's</a></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td>Meat</td>
-                      <td>Chicken Distributors</td>
-                      <td>-</td>
-                      <td>2</td>
-                      <td>2017/06/05</td>
-                      <td>2017/07/31</td>
-                      <td>Archived</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Milk Products</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>3</td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/20</td>
-                      <td>Published</td>
-                    </tr>
-                    <tr>
-                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
-                      <td><a href="#" class="dt-link">Sea Foods</a></td>
-                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
-                      <td class="text-center">-</td>
-                      <td class="text-center">-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>4</td>
-                      <td>2017/06/05</td>
-                      <td>2017/05/05</td>
-                      <td>Published</td>
+                      <td class="text-center">Valenie Lourenco</td>
+                      <td class="text-center">Email</td>
+                      <td class="text-center">valenie@ajency.in</td>
+                      <td class="text-center">8087854125</td>
+                      <td class="text-center">Others</td>
+                      <td class="text-center">Goa</td>
+                      <td class="text-center">Panjim</td>
+                      <td class="text-center">Active</td>
+                      <td class="text-center">12/01/2017</td>
+                      <td class="text-center">21/06/2017</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">1</td>
+                      <td class="text-center">0</td>
+                      <td class="text-center">N</td>
                     </tr>
                   </tbody>
                 </table>
@@ -421,6 +425,10 @@
 
     <!-- Autosize textarea -->
     <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>
+
+    <!-- Date range -->
+    <script src="../public/bower_components/moment/min/moment.min.js"></script>
+    <script src="../public/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <!-- custom script -->
     <script type="text/javascript" src="../public/js/custom.js"></script>

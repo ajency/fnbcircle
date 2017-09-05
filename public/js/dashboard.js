@@ -322,8 +322,11 @@ function init_daterangepicker_submission() {
     if (typeof($.fn.daterangepicker) === 'undefined') {
         return;
     }
-    $('#submissionDate').daterangepicker({
+    $('#submissionDate,#loginDate').daterangepicker({
         maxDate: moment()
+    });
+    $('.clearDate').click(function(){
+        $(this).parent().find('.fnb-input').val('');
     });
 }
 
@@ -334,6 +337,19 @@ function individual_Search(){
     //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
     // } );
     $('#datatable-users').DataTable();
+
+    var registered = $('#datatable-registered').DataTable({
+        'scrollX': true,
+        "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false
+            }
+        ]
+    });
+
+    registered.columns().iterator('column', function(ctx, idx) {
+        $(registered.column(idx).header()).append('<span class="sort-icon"/>');
+    });
     //         "columnDefs": [ {
     //         "targets": [ 1 ],
             

@@ -191,19 +191,20 @@
                       <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
                     </div>
                   </div>
+
+                  <div class="col-sm-3">
+                      <div class="m-t-20 filterAction">
+                        <button class="btn fnb-btn outline no-border">Reset all Filters</button>
+                        <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
+                      </div>
+                  </div>
                     
                 </div>
 
-                <div class="row">
-                  <div class="col-sm-3">
-                      <button class="btn fnb-btn outline no-border">Reset all Filters</button>
-                      <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
-                  </div>
-                </div>
 
                 <input type="text" name="" placeholder="Search by Name" id="catNameSearch" class="form-control fnb-input pull-right customDtSrch" >
 
-                <table id="datatable-registered" class="table table-striped  no-wrap" cellspacing="0" width="100%">
+                <table id="datatable-registered" class="table table-striped  no-wrap registered-table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th class="text-center" rowspan="2" >Name</th>
@@ -221,40 +222,40 @@
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th rowspan="2" class="no-sort text-center" data-col="4">City
+                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">City
                         <select multiple class="form-control multi-dd">
                           <option value="yes">Yes</option>
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="text-center" rowspan="2" class="no-sort" data-col="5">
+                      <th class="text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
                           Area
                           <select multiple class="form-control multi-dd">
                             <option value="meat">Meat</option>
                             <option value="sea foods">Sea Foods</option>
                           </select>
                       </th>
-                      <th class="text-center" rowspan="2" class="no-sort" data-col="6">
+                      <th class="text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
                         Status
                         <select multiple class="form-control multi-dd">
                           <option value="Chicken Distributors">Chicken Distributors</option>
                         </select>
                       </th>
-                      <th class="text-center" rowspan="2" class="no-sort">Date Created</th>
-                      <th class="text-center" rowspan="2" class="">Last Login</th>
-                      <th class="text-center" colspan="2">Business Listings</th>
-                      <th class="text-center" colspan="2">Restaurant Listings</th>
-                      <th class="text-center" colspan="2">Jobs Added</th>
-                      <th class="text-center" rowspan="2">Jobs Applied to</th>
-                      <th class="text-center" rowspan="2">Resume Uploaded (Y/N)</th>
+                      <th class="text-center" rowspan="2" class="no-sort" style="min-width: 130px;">Date Created</th>
+                      <th class="text-center" rowspan="2" class="" style="min-width: 70px;">Last Login</th>
+                      <th class="text-center" colspan="2" style="min-width: 70px;">Business Listings</th>
+                      <th class="text-center" colspan="2" style="min-width: 70px;">Restaurant Listings</th>
+                      <th class="text-center" colspan="2" style="min-width: 70px;">Jobs Added</th>
+                      <th class="text-center" rowspan="2" style="min-width: 100px;">Jobs Applied to</th>
+                      <th class="text-center" rowspan="2" style="min-width: 100px;">Resume Uploaded (Y/N)</th>
                     </tr>
                     <tr>
-                      <th class="text-center">Total</th>
-                      <th class="text-center">Published</th>
-                      <th class="text-center">Total</th>
-                      <th class="text-center">Published</th>
-                      <th class="text-center">Total</th>
-                      <th class="text-center">Published</th>
+                      <th class="text-center" style="min-width: 70px;">Total</th>
+                      <th class="text-center" style="min-width: 70px;">Published</th>
+                      <th class="text-center" style="min-width: 70px;">Total</th>
+                      <th class="text-center" style="min-width: 70px;">Published</th>
+                      <th class="text-center" style="min-width: 70px;">Total</th>
+                      <th class="text-center" style="min-width: 70px;">Published</th>
                     </tr>
                   </thead>
 
@@ -422,6 +423,7 @@
     <!-- Datatables -->
     <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- <script src="../public/js/datatable-button.js"></script> -->
 
     <!-- Autosize textarea -->
     <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>

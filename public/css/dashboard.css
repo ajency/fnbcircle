@@ -439,12 +439,22 @@ a:hover {
 .search-enabled .dataTables_filter {
   display: block;
 }
+.contentHeavy {
+  overflow: auto;
+}
 @media (max-width: 767px) {
   .dataTables_wrapper > .row {
     overflow: auto!important;
   }
   .dataTable {
     min-height: 220px;
+  }
+  .filterAction {
+    padding-bottom: 15px;
+    text-align: center;
+  }
+  .filterAction .fnb-btn {
+    font-size: 0.95em;
   }
 }
 /* Datatable Select Row */

@@ -339,17 +339,23 @@ function individual_Search(){
     $('#datatable-users').DataTable();
 
     var registered = $('#datatable-registered').DataTable({
-        'scrollX': true,
         "columnDefs": [{
                 "targets": 'no-sort',
                 "orderable": false
             }
+        ],
+        buttons: [
+            'copy', 'excel', 'pdf'
         ]
+        
     });
 
     registered.columns().iterator('column', function(ctx, idx) {
         $(registered.column(idx).header()).append('<span class="sort-icon"/>');
     });
+
+    $('.registered-table').closest('.row').addClass('contentHeavy');
+
     //         "columnDefs": [ {
     //         "targets": [ 1 ],
             

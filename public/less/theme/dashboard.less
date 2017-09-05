@@ -396,6 +396,10 @@ a{
 	}
 }
 
+.contentHeavy{
+	overflow: auto;
+}
+
 
 @media(max-width: 767px){
 	.dataTables_wrapper>.row {
@@ -403,6 +407,13 @@ a{
 	}
 	.dataTable{
 		min-height: 220px;
+	}
+	.filterAction{
+		padding-bottom: 15px;
+		text-align: center;
+		.fnb-btn{
+			font-size: 0.95em;
+		}
 	}
 }
 

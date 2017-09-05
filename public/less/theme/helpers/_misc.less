@@ -158,6 +158,28 @@
 	} 
 }
 
+.sign-page{
+	.alert{
+		border-radius: 0;
+		@media screen and (min-width: 768px){
+			margin: 1em 2em;
+			font-size: 0.9em;
+		}
+		@media screen and (max-width: @mobile){
+			font-size: 0.85em;
+		}
+		&-success{
+			color: #fff;
+			text-shadow: 0px 0px 1px #000;
+			.close{
+				text-shadow: 0px 0px 1px #000;
+				opacity: 1;
+				background-color: transparent;
+			}
+		}
+	}
+}
+
 
 @media screen and (max-width: 650px){
 	.log-sign{

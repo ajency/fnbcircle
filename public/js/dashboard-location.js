@@ -102,6 +102,7 @@
     $('input[name="name"]').attr('data-parsley-required-message', 'Please enter the city name');
     $('input[name="slug"]').attr('data-parsley-required-message', 'Enter the city slug');
     $('input[name="order"]').attr('data-parsley-required-message', 'Sort order for the city is required');
+    $('#add_location_modal .save-btn').prop('disabled', false);
   });
 
   $('#add_location_modal').on('click', '.save-btn', function(e) {
@@ -132,61 +133,74 @@
         "status": status,
         "area_id": area_id
       },
-      success: function(data) {
-        var $status, area, city, isarea, iscity, node, opt, opt1, table;
-        if (data.hasOwnProperty('city_id')) {
-          iscity = '-<span class="hidden">no</span>';
-          isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
-          city = data['city']['name'];
-          area = "1";
-          city_id = data['city_id'];
-        } else {
-          iscity = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
-          isarea = '-<span class="hidden">no</span>';
-          city = "";
-          area = "0";
-          city_id = "";
-          opt = document.createElement('option');
-          opt.value = data['id'];
-          opt.innerHTML = data['name'];
-          document.getElementById('allcities').appendChild(opt);
-          opt1 = document.createElement('option');
-          opt1.value = data['name'];
-          opt1.innerHTML = data['name'];
-          document.getElementById('filtercities').appendChild(opt1);
-          $('#filtercities').multiselect('rebuild');
+      success: function(serverData) {
+        var $status, area, city, data, isarea, iscity, node, opt, opt1, table;
+        if (serverData['status'] !== "200") {
+          $('.alert-failure #message').html(serverData['msg']);
+          $('.alert-failure').addClass('active');
+          $('#add_category_modal .save-btn').prop('disabled', false);
+          setTimeout((function() {
+            $('.alert-failure').removeClass('active');
+          }), 5000);
+          $('#add_location_modal .save-btn').prop('disabled', false);
+          return;
         }
-        if (data['status'] === 0) {
-          $status = 'Draft';
+        if (serverData['status'] === "200") {
+          data = serverData['data'];
+          if (data.hasOwnProperty('city_id')) {
+            iscity = '-<span class="hidden">no</span>';
+            isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
+            city = data['city']['name'];
+            area = "1";
+            city_id = data['city_id'];
+          } else {
+            iscity = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
+            isarea = '-<span class="hidden">no</span>';
+            city = "";
+            area = "0";
+            city_id = "";
+            opt = document.createElement('option');
+            opt.value = data['id'];
+            opt.innerHTML = data['name'];
+            document.getElementById('allcities').appendChild(opt);
+            opt1 = document.createElement('option');
+            opt1.value = data['name'];
+            opt1.innerHTML = data['name'];
+            document.getElementById('filtercities').appendChild(opt1);
+            $('#filtercities').multiselect('rebuild');
+          }
+          if (data['status'] === 0) {
+            $status = 'Draft';
+          }
+          if (data['status'] === 1) {
+            $status = 'Published';
+          }
+          if (data['status'] === 2) {
+            $status = 'Archived';
+          }
+          table = $('#datatable-locations').DataTable();
+          node = table.row.add({
+            "#": '<a href="#"><i class="fa fa-pencil"></i></a>',
+            "name": data['name'],
+            "slug": data['slug'],
+            "isCity": iscity,
+            "isArea": isarea,
+            "city": city,
+            "sort_order": data['order'],
+            "publish": data['published_date'],
+            "update": data['updated_at'],
+            "status": $status,
+            "id": data['id'],
+            "area": area,
+            "city_id": city_id
+          }).draw().node();
+          $('#add_location_modal').modal('hide');
+          $('.alert-success #message').html("Location added successfully.");
+          $('.alert-success').addClass('active');
+          return setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 2000);
         }
-        if (data['status'] === 1) {
-          $status = 'Published';
-        }
-        if (data['status'] === 2) {
-          $status = 'Archived';
-        }
-        table = $('#datatable-locations').DataTable();
-        node = table.row.add({
-          "#": '<a href="#"><i class="fa fa-pencil"></i></a>',
-          "name": data['name'],
-          "slug": data['slug'],
-          "isCity": iscity,
-          "isArea": isarea,
-          "city": city,
-          "sort_order": data['order'],
-          "publish": data['published_date'],
-          "update": data['updated_at'],
-          "status": $status,
-          "id": data['id'],
-          "area": area,
-          "city_id": city_id
-        }).draw().node();
-        $('#add_location_modal').modal('hide');
-        $('.alert-success #message').html("Location added successfully.");
-        $('.alert-success').addClass('active');
-        return setTimeout((function() {
-          $('.alert-success').removeClass('active');
-        }), 2000);
       },
       error: function(request, status, error) {
         console.log(status);
@@ -291,63 +305,76 @@
         "status": status,
         "area_id": area_id
       },
-      success: function(data) {
-        var $status, area, city, isarea, iscity, node, opt, opt1, table;
-        if (data.hasOwnProperty('city_id')) {
-          iscity = '-<span class="hidden">no</span>';
-          isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
-          city = data['city']['name'];
-          area = "1";
-          city_id = data['city_id'];
-        } else {
-          iscity = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
-          isarea = '-<span class="hidden">no</span>';
-          city = "";
-          area = "0";
-          city_id = "";
-          opt = $('#allcities option[value="' + data['id'] + '"]');
-          opt.val(data['id']);
-          opt.html(data['name']);
-          opt1 = $('#filtercities option[value="' + data['id'] + '"]');
-          opt1.val(data['id']);
-          opt1.html(data['name']);
-          $('#filtercities').multiselect('rebuild');
+      success: function(serverData) {
+        var $status, area, city, data, isarea, iscity, node, opt, opt1, table;
+        if (serverData['status'] !== "200") {
+          $('.alert-failure #message').html(serverData['msg']);
+          $('.alert-failure').addClass('active');
+          $('#add_category_modal .save-btn').prop('disabled', false);
+          setTimeout((function() {
+            $('.alert-failure').removeClass('active');
+          }), 5000);
+          $('#add_location_modal .save-btn').prop('disabled', false);
+          return;
         }
-        if (data['status'] === 0) {
-          $status = 'Draft';
+        if (serverData['status'] === "200") {
+          data = serverData['data'];
+          if (data.hasOwnProperty('city_id')) {
+            iscity = '-<span class="hidden">no</span>';
+            isarea = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
+            city = data['city']['name'];
+            area = "1";
+            city_id = data['city_id'];
+          } else {
+            iscity = '<i class="fa fa-check text-success"></i><span class="hidden">Yes</span>';
+            isarea = '-<span class="hidden">no</span>';
+            city = "";
+            area = "0";
+            city_id = "";
+            opt = $('#allcities option[value="' + data['id'] + '"]');
+            opt.val(data['id']);
+            opt.html(data['name']);
+            opt1 = $('#filtercities option[value="' + data['id'] + '"]');
+            opt1.val(data['id']);
+            opt1.html(data['name']);
+            $('#filtercities').multiselect('rebuild');
+          }
+          if (data['status'] === 0) {
+            $status = 'Draft';
+          }
+          if (data['status'] === 1) {
+            $status = 'Published';
+          }
+          if (data['status'] === 2) {
+            $status = 'Archived';
+          }
+          table = $('#datatable-locations').DataTable();
+          node = table.row(editrow).data({
+            "#": '<a href="#"><i class="fa fa-pencil"></i></a>',
+            "name": data['name'],
+            "slug": data['slug'],
+            "isCity": iscity,
+            "isArea": isarea,
+            "city": city,
+            "sort_order": data['order'],
+            "publish": data['published_date'],
+            "update": data['updated_at'],
+            "status": $status,
+            "id": data['id'],
+            "area": area,
+            "city_id": city_id
+          }).draw();
+          $('#edit_location_modal').modal('hide');
+          $('.alert-success #message').html("Location edited successfully.");
+          $('.alert-success').addClass('active');
+          if (city === "") {
+            loc_table.ajax.reload();
+            updateCities();
+          }
+          return setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 2000);
         }
-        if (data['status'] === 1) {
-          $status = 'Published';
-        }
-        if (data['status'] === 2) {
-          $status = 'Archived';
-        }
-        table = $('#datatable-locations').DataTable();
-        node = table.row(editrow).data({
-          "#": '<a href="#"><i class="fa fa-pencil"></i></a>',
-          "name": data['name'],
-          "slug": data['slug'],
-          "isCity": iscity,
-          "isArea": isarea,
-          "city": city,
-          "sort_order": data['order'],
-          "publish": data['published_date'],
-          "update": data['updated_at'],
-          "status": $status,
-          "id": data['id'],
-          "area": area,
-          "city_id": city_id
-        }).draw();
-        $('#edit_location_modal').modal('hide');
-        $('.alert-success #message').html("Location edited successfully.");
-        $('.alert-success').addClass('active');
-        if (city === "") {
-          loc_table.ajax.reload();
-          updateCities();
-        }
-        return setTimeout((function() {
-          $('.alert-success').removeClass('active');
-        }), 2000);
       },
       error: function(request, status, error) {
         console.log(status);

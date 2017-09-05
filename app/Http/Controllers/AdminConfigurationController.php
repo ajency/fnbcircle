@@ -60,6 +60,13 @@ class AdminConfigurationController extends Controller
             abort(400);
         }
         if ($request->type == 0) {
+            if (City::where('slug', $request->slug)->where('id', '!=', $request->city_id)->count() != "0") {
+                return response()->json(array("status" => "400", "msg" => "City with same slug exists", "data" => array()));
+            }
+
+            if (City::where('name', $request->name)->where('id', '!=', $request->city_id)->count() != "0") {
+                return response()->json(array("status" => "400", "msg" => "City with same name exists", "data" => array()));
+            }
             if ($request->city_id == '') {
                 $city         = new City;
                 $city->status = "0";
@@ -67,14 +74,14 @@ class AdminConfigurationController extends Controller
             } else {
                 $city = City::find($request->city_id);
                 if ($city->status == "0" and $request->status == "2") {
-                    abort(412, 'You cannot archive a draft location');
+                    return response()->json(array("status" => "400", "msg" => "You cannot archive a draft location", "data" => array()));
                 }
                 if ($city->status != "0" and $request->status == "0") {
-                    abort(412, 'Once the location is published, It cannot be made draft');
+                    return response()->json(array("status" => "400", "msg" => "Once the location is published, It cannot be made draft", "data" => array()));
                 }
 
                 if ($city->status != "0" and $city->slug != $request->slug) {
-                    abort(400, 'slug can be edited only in draft');
+                    return response()->json(array("status" => "400", "msg" => "slug can be edited only in draft", "data" => array()));
                 }
                 $city->slug = $request->slug;
             }
@@ -86,11 +93,16 @@ class AdminConfigurationController extends Controller
             $city->order  = $request->sort_order;
             $city->save();
             $city = City::find($city->id);
-
-            return response()->json($city);
+            return response()->json(array("status" => "200", "msg" => "City saved successfully", "data" => $city));
         } else {
             if ($request->city_id == '') {
-                abort(400, 'City required to save area');
+                return response()->json(array("status" => "400", "msg" => "City required to save area", "data" => array()));
+            }
+            if (Area::where('slug', $request->slug)->where('id', '!=', $request->area_id)->count() != "0") {
+                return response()->json(array("status" => "400", "msg" => "Area with same slug exists", "data" => array()));
+            }
+            if (Area::where('name', $request->name)->where('id', '!=', $request->area_id)->where('city_id',$request->city_id)->count() != "0") {
+                return response()->json(array("status" => "400", "msg" => "Area with same name exists", "data" => array()));
             }
             if ($request->area_id == '') {
                 $area          = new Area;
@@ -100,18 +112,18 @@ class AdminConfigurationController extends Controller
             } else {
                 $area = Area::find($request->area_id);
                 if ($area->status == "0" and $request->status == "2") {
-                    abort(412, 'You cannot archive a draft area');
+                    return response()->json(array("status" => "412", "msg" => "You cannot archive a draft area", "data" => array()));
                 }
                 if ($area->status != "0" and $request->status == "0") {
-                    abort(412, 'Once the location is published, It cannot be made draft');
+                    return response()->json(array("status" => "400", "msg" => "Once the location is published, It cannot be made draft", "data" => array()));
                 }
 
                 if ($area->status != "0" and $area->slug != $request->slug) {
-                    abort(400, 'slug can be edited only in draft');
+                    return response()->json(array("status" => "400", "msg" => "Slug can be edited only in draft", "data" => array()));
                 }
                 $area->slug = $request->slug;
                 if ($area->status != "0" and $area->city_id != $request->city_id) {
-                    abort(400, 'you cannot change city after publishing');
+                    return response()->json(array("status" => "400", "msg" => "you cannot change city after publishing", "data" => array()));
                 }
                 $area->city_id = $request->city_id;
             }
@@ -124,8 +136,7 @@ class AdminConfigurationController extends Controller
             $area->order  = $request->sort_order;
             $area->save();
             $area = Area::with('city')->find($area->id);
-
-            return response()->json($area);
+            return response()->json(array("status" => "200", "msg" => "area saved successfully", "data" => $area));
         }
     }
     public function categConfigList(Request $request)
@@ -426,22 +437,22 @@ class AdminConfigurationController extends Controller
             return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
         }
         $category = Category::find($request->id);
-        if ($request->status == '1' and $category->level!='3') {
-            $x =$category->isPublishable();
-            if($x === true){
-                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
-            }else{
-                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue'=> false, 'message' => $x)));
+        if ($request->status == '1' and $category->level != '3') {
+            $x = $category->isPublishable();
+            if ($x === true) {
+                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue' => true)));
+            } else {
+                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue' => false, 'message' => $x)));
             }
         }
         if ($request->status == '2') {
-             $x =$category->isArchivable();
-            if($x === true){
-                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
-            }else{
-                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue'=> false, 'message' => $x)));
+            $x = $category->isArchivable();
+            if ($x === true) {
+                return response()->json(array("status" => "200", "msg" => "", "data" => array('continue' => true)));
+            } else {
+                return response()->json(array("status" => "400", "msg" => "", "data" => array('continue' => false, 'message' => $x)));
             }
         }
-        return response()->json(array("status" => "200", "msg" => "", "data" => array('continue'=> true)));
+        return response()->json(array("status" => "200", "msg" => "", "data" => array('continue' => true)));
     }
 }

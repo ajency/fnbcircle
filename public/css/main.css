@@ -1669,10 +1669,12 @@ input[type="checkbox"].toggle__check {
 .require-modal .float-label,
 .sign-up-row .fnb-select,
 .require-modal .fnb-select {
-  color: #5a5a5a;
+  color: rgba(0, 0, 0, 0.72);
+  font-weight: 500;
 }
 .sign-up-row .float-label {
   font-size: 1em;
+  font-weight: 500;
 }
 .sign-up-row .float-label.filled {
   font-size: 0.85em;
@@ -1680,6 +1682,40 @@ input[type="checkbox"].toggle__check {
 .sign-up-row .fnb-select {
   padding-left: 0;
   font-size: 1em;
+}
+.sign-up-row .form-group {
+  margin: 0.8em 0;
+}
+.sign-up-row .form-group.phoneNumber {
+  margin: 0 0 0.8em 0;
+}
+.sign-up-row .form-group.city,
+.sign-up-row .form-group.area {
+  margin: 1.5em 0;
+}
+.sign-up-row .form-group.describe-section {
+  margin-bottom: 0;
+}
+.describe-section__title {
+  color: rgba(0, 0, 0, 0.72);
+  margin-bottom: 0.5em;
+  font-weight: 500;
+}
+@media screen and (min-width: 768px) {
+  .describe-section__title {
+    font-size: 1.03em;
+  }
+}
+.describe-section .points {
+  margin: 0.5em 0;
+}
+.describe-section .points .checkbox:before {
+  top: -10px;
+  font-size: 1.15em;
+}
+.describe-section .points__text {
+  font-size: 0.95em;
+  color: #6b6b6b;
 }
 .number-code {
   margin-top: 5px;
@@ -1744,6 +1780,27 @@ input[type="checkbox"].toggle__check {
   .sign-up-row {
     padding: 0 1.5em;
   }
+  .sign-up-row .form-group {
+    margin: 0.5em 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .sign-up-row .form-group.city,
+  .sign-up-row .form-group.area {
+    margin: 0.5em 0 0.8em 0;
+  }
+  .sign-up-row .form-group.area {
+    padding-top: 0.5em;
+  }
+  .sign-up-row .describe-section {
+    margin: 1em 0 0 0;
+  }
+  .sign-up-row .describe-section__title {
+    margin-bottom: 0;
+  }
+  .sign-up-row .describe-section .points {
+    margin: 0.8em 0;
+  }
   .accept-row.accept-row {
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
@@ -1762,8 +1819,11 @@ input[type="checkbox"].toggle__check {
 }
 @media (min-width: 768px) {
   .require-modal .modal-dialog {
-    width: 500px;
+    width: 550px;
   }
+}
+.require-modal .float-label {
+  font-size: 1em;
 }
 .require-modal .verify-container {
   margin-top: 2em;
@@ -1820,12 +1880,21 @@ input[type="checkbox"].toggle__check {
 .require-modal .modal-body {
   padding: 0;
 }
+.require-modal .describe-section .points__text {
+  font-size: 0.9em;
+}
 @media screen and (max-width: 768px) {
   .require-modal__title {
     font-size: 1.2em;
   }
   .require-modal .verifyPhone {
     font-size: 0.9em;
+  }
+  .require-modal .describe-section__title {
+    margin-bottom: 0;
+  }
+  .require-modal .describe-section .points {
+    margin: 0.8em 0;
   }
 }
 .m-t-0 {

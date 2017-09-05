@@ -312,7 +312,32 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">City</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>City</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">Area</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>Area</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12 describe-section m-b-10 form-group m-t-10">
@@ -370,32 +395,6 @@
                             </select>
                         </div>
                     </div> -->
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group p-t-10 p-b-10">
-                                <!-- <label class=" text-lighter required">City</label> -->
-                                <div class="required select-required">
-                                    <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>City</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group p-t-10 p-b-10">
-                                <!-- <label class=" text-lighter required">Area</label> -->
-                                <div class="required select-required">
-                                    <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>Area</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">

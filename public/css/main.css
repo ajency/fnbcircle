@@ -1848,6 +1848,12 @@ input[type="checkbox"].toggle__check {
 .require-modal .float-label {
   font-size: 1em;
 }
+.require-modal .float-label.filled {
+  font-size: 0.9em;
+}
+.require-modal .fnb-select {
+  font-size: 1em;
+}
 .require-modal .verify-container {
   margin-top: 2em;
   text-align: center;

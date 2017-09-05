@@ -9353,7 +9353,7 @@ dl dd {
 .login-modal .modal-header {
   padding: 0;
 }
-.login-modal .close {
+.login-modal .close-modal {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -9432,6 +9432,26 @@ dl dd {
 }
 .login-modal .login-container {
   margin-top: 2em;
+  position: relative;
+}
+.login-modal .alert {
+  padding: 0.8em 1.8em;
+  border-radius: 0;
+}
+.login-modal .alert .close {
+  top: 4px;
+  right: 8px;
+  position: absolute;
+}
+.login-modal .alert.alert-success {
+  background-color: #77d79a;
+  border-color: #77d79a;
+  color: #fff;
+  text-shadow: 0px 0px 1px #000;
+}
+.login-modal .alert.alert-success .close {
+  opacity: 1;
+  text-shadow: 0px 0px 1px #000;
 }
 .logo-style {
   position: relative;
@@ -9496,6 +9516,9 @@ dl dd {
   }
   .login-modal .fnb-btn {
     font-size: 0.9em;
+  }
+  .login-modal .alert {
+    margin-top: 2em;
   }
   .forgot-actions label,
   .forgot-actions .forget-link {

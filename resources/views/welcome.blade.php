@@ -266,11 +266,12 @@
                     <div class="logo-style">
                         <img src='/img/logo-fnb.png' class="img-responsive center-block">
                     </div>
-                    <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                    <button class="close close-modal" data-dismiss="modal" aria-label="Close">&#10005;</button>
                 </div>
                 <div class="modal-body">
                     <div class="login-body">
                         <div class="login-container">
+                            <div class="alert alert-danger alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> <span>Error please check.</span></div>
                             <h3 class="welcome-text text-medium">Let's get you inside the Circle.</h3>
                             <div class="social-login flex-row col-direction">
                                 <!-- <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button> -->

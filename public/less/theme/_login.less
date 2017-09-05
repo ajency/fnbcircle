@@ -19,7 +19,7 @@
 	.modal-header{
 		padding: 0;
 	}
-	.close{
+	.close-modal{
 		position: absolute;
 	    top: 15px;
 	    right: 15px;
@@ -95,6 +95,26 @@
 	}
 	.login-container{
 		margin-top: 2em;
+		position: relative;
+	}
+	.alert{
+		padding: 0.8em 1.8em;
+		border-radius: 0;
+		.close{
+			top: 4px;
+    		right: 8px;
+    		position: absolute;
+		}
+		&.alert-success{
+			background-color: rgb(119, 215, 154);
+			border-color: rgb(119, 215, 154);
+			color: #fff;
+			text-shadow: 0px 0px 1px #000;
+			.close{
+				opacity: 1;
+				text-shadow: 0px 0px 1px #000;
+			}
+		}
 	}
 }
 
@@ -173,6 +193,9 @@
 		}
 		.fnb-btn{
 			font-size: 0.9em;
+		}
+		.alert{
+			margin-top: 2em;
 		}
 	}
 	.forgot-actions{

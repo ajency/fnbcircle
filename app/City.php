@@ -22,7 +22,7 @@ class City extends Model
 
     public function isPublishable()
     {
-        $areas = Area::where('city_id', $this->id)->count();
+        $areas = Area::where('city_id', $this->id)->where('status','1')->count();
         if ($areas > 0) {
             return array("response"=>true, "message"=>"");
         } else {

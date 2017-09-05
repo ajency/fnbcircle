@@ -18,6 +18,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
     url: '/get_categories'
     data: {
       'parent' : JSON.stringify(obj)
+      'status': '1';
     }
     success: (data) ->
       # console.log data
@@ -65,6 +66,7 @@ getNodes = (branchID) ->
       url: '/get_categories'
       data:
         'parent' : JSON.stringify(obj)
+        'status': '1'
       success: (data) ->
         array = []
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
@@ -81,8 +83,8 @@ getNodes = (branchID) ->
             j++
           if j == 0
             delete categories['categories'][branch]
-        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
-        html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
+        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']['name']+'">'
+        html += '<input type="hidden" name="image" value="'+data[branchID]['parent']['icon_url']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
         for key of data[branchID]['children']
           html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" '

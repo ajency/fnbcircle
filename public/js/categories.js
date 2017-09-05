@@ -20,7 +20,8 @@
       type: 'post',
       url: '/get_categories',
       data: {
-        'parent': JSON.stringify(obj)
+        'parent': JSON.stringify(obj),
+        'status': '1'
       },
       success: function(data) {
         var html, html_mob, i, key;
@@ -73,7 +74,8 @@
         type: 'post',
         url: '/get_categories',
         data: {
-          'parent': JSON.stringify(obj)
+          'parent': JSON.stringify(obj),
+          'status': '1'
         },
         success: function(data) {
           var array, branch, html, i, j, key, node;
@@ -95,8 +97,8 @@
               delete categories['categories'][branch];
             }
           }
-          html = '<input type="hidden" name="parent" value="' + data[branchID]['parent'] + '">';
-          html += '<input type="hidden" name="image" value="' + data[branchID]['image'] + '">';
+          html = '<input type="hidden" name="parent" value="' + data[branchID]['parent']['name'] + '">';
+          html += '<input type="hidden" name="image" value="' + data[branchID]['parent']['icon_url'] + '">';
           html += '<input type="hidden" name="branch" value="' + data[branchID]['name'] + '" id="' + branchID + '">';
           for (key in data[branchID]['children']) {
             html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" ';

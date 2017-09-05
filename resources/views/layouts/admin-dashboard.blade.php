@@ -43,8 +43,8 @@
               <li class="active"><a><i class="fa fa-building"></i> Business <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: block">
                     <li><a>Moderation <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu" >
-                        <li class="sub_menu"><a href="listing_approval.html">Listing Approval</a>
+                      <ul class="nav child_menu" style="display: block">
+                        <li class="@if(Request::path() == 'admin-dashboard/moderation/listing-approval')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/listing-approval')#@else {{action('AdminConfigurationController@categoriesView')}} @endif"">Listing Approval</a>
                         </li>
                         <li class=""><a href="#">Manage Listings</a>
                         </li>
@@ -52,7 +52,7 @@
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: block">
-                        <li class="@if(Request::path() == 'admin-dashboard/config/categories')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/config/categories')#@else {{action('AdminConfigurationController@categoriesView')}} @endif"">Categories</a>
+                        <li class="@if(Request::path() == 'admin-dashboard/config/categories')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/config/categories')#@else {{action('AdminModerationController@listingApproval')}} @endif"">Categories</a>
                         </li>
                         <li class="sub_menu @if(Request::path() == 'admin-dashboard/config/locations')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/config/locations')#@else {{action('AdminConfigurationController@locationView')}} @endif">Locations</a>
                         </li>

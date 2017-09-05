@@ -304,6 +304,7 @@ class ListingController extends Controller
     {
         $this->validate($request, [
             'parent' => 'id_json|not_empty_json|required',
+            'status' =>'required'
         ]);
         $parents = json_decode($request->parent);
         foreach ($parents as $parent) {
@@ -311,8 +312,19 @@ class ListingController extends Controller
                 return abort(404);
             }
         }
+        $statuses = explode(",",$request->status);
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $child       = Category::where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
+                $i=0;
+                foreach ($statuses as $status) {
+                    if($i==0){
+                        $sql->where('status',$status);
+                    }
+                    else{$sql->orWhere('status',$status);}
+                    $i++;
+                }
+            })->orderBy('order')->orderBy('name')->get();
+            // dd($child);
             $child_array = array();
             foreach ($child as $ch) {
                 $child_array[$ch->id] = array('id' => $ch->id, 'name' => $ch->name, 'order' => $ch->order);
@@ -324,7 +336,7 @@ class ListingController extends Controller
                 $grandparent = new Category;
             }
 
-            $parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent->name, 'image' => $grandparent->icon_url);
+            $parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
         }
         return response()->json($parent_array);
     }

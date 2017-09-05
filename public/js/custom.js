@@ -1,6 +1,43 @@
 
 $(function(){
 
+	$("#login-modal").on('shown.bs.modal', function() {
+		var url = '';
+
+		if (window.location.search && window.location.search.indexOf("login=") < 0) {
+			url = window.location.search + '&login=true';
+		} else if (!window.location.search) {
+			url = '/?login=true';
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$("#login-modal").on('hidden.bs.modal', function() {
+		var url = '/';
+
+		if (window.location.search.indexOf("login=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i] != "login=true") {
+					url += (i == 0 ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
 	$(window).scroll(function (event) {
 	    var scroll = $(window).scrollTop();
 	    if($('.sticky-section').length){
@@ -209,6 +246,10 @@ $(function(){
 		$(document).ready(function() {
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
+			}
+
+			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
+				$("#login-modal").modal('show');
 			}
 		});
 

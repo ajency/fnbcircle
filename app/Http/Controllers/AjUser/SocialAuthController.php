@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SocialAuthController extends Controller {
+    public function reroute() {
+
+    }
+
     public function redirect($provider) { // for Provider authentication -> Provider = ['Google', 'Facebook']
         return Socialite::driver($provider)->redirect();
     }
@@ -41,13 +45,14 @@ class SocialAuthController extends Controller {
                 auth()->login($user); // Authenticate using User Object
                 return redirect('/');
             } else { // Same Email but different Source
-                return redirect('/register');
+                return redirect('/?login=true&msg=email_exist');
             }
         } catch (Exception $e) {
             
         }
     }
     
+
     public function getDetails(Request $request, $provider) {
         try {
             $output = new ConsoleOutput();

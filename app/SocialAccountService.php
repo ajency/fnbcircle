@@ -24,9 +24,11 @@ class SocialAccountService {
         $comm = '';
 
         if (isset($data["email"])) {
-            $comm = UserCommunication::where('value','=',$data['email'])->first(); // Check if this email ID exist in the DB
+            $comm = UserCommunication::where('value','=',$data['email'])->first(); // Check if this email ID exist in the User Communication DB
         } else if (isset($data["contact"])) {
-            $comm = UserCommunication::where('value','=',$data['contact'])->first(); // Check if this Contact No (Phone No / Landline) exist in the DB
+            $comm = UserCommunication::where('value','=',$data['contact'])->first(); // Check if this Contact No (Phone No / Landline) exist in the User Communication DB
+        } else {
+            $comm = User::where('email', '=', $data['username'])->first(); // Check if this Username exist in the User DB
         }
 
         if($comm) {

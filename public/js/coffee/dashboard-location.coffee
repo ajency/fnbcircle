@@ -267,7 +267,7 @@ $('#edit_location_modal').on 'click','.save-btn', (e)->
   e.preventDefault()
   instance = $('#editlocationForm').parsley()
   if !instance.validate()
-    $('#add_location_modal .save-btn').prop('disabled',true)
+    $('#edit_location_modal .save-btn').prop('disabled',true)
     return false;
   city_id = $('#edit_location_modal .select_city select').val()
   area_id = $('#edit_location_modal input[name=area_id]').val()

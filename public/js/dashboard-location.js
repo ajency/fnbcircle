@@ -284,7 +284,7 @@
     e.preventDefault();
     instance = $('#editlocationForm').parsley();
     if (!instance.validate()) {
-      $('#edit_location_modal .save-btn').prop('disabled', true);
+      $('#edit_location_modal .save-btn').prop('disabled', false);
       return false;
     }
     city_id = $('#edit_location_modal .select_city select').val();

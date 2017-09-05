@@ -212,7 +212,7 @@
                     <div class="col-sm-6">
                       <div class="form-group">
                         <label>Sort Order  <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1">
+                        <input type="number" class="form-control fnb-input" name="order" value="1" min="1" required data-parsley-type="number">
                       </div>
                     </div>
 

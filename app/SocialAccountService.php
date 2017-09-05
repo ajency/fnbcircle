@@ -21,7 +21,13 @@ class SocialAccountService {
     }
 
     public function check_if_user_exists($data, $getObject) {
-        $comm = UserCommunication::where('value','=',$data['email'])->first();
+        $comm = '';
+
+        if (isset($data["email"])) {
+            $comm = UserCommunication::where('value','=',$data['email'])->first(); // Check if this email ID exist in the DB
+        } else if (isset($data["contact"])) {
+            $comm = UserCommunication::where('value','=',$data['contact'])->first(); // Check if this Contact No (Phone No / Landline) exist in the DB
+        }
 
         if($comm) {
             $exist = true;
@@ -29,11 +35,15 @@ class SocialAccountService {
             $exist = false;
         }
 
-        if ($getObject) {
+        if ($getObject) { // Pass the User object & Boolean Status
             return array($comm, $exist);
-        } else {
+        } else { // Pass Boolean Status
             return $exist;
         }
+    }
+
+    public function activate_user($data) {
+        return ;
     }
 
     public function getOrCreateUser($data) {
@@ -42,12 +52,15 @@ class SocialAccountService {
         $object = $this->check_if_user_exists($data, true); // Check if the EMail ID exist
         $status = "exist";
 
+        $status_active_provider = ["google", "facebook"];
+
         if (!$object[1]) { // if the email & info is not present in the list, then create new
             $user = new User;
             $user->name = $data["name"];
             $user->email = $data["username"];
             $user->password = $data["password"];
             $user->signup_source = $data['provider'];
+            $user->status = in_array($data["provider"], $status_active_provider) ? "active" : "inactive";
             $user->save();
 
             if (isset($data['email'])) {

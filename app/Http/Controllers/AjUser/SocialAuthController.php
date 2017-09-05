@@ -39,12 +39,10 @@ class SocialAuthController extends Controller {
             
             if ($arraySocial[1] == "present" || $arraySocial[1] == "exist") {
                 auth()->login($user); // Authenticate using User Object
-                return redirect('/home');
+                return redirect('/');
             } else { // Same Email but different Source
                 return redirect('/register');
             }
-            
-            
         } catch (Exception $e) {
             
         }

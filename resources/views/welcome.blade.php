@@ -73,24 +73,27 @@
                             <li class="mobile-hide">
                                 <button class="btn fnb-btn outline mini quote-btn half-border nav-color">Get Multiple quotes</button>
                             </li>
-                            @if(!isset($user))
-                            <li class="mobile-hide">
-                                <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                                    <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
-                                    <p class="login__title nav-title-size p-l-10 nav-color">Login</p>
-                                </a>
-                            </li>
+                            <!-- @if(!isset($user))
                             @else
-                            <li class="mobile-hide">
-                                <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
-                                    <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
-                                </a>
+                            @endif -->
+                            @if(Auth::guest())
+                                <li class="mobile-hide">
+                                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                                        <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
+                                        <p class="login__title nav-title-size p-l-10 nav-color">Login</p>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="mobile-hide">
+                                    <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
+                                        <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
+                                    </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-                            </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
                             @endif
                             <li class="mobile-hide">
                                 <a href="#" class="side-menu">

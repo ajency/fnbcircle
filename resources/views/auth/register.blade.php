@@ -24,17 +24,17 @@
 <div class="container">
     <ul class="fnb-breadcrums flex-row m-t-20">
         <li class="fnb-breadcrums__section">
-            <a href="">
+            <a href="/">
                 <i class="fa fa-home home-icon" aria-hidden="true"></i>
             </a>
         </li>
         <li class="fnb-breadcrums__section">
-            <a href="">
+            <!-- <a href=""> -->
                 <p class="fnb-breadcrums__title">/</p>
-            </a>
+            <!-- </a> -->
         </li>
         <li class="fnb-breadcrums__section">
-            <a href="">
+            <a href="/register">
                 <p class="fnb-breadcrums__title">Sign Up</p>
             </a>
         </li>

@@ -25,7 +25,7 @@
                 <div class="navbar-header mobile-head mobile-flex">
                     <div class="mobile-head__left mobile-flex">
                         <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
-                        <a class="navbar-brand" href="#"><img src="/img/logo-fnb.png" class="img-responsive"></a>
+                        <a class="navbar-brand" href="/"><img src="/img/logo-fnb.png" class="img-responsive"></a>
                     </div>
                     <div class="mobile-head__right mobile-flex">
                         <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>

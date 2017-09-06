@@ -64,8 +64,8 @@ class SocialAccountService {
             if (isset($data['email']) || isset($data['contact'])) { // If contact or Email is defined in the plugin, then mark this fields as 'True' as this is User's 1st contact
                 $types = [];
 
-                isset($data['email']) ? array_push($types, 'email') : '';// If email field exist
-                isset($data['contact']) ? array_push($types, 'contact') : '';// If contact field exist
+                (isset($data['email']) && $data['email']) ? array_push($types, 'email') : '';// If email field exist & the value is not NULL
+                (isset($data['contact']) && $data['contact']) ? array_push($types, 'contact') : '';// If contact field exist & the value is not NULL
 
                 foreach ($types as $key => $type) { // Loop through Communication types
                     $comm = new UserCommunication;

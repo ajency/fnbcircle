@@ -16,8 +16,37 @@ use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SocialAuthController extends Controller {
-    public function reroute() {
 
+    public function rerouteUser($data, $type) { // function (<User Data>, <Response Type for - Website / API>) -> This reroute function will redirect 'Post' Login
+        $service = new SocialAccountService();
+
+        $arraySocial = $service->getOrCreateUser($data); // Create User Details
+        $user = $arraySocial[0]; // Get User object
+
+        if ($type == "website") { // It's Website request
+            if ($arraySocial[1] == "present" || $arraySocial[1] == "exist") { // If Account (Exist or Created) & Verified then,
+                auth()->login($user); // Authenticate using User Object
+                return redirect('/');
+            } else { // Same Email but different Source
+                if ($arraySocial[1] == "different") { // If 'account' exists but 'Different Source', then 'Reject'
+                    return redirect('/?login=true&message=is_' . $user->signup_source . '_account');
+                } else {
+                    return redirect('/?login=true');
+                }
+            }
+        } else { // It's API request
+            if ($arraySocial[1] == "present") { // If Account is created & Verified
+                return response()->json(array("url" => "/", "message" => 'created_account', "status" => 201, "data" => $data)); // Account created - HTTP_STATUS: Created
+            } else if ($arraySocial[1] == "exist") { // If Account exists & is Verified
+                return response()->json(array("url" => "/", "message" => 'verified', "status" => 200, "data" => $data)); // Account verified - HTTP_STATUS: Success
+            } else {
+                if ($arraySocial[1] == "different") { // If 'account' exists but 'Different Source', then 'Reject'
+                    return response()->json(array("url" => "/", "message" => 'is_' . $user->signup_source . '_account', "status" => 409)); // Account with this Email / Credential already exist - HTTP_STATUS: Conflict
+                } else {
+                    return response()->json(array("url" => "/", "message" => '', "status" => 400)); // Invalid Account - HTTP_STATUS: Bad Request
+                }
+            }
+        }
     }
 
     public function redirect($provider) { // for Provider authentication -> Provider = ['Google', 'Facebook']
@@ -29,24 +58,10 @@ class SocialAuthController extends Controller {
             $output = new ConsoleOutput();
 
             $account = Socialite::driver($provider)->stateless()->user(); /* trying to use socialite on a laravel with socialite sessions deactivated */
-
             $data = $service->getSocialData($account, $provider);
             
-            $output->writeln("callback() -> User");
-            $output->writeln(var_export($data, true));
-            
-            //if $service->check_if_user_exists($data) {
-            $arraySocial = $service->getOrCreateUser($data);
-            // } 
+            return $this->rerouteUser($data, "website");
 
-            $user = $arraySocial[0]; // Get User object
-            
-            if ($arraySocial[1] == "present" || $arraySocial[1] == "exist") {
-                auth()->login($user); // Authenticate using User Object
-                return redirect('/');
-            } else { // Same Email but different Source
-                return redirect('/?login=true&msg=email_exist');
-            }
         } catch (Exception $e) {
             
         }
@@ -63,10 +78,8 @@ class SocialAuthController extends Controller {
             
             $service = new SocialAccountService();
             $data = $service->getSocialData($account, $provider);
-            // $this->create_fnb_user($service, $data);
-         
-            $output->writeln("getDetails() -> User");
-            $output->writeln(var_export($data, true));
+            
+            return $this->rerouteUser($data, "api");
 
         } catch (Exception $e) {
             

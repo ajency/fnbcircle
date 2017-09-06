@@ -23,8 +23,8 @@ $(function(){
 		if (window.location.search.indexOf("login=") >= 0) {
 			var url_split = window.location.search.split('?')[1].split('&');
 			for(i = 0; i < url_split.length; i++) {
-				if(url_split[i] != "login=true") {
-					url += (i == 0 ? '?': '&') + url_split[i];
+				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
 				}
 			}
 		} else {
@@ -250,6 +250,25 @@ $(function(){
 
 			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
 				$("#login-modal").modal('show');
+			}
+
+			if (window.location.search.indexOf("message=") > -1) { // If login=true exist in URL, then trigger the Popup
+				var message_key = window.location.search.split("message=")[1].split("&")[0];
+
+				var popup_message = "#login-modal .login-container .alert";
+				
+				if (message_key == 'is_google_account') {
+					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_facebook_account') {
+					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_email_account') {
+					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_verified') {
+					$(popup_message + ".alert-success").removeClass('hidden');
+				}
 			}
 		});
 

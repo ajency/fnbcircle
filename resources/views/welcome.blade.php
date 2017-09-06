@@ -271,7 +271,24 @@
                 <div class="modal-body">
                     <div class="login-body">
                         <div class="login-container">
-                            <div class="alert alert-danger alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button> <span>Error please check.</span></div>
+                            <div class="alert alert-danger alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <div class="account-exist google-exist-error hidden">
+                                    <h6>Please login with Google</h6>
+                                    <span>Looks like you have an account associated with Google, please login with Google.</span>
+                                </div>
+                                <div class="account-exist facebook-exist-error hidden">
+                                    <h6>Please login with Facebook</h6>
+                                    <span>Looks like you have an account associated with Facebook, please login with Facebook.</span>
+                                </div>
+                                <div class="account-exist email-exist-error hidden">
+                                    <h6>Please login with Email</h6>
+                                    <span>Looks like you have an account associated with Email, please login with Email-ID &amp; Password.</span>
+                                </div>
+                            </div>
+                            <div class="alert alert-success signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h6>Email Verification Success</h6>
+                                <span>Email ID has been verified successfully.</span>
+                            </div>
                             <h3 class="welcome-text text-medium">Let's get you inside the Circle.</h3>
                             <div class="social-login flex-row col-direction">
                                 <!-- <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button> -->

@@ -9,7 +9,16 @@ return [
 	 	"table" -> Table name to be assigned for Migrations (Note: Only Migration file is generated)
 	 	"status" -> (create / alter)
 	 	"columns" -> [Array of Columns]
-	 		"columns" -> array( "column" => "<column_name>", "type" => "<column_type>", "size" => "size of the Column - String Type", "comment" => "<comment_for_the_column>", "nullable" => "<true/false> [Decides whether Column is nullable or not]", "default" => "<default_value> [Sets default value on SAVE]" )
+	 		"columns" -> array( 
+		 		"column" => "<column_name>", 
+	            "type" => "<column_type>", 
+	            "size" => "size of the Column - < Only for String Type >",
+	            "digit" => "Digits to display - < Only for Float Type >", "decimal_pt" => "numbers to store after decimal point - < Only for Float Type >",
+				"precision" => "Digits of precision to store < Only for Decimal Type >", "scale" => "Decimal point scale < Only for Decimal Type >",
+	            "comment" => "<comment_for_the_column>", 
+	            "nullable" => "<true/false> [Decides whether Column is nullable or not]", 
+	            "default" => "<default_value> [Sets default value on SAVE]"
+            )
 
 	 		"type" ("For a column") -> ["string", "text", "boolean", "integer", "decimal", "float", "date", "datetime", "timestamp", "increments"]
 	*/

@@ -20,7 +20,7 @@ class SocialAccountService {
         return $response_data;
     }
 
-    public function check_if_user_exists($data, $getObject) {
+    public function check_if_user_exists($data, $getObject=false) {
         $comm = '';
 
         if (isset($data["email"])) {
@@ -38,14 +38,10 @@ class SocialAccountService {
         }
 
         if ($getObject) { // Pass the User object & Boolean Status
-            return array($comm, $exist);
+            return array("data" => $comm, "status" => $exist);
         } else { // Pass Boolean Status
             return $exist;
         }
-    }
-
-    public function activate_user($data) {
-        return ;
     }
 
     public function getOrCreateUser($data) {
@@ -56,41 +52,41 @@ class SocialAccountService {
 
         $status_active_provider = ["google", "facebook"];
 
-        if (!$object[1]) { // if the email & info is not present in the list, then create new
+        if (!$object["status"]) { // if the email & info is not present in the list, then create new
             $user = new User;
             $user->name = $data["name"];
             $user->email = $data["username"];
             $user->password = $data["password"];
             $user->signup_source = $data['provider'];
-            $user->status = in_array($data["provider"], $status_active_provider) ? "active" : "inactive";
+            $user->status = in_array($data["provider"], $status_active_provider) ? "active" : "inactive"; // If provider is in the List, then activate, else Inactive
             $user->save();
 
-            if (isset($data['email'])) {
-                $comm = new UserCommunication;
-                $comm->object_id = $user->id;
-                $comm->object_type = '';
-                $comm->type = "email";
-                $comm->value = $data['email'];
-            } else if (isset($data['contact'])) {
-                $comm = new UserCommunication;
-                $comm->object_id = $user->id;
-                $comm->object_type = '';
-                $comm->type = "mobile";
-                $comm->value = $data['contact'];
-            }
-            
             if (isset($data['email']) || isset($data['contact'])) { // If contact or Email is defined in the plugin, then mark this fields as 'True' as this is User's 1st contact
-                $comm->is_primary = true;
-                $comm->is_communication = true;
-                $comm->is_verified = true;
-                $comm->is_visible = true;
-    
-                $comm->save();
+                $types = [];
+
+                isset($data['email']) ? array_push($types, 'email') : '';// If email field exist
+                isset($data['contact']) ? array_push($types, 'contact') : '';// If contact field exist
+
+                foreach ($types as $key => $type) { // Loop through Communication types
+                    $comm = new UserCommunication;
+                    $comm->object_id = $user->id;
+                    $comm->object_type = 'user';
+
+                    $comm->type = $type;
+                    $comm->value = $data[$type];
+                    
+                    $comm->is_primary = true;
+                    $comm->is_communication = true;
+                    $comm->is_verified = true;
+                    $comm->is_visible = true;
+        
+                    $comm->save();
+                }
             }
 
             $status = "present";
         } else { // This email exist
-            $user = User::find($object[0]->object_id);
+            $user = User::find($object["data"]->object_id);
 
             if ($user->signup_source !== $data['provider']) {
                 $status = "different";

@@ -280,7 +280,7 @@
         </div>
 
         <!-- Category Filter -->
-        <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fnb-modal category-modal multilevel-modal fade list-app-modal" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

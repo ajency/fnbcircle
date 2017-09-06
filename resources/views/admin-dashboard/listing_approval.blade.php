@@ -1,8 +1,23 @@
 @extends('layouts.admin-dashboard')
+@section('css')
+  @parent
+  <!-- bootstrap-daterangepicker -->
+    <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+@endsection
 
 @section('js')
   @parent
   <script type="text/javascript" src="/js/dashboard-listing-approval.js"></script>
+  <script type="text/javascript" src="/js/underscore-min.js" ></script>
+   <script type="text/javascript" src="/js/handlebars.js"></script>
+    <!-- <script type="text/javascript" src="/js/require.js"></script> -->
+
+    <!-- bootstrap-daterangepicker -->
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- Autosize textarea -->
+    <script src="/bower_components/autosize/dist/autosize.min.js"></script>
 @endsection
 
 @section('page-data')
@@ -11,7 +26,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval <button class="btn btn-link btn-sm">+ Add Listing</button></h5>
+            <h5>Listing Approval <button class="btn btn-link btn-sm">+ Add Listing</button><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
           </div>
         </div>
 
@@ -39,7 +54,8 @@
                     <div class="cat-filter__wrapper">
                       <label>Category Filter</label>
                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm">Filter based on node categories</a>
-                      <div class="single-category gray-border m-b-10">
+                      <div id="categories" class="node-list"></div>
+                      <!-- <div class="single-category gray-border m-b-10">
                           <div class="row flex-row categoryContainer corecat-container">
                               <div class="col-sm-4 flex-row">
                                   <div class="branch-row">
@@ -61,14 +77,13 @@
                           <div class="delete-cat">
                               <span class="fa fa-times remove"></span>
                           </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
 
                 <div class="filter-actions m-t-10">
                   <div class="pull-right">
-                    <button class="btn fnb-btn outline no-border">Reset all Filters</button>
                     <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
                   </div>
                   <div class="clearfix"></div>
@@ -274,7 +289,7 @@
                         </div>
                         <div class="mobile-back flex-row">
                             <div class="back">
-                                <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back to Category</button>
+                                <button class="btn fnb-btn outline border-btn no-border category-back"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back to Category</button>
                             </div>
                             <div class="level-two">
                                 <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">✕</a>
@@ -299,7 +314,7 @@
                             <ul class="interested-options catOptions cat-select flex-row m-t-45">
                                 @foreach($parents as $parent)
                                 <li>
-                                    <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$parent->name}}">
+                                    <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$parent->name}}" value="{{$parent->id}}">
                                     <div class="option flex-row">
                                         <img class="fnb-icons cat-icon " src="{{$parent->icon_url}}"></span>
                                     </div>

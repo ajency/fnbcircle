@@ -537,4 +537,13 @@ table.dataTable tr th.selected.select-checkbox:after {
   height: 50px;
   padding: 0.5em;
 }
+@media screen and (max-width: 650px) {
+  .list-app-modal .firstStep .close {
+    position: relative;
+    right: 1em;
+    top: 1em;
+    font-size: 1em;
+    z-index: 2;
+  }
+}
 /*# sourceMappingURL=dashboard.css.map */

@@ -34,7 +34,7 @@
           if (i === 0) {
             html_mob += ' active';
           }
-          html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><div id="selectall" class="nodes"><input type="checkbox" class="checkbox"><label class="flex-row">Selectall</label></div><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>';
+          html_mob += '" id="' + slugify(data[id]['children'][key]['name']) + '" name="' + data[id]['children'][key]['id'] + '"><div id="selectall" class="nodes select-all-nodes"><label class="flex-row"><input type="checkbox" class="checkbox"> Select All</label></div><ul class="nodes"><li>' + data[id]['children'][key]['name'] + '</li></ul></div>';
           html += '<li role="presentation"';
           if (i === 0) {
             html += ' class="active"';
@@ -140,8 +140,13 @@
     $('.main-category').removeClass('hidden');
     $('.sub-category').removeClass('shown');
     $('.desk-level-two').addClass('hidden');
-    $('.firstStep').removeClass('hidden');
+    $('.firstStep').removeClass('hidden mobile-hide');
     return $('.interested-options .radio').prop('checked', false);
+  });
+
+  $('body').on('click', '.level-two-toggle', function() {
+    $('.mobileCat-back').addClass('hidden');
+    return $('.category-back').removeClass('mobile-hide');
   });
 
   $('.topSelect').click(function() {

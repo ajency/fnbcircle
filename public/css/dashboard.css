@@ -442,6 +442,18 @@ a:hover {
 .contentHeavy {
   overflow: auto;
 }
+#datatable-registered_wrapper .dt-buttons {
+  text-align: right;
+}
+@media screen and (max-width: 650px) {
+  #datatable-registered_wrapper .dt-buttons {
+    margin-bottom: -20px;
+    margin-top: 15px;
+  }
+  #datatable-registered_wrapper .dt-buttons .fnb-btn {
+    font-size: 0.9em;
+  }
+}
 @media (max-width: 767px) {
   .dataTables_wrapper > .row {
     overflow: auto!important;

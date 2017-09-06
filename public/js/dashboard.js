@@ -344,8 +344,13 @@ function individual_Search(){
                 "orderable": false
             }
         ],
+        dom: 'lBrtip',
         buttons: [
-            'copy', 'excel', 'pdf'
+            {
+                extend: 'csv',
+                text: 'Export as CSV',
+                className: 'btn primary-btn border-btn fnb-btn'
+            }
         ]
         
     });
@@ -355,6 +360,7 @@ function individual_Search(){
     });
 
     $('.registered-table').closest('.row').addClass('contentHeavy');
+    $('.registered-table').wrap('<div class="contentHeavy"></div>')
 
     //         "columnDefs": [ {
     //         "targets": [ 1 ],

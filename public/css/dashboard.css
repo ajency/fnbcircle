@@ -526,6 +526,9 @@ table.dataTable tr th.selected.select-checkbox:after {
     padding-left: 0;
   }
 }
+.list-app-modal .close {
+  opacity: 0.8;
+}
 .list-app-modal .interested-options .option .cat-icon {
   height: 50px;
   padding: 0.5em;

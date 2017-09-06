@@ -284,8 +284,8 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="level-one mobile-hide ">
-                            <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                        <div class="level-one mobile-hide firstStep">
+                            <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
                         </div>
                         <div class="mobile-back flex-row">
                             <div class="back">

@@ -285,13 +285,13 @@
                                     <span>Looks like you have an account associated with Email, please login with Email-ID &amp; Password.</span>
                                 </div>
                                 <div class="account-exist email-suspend-error hidden">
-                                    <h6>Your account has been <b>Suspended</b></h6>
+                                    <h6>Your account has been Suspended</h6>
                                     <span>We’ve disabled your account. Please contact us at <b>developer@fnbcircle.com</b> .</span>
                                 </div>
                             </div>
                             <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 <div class="account-inactive email-exist-error hidden">
-                                    <h6>Your account is <b> not Activated</b></h6>
+                                    <h6>Your account is not Activated</h6>
                                     <span>Your email id is not verified. A verification mail was sent. Please check your inbox or click here to resend the email.</span>
                                     <button type="button" class="btn fnb-btn outline border-btn" id="verif-resend-btn">Resend Verification Email</button>
                                 </div>

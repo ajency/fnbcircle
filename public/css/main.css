@@ -258,12 +258,23 @@ span {
   width: 100%;
   margin-bottom: 1em;
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
 }
 .social-btn.google {
   background-color: #ec2c2c;
+}
+.social-btn:hover {
+  color: #fff;
+  text-decoration: none;
 }
 .social-btn i {
   position: absolute;
@@ -1761,6 +1772,29 @@ input[type="checkbox"].toggle__check {
 .describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
   top: -7px;
 }
+.sign-page .alert {
+  border-radius: 0;
+}
+@media screen and (min-width: 768px) {
+  .sign-page .alert {
+    margin: 1em 2em;
+    font-size: 0.9em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .sign-page .alert {
+    font-size: 0.85em;
+  }
+}
+.sign-page .alert-success {
+  color: #fff;
+  text-shadow: 0px 0px 1px #000;
+}
+.sign-page .alert-success .close {
+  text-shadow: 0px 0px 1px #000;
+  opacity: 1;
+  background-color: transparent;
+}
 @media screen and (max-width: 650px) {
   .log-sign .welcome-text {
     font-size: 1.4em;
@@ -1823,6 +1857,12 @@ input[type="checkbox"].toggle__check {
   }
 }
 .require-modal .float-label {
+  font-size: 1em;
+}
+.require-modal .float-label.filled {
+  font-size: 0.9em;
+}
+.require-modal .fnb-select {
   font-size: 1em;
 }
 .require-modal .verify-container {

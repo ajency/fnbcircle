@@ -44,7 +44,11 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <div class="dsk-separator m-t-20 m-b-50">
+            <div class="dsk-separator m-t-20 m-b-50 sign-page">
+                <div class="alert alert-danger alert-dismissible fade in hidden" role="alert"> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>  
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum ad praesentium sunt at! Eligendi, dolor?</p>
+                </div>
                 <div class="text-center m-t-30 log-sign">
                     <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
                     <p class="text-medium have-acc">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
@@ -308,7 +312,32 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">City</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>City</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group p-t-10 p-b-10">
+                                <!-- <label class=" text-lighter required">Area</label> -->
+                                <div class="required select-required">
+                                    <select class="form-control fnb-select border-bottom text-lighter">
+                                        <option>Area</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-sm-12 describe-section m-b-10 form-group m-t-10">
@@ -366,32 +395,6 @@
                             </select>
                         </div>
                     </div> -->
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group p-t-10 p-b-10">
-                                <!-- <label class=" text-lighter required">City</label> -->
-                                <div class="required select-required">
-                                    <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>City</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group p-t-10 p-b-10">
-                                <!-- <label class=" text-lighter required">Area</label> -->
-                                <div class="required select-required">
-                                    <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>Area</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">

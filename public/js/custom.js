@@ -269,7 +269,7 @@ $(function(){
 				} else if (message_key == 'account_suspended') {
 					$(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'account_inactive') {
+				} else if (message_key == 'email_confirm') {
 					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-warning").removeClass('hidden');
 				} else if (message_key == 'is_verified') {

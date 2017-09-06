@@ -23,9 +23,9 @@ class SocialAuthController extends Controller {
                 auth()->login($user); // Authenticate using User Object
                 return redirect('/');
             } else if ($user->status == 'inactive') {
-                return redirect('/?login=true&message=email_confirm')
+                return redirect('/?login=true&message=email_confirm');
             } else if ($user->status == 'suspended') {
-                return redirect('/?login=true&message=account_suspended')
+                return redirect('/?login=true&message=account_suspended');
             }
         }
     }
@@ -38,7 +38,7 @@ class SocialAuthController extends Controller {
 
         if ($type == "website") { // It's Website request
             if ($arraySocial[1] == "present" || $arraySocial[1] == "exist") { // If Account (Exist or Created) & Verified then,
-                return $this->activateUser($user); // Pass User Object
+                return $this->activateUser($user, "website"); // Pass User Object
             } else { // Same Email but different Source
                 if ($arraySocial[1] == "different") { // If 'account' exists but 'Different Source', then 'Reject'
                     return redirect('/?login=true&message=is_' . $user->signup_source . '_account');

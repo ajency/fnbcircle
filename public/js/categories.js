@@ -100,6 +100,7 @@
           html = '<input type="hidden" name="parent" value="' + data[branchID]['parent']['name'] + '">';
           html += '<input type="hidden" name="image" value="' + data[branchID]['parent']['icon_url'] + '">';
           html += '<input type="hidden" name="branch" value="' + data[branchID]['name'] + '" id="' + branchID + '">';
+          data[branchID]['children'] = _.sortBy(_.sortBy(data[branchID]['children'], 'name'), 'order');
           for (key in data[branchID]['children']) {
             html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" ';
             if (_.indexOf(array, key) !== -1) {

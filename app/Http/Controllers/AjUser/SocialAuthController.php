@@ -17,6 +17,19 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SocialAuthController extends Controller {
 
+    public function activateUser($user, $type) {
+        if ($type == 'website') {
+            if ($user->status == 'active') {
+                auth()->login($user); // Authenticate using User Object
+                return redirect('/');
+            } else if ($user->status == 'inactive') {
+                return redirect('/?login=true&message=email_confirm')
+            } else if ($user->status == 'suspended') {
+                return redirect('/?login=true&message=account_suspended')
+            }
+        }
+    }
+
     public function rerouteUser($data, $type) { // function (<User Data>, <Response Type for - Website / API>) -> This reroute function will redirect 'Post' Login
         $service = new SocialAccountService();
 
@@ -25,8 +38,7 @@ class SocialAuthController extends Controller {
 
         if ($type == "website") { // It's Website request
             if ($arraySocial[1] == "present" || $arraySocial[1] == "exist") { // If Account (Exist or Created) & Verified then,
-                auth()->login($user); // Authenticate using User Object
-                return redirect('/');
+                return $this->activateUser($user); // Pass User Object
             } else { // Same Email but different Source
                 if ($arraySocial[1] == "different") { // If 'account' exists but 'Different Source', then 'Reject'
                     return redirect('/?login=true&message=is_' . $user->signup_source . '_account');

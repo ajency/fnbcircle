@@ -257,15 +257,21 @@ $(function(){
 
 				var popup_message = "#login-modal .login-container .alert";
 				
-				if (message_key == 'is_google_account') {
+				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
 					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'is_facebook_account') {
+				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
 					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'is_email_account') {
+				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
 					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'account_suspended') {
+					$(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'account_inactive') {
+					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
 				} else if (message_key == 'is_verified') {
 					$(popup_message + ".alert-success").removeClass('hidden');
 				}

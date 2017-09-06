@@ -403,13 +403,15 @@ $(function(){
         $('#add_newuser_modal .old-password').removeClass('hidden');
         $('#add_newuser_modal .new-password label').text('New Password');
         $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter new password");
+        $('#add_newuser_modal .modal-title').text('Edit Internal User');
     });
 })
 
 $('#add_newuser_modal').on('hidden.bs.modal', function (e) {
     $('#add_newuser_modal .old-password').addClass('hidden');
     $('#add_newuser_modal .new-password label').text('Password');
-    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");    
+    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");  
+    $('#add_newuser_modal .modal-title').text('Add New Internal User');  
 })
 
 

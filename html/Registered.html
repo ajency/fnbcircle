@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Manage Categories - F&amp;B Circle Admin Control</title>
+    <title>Registered Users - FnB Circle Admin Control</title>
 
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
@@ -72,7 +72,7 @@
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
           <div class="menu_section">
             <ul class="nav side-menu">
-              <li class="active"><a><i class="fa fa-building"></i> Business <span class="fa fa-chevron-down"></span></a>
+              <li class=""><a><i class="fa fa-building"></i> Business <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: block">
                     <li><a>Moderation <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" >
@@ -84,7 +84,7 @@
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: block">
-                        <li class="sub_menu current-page"><a href="categories.html">Categories</a>
+                        <li class="sub_menu"><a href="categories.html">Categories</a>
                         </li>
                         <li class=""><a href="locations.html">Locations</a>
                         </li>
@@ -98,7 +98,13 @@
                   <li><a href="form_advanced.html">Advanced Components</a></li>
                 </ul> -->
               </li>
-              <li><a><i class="fa fa-user"></i> Users </a>
+              <li><a><i class="fa fa-user"></i> Users <span class="fa fa-chevron-down"></span></a>
+                  <ul class="nav child_menu" style="display: block">
+                    <li class="sub_menu"><a href="internal.html">Internal Users</a>
+                    </li>
+                    <li class="current-page"><a href="Registered.html">Registered users</a>
+                    </li>
+                  </ul>
               </li>
               <li><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
@@ -116,7 +122,7 @@
     <div class="right_col" role="main">
       <div class="">
 
-        <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
+  <!--       <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
             <li class="fnb-breadcrums__section">
                 <a href="">
                     <i class="fa fa-home home-icon" aria-hidden="true"></i>
@@ -157,7 +163,7 @@
                     <p class="fnb-breadcrums__title main-name">Categories</p>
                 </a>
             </li>
-        </ul>
+        </ul> -->
 
         <div class="page-title">
           <div class="title_left">
@@ -228,14 +234,14 @@
                           <option value="no">No</option>
                         </select>
                       </th>
-                      <th class="text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
+                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
                           Area
                           <select multiple class="form-control multi-dd">
                             <option value="meat">Meat</option>
                             <option value="sea foods">Sea Foods</option>
                           </select>
                       </th>
-                      <th class="text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
+                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
                         Status
                         <select multiple class="form-control multi-dd">
                           <option value="Chicken Distributors">Chicken Distributors</option>
@@ -424,7 +430,9 @@
     <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- <script src="../public/js/datatable-button.js"></script> -->
-
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
+  
     <!-- Autosize textarea -->
     <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>
 

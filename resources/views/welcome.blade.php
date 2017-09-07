@@ -288,6 +288,10 @@
                                     <h6>Your account has been Suspended</h6>
                                     <span>We’ve disabled your account. Please contact us at <b>developer@fnbcircle.com</b> .</span>
                                 </div>
+                                <div class="no-account no-email-error hidden">
+                                    <h6>Permission Denied</h6>
+                                    <span>Seems like the access to Social login is <b>denied</b> by you. Please <b>Confirm</b> the access permission.</span>
+                                </div>
                             </div>
                             <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 <div class="account-inactive email-exist-error hidden">

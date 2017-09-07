@@ -62,20 +62,31 @@ class SocialAuthController extends Controller {
     }
 
     public function redirect($provider) { // for Provider authentication -> Provider = ['Google', 'Facebook']
-        return Socialite::driver($provider)->redirect();
+        try {            
+            return Socialite::driver($provider)->redirect();
+        } catch (Exception $e) {
+            return redirect('/?login=true&message=social_permission_denied');
+        }
     }
 
-    public function callback(SocialAccountService $service, $provider) { // after 'Provider' authentication & redirection
+    public function callback(SocialAccountService $service, Request $request, $provider) { // after 'Provider' authentication & redirection
         try {
             $output = new ConsoleOutput();
+            try {
+                if (! $request->input('code')) {
+                    return redirect('/?login=true&message=social_permission_denied');    
+                } else {
+                    $account = Socialite::driver($provider)->stateless()->user(); /* trying to use socialite on a laravel with socialite sessions deactivated */
+                }
+            } catch (Exception $e) {
+                return redirect('/?login=true&message=social_permission_denied');
+            }
 
-            $account = Socialite::driver($provider)->stateless()->user(); /* trying to use socialite on a laravel with socialite sessions deactivated */
             $data = $service->getSocialData($account, $provider);
-            
             return $this->rerouteUser($data, "website");
-
         } catch (Exception $e) {
-            
+            //return redirect('/?login=true&message='.$provider.'_permission_denied');
+            return redirect('/?login=true&message=social_permission_denied');
         }
     }
     

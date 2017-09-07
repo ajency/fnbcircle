@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <title>Homepage</title>
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
@@ -287,6 +289,10 @@
                                 <div class="account-exist email-suspend-error hidden">
                                     <h6 class="sub-title">Your account has been Suspended</h6>
                                     <span>We’ve disabled your account. Please contact us at <b>developer@fnbcircle.com</b> .</span>
+                                </div>
+                                <div class="no-account no-email-error hidden">
+                                    <h6>Permission Denied</h6>
+                                    <span>Seems like the access to Social login is <b>denied</b> by you. Please <b>Confirm</b> the access permission.</span>
                                 </div>
                             </div>
                             <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>

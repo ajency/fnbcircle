@@ -1780,6 +1780,14 @@ input[type="checkbox"].toggle__check {
 .describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
   top: -7px;
 }
+.register-holder {
+  background-color: rgba(238, 238, 238, 0.39);
+}
+@media screen and (min-width: 769px) {
+  .sign-up-adv {
+    margin-top: 4em;
+  }
+}
 .sign-page .alert {
   border-radius: 0;
 }

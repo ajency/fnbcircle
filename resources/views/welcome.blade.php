@@ -365,6 +365,7 @@
                         </div>
                        <div class="forget-password">
                             <h3 class="welcome-text text-medium">Forgot Password</h3>
+                            <p class="text-lighter m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
                             <div class="form-group text-left m-b-0">
                                 <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
                             </div>

@@ -170,15 +170,17 @@ class ListingController extends Controller
             'contacts' => 'required|json',
         ]);
 
-        $titles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
+        $alltitles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
         $similar = array();
-        foreach ($titles as $key => $value) {
+        $titles = array();
+        foreach ($alltitles as $key => $value) {
             similar_text($request->title, $value, $percent);
             if ($percent >= 80) {
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
+                $titles[$key] = array('id'=>$key, 'title'=>$value);
             }
         }
-
+        
         $contact = json_decode($request->contacts, true);
         $query   = ListingCommunication::whereNotNull('listing_id');
         $query   = $query->where(function ($query) use ($contact) {
@@ -196,7 +198,8 @@ class ListingController extends Controller
                 $query->orWhere('email', $value['value']);
             }
         })->with('listing')->get();
-
+        $emails = [];
+        $phones = [];
         foreach ($users as $user) {
             foreach ($user->listing as $business) {
                 if ($business['status'] != 1) {
@@ -204,8 +207,13 @@ class ListingController extends Controller
                 }
                 if (!isset($similar[$business['reference']]) /* listing is published*/) {
                     $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+                    
+                }
+                if(!isset($emails[$business['reference']])){
+                    $emails[$business['reference']] = array('id'=>$business['reference'], 'email'=>[]);
                 }
                 $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+                 $emails[$business['reference']]['email'][] =$user->email;
             }
         }
 
@@ -219,13 +227,21 @@ class ListingController extends Controller
             }
             if ($row->communication_type == 1) {
                 $similar[$row->listing['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$row->value}</span>)";
+                if(!isset($emails[$row->listing['reference']])){
+                    $emails[$row->listing['reference']] = array('id'=>$row->listing['reference'], 'email'=>[]);
+                }
+                $emails[$row->listing['reference']]['email'][] =$row->value;
             }
             if ($row->communication_type == 2) {
 
                 $similar[$row->listing['reference']]['messages'][] = "Matches found Phone Number(<span class=\"heavier\">{$row->value}</span>)";
+                if(!isset($phones[$row->listing['reference']])){
+                    $phones[$row->listing['reference']] = array('id'=>$row->listing, 'email'=>[]);
+                }
+                $phones[$row->listing['reference']]['email'][] =$row->value;
             }
         }
-        return response()->json($similar);
+        return response()->json(array('matches'=> array('title'=>$titles, 'email' => $emails, 'phones'=> $phones), 'similar'=>$similar));
 
     }
 

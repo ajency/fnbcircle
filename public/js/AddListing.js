@@ -108,10 +108,10 @@ function validateListing(event) {
             success: function(data) {
                 console.log(data);
                 var myvar = '';
-                for (var k in data) {
-                    myvar += '<div class="list-row flex-row">' + '<div class="left">' + '<h5 class="sub-title text-medium text-capitalise list-title">' + data[k]['name'] + '</h5>';
-                    for (var j in data[k]['messages']) {
-                        myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data[k]['messages'][j] + '</span>' + '</p>';
+                for (var k in data['similar']) {
+                    myvar += '<div class="list-row flex-row">' + '<div class="left">' + '<h5 class="sub-title text-medium text-capitalise list-title">' + data['similar'][k]['name'] + '</h5>';
+                    for (var j in data['similar'][k]['messages']) {
+                        myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data['similar'][k]['messages'][j] + '</span>' + '</p>';
                     }
                     myvar += '</div>' + '<div class="right">' + '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' + '</div>' + '</div>';
                     // console.log(myvar);
@@ -120,7 +120,7 @@ function validateListing(event) {
                 if (myvar != '') {
                     $('.section-loader').addClass('hidden');
                     $('#duplicate-listing').modal('show');
-                    $('#duplicate-listing').on('hidden.bs.modal', function(e) {
+                    $('#duplicate-listing').on('click','#skip-duplicates', function(e) {
                         event.preventDefault();
                         $('.section-loader').removeClass('hidden');
                         listingInformation();

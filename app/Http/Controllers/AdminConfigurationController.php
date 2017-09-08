@@ -14,7 +14,7 @@ class AdminConfigurationController extends Controller
 {
     public function __construct()
     {
-        // Common::authenticate('dashboard', $this);
+        Common::authenticate('dashboard', $this);
     }
 
     public function locationView(Request $request)

@@ -13,6 +13,10 @@ use App\Http\Controllers\ListingController;
 
 class AdminModerationController extends Controller
 {
+    public function __construct()
+    {
+        Common::authenticate('dashboard', $this);
+    }
     public function listingApproval(Request $request)
     {
         $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->get();

@@ -40,8 +40,13 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse m-side-bar" id="bs-example-navbar-collapse-1">
                     <ul class="mobile-top mobile-flex">
-                        <li><p class="mobile-top__text">Sign in to get a personalised feed!</p></li>
-                        <li><button type="button" class="fnb-btn outline bnw">Login</button></li>
+                        @if(Auth::guest())
+                            <li><p class="mobile-top__text">Sign in to get a personalised feed!</p></li>
+                            <li><button type="button" class="fnb-btn outline bnw close-sidebar" data-toggle="modal" data-target="#login-modal">Login</button></li>
+                        @else
+                            <li><p class="mobile-top__text">Find suppliers, jobs and a lot more</p></li>
+                            <li><a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                        @endif
                     </ul>
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
@@ -160,25 +165,42 @@
                         <p class="home-text__caption element-title lighter">We provide information related to businesses, jobs, news in the F&amp;B industry.<br> Find suppliers, jobs, read news and a lot more.</p>
                     </div>
                      <div class="search-section home-search">
-                        <div class="search-section__cols flex-row">
-                            <div class="city search-boxes flex-row">
-                                <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                <select class="form-control fnb-select">
-                                    <option>--Change city--</option>
-                                    <option>Pune</option>
-                                    <option selected="">Delhi</option>
-                                    <option>Mumbai</option>
-                                    <option>Goa</option>
-                                </select>
-                            </div>
-                            <div class="search-boxes type-search flex-row">
-                                <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                <input type="text" class="form-control fnb-input" placeholder="Start typing to search...">
-                            </div>
-                            <div class="search-btn flex-row">
-                                <button class="btn fnb-btn primary-btn full search">search</button>
-                            </div>
+                        <div class="search-boxes type-search flex-row mobile-fake-search desk-hide">
+                            <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
+                            <input type="text" class="form-control fnb-input" placeholder="Start typing to search..." readonly>
                         </div>
+                         <div class="pos-fixed fly-out fixed-bg searchArea">
+                            <div class="mobile-back desk-hide mobile-flex">
+                                <div class="left mobile-flex">
+                                    <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                                    <p class="element-title heavier m-b-0">Search By</p>
+                                </div>
+                                <div class="right">
+                                    <a href="#" class="heavier sub-title primary-link">Clear All</a>
+                                </div>
+                            </div>
+                            <div class="fly-out__content">
+                                <div class="search-section__cols flex-row">
+                                    <div class="city search-boxes flex-row">
+                                        <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
+                                        <select class="form-control fnb-select">
+                                            <option>--Change city--</option>
+                                            <option>Pune</option>
+                                            <option selected="">Delhi</option>
+                                            <option>Mumbai</option>
+                                            <option>Goa</option>
+                                        </select>
+                                    </div>
+                                    <div class="search-boxes type-search flex-row">
+                                        <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
+                                        <input type="text" class="form-control fnb-input" placeholder="Start typing to search...">
+                                    </div>
+                                    <div class="search-btn flex-row hidden">
+                                        <button class="btn fnb-btn primary-btn full search">search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
                         <div class="search-results text-center m-l-5">
                             <p class="sub-title text-lighter lighter">You have more than <b>7,203</b> listing's to choose from!</p>
                         </div>
@@ -251,7 +273,7 @@
                                 Post your listing on F&amp;BCircle <b>Free!</b>
                             </p>
                         </div>
-                        <div class="col-xs-12 col-sm-4 text-right">
+                        <div class="col-xs-12 col-sm-4 createlist-col">
                             <button class="btn fnb-btn alternate full createList">Create Listing</button>
                         </div>
                     </div>

@@ -394,6 +394,11 @@ $(function(){
 		  }
 		});
 
+		$('.close-sidebar').click(function(){
+			jQuery('.m-side-bar,.site-overlay').removeClass('active');
+		    jQuery('body').removeClass('blocked');
+		});
+
 		// toggle icon
 
 		$('.filter-group__header').click(function(){
@@ -596,6 +601,14 @@ $(function(){
 		$('#login-modal').on('hidden.bs.modal', function (e) {
 		  $('.forget-password').removeClass('active');
 		})
+
+
+		// homepage search
+
+		$('.mobile-fake-search').click(function(){
+			$('.searchArea').addClass('active');
+		})
+
 
 		// Multiselect options for signup
 

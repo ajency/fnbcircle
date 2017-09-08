@@ -616,6 +616,7 @@ class ListingController extends Controller
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
             $listing->status = Listing::REVIEW;
+            $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
             return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');

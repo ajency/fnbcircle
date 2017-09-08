@@ -60,3 +60,7 @@ Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
 
 Route::get('admin-dashboard/moderation/listing-approval','AdminModerationController@listingApproval');
+
+
+
+Route::post('/all-listing','AdminModerationController@displayListingsDum');

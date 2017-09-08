@@ -41,7 +41,7 @@
                 <div class="row">
                   <div class="col-sm-3">
                     <label>Date of Submission</label>
-                    <a href="#" class="btn btn-link btn-sm">Clear</a>
+                    <a href="#" class="btn btn-link btn-sm" id="clearSubDate">Clear</a>
                     <div class="form-group">
                       <input type="text" id="submissionDate" name="" class="form-control fnb-input">
                       <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
@@ -55,43 +55,21 @@
                       <label>Category Filter</label>
                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm">Filter based on node categories</a>
                       <div id="categories" class="node-list"></div>
-                      <!-- <div class="single-category gray-border m-b-10">
-                          <div class="row flex-row categoryContainer corecat-container">
-                              <div class="col-sm-4 flex-row">
-                                  <div class="branch-row">
-                                      <div class="cat-label">Meat</div>
-                                  </div>
-                              </div>
-                              <div class="col-sm-2">
-                                  <strong class="branch">Chicken</strong>
-                              </div>
-                              <div class="col-sm-6">
-                                  <ul class="fnb-cat small flex-row">
-                                      <li><span class="fnb-cat__title">Boneless Chicken <span class="fa fa-times remove"></span></span>
-                                      </li>
-                                      <li><span class="fnb-cat__title">Frozen Chicken <span class="fa fa-times remove"></span></span>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-                          <div class="delete-cat">
-                              <span class="fa fa-times remove"></span>
-                          </div>
-                      </div> -->
+                      
                     </div>
                   </div>
                 </div>
 
                 <div class="filter-actions m-t-10">
                   <div class="pull-right">
-                    <button class="btn primary-btn border-btn fnb-btn">Apply Filters</button>
+                    <button class="btn primary-btn border-btn fnb-btn" id="applyCategFilter">Apply Category</button>
                   </div>
                   <div class="clearfix"></div>
                 </div>
 
                 <div class="m-t-10">
                   <label class="flex-row flex-end">
-                      <input type="checkbox" class="checkbox" for="draft_status">
+                      <input type="checkbox" class="checkbox" for="draft_status" id="draftstatus">
                       <div class="text-medium m-b-0" id="draft_status">Display Listings having Draft status</div>
                   </label>
                 </div>
@@ -102,11 +80,11 @@
                   <div class="row">
                     <div class="col-sm-3">
                       <select class="form-control fnb-select w-border status-select">
-                        <option value="Published">Published</option>
-                        <option value="Draft">Draft</option>
-                        <option value="Archived">Archived</option>
-                        <option value="Pending Review" selected>Pending Review</option>
-                        <option value="Rejected">Rejected</option>
+                        <option value="1">Published</option>
+                        <option value="3">Draft</option>
+                        <option value="4">Archived</option>
+                        <option value="2" selected>Pending Review</option>
+                        <option value="5">Rejected</option>
                       </select>
                       <label class="flex-row notify-user-msg hidden m-t-15">
                           <input type="checkbox" class="checkbox" for="bulk_notify_user">
@@ -130,9 +108,10 @@
                       <th style="min-width: 12%;">Listing Name</th>
                       <th class="no-sort" data-col="2">
                         City
-                        <select multiple class="form-control multi-dd">
-                          <option value="Panjim">Panjim</option>
-                          <option value="Margao">Margao</option>
+                        <select multiple class="form-control multi-dd" id="citySelect">
+                        @foreach ($cities as $city)
+                          <option value="{{$city->id}}" selected>{{$city->name}}</option>
+                        @endforeach
                         </select>
                       </th>
                       <th class="no-sort">
@@ -146,12 +125,12 @@
                       </th>
                       <th class="no-sort" data-col="6" style="min-width: 10%;">
                         Last Updated by
-                        <select multiple class="form-control multi-dd">
-                          <option value="External User">External User</option>
-                          <option value="Internal User">Internal User</option>
+                        <select multiple class="form-control multi-dd" id="updateUser">
+                          <option value="external" selected>External User</option>
+                          <option value="internal" selected>Internal User</option>
                         </select>
                       </th>
-                      <th>Duplicates<br><small>(Number,Email,Name)</small></th>
+                      <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
                       <th class="no-sort" data-col="8" style="min-width: 10%;">
                         Premium Request
                         <select multiple class="form-control multi-dd">
@@ -161,113 +140,17 @@
                       </th>
                       <th class="no-sort" data-col="9" style="min-width: 10%;">
                         Status
-                        <select multiple class="form-control multi-dd">
-                          <option value="Published">Published</option>
-                          <option value="Draft">Draft</option>
-                          <option value="Archived">Archived</option>
-                          <option value="Pending Review">Pending Review</option>
-                          <option value="Rejected">Rejected</option>
+                        <select multiple class="form-control multi-dd" id="status-filter">
+                          <option value="1" selected>Published</option>
+                        <option value="4" selected>Archived</option>
+                        <option value="2" selected>Pending Review</option>
+                        <option value="5" selected>Rejected</option>
                         </select>
                       </th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td><a href="#">AVK Suppliers</a></td>
-                      <td>Panjim</td>
-                      <td>
-                        <div class="m-b-5">
-                          Meat > Chicken > Boneless Chicken, Frozen Chicken
-                          <!-- Boneless Chicken, Frozen Chicken -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Meat > Chicken > Boneless Chicken, Frozen Chicken"></i> -->
-                        </div>
-                        <div class="m-b-5">
-                          Meat > Pork > Pork Ham, Pork Meat, Pork Chops
-                          <!-- Pork Ham, Pork Meat, Pork Chops -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Meat > Pork > Pork Ham, Pork Meat, Pork Chops"></i> -->
-                        </div>
-                      </td>
-                      <td>2017/06/05</td>
-                      <td>2017/06/05</td>
-                      <td>External User</td>
-                      <td>1,2,1</td>
-                      <td>No</td>
-                      <td>Pending Review <a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><a href="#">Mz Wholesalers</a></td>
-                      <td>Margao</td>
-                      <td>
-                        <div class="m-b-5">
-                          Milk & Dairy > Butter > Unsalted Butter, Pasteurized Butter
-                          <!-- Unsalted Butter, Pasteurized Butter -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Milk & Dairy > Butter > Unsalted Butter, Pasteurized Butter"></i> -->
-                        </div>
-                      </td>
-                      <td>2017/06/04</td>
-                      <td>2017/06/05</td>
-                      <td>External User</td>
-                      <td>0,0,0</td>
-                      <td>Yes</td>
-                      <td>Rejected <a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><a href="#">Kusumkar Dist</a></td>
-                      <td>Bandra</td>
-                      <td>
-                        <div class="m-b-5">
-                          Meat > Chicken > Boneless Chicken, Frozen Chicken
-                          <!-- Boneless Chicken, Frozen Chicken -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Meat > Chicken > Boneless Chicken, Frozen Chicken"></i> -->
-                        </div>
-                      </td>
-                      <td>2017/06/04</td>
-                      <td>2017/06/05</td>
-                      <td>Internal User</td>
-                      <td>0,0,0</td>
-                      <td>No</td>
-                      <td>Published <a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><a href="#">Bhatt Suppliers</a></td>
-                      <td>Ahmedabad</td>
-                      <td>
-                        <div class="m-b-5">
-                          Sweets > Milk Sweets > Peda, Burfi, Rabri, Rasgulla, Rasmalai
-                          <!-- Peda, Burfi, Rabri, Rasgulla, Rasmalai -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Sweets > Milk Sweets > Peda, Burfi, Rabri, Rasgulla, Rasmalai"></i> -->
-                        </div>
-                      </td>
-                      <td>2017/06/04</td>
-                      <td>2017/06/05</td>
-                      <td>External User</td>
-                      <td>0,0,0</td>
-                      <td>No</td>
-                      <td>Published <a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td><a href="#">ROC</a></td>
-                      <td>Panjim</td>
-                      <td>
-                        <div class="m-b-5">
-                          Meat > Pork > Pork Ham, Pork Meat, Pork Chops
-                          <!-- Pork Ham, Pork Meat, Pork Chops -->
-                          <!-- <i class="fa fa-info-circle small text-color" data-toggle="tooltip" data-placement="right" title="Meat > Pork > Pork Ham, Pork Meat, Pork Chops"></i> -->
-                        </div>
-                      </td>
-                      <td>2017/06/04</td>
-                      <td>2017/06/05</td>
-                      <td>External User</td>
-                      <td>0,0,0</td>
-                      <td>No</td>
-                      <td>Published <a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a></td>
-                    </tr>
 
                   </tbody>
                 </table>

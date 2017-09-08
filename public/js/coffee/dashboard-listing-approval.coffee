@@ -1,3 +1,90 @@
+filters = 
+    'submission_date':
+      'start': ''
+      'end': ''
+    'category_nodes': [
+      
+    ]
+    'status': [
+      "1","2","4","5"
+    ]
+    'city': [
+      
+    ]
+    'updated_by':
+      'user_id': [
+        
+      ]
+      'user_type': [
+        'internal'
+        'external'
+      ]
+approval_table = $('#datatable-listing_approval').DataTable(
+  'pageLength': 25
+  'processing': true
+  'order': [ [
+    4
+    'desc'
+  ] ]
+  'serverSide':true
+  'ajax':
+    'url': '/all-listing'
+    'type':'post'
+    'data': (d) ->
+      datavar = d;
+      datavar.search['value'] = $('#listingNameSearch').val()
+      datavar.filters = filters
+      return datavar 
+      # d = datavar
+  "columns": [
+    {"data": "#"}
+    {"data": "name"}
+    {"data": "city"}
+    {"data": "categories"}
+    {"data": "submission_date"}
+    {"data": "updated_on"}
+    {"data": "last_updated_by"}
+    {"data": "duplicates"}
+    {"data": "premium"}
+    {"data": "status"}
+  ]
+  'select':
+    'style': 'multi'
+    'selector': 'td:first-child'
+  'columnDefs': [
+    {
+      'targets': 'no-sort'
+      'orderable': false
+    }
+    {
+      'orderable': false
+      'className': 'select-checkbox'
+      'targets': 0
+    }
+  ]
+  )
+approval_table.columns().iterator 'column', (ctx, idx) ->
+  $(approval_table.column(idx).header()).append '<span class="sort-icon"/>'
+  return
+approval_table.on('click', 'th.select-checkbox', ->
+  if $('th.select-checkbox').hasClass('selected')
+    approval_table.rows().deselect()
+    $('th.select-checkbox').removeClass 'selected'
+  else
+    approval_table.rows().select()
+    $('th.select-checkbox').addClass 'selected'
+  return
+).on 'select deselect', ->
+  'Some selection or deselection going on'
+  if approval_table.rows(selected: true).count() != approval_table.rows().count()
+    $('th.select-checkbox').removeClass 'selected'
+  else
+    $('th.select-checkbox').addClass 'selected'
+  return
+$('#listingNameSearch').on 'keyup', ->
+  approval_table.columns(1).search(@value).draw()
+  return
+
 $('body').on 'click', 'input:radio[name=\'categories\']', ->
   $('div.full-modal').removeClass 'hidden'
   # console.log categories['categories']
@@ -17,7 +104,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
     url: '/get_categories'
     data: {
       'parent' : JSON.stringify(obj)
-      'status': '0,1,2';
+      'status': '1';
     }
     success: (data) ->
       # console.log data
@@ -65,7 +152,7 @@ getNodes = (branchID) ->
       url: '/get_categories'
       data:
         'parent' : JSON.stringify(obj)
-        'status': '0,1,2'
+        'status': '1'
       success: (data) ->
         array = []
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
@@ -211,15 +298,100 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
     $('.core-cat-cont').addClass('hidden');
 
 applyCategFilter = () ->
+  array = []
+  $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
+    array.push $(this).val()
+  filters['category_nodes']=array
+  sendRequest()
   return
+
+$('body').on 'click','button#applyCategFilter', (e)->
+  applyCategFilter()
 
 $('body').on 'click','button#resetAll', (e)->
   $('div#categories.node-list').html ''
-  applyCategFilter()
+  $('input#draftstatus').prop('checked',false).change()
+  $('select#status-filter').multiselect('select',["1","2","4","5"]).change()
+  $('#submissionDate').val('')
+  $('#listingNameSearch').val('')
+  $('.multi-dd').each ->
+    # console.log this
+    $(this).multiselect('selectAll',false)
+  filters = 
+    'submission_date':
+      'start': ''
+      'end': ''
+    'category_nodes': [
+      
+    ]
+    'status': [
+      "1","2","4","5"
+    ]
+    'city': [
+      
+    ]
+    'updated_by':
+      'user_id': [
+        
+      ]
+      'user_type': [
+        'internal'
+        'external'
+      ]
+  sendRequest()
   return
+
+$('body').on 'click','a#clearSubDate', ->
+  $('#submissionDate').val('')
+  filters['submission_date']['start'] = ""
+  filters['submission_date']['end'] = ""
+  sendRequest()
 
 $('div#category-select').on 'change','div#selectall input[type="checkbox"]', () ->
   if $(this).prop('checked')
     $(this).closest('.tab-pane').find('ul.nodes input[type="checkbox"]').prop('checked',true).change()
   else
     $(this).closest('.tab-pane').find('ul.nodes input[type="checkbox"]').prop('checked',false).change()
+
+$('body').on 'change','input#draftstatus', () ->
+  if $(this).prop('checked')
+    filters['status'].push("3")
+  else
+    filters['status']=_.without(filters['status'],"3");
+  sendRequest()
+
+$('body').on 'change','select#status-filter',()->
+  val = $(this).val()
+  filters['status']=_.without(filters['status'],"1","4","2","5");
+  val.forEach (item) ->
+    # console.log item
+    filters['status'].push(item)
+  sendRequest()
+
+$('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
+  filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD')
+  filters['submission_date']['end'] = picker.endDate.format('YYYY-MM-DD')
+  $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
+  sendRequest()
+  return
+
+$('body').on 'change','select#updateUser', ->
+  filters['updated_by']['user_type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#citySelect', ->
+  filters['city']= $(this).val()
+  sendRequest()
+
+sendRequest = ()->
+  console.log filters
+  approval_table.ajax.reload()
+  # $.ajax
+  #   type: 'post'
+  #   url: '/all-listing'
+  #   data: {
+  #     'filters' : filters
+  #     'display_limit':'25'
+  #     'page':'1'
+  #     'sort':'submission_date'
+  #   }

@@ -207,54 +207,54 @@ function init_DataTables() {
     //     loc_table.columns(1).search(this.value).draw();
     // });
     // Approval Table
-    var approval_table = $('#datatable-listing_approval').DataTable({
-        "order": [
-            [4, 'desc']
-        ],
-        "select": {
-            "style": 'multi',
-            "selector": 'td:first-child'
-        },
-        // "dom": 'lrtip',
-        // "scrollX": true,
-        "columnDefs": [{
-                "targets": 'no-sort',
-                "orderable": false
-            }, {
-                "orderable": false,
-                "className": 'select-checkbox',
-                "targets": 0
-            }
-            // {
-            //  "targets": [1,2,3,4,5,6,7,8],
-            //  "searchable": false
-            // }
-        ]
-    });
-    approval_table.columns().iterator('column', function(ctx, idx) {
-        $(approval_table.column(idx).header()).append('<span class="sort-icon"/>');
-    });
-    approval_table.on("click", "th.select-checkbox", function() {
-        if ($("th.select-checkbox").hasClass("selected")) {
-            approval_table.rows().deselect();
-            $("th.select-checkbox").removeClass("selected");
-        } else {
-            approval_table.rows().select();
-            $("th.select-checkbox").addClass("selected");
-        }
-    }).on("select deselect", function() {
-        ("Some selection or deselection going on")
-        if (approval_table.rows({
-                selected: true
-            }).count() !== approval_table.rows().count()) {
-            $("th.select-checkbox").removeClass("selected");
-        } else {
-            $("th.select-checkbox").addClass("selected");
-        }
-    });
-    $('#listingNameSearch').on('keyup', function() {
-        approval_table.columns(1).search(this.value).draw();
-    });
+    // var approval_table = $('#datatable-listing_approval').DataTable({
+    //     "order": [
+    //         [4, 'desc']
+    //     ],
+    //     "select": {
+    //         "style": 'multi',
+    //         "selector": 'td:first-child'
+    //     },
+    //     // "dom": 'lrtip',
+    //     // "scrollX": true,
+    //     "columnDefs": [{
+    //             "targets": 'no-sort',
+    //             "orderable": false
+    //         }, {
+    //             "orderable": false,
+    //             "className": 'select-checkbox',
+    //             "targets": 0
+    //         }
+    //         // {
+    //         //  "targets": [1,2,3,4,5,6,7,8],
+    //         //  "searchable": false
+    //         // }
+    //     ]
+    // });
+    // approval_table.columns().iterator('column', function(ctx, idx) {
+    //     $(approval_table.column(idx).header()).append('<span class="sort-icon"/>');
+    // });
+    // approval_table.on("click", "th.select-checkbox", function() {
+    //     if ($("th.select-checkbox").hasClass("selected")) {
+    //         approval_table.rows().deselect();
+    //         $("th.select-checkbox").removeClass("selected");
+    //     } else {
+    //         approval_table.rows().select();
+    //         $("th.select-checkbox").addClass("selected");
+    //     }
+    // }).on("select deselect", function() {
+    //     ("Some selection or deselection going on")
+    //     if (approval_table.rows({
+    //             selected: true
+    //         }).count() !== approval_table.rows().count()) {
+    //         $("th.select-checkbox").removeClass("selected");
+    //     } else {
+    //         $("th.select-checkbox").addClass("selected");
+    //     }
+    // });
+    // $('#listingNameSearch').on('keyup', function() {
+    //     approval_table.columns(1).search(this.value).draw();
+    // });
     var customSrch = $('.customDtSrch').detach();
     $('.dataTables_filter').after(customSrch);
     $('[data-toggle="tooltip"]').tooltip()
@@ -336,6 +336,7 @@ function init_daterangepicker_submission() {
         return;
     }
     $('#submissionDate').daterangepicker({
+        autoUpdateInput:false,
         maxDate: moment()
     });
 }

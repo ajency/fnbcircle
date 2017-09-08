@@ -1,5 +1,101 @@
 (function() {
-  var applyCategFilter, categ, categories, getNodes, populate;
+  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, sendRequest;
+
+  filters = {
+    'submission_date': {
+      'start': '',
+      'end': ''
+    },
+    'category_nodes': [],
+    'status': ["1", "2", "4", "5"],
+    'city': [],
+    'updated_by': {
+      'user_id': [],
+      'user_type': ['internal', 'external']
+    }
+  };
+
+  approval_table = $('#datatable-listing_approval').DataTable({
+    'pageLength': 25,
+    'processing': true,
+    'order': [[4, 'desc']],
+    'serverSide': true,
+    'ajax': {
+      'url': '/all-listing',
+      'type': 'post',
+      'data': function(d) {
+        var datavar;
+        datavar = d;
+        datavar.search['value'] = $('#listingNameSearch').val();
+        datavar.filters = filters;
+        return datavar;
+      }
+    },
+    "columns": [
+      {
+        "data": "#"
+      }, {
+        "data": "name"
+      }, {
+        "data": "city"
+      }, {
+        "data": "categories"
+      }, {
+        "data": "submission_date"
+      }, {
+        "data": "updated_on"
+      }, {
+        "data": "last_updated_by"
+      }, {
+        "data": "duplicates"
+      }, {
+        "data": "premium"
+      }, {
+        "data": "status"
+      }
+    ],
+    'select': {
+      'style': 'multi',
+      'selector': 'td:first-child'
+    },
+    'columnDefs': [
+      {
+        'targets': 'no-sort',
+        'orderable': false
+      }, {
+        'orderable': false,
+        'className': 'select-checkbox',
+        'targets': 0
+      }
+    ]
+  });
+
+  approval_table.columns().iterator('column', function(ctx, idx) {
+    $(approval_table.column(idx).header()).append('<span class="sort-icon"/>');
+  });
+
+  approval_table.on('click', 'th.select-checkbox', function() {
+    if ($('th.select-checkbox').hasClass('selected')) {
+      approval_table.rows().deselect();
+      $('th.select-checkbox').removeClass('selected');
+    } else {
+      approval_table.rows().select();
+      $('th.select-checkbox').addClass('selected');
+    }
+  }).on('select deselect', function() {
+    'Some selection or deselection going on';
+    if (approval_table.rows({
+      selected: true
+    }).count() !== approval_table.rows().count()) {
+      $('th.select-checkbox').removeClass('selected');
+    } else {
+      $('th.select-checkbox').addClass('selected');
+    }
+  });
+
+  $('#listingNameSearch').on('keyup', function() {
+    approval_table.columns(1).search(this.value).draw();
+  });
 
   $('body').on('click', 'input:radio[name=\'categories\']', function() {
     var cat_icon, cat_name, id, obj;
@@ -21,7 +117,7 @@
       url: '/get_categories',
       data: {
         'parent': JSON.stringify(obj),
-        'status': '0,1,2'
+        'status': '1'
       },
       success: function(data) {
         var html, html_mob, i, key;
@@ -75,7 +171,7 @@
         url: '/get_categories',
         data: {
           'parent': JSON.stringify(obj),
-          'status': '0,1,2'
+          'status': '1'
         },
         success: function(data) {
           var array, branch, html, i, j, key, node;
@@ -244,11 +340,50 @@
     }
   });
 
-  applyCategFilter = function() {};
+  applyCategFilter = function() {
+    var array;
+    array = [];
+    $('ul#view-categ-node').find('input[type=\'hidden\']').each(function(index, data) {
+      return array.push($(this).val());
+    });
+    filters['category_nodes'] = array;
+    sendRequest();
+  };
+
+  $('body').on('click', 'button#applyCategFilter', function(e) {
+    return applyCategFilter();
+  });
 
   $('body').on('click', 'button#resetAll', function(e) {
     $('div#categories.node-list').html('');
-    applyCategFilter();
+    $('input#draftstatus').prop('checked', false).change();
+    $('select#status-filter').multiselect('select', ["1", "2", "4", "5"]).change();
+    $('#submissionDate').val('');
+    $('#listingNameSearch').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('selectAll', false);
+    });
+    filters = {
+      'submission_date': {
+        'start': '',
+        'end': ''
+      },
+      'category_nodes': [],
+      'status': ["1", "2", "4", "5"],
+      'city': [],
+      'updated_by': {
+        'user_id': [],
+        'user_type': ['internal', 'external']
+      }
+    };
+    sendRequest();
+  });
+
+  $('body').on('click', 'a#clearSubDate', function() {
+    $('#submissionDate').val('');
+    filters['submission_date']['start'] = "";
+    filters['submission_date']['end'] = "";
+    return sendRequest();
   });
 
   $('div#category-select').on('change', 'div#selectall input[type="checkbox"]', function() {
@@ -258,5 +393,46 @@
       return $(this).closest('.tab-pane').find('ul.nodes input[type="checkbox"]').prop('checked', false).change();
     }
   });
+
+  $('body').on('change', 'input#draftstatus', function() {
+    if ($(this).prop('checked')) {
+      filters['status'].push("3");
+    } else {
+      filters['status'] = _.without(filters['status'], "3");
+    }
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#status-filter', function() {
+    var val;
+    val = $(this).val();
+    filters['status'] = _.without(filters['status'], "1", "4", "2", "5");
+    val.forEach(function(item) {
+      return filters['status'].push(item);
+    });
+    return sendRequest();
+  });
+
+  $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['submission_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+    sendRequest();
+  });
+
+  $('body').on('change', 'select#updateUser', function() {
+    filters['updated_by']['user_type'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#citySelect', function() {
+    filters['city'] = $(this).val();
+    return sendRequest();
+  });
+
+  sendRequest = function() {
+    console.log(filters);
+    return approval_table.ajax.reload();
+  };
 
 }).call(this);

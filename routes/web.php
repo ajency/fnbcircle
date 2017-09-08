@@ -57,3 +57,12 @@ Route::get('/business-premium', function(){
 
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
+
+
+// Social authentication -> Will be later replaced with <Package>::routes
+Route::group(['namespace' => 'AjUser'], function() {
+	Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
+	Route::get('/callback/{provider}', 'SocialAuthController@callback');
+	Route::get('/login/{provider}', 'SocialAuthController@getDetails');
+	Route::get('/logout/{provider}', 'SocialAuthController@logout');
+});

@@ -1,6 +1,43 @@
 
 $(function(){
 
+	$("#login-modal").on('shown.bs.modal', function() {
+		var url = '';
+
+		if (window.location.search && window.location.search.indexOf("login=") < 0) {
+			url = window.location.search + '&login=true';
+		} else if (!window.location.search) {
+			url = '/?login=true';
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$("#login-modal").on('hidden.bs.modal', function() {
+		var url = '/';
+
+		if (window.location.search.indexOf("login=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
 	$(window).scroll(function (event) {
 	    var scroll = $(window).scrollTop();
 	    if($('.sticky-section').length){
@@ -210,6 +247,38 @@ $(function(){
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
+
+			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
+				$("#login-modal").modal('show');
+			}
+
+			if (window.location.search.indexOf("message=") > -1) { // If login=true exist in URL, then trigger the Popup
+				var message_key = window.location.search.split("message=")[1].split("&")[0];
+
+				var popup_message = "#login-modal .login-container .alert";
+				
+				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
+					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
+					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
+					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'account_suspended') {
+					$(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'social_permission_denied') {
+					$(popup_message + ".alert-danger .no-account.no-email-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'email_confirm') {
+					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'is_verified') {
+					$(popup_message + ".alert-success").removeClass('hidden');
+				}
+			}
 		});
 
 		if($('.photo-gallery').length){
@@ -323,6 +392,11 @@ $(function(){
 		    jQuery('.m-side-bar,.site-overlay').removeClass('active');
 		    jQuery('body').removeClass('blocked');
 		  }
+		});
+
+		$('.close-sidebar').click(function(){
+			jQuery('.m-side-bar,.site-overlay').removeClass('active');
+		    jQuery('body').removeClass('blocked');
 		});
 
 		// toggle icon
@@ -527,6 +601,14 @@ $(function(){
 		$('#login-modal').on('hidden.bs.modal', function (e) {
 		  $('.forget-password').removeClass('active');
 		})
+
+
+		// homepage search
+
+		$('.mobile-fake-search').click(function(){
+			$('.searchArea').addClass('active');
+		})
+
 
 		// Multiselect options for signup
 

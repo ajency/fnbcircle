@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\City;
+use App\Common;
+use App\Http\Controllers\ListingController;
 use App\Listing;
 use App\ListingCategory;
 use App\ListingCommunication;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use App\Http\Controllers\ListingController;
 
 class AdminModerationController extends Controller
 {
@@ -145,8 +146,8 @@ class AdminModerationController extends Controller
                     continue;
                 }
             }
-            $dup = $this->getDuplicateCount($listing->id,$listing->title);
-            $response[$listing->id]['duplicates'] = $dup['phone'].','.$dup['email'].','.$dup['title'];
+            $dup                                  = $this->getDuplicateCount($listing->id, $listing->title);
+            $response[$listing->id]['duplicates'] = $dup['phone'] . ',' . $dup['email'] . ',' . $dup['title'];
             $response[$listing->id]['premium']    = 'No';
             $response[$listing->id]['categories'] = ListingCategory::getCategories($listing->id);
         }
@@ -160,21 +161,22 @@ class AdminModerationController extends Controller
 
     }
 
-    private function getDuplicateCount($id,$name){
-        $contacts = ListingCommunication::where('listing_id',$id)->get();
-        $request = new Request;
-        $title = $name;
-        $req = array();
+    private function getDuplicateCount($id, $name)
+    {
+        $contacts = ListingCommunication::where('listing_id', $id)->get();
+        $request  = new Request;
+        $title    = $name;
+        $req      = array();
         foreach ($contacts as $contact) {
-            $req[] = array('value'=>$contact->value);
+            $req[] = array('value' => $contact->value);
         }
         $contacts = json_encode($req);
         // if ($id=='27') dd($contacts);
-        $request->merge(array('title'=>$title,'contacts'=>$contacts));
-        $lc = new ListingController;
-        $dup = $lc->findDuplicates($request);
+        $request->merge(array('title' => $title, 'contacts' => $contacts));
+        $lc   = new ListingController;
+        $dup  = $lc->findDuplicates($request);
         $data = json_decode(json_encode($dup), true)['original']['matches'];
 
-        return array('title'=>count($data['title']),'email'=>count($data['email']),'phone'=>count($data['phones']));
+        return array('title' => count($data['title']), 'email' => count($data['email']), 'phone' => count($data['phones']));
     }
 }

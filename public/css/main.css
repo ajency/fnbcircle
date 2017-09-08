@@ -7348,6 +7348,7 @@ input[type="checkbox"].toggle__check {
   .review-note__title {
     width: auto;
     font-size: 0.95em;
+    padding-left: 0.5em;
   }
   .review-note__submit {
     margin-top: 0.8em;

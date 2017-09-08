@@ -58,11 +58,12 @@ Route::get('/business-premium', function(){
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
+Route::group(['namespace' => 'Ajency'], function() {
+	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
+	Route::get('/callback/{provider}', 'User\SocialAuthController@urlSocialAuthCallback');
 
-// Social authentication -> Will be later replaced with <Package>::routes
-Route::group(['namespace' => 'AjUser'], function() {
-	Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
-	Route::get('/callback/{provider}', 'SocialAuthController@callback');
-	Route::get('/login/{provider}', 'SocialAuthController@getDetails');
-	Route::get('/logout/{provider}', 'SocialAuthController@logout');
+	Route::group(['prefix' => 'api'], function () {
+		Route::get('/login/{provider}', 'User\SocialAuthController@apiSocialAuth');
+		//Route::get('/logout/{provider}', 'User\SocialAuthController@logout');
+	});
 });

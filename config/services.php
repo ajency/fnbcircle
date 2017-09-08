@@ -35,16 +35,15 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-    // Will be later added Dynamically
     'google' => [
         'client_id' => env('GOOGLE_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
-        'redirect' => env('GOOGLE_URL'),
+        'redirect' => env('GOOGLE_URL','http://localhost:8000/callback/google'),
+    ],
+    'facebook' => [
+        'client_id'     => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect'      => env('FACEBOOK_URL'),
     ],
 
-    'facebook' => [
-        'client_id' => env('FACEBOOK_ID'),
-        'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect' => env('FACEBOOK_URL'),
-    ],
 ];

@@ -22,7 +22,8 @@
             "database"
         ],
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Ajency\\User\\": "packages/ajency/user/src"
         },
         "files": ["app/Helper.php"]
     },

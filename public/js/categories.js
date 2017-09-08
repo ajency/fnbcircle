@@ -103,10 +103,10 @@
           data[branchID]['children'] = _.sortBy(_.sortBy(data[branchID]['children'], 'name'), 'order');
           for (key in data[branchID]['children']) {
             html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" ';
-            if (_.indexOf(array, key) !== -1) {
+            if (_.indexOf(array, String(data[branchID]['children'][key]['id'])) !== -1) {
               html += 'checked';
             }
-            html += ' for="' + slugify(data[branchID]['children'][key]['name']) + '" value="' + key + '" name="' + data[branchID]['children'][key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[branchID]['children'][key]['name']) + '">' + data[branchID]['children'][key]['name'] + '</p></label></li>';
+            html += ' for="' + slugify(data[branchID]['children'][key]['name']) + '" value="' + data[branchID]['children'][key]['id'] + '" name="' + data[branchID]['children'][key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[branchID]['children'][key]['name']) + '">' + data[branchID]['children'][key]['name'] + '</p></label></li>';
           }
           $('div#' + slugify(data[branchID]['name']) + '.tab-pane ul.nodes').html(html);
           categ[branchID] = true;

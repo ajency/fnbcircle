@@ -33,7 +33,7 @@ class Area extends Model
         if ($listings == "0") {
             return array("response" => true, "message" => "");
         } else {
-            return array("response" => false, "message" => "Listings are associated with this Area");
+            return array("response" => false, "message" => "This area has listings associated with it. Click here to view the listings.<br>You can archive this area only once this is removed from all the listings.");
         }
 
     }

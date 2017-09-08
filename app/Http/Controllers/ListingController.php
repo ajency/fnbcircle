@@ -50,7 +50,7 @@ class ListingController extends Controller
     {
         $this->validate($data, [
             'title'         => 'required|max:255',
-            'type'          => 'required|integer|between:11,13',
+            'type'          => 'required|integer|between:11,16',
             'primary_email' => 'required|boolean',
             'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
@@ -253,7 +253,7 @@ class ListingController extends Controller
         $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
-            $res[$area->id] = $area->name;
+            $res[] = array('id'=>$area->id,'name'=>$area->name);
         }
         return response()->json($res);
     }
@@ -371,8 +371,8 @@ class ListingController extends Controller
     public function validateListingLocationAndOperationHours($data)
     {
         $this->validate($data, [
-            'latitude'        => 'required|numeric|min:0|max:90',
-            'longitude'       => 'required|numeric|min:0|max:180',
+            'latitude'        => 'required|numeric|min:-90|max:90',
+            'longitude'       => 'required|numeric|min:-180|max:180',
             'address'         => 'nullable|max:255',
             'map_address'     => 'nullable|max:255',
             'display_hours'   => 'required|boolean',

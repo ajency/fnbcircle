@@ -7440,6 +7440,7 @@ input[type="checkbox"].toggle__check {
   .review-note__title {
     width: auto;
     font-size: 0.95em;
+    padding-left: 0.5em;
   }
   .review-note__submit {
     margin-top: 0.8em;
@@ -8692,6 +8693,11 @@ input[type='checkbox'].remove-addr {
 }
 .business-email .toggle {
   overflow: inherit;
+}
+@media screen and (min-width: 769px) {
+  .business-email .toggle {
+    margin-left: 0;
+  }
 }
 .edit-summary-card {
   margin-bottom: 1em;

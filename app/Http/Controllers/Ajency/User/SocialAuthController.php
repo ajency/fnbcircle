@@ -33,7 +33,7 @@ class SocialAuthController extends Controller {
         $userauthObj = new UserAuth;
 
         if (! $request->input('code')) {
-        	return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=social_permission_denied"); // Redirect to Fail user defined URL
+            return redirect(config('aj_user_config.social_failure_redirect_url')."?login=true&message=social_permission_denied"); // Redirect to Fail user defined URL
         } else {
             $account = Socialite::driver($provider)->stateless()->user(); /* trying to use socialite on a laravel with socialite sessions deactivated */
         }
@@ -51,6 +51,7 @@ class SocialAuthController extends Controller {
         */
 
         if($valid_response["status"] == "success") {
+            $fnb_auth = new FnbAuthController;
             if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
                 if(!$valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
@@ -59,7 +60,7 @@ class SocialAuthController extends Controller {
                 }
 
                 if($user_resp["status"] == "success") {
-                    return ;
+                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success"), "website");
                 } else {
                     return redirect(config('aj_user_config.social_failure_redirect_url')."?message=");
                 }

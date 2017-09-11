@@ -609,6 +609,40 @@
           </div>
         </div>
 
+
+        <div class="modal fnb-modal bulk-failure modal-center" id="bulk-failure" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                        <h4 class="element-title modal-title">Bulk Update Failed!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="listings">
+                            <p class="default-size text-center listings__title">The following listings did not get updated.</p>
+                            <ul class="listings__links flex-row flex-wrap">
+                                <li>
+                                    <a href="#" class="primary-link">Lorem ipsum</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="primary-link">Lorem ipsum</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="primary-link">Lorem ipsum</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
       </div>
     </div>
 

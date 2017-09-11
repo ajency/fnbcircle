@@ -546,4 +546,15 @@ table.dataTable tr th.selected.select-checkbox:after {
     z-index: 2;
   }
 }
+.bulk-failure .modal-header {
+  background-color: #eee;
+  margin: -20px;
+  margin-bottom: 0;
+}
+.bulk-failure .listings__links {
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  padding-top: 1em;
+}
 /*# sourceMappingURL=dashboard.css.map */

@@ -1,19 +1,19 @@
-filters = 
+filters =
     'submission_date':
       'start': ''
       'end': ''
     'category_nodes': [
-      
+
     ]
     'status': [
       "1","2","4","5"
     ]
     'city': [
-      
+
     ]
     'updated_by':
       'user_id': [
-        
+
       ]
       'user_type': [
         'internal'
@@ -35,7 +35,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
       datavar = d;
       datavar.search['value'] = $('#listingNameSearch').val()
       datavar.filters = filters
-      return datavar 
+      return datavar
       # d = datavar
   "columns": [
     {"data": "#"}
@@ -289,7 +289,7 @@ $('body').on 'click', 'button#category-select.fnb-btn', ->
     for branch of categories['categories']
       # console.log categories['categories'][branch]
       j=0
-      for i of categories['categories'][branch]['nodes'] 
+      for i of categories['categories'][branch]['nodes']
         j++
       if j == 0
         delete categories['categories'][branch]
@@ -326,22 +326,22 @@ $('body').on 'click','button#resetAll', (e)->
   $('.multi-dd').each ->
     # console.log this
     $(this).multiselect('selectAll',false)
-  filters = 
+  filters =
     'submission_date':
       'start': ''
       'end': ''
     'category_nodes': [
-      
+
     ]
     'status': [
       "1","2","4","5"
     ]
     'city': [
-      
+
     ]
     'updated_by':
       'user_id': [
-        
+
       ]
       'user_type': [
         'internal'
@@ -388,10 +388,10 @@ showBulk = () ->
     if curr == '5'
       $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
       $('.bulk-status-update select.status-select option[value="4"]').prop 'hidden',false
-    # $('.select-checkbox').css 'display', 'table-cell'
+    $('.select-checkbox').css 'display', 'table-cell'
     $('.bulk-status-update').removeClass 'hidden'
   else
-    # $('.select-checkbox').css 'display', 'none'
+    $('.select-checkbox').css 'display', 'none'
     $('.bulk-status-update').addClass 'hidden'
 
 $('body').on 'change','select#status-filter',()->
@@ -401,7 +401,7 @@ $('body').on 'change','select#status-filter',()->
     # console.log item
     filters['status'].push(item)
   showBulk()
-  sendRequest()
+  # sendRequest()
 
 $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD')
@@ -453,7 +453,7 @@ $('#updateStatusModal').on 'click', 'button#change_status', ->
   $.ajax
     type: 'post'
     url: url
-    data: 
+    data:
       change_request : JSON.stringify(selected_listings)
       sendmail : sm
     success: (response)->

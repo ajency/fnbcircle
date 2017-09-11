@@ -434,8 +434,10 @@
         $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
         $('.bulk-status-update select.status-select option[value="4"]').prop('hidden', false);
       }
+      $('.select-checkbox').css('display', 'table-cell');
       return $('.bulk-status-update').removeClass('hidden');
     } else {
+      $('.select-checkbox').css('display', 'none');
       return $('.bulk-status-update').addClass('hidden');
     }
   };
@@ -447,8 +449,7 @@
     val.forEach(function(item) {
       return filters['status'].push(item);
     });
-    showBulk();
-    return sendRequest();
+    return showBulk();
   });
 
   $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {

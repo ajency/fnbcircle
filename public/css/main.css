@@ -6972,7 +6972,13 @@ input[type="checkbox"].toggle__check {
 }
 .operation-hours label .fnb-radio {
   margin-right: 12px;
-  top: 2px;
+  top: -2px;
+}
+@media screen and (max-width: 650px) {
+  .operation-hours label .fnb-radio {
+    width: 18px;
+    margin-right: 10px;
+  }
 }
 .inputfile {
   width: 0.1px;

@@ -1,5 +1,5 @@
 (function() {
-  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, sendRequest;
+  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, selected_listings, sendRequest;
 
   filters = {
     'submission_date': {
@@ -52,6 +52,8 @@
         "data": "premium"
       }, {
         "data": "status"
+      }, {
+        "data": "status_ref"
       }
     ],
     'select': {
@@ -66,6 +68,10 @@
         'orderable': false,
         'className': 'select-checkbox',
         'targets': 0
+      }, {
+        'targets': [10],
+        'visible': false,
+        'searchable': false
       }
     ]
   });
@@ -410,7 +416,14 @@
     val.forEach(function(item) {
       return filters['status'].push(item);
     });
-    return sendRequest();
+    if (filters['status'].length === 1) {
+      console.log(filters['status'][0]);
+      $('.select-checkbox').css('display', 'table-cell');
+      return $('.bulk-status-update').removeClass('hidden');
+    } else {
+      $('.select-checkbox').css('display', 'none');
+      return $('.bulk-status-update').addClass('hidden');
+    }
   });
 
   $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
@@ -430,8 +443,77 @@
     return sendRequest();
   });
 
+  selected_listings = [];
+
+  $('#datatable-listing_approval').on('click', 'i.fa-pencil', function(e) {
+    var editrow, listing;
+    editrow = $(this).closest('td');
+    listing = approval_table.row(editrow).data();
+    console.log(listing);
+    $('#updateStatusModal select.status-select').val('');
+    $('#updateStatusModal select.status-select option').prop('hidden', true);
+    if (listing['status_ref'] === 1) {
+      $('#updateStatusModal select.status-select option[value="4"]').prop('hidden', false);
+    }
+    if (listing['status_ref'] === 2) {
+      $('#updateStatusModal select.status-select option[value="1"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="5"]').prop('hidden', false);
+    }
+    if (listing['status_ref'] === 3) {
+      $('#updateStatusModal select.status-select option[value="2"]').prop('hidden', false);
+    }
+    if (listing['status_ref'] === 4) {
+      $('#updateStatusModal select.status-select option[value="1"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="2"]').prop('hidden', false);
+    }
+    if (listing['status_ref'] === 5) {
+      $('#updateStatusModal select.status-select option[value="2"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="4"]').prop('hidden', false);
+    }
+    selected_listings = [];
+    return selected_listings.push({
+      'id': listing['id']
+    });
+  });
+
+  $('#updateStatusModal').on('click', 'button#change_status', function() {
+    var base, sm, url;
+    selected_listings.forEach(function(listing) {
+      return listing['status'] = $('#updateStatusModal select.status-select').val();
+    });
+    console.log(selected_listings);
+    url = document.head.querySelector('[property="status-url"]').content;
+    sm = typeof (base = $('#updateStatusModal input[type="checkbox"]').prop('checked')) === "function" ? base({
+      "1": "0"
+    }) : void 0;
+    return $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        change_request: JSON.stringify(selected_listings),
+        sendmail: sm
+      },
+      success: function(response) {
+        var html;
+        approval_table.ajax.reload();
+        $('#updateStatusModal').modal('hide');
+        if (response['status'] === 'Error') {
+          html = '';
+          response['data']['error'].forEach(function(listing) {
+            return html += '<li><a href="#" class="primary-link">' + listing['name'] + '</a><p>' + listing['message'] + '</p></li>';
+          });
+        } else {
+          $('.alert-success #message').html("Listing status updated successfully.");
+          $('.alert-success').addClass('active');
+          setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 2000);
+        }
+      }
+    });
+  });
+
   sendRequest = function() {
-    console.log(filters);
     return approval_table.ajax.reload();
   };
 

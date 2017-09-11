@@ -305,6 +305,7 @@ class ListingController extends Controller
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
+            $listing->save();
         }
 
         if (isset($request->submitReview) and $request->submitReview == 'yes') {

@@ -261,7 +261,7 @@ function init_DataTables() {
 };
 $('body').on("change", ".status-select", function() {
     var status_option = $(this);
-    if (status_option.find('option:selected').val() == 'Published') {
+    if (status_option.find('option:selected').val() == '1') {
         status_option.parent().find('.notify-user-msg').removeClass('hidden');
     } else {
         status_option.parent().find('.notify-user-msg').addClass('hidden');
@@ -296,15 +296,15 @@ function init_Multiselect() {
             });
             var search = selected.join("|");
             var col = $(this)[0]['$select'].closest('th').data('col')
-            $('#datatable-categories, #datatable-locations, #datatable-listing_approval').DataTable().column(col).search(search, true, false).draw();
+            $('#datatable-categories, #datatable-locations').DataTable().column(col).search(search, true, false).draw();
             // Show/hide first column for Listing Approval table
-            if (selected == "Pending Review") {
-                $(".select-checkbox").css("display", "table-cell");
-                $(".bulk-status-update").removeClass('hidden');
-            } else {
-                $(".select-checkbox").css("display", "none");
-                $(".bulk-status-update").addClass('hidden');
-            }
+            // if (selected == "Pending Review") {
+            //     $(".select-checkbox").css("display", "table-cell");
+            //     $(".bulk-status-update").removeClass('hidden');
+            // } else {
+            //     $(".select-checkbox").css("display", "none");
+            //     $(".bulk-status-update").addClass('hidden');
+            // }
         }
     });
 };

@@ -31,6 +31,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     'url': '/all-listing'
     'type':'post'
     'data': (d) ->
+
       datavar = d;
       datavar.search['value'] = $('#listingNameSearch').val()
       datavar.filters = filters
@@ -47,6 +48,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
+    {"data": "status_ref"}
   ]
   'select':
     'style': 'multi'
@@ -60,6 +62,13 @@ approval_table = $('#datatable-listing_approval').DataTable(
       'orderable': false
       'className': 'select-checkbox'
       'targets': 0
+    }
+    {
+      'targets': [
+        10
+      ]
+      'visible': false
+      'searchable': false
     }
   ]
   )
@@ -366,7 +375,14 @@ $('body').on 'change','select#status-filter',()->
   val.forEach (item) ->
     # console.log item
     filters['status'].push(item)
-  sendRequest()
+  if filters['status'].length == 1
+    console.log filters['status'][0]
+    $('.select-checkbox').css 'display', 'table-cell'
+    $('.bulk-status-update').removeClass 'hidden'
+  else
+    $('.select-checkbox').css 'display', 'none'
+    $('.bulk-status-update').addClass 'hidden'
+  # sendRequest()
 
 $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD')
@@ -383,8 +399,64 @@ $('body').on 'change','select#citySelect', ->
   filters['city']= $(this).val()
   sendRequest()
 
+selected_listings = []
+
+$('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
+  # invoker = e.relatedTarget;
+  editrow = $(this).closest('td')
+  listing = approval_table.row(editrow).data()
+  console.log listing
+  $('#updateStatusModal select.status-select').val ''
+  $('#updateStatusModal select.status-select option').prop 'hidden',true
+  if listing['status_ref'] == 1
+    $('#updateStatusModal select.status-select option[value="4"]').prop 'hidden',false
+  if listing['status_ref'] == 2
+    $('#updateStatusModal select.status-select option[value="1"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="5"]').prop 'hidden',false
+  if listing['status_ref'] == 3
+    $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
+  if listing['status_ref'] == 4
+    $('#updateStatusModal select.status-select option[value="1"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
+  if listing['status_ref'] == 5
+    $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="4"]').prop 'hidden',false
+  selected_listings = []
+  selected_listings.push 'id': listing['id']
+
+
+$('#updateStatusModal').on 'click', 'button#change_status', ->
+  selected_listings.forEach (listing) ->
+    listing['status'] = $('#updateStatusModal select.status-select').val()
+  console.log selected_listings
+  url = document.head.querySelector('[property="status-url"]').content
+  sm = ($('#updateStatusModal input[type="checkbox"]').prop 'checked')? "1":"0"
+  $.ajax
+    type: 'post'
+    url: url
+    data: 
+      change_request : JSON.stringify(selected_listings)
+      sendmail : sm
+    success: (response)->
+      approval_table.ajax.reload()
+      $('#updateStatusModal').modal('hide')
+      if response['status'] == 'Error'
+        #do something
+        html = ''
+        response['data']['error'].forEach (listing) ->
+          html+='<li><a href="#" class="primary-link">'+listing['name']+'</a><p>'+listing['message']+'</p></li>'
+      else
+        $('.alert-success #message').html "Listing status updated successfully."
+        $('.alert-success').addClass 'active'
+        setTimeout (->
+          $('.alert-success').removeClass 'active'
+          return
+        ), 2000
+      return
+
+
 sendRequest = ()->
-  console.log filters
+  # console.log filters
   approval_table.ajax.reload()
   # $.ajax
   #   type: 'post'

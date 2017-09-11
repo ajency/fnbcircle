@@ -3,11 +3,13 @@
   @parent
   <!-- bootstrap-daterangepicker -->
     <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="/bower_components/datatables.net-select-dt/css/select.dataTables.css" rel="stylesheet">
 @endsection
 
 @section('js')
   @parent
   <script type="text/javascript" src="/js/dashboard-listing-approval.js"></script>
+  <script type="text/javascript" src="/bower_components/datatables.net-select/js/dataTables.select.min.js"></script>
   <script type="text/javascript" src="/js/underscore-min.js" ></script>
    <script type="text/javascript" src="/js/handlebars.js"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
@@ -18,6 +20,9 @@
 
     <!-- Autosize textarea -->
     <script src="/bower_components/autosize/dist/autosize.min.js"></script>
+@endsection
+@section('meta')
+  <meta property="status-url" content="{{action('AdminModerationController@setStatus')}}">
 @endsection
 
 @section('page-data')
@@ -104,7 +109,7 @@
                 <table id="datatable-listing_approval" class="table table-striped" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th></th>
+                      <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>
                       <th style="min-width: 12%;">Listing Name</th>
                       <th class="no-sort" data-col="2">
                         City
@@ -591,11 +596,12 @@
               <div class="modal-body">
                 <label>Status of AVK Suppliers</label>
                 <select class="form-control fnb-select w-border status-select">
-                  <option value="Published">Published</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Archived">Archived</option>
-                  <option value="Pending Review">Pending Review</option>
-                  <option value="Rejected" selected>Rejected</option>
+                  <option value="">Select</option>
+                  <option value="1">Published</option>
+                  <option value="2">Pending Review</option>
+                  <option value="3">Draft</option>
+                  <option value="4">Archived</option>
+                  <option value="5">Rejected</option>
                 </select>
                 <label class="flex-row notify-user-msg hidden m-t-15">
                     <input type="checkbox" class="checkbox" for="notify_user">
@@ -603,7 +609,7 @@
                 </label>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn fnb-btn primary-btn mini">Save changes</button>
+                <button type="button" class="btn fnb-btn primary-btn mini" id="change_status">Save changes</button>
               </div>
             </div>
           </div>

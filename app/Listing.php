@@ -38,7 +38,7 @@ class Listing extends Model
 
     public function owner()
     {
-        return $this->hasOne('App\User', 'owner_id');
+        return $this->hasOne('App\User', 'id' ,'owner_id');
     }
     public function lastUpdatedBy()
     {

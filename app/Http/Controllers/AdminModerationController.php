@@ -54,6 +54,7 @@ class AdminModerationController extends Controller
         $status = ['3' => 'Draft', '2' => 'Pending Review', '1' => 'Published', '4' => 'Archived', '5' => 'Rejected'];
 
         foreach ($response['data'] as &$listing) {
+            $listing['status_ref'] = $listing['status'];
             $listing['status'] = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
             $listing['name']   = '<a href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
             $listing['#']      = "";
@@ -167,6 +168,7 @@ class AdminModerationController extends Controller
         $request  = new Request;
         $title    = $name;
         $req      = array();
+        $req[]    = array('value' => Listing::find($id)->owner->email);
         foreach ($contacts as $contact) {
             $req[] = array('value' => $contact->value);
         }
@@ -178,5 +180,103 @@ class AdminModerationController extends Controller
         $data = json_decode(json_encode($dup), true)['original']['matches'];
 
         return array('title' => count($data['title']), 'email' => count($data['email']), 'phone' => count($data['phones']));
+    }
+
+    public function setStatus(Request $request)
+    {
+        $this->validate($request, [
+            'change_request' => 'required|json',
+            'sendmail'       => 'nullable|boolean',
+        ]);
+        $response       = array('status' => "", 'message' => '', 'data' => array('success' => array(), 'error' => array()));
+        $change_request = json_decode($request->change_request);
+        foreach ($change_request as $change) {
+            $listing = Listing::find($change->id);
+            if ($listing->status == Listing::DRAFT) {
+                if ($change->status == (string) Listing::REVIEW) {
+                    if ($listing->isReviewable()) {
+                        $listing->status = Listing::REVIEW;
+                        $listing->save();
+                        $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                    } else {
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria');
+                        $response['status']          = 'Error';
+                    }
+                } else {
+                    $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Draft listing can only be changed to pending review');
+                    $response['status']          = 'Error';
+                }
+            }else if ($listing->status == Listing::REVIEW) {
+                if ($change->status == (string) Listing::PUBLISHED) {
+                    $listing->status = Listing::PUBLISHED;
+                    $listing->save();
+                    $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                    if ($request->sendmail == "1") {
+                        //sendmail('published',$listing_id);
+                    }
+                } else if ($change->status == (string) Listing::REJECTED) {
+                    $listing->status = Listing::REJECTED;
+                    $listing->save();
+                    $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                    if ($request->sendmail == "1") {
+                        //sendmail('rejected',$listing_id);
+                    }
+                } else {
+                    $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Pending review listing can only be changed to published or rejected');
+                    $response['status']          = 'Error';
+                }
+            }else if ($listing->status == Listing::PUBLISHED) {
+                if ($change->status == (string) Listing::ARCHIVED) {
+                    $listing->status = Listing::ARCHIVED;
+                    $listing->save();
+                    $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                } else {
+                    $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Published listing can only be changed to Archived');
+                    $response['status']          = 'Error';
+                }
+
+            }else if ($listing->status == Listing::REJECTED) {
+                if ($change->status == (string) Listing::ARCHIVED) {
+                    $listing->status = Listing::ARCHIVED;
+                    $listing->save();
+                    $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                } else if ($change->status == (string) Listing::REVIEW) {
+                    if ($listing->isReviewable()) {
+                        $listing->status = Listing::REVIEW;
+                        $listing->save();
+                        $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                    } else {
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria');
+                        $response['status']          = 'Error';
+                    }
+                } else {
+                    $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Rejected listing can only be changed to Archived/Pending Review');
+                    $response['status']          = 'Error';
+                }
+
+            }else if ($listing->status == Listing::ARCHIVED) {
+                if ($change->status == (string) Listing::REVIEW) {
+                    if ($listing->isReviewable()) {
+                        $listing->status = Listing::REVIEW;
+                        $listing->save();
+                        $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                    } else {
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria');
+                        $response['status']          = 'Error';
+                    }
+                } else if ($change->status == (string) Listing::PUBLISHED) {
+                    $listing->status = Listing::PUBLISHED;
+                    $listing->save();
+                    $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.');
+                } else {
+                    $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Archieved listing can only be changed to Published/Pending Review');
+                    $response['status']          = 'Error';
+                }
+            }
+
+        }
+
+        return response()->json($response);
+
     }
 }

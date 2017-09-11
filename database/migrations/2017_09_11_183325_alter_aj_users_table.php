@@ -15,7 +15,7 @@ class AlterAjUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-			$table->string('type', 100)->comment('Internal / Registered (has password) / Guest (no password)');
+			$table->string('type', 100)->nullable()->comment('Internal / Registered (has password) / Guest (no password)');
 			$table->boolean('has_required_fields_filled')->default(0);
 			$table->string('status', 50)->nullable();
 			$table->dateTime('creation_date')->nullable();

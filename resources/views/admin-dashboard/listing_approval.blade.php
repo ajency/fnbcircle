@@ -1,14 +1,13 @@
 @extends('layouts.admin-dashboard')
 @section('css')
-  @parent
   <!-- bootstrap-daterangepicker -->
     <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <link href="/bower_components/datatables.net-select-dt/css/select.dataTables.css" rel="stylesheet">
+  @parent
 @endsection
 
 @section('js')
   @parent
-  <script type="text/javascript" src="/js/dashboard-listing-approval.js"></script>
   <script type="text/javascript" src="/bower_components/datatables.net-select/js/dataTables.select.min.js"></script>
   <script type="text/javascript" src="/js/underscore-min.js" ></script>
    <script type="text/javascript" src="/js/handlebars.js"></script>
@@ -20,6 +19,8 @@
 
     <!-- Autosize textarea -->
     <script src="/bower_components/autosize/dist/autosize.min.js"></script>
+
+    <script type="text/javascript" src="/js/dashboard-listing-approval.js"></script>
 @endsection
 @section('meta')
   <meta property="status-url" content="{{action('AdminModerationController@setStatus')}}">

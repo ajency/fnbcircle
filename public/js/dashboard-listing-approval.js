@@ -1,5 +1,5 @@
 (function() {
-  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, selected_listings, sendRequest;
+  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, selected_listings, sendRequest, showBulk;
 
   filters = {
     'submission_date': {
@@ -406,8 +406,39 @@
     } else {
       filters['status'] = _.without(filters['status'], "3");
     }
+    showBulk();
     return sendRequest();
   });
+
+  showBulk = function() {
+    var curr;
+    if (filters['status'].length === 1) {
+      curr = filters['status'][0];
+      $('.bulk-status-update select.status-select').val('');
+      $('.bulk-status-update select.status-select option').prop('hidden', true);
+      if (curr === '1') {
+        $('.bulk-status-update select.status-select option[value="4"]').prop('hidden', false);
+      }
+      if (curr === '2') {
+        $('.bulk-status-update select.status-select option[value="1"]').prop('hidden', false);
+        $('.bulk-status-update select.status-select option[value="5"]').prop('hidden', false);
+      }
+      if (curr === '3') {
+        $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
+      }
+      if (curr === '4') {
+        $('.bulk-status-update select.status-select option[value="1"]').prop('hidden', false);
+        $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
+      }
+      if (curr === '5') {
+        $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
+        $('.bulk-status-update select.status-select option[value="4"]').prop('hidden', false);
+      }
+      return $('.bulk-status-update').removeClass('hidden');
+    } else {
+      return $('.bulk-status-update').addClass('hidden');
+    }
+  };
 
   $('body').on('change', 'select#status-filter', function() {
     var val;
@@ -416,14 +447,8 @@
     val.forEach(function(item) {
       return filters['status'].push(item);
     });
-    if (filters['status'].length === 1) {
-      console.log(filters['status'][0]);
-      $('.select-checkbox').css('display', 'table-cell');
-      return $('.bulk-status-update').removeClass('hidden');
-    } else {
-      $('.select-checkbox').css('display', 'none');
-      return $('.bulk-status-update').addClass('hidden');
-    }
+    showBulk();
+    return sendRequest();
   });
 
   $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {

@@ -367,7 +367,32 @@ $('body').on 'change','input#draftstatus', () ->
     filters['status'].push("3")
   else
     filters['status']=_.without(filters['status'],"3");
+  showBulk()
   sendRequest()
+
+showBulk = () ->
+  if filters['status'].length == 1
+    curr = filters['status'][0]
+    $('.bulk-status-update select.status-select').val ''
+    $('.bulk-status-update select.status-select option').prop 'hidden',true
+    if curr == '1'
+      $('.bulk-status-update select.status-select option[value="4"]').prop 'hidden',false
+    if curr == '2'
+      $('.bulk-status-update select.status-select option[value="1"]').prop 'hidden',false
+      $('.bulk-status-update select.status-select option[value="5"]').prop 'hidden',false
+    if curr == '3'
+      $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
+    if curr == '4'
+      $('.bulk-status-update select.status-select option[value="1"]').prop 'hidden',false
+      $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
+    if curr == '5'
+      $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
+      $('.bulk-status-update select.status-select option[value="4"]').prop 'hidden',false
+    # $('.select-checkbox').css 'display', 'table-cell'
+    $('.bulk-status-update').removeClass 'hidden'
+  else
+    # $('.select-checkbox').css 'display', 'none'
+    $('.bulk-status-update').addClass 'hidden'
 
 $('body').on 'change','select#status-filter',()->
   val = $(this).val()
@@ -375,14 +400,8 @@ $('body').on 'change','select#status-filter',()->
   val.forEach (item) ->
     # console.log item
     filters['status'].push(item)
-  if filters['status'].length == 1
-    console.log filters['status'][0]
-    $('.select-checkbox').css 'display', 'table-cell'
-    $('.bulk-status-update').removeClass 'hidden'
-  else
-    $('.select-checkbox').css 'display', 'none'
-    $('.bulk-status-update').addClass 'hidden'
-  # sendRequest()
+  showBulk()
+  sendRequest()
 
 $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD')

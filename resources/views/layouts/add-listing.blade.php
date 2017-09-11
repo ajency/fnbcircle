@@ -291,8 +291,10 @@
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 View what a sample business listing would look like once created.
                                 <div class="m-t-10">
-                                    <img src="/img/sample_listing.png" class="img-responsive mobile-hide sample-img">
-                                    <a href="/img/sample_listing.png" class="desk-hide sample-img">View the sample</a>
+                                    <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
+                                        <img src="/img/sample_listing.png" class="img-responsive">
+                                    </a>
+                                    <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
                                 </div>
                             </div>
                             <!-- <div class="why-premium">

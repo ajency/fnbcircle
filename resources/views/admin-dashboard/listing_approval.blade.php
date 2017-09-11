@@ -85,6 +85,7 @@
                   <div class="row">
                     <div class="col-sm-3">
                       <select class="form-control fnb-select w-border status-select">
+                        <option value="">Select</option>
                         <option value="1">Published</option>
                         <option value="3">Draft</option>
                         <option value="4">Archived</option>

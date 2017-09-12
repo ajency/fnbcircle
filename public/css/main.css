@@ -6924,7 +6924,8 @@ input[type="checkbox"].toggle__check {
   color: #6f6f6f;
 }
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-  .business-type .radio {
+  .business-type .radio,
+  .interested-options .radio {
     opacity: 0;
   }
 }

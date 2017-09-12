@@ -70,10 +70,12 @@ class JobController extends Controller
         $experienceYearsUpper  = '';
 
         if(!empty($experience)){
-            $experience = $this->getExperienceLowerAndUpperValue($experience);
             $metaData['experience'] = $experience;
-            $experienceYearsLower = '';
-            $experienceYearsUpper  = '';
+
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience);
+            
+            $experienceYearsLower = $experienceLowerUpperValue['lower'];
+            $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
           
         }
 
@@ -99,6 +101,8 @@ class JobController extends Controller
 
         $this->addJobLocation($job,$job_area);
 
+        return redirect(url('/jobs/'.$job->reference_id.'/edit/set-two')); 
+
     }
 
     public function addJobLocation($job,$areaIds){
@@ -117,7 +121,23 @@ class JobController extends Controller
         
     }
 
-    public function getExperienceLowerAndUpperValue($experience)
+    public function getExperienceLowerAndUpperValue($experience){
+        $getExperience = Defaults:: where('id IN',$experience)->get()->toArray();
+        $lower = $upper =[];
+
+        foreach ($getExperience as $key => $experience) {
+            $experienceLabel = $experience->label;
+            $experienceValues = explode('-', $experienceLabel);
+
+            if(!empty($experienceValues)){
+                $lower[] = trim($experienceValues[0]);
+                $upper[] = trim($experienceValues[1]);
+            }
+
+        } 
+
+        return ['lower'=> min($lower), 'upper'=>max($upper)];
+    }
 
     /**
      * Display the specified resource.

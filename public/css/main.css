@@ -2720,6 +2720,7 @@ input[type="checkbox"].toggle__check {
   .rating .bg,
   .rating .value {
     height: 30px;
+    text-align: left;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {

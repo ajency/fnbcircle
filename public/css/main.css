@@ -6831,6 +6831,11 @@ input[type="checkbox"].toggle__check {
   font-weight: 500;
   color: #6f6f6f;
 }
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .business-type .radio {
+    opacity: 0;
+  }
+}
 @media screen and (max-width: 600px) {
   .business-type {
     -webkit-flex-wrap: inherit;

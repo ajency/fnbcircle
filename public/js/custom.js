@@ -610,6 +610,18 @@ $(function(){
 		})
 
 
+		// only number in input phone
+		function isNumberKey(evt){
+		    var charCode = (evt.which) ? evt.which : event.keyCode
+		    if (charCode > 31 && (charCode < 48 || charCode > 57))
+		        return false;
+		    return true;
+		} 
+
+		$('.number-code__value').keypress(function(){
+			return isNumberKey(event);
+		});
+
 		// Multiselect options for signup
 
 		if($('#describe-best').length){

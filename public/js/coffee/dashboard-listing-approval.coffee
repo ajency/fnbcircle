@@ -30,6 +30,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
   'drawCallback': () ->
     if(filters['status'].length == 1)
       $('.select-checkbox').css 'display', 'table-cell'
+      $('.select-checkbox').removeClass('selected')
   'ajax':
     'url': '/all-listing'
     'type':'post'

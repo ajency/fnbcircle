@@ -22,7 +22,8 @@
     'serverSide': true,
     'drawCallback': function() {
       if (filters['status'].length === 1) {
-        return $('.select-checkbox').css('display', 'table-cell');
+        $('.select-checkbox').css('display', 'table-cell');
+        return $('.select-checkbox').removeClass('selected');
       }
     },
     'ajax': {

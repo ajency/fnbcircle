@@ -27,6 +27,9 @@ approval_table = $('#datatable-listing_approval').DataTable(
     'desc'
   ] ]
   'serverSide':true
+  'drawCallback': () ->
+    if(filters['status'].length == 1)
+      $('.select-checkbox').css 'display', 'table-cell'
   'ajax':
     'url': '/all-listing'
     'type':'post'
@@ -362,6 +365,8 @@ $('div#category-select').on 'change','div#selectall input[type="checkbox"]', () 
   else
     $(this).closest('.tab-pane').find('ul.nodes input[type="checkbox"]').prop('checked',false).change()
 
+selected_listings = []
+
 $('body').on 'change','input#draftstatus', () ->
   if $(this).prop('checked')
     filters['status'].push("3")
@@ -390,6 +395,7 @@ showBulk = () ->
       $('.bulk-status-update select.status-select option[value="4"]').prop 'hidden',false
     $('.select-checkbox').css 'display', 'table-cell'
     $('.bulk-status-update').removeClass 'hidden'
+    $('button#bulkupdate').prop('disabled',false)
   else
     $('.select-checkbox').css 'display', 'none'
     $('.bulk-status-update').addClass 'hidden'
@@ -401,7 +407,25 @@ $('body').on 'change','select#status-filter',()->
     # console.log item
     filters['status'].push(item)
   showBulk()
-  # sendRequest()
+  sendRequest()
+
+$('.bulk-status-update').on 'click','button#bulkupdate', ()->
+  $('button#bulkupdate').prop('disabled',true)
+  instance = $('.bulk-status-update select.status-select').parsley()
+  if !instance.validate()
+    $('button#bulkupdate').prop('disabled',false)
+    return false;
+  selected_rows = approval_table.rows({selected:true}).data()
+  selected_listings = []
+  for key in selected_rows
+    selected_listings.push 'id': key['id']
+  # console.log selected_listings
+  selected_listings.forEach (listing) ->
+    listing['status'] = $('.bulk-status-update select.status-select').val()
+  # console.log $($('.bulk-status-update input[type="checkbox"]')[0]).prop 'checked'
+  sm = ($($('.bulk-status-update input[type="checkbox"]')[0]).prop 'checked')? "1":"0"
+  changeStatusAPI(sm)
+
 
 $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   filters['submission_date']['start'] = picker.startDate.format('YYYY-MM-DD')
@@ -418,13 +442,14 @@ $('body').on 'change','select#citySelect', ->
   filters['city']= $(this).val()
   sendRequest()
 
-selected_listings = []
+
 
 $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
   # invoker = e.relatedTarget;
   editrow = $(this).closest('td')
   listing = approval_table.row(editrow).data()
   console.log listing
+  $('#updateStatusModal span#listing-title').html listing['name']
   $('#updateStatusModal select.status-select').val ''
   $('#updateStatusModal select.status-select option').prop 'hidden',true
   if listing['status_ref'] == 1
@@ -445,11 +470,20 @@ $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
 
 
 $('#updateStatusModal').on 'click', 'button#change_status', ->
+  $('button#change_status').prop('disabled',true)
+  instance = $('#updateStatusModal select.status-select').parsley()
+  if !instance.validate()
+    $('button#change_status').prop('disabled',false)
+    return false;
   selected_listings.forEach (listing) ->
     listing['status'] = $('#updateStatusModal select.status-select').val()
   console.log selected_listings
-  url = document.head.querySelector('[property="status-url"]').content
   sm = ($('#updateStatusModal input[type="checkbox"]').prop 'checked')? "1":"0"
+  changeStatusAPI(sm)
+
+changeStatusAPI = (sm) ->
+  url = document.head.querySelector('[property="status-url"]').content
+  console.log sm
   $.ajax
     type: 'post'
     url: url
@@ -457,13 +491,15 @@ $('#updateStatusModal').on 'click', 'button#change_status', ->
       change_request : JSON.stringify(selected_listings)
       sendmail : sm
     success: (response)->
-      approval_table.ajax.reload()
+      sendRequest()
       $('#updateStatusModal').modal('hide')
       if response['status'] == 'Error'
         #do something
         html = ''
         response['data']['error'].forEach (listing) ->
           html+='<li><a href="#" class="primary-link">'+listing['name']+'</a><p>'+listing['message']+'</p></li>'
+        $('.bulk-failure ul.listings__links').html html
+        $('.bulk-failure').modal('show')
       else
         $('.alert-success #message').html "Listing status updated successfully."
         $('.alert-success').addClass 'active'
@@ -477,6 +513,7 @@ $('#updateStatusModal').on 'click', 'button#change_status', ->
 sendRequest = ()->
   # console.log filters
   approval_table.ajax.reload()
+    
   # $.ajax
   #   type: 'post'
   #   url: '/all-listing'

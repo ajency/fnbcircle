@@ -1,5 +1,5 @@
 (function() {
-  var applyCategFilter, approval_table, categ, categories, filters, getNodes, populate, selected_listings, sendRequest, showBulk;
+  var applyCategFilter, approval_table, categ, categories, changeStatusAPI, filters, getNodes, populate, selected_listings, sendRequest, showBulk;
 
   filters = {
     'submission_date': {
@@ -20,6 +20,11 @@
     'processing': true,
     'order': [[4, 'desc']],
     'serverSide': true,
+    'drawCallback': function() {
+      if (filters['status'].length === 1) {
+        return $('.select-checkbox').css('display', 'table-cell');
+      }
+    },
     'ajax': {
       'url': '/all-listing',
       'type': 'post',
@@ -400,6 +405,8 @@
     }
   });
 
+  selected_listings = [];
+
   $('body').on('change', 'input#draftstatus', function() {
     if ($(this).prop('checked')) {
       filters['status'].push("3");
@@ -435,7 +442,8 @@
         $('.bulk-status-update select.status-select option[value="4"]').prop('hidden', false);
       }
       $('.select-checkbox').css('display', 'table-cell');
-      return $('.bulk-status-update').removeClass('hidden');
+      $('.bulk-status-update').removeClass('hidden');
+      return $('button#bulkupdate').prop('disabled', false);
     } else {
       $('.select-checkbox').css('display', 'none');
       return $('.bulk-status-update').addClass('hidden');
@@ -449,7 +457,35 @@
     val.forEach(function(item) {
       return filters['status'].push(item);
     });
-    return showBulk();
+    showBulk();
+    return sendRequest();
+  });
+
+  $('.bulk-status-update').on('click', 'button#bulkupdate', function() {
+    var base, instance, key, l, len, selected_rows, sm;
+    $('button#bulkupdate').prop('disabled', true);
+    instance = $('.bulk-status-update select.status-select').parsley();
+    if (!instance.validate()) {
+      $('button#bulkupdate').prop('disabled', false);
+      return false;
+    }
+    selected_rows = approval_table.rows({
+      selected: true
+    }).data();
+    selected_listings = [];
+    for (l = 0, len = selected_rows.length; l < len; l++) {
+      key = selected_rows[l];
+      selected_listings.push({
+        'id': key['id']
+      });
+    }
+    selected_listings.forEach(function(listing) {
+      return listing['status'] = $('.bulk-status-update select.status-select').val();
+    });
+    sm = typeof (base = $($('.bulk-status-update input[type="checkbox"]')[0]).prop('checked')) === "function" ? base({
+      "1": "0"
+    }) : void 0;
+    return changeStatusAPI(sm);
   });
 
   $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
@@ -469,13 +505,12 @@
     return sendRequest();
   });
 
-  selected_listings = [];
-
   $('#datatable-listing_approval').on('click', 'i.fa-pencil', function(e) {
     var editrow, listing;
     editrow = $(this).closest('td');
     listing = approval_table.row(editrow).data();
     console.log(listing);
+    $('#updateStatusModal span#listing-title').html(listing['name']);
     $('#updateStatusModal select.status-select').val('');
     $('#updateStatusModal select.status-select option').prop('hidden', true);
     if (listing['status_ref'] === 1) {
@@ -503,15 +538,27 @@
   });
 
   $('#updateStatusModal').on('click', 'button#change_status', function() {
-    var base, sm, url;
+    var base, instance, sm;
+    $('button#change_status').prop('disabled', true);
+    instance = $('#updateStatusModal select.status-select').parsley();
+    if (!instance.validate()) {
+      $('button#change_status').prop('disabled', false);
+      return false;
+    }
     selected_listings.forEach(function(listing) {
       return listing['status'] = $('#updateStatusModal select.status-select').val();
     });
     console.log(selected_listings);
-    url = document.head.querySelector('[property="status-url"]').content;
     sm = typeof (base = $('#updateStatusModal input[type="checkbox"]').prop('checked')) === "function" ? base({
       "1": "0"
     }) : void 0;
+    return changeStatusAPI(sm);
+  });
+
+  changeStatusAPI = function(sm) {
+    var url;
+    url = document.head.querySelector('[property="status-url"]').content;
+    console.log(sm);
     return $.ajax({
       type: 'post',
       url: url,
@@ -521,13 +568,15 @@
       },
       success: function(response) {
         var html;
-        approval_table.ajax.reload();
+        sendRequest();
         $('#updateStatusModal').modal('hide');
         if (response['status'] === 'Error') {
           html = '';
           response['data']['error'].forEach(function(listing) {
             return html += '<li><a href="#" class="primary-link">' + listing['name'] + '</a><p>' + listing['message'] + '</p></li>';
           });
+          $('.bulk-failure ul.listings__links').html(html);
+          $('.bulk-failure').modal('show');
         } else {
           $('.alert-success #message').html("Listing status updated successfully.");
           $('.alert-success').addClass('active');
@@ -537,7 +586,7 @@
         }
       }
     });
-  });
+  };
 
   sendRequest = function() {
     return approval_table.ajax.reload();

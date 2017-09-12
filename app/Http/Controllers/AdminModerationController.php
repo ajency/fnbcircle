@@ -58,6 +58,7 @@ class AdminModerationController extends Controller
             $listing['status'] = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
             $listing['name']   = '<a href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
             $listing['#']      = "";
+            // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
             $i    = 0;
             $temp = '';

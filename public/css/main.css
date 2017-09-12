@@ -8340,6 +8340,13 @@ input[type='checkbox'].remove-addr {
   cursor: pointer;
   padding-left: 3px;
 }
+@media screen and (min-width: 767px) {
+  _::-webkit-full-page-media,
+  _:future,
+  :root .node-select .nav li {
+    margin-bottom: 3.35em;
+  }
+}
 @media screen and (max-width: 768px) {
   .add-editCat {
     color: #27b7b0;

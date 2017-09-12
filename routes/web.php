@@ -64,3 +64,11 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 
 
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
+
+
+
+
+
+
+/**Jobs**/
+Route::resource( 'jobs', 'JobController' );

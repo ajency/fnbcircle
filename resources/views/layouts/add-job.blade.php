@@ -50,7 +50,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum  edit-mode  ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -132,27 +132,27 @@
                         </div>
                         <div class="col-xs-12 col-sm-9">
                             <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if(isset($_GET['step']))active @endif">
-                                <div class="mobile-back desk-hide mobile-flex @if($listing->reference!=null) p-v-10 @endif ">
+                                <div class="mobile-back desk-hide mobile-flex  p-v-10   ">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                         <p class="element-title heavier m-b-0">Back</p>
                                     </div>
-                                    @if($listing->reference!=null)
+                                    
                                         <div>
                                             <a href="http://staging.fnbcircle.com/single-view.html" class="fnb-btn mini outline btn preview-header__link">Preview</a>
                                         </div>
-                                    @endif
+                                   
                                 </div>
                                 <div class="fly-out__content">
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
 
-                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle @else The current status of your listing is <span class="text-primary bolder status-changer" @if($listing->status=="3") data-toggle="tooltip" data-placement="top" title="" data-original-title="Listing will remain in draft status till submitted for review."> Draft @endif @if($listing->status=="2") >Pending Review @endif @if($listing->status=="1") >Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
+                                           <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle<span class="text-primary bolder status-changer"   >Published  </span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
 
-                                         @endif
+                                         
                                     </p>
-                                    <div class="gs-form tab-content @if($listing->reference!=null) p-t-0 @endif">
+                                    <div class="gs-form tab-content   p-t-0  ">
                                         <div class="site-loader section-loader hidden">
                                             <div id="floatingBarsG">
                                                 <div class="blockG" id="rotateG_01"></div>
@@ -180,13 +180,13 @@
                                                   @endforeach
                                               </ul>
                                     </div>
-                                        <form id="info-form">
-                                       <input type="hidden" id="step-name" value="{{$step}}" readonly>
-                                        @yield('form-data')
+                                        <form id="job-form" method="post" action="{{ $postUrl }}" data-parsley-validate>
+                                            
+                                            @yield('form-data')
 
                                         <!-- Submit for review section -->
-                                        <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
-                                        @if($listing->isReviewable() and $listing->status > "2")
+                                 
+                                         
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -198,12 +198,12 @@
                                                </div>
                                            </div>
                                         </div>
-                                        @endif
+                                       
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-30">
-                                            @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
+                                            <a class="btn fnb-btn outline no-border gs-prev" href=""><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
 
-                                            <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
+                                            <button class="btn fnb-btn primary-btn full  gs-next" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>

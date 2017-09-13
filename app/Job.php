@@ -11,8 +11,12 @@ class Job extends Model
         return $this->belongsTo( 'App\User' ,'job_creator');
     }
 
-    public function createdBy() {
-        return $this->belongsTo( 'App\User' ,'job_creator');
+    public function updatedBy() {
+        return $this->belongsTo( 'App\User' ,'job_modifier');
+    }
+
+    public function publishedBy() {
+        return $this->belongsTo( 'App\User' ,'published_by');
     }
 
     public function jobStatuses(){
@@ -35,7 +39,7 @@ class Job extends Model
 
     public function jobTypes(){
     	// $status = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
-    	$jobTypes =  Defaults::where("type","job_status")->get();
+    	$jobTypes =  Defaults::where("type","job_type")->get();
 
     	$types = [];
     	foreach ($jobTypes as $key => $jobType) {

@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Job;
 use App\JobLocation;
+use App\Category;
+use App\City;
+use App\Defaults;
+use Auth;
+
 
 class JobController extends Controller
 {
@@ -25,7 +31,21 @@ class JobController extends Controller
      */
     public function create()
     {
-        //
+        $jobCategories = [1=>'cat-1',2=>'cat-2'];
+        $experiencList = [1=>'1 - 2',2=>'3 - 4',3=>'5 - 8'];
+        $cities  = City::where('status', 1)->orderBy('name')->get();
+
+        $job    = new Job;
+        $jobTypes  = $job->jobTypes();
+        $salaryTypes  = $job->salaryTypes();
+        $postUrl = url('jobs');
+
+        return view('jobs.job-info')->with('jobCategories', $jobCategories)
+                                    ->with('cities', $cities) 
+                                    ->with('experiencList', $experiencList) 
+                                    ->with('salaryTypes', $salaryTypes) 
+                                    ->with('jobTypes', $jobTypes)
+                                    ->with('postUrl', $postUrl);
     }
 
     /**
@@ -36,19 +56,20 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        
         $userId = Auth::user()->id;
 
-        $this->validate($data, [
-            'title' => 'required|max:255',
+        $this->validate($request, [
+            'job_title' => 'required|max:255',
             'description' => 'required',
-            'job_city' => 'required|integer',
-            'job_area' => 'required|integer',
-            'category' => 'required|integer'
-
+            'job_city' => 'required|min:1',
+            'job_area' => 'required|min:1',
+            'category' => 'required|integer',
         ]);
 
-        $title = $data['title'];
+        $data = $request->all();   
+
+        $title = $data['job_title'];
         $description = $data['description'];
         $category = $data['category'];
         $jobCity = $data['job_city'];
@@ -81,7 +102,7 @@ class JobController extends Controller
 
         $job    = new Job;
         $slug = getUniqueSlug($job, $title);
-        $job->reference_id = '';
+        $job->reference_id = generateRefernceId($job,'reference_id');
         $job->title = $title;
         $job->description = $description;
         $job->slug = $slug;
@@ -99,9 +120,9 @@ class JobController extends Controller
 
         $jobId = $job->id;
 
-        $this->addJobLocation($job,$job_area);
+        $this->addJobLocation($job,$jobArea);
 
-        return redirect(url('/jobs/'.$job->reference_id.'/edit/set-two')); 
+        return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
 
@@ -109,7 +130,7 @@ class JobController extends Controller
         foreach ($areaIds as $key => $areaId) {
             $jobLocation = $job->hasLocations()->where('area_id',$areaId)->first();
 
-            if(!empty($jobLocation)){ 
+            if(empty($jobLocation)){ 
                 $jobLocation    = new JobLocation;
                 $jobLocation->job_id = $job->id;
                 $jobLocation->area_id = $areaId;
@@ -122,11 +143,27 @@ class JobController extends Controller
     }
 
     public function getExperienceLowerAndUpperValue($experience){
-        $getExperience = Defaults:: where('id IN',$experience)->get()->toArray();
+        $getExperience = Defaults::whereIn('id',$experience)->get()->toArray();
         $lower = $upper =[];
-
+        
+   
+        $getExperience =[
+          0 => [
+            "id" => 1,
+            "label" => "1 - 2"
+          ],
+          1 => [
+            "id" => 3,
+            "label" => "3 - 4"
+          ],
+          2 => [
+            "id" => 3,
+            "label" => "5 - 8"
+          ]
+        ] ;  
+            
         foreach ($getExperience as $key => $experience) {
-            $experienceLabel = $experience->label;
+            $experienceLabel = $experience['label'];
             $experienceValues = explode('-', $experienceLabel);
 
             if(!empty($experienceValues)){
@@ -156,9 +193,44 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($reference_id,$step='step-one')
     {
-        //
+        $job = Job::where('reference_id',$reference_id)->first(); 
+        $data = [];
+        $data = ['job' => $job->toArray()];
+        $postUrl = url('jobs/'.$job->reference_id);
+        $data['postUrl'] = $postUrl;
+
+        if($step = 'step-one'){
+            $jobCategories = [1=>'cat-1',2=>'cat-2'];
+            $experiencList = [1=>'1-2',2=>'3-4',3=>'5-8'];
+            $cities  = City::where('status', 1)->orderBy('name')->get();
+
+            $jobTypes  = $job->jobTypes();
+            $salaryTypes  = $job->salaryTypes();
+            
+
+            $locations = $job->hasLocations()->get()->toArray(); 
+            $data['location'] = $locations;
+            $data['jobCategories'] = $jobCategories;
+            $data['experiencList'] = $experiencList;
+            $data['cities'] = $cities;
+            $data['jobTypes'] = $jobTypes;
+            $data['salaryTypes'] = $salaryTypes;
+            $blade = 'jobs.job-edit';
+
+        }
+        elseif ($step = 'step-two'){
+            # code...
+        }
+        elseif ($step = 'step-three'){
+            # code...
+        }
+        else{
+            abort(404);
+        }
+
+        return view($blade)->with($data);
     }
 
     /**
@@ -168,7 +240,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $reference_id)
     {
         //
     }

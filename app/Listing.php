@@ -116,7 +116,8 @@ class Listing extends Model
 
         
         if ($this->reference == null) {
-            $this->reference = str_random(8);
+            // $this->reference = str_random(8);
+            $this->reference = generateRefernceId($this,'reference');
         }
 
         if ($this->created_by == null) {

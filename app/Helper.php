@@ -37,3 +37,19 @@ function getUniqueSlug(\Illuminate\Database\Eloquent\Model $model, $value)
 
     return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
 }
+
+function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernceKey, $length=8)
+{
+   $refernceId = str_random($length);
+
+   $record = $model->where([$refernceKey=> $refernceId])->first();
+
+   if(empty($record)){
+      $result = $refernceId;
+   }else{
+      $result = $this->generateRefernceId($model, $refernceKey,$length);
+   }
+
+   return $result;
+
+}

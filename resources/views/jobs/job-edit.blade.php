@@ -1,7 +1,7 @@
-@extends('layouts.add-listing')
+@extends('layouts.add-job')
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/add-listing-info.js"></script>
+    <script type="text/javascript" src="/js/jobs.js"></script>
 @endsection
 @section('form-data')
 
@@ -24,12 +24,12 @@
             Help text comes here
         </div> -->
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input job-cat-list" placeholder="Type and hit enter" list="jobCats" multiple="multiple" id=jobCatsInput value="">
-            <datalist id="jobCats">
-                <option value = "abc">abc</option>
-                <option value = "def">def</option>
-                <option value = "ghi">ghi</option>
-            </datalist>
+             
+             <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                @foreach($jobCategories as $categoryId =>$category)
+                <option value = "{{ $categoryId }}">{{ $category }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
 
@@ -37,12 +37,15 @@
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="city" required data-parsley-required-message="Select a city where the job is located.">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select an area where the job is located.">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located.">
                     <option value="">Select Area</option>
                 </select>
             </div>
@@ -51,35 +54,64 @@
     </div>
 
     <div class="m-t-40 c-gap">
+        <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
+        <div class="location-select flex-row flex-wrap">
+            <div class="select-col city">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                    <option value="">Select City</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="select-col area">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located.">
+                    <option value="">Select Area</option>
+                </select>
+            </div>
+        </div>
+        <div id="areaError" ></div>
+    </div>
+    <div class="m-t-40 c-gap">
         <label class="label-size">Job Description <span class="text-primary">*</span></label>
-        <textarea class="form-control fnb-input" placeholder="Enter a brief summary of the Job"></textarea>
+        <textarea class="form-control fnb-input" name="description" placeholder="Enter a brief summary of the Job" data-parsley-required></textarea>
     </div>
 
     <div class="m-t-40 c-gap">
         <label class="label-size">What type of job is it?</label>
         <div class="form-group ">
+        @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="radio-inline">
-            <input type="radio" name="jobType" id="parttime" value="part_time" class="fnb-radio"> Part Time
+            <input type="radio" name="job_type" id="parttime" value="{{ $jobTypeId }}" class="fnb-radio"> {{ $jobType }}
           </label>
-          <label class="radio-inline">
-            <input type="radio" name="jobType" id="fulltime" value="full_time" class="fnb-radio" checked=""> Full Time
-          </label>
-          <label class="radio-inline">
-            <input type="radio" name="jobType" id="temp" value="temp" class="fnb-radio" checked=""> Temporary
-          </label>
+        @endforeach 
         </div>
     </div>
 
     <div class="m-t-50 c-gap">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input years-experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="">
-            <datalist id="yrsExp">
-                <option value = "abc">abc</option>
-                <option value = "def">def</option>
-                <option value = "ghi">ghi</option>
-            </datalist>
+            <!-- <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'> -->
+            <select class="fnb-select select-variant form-control " multiple="" id="yrsExp" name="experience[]">
+                @foreach($experiencList as $experienceId =>$experience)
+                <option value="{{ $experienceId }}" >{{ $experience }}</option>
+                @endforeach
+
+            </select>
         </div>
+    </div>
+
+    <div class="m-t-40 c-gap">
+        <label class="label-size">Offered salary : (optional)</label>
+        <div class="form-group ">
+        @foreach($salaryTypes as $salaryTypeId => $salaryType)
+          <label class="radio-inline">
+            <input type="radio" name="salary_type"   value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
+          </label>
+        @endforeach 
+        </div>
+
+        <input type="text" name="salary_lower" id="salary_lower" data-parsley-type="number"> - <input type="text" name="salary_upper" id="salary_upper" data-parsley-type="number">
     </div>
 
 </div>

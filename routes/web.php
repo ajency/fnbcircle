@@ -71,4 +71,7 @@ Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 
 /**Jobs**/
-Route::resource( 'jobs', 'JobController' );
+Route::group( ['middleware' => ['auth']], function() { 
+	Route::resource( 'jobs', 'JobController' );
+	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
+});

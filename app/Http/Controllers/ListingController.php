@@ -365,7 +365,7 @@ class ListingController extends Controller
             'keyword' => 'required',
         ]);
         // dd(Listing::existingTagsLike($request->keyword));
-        return response()->json(['results' => Listing::existingTagsLike($request->keyword), 'options' => []]);
+        return response()->json(['results' => Listing::existingTagsLike('brands',$request->keyword), 'options' => []]);
     }
 
     //------------------------step 3 --------------------
@@ -485,6 +485,11 @@ class ListingController extends Controller
             $payment[$key] = $value;
         }
         $listing->payment_modes = json_encode($payment);
+        if (isset($data->other_payment) and $data->other_payment != '') {
+            $listing->retag('payment-modes',$data->other_payment);
+        } else {
+            $listing->untag('payment-modes');
+        }
         $listing->save();
 
         $change = "";
@@ -512,6 +517,8 @@ class ListingController extends Controller
         
 
     }
+
+
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
     {

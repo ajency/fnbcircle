@@ -41,7 +41,6 @@ setTimeout (->
     removeOnBackspace: false
     minLength: 1
     # url: '/get_brands'
-    searchIn: ["name"]
   return
 ), 500
 
@@ -56,12 +55,36 @@ $('body').on 'change', 'input:checkbox#selectall', ->
     $(this).closest('.select-all').siblings('.payment-modes').find('input:checkbox').prop('checked', false)
 
 setTimeout (->
-  $('.payment-add').on 'change:flexdatalist', ->
-    value = $(this).val()
-    console.log(value);
-    if $(this).val().length != 0
-      $(this).closest('.business-details').find('.payment-modes').append '<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa"><span class="text-color">' + value + '</span></label></li>'
-    $(this).val ''
+  $('.payment-add').on 'change:flexdatalist', (event, set, options)->
+    console.log set
+    switch set.value
+      when 'Visa cards'
+        $('input#visa').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Debit Card'
+        $('input#debit').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Money Order'
+        $('input#money_order').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Cheque'
+        $('input#cheque').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Credit Card'
+        $('input#credit').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Travelers Cheque'
+        $('input#travelers').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Cash'
+        $('input#cash').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Master Card'
+        $('input#masters').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Diner\'s Club'
+        $('input#diners').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
   return
 ), 500
 
@@ -87,6 +110,7 @@ window.validateBusinessDetails = () ->
   	else
   		parameters['payment['+$(item).attr('id')+']'] = "0"
   	return
+  parameters['other_payment'] = $('.flexdatalist').val()
   if window.submit ==1
     parameters['submitReview'] = 'yes'
   form = $('<form></form>')

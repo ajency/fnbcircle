@@ -7,6 +7,10 @@
     <link rel="stylesheet" type="text/css" href="/css/dropify.css">
     <!-- tags css -->
     <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <!-- multiselect -->
+    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <!-- Ckeditor -->
+    <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet">
 @endsection
 
 @section('js')
@@ -21,6 +25,13 @@
 
       <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <!-- Custom file input -->
+
+    <!-- multiselect -->
+    <script src="/js/bootstrap-multiselect.js"></script>
+
+    <!-- Ckeditor -->
+    <script src="/js/ckeditor/ckeditor.js"></script>
+
     <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
     <!-- Add listing -->
     <script type="text/javascript" src="/js/add-listing.js"></script>
@@ -50,7 +61,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum  edit-mode  ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container jobs-listing edit-mode  ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -79,11 +90,11 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container jobs-container">
         <div class="row">
             <div class="col-xs-12 content-wrapper edit-mode ">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
-                    <h3 class="main-heading m-b-0 m-t-0 white">Let's get started!</h3>
+                    <h3 class="main-heading m-b-0 m-t-0 white">Let's get started! <span class="dis-block xxx-small lighter m-t-10">You are few steps away from posting a job on FnB Circle</span></h3>
                 </div>
 
                 <div class="m-t-20 m-b-10 white-bg-border">

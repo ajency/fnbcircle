@@ -25,7 +25,7 @@
         </div> -->
         <div class="m-t-5 brands-container">
              
-             <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+             <select class="fnb-select select-variant form-control text-lighter catSelect" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                 @foreach($jobCategories as $categoryId =>$category)
                 <option value = "{{ $categoryId }}">{{ $category }}</option>
                 @endforeach

@@ -226,7 +226,7 @@ class JobController extends Controller
      */
     public function update(Request $request, $reference_id)
     {
-        
+        dd( $request->all());
         $job = Job::where('reference_id',$reference_id)->first(); 
 
         if($data['step'] = 'step-one'){
@@ -258,7 +258,7 @@ class JobController extends Controller
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();    
+        $data = $request->all();    dd($data);
 
         $title = $data['job_title'];
         $description = $data['description'];

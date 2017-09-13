@@ -6,8 +6,10 @@
 @section('form-data')
 
 
-
-
+@if($job->id)
+<input type="hidden" name="_method" value="PUT">
+@endif
+<input type="hidden" name="step" value="step-one">
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
@@ -61,10 +63,15 @@
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
+                    <option value="Bandra">Bandra</option>
+                    <option value="Andheri">Andheri</option>
+                    <option value="Dadar">Dadar</option>
+                    <option value="Borivali">Borivali</option>
+                    <option value="Bandra">Church gate</option>
                 </select>
             </div>
         </div>
-         <div class="location-select flex-row flex-wrap area-append hidden">
+         <div class="location-select flex-row flex-wrap area-append">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
@@ -75,7 +82,11 @@
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
- 
+                                        <option>Bandra</option>
+                    <option>Andheri</option>
+                    <option>Dadar</option>
+                    <option>Borivali</option>
+                    <option>Church gate</option>
                 </select>
             </div>
             <div class=" remove-select-col flex-row">

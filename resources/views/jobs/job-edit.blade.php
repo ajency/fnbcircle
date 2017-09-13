@@ -7,8 +7,7 @@
 
 
 
-<input type="hidden" name="_method" value="PUT">
-<input type="hidden" name="step" value="step-one">
+
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="no-m-t fly-out-heading-size main-heading ">Job Information</h5>

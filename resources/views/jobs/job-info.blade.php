@@ -11,14 +11,14 @@
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
-    <div class="m-t-30 c-gap">
+    <div class="m-t-50 c-gap">
         <label class="label-size">What is the job title? <span class="text-primary">*</span></label>
         <input type="text" name="job_title" class="form-control fnb-input" placeholder="" value="" data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your job.
         </div>
     </div>
-    <div class="m-t-50 c-gap">
+    <div class="m-t-40 c-gap">
         <label class="label-size">Choose a category that the job belongs to: <span class="text-primary">*</span></label>
         <!-- <div class="text-lighter">
             Help text comes here
@@ -33,63 +33,23 @@
         </div>
     </div>
 
-<!-- <div class="areas-select gap-separator">
-    <p class="text-darker describes__title heavier">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
-    <ul class="areas-select__selection flex-row flex-wrap">
-        <li>
-            <div class="required left-star flex-row">
-                <select class="form-control fnb-select select-variant">
-                    <option>Select City</option>
-                    <option>Delhi</option>
-                    <option>Goa</option>
-                    <option>Mumbai</option>
-                    <option>Goa</option>
-                </select>
-            </div>
-        </li>
-        <li>
-            <div class="required left-star flex-row">
-                <select class="fnb-select select-variant default-area-select multi-select" multiple="multiple">
-                    <option>Bandra</option>
-                    <option>Andheri</option>
-                    <option>Dadar</option>
-                    <option>Borivali</option>
-                    <option>Church gate</option>
-                </select>
-            </div>
-        </li>
-    </ul>
-    <ul class="areas-select__selection flex-row flex-wrap area-append hidden">
-        <li>
-            <div class="required left-star flex-row">
-                <select class="form-control fnb-select select-variant">
-                    <option>Select City</option>
-                    <option>Delhi</option>
-                    <option>Goa</option>
-                    <option>Mumbai</option>
-                    <option>Goa</option>
-                </select>
-            </div>
-        </li>
-        <li>
-            <div class="required left-star flex-row">
-                <select class="fnb-select select-variant areas-appended" multiple="multiple">
-                    <option>Bandra</option>
-                    <option>Andheri</option>
-                    <option>Dadar</option>
-                    <option>Borivali</option>
-                    <option>Church gate</option>
-                </select>
-            </div>
-        </li>
-    </ul>
-    <div class="m-t-10 adder">
-        <a href="#" class="secondary-link text-decor heavier add-areas">+ Add more</a>
+    <div class="m-t-40 c-gap">
+        <label class="label-size">Keywords</label>
+        <div class="m-t-5 flex-data-row">
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
+            <datalist id="yrsExp">
+               @foreach($experiencList as $experienceId =>$experience)
+                <option value="{{ $experienceId }}" >{{ $experience }}</option>
+                @endforeach
+            </datalist>
+            <!-- <select class="fnb-select select-variant form-control " multiple="" id="yrsExp" name="experience[]">
+                @foreach($experiencList as $experienceId =>$experience)
+                <option value="{{ $experienceId }}" >{{ $experience }}</option>
+                @endforeach
+
+            </select> -->
+        </div>
     </div>
-</div> -->
-
-
-
 
     <div class="m-t-40 c-gap areas-select">
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
@@ -171,16 +131,16 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">What type of job is it?</label>
-        <div class="form-group ">
+        <div class="form-group m-t-5 job-type">
         @foreach($jobTypes as $jobTypeId => $jobType)
-          <label class="radio-inline">
-            <input type="checkbox" name="job_type" id="parttime" value="{{ $jobTypeId }}" class="fnb-radio"> {{ $jobType }}
+          <label class="checkbox-inline">
+            <input type="checkbox" name="job_type" id="parttime" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox"> {{ $jobType }}
           </label>
         @endforeach 
         </div>
     </div>
 
-    <div class="m-t-50 c-gap">
+    <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
             <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>

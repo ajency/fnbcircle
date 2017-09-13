@@ -8883,6 +8883,25 @@ input[type='checkbox'].remove-addr {
   margin-left: 0;
   padding-left: 0;
 }
+.salary-range {
+  margin: 1.5em 0 3.5em 0;
+}
+.salary-range .input-group {
+  width: 150px;
+}
+.salary-range .input-group-addon,
+.salary-range .input-group .form-control {
+  border-radius: 0;
+  background-color: #fdf4f2;
+  border: 1px solid #f6c8bd;
+}
+.salary-range .input-group .form-control {
+  background-color: transparent;
+  border-left: 0;
+}
+.salary-range .sal-divider {
+  padding: 0 1em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

@@ -42,6 +42,7 @@ class JobController extends Controller
         $postUrl = url('jobs');
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
+                                    ->with('job', $job) 
                                     ->with('cities', $cities) 
                                     ->with('defaultExperience', $defaultExperience) 
                                     ->with('salaryTypes', $salaryTypes) 
@@ -198,7 +199,7 @@ class JobController extends Controller
             $data['cities'] = $cities;
             $data['jobTypes'] = $jobTypes;
             $data['salaryTypes'] = $salaryTypes;
-            $blade = 'jobs.job-edit';
+            $blade = 'jobs.job-info';
 
         }
         elseif ($step == 'step-two'){

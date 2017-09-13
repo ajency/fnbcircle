@@ -3,7 +3,7 @@
     var city, html, jobCityObj;
     jobCityObj = $(this);
     html = '<option value="" selected>Select Area </option>';
-    jobCityObj.closest('.location-select').find('.area select').html(html);
+    jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
     city = $(this).val();
     if (city === '') {
       return;
@@ -19,7 +19,13 @@
         for (key in data) {
           html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
-        jobCityObj.closest('.location-select').find('.area select').html(html);
+        console.log(html);
+        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
+        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect({
+          includeSelectAllOption: true,
+          numberDisplayed: 1,
+          nonSelectedText: 'Select Area(s)'
+        });
       },
       error: function(request, status, error) {
         throwError();

@@ -13,7 +13,7 @@
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
     <div class="m-t-50 c-gap">
         <label class="label-size">What is the job title? <span class="text-primary">*</span></label>
-        <input type="text" name="job_title" class="form-control fnb-input" placeholder="" value="" data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters.">
+        <input type="text" name="job_title" class="form-control fnb-input" placeholder=""  data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters." value="{{ $job['title'] }}">
         <div class="text-lighter m-t-5">
             This will be the display name of your job.
         </div>
@@ -29,7 +29,7 @@
              <select class="fnb-select select-variant form-control text-lighter catSelect" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                 <option>- select -</option>
                 @foreach($jobCategories as $categoryId =>$category)
-                <option value = "{{ $categoryId }}">{{ $category }}</option>
+                <option value = "{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
                 @endforeach
             </select>
         </div>
@@ -40,16 +40,11 @@
         <div class="m-t-5 flex-data-row">
             <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
             <datalist id="yrsExp">
-               @foreach($experiencList as $experienceId =>$experience)
+               @foreach($defaultExperience as $experienceId =>$experience)
                 <option value="{{ $experienceId }}" >{{ $experience }}</option>
                 @endforeach
             </datalist>
-            <!-- <select class="fnb-select select-variant form-control " multiple="" id="yrsExp" name="experience[]">
-                @foreach($experiencList as $experienceId =>$experience)
-                <option value="{{ $experienceId }}" >{{ $experience }}</option>
-                @endforeach
-
-            </select> -->
+             
         </div>
     </div>
 
@@ -66,11 +61,6 @@
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
-                    <option>Bandra</option>
-                    <option>Andheri</option>
-                    <option>Dadar</option>
-                    <option>Borivali</option>
-                    <option>Church gate</option>
                 </select>
             </div>
         </div>
@@ -85,11 +75,7 @@
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
-                    <option>Bandra</option>
-                    <option>Andheri</option>
-                    <option>Dadar</option>
-                    <option>Borivali</option>
-                    <option>Church gate</option>
+ 
                 </select>
             </div>
             <div class=" remove-select-col flex-row">
@@ -128,7 +114,7 @@
     <div class="m-t-40 c-gap">
         <label class="label-size">Job Description <span class="text-primary">*</span></label>
         <!-- <textarea class="form-control fnb-input" name="description" placeholder="Enter a brief summary of the Job" data-parsley-required></textarea> -->
-        <div id="editor"></div>
+        <div id="editor">{{ $job['description'] }}</div>
     </div>
 
     <div class="m-t-40 c-gap">
@@ -137,7 +123,7 @@
         @foreach($jobTypes as $jobTypeId => $jobType)
 
           <label class="checkbox-inline">
-            <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox"> {{ $jobType }}
+            <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($job['meta_data']['job_type']) && in_array($jobTypeId,$job['meta_data']['job_type'])) checked @endif> {{ $jobType }}
           </label>
         @endforeach 
         </div>
@@ -146,7 +132,7 @@
     <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" >
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) data-visible-properties='{{ json_encode($job['meta_data']['experience']) }}' @endif>
 
             <datalist id="yrsExp">
                @foreach($defaultExperience as $experienceId =>$experience)
@@ -162,7 +148,7 @@
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
-            <input type="radio" name="salary_type"   value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
+            <input type="radio" name="salary_type"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
           </label>
         @endforeach 
         </div>
@@ -170,12 +156,12 @@
         <div class="salary-range flex-row">
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status">
+              <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}">
             </div>
             <p class="m-b-0 sal-divider">to</p>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status">
+              <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}">
             </div>
         </div>
 

@@ -60,8 +60,9 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
+                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
                 </select>
+                <div id="fnb-errors" class="fnb-errors"></div>
             </div>
         </div>
          <div class="location-select flex-row flex-wrap area-append hidden">
@@ -74,8 +75,9 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" multiple="multiple">
+                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" multiple="multiple" data-parsley-errors-container="#site-errors">
                 </select>
+                <div id="site-errors" class="fnb-errors"></div>
             </div>
             <div class=" remove-select-col flex-row">
                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
@@ -152,16 +154,21 @@
         @endforeach 
         </div>
         
-        <div class="salary-range flex-row">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}">
+        <div class="salary-range">
+            <div class="flex-row">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors">
+                   <div id="errors" class="ctm-error fnb-errors"></div>
+                </div>
+                <p class="m-b-0 sal-divider">to</p>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error">
+                   <div id="error" class="ctm-error fnb-errors"></div>
+                </div>
             </div>
-            <p class="m-b-0 sal-divider">to</p>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}">
-            </div>
+
         </div>
 
       <!--   <input type="text" name="salary_lower" id="salary_lower" data-parsley-type="number"> - <input type="text" name="salary_upper" id="salary_upper" data-parsley-type="number"> -->

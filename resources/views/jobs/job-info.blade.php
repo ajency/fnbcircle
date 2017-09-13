@@ -159,15 +159,27 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Offered salary : (optional)</label>
-        <div class="form-group ">
+        <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
             <input type="radio" name="salary_type"   value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
           </label>
         @endforeach 
         </div>
+        
+        <div class="salary-range flex-row">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status">
+            </div>
+            <p class="m-b-0 sal-divider">to</p>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status">
+            </div>
+        </div>
 
-        <input type="text" name="salary_lower" id="salary_lower" data-parsley-type="number"> - <input type="text" name="salary_upper" id="salary_upper" data-parsley-type="number">
+      <!--   <input type="text" name="salary_lower" id="salary_lower" data-parsley-type="number"> - <input type="text" name="salary_upper" id="salary_upper" data-parsley-type="number"> -->
     </div>
 
 </div>

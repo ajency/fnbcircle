@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\City;
+use App\Area;
 use App\Common;
 use App\Http\Controllers\ListingController;
 use App\Listing;
@@ -107,6 +108,14 @@ class AdminModerationController extends Controller
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
         $listings = $listings->where('title','like',$search.'%');
+        if (isset($filters['city'])) {
+            $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('locality_id',$areas);
+        }
+        if (isset($filters['category_nodes'])) {
+            $category = ListingCategory::whereIn('category_id',$filters['category_nodes'])->select('listing_id')->distinct()->pluck('listing_id')->toArray();
+            $listings = $listings->whereIn('id',$category);
+        }
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);
         $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);
@@ -114,7 +123,7 @@ class AdminModerationController extends Controller
         // $output->writeln($listings->toSql());
         // $output->writeln($filters['submission_date']['start']);
         // $output->writeln($filters['submission_date']['end']);
-
+        
         $listings = $listings->get();
         // $filtered = count($listings);
         $output->writeln(json_encode($listings));
@@ -127,29 +136,29 @@ class AdminModerationController extends Controller
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;
             $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['name'];
-            if (isset($filters['city']) and !in_array($listing->location['city_id'], $filters['city'])) {
-                unset($response[$listing->id]);
-                $filtered--;
-                continue;
-            }
+            // if (isset($filters['city']) and !in_array($listing->location['city_id'], $filters['city'])) {
+            //     unset($response[$listing->id]);
+            //     $filtered--;
+            //     continue;
+            // }
             $city = City::find($listing->location['city_id']);
             //write the logic to filter the city and remove them from response. count the number of removed entries and subtract them from
             $response[$listing->id]['city'] = $city['name'];
             // $output->writeln(json_encode($listing->lastUpdatedBy));
-            if (isset($filters['category_nodes'])) {
-                $categories = ListingCategory::where('listing_id', $listing->id)->get();
-                $check      = false;
-                foreach ($categories as $category) {
-                    if (in_array($category->category_id, $filters['category_nodes'])) {
-                        $check = true;
-                    }
-                }
-                if (!$check) {
-                    unset($response[$listing->id]);
-                    $filtered--;
-                    continue;
-                }
-            }
+            // if (isset($filters['category_nodes'])) {
+            //     $categories = ListingCategory::where('listing_id', $listing->id)->get();
+            //     $check      = false;
+            //     foreach ($categories as $category) {
+            //         if (in_array($category->category_id, $filters['category_nodes'])) {
+            //             $check = true;
+            //         }
+            //     }
+            //     if (!$check) {
+            //         unset($response[$listing->id]);
+            //         $filtered--;
+            //         continue;
+            //     }
+            // }
             $dup                                  = $this->getDuplicateCount($listing->id, $listing->title);
             $response[$listing->id]['duplicates'] = $dup['phone'] . ',' . $dup['email'] . ',' . $dup['title'];
             $response[$listing->id]['premium']    = 'No';

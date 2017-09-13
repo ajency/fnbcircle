@@ -466,13 +466,22 @@ $(function(){
 		    area_group_clone = area_group.clone();
 		    area_group_clone.removeClass('area-append hidden');
 		    area_group_clone.find('.areas-appended').addClass('newly-created');
+		    console.log(area_group_clone);
+		    area_group_clone.find('.selectCity').attr('data-parsley-required','');
+		    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
+		    area_group_clone.find('.newly-created').attr('data-parsley-required','');
+		    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
 		    area_group_clone.find('.newly-created').multiselect({
 		    	includeSelectAllOption: true,
 	            numberDisplayed: 1,
 	            nonSelectedText: 'Select Area(s)'
 		    });
 		    area_group_clone.insertBefore(area_group);
+
   		});
+
+
+
 
 		$('body').on('click', '.remove-select-col', function() {
   			$(this).closest('.location-select').remove();

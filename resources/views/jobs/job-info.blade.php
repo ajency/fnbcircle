@@ -50,7 +50,7 @@
 
     <div class="m-t-40 c-gap areas-select">
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
-        <div class="location-select flex-row flex-wrap">
+        <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
@@ -66,7 +66,7 @@
         </div>
          <div class="location-select flex-row flex-wrap area-append hidden">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
                     <option value="">Select City</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -74,8 +74,7 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
- 
+                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" multiple="multiple">
                 </select>
             </div>
             <div class=" remove-select-col flex-row">

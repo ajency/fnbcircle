@@ -298,13 +298,14 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         $this->saveListingCategories($listing->id, $categories);
         if (isset($request->brands) and $request->brands != '') {
-            $listing->retag($request->brands);
+            $listing->retag('brands',$request->brands);
         } else {
-            $listing->untag();
+            $listing->untag('brands');
         }
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
+            $listing->last_updated_by = Auth::user()->id;
             $listing->save();
         }
 

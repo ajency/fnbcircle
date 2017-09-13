@@ -6728,10 +6728,12 @@ input[type=checkbox].custom-checkbox:before {
   background-color: #f9f9f9;
   padding: 20px;
 }
-.gs-form__footer .save-btn {
+.gs-form__footer .save-btn,
+.gs-form__footer .info-save {
   margin: 0 0 0 auto;
 }
-.gs-form__footer .save-btn.center {
+.gs-form__footer .save-btn.center,
+.gs-form__footer .info-save.center {
   margin: auto;
 }
 @media (min-width: 768px) {

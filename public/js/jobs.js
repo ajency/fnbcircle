@@ -35,8 +35,8 @@
   });
 
   $('.years-experience').flexdatalist({
-    valueProperty: 'id',
     selectionRequired: true,
+    minLength: 1,
     removeOnBackspace: false
   });
 

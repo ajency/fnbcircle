@@ -28,9 +28,8 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       throwError()
       return
 
-$('.years-experience').flexdatalist({
-  valueProperty: 'id',
+$('.years-experience').flexdatalist
   selectionRequired: true,
+  minLength: 1,
   removeOnBackspace: false
-});
 

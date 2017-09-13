@@ -226,7 +226,7 @@ class JobController extends Controller
      */
     public function update(Request $request, $reference_id)
     {
-        dd( $request->all());
+   
         $job = Job::where('reference_id',$reference_id)->first(); 
 
         if($data['step'] = 'step-one'){
@@ -249,16 +249,16 @@ class JobController extends Controller
 
     //save basic info
     public function saveStepOneData($job,$request){
-        $userId = Auth::user()->id;
+        $userId = Auth::user()->id;  
         $this->validate($request, [
             'job_title' => 'required|max:255',
             'description' => 'required',
-            'job_city' => 'required|min:1',
-            'job_area' => 'required|min:1',
+            'job_city' => 'required',
+            'job_area' => 'required',
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();    dd($data);
+        $data = $request->all();   
 
         $title = $data['job_title'];
         $description = $data['description'];

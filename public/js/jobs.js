@@ -2,7 +2,7 @@
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
     jobCityObj = $(this);
-    html = '<option value="" selected>Select Area </option>';
+    html = '';
     jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
     city = $(this).val();
     if (city === '') {
@@ -21,6 +21,7 @@
         }
         console.log(html);
         jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
+        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect('destroy');
         jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect({
           includeSelectAllOption: true,
           numberDisplayed: 1,

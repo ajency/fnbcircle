@@ -9,6 +9,7 @@ use App\Http\Controllers\ListingController;
 use App\Listing;
 use App\ListingCategory;
 use App\ListingCommunication;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -55,9 +56,9 @@ class AdminModerationController extends Controller
 
         foreach ($response['data'] as &$listing) {
             $listing['status_ref'] = $listing['status'];
-            $listing['status'] = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
-            $listing['name']   = '<a href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
-            $listing['#']      = "";
+            $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
+            $listing['name']       = '<a href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
+            $listing['#']          = "";
             // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
             $i    = 0;
@@ -101,9 +102,9 @@ class AdminModerationController extends Controller
                 }
             }
         });
-
+        $end = new Carbon($filters['submission_date']['end']);
         if ($filters['submission_date']['start'] != "") {
-            $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $filters['submission_date']['end']);
+            $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);
@@ -207,7 +208,7 @@ class AdminModerationController extends Controller
                     $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Draft listing can only be changed to pending review');
                     $response['status']          = 'Error';
                 }
-            }else if ($listing->status == Listing::REVIEW) {
+            } else if ($listing->status == Listing::REVIEW) {
                 if ($change->status == (string) Listing::PUBLISHED) {
                     $listing->status = Listing::PUBLISHED;
                     $listing->save();
@@ -226,7 +227,7 @@ class AdminModerationController extends Controller
                     $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Pending review listing can only be changed to published or rejected');
                     $response['status']          = 'Error';
                 }
-            }else if ($listing->status == Listing::PUBLISHED) {
+            } else if ($listing->status == Listing::PUBLISHED) {
                 if ($change->status == (string) Listing::ARCHIVED) {
                     $listing->status = Listing::ARCHIVED;
                     $listing->save();
@@ -236,7 +237,7 @@ class AdminModerationController extends Controller
                     $response['status']          = 'Error';
                 }
 
-            }else if ($listing->status == Listing::REJECTED) {
+            } else if ($listing->status == Listing::REJECTED) {
                 if ($change->status == (string) Listing::ARCHIVED) {
                     $listing->status = Listing::ARCHIVED;
                     $listing->save();
@@ -255,7 +256,7 @@ class AdminModerationController extends Controller
                     $response['status']          = 'Error';
                 }
 
-            }else if ($listing->status == Listing::ARCHIVED) {
+            } else if ($listing->status == Listing::ARCHIVED) {
                 if ($change->status == (string) Listing::REVIEW) {
                     if ($listing->isReviewable()) {
                         $listing->status = Listing::REVIEW;

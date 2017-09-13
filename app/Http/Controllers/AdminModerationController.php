@@ -50,7 +50,7 @@ class AdminModerationController extends Controller
 
         }
         // $filters  = array();
-        $response = $this->displayListings($request->length, $request->start, $sort_by, $order, $filters);
+        $response = $this->displayListings($request->length, $request->start, $sort_by, $order, $filters,$request->search['value']);
 
         $status = ['3' => 'Draft', '2' => 'Pending Review', '1' => 'Published', '4' => 'Archived', '5' => 'Rejected'];
 
@@ -88,7 +88,7 @@ class AdminModerationController extends Controller
 
         return response()->json($response);
     }
-    public function displayListings($display_limit, $start, $sort, $order, $filters)
+    public function displayListings($display_limit, $start, $sort, $order, $filters,$search='')
     {
         $listings = Listing::where(function ($sql) use ($filters) {
             $i = 0;
@@ -106,6 +106,7 @@ class AdminModerationController extends Controller
         if ($filters['submission_date']['start'] != "") {
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
+        $listings = $listings->where('title','like',$search.'%');
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);
         $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);

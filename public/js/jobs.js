@@ -34,10 +34,12 @@
     });
   });
 
-  $('.years-experience').flexdatalist({
-    valueProperty: 'id',
-    selectionRequired: true,
-    removeOnBackspace: false
-  });
+  setTimeout((function() {
+    $('.years-experience').flexdatalist({
+      valueProperty: 'id',
+      selectionRequired: true,
+      removeOnBackspace: false
+    });
+  }), 500);
 
 }).call(this);

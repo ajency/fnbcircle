@@ -82,6 +82,7 @@
 
                 <div class="bulk-status-update m-t-10 hidden">
                   <hr>
+                  <form id="bulkupdateform">
                   <label>Bulk Status Update</label>
                   <div class="row">
                     <div class="col-sm-3">
@@ -102,6 +103,7 @@
                       <button class="btn primary-btn border-btn fnb-btn" id="bulkupdate" type="button">Update</button>
                     </div>
                   </div>
+                  </form>
                 </div>
 
                 <input type="text" name="" placeholder="Search by Name" id="listingNameSearch" class="form-control fnb-input pull-right customDtSrch">
@@ -270,6 +272,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h6 class="modal-title">Update Status</h6>
               </div>
+              <form id="singlestatus">
               <div class="modal-body">
                 <label>Status of <span id="listing-title"></span></label>
                 <select class="form-control fnb-select w-border status-select" required>
@@ -288,6 +291,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn fnb-btn primary-btn mini" id="change_status">Save changes</button>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -298,7 +302,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                        <h4 class="element-title modal-title">Bulk Update Failed!</h4>
+                        <h4 class="element-title modal-title">Status Update Failed!</h4>
                     </div>
                     <div class="modal-body">
                         <div class="listings">

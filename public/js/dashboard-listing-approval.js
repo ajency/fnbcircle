@@ -436,15 +436,13 @@
       }
       if (curr === '4') {
         $('.bulk-status-update select.status-select option[value="1"]').prop('hidden', false);
-        $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
       }
       if (curr === '5') {
         $('.bulk-status-update select.status-select option[value="2"]').prop('hidden', false);
-        $('.bulk-status-update select.status-select option[value="4"]').prop('hidden', false);
       }
       $('.select-checkbox').css('display', 'table-cell');
       $('.bulk-status-update').removeClass('hidden');
-      return $('button#bulkupdate').prop('disabled', false);
+      return $('button#bulkupdate').prop('disabled', true);
     } else {
       $('.select-checkbox').css('display', 'none');
       return $('.bulk-status-update').addClass('hidden');
@@ -465,7 +463,7 @@
   $('.bulk-status-update').on('click', 'button#bulkupdate', function() {
     var base, instance, key, l, len, selected_rows, sm;
     $('button#bulkupdate').prop('disabled', true);
-    instance = $('.bulk-status-update select.status-select').parsley();
+    instance = $('.bulk-status-update #bulkupdateform').parsley();
     if (!instance.validate()) {
       $('button#bulkupdate').prop('disabled', false);
       return false;
@@ -510,7 +508,6 @@
     var editrow, listing;
     editrow = $(this).closest('td');
     listing = approval_table.row(editrow).data();
-    console.log(listing);
     $('#updateStatusModal span#listing-title').html(listing['name']);
     $('#updateStatusModal select.status-select').val('');
     $('#updateStatusModal select.status-select option').prop('hidden', true);
@@ -526,11 +523,9 @@
     }
     if (listing['status_ref'] === 4) {
       $('#updateStatusModal select.status-select option[value="1"]').prop('hidden', false);
-      $('#updateStatusModal select.status-select option[value="2"]').prop('hidden', false);
     }
     if (listing['status_ref'] === 5) {
       $('#updateStatusModal select.status-select option[value="2"]').prop('hidden', false);
-      $('#updateStatusModal select.status-select option[value="4"]').prop('hidden', false);
     }
     selected_listings = [];
     return selected_listings.push({
@@ -541,9 +536,10 @@
   $('#updateStatusModal').on('click', 'button#change_status', function() {
     var base, instance, sm;
     $('button#change_status').prop('disabled', true);
-    instance = $('#updateStatusModal select.status-select').parsley();
+    instance = $('#updateStatusModal #singlestatus').parsley();
     if (!instance.validate()) {
       $('button#change_status').prop('disabled', false);
+      console.log('lamama');
       return false;
     }
     selected_listings.forEach(function(listing) {
@@ -574,7 +570,7 @@
         if (response['status'] === 'Error') {
           html = '';
           response['data']['error'].forEach(function(listing) {
-            return html += '<li><a href="#" class="primary-link">' + listing['name'] + '</a><p>' + listing['message'] + '</p></li>';
+            return html += '<li><a target="_blank" href="' + listing['url'] + '" class="primary-link">' + listing['name'] + '</a><p>' + listing['message'] + '</p></li>';
           });
           $('.bulk-failure ul.listings__links').html(html);
           $('.bulk-failure').modal('show');
@@ -585,9 +581,36 @@
             $('.alert-success').removeClass('active');
           }), 2000);
         }
+        $('button#change_status').prop('disabled', false);
       }
     });
   };
+
+  approval_table.on('select', function() {
+    var selected_rows;
+    selected_rows = approval_table.rows({
+      selected: true
+    }).count();
+    console.log(selected_rows);
+    if (selected_rows > 0) {
+      return $('button#bulkupdate').prop('disabled', false);
+    } else {
+      return $('button#bulkupdate').prop('disabled', true);
+    }
+  });
+
+  approval_table.on('deselect', function() {
+    var selected_rows;
+    selected_rows = approval_table.rows({
+      selected: true
+    }).count();
+    console.log(selected_rows);
+    if (selected_rows > 0) {
+      return $('button#bulkupdate').prop('disabled', false);
+    } else {
+      return $('button#bulkupdate').prop('disabled', true);
+    }
+  });
 
   sendRequest = function() {
     return approval_table.ajax.reload();

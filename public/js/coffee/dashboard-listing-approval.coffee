@@ -390,13 +390,11 @@ showBulk = () ->
       $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
     if curr == '4'
       $('.bulk-status-update select.status-select option[value="1"]').prop 'hidden',false
-      $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
     if curr == '5'
       $('.bulk-status-update select.status-select option[value="2"]').prop 'hidden',false
-      $('.bulk-status-update select.status-select option[value="4"]').prop 'hidden',false
     $('.select-checkbox').css 'display', 'table-cell'
     $('.bulk-status-update').removeClass 'hidden'
-    $('button#bulkupdate').prop('disabled',false)
+    $('button#bulkupdate').prop('disabled',true)
   else
     $('.select-checkbox').css 'display', 'none'
     $('.bulk-status-update').addClass 'hidden'
@@ -412,7 +410,8 @@ $('body').on 'change','select#status-filter',()->
 
 $('.bulk-status-update').on 'click','button#bulkupdate', ()->
   $('button#bulkupdate').prop('disabled',true)
-  instance = $('.bulk-status-update select.status-select').parsley()
+  instance = $('.bulk-status-update #bulkupdateform').parsley()
+  # console.log instance.validate()
   if !instance.validate()
     $('button#bulkupdate').prop('disabled',false)
     return false;
@@ -449,7 +448,7 @@ $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
   # invoker = e.relatedTarget;
   editrow = $(this).closest('td')
   listing = approval_table.row(editrow).data()
-  console.log listing
+  # console.log listing
   $('#updateStatusModal span#listing-title').html listing['name']
   $('#updateStatusModal select.status-select').val ''
   $('#updateStatusModal select.status-select option').prop 'hidden',true
@@ -462,19 +461,18 @@ $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->
     $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
   if listing['status_ref'] == 4
     $('#updateStatusModal select.status-select option[value="1"]').prop 'hidden',false
-    $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
   if listing['status_ref'] == 5
     $('#updateStatusModal select.status-select option[value="2"]').prop 'hidden',false
-    $('#updateStatusModal select.status-select option[value="4"]').prop 'hidden',false
   selected_listings = []
   selected_listings.push 'id': listing['id']
 
 
 $('#updateStatusModal').on 'click', 'button#change_status', ->
   $('button#change_status').prop('disabled',true)
-  instance = $('#updateStatusModal select.status-select').parsley()
+  instance = $('#updateStatusModal #singlestatus').parsley()
   if !instance.validate()
     $('button#change_status').prop('disabled',false)
+    console.log 'lamama'
     return false;
   selected_listings.forEach (listing) ->
     listing['status'] = $('#updateStatusModal select.status-select').val()
@@ -498,7 +496,7 @@ changeStatusAPI = (sm) ->
         #do something
         html = ''
         response['data']['error'].forEach (listing) ->
-          html+='<li><a href="#" class="primary-link">'+listing['name']+'</a><p>'+listing['message']+'</p></li>'
+          html+='<li><a target="_blank" href="'+listing['url']+'" class="primary-link">'+listing['name']+'</a><p>'+listing['message']+'</p></li>'
         $('.bulk-failure ul.listings__links').html html
         $('.bulk-failure').modal('show')
       else
@@ -508,8 +506,24 @@ changeStatusAPI = (sm) ->
           $('.alert-success').removeClass 'active'
           return
         ), 2000
+      $('button#change_status').prop('disabled',false)
       return
 
+approval_table.on 'select', ()->
+  selected_rows = approval_table.rows({selected:true}).count()
+  console.log selected_rows
+  if selected_rows > 0
+    $('button#bulkupdate').prop('disabled',false)
+  else
+    $('button#bulkupdate').prop('disabled',true)
+
+approval_table.on 'deselect', ()->
+  selected_rows = approval_table.rows({selected:true}).count()
+  console.log selected_rows
+  if selected_rows > 0
+    $('button#bulkupdate').prop('disabled',false)
+  else
+    $('button#bulkupdate').prop('disabled',true)
 
 sendRequest = ()->
   # console.log filters

@@ -8841,6 +8841,33 @@ input[type='checkbox'].remove-addr {
 .addArea:focus {
   text-decoration: underline;
 }
+.jobs-listing {
+  padding-bottom: 120px;
+}
+@media screen and (min-width: 769px) {
+  .jobs-container .content-wrapper {
+    margin-top: -130px;
+  }
+}
+@media screen and (min-width: 769px) {
+  .catSelect {
+    width: 30%;
+  }
+}
+.remove-select-col {
+  padding-left: 0.8em;
+  cursor: pointer;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox {
+  margin: 0.6em 0;
+  padding-left: 2.5em;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox] {
+  position: relative;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
+  top: -8px;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

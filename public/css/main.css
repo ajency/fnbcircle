@@ -2348,6 +2348,10 @@ input[type="checkbox"].toggle__check {
 .relative {
   position: relative;
 }
+input[type=checkbox].custom-checkbox:before {
+  top: -2px;
+  position: relative;
+}
 .fnb-alert {
   border-radius: 0px;
   color: #fff;
@@ -8840,6 +8844,44 @@ input[type='checkbox'].remove-addr {
 .addArea:active,
 .addArea:focus {
   text-decoration: underline;
+}
+.jobs-listing {
+  padding-bottom: 120px;
+}
+@media screen and (min-width: 769px) {
+  .jobs-container .content-wrapper {
+    margin-top: -130px;
+  }
+}
+@media screen and (min-width: 769px) {
+  .catSelect {
+    width: 30%;
+  }
+}
+.remove-select-col {
+  padding-left: 0.8em;
+  cursor: pointer;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox {
+  margin: 0.6em 0;
+  padding-left: 2.5em;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox] {
+  position: relative;
+}
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
+  top: -8px;
+}
+.job-type .checkbox-inline {
+  padding-left: 25px;
+}
+.job-type .fnb-checkbox:before {
+  left: -2px;
+}
+.flex-data-row.flex-data-row .flexdatalist-multiple-value {
+  margin-top: 10px;
+  margin-left: 0;
+  padding-left: 0;
 }
 .profile-stats {
   color: #fff;

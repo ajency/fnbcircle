@@ -10,23 +10,24 @@
 
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="no-m-t fly-out-heading-size main-heading ">Job Information</h5>
-    <div class="m-t-30 c-gap">
+    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
+    <div class="m-t-50 c-gap">
         <label class="label-size">What is the job title? <span class="text-primary">*</span></label>
         <input type="text" name="job_title" class="form-control fnb-input" placeholder="" value="" data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters.">
         <div class="text-lighter m-t-5">
             This will be the display name of your job.
         </div>
     </div>
-    <div class="m-t-50 c-gap">
+    <div class="m-t-40 c-gap">
         <label class="label-size">Choose a category that the job belongs to: <span class="text-primary">*</span></label>
         <!-- <div class="text-lighter">
             Help text comes here
         </div> -->
         <div class="m-t-5 brands-container">
              
-             <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
-             <option>- select -</option>
+ 
+             <select class="fnb-select select-variant form-control text-lighter catSelect" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                <option>- select -</option>
                 @foreach($jobCategories as $categoryId =>$category)
                 <option value = "{{ $categoryId }}">{{ $category }}</option>
                 @endforeach
@@ -35,6 +36,24 @@
     </div>
 
     <div class="m-t-40 c-gap">
+        <label class="label-size">Keywords</label>
+        <div class="m-t-5 flex-data-row">
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
+            <datalist id="yrsExp">
+               @foreach($experiencList as $experienceId =>$experience)
+                <option value="{{ $experienceId }}" >{{ $experience }}</option>
+                @endforeach
+            </datalist>
+            <!-- <select class="fnb-select select-variant form-control " multiple="" id="yrsExp" name="experience[]">
+                @foreach($experiencList as $experienceId =>$experience)
+                <option value="{{ $experienceId }}" >{{ $experience }}</option>
+                @endforeach
+
+            </select> -->
+        </div>
+    </div>
+
+    <div class="m-t-40 c-gap areas-select">
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
@@ -46,15 +65,44 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located.">
-                    <option value="">Select Area</option>
+                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
+                    <option>Bandra</option>
+                    <option>Andheri</option>
+                    <option>Dadar</option>
+                    <option>Borivali</option>
+                    <option>Church gate</option>
                 </select>
             </div>
+        </div>
+         <div class="location-select flex-row flex-wrap area-append hidden">
+            <div class="select-col city">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                    <option value="">Select City</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="select-col area">
+                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
+                    <option>Bandra</option>
+                    <option>Andheri</option>
+                    <option>Dadar</option>
+                    <option>Borivali</option>
+                    <option>Church gate</option>
+                </select>
+            </div>
+            <div class=" remove-select-col flex-row">
+                <i class="fa fa-times text-primary" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="adder">
+            <a href="#" class="secondary-link text-decor heavier add-areas">+ Add more</a>
         </div>
         <div id="areaError" ></div>
     </div>
 
-    <div class="m-t-40 c-gap">
+<!--     <div class="m-t-40 c-gap">
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
@@ -73,23 +121,29 @@
         </div>
         <div id="areaError" ></div>
     </div>
+ -->
+
+
+
     <div class="m-t-40 c-gap">
         <label class="label-size">Job Description <span class="text-primary">*</span></label>
-        <textarea class="form-control fnb-input" name="description" placeholder="Enter a brief summary of the Job" data-parsley-required></textarea>
+        <!-- <textarea class="form-control fnb-input" name="description" placeholder="Enter a brief summary of the Job" data-parsley-required></textarea> -->
+        <div id="editor"></div>
     </div>
 
     <div class="m-t-40 c-gap">
         <label class="label-size">What type of job is it?</label>
-        <div class="form-group ">
+        <div class="form-group m-t-5 job-type">
         @foreach($jobTypes as $jobTypeId => $jobType)
-          <label class="radio-inline">
-            <input type="radio" name="job_type[]" id="parttime" value="{{ $jobTypeId }}" class="fnb-radio"> {{ $jobType }}
+
+          <label class="checkbox-inline">
+            <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox"> {{ $jobType }}
           </label>
         @endforeach 
         </div>
     </div>
 
-    <div class="m-t-50 c-gap">
+    <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
             <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" >

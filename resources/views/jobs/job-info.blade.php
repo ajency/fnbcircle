@@ -26,6 +26,7 @@
         <div class="m-t-5 brands-container">
              
              <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+             <option>- select -</option>
                 @foreach($jobCategories as $categoryId =>$category)
                 <option value = "{{ $categoryId }}">{{ $category }}</option>
                 @endforeach
@@ -82,7 +83,7 @@
         <div class="form-group ">
         @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="radio-inline">
-            <input type="radio" name="job_type" id="parttime" value="{{ $jobTypeId }}" class="fnb-radio"> {{ $jobType }}
+            <input type="radio" name="job_type[]" id="parttime" value="{{ $jobTypeId }}" class="fnb-radio"> {{ $jobType }}
           </label>
         @endforeach 
         </div>
@@ -91,18 +92,14 @@
     <div class="m-t-50 c-gap">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" >
+
             <datalist id="yrsExp">
-               @foreach($experiencList as $experienceId =>$experience)
+               @foreach($defaultExperience as $experienceId =>$experience)
                 <option value="{{ $experienceId }}" >{{ $experience }}</option>
                 @endforeach
             </datalist>
-            <!-- <select class="fnb-select select-variant form-control " multiple="" id="yrsExp" name="experience[]">
-                @foreach($experiencList as $experienceId =>$experience)
-                <option value="{{ $experienceId }}" >{{ $experience }}</option>
-                @endforeach
-
-            </select> -->
+             
         </div>
     </div>
 

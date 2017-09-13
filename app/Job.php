@@ -56,7 +56,7 @@ class Job extends Model
     }
 
     public function jobExperience(){
-    	$experience = ['1'=>'1 - 2 Years','2'=>'3 - 4 Years','3'=>'5 - 8 Years'];
+    	$experience = ['1 - 2','3 - 4','5 - 8'];
     	 
     	return $experience;
     }
@@ -99,4 +99,8 @@ class Job extends Model
 	public function hasLocations(){
 		return $this->hasMany('App\JobLocation');
 	}
+
+	public function company() {
+        return $this->belongsTo('App\Company');
+    }
 }

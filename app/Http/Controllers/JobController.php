@@ -9,6 +9,7 @@ use App\JobLocation;
 use App\Category;
 use App\City;
 use App\Defaults;
+use App\Company;
 use Auth;
 
 
@@ -32,17 +33,18 @@ class JobController extends Controller
     public function create()
     {
         $jobCategories = [1=>'cat-1',2=>'cat-2'];
-        $experiencList = [1=>'1 - 2',2=>'3 - 4',3=>'5 - 8'];
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
         $job    = new Job;
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();
+        $defaultExperience  = $job->jobExperience();
         $postUrl = url('jobs');
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
+                                    ->with('job', $job) 
                                     ->with('cities', $cities) 
-                                    ->with('experiencList', $experiencList) 
+                                    ->with('defaultExperience', $defaultExperience) 
                                     ->with('salaryTypes', $salaryTypes) 
                                     ->with('jobTypes', $jobTypes)
                                     ->with('postUrl', $postUrl);
@@ -67,7 +69,7 @@ class JobController extends Controller
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();   
+        $data = $request->all();    
 
         $title = $data['job_title'];
         $description = $data['description'];
@@ -91,9 +93,8 @@ class JobController extends Controller
         $experienceYearsUpper  = '';
 
         if(!empty($experience)){
-            $metaData['experience'] = $experience;
-
-            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience);
+            $metaData['experience'] = explode(',', $experience);
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience); 
             
             $experienceYearsLower = $experienceLowerUpperValue['lower'];
             $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
@@ -142,30 +143,11 @@ class JobController extends Controller
         
     }
 
-    public function getExperienceLowerAndUpperValue($experience){
-        $getExperience = Defaults::whereIn('id',$experience)->get()->toArray();
+    public function getExperienceLowerAndUpperValue($jobExperience){
+ 
         $lower = $upper =[];
-        
-   
-        $getExperience =[
-          0 => [
-            "id" => 1,
-            "label" => "1 - 2"
-          ],
-          1 => [
-            "id" => 3,
-            "label" => "3 - 4"
-          ],
-          2 => [
-            "id" => 3,
-            "label" => "5 - 8"
-          ]
-        ] ;  
-            
-        foreach ($getExperience as $key => $experience) {
-            $experienceLabel = $experience['label'];
-            $experienceValues = explode('-', $experienceLabel);
-
+        foreach ($jobExperience as $key => $experience) {
+            $experienceValues = explode('-', $experience);
             if(!empty($experienceValues)){
                 $lower[] = trim($experienceValues[0]);
                 $upper[] = trim($experienceValues[1]);
@@ -197,13 +179,13 @@ class JobController extends Controller
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
         $data = [];
-        $data = ['job' => $job->toArray()];
+        $data = ['job' => $job];
         $postUrl = url('jobs/'.$job->reference_id);
         $data['postUrl'] = $postUrl;
 
-        if($step = 'step-one'){
+        if($step == 'step-one'){
             $jobCategories = [1=>'cat-1',2=>'cat-2'];
-            $experiencList = [1=>'1-2',2=>'3-4',3=>'5-8'];
+            $defaultExperience  = $job->jobExperience();
             $cities  = City::where('status', 1)->orderBy('name')->get();
 
             $jobTypes  = $job->jobTypes();
@@ -213,20 +195,22 @@ class JobController extends Controller
             $locations = $job->hasLocations()->get()->toArray(); 
             $data['location'] = $locations;
             $data['jobCategories'] = $jobCategories;
-            $data['experiencList'] = $experiencList;
+            $data['defaultExperience'] = $defaultExperience;
             $data['cities'] = $cities;
             $data['jobTypes'] = $jobTypes;
             $data['salaryTypes'] = $salaryTypes;
-            $blade = 'jobs.job-edit';
+            $blade = 'jobs.job-info';
 
         }
-        elseif ($step = 'step-two'){
-            # code...
+        elseif ($step == 'step-two'){
+            $jobCompany  = $job->company();
+            $blade = 'jobs.job-comapny';
         }
-        elseif ($step = 'step-three'){
+        elseif ($step == 'step-three'){
             # code...
         }
         else{
+
             abort(404);
         }
 
@@ -242,7 +226,128 @@ class JobController extends Controller
      */
     public function update(Request $request, $reference_id)
     {
-        //
+        
+        $job = Job::where('reference_id',$reference_id)->first(); 
+
+        if($data['step'] = 'step-one'){
+            $response = $this->saveStepOneData($job,$request);
+
+        }
+        elseif ($step = 'step-two'){
+            $response = $this->saveCompanyData($job,$request);
+        }
+        elseif ($step = 'step-three'){
+            # code...
+        }
+        else{
+            abort(404);
+        }
+        $nextStep = $response['next_step'];
+
+        return redirect(url('/jobs/'.$job->reference_id.'/'.$nextStep)); 
+    }
+
+    //save basic info
+    public function saveStepOneData($job,$request){
+        $userId = Auth::user()->id;
+        $this->validate($request, [
+            'job_title' => 'required|max:255',
+            'description' => 'required',
+            'job_city' => 'required|min:1',
+            'job_area' => 'required|min:1',
+            'category' => 'required|integer',
+        ]);
+
+        $data = $request->all();    
+
+        $title = $data['job_title'];
+        $description = $data['description'];
+        $category = $data['category'];
+        $jobCity = $data['job_city'];
+        $jobArea = $data['job_area'];
+        $jobType = $data['job_type'];
+        $experience = $data['experience'];
+        $salaryType = $data['salary_type'];
+        $salaryLower = $data['salary_lower'];
+        $salaryUpper = $data['salary_upper'];
+
+        $metaData = [] ;
+
+        if(is_array($jobType) && !empty($jobType)){
+            $metaData['job_type'] = $jobType;
+            $jobType = $jobType[0];
+        }
+
+        $experienceYearsLower = '';
+        $experienceYearsUpper  = '';
+
+        if(!empty($experience)){
+            $savedExperience = explode(',', $experience);
+            $metaData['experience'] = $savedExperience; 
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($savedExperience);
+            
+            $experienceYearsLower = $experienceLowerUpperValue['lower'];
+            $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
+          
+        }
+
+        $slug = getUniqueSlug($job, $title);
+        $job->title = $title;
+        $job->description = $description;
+        $job->slug = $slug;
+        $job->category_id = $category;
+        $job->job_type = $jobType;
+        $job->experience_years_lower = $experienceYearsLower;
+        $job->experience_years_upper = $experienceYearsUpper;
+        $job->salary_type = $salaryType;
+        $job->salary_lower = $salaryLower;
+        $job->salary_upper = $salaryUpper;
+        $job->job_modifier = $userId;
+        $job->meta_data = $metaData;
+        $job->save();
+        $this->addJobLocation($job,$jobArea);
+
+        $request['next_step'] = 'step-two';
+
+        return $request;
+    }
+
+
+    public function saveCompanyData($job,$request){
+        $userId = Auth::user()->id;
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $data = $request->all();    
+
+        $companyId = $data['company_id'];
+        $title = $data['job_title'];
+        $description = $data['description'];
+        $website = $data['website'];
+        $comanyEmail = $data['comany_email'];
+        $comanyPhone = $data['comany_phone'];
+        
+        if($companyId == ''){
+            $company = new Company;
+        }
+        else{
+            $company = Company::find($companyId);
+        }
+        
+        $slug = getUniqueSlug($company, $title);
+        $company->title = $title;
+        $company->description = $description;
+        $company->slug = $slug;
+        $company->website = $website;
+        $company->comany_email = $website;
+        $company->comany_phone = $website;
+        $company->save();
+        
+        $request['next_step'] = 'step-three';
+
+        return $request;
     }
 
     /**

@@ -1,7 +1,7 @@
 $(document).on 'change', 'select[name="job_city[]"]', ->
   jobCityObj = $(this)
   html='<option value="" selected>Select Area </option>'
-  jobCityObj.closest('.location-select').find('.area select').html html
+  jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html html
   city = $(this).val()
   if city == ''
     return
@@ -14,7 +14,14 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       # console.log data
       for key of data
         html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
-      jobCityObj.closest('.location-select').find('.area select').html html
+      
+      console.log  html
+      jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html html
+      jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect
+        includeSelectAllOption: true
+        numberDisplayed: 1
+        nonSelectedText: 'Select Area(s)'
+
       return
     error: (request, status, error) ->
       throwError()

@@ -13,45 +13,61 @@
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
-    <div class="m-t-50 c-gap">
-        <label class="label-size">What is the job title? <span class="text-primary">*</span></label>
-        <input type="text" name="job_title" class="form-control fnb-input" placeholder=""  data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters." value="{{ $job['title'] }}">
-        <div class="text-lighter m-t-5">
-            This will be the display name of your job.
-        </div>
-    </div>
+
+    <!-- Job title/category -->
     <div class="m-t-40 c-gap">
-        <label class="label-size">Choose a category that the job belongs to: <span class="text-primary">*</span></label>
-        <!-- <div class="text-lighter">
-            Help text comes here
-        </div> -->
+
         <div class="m-t-5 brands-container">
-             
+            
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="label-size required">What is the job title?</label>
+                <input type="text" name="job_title" class="form-control fnb-input" placeholder=""  data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters." value="{{ $job['title'] }}">
+                <div class="text-lighter m-t-5">
+                    This will be the display name of your job.
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label class="label-size required">Choose a category that the job belongs to:</label>
+                <!-- <div class="text-lighter">
+                    Help text comes here
+                </div> -->
+                <div class="m-t-5 brands-container">
+                     <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                        <option value="">- select -</option>
+                            @foreach($jobCategories as $categoryId =>$category)
+                            <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
+                            @endforeach
+                    </select>
+                </div>
+            </div>
  
-             <select class="fnb-select select-variant form-control text-lighter catSelect" name="category" placeholder="Type and hit enter" list="jobCats" id="jobCatsInput" data-parsley-required >
-                <option value="">- select -</option>
-                @foreach($jobCategories as $categoryId =>$category)
-                <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
-                @endforeach
-            </select>
         </div>
+        
     </div>
+</div>
+
+    <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Keywords</label>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput value="1" data-value-property='id'>
+            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
+
             <datalist id="jobKeyword">
-               
+              
             </datalist>
-             
         </div>
     </div>
 
+    <!-- Job located -->
+
     <div class="m-t-40 c-gap areas-select">
-        <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
+ 
+        <label class="label-size required">Where is the job located?  </label>
         @if($job->id)
         @foreach($savedjobLocation as $cityId => $jobLocation)
+ 
         <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
@@ -120,46 +136,30 @@
         <div id="areaError" ></div>
     </div>
 
-<!--     <div class="m-t-40 c-gap">
-        <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
-        <div class="location-select flex-row flex-wrap">
-            <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
-                    <option value="">Select City</option>
-                    @foreach($cities as $city)
-                        <option value="{{ $city->id }}">{{ $city->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located.">
-                    <option value="">Select Area</option>
-                </select>
-            </div>
-        </div>
-        <div id="areaError" ></div>
-    </div>
- -->
-
-
+    <!-- Job description -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size">Job Description <span class="text-primary">*</span></label>
+ 
+        <label class="label-size required">Job Description </label>
         <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
          
+ 
     </div>
 
+    <!-- Job type -->
+    
     <div class="m-t-40 c-gap">
         <label class="label-size">What type of job is it?</label>
         <div class="form-group m-t-5 job-type">
         @foreach($jobTypes as $jobTypeId => $jobType)
-
           <label class="checkbox-inline">
             <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($job['meta_data']['job_type']) && in_array($jobTypeId,$job['meta_data']['job_type'])) checked @endif> {{ $jobType }}
           </label>
         @endforeach 
         </div>
     </div>
+
+    <!-- Experience -->
 
     <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
@@ -175,8 +175,10 @@
         </div>
     </div>
 
+    <!-- Offered salary -->
+
     <div class="m-t-40 c-gap">
-        <label class="label-size">Offered salary : (optional)</label>
+        <label class="label-size">Offered salary : <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
@@ -202,10 +204,9 @@
 
         </div>
 
-      <!--   <input type="text" name="salary_lower" id="salary_lower" data-parsley-type="number"> - <input type="text" name="salary_upper" id="salary_upper" data-parsley-type="number"> -->
     </div>
 
-</div>
+    </div>
 
 
 <!-- Phone verification -->

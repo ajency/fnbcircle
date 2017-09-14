@@ -8939,6 +8939,9 @@ input[type='checkbox'].remove-addr {
   font-size: 1.05em;
   text-shadow: 0px 1px 0px #000;
 }
+.custom-exp .fnb-select {
+  font-size: 0.9em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

@@ -57,4 +57,17 @@
     return $(this).closest('.get-val').parent().remove();
   });
 
+  $('body').on('click', '.add-custom', function(e) {
+    e.preventDefault();
+    $('.auto-exp-select').addClass('hidden');
+    return $('.custom-exp').removeClass('hidden');
+  });
+
+  $('body').on('click', '.auto-select', function(e) {
+    e.preventDefault();
+    event.preventDefault();
+    $('.auto-exp-select').removeClass('hidden');
+    return $('.custom-exp').addClass('hidden');
+  });
+
 }).call(this);

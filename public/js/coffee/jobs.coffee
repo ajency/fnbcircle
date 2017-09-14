@@ -49,3 +49,14 @@ $('body').on 'click', '.add-another', (e)->
 
 $('body').on 'click', '.removeRow', ->
   $(this).closest('.get-val').parent().remove()
+
+$('body').on 'click', '.add-custom', (e) ->
+  e.preventDefault()
+  $('.auto-exp-select').addClass('hidden');
+  $('.custom-exp').removeClass('hidden');
+
+$('body').on 'click', '.auto-select', (e) ->
+  e.preventDefault()
+  event.preventDefault()
+  $('.auto-exp-select').removeClass('hidden');
+  $('.custom-exp').addClass('hidden');

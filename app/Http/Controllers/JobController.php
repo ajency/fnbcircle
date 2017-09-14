@@ -84,10 +84,10 @@ class JobController extends Controller
         $category = $data['category'];
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
-        $jobType = $data['job_type'];
+        $jobType = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
         $experience = $data['experience'];
-        $salaryType = $data['salary_type'];
+        $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
 
@@ -97,14 +97,17 @@ class JobController extends Controller
             $metaData['job_type'] = $jobType;
             $jobType = $jobType[0];
         }
+        else{
+            $jobType = 0;
+        }
 
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
             $metaData['job_keyword'] = $jobKeywords;
         }
 
-        $experienceYearsLower = '';
-        $experienceYearsUpper  = '';
+        $experienceYearsLower = 0;
+        $experienceYearsUpper  = 0;
 
         if(!empty($experience)){
             $postExperience = explode(',', $experience);
@@ -313,7 +316,7 @@ class JobController extends Controller
         $jobType = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
         $experience = $data['experience'];
-        $salaryType = $data['salary_type'];
+        $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
 
@@ -323,14 +326,17 @@ class JobController extends Controller
             $metaData['job_type'] = $jobType;
             $jobType = $jobType[0];
         }
+        else{
+            $jobType = 0;
+        }
 
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
             $metaData['job_keyword'] = $jobKeywords;
         }
      
-        $experienceYearsLower = '';
-        $experienceYearsUpper  = '';
+        $experienceYearsLower = 0;
+        $experienceYearsUpper  = 0;
 
         if(!empty($experience)){
             $savedExperience = explode(',', $experience);
@@ -423,6 +429,16 @@ class JobController extends Controller
         $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')->get()->toArray();
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
+    }
+
+    public function submitForReview($reference_id){
+ 
+        $job = Job::where('reference_id',$reference_id)->first();
+        $job->status = 2; 
+        $job->save();
+
+        Session::flash('success_message','Job details submitted for review.');
+        return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
     }
 
     /**

@@ -108,7 +108,7 @@
                                     <div class="listing-status">
                                         <div class="label">STATUS</div>
                                         <div class="flex-row space-between">
-                                            <div class="statusMsg">Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i></div>
+                                            <div class="statusMsg">{{ $job->getJobStatus()}} <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i></div>
                                             <!-- <a href="#" class="review-submit-link">Submit for Review</a> -->
                                         </div>
                                     </div>
@@ -120,11 +120,11 @@
 
                                 <ul class="gs-steps" role="tablist" >
                                     <li class="">
-                                        <a href="#" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if(!$job->id) # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat @if(!$job->id) disable @endif">
-                                        <a href="#" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="{{ url('/jobs/'.$job->reference_id.'/step-two') }}" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                     <li class="@if(!$job->id) disable @endif">
@@ -261,7 +261,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->id) 
+                                        @if($job->id && $job->status == 1) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -269,7 +269,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for Review</a>
+                                                   <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" class="primary-link sub-title ">Submit for Review</a>
                                                </div>
                                            </div>
                                         </div>

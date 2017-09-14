@@ -223,6 +223,7 @@ class JobController extends Controller
         $data = ['job' => $job];
         $postUrl = url('jobs/'.$job->reference_id);
         $data['postUrl'] = $postUrl;
+        $data['step'] = $step;
 
         if($step == 'step-one'){
             $jobCategories = [1=>'cat-1',2=>'cat-2'];

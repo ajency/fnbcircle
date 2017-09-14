@@ -48,7 +48,7 @@
     <div class="preview-header text-color mobile-hide">
         <div class="container">
             <div class="pull-left">
-                <!-- <span class="text-primary">Note:</span> You can add multiple listings on FnB Circle -->
+                <span class="text-primary">Note:</span> You can add multiple jobs on FnB Circle
             </div>
             <div class="pull-right">
                 <a href="" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>

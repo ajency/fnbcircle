@@ -44,7 +44,7 @@
     </div>
 
 
-    <div class="m-t-20 flex-row c-gap">
+    <div class="m-t-40 flex-row c-gap">
         <div class="m-r-10 no-m-l">
             <label class="element-title">Contact Details</label>
             <div class="text-lighter">

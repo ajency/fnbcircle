@@ -477,7 +477,6 @@ $(function(){
 	            nonSelectedText: 'Select Area(s)'
 		    });
 		    area_group_clone.insertBefore(area_group);
-
   		});
 
 
@@ -696,14 +695,6 @@ $(function(){
 
 
 		initSample();
-
-
-
-
-
-
-
-
 
 
 

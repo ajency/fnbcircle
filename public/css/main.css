@@ -2345,6 +2345,11 @@ input[type="checkbox"].toggle__check {
 .customError li {
   text-align: left;
 }
+.ctm-error {
+  position: absolute;
+  bottom: -3em;
+  left: 0;
+}
 .relative {
   position: relative;
 }

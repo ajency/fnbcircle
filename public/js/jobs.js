@@ -3,7 +3,7 @@
     var city, html, jobCityObj;
     jobCityObj = $(this);
     html = '';
-    jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
+    jobCityObj.closest('.location-select').find('.job-areas').html(html);
     city = $(this).val();
     if (city === '') {
       return;
@@ -20,13 +20,14 @@
           html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
         console.log(html);
-        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html(html);
-        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect('destroy');
-        jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect({
+        jobCityObj.closest('.location-select').find('.job-areas').html(html);
+        jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
+        jobCityObj.closest('.location-select').find('.job-areas').multiselect({
           includeSelectAllOption: true,
           numberDisplayed: 1,
           nonSelectedText: 'Select Area(s)'
         });
+        jobCityObj.closest('.location-select').find('.job-areas').attr('name', 'job_area[' + city + '][]');
       },
       error: function(request, status, error) {
         throwError();
@@ -44,6 +45,18 @@
     selectionRequired: true,
     minLength: 1,
     removeOnBackspace: false
+  });
+
+  $('.job-save-btn').click(function(e) {
+    e.preventDefault();
+    CKEDITOR.instances.editor.updateElement();
+    $('form').submit();
+  });
+
+  $('#salary_lower').on('change', function() {
+    var salaryLower;
+    salaryLower = $(this).val();
+    $('#salary_upper').attr('data-parsley-min', salaryLower);
   });
 
 }).call(this);

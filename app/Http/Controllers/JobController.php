@@ -55,6 +55,7 @@ class JobController extends Controller
                                     ->with('defaultKeywords', $defaultKeywords) 
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
+                                    ->with('step', 'step-one')
                                     ->with('postUrl', $postUrl);
     }
 

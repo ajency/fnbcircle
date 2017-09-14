@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Defaults;
+use App\Area;
 
 class Job extends Model
 {
@@ -56,7 +57,7 @@ class Job extends Model
     }
 
     public function jobExperience(){
-    	$experience = ['1 - 2','3 - 4','5 - 8'];
+    	$experience = ['1-2','3-4','5-8'];
     	 
     	return $experience;
     }
@@ -100,7 +101,31 @@ class Job extends Model
 		return $this->hasMany('App\JobLocation');
 	}
 
+	public function hasKeywords(){
+		return $this->hasMany('App\JobKeyword');
+	}
+
 	public function company() {
         return $this->belongsTo('App\Company');
+    }
+
+    public function  getJobLocation(){
+    	$locations = $this->hasLocations()->get()->toArray(); 
+    	$savedLocation = [];
+    	$areas = [] ;
+    	foreach ($locations as $key => $location) {
+    		$city = Area::find($location['area_id']);
+    		
+    		if(!empty($city)){
+    			$savedLocation[$city->city_id][] = $location['area_id'];
+
+    			if(!isset($areas[$city->city_id])){
+    				$areas[$city->city_id] = Area::where('status', 1)->where('city_id', $city->city_id)->orderBy('name')->get()->toArray();
+    			}
+    			
+    		}
+    	}
+
+    	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
     }
 }

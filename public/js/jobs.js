@@ -40,4 +40,10 @@
     removeOnBackspace: false
   });
 
+  $('.job-keywords').flexdatalist({
+    selectionRequired: true,
+    minLength: 1,
+    removeOnBackspace: false
+  });
+
 }).call(this);

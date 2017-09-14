@@ -33,3 +33,8 @@ $('.years-experience').flexdatalist
   minLength: 1,
   removeOnBackspace: false
 
+$('.job-keywords').flexdatalist
+  selectionRequired: true,
+  minLength: 1,
+  removeOnBackspace: false
+

@@ -10,6 +10,7 @@ use App\Category;
 use App\City;
 use App\Defaults;
 use App\Company;
+use App\JobKeyword;
 use Auth;
 
 
@@ -32,6 +33,9 @@ class JobController extends Controller
      */
     public function create()
     {
+
+        
+
         $jobCategories = [1=>'cat-1',2=>'cat-2'];
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
@@ -77,6 +81,7 @@ class JobController extends Controller
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
         $jobType = $data['job_type'];
+        $jobKeywords = $data['job_keyword'];
         $experience = $data['experience'];
         $salaryType = $data['salary_type'];
         $salaryLower = $data['salary_lower'];
@@ -87,6 +92,10 @@ class JobController extends Controller
         if(is_array($jobType) && !empty($jobType)){
             $metaData['job_type'] = $jobType;
             $jobType = $jobType[0];
+        }
+
+        if(is_array($jobKeywords) && !empty($jobKeywords)){
+            $metaData['job_keyword'] = $jobKeywords;
         }
 
         $experienceYearsLower = '';
@@ -122,21 +131,35 @@ class JobController extends Controller
         $jobId = $job->id;
 
         $this->addJobLocation($job,$jobArea);
+        $this->addJobKeywords($job,$jobKeywords);
 
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
 
     public function addJobLocation($job,$areaIds){
+        $job->hasLocations()->delete();
         foreach ($areaIds as $key => $areaId) {
-            $jobLocation = $job->hasLocations()->where('area_id',$areaId)->first();
+       
+            $jobLocation    = new JobLocation;
+            $jobLocation->job_id = $job->id;
+            $jobLocation->area_id = $areaId;
+            $jobLocation->save();
+            
+        }
 
-            if(empty($jobLocation)){ 
-                $jobLocation    = new JobLocation;
-                $jobLocation->job_id = $job->id;
-                $jobLocation->area_id = $areaId;
-                $jobLocation->save();
-            }
+        return true;
+        
+    }
+
+    public function addJobKeywords($job,$keywords){
+        $job->hasKeywords()->delete();
+        foreach ($keywords as $key => $keywordId) {
+       
+            $jobKeyword    = new JobKeyword;
+            $jobKeyword->job_id = $job->id;
+            $jobKeyword->keyword_id = $keywordId;
+            $jobKeyword->save();
         }
 
         return true;
@@ -192,8 +215,9 @@ class JobController extends Controller
             $salaryTypes  = $job->salaryTypes();
             
 
-            $locations = $job->hasLocations()->get()->toArray(); 
-            $data['location'] = $locations;
+            $savedLocation = $job->getJobLocation(); 
+            $data['savedjobLocation'] = $savedLocation['savedLocation'];
+            $data['savedAreas'] = $savedLocation['areas']; 
             $data['jobCategories'] = $jobCategories;
             $data['defaultExperience'] = $defaultExperience;
             $data['cities'] = $cities;
@@ -213,7 +237,7 @@ class JobController extends Controller
 
             abort(404);
         }
-
+ 
         return view($blade)->with($data);
     }
 
@@ -266,6 +290,7 @@ class JobController extends Controller
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
         $jobType = $data['job_type'];
+        $jobKeywords = $data['job_keyword'];
         $experience = $data['experience'];
         $salaryType = $data['salary_type'];
         $salaryLower = $data['salary_lower'];
@@ -276,6 +301,10 @@ class JobController extends Controller
         if(is_array($jobType) && !empty($jobType)){
             $metaData['job_type'] = $jobType;
             $jobType = $jobType[0];
+        }
+
+        if(is_array($jobKeywords) && !empty($jobKeywords)){
+            $metaData['job_keyword'] = $jobKeywords;
         }
 
         $experienceYearsLower = '';
@@ -306,6 +335,7 @@ class JobController extends Controller
         $job->meta_data = $metaData;
         $job->save();
         $this->addJobLocation($job,$jobArea);
+        $this->addJobKeywords($job,$jobKeywords);
 
         $request['next_step'] = 'step-two';
 

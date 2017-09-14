@@ -21,8 +21,6 @@ class CreateCompaniesTable extends Migration
             $table->string('slug');
             $table->string('website');
             $table->string('logo');
-            $table->text('comany_email');
-            $table->text('comany_phone');
             $table->timestamps();
 
             $table->foreign( 'user_id' )

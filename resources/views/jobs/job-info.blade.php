@@ -40,11 +40,9 @@
     <div class="m-t-40 c-gap">
         <label class="label-size">Keywords</label>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
-            <datalist id="yrsExp">
-               @foreach($defaultExperience as $experienceId =>$experience)
-                <option value="{{ $experienceId }}" >{{ $experience }}</option>
-                @endforeach
+            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput value="1" data-value-property='id'>
+            <datalist id="jobKeyword">
+               
             </datalist>
              
         </div>
@@ -52,23 +50,31 @@
 
     <div class="m-t-40 c-gap areas-select">
         <label class="label-size">Where is the job located? <span class="text-primary">*</span></label>
-        <div class="location-select flex-row flex-wrap">
+
+        @foreach($savedjobLocation as $cityId => $jobLocation)
+        <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
                     @foreach($cities as $city)
-                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                        <option @if($cityId == $city->id) selected @endif  value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+            </div> 
+            <div class="select-col area">
+                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
+                    @foreach($savedAreas[$cityId] as $area)
+                        <option @if(!empty($jobLocation) && in_array($area['id'],$jobLocation)) selected @endif value="{{ $area['id'] }}">{{ $area['name'] }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple">
-                </select>
-            </div>
         </div>
+        @endforeach
          <div class="location-select flex-row flex-wrap area-append hidden" >
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]"  >
+ 
+                <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
+ 
                     <option value="">Select City</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -76,7 +82,9 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]"  multiple="multiple">
+ 
+                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" multiple="multiple">
+                            
                 </select>
             </div>
             <div class=" remove-select-col flex-row">
@@ -133,7 +141,7 @@
     <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) value='1 - 2' @endif>
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) value='{{ implode(",",$job['meta_data']['experience']) }}' @endif>
 
             <datalist id="yrsExp">
                @foreach($defaultExperience as $experienceId =>$experience)

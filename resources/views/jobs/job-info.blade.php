@@ -28,7 +28,7 @@
                 <!-- <div class="text-lighter">
                     Help text comes here
                 </div> -->
-                <div class="m-t-5 brands-container">
+                <div class="brands-container">
                      <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                         <option>- select -</option>
                         @foreach($jobCategories as $categoryId =>$category)

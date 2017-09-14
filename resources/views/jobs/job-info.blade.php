@@ -72,12 +72,12 @@
     <!-- Job located -->
 
     <div class="m-t-40 c-gap areas-select">
- 
+
         <label class="label-size required">Where is the job located?  </label>
         @if($job->id)
         @foreach($savedjobLocation as $cityId => $jobLocation)
  
-        <div class="location-select flex-row flex-wrap clone-row">
+        <div class="location-select cityArea flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
@@ -116,8 +116,11 @@
                 <div id="fnb-errors" class="fnb-errors"></div>
             </div>
         </div>
+
         @endif
-         <div class="location-select flex-row flex-wrap area-append hidden" >
+        
+         <div class="location-select cityArea flex-row flex-wrap area-append hidden" >
+
             <div class="select-col city">
  
                 <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
@@ -157,9 +160,9 @@
 
     <!-- Job type -->
     
-    <div class="m-t-40 c-gap">
+    <div class="m-t-40 c-gap J-type">
         <label class="label-size">What type of job is it?</label>
-        <div class="form-group m-t-5 job-type">
+        <div class="form-group m-t-5 job-type mobile-flex flex-wrap">
         @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="checkbox-inline">
             <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($job['meta_data']['job_type']) && in_array($jobTypeId,$job['meta_data']['job_type'])) checked @endif> {{ $jobType }}
@@ -221,7 +224,7 @@
 
     <!-- Offered salary -->
 
-    <div class="m-t-40 c-gap salary-row">
+    <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
         <label class="label-size">Offered salary : <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)

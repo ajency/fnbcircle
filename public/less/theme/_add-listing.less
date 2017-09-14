@@ -2502,6 +2502,7 @@ input[type='checkbox'].remove-addr{
 .remove-select-col{
 	padding-left: 0.8em;
 	cursor: pointer;
+	padding-top: 0.5em;
 }
 
 .location-select{
@@ -2521,6 +2522,9 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.cityArea{
+	align-items: flex-start;
+}
 
 .job-type{
 	.checkbox-inline{
@@ -2628,12 +2632,12 @@ input[type='checkbox'].remove-addr{
 }
 
 @media screen and (max-width: @mobile){
-	.salary-row{
-		.radio-inline{
+	.salary-row,.J-type{
+		.radio-inline,.checkbox-inline{
 			margin-bottom: 0.5em;
-			&:last-child{
-				margin-left: 0;
-			}
+			margin-left: 0;
+			margin-right: 0.5em;
+			flex: 1 0 33.33%;
 		}
 	}
 	.salary-range{

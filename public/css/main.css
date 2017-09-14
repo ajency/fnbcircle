@@ -8860,6 +8860,7 @@ input[type='checkbox'].remove-addr {
 .remove-select-col {
   padding-left: 0.8em;
   cursor: pointer;
+  padding-top: 0.5em;
 }
 .location-select .multiselect-container.multiselect-container li label.checkbox {
   margin: 0.6em 0;
@@ -8870,6 +8871,12 @@ input[type='checkbox'].remove-addr {
 }
 .location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
   top: -8px;
+}
+.cityArea {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 .job-type .checkbox-inline {
   padding-left: 25px;
@@ -8951,11 +8958,17 @@ input[type='checkbox'].remove-addr {
   top: 0.5em;
 }
 @media screen and (max-width: 768px) {
-  .salary-row .radio-inline {
+  .salary-row .radio-inline,
+  .J-type .radio-inline,
+  .salary-row .checkbox-inline,
+  .J-type .checkbox-inline {
     margin-bottom: 0.5em;
-  }
-  .salary-row .radio-inline:last-child {
     margin-left: 0;
+    margin-right: 0.5em;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 33.33%;
+        -ms-flex: 1 0 33.33%;
+            flex: 1 0 33.33%;
   }
   .salary-range {
     margin-top: 0;

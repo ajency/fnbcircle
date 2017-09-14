@@ -6,9 +6,20 @@
 @section('form-data')
 
 
-
+@if(Session::has('success_message')) 
+<div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+   {{ Session::get('success_message')}}
+</div>
+ @endif 
+ 
+<input type="hidden" name="_method" value="PUT">
+<input type="hidden" name="step" value="step-two">
+ 
+ 
 
 <div class="business-info tab-pane fade in active" id="company_details">
+ 
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Company Details</h5>
 
@@ -24,7 +35,8 @@
             </div>
             <div class="J-company__name">
                 <label class="label-size required">Name of your company?</label>
-                <input type="text" name="" class="form-control fnb-input" placeholder="" value="">   
+                <input type="text" name="company_name" class="form-control fnb-input" placeholder="" value="{{ $jobCompany['title'] }}" data-parsley-required-message="Please enter the company name." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="company name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="company name cannot be less than 2 characters."> 
+                <input type="hidden" name="company_id" value="{{ $jobCompany['id'] }}">  
             </div>
         </div>
     </div>
@@ -33,14 +45,15 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Describe your company in brief <span class="text-lighter">(optional)</span>:</label>
-        <textarea class="form-control fnb-input" rows='3' name="" placeholder="" data-parsley-required></textarea>
+ 
+         <textarea class="form-control fnb-input" name="company_description" id="editor" placeholder="Enter a brief summary of the Job" >{{ $jobCompany['description'] }} </textarea>
     </div>
 
     <!-- Company website -->
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Does your company have a website? <span class="text-lighter">(optional)</span>:</label>
-        <input type="text" name="" class="form-control fnb-input" placeholder="http://" value="">  
+        <input type="text" name="company_website" data-parsley-type="url" class="form-control fnb-input" placeholder="http://" value="{{ $jobCompany['website'] }}">  
     </div>
 
 

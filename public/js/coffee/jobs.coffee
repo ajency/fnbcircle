@@ -1,7 +1,7 @@
 $(document).on 'change', 'select[name="job_city[]"]', ->
   jobCityObj = $(this)
   html=''
-  jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html html
+  jobCityObj.closest('.location-select').find('.job-areas').html html
   city = $(this).val()
   if city == ''
     return
@@ -14,29 +14,56 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       # console.log data
       for key of data
         html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
-      
-      console.log  html
-      jobCityObj.closest('.location-select').find('select[name="job_area[]"]').html html
-      jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect 'destroy'
-      jobCityObj.closest('.location-select').find('select[name="job_area[]"]').multiselect
+
+      console.log html
+      jobCityObj.closest('.location-select').find('.job-areas').html html
+      jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
+      jobCityObj.closest('.location-select').find('.job-areas').multiselect
         includeSelectAllOption: true
         numberDisplayed: 1
         nonSelectedText: 'Select Area(s)'
+
+      jobCityObj.closest('.location-select').find('.job-areas').attr('name','job_area['+city+'][]')
 
       return
     error: (request, status, error) ->
       throwError()
       return
 
+ 
+$('.years-experience').flexdatalist
+  selectionRequired: true,
+  minLength: 1,
+  removeOnBackspace: false
 
+# $('.job-keywords').flexdatalist
+#   selectionRequired: true,
+#   minLength: 1,
+#   removeOnBackspace: false
+#   url: '/jobs/get-keywords'
+#   searchIn: ["name"]
 
 setTimeout (->
-  $('.years-experience').flexdatalist
-    valueProperty: 'id'
-    selectionRequired: true
+  $('.job-keywords').flexdatalist
     removeOnBackspace: false
+    minLength: 1
+    url: '/get-keywords'
+    searchIn: ["label"]
   return
 ), 500
+ 
+$('.job-save-btn').click (e) ->
+  e.preventDefault()
+  CKEDITOR.instances.editor.updateElement()
+  $('form').submit()
+  return
+
+
+$('#salary_lower').on 'change', ->
+  salaryLower = $(this).val()
+  $('#salary_upper').attr('data-parsley-min',salaryLower)  
+  return
+ 
 
 $('body').on 'click', '.add-another', (e)->
   e.preventDefault()
@@ -49,6 +76,7 @@ $('body').on 'click', '.add-another', (e)->
 
 $('body').on 'click', '.removeRow', ->
   $(this).closest('.get-val').parent().remove()
+ 
 
 $('body').on 'click', '.add-custom', (e) ->
   e.preventDefault()
@@ -79,6 +107,12 @@ $('body').on 'click', '.delete-exp', (e) ->
   $(this).parent().closest('.custom-row').remove()
 
 
-
-
-
+setTimeout (->
+  $('.alert-success').addClass 'active'
+  return
+), 1000
+setTimeout (->
+  $('.alert-success').removeClass 'active'
+  return
+), 6000
+ 

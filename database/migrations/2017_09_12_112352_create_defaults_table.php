@@ -32,16 +32,16 @@ class CreateDefaultsTable extends Migration
              
         }
 
-        $jobTypes = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
+        // $jobTypes = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
 
-        foreach ($jobTypes as $key => $jobType) {
-            $default = new Defaults;
-            $default ->type = 'job_type';
-            $default ->label = $jobType;
-            $default ->meta_data = serialize([]);
-            $default ->save();
+        // foreach ($jobTypes as $key => $jobType) {
+        //     $default = new Defaults;
+        //     $default ->type = 'job_type';
+        //     $default ->label = $jobType;
+        //     $default ->meta_data = serialize([]);
+        //     $default ->save();
              
-        }
+        // }
 
         $salaryTypes = ['1'=>'Annualy','2'=>'Monthly','3'=>'Daily','4'=>'Hourly'];
 

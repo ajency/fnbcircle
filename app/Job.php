@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Defaults;
+use App\Area;
+use App\Company;
 
 class Job extends Model
 {
@@ -56,7 +58,7 @@ class Job extends Model
     }
 
     public function jobExperience(){
-    	$experience = ['1 - 2','3 - 4','5 - 8'];
+    	$experience = ['1-2','3-4','5-8','8-10'];
     	 
     	return $experience;
     }
@@ -76,6 +78,17 @@ class Job extends Model
     	}
 
     	return $types;
+    }
+
+    public function jobKeywords(){
+        $jobKeywords =  Defaults::where("type","job_keyword")->get();
+         
+        $keywords = [];
+        foreach ($jobKeywords as $key => $jobKeyword) {
+            $keywords[$jobKeyword->id] = $jobKeyword->label;
+        }
+
+        return $keywords;
     }
 
     public function getSalaryType($id){
@@ -100,7 +113,39 @@ class Job extends Model
 		return $this->hasMany('App\JobLocation');
 	}
 
-	public function company() {
-        return $this->belongsTo('App\Company');
+	public function hasKeywords(){
+		return $this->hasMany('App\JobKeyword');
+	}
+
+	public function jobCompany() {
+        return $this->hasOne('App\JobCompany');
+    }
+
+    public function getJobCompany(){
+        $jobCompany = $this->jobCompany()->first();
+        $company = null;
+        if(!empty($jobCompany)){
+ 
+            $company = $jobCompany->company()->first(); 
+        }
+
+        return $company;
+    }
+
+    public function  getJobLocation(){
+    	$locations = $this->hasLocations()->get()->toArray(); 
+    	$savedLocation = [];
+    	$areas = [] ;
+    	foreach ($locations as $key => $location) {
+    		$savedLocation[$location['city_id']][] = $location['area_id'];
+
+			if(!isset($areas[$location['city_id']])){
+				$areas[$location['city_id']] = Area::where('status', 1)->where('city_id', $location['city_id'])->orderBy('name')->get()->toArray();
+			}
+    			
+    		 
+    	}
+
+    	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
     }
 }

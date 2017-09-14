@@ -6,15 +6,23 @@
 @section('form-data')
 
 
-
+ 
+@if($job->id)
+<input type="hidden" name="_method" value="PUT">
+@endif
+<input type="hidden" name="step" value="step-one">
+ 
 
 <div class="business-info tab-pane fade in active" id="job_details">
+ 
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
 
     <!-- Job title/category -->
+    <div class="m-t-40 c-gap">
 
-    <div class="m-t-50 c-gap">
+        <div class="m-t-5 brands-container">
+            
         <div class="row">
             <div class="col-sm-6">
                 <label class="label-size required">What is the job title?</label>
@@ -30,28 +38,28 @@
                 </div> -->
                 <div class="brands-container">
                      <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
-                        <option>- select -</option>
-                        @foreach($jobCategories as $categoryId =>$category)
-                        <option value = "{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
-                        @endforeach
+                        <option value="">- select -</option>
+                            @foreach($jobCategories as $categoryId =>$category)
+                            <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
+                            @endforeach
                     </select>
                 </div>
             </div>
+ 
         </div>
         
     </div>
-
+</div>
 
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Keywords</label>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id=yrsExpInput value="1" data-value-property='id'>
-            <datalist id="yrsExp">
-               @foreach($defaultExperience as $experienceId =>$experience)
-                <option value="{{ $experienceId }}" >{{ $experience }}</option>
-                @endforeach
+            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
+
+            <datalist id="jobKeyword">
+              
             </datalist>
         </div>
     </div>
@@ -59,8 +67,34 @@
     <!-- Job located -->
 
     <div class="m-t-40 c-gap areas-select">
-        <label class="label-size required">Where is the job located?</label>
+
+        <label class="label-size required">Where is the job located?  </label>
+        @if($job->id)
+        @foreach($savedjobLocation as $cityId => $jobLocation)
+ 
         <div class="location-select cityArea flex-row flex-wrap clone-row">
+            <div class="select-col city">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                    <option value="">Select City</option>
+                    @foreach($cities as $city)
+                        <option @if($cityId == $city->id) selected @endif  value="{{ $city->id }}">{{ $city->name }}</option>
+                    @endforeach
+                </select>
+            </div> 
+            <div class="select-col area">
+ 
+                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[{{ $cityId }}][]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+                    @foreach($savedAreas[$cityId] as $area)
+                        <option @if(!empty($jobLocation) && in_array($area['id'],$jobLocation)) selected @endif value="{{ $area['id'] }}">{{ $area['name'] }}</option>
+                    @endforeach
+ 
+                </select>
+                <div id="fnb-errors" class="fnb-errors"></div>
+            </div>
+        </div>
+        @endforeach
+        @else
+        <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
                     <option value="">Select City</option>
@@ -68,16 +102,24 @@
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> 
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter default-area-select" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+ 
+                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[][]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+                    
                 </select>
                 <div id="fnb-errors" class="fnb-errors"></div>
             </div>
         </div>
-         <div class="location-select cityArea flex-row flex-wrap area-append hidden">
+
+        @endif
+        
+         <div class="location-select cityArea flex-row flex-wrap area-append hidden" >
+
             <div class="select-col city">
+ 
                 <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
+ 
                     <option value="">Select City</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -85,7 +127,9 @@
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter areas-appended" name="job_area[]" multiple="multiple" data-parsley-errors-container="#site-errors">
+
+                <select class="fnb-select select-variant form-control text-lighter areas-appended job-areas" name="job_area[]" multiple="multiple" data-parsley-errors-container="#site-errors">
+ 
                 </select>
                 <div id="site-errors" class="fnb-errors"></div>
             </div>
@@ -102,9 +146,11 @@
     <!-- Job description -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size required">Job Description</label>
-        <!-- <textarea class="form-control fnb-input" name="description" placeholder="Enter a brief summary of the Job" data-parsley-required></textarea> -->
-        <div id="editor">{{ $job['description'] }}</div>
+ 
+        <label class="label-size required">Job Description </label>
+        <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
+         
+ 
     </div>
 
     <!-- Job type -->
@@ -124,19 +170,21 @@
 
     <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
+ 
         <div class="m-t-5 brands-container auto-exp-select">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) data-visible-properties='{{ json_encode($job['meta_data']['experience']) }}' @endif>
+            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) value='{{ implode(",",$job['meta_data']['experience']) }}' @endif>
+ 
 
             <datalist id="yrsExp">
                @foreach($defaultExperience as $experienceId =>$experience)
                 <option value="{{ $experienceId }}" >{{ $experience }}</option>
                 @endforeach
             </datalist>
-             <div class="m-t-10">
+            <!--  <div class="m-t-10">
                 <a href="#" class="secondary-link text-decor heavier add-custom">+ Add custom</a>
-            </div>
+            </div> -->
         </div>
-        <div class="m-t-5 custom-exp hidden">
+        <!-- <div class="m-t-5 custom-exp hidden">
             <div class="row custom-row">
                 <div class="col-sm-3">
                     <label class="x-small exp-label">Min experience</label>
@@ -166,7 +214,7 @@
             <div class="m-t-10">
                 <a href="#" class="secondary-link text-decor heavier auto-select">Auto Select</a>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Offered salary -->
@@ -191,7 +239,7 @@
                 <p class="m-b-0 sal-divider">to</p>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error">
+                  <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" >
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>
             </div>

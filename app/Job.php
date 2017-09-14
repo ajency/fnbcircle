@@ -33,9 +33,9 @@ class Job extends Model
     	return $statuses;
     }
 
-    public function getJobStatus($id){
+    public function getJobStatus(){
     	$statuses = $this->jobStatuses();
-    	$status = $statuses[$id];
+    	$status = $statuses[$this->status];
     	return $status;
     }
 

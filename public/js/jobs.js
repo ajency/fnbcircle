@@ -115,4 +115,26 @@
     $('.alert-success').removeClass('active');
   }), 6000);
 
+  $(document).on('click', '.verify-link', function(event) {
+    var contactType, contactValue, objectId, objectType;
+    contactValue = $(this).closest('.contact-container').find('.contact-input').val;
+    contactType = $(this).closest('.contact-container').attr('contact-type');
+    objectType = $('input[name="object_type"]').val;
+    return objectId = $('input[name="object_id"]').val;
+  });
+
+  $('.contact-info').on('change', '.contact-input', function(event) {
+    var contactObj, val;
+    contactObj = $(this);
+    val = contactObj.val;
+    contactObj.closest('.contact-info').find('.contact-input').each(function() {
+      console.log($(this).val());
+      if (contactObj.get(0) !== $(this).get(0) && $(this).val() === val) {
+        contactObj.closest('div').find('.dupError').html(contactObj.val + ' already added to list.');
+        contactObj.val('');
+        return false;
+      }
+    });
+  });
+
 }).call(this);

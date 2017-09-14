@@ -70,11 +70,17 @@ Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 
 
-/**Jobs**/
+
 Route::group( ['middleware' => ['auth']], function() { 
+	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	
 	Route::get('/get-keywords','JobController@getKeywords');
+	
+
+	/**Users**/
+
+	Route::get('/user/verify-contact-details','JobController@verifyContactDetails');
 });

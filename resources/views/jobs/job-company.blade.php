@@ -66,30 +66,31 @@
         </div>
         <span class="fnb-icons contact mobile-hide"></span>
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
+        <input type="hidden" name="object_type" value="job">
+        <input type="hidden" name="object_id" value="{{ $job->id}}">
     </div>
 
     <!-- email -->
 
-    <div class="m-t-20 business-email business-contact">
+    <div class="m-t-20 business-email business-contact contact-info" contact-type="email">
         <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
-        <div class="contact-row m-t-5">
+        <div class="contact-row m-t-5 contact-container">
             <div class="row no-m-b">
                 <div class="col-sm-5">
-                    <input type="email" class="form-control fnb-input p-l-5" value="{{Auth::user()->email}}" readonly=""  data-parsley-required>
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="">
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <span class="fnb-icons verified-icon"></span>
-                        <p class="c-title">Verified</p>
+                        <a href="#" class="dark-link verify-link">Verify now</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input name="primary_email" type="checkbox" class="toggle__check">
+                            <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -100,46 +101,13 @@
             </div>
         </div>
         
-<!--         <div class="contact-row m-t-5">
-            <div class="row p-t-10 p-b-10 no-m-b get-val ">
-                <div class="col-sm-5">
-                    <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <div class=dupError ></div>
-                </div>
-                <div class="col-sm-3 col-xs-4">
-                    <div class="verified flex-row">
-                        
-                        <span class="fnb-icons verified-icon"></span>
-                        <p class="c-title">Verified</p>
-                        <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="" checked>
-                        
-                        <a href="#" class="dark-link verify-link">Verify now</a>
-                        <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                        
-                    </div>
-                </div>
-                <div class="col-sm-4 col-xs-8">
-                    <div class="flex-row close-section">
-                        <div class="verified-toggle flex-row">
-                            <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check">
-                                <b class="switch"></b>
-                                <b class="track"></b>
-                            </div>
-                            <p class="m-b-0 text-color toggle-state">Visible on the listing</p>
-                        </div>
-                        <i class="fa fa-times removeRow"></i>
-                    </div>
-                    <div id="toggleError"></div>
-                </div>
-            </div>
-        </div> -->
+ 
        
         <div class="contact-row m-t-5 contact-group hidden">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <input type="email" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="primary_email" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">

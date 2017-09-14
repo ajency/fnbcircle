@@ -67,7 +67,8 @@
     e.preventDefault();
     event.preventDefault();
     $('.auto-exp-select').removeClass('hidden');
-    return $('.custom-exp').addClass('hidden');
+    $('.custom-exp').addClass('hidden');
+    return $('.custom-row:not(:first-child)').remove();
   });
 
   $('body').on('click', '.add-exp', function(e) {

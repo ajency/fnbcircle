@@ -59,8 +59,9 @@ $('body').on 'click', '.add-custom', (e) ->
 $('body').on 'click', '.auto-select', (e) ->
   e.preventDefault()
   event.preventDefault()
-  $('.auto-exp-select').removeClass('hidden');
+  $('.auto-exp-select').removeClass('hidden')
   $('.custom-exp').addClass('hidden');
+  $('.custom-row:not(:first-child)').remove()
 
 
 $('body').on 'click', '.add-exp', (e) ->

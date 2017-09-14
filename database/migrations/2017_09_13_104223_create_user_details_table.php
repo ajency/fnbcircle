@@ -15,13 +15,14 @@ class CreateUserDetailsTable extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('subtype', 50)->nullable();
-			$table->string('city', 50)->nullable();
-			$table->string('area', 50)->nullable();
-			$table->boolean('is_job_seeker')->default(0);
-			$table->boolean('has_job_listing')->default(0);
-			$table->boolean('has_business_listing')->default(0);
-			$table->boolean('has_restaurant_listing')->default(0);
+            $table->text('subtype')->nullable();
+            $table->string('city', 50)->nullable();
+            $table->string('area', 50)->nullable();
+            $table->boolean('is_job_seeker')->default(0);
+            $table->boolean('has_job_listing')->default(0);
+            $table->boolean('has_business_listing')->default(0);
+            $table->boolean('has_restaurant_listing')->default(0);
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

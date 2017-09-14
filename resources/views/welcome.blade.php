@@ -151,15 +151,15 @@
                 <div class="col-sm-12">
                     <div class="home-text text-center">
                         @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        
                         @if(Auth::guest())<h1 class="home-text__title text-medium">What is F&amp;BCircle?</h1>@else
                         <h1 class="home-text__title text-medium">Welcome {{Auth::user()->name}}</h1>@endif
                         <p class="home-text__caption element-title lighter">We provide information related to businesses, jobs, news in the F&amp;B industry.<br> Find suppliers, jobs, read news and a lot more.</p>
@@ -316,6 +316,14 @@
                                     <h6>Permission Denied</h6>
                                     <span>Seems like the access to social login is <b>denied</b> by you. Please <b>confirm</b> the access permission.</span>
                                 </div>
+                                <div class="no-account-exist no-email-exist-error hidden">
+                                    <h6 class="sub-title">No account exist with this email</h6>
+                                    <span>Looks like there is no account associated this Email-ID, please create an account or sign in with <b>Facebook</b> or <b>Google</b>.</span>
+                                </div>
+                                <div class="account-exist wrong-password-error hidden">
+                                    <h6 class="sub-title">Incorrect Password</h6>
+                                    <span>The password you have enter is incorrect. Are you sure this is your account?</span>
+                                </div>
                             </div>
                             <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                 <div class="account-inactive email-exist-error hidden">
@@ -338,21 +346,26 @@
                             </div>
                             <div class="alternate-login">
                                 <p class="sub-title text-color text-medium m-b-0 alternate-login__title"><span>Already part of the Circle?</span></p>
-                                <div class="form-group text-left m-b-0">
-                                    <input type="text" class="form-control fnb-input float-input required" id="email" placeholder="Email">
-                                </div>
-                                <div class="form-group text-left m-b-0">
-                                    <input type="password" class="form-control fnb-input float-input required" id="password" placeholder="Password">
-                                </div>
-                                <div class="form-group m-b-0 flex-row space-between forgot-actions">
-                                    <label class="stay-logged flex-row text-medium m-b-0 text-color">
-                                        <input type="checkbox" class="checkbox"> Stay Logged In
-                                    </label>
-                                    <a href="#" class="primary-link forget-link">Forgot password?</a>
-                                </div>
-                                <div class="form-group m-b-0">
-                                    <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="button">Log In <i class="fa fa-circle-o-notch fa-spin"></i></button>
-                                </div>
+                                <form method="POST" action="{{ route('login') }}">
+                                    {{ csrf_field() }}
+                                    <div class="form-group text-left m-b-0">
+                                        <!-- <input type="text" class="form-control fnb-input float-input required" id="email" placeholder="Email"> -->
+                                        <input type="email" class="form-control fnb-input float-input required" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
+                                    </div>
+                                    <div class="form-group text-left m-b-0">
+                                        <!-- <input type="password" class="form-control fnb-input float-input required" id="password" placeholder="Password"> -->
+                                        <input type="password" class="form-control fnb-input float-input required" id="password" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group m-b-0 flex-row space-between forgot-actions">
+                                        <label class="stay-logged flex-row text-medium m-b-0 text-color">
+                                            <input type="checkbox" class="checkbox"> Stay Logged In
+                                        </label>
+                                        <a href="#" class="primary-link forget-link">Forgot password?</a>
+                                    </div>
+                                    <div class="form-group m-b-0">
+                                        <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="submit">Log In <i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                    </div>
+                                </form>
                             </div>
                             <hr>
                             <div class="form-group m-b-0 flex-row space-between no-account">
@@ -365,7 +378,7 @@
                         </div>
                        <div class="forget-password">
                             <h3 class="welcome-text text-medium">Forgot Password</h3>
-                            <p class="text-lighter m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
+                            <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
                             <div class="form-group text-left m-b-0">
                                 <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
                             </div>
@@ -384,6 +397,7 @@
             </div>
         </div>
     </div>
+
 
 
 

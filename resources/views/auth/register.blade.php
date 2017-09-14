@@ -75,7 +75,6 @@
                             <form class="" method="POST" action="{{ route('register') }}">
                                 {{ csrf_field() }}
 
-
                                 <div class="row flex-row flex-wrap">
                                     <div class="col-sm-6">
                                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-b-10 p-b-10">
@@ -106,8 +105,8 @@
                                             <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
                                             <!-- <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required> -->
                                             <div class="number-code flex-row">
-                                              <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
-                                              <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
+                                              <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
+                                              <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" id="contact" name="contact">
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +114,7 @@
                                         <div class="form-group m-b-0 city">
                                             <!-- <label class=" text-lighter required">City</label> -->
                                             <div class="required select-required">
-                                                <select class="form-control fnb-select border-bottom text-lighter">
+                                                <select class="form-control fnb-select border-bottom text-lighter" name="city">
                                                     <option>City</option>
                                                     <option>1</option>
                                                     <option>2</option>
@@ -127,7 +126,7 @@
                                         <div class="form-group m-b-0 area">
                                             <!-- <label class=" text-lighter required">Area</label> -->
                                             <div class="required select-required">
-                                                <select class="form-control fnb-select border-bottom text-lighter">
+                                                <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                                     <option>Area</option>
                                                     <option>1</option>
                                                     <option>2</option>
@@ -140,37 +139,37 @@
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="hospitality">
+                                                    <input type="checkbox" class="checkbox" for="hospitality" name="description[]" value="hospitality">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">Hospitality Business Owner <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business"></i></p>
                                                 </label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="pro">
+                                                    <input type="checkbox" class="checkbox" for="pro" name="description[]" value="pro">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="pro">Working Professional <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are a chef, senior Manager, mid level Manager, Supervisor, Order Taker, Customer Representative, etc"></i></p>
                                                 </label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="vendor">
+                                                    <input type="checkbox" class="checkbox" for="vendor" name="description[]" value="vendor">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="vendor">Vendor/Supplier/Service provider <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you or your company trades in or supplies/provides anything to the Hospitality Industry. This category includes Food &amp; Beverage Traders, Manufacturers, Importers, Exporters, Service/Solution Providers"></i></p>
                                                 </label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="student">
+                                                    <input type="checkbox" class="checkbox" for="student" name="description[]" value="student">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="student">Student <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are pursuing your education in hospitality sector currently"></i></p>
                                                 </label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="enterpreneur">
+                                                    <input type="checkbox" class="checkbox" for="enterpreneur" name="description[]" value="enterpreneur">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="enterpreneur">Prospective Entrepreneur  <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you see yourself becoming a part of the awesome Hospitality Industry in the near or distant future"></i></p>
                                                 </label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="flex-row points">
-                                                    <input type="checkbox" class="checkbox" for="others">
+                                                    <input type="checkbox" class="checkbox" for="others" name="description[]" value="others">
                                                     <p class="m-b-0 text-medium points__text flex-points__text text-color" id="others">Others   <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Consultants, Media, Investors, etc"></i></p>
                                                 </label>
                                             </div>

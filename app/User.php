@@ -31,4 +31,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Listing', 'owner_id');
     }
+
+	public function getUserDetails() { 
+		return $this->hasOne('App\UserDetail', 'user_id');
+	}
 }

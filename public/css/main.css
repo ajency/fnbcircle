@@ -8862,6 +8862,10 @@ input[type='checkbox'].remove-addr {
   cursor: pointer;
   padding-top: 0.5em;
 }
+.location-select .multiselect-selected-text {
+  color: #353548;
+  font-size: 1em;
+}
 .location-select .multiselect-container.multiselect-container li label.checkbox {
   margin: 0.6em 0;
   padding-left: 2.5em;

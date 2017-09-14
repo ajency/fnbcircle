@@ -77,4 +77,42 @@
     return $(this).closest('.get-val').parent().remove();
   });
 
+  $('body').on('click', '.add-custom', function(e) {
+    e.preventDefault();
+    $('.auto-exp-select').addClass('hidden');
+    return $('.custom-exp').removeClass('hidden');
+  });
+
+  $('body').on('click', '.auto-select', function(e) {
+    e.preventDefault();
+    event.preventDefault();
+    $('.auto-exp-select').removeClass('hidden');
+    $('.custom-exp').addClass('hidden');
+    return $('.custom-row:not(:first-child)').remove();
+  });
+
+  $('body').on('click', '.add-exp', function(e) {
+    var highlight_group, highlight_group_clone;
+    e.preventDefault();
+    highlight_group = $(this).parent().closest('.custom-row');
+    highlight_group_clone = highlight_group.clone();
+    highlight_group_clone.find('.add-exp').remove();
+    highlight_group_clone.find('.delete-exp').removeClass('hidden');
+    highlight_group_clone.find('.exp-label').remove();
+    return highlight_group_clone.insertAfter(highlight_group);
+  });
+
+  $('body').on('click', '.delete-exp', function(e) {
+    e.preventDefault();
+    return $(this).parent().closest('.custom-row').remove();
+  });
+
+  setTimeout((function() {
+    $('.alert-success').addClass('active');
+  }), 1000);
+
+  setTimeout((function() {
+    $('.alert-success').removeClass('active');
+  }), 6000);
+
 }).call(this);

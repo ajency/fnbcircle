@@ -77,3 +77,42 @@ $('body').on 'click', '.add-another', (e)->
 $('body').on 'click', '.removeRow', ->
   $(this).closest('.get-val').parent().remove()
  
+
+$('body').on 'click', '.add-custom', (e) ->
+  e.preventDefault()
+  $('.auto-exp-select').addClass('hidden');
+  $('.custom-exp').removeClass('hidden');
+
+
+$('body').on 'click', '.auto-select', (e) ->
+  e.preventDefault()
+  event.preventDefault()
+  $('.auto-exp-select').removeClass('hidden')
+  $('.custom-exp').addClass('hidden');
+  $('.custom-row:not(:first-child)').remove()
+
+
+$('body').on 'click', '.add-exp', (e) ->
+  e.preventDefault()
+  highlight_group = $(this).parent().closest('.custom-row')
+  highlight_group_clone = highlight_group.clone()
+  highlight_group_clone.find('.add-exp').remove()
+  highlight_group_clone.find('.delete-exp').removeClass('hidden')
+  highlight_group_clone.find('.exp-label').remove()
+  highlight_group_clone.insertAfter(highlight_group)
+  # highlight_group.find('.highlight-input').val('')
+
+$('body').on 'click', '.delete-exp', (e) ->
+  e.preventDefault()
+  $(this).parent().closest('.custom-row').remove()
+
+
+setTimeout (->
+  $('.alert-success').addClass 'active'
+  return
+), 1000
+setTimeout (->
+  $('.alert-success').removeClass 'active'
+  return
+), 6000
+ 

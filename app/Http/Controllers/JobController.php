@@ -138,7 +138,7 @@ class JobController extends Controller
 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-        Session::flash('success_msg','Job details successfully saved.');
+        Session::flash('success_message','Job details successfully saved.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
@@ -177,16 +177,23 @@ class JobController extends Controller
     public function getExperienceLowerAndUpperValue($jobExperience){
  
         $lower = $upper =[];
-        foreach ($jobExperience as $key => $experience) {
-            $experienceValues = explode('-', $experience);
-            if(!empty($experienceValues)){
-                $lower[] = trim($experienceValues[0]);
-                $upper[] = trim($experienceValues[1]);
-            }
+        $min = $max = 0;
+        if(!empty($jobExperience)){
 
-        } 
 
-        return ['lower'=> min($lower), 'upper'=>max($upper)];
+            foreach ($jobExperience as $key => $experience) {
+                $experienceValues = explode('-', $experience);
+                if(!empty($experienceValues)){
+                    $lower[] = trim($experienceValues[0]);
+                    $upper[] = trim($experienceValues[1]);
+                }
+
+            } 
+            $min = min($lower);
+            $max = max($upper)
+        }
+
+        return ['lower'=> $min, 'upper'=>$max];
     }
 
     /**
@@ -351,7 +358,7 @@ class JobController extends Controller
         $job->save();
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-        Session::flash('success_msg','Job details successfully saved.');
+        Session::flash('success_message','Job details successfully saved.');
         $request['next_step'] = 'step-two';
 
         return $request;
@@ -400,7 +407,7 @@ class JobController extends Controller
             $jobCompany->save();
         }  
             
-        Session::flash('success_msg','Job details successfully saved.');
+        Session::flash('success_message','Job details successfully saved.');
         $request['next_step'] = 'step-two';
 
         return $request;

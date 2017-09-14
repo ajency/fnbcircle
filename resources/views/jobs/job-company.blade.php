@@ -6,17 +6,22 @@
 @section('form-data')
 
 
+@if(Session::has('success_message')) 
 <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-    Location &amp; Hours of Operation details saved successfully.
+   {{ Session::get('success_message')}}
 </div>
- 
+ @endif 
  
 <input type="hidden" name="_method" value="PUT">
 <input type="hidden" name="step" value="step-two">
-<div class="business-info tab-pane fade in active" id="add_listing">
+ 
+ 
+
+<div class="business-info tab-pane fade in active" id="company_details">
+ 
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
+    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Company Details</h5>
 
     <!-- Job title/category -->
 
@@ -52,7 +57,7 @@
     </div>
 
 
-    <div class="m-t-20 flex-row c-gap">
+    <div class="m-t-40 flex-row c-gap">
         <div class="m-r-10 no-m-l">
             <label class="element-title">Contact Details</label>
             <div class="text-lighter">
@@ -239,8 +244,8 @@
     </div>
 
     <!-- landline -->
-
-    <div class="m-t-40 business-phone landline business-contact">
+<!-- 
+    <div class="m-t-40 m-b-40 business-phone landline business-contact">
         <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business landline number <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
@@ -274,7 +279,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 

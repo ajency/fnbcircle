@@ -250,7 +250,10 @@ window.validateLocationHours = () ->
   parameters['change'] = window.change
   if window.submit ==1
     parameters['submitReview'] = 'yes'
-    # console.log 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
   parameters['latitude'] = $('input#latitude').val()
   parameters['longitude'] = $('input#longitude').val()
   parameters['map_address'] = $('input#mapadd').val()

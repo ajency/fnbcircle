@@ -181,14 +181,27 @@
                                         <div class="listing-status">
                                             <div class="label">STATUS</div>
                                             <div class="flex-row space-between">
-                                                <div class="statusMsg">@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
-                                                @if($listing->isReviewable() and $listing->status > "2")
+                                                <div class="statusMsg">
+                                                @if($listing->status=="3") 
+                                                    Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>  
+                                                @elseif($listing->status=="2") 
+                                                    Pending Review 
+                                                @elseif($listing->status=="1") 
+                                                    Published 
+                                                @elseif($listing->status=="4")
+                                                    Archived 
+                                                @elseif($listing->status=="5") 
+                                                    Rejected
+                                                @endif
+                                                </div>
+                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
-
-
-                                                @if($listing->status=="1")
-                                                    <a href="#">Archive</a>
+                                                @if($listing->isReviewable() and ($listing->status == "1"))
+                                                    <a href="#" class="archive-submit-link">Archive</a>
+                                                @endif
+                                                @if($listing->isReviewable() and ($listing->status == "4"))
+                                                    <a href="#" class="publish-submit-link">Publish</a>
                                                 @endif
                                             </div>
                                         </div>

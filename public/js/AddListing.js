@@ -68,6 +68,12 @@ function listingInformation() {
     if (submit == 1) {
         parameters['submitReview'] = 'yes';
     }
+    if (archive == 1) {
+        parameters['archive'] = 'yes';
+    }
+    if (publish == 1) {
+        parameters['publish'] = 'yes';
+    }
     $.each(parameters, function(key, value) {
         var field = $('<input></input>');
         field.attr("type", "hidden");

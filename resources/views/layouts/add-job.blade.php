@@ -132,7 +132,40 @@
                             </div>
 
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
-                                View what a job would look like once created.
+                                <div class="tips-header flex-row">
+                                    <img src="/img/bulb.png" class="img-responsive p-r-10">
+                                    <!-- <i class="fa fa-lightbulb-o  sub-title text-primary" aria-hidden="true"></i> --> Tips to create a good job post
+                                </div>
+                                <div class="tips-row">
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            1
+                                        </span>
+                                        Fill in the details of the job properly
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            2
+                                        </span>
+                                        Ensure that you provide correct contact details.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            3
+                                        </span>
+                                        Job description should be clear.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            4
+                                        </span>
+                                        Highlight the important details related to the job.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="view-sample dsk-separator m-t-20 m-b-20">
+                                This is what your job will look like once created.
                                 <div class="m-t-10">
                                     <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
                                         <img src="/img/sample_listing.png" class="img-responsive">
@@ -140,6 +173,35 @@
                                     <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
                                 </div>
                             </div>
+
+
+                            <div class="view-sample dsk-separator m-t-20 m-b-20">
+                                <div class="tips-header text-medium flex-row">
+                                    <img src="/img/power-icon.png" class="img-responsive p-r-10" width="40">
+                                    <!-- <i class="fa fa-lightbulb-o  sub-title text-primary" aria-hidden="true"></i> --> <span class="bolder p-r-5">GO PREMIUM!!</span> Read why..
+                                </div>
+                                <div class="tips-row">
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            1
+                                        </span>
+                                        Premium jobs get more applicants as compared to non premium.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            2
+                                        </span>
+                                        Premium jobs are displayed on top in the search results.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            3
+                                        </span>
+                                        Premium jobs will be indicated with a premium label!
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-xs-12 col-sm-9">
                             <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if(isset($_GET['step']))active @endif">

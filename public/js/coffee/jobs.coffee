@@ -37,3 +37,15 @@ setTimeout (->
     removeOnBackspace: false
   return
 ), 500
+
+$('body').on 'click', '.add-another', (e)->
+  e.preventDefault()
+  contact_group = $(this).closest('.business-contact').find('.contact-group')
+  contact_group_clone = contact_group.clone()
+  contact_group_clone.removeClass 'contact-group hidden'
+  input = contact_group_clone.find('.fnb-input')
+  input.attr('data-parsley-required',true)
+  contact_group_clone.insertBefore(contact_group)
+
+$('body').on 'click', '.removeRow', ->
+  $(this).closest('.get-val').parent().remove()

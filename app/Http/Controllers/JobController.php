@@ -177,10 +177,10 @@ class JobController extends Controller
      */
     public function edit($reference_id,$step='step-one')
     {
-        $job = Job::where('reference_id',$reference_id)->first(); 
+        $job = []; 
         $data = [];
         $data = ['job' => $job];
-        $postUrl = url('jobs/'.$job->reference_id);
+        $postUrl = '';
         $data['postUrl'] = $postUrl;
 
         if($step == 'step-one'){
@@ -203,8 +203,8 @@ class JobController extends Controller
 
         }
         elseif ($step == 'step-two'){
-            $jobCompany  = $job->company();
-            $blade = 'jobs.job-comapny';
+            // $jobCompany  = $job->company();
+            $blade = 'jobs.job-company';
         }
         elseif ($step == 'step-three'){
             # code...

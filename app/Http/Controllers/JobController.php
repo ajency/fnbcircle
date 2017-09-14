@@ -190,7 +190,7 @@ class JobController extends Controller
 
             } 
             $min = min($lower);
-            $max = max($upper)
+            $max = max($upper);
         }
 
         return ['lower'=> $min, 'upper'=>$max];

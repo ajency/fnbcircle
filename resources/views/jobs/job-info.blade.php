@@ -162,7 +162,7 @@
     
     <div class="m-t-40 c-gap J-type">
         <label class="label-size">What type of job is it?</label>
-        <div class="form-group m-t-5 job-type mobile-flex flex-wrap">
+        <div class="form-group m-t-5 job-type mobile-flex flex-row flex-wrap">
         @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="checkbox-inline">
             <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($job['meta_data']['job_type']) && in_array($jobTypeId,$job['meta_data']['job_type'])) checked @endif> {{ $jobType }}

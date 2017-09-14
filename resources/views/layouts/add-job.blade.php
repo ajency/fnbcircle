@@ -120,15 +120,15 @@
 
                                 <ul class="gs-steps" role="tablist" >
                                     <li class=""> 
-                                        <a href="@if(!$job->id || $step == 'step-one') # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if(!$job->id || $step == 'step-one') # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="@if(!$job->id || $step == 'step-one') form-toggle @endif" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat @if(!$job->id) disable @endif">
-                                        <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="@if(!$job->id || $step == 'step-two') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                     <li class="@if(!$job->id) disable @endif">
-                                        <a href="#" class="form-toggle" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="#" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

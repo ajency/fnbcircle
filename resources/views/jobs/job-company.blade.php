@@ -136,7 +136,7 @@
 
     <!-- phone number -->
 
-    <div class="m-t-40 business-phone business-contact">
+    <div class="m-t-40 m-b-40 business-phone business-contact">
         <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business mobile number <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>

@@ -118,15 +118,15 @@
 
                                 <ul class="gs-steps" role="tablist" >
                                     <li class="">
-                                        <a href="#" class="" id="add_listing">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="#" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat">
-                                        <a href="#" class="" id="business_categories">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="#" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                     <li class="">
-                                        <a href="#" class="" id="business_location">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="#" class="form-toggle" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

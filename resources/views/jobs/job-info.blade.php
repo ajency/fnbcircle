@@ -8,7 +8,7 @@
 
 
 
-<div class="business-info tab-pane fade in active" id="add_listing">
+<div class="business-info tab-pane fade in active" id="job_details">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
 

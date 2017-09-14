@@ -330,7 +330,7 @@
                                     <h6 class="sub-title">Your account is not Activated</h6>
                                     <span>Your email id is not verified. A verification mail was sent. Please check your inbox or click here to resend the email.</span>
                                     <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
-                                    <a href="#" class="primary-link" id="verif-resend-btn">Resend Verification Email</a>
+                                    <a href="#" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
                                 </div>
                             </div>
                             <div class="alert alert-success signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>

@@ -223,7 +223,7 @@
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
 
-                                           <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle<span class="text-primary bolder status-changer"   >Published  </span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
+                                           <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle <span class="text-primary bolder status-changer">Published  </span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
 
                                          
                                     </p>

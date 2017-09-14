@@ -119,12 +119,12 @@
                             <div class="dsk-separator">
 
                                 <ul class="gs-steps" role="tablist" >
-                                    <li class="">
-                                        <a href="@if(!$job->id) # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <li class=""> 
+                                        <a href="@if(!$job->id || $step == 'step-one') # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="form-toggle" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat @if(!$job->id) disable @endif">
-                                        <a href="{{ url('/jobs/'.$job->reference_id.'/step-two') }}" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="form-toggle" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                     <li class="@if(!$job->id) disable @endif">
@@ -206,7 +206,7 @@
 
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if(isset($_GET['step']))active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if($job->id)active @endif">
                                 <div class="mobile-back desk-hide mobile-flex  p-v-10   ">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>

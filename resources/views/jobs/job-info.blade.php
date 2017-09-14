@@ -137,9 +137,9 @@
             </div>
         </div>
         <div class="m-t-5 custom-exp hidden">
-            <div class="row">
+            <div class="row custom-row">
                 <div class="col-sm-3">
-                    <label class="x-small">Min experience</label>
+                    <label class="x-small exp-label">Min experience</label>
                     <select class="fnb-select select-variant form-control text-lighter min-exp p-l-0">
                         <option>--Please select--</option>
                         <option>1</option>
@@ -149,7 +149,7 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <label class="x-small">Max experience</label>
+                    <label class="x-small exp-label">Max experience</label>
                      <select class="fnb-select select-variant form-control text-lighter max-exp p-l-0">
                         <option>--Please select--</option>
                         <option>1</option>
@@ -157,6 +157,10 @@
                         <option>3</option>
                         <option>4</option>
                     </select>
+                </div>
+                <div class="col-sm-2">
+                    <a href="#" class="add-exp"><i class="fa fa-plus-circle text-primary sub-title" aria-hidden="true"></i></a>
+                    <a href="#" class="delete-exp hidden"><i class="fa fa-times text-primary sub-title" aria-hidden="true"></i></a>
                 </div>
             </div>
             <div class="m-t-10">

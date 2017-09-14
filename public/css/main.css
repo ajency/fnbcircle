@@ -8942,6 +8942,14 @@ input[type='checkbox'].remove-addr {
 .custom-exp .fnb-select {
   font-size: 0.9em;
 }
+.add-exp i,
+.delete-exp i {
+  position: relative;
+  top: 2em;
+}
+.delete-exp i {
+  top: 0.5em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

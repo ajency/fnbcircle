@@ -70,4 +70,20 @@
     return $('.custom-exp').addClass('hidden');
   });
 
+  $('body').on('click', '.add-exp', function(e) {
+    var highlight_group, highlight_group_clone;
+    e.preventDefault();
+    highlight_group = $(this).parent().closest('.custom-row');
+    highlight_group_clone = highlight_group.clone();
+    highlight_group_clone.find('.add-exp').remove();
+    highlight_group_clone.find('.delete-exp').removeClass('hidden');
+    highlight_group_clone.find('.exp-label').remove();
+    return highlight_group_clone.insertAfter(highlight_group);
+  });
+
+  $('body').on('click', '.delete-exp', function(e) {
+    e.preventDefault();
+    return $(this).parent().closest('.custom-row').remove();
+  });
+
 }).call(this);

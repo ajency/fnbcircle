@@ -89,6 +89,16 @@
     return submitForm(e);
   });
 
+  $(document).on('click', 'a.archive-submit-link', function(e) {
+    window.archive = 1;
+    return submitForm(e);
+  });
+
+  $(document).on('click', 'a.publish-submit-link', function(e) {
+    window.publish = 1;
+    return submitForm(e);
+  });
+
   $(document).on('click', '.full.save-btn.gs-next', function(e) {
     return submitForm(e);
   });

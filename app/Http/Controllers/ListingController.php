@@ -81,6 +81,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -298,18 +302,23 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         $this->saveListingCategories($listing->id, $categories);
         if (isset($request->brands) and $request->brands != '') {
-            $listing->retag($request->brands);
+            $listing->retag('brands',$request->brands);
         } else {
-            $listing->untag();
+            $listing->untag('brands');
         }
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
+            $listing->last_updated_by = Auth::user()->id;
             $listing->save();
         }
 
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
+        }elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        }elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
 
         // echo $data->change;
@@ -364,7 +373,7 @@ class ListingController extends Controller
             'keyword' => 'required',
         ]);
         // dd(Listing::existingTagsLike($request->keyword));
-        return response()->json(['results' => Listing::existingTagsLike($request->keyword), 'options' => []]);
+        return response()->json(['results' => Listing::existingTagsLike('brands',$request->keyword), 'options' => []]);
     }
 
     //------------------------step 3 --------------------
@@ -429,6 +438,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -484,6 +497,11 @@ class ListingController extends Controller
             $payment[$key] = $value;
         }
         $listing->payment_modes = json_encode($payment);
+        if (isset($data->other_payment) and $data->other_payment != '') {
+            $listing->retag('payment-modes',$data->other_payment);
+        } else {
+            $listing->untag('payment-modes');
+        }
         $listing->save();
 
         $change = "";
@@ -493,6 +511,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -511,6 +533,8 @@ class ListingController extends Controller
         
 
     }
+
+
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
     {
@@ -542,6 +566,10 @@ class ListingController extends Controller
         $this->saveListingPhotosAndDocuments($request);
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
+        }elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        }elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
 
     }
@@ -639,6 +667,36 @@ class ListingController extends Controller
             return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+        }
+    }
+
+    public function archive(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        if ($listing->isReviewable() and $listing->status=="1") {
+            $listing->status = Listing::ARCHIVED;
+            $listing->save();
+            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+        } else {
+            return \Redirect::back()->withErrors(array('archive' => 'Only Published listings can be archived'));
+        }
+    }
+
+    public function publish(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        if ($listing->isReviewable() and $listing->status=="4") {
+            $listing->status = Listing::PUBLISHED;
+            $listing->save();
+            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+        } else {
+            return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }
     }
 

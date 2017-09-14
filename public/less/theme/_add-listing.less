@@ -469,6 +469,16 @@
 	}
 }
 
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+  .business-type,.interested-options{
+  	.radio{
+  		opacity: 0;
+  	}
+  }
+}
+
+
 @media screen and (max-width: 600px){
 	.business-type{
 		flex-wrap: inherit;
@@ -583,6 +593,17 @@
 		padding: 5px 10px;
 	}
 }
+
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+   .payment-modes{
+		li{
+			flex: 0 0 30%;
+		}
+	}
+}
+
+
 
 .hours_day{
 	min-width: 100px;
@@ -1280,6 +1301,16 @@ input[type='checkbox'].remove-addr{
 	// }
 }
 
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+   .location-hours{
+	   	.baseline{
+	   		.save-addr{
+	   			top: -4px;
+	   		}
+	   	}
+   }
+}
+
 .location-select{
 	padding: 0.5em 0 1em 0;
 	align-items: inherit;
@@ -1930,6 +1961,13 @@ input[type='checkbox'].remove-addr{
 	// 	  	overflow-y: auto;
 	// 	}
 	// }
+}
+
+
+@media screen and (min-width: 767px) {
+    _::-webkit-full-page-media, _:future, :root .node-select .nav li {
+		margin-bottom: 3.35em;
+    }
 }
 
 

@@ -104,7 +104,7 @@
         </div> -->
 
         <div class="m-t-5 brands-container">
-            <input type="text" class="form-control fnb-input brand-list" placeholder="Type and hit enter" list="brands" multiple="multiple" id=brandsinput value="{{$listing->tagNames}}">
+            <input type="text" class="form-control fnb-input brand-list" placeholder="Type and hit enter" list="brands" multiple="multiple" id=brandsinput value="{{ implode(',',$listing->tagNames('brands')) }}">
             <datalist id="brands">
             
             </datalist>

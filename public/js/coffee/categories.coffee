@@ -302,6 +302,10 @@ window.validateCategories = ->
   parameters['brands'] = brands
   if window.submit ==1
     parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
   form = $('<form></form>')
   form.attr("method", "post")
   form.attr("action", "/listing")

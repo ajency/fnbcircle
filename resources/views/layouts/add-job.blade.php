@@ -206,7 +206,7 @@
 
                         </div>
                         <div class="col-xs-12 col-sm-9">
-                            <div class="pos-fixed fly-out no-transition slide-bg listing-form-wrapper listing-sections @if($job->id)active @endif">
+                            <div class="pos-fixed fly-out no-transition slide-bg @if($job->id) active @endif">
                                 <div class="mobile-back desk-hide mobile-flex  p-v-10   ">
                                     <div class="left mobile-flex">
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>

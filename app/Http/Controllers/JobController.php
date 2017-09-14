@@ -37,7 +37,7 @@ class JobController extends Controller
 
         
 
-        $jobCategories = [1=>'cat-1',2=>'cat-2'];
+        
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
         $job    = new Job;
@@ -45,6 +45,7 @@ class JobController extends Controller
         $salaryTypes  = $job->salaryTypes();
         $defaultExperience  = $job->jobExperience();
         $defaultKeywords  = $job->jobKeywords();
+        $jobCategories = $job->jobCategories();
         $postUrl = url('jobs');
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
@@ -227,7 +228,7 @@ class JobController extends Controller
         $data['step'] = $step;
 
         if($step == 'step-one'){
-            $jobCategories = [1=>'cat-1',2=>'cat-2'];
+            $jobCategories = $job->jobCategories();
             $defaultExperience  = $job->jobExperience();
             $defaultKeywords  = $job->jobKeywords();
             $cities  = City::where('status', 1)->orderBy('name')->get();
@@ -257,7 +258,7 @@ class JobController extends Controller
             $blade = 'jobs.job-company';
         }
         elseif ($step == 'step-three'){
-            # code...
+            $blade = 'jobs.job-plan-selection';
         }
         else{
 

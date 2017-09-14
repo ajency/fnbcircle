@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Defaults;
 use App\Area;
 use App\Company;
+use App\Category;
 
 class Job extends Model
 {
@@ -31,6 +32,18 @@ class Job extends Model
     	}
 
     	return $statuses;
+    }
+
+    public function jobCategories(){
+        // $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
+        $jobCategories = Category::where("type","job")->get();
+
+        $categories = [];
+        foreach ($jobCategories as $key => $jobCategory) {
+            $categories[$jobCategory->id] = $jobCategory->name;
+        }
+
+        return $categories;
     }
 
     public function getJobStatus(){

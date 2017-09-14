@@ -23,7 +23,7 @@
                     This will be the display name of your job.
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 c-gap">
                 <label class="label-size required">Choose a category that the job belongs to:</label>
                 <!-- <div class="text-lighter">
                     Help text comes here
@@ -171,7 +171,7 @@
 
     <!-- Offered salary -->
 
-    <div class="m-t-40 c-gap">
+    <div class="m-t-40 c-gap salary-row">
         <label class="label-size">Offered salary : <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)

@@ -2627,7 +2627,35 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
-
+@media screen and (max-width: @mobile){
+	.salary-row{
+		.radio-inline{
+			margin-bottom: 0.5em;
+			&:last-child{
+				margin-left: 0;
+			}
+		}
+	}
+	.salary-range{
+		margin-top: 0;
+		.input-group{
+			width: 120px;
+		}
+	}
+	.J-company{
+		flex-direction: column;
+		&__logo{
+			flex: 1;
+    		width: 80%;
+    		padding-right: 0;
+		}
+		&__name{
+			flex: 1;
+    		width: 100%;
+    		margin-top: 1.5em;
+		}
+	}
+}
 
 
 

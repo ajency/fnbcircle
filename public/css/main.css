@@ -8950,6 +8950,43 @@ input[type='checkbox'].remove-addr {
 .delete-exp i {
   top: 0.5em;
 }
+@media screen and (max-width: 768px) {
+  .salary-row .radio-inline {
+    margin-bottom: 0.5em;
+  }
+  .salary-row .radio-inline:last-child {
+    margin-left: 0;
+  }
+  .salary-range {
+    margin-top: 0;
+  }
+  .salary-range .input-group {
+    width: 120px;
+  }
+  .J-company {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .J-company__logo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    width: 80%;
+    padding-right: 0;
+  }
+  .J-company__name {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    width: 100%;
+    margin-top: 1.5em;
+  }
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

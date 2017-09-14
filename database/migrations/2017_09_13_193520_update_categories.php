@@ -37,9 +37,11 @@ class updateCategories extends Migration
 
 
         foreach ($jobCategories as $key => $jobCategory) {
+            $jobCategory = strtolower($jobCategory);
+            $jobCategory = ucfirst($jobCategory);
             $category = new Category;
             $category ->type = 'job';
-            $category ->name = ucfirst($jobCategory);
+            $category ->name = $jobCategory;
             $category ->path = null;
             $category ->parent = 1;
             $category ->status = 1;

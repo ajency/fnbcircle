@@ -277,8 +277,9 @@
                                        
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-30">
-                                            <a class="btn fnb-btn outline no-border gs-prev" href=""><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
-
+                                        @if($back_url)
+                                            <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
+                                        @endif
                                             <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>

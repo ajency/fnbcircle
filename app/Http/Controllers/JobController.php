@@ -11,8 +11,9 @@ use App\City;
 use App\Defaults;
 use App\Company;
 use App\JobKeyword;
+use App\JobCompany;
 use Auth;
-
+use Session;
 
 class JobController extends Controller
 {
@@ -43,6 +44,7 @@ class JobController extends Controller
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();
         $defaultExperience  = $job->jobExperience();
+        $defaultKeywords  = $job->jobKeywords();
         $postUrl = url('jobs');
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
@@ -50,7 +52,9 @@ class JobController extends Controller
                                     ->with('cities', $cities) 
                                     ->with('defaultExperience', $defaultExperience) 
                                     ->with('salaryTypes', $salaryTypes) 
+                                    ->with('defaultKeywords', $defaultKeywords) 
                                     ->with('jobTypes', $jobTypes)
+                                    ->with('back_url', null)
                                     ->with('postUrl', $postUrl);
     }
 
@@ -94,7 +98,8 @@ class JobController extends Controller
             $jobType = $jobType[0];
         }
 
-        if(is_array($jobKeywords) && !empty($jobKeywords)){
+        if(!empty($jobKeywords)){
+            $jobKeywords = explode(',', $jobKeywords);
             $metaData['job_keyword'] = $jobKeywords;
         }
 
@@ -133,7 +138,7 @@ class JobController extends Controller
 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-
+        Session::flash('success_msg','Job details successfully saved.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
@@ -212,6 +217,7 @@ class JobController extends Controller
         if($step == 'step-one'){
             $jobCategories = [1=>'cat-1',2=>'cat-2'];
             $defaultExperience  = $job->jobExperience();
+            $defaultKeywords  = $job->jobKeywords();
             $cities  = City::where('status', 1)->orderBy('name')->get();
 
             $jobTypes  = $job->jobTypes();
@@ -223,14 +229,19 @@ class JobController extends Controller
             $data['savedAreas'] = $savedLocation['areas']; 
             $data['jobCategories'] = $jobCategories;
             $data['defaultExperience'] = $defaultExperience;
+            $data['defaultKeywords'] = $defaultKeywords;
             $data['cities'] = $cities;
             $data['jobTypes'] = $jobTypes;
             $data['salaryTypes'] = $salaryTypes;
+            $data['back_url'] = null;
+            
             $blade = 'jobs.job-info';
 
         }
         elseif ($step == 'step-two'){
-            $jobCompany  = $job->company();
+            $jobCompany  = $job->getJobCompany();
+            $data['jobCompany'] = $jobCompany;
+            $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
             $blade = 'jobs.job-company';
         }
         elseif ($step == 'step-three'){
@@ -253,17 +264,17 @@ class JobController extends Controller
      */
     public function update(Request $request, $reference_id)
     {
-   
+       
         $job = Job::where('reference_id',$reference_id)->first(); 
 
-        if($data['step'] = 'step-one'){
+        if($request->step == 'step-one'){
             $response = $this->saveStepOneData($job,$request);
-
         }
-        elseif ($step = 'step-two'){
+        elseif ($request->step == 'step-two'){
+             
             $response = $this->saveCompanyData($job,$request);
         }
-        elseif ($step = 'step-three'){
+        elseif ($request->step == 'step-three'){
             # code...
         }
         else{
@@ -285,7 +296,7 @@ class JobController extends Controller
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();   
+        $data = $request->all();  
 
         $title = $data['job_title'];
         $description = $data['description'];
@@ -306,10 +317,11 @@ class JobController extends Controller
             $jobType = $jobType[0];
         }
 
-        if(is_array($jobKeywords) && !empty($jobKeywords)){
+        if(!empty($jobKeywords)){
+            $jobKeywords = explode(',', $jobKeywords);
             $metaData['job_keyword'] = $jobKeywords;
         }
-
+     
         $experienceYearsLower = '';
         $experienceYearsUpper  = '';
 
@@ -339,28 +351,26 @@ class JobController extends Controller
         $job->save();
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-
+        Session::flash('success_msg','Job details successfully saved.');
         $request['next_step'] = 'step-two';
 
         return $request;
     }
 
 
-    public function saveCompanyData($job,$request){
+    public function saveCompanyData($job,$request){ 
         $userId = Auth::user()->id;
         $this->validate($request, [
-            'title' => 'required|max:255',
-            'description' => 'required',
+            'company_name' => 'required|max:255',
         ]);
 
         $data = $request->all();    
 
         $companyId = $data['company_id'];
-        $title = $data['job_title'];
-        $description = $data['description'];
-        $website = $data['website'];
-        $comanyEmail = $data['comany_email'];
-        $comanyPhone = $data['comany_phone'];
+        $title = $data['company_name'];
+        $description = $data['company_description'];
+        $website = $data['company_website'];
+ 
         
         if($companyId == ''){
             $company = new Company;
@@ -370,17 +380,42 @@ class JobController extends Controller
         }
         
         $slug = getUniqueSlug($company, $title);
+        $company->user_id = $userId;
         $company->title = $title;
         $company->description = $description;
         $company->slug = $slug;
         $company->website = $website;
-        $company->comany_email = $website;
-        $company->comany_phone = $website;
         $company->save();
-        
-        $request['next_step'] = 'step-three';
+
+
+        $jobCompany = JobCompany::where('job_id',$job->id)->first();
+        if(!empty($jobCompany) && $jobCompany->company_id !=$company->id){
+            $jobCompany->company_id = $company->id;
+            $jobCompany->save();
+        }
+        elseif(empty($jobCompany)){
+            $jobCompany = new JobCompany;
+            $jobCompany->job_id = $job->id;
+            $jobCompany->company_id = $company->id;
+            $jobCompany->save();
+        }  
+            
+        Session::flash('success_msg','Job details successfully saved.');
+        $request['next_step'] = 'step-two';
 
         return $request;
+    }
+
+    public function getKeywords(Request $request)
+    { 
+        $this->validate($request, [
+            'keyword' => 'required',
+        ]);
+
+    
+        $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')->get()->toArray();
+        
+        return response()->json(['results' => $jobKeywords, 'options' => []]);
     }
 
     /**

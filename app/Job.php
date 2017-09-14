@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Defaults;
 use App\Area;
+use App\Company;
 
 class Job extends Model
 {
@@ -84,10 +85,10 @@ class Job extends Model
          
         $keywords = [];
         foreach ($jobKeywords as $key => $jobKeyword) {
-            $keywords[$salaryType->id] = $jobKeyword->label;
+            $keywords[$jobKeyword->id] = $jobKeyword->label;
         }
 
-        return $types;
+        return $keywords;
     }
 
     public function getSalaryType($id){
@@ -116,8 +117,19 @@ class Job extends Model
 		return $this->hasMany('App\JobKeyword');
 	}
 
-	public function company() {
-        return $this->belongsTo('App\Company');
+	public function jobCompany() {
+        return $this->hasOne('App\JobCompany');
+    }
+
+    public function getJobCompany(){
+        $jobCompany = $this->jobCompany()->first();
+        $company = null;
+        if(!empty($jobCompany)){
+ 
+            $company = $jobCompany->company()->first(); 
+        }
+
+        return $company;
     }
 
     public function  getJobLocation(){

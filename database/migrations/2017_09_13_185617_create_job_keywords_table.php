@@ -214,6 +214,9 @@ class CreateJobKeywordsTable extends Migration
                     'Waitress'];
 
         foreach ($keywords as $key => $keyword) {
+            $keyword = strtolower($keyword);
+            $keyword = ucfirst($keyword);
+
             $default = new Defaults;
             $default ->type = 'job_keyword';
             $default ->label = $keyword;

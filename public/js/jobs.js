@@ -41,11 +41,14 @@
     removeOnBackspace: false
   });
 
-  $('.job-keywords').flexdatalist({
-    selectionRequired: true,
-    minLength: 1,
-    removeOnBackspace: false
-  });
+  setTimeout((function() {
+    $('.job-keywords').flexdatalist({
+      removeOnBackspace: false,
+      minLength: 1,
+      url: '/get-keywords',
+      searchIn: ["label"]
+    });
+  }), 500);
 
   $('.job-save-btn').click(function(e) {
     e.preventDefault();

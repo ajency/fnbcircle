@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
             $table->text('description');
             $table->string('slug');
             $table->string('website');
-            $table->string('logo');
+            $table->string('logo')->nullable(); 
             $table->timestamps();
 
             $table->foreign( 'user_id' )

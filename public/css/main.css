@@ -8999,6 +8999,9 @@ input[type='checkbox'].remove-addr {
     width: 100%;
     margin-top: 1.5em;
   }
+  .gs-form__footer .info-save {
+    margin: 0 auto;
+  }
 }
 .profile-stats {
   color: #fff;

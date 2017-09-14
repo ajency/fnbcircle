@@ -57,7 +57,7 @@ class Job extends Model
     }
 
     public function jobExperience(){
-    	$experience = ['1-2','3-4','5-8'];
+    	$experience = ['1-2','3-4','5-8','8-10'];
     	 
     	return $experience;
     }
@@ -77,6 +77,17 @@ class Job extends Model
     	}
 
     	return $types;
+    }
+
+    public function jobKeywords(){
+        $jobKeywords =  Defaults::where("type","job_keyword")->get();
+         
+        $keywords = [];
+        foreach ($jobKeywords as $key => $jobKeyword) {
+            $keywords[$salaryType->id] = $jobKeyword->label;
+        }
+
+        return $types;
     }
 
     public function getSalaryType($id){
@@ -114,16 +125,13 @@ class Job extends Model
     	$savedLocation = [];
     	$areas = [] ;
     	foreach ($locations as $key => $location) {
-    		$city = Area::find($location['area_id']);
-    		
-    		if(!empty($city)){
-    			$savedLocation[$city->city_id][] = $location['area_id'];
+    		$savedLocation[$location['city_id']][] = $location['area_id'];
 
-    			if(!isset($areas[$city->city_id])){
-    				$areas[$city->city_id] = Area::where('status', 1)->where('city_id', $city->city_id)->orderBy('name')->get()->toArray();
-    			}
+			if(!isset($areas[$location['city_id']])){
+				$areas[$location['city_id']] = Area::where('status', 1)->where('city_id', $location['city_id'])->orderBy('name')->get()->toArray();
+			}
     			
-    		}
+    		 
     	}
 
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];

@@ -102,8 +102,9 @@ class JobController extends Controller
         $experienceYearsUpper  = '';
 
         if(!empty($experience)){
-            $metaData['experience'] = explode(',', $experience);
-            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience); 
+            $postExperience = explode(',', $experience);
+            $metaData['experience'] = $postExperience; 
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($postExperience); 
             
             $experienceYearsLower = $experienceLowerUpperValue['lower'];
             $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
@@ -131,20 +132,22 @@ class JobController extends Controller
         $jobId = $job->id;
 
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$jobKeywords);
+        // $this->addJobKeywords($job,$jobKeywords);
 
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
 
-    public function addJobLocation($job,$areaIds){
+    public function addJobLocation($job,$locations){
         $job->hasLocations()->delete();
-        foreach ($areaIds as $key => $areaId) {
-       
-            $jobLocation    = new JobLocation;
-            $jobLocation->job_id = $job->id;
-            $jobLocation->area_id = $areaId;
-            $jobLocation->save();
+        foreach ($locations as $cityId => $areaIds) {
+            foreach ($areaIds as $areaId) {
+                $jobLocation    = new JobLocation;
+                $jobLocation->job_id = $job->id;
+                $jobLocation->area_id = $areaId;
+                $jobLocation->city_id = $cityId;
+                $jobLocation->save();
+            }
             
         }
 
@@ -228,7 +231,7 @@ class JobController extends Controller
         }
         elseif ($step == 'step-two'){
             $jobCompany  = $job->company();
-            $blade = 'jobs.job-comapny';
+            $blade = 'jobs.job-company';
         }
         elseif ($step == 'step-three'){
             # code...
@@ -289,7 +292,7 @@ class JobController extends Controller
         $category = $data['category'];
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
-        $jobType = $data['job_type'];
+        $jobType = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
         $experience = $data['experience'];
         $salaryType = $data['salary_type'];
@@ -335,7 +338,7 @@ class JobController extends Controller
         $job->meta_data = $metaData;
         $job->save();
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$jobKeywords);
+        // $this->addJobKeywords($job,$jobKeywords);
 
         $request['next_step'] = 'step-two';
 

@@ -100,6 +100,7 @@
                 <div class="m-t-20 m-b-10 white-bg-border">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
+                            @if($job->id)
                             <div class="dsk-separator edit-summary-card">
 
                                 <div class="summary-info">
@@ -113,6 +114,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
 
                             <div class="dsk-separator">
 
@@ -197,7 +199,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                         
+                                        @if($job->id) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -209,12 +211,13 @@
                                                </div>
                                            </div>
                                         </div>
+                                        @endif
                                        
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-30">
                                             <a class="btn fnb-btn outline no-border gs-prev" href=""><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
 
-                                            <button class="btn fnb-btn primary-btn full  info-save gs-next" type="submit">Save &amp; Next</button>
+                                            <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>

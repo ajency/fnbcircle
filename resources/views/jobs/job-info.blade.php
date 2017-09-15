@@ -75,6 +75,7 @@
 
         <label class="label-size required">Where is the job located?  </label>
         @if($job->id)
+        <?php $i = 1?>
         @foreach($savedjobLocation as $cityId => $jobLocation)
  
         <div class="location-select cityArea flex-row flex-wrap clone-row">
@@ -96,7 +97,13 @@
                 </select>
                 <div id="fnb-errors" class="fnb-errors"></div>
             </div>
+            
+            <div class=" remove-select-col flex-row @if($i==count($savedjobLocation)) hidden @endif">
+                <i class="fa fa-times text-primary" aria-hidden="true"></i>
+            </div>
+            
         </div>
+        <?php $i ++?>
         @endforeach
         @else
         <div class="location-select flex-row flex-wrap clone-row">

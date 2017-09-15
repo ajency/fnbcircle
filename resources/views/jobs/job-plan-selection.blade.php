@@ -7,7 +7,12 @@
 
 
 
- 
+ @if(Session::has('success_message')) 
+<div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+   {{ Session::get('success_message')}}
+</div>
+ @endif 
 
 <div class="business-info tab-pane fade in active" id="plan_selection">
  

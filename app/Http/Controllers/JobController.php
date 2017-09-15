@@ -435,11 +435,11 @@ class JobController extends Controller
                 continue;
 
             // $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'email','value'=>$email])->first();
-            if ($contactMobileId[$key] == '') {
+            if ($contactEmailId[$key] == '') {
                 $userCom = new UserCommunication;
             }
             else{
-                $userCom = UserCommunication::find($contactMobileId[$key]);
+                $userCom = UserCommunication::find($contactEmailId[$key]);
             }  
 
             $userCom->object_type  =  'App\Job' ;
@@ -461,11 +461,11 @@ class JobController extends Controller
             //     $userCom = new UserCommunication;
             // } 
 
-            if ($contactEmailId[$key] == '') {
+            if ($contactMobileId[$key] == '') {
                 $userCom = new UserCommunication;
             }
             else{
-                $userCom = UserCommunication::find($contactEmailId[$key]);
+                $userCom = UserCommunication::find($contactMobileId[$key]);
             } 
 
             $userCom->object_type  =  'App\Job' ;

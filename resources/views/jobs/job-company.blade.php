@@ -60,11 +60,11 @@
     <div class="m-t-40 flex-row c-gap">
         <div class="m-r-10 no-m-l">
             <label class="element-title">Contact Details</label>
-            <div class="text-lighter">
+            <!-- <div class="text-lighter">
                 Seekers would like to contact you or send enquiries. Please share your contact details below. We have pre-populated your email and phone number from your profile details.
-            </div>
+            </div> -->
         </div>
-        <span class="fnb-icons contact mobile-hide"></span>
+        <!-- <span class="fnb-icons contact mobile-hide"></span> -->
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
         <input type="hidden" name="object_type" value="job">
         <input type="hidden" name="object_id" value="{{ $job->id}}">
@@ -74,7 +74,7 @@
 
     <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business email address </label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
         @if($contactEmail)
@@ -177,7 +177,7 @@
 
     <div class="m-t-40 m-b-40 business-phone business-contact">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business mobile number <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business mobile number</label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
         @if(!empty($contactMobile))

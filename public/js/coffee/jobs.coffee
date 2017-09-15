@@ -28,7 +28,8 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
       jobCityObj.closest('.location-select').find('.job-areas').multiselect
         includeSelectAllOption: true
-        numberDisplayed: 1
+        numberDisplayed: 5
+        delimiterText:','
         nonSelectedText: 'Select Area(s)'
 
       jobCityObj.closest('.location-select').find('.job-areas').attr('name','job_area['+city+'][]')
@@ -57,6 +58,9 @@ $('.years-experience').flexdatalist
 setTimeout (->
   $('.job-keywords').flexdatalist
     removeOnBackspace: false
+    searchByWord:true
+    searchContain:true
+    selectionRequired:true
     minLength: 1
     url: '/get-keywords'
     searchIn: ["label"]
@@ -247,7 +251,8 @@ $('.resend-link').click (event)->
 
 $('.expSelect').multiselect
   includeSelectAllOption: true
-  numberDisplayed: 1
+  numberDisplayed: 5
+  delimiterText:','
   nonSelectedText: 'Select Experience'
 
 
@@ -266,12 +271,12 @@ if $(window).width() < 769
 
 
 
-$('body').on 'keyup', '.job-keywords', (e) ->
-  if $('.flexdatalist-multiple .value').length < 0
-    $('.job-keywords').attr('data-parsley-required','')
-  else
-    $('.job-keywords').removeAttr('data-parsley-required')  
-  return
+# $('body').on 'keyup', '.job-keywords', (e) ->
+#   if $('.flexdatalist-multiple .value').length < 0
+#     $('.job-keywords').attr('data-parsley-required','')
+#   else
+#     $('.job-keywords').removeAttr('data-parsley-required')  
+#   return
 
 $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->

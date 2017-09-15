@@ -33,7 +33,8 @@
         jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
         jobCityObj.closest('.location-select').find('.job-areas').multiselect({
           includeSelectAllOption: true,
-          numberDisplayed: 1,
+          numberDisplayed: 5,
+          delimiterText: ',',
           nonSelectedText: 'Select Area(s)'
         });
         jobCityObj.closest('.location-select').find('.job-areas').attr('name', 'job_area[' + city + '][]');
@@ -57,6 +58,9 @@
   setTimeout((function() {
     $('.job-keywords').flexdatalist({
       removeOnBackspace: false,
+      searchByWord: true,
+      searchContain: true,
+      selectionRequired: true,
       minLength: 1,
       url: '/get-keywords',
       searchIn: ["label"]
@@ -238,7 +242,8 @@
 
   $('.expSelect').multiselect({
     includeSelectAllOption: true,
-    numberDisplayed: 1,
+    numberDisplayed: 5,
+    delimiterText: ',',
     nonSelectedText: 'Select Experience'
   });
 
@@ -260,14 +265,6 @@
       }
     });
   }
-
-  $('body').on('keyup', '.job-keywords', function(e) {
-    if ($('.flexdatalist-multiple .value').length < 0) {
-      $('.job-keywords').attr('data-parsley-required', '');
-    } else {
-      $('.job-keywords').removeAttr('data-parsley-required');
-    }
-  });
 
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {

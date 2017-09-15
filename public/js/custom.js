@@ -430,7 +430,8 @@ $(function(){
 	        // different select init
 	        $('.default-area-select').multiselect({
 	            includeSelectAllOption: true,
-	            numberDisplayed: 1,
+	            numberDisplayed: 5,
+        		delimiterText:',',
 	            nonSelectedText: 'Select Area(s)'
 	        });
 		}

@@ -452,6 +452,11 @@ class JobController extends Controller
             $userCom->save();
         }
 
+        // dd($contactEmailId);
+        // if(!empty($contactEmailId)){
+        //     dd(\DB::table('user_communications')->->whereNotIn('id', $contactEmailId)->get());
+        // }
+
         foreach ($contactMobile as $key => $mobile) {
             if(empty($mobile))
                 continue;
@@ -493,8 +498,9 @@ class JobController extends Controller
             'keyword' => 'required',
         ]);
 
-    
-        $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')->get()->toArray();
+        
+        // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')
+        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%"');
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }

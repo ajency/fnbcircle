@@ -493,6 +493,12 @@ $(function(){
 		  }
 		});
 
+		// $('body').on('click', '.pricing-table__cards', function(){
+		// 	setTimeout(function() {
+  //   			$(this).find('input[type=radio][name=plan-select]').trigger('click');
+		// 	}, 500);
+		// })
+
 		// cards equal heights
 		if ($(window).width() > 769){
 			var getheight = $('.design-2-card').outerHeight();

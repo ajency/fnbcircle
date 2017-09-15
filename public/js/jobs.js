@@ -37,6 +37,10 @@
     });
   });
 
+  $('input[name="salary_type"]').click(function(e) {
+    return $('.salary-amt').attr('data-parsley-required', true);
+  });
+
   $('.years-experience').flexdatalist({
     selectionRequired: true,
     minLength: 1,

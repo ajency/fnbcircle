@@ -7,6 +7,7 @@ use App\Defaults;
 use App\Area;
 use App\Company;
 use App\Category;
+use App\UserCommunication;
 
 class Job extends Model
 {
@@ -71,8 +72,8 @@ class Job extends Model
     }
 
     public function jobExperience(){
-    	$experience = ['1-2','3-4','5-8','8-10'];
-    	 
+    	$experience = ['0-1','1-3','3-5','5-7','7-10','10+'];
+
     	return $experience;
     }
 
@@ -143,6 +144,32 @@ class Job extends Model
         }
 
         return $company;
+    }
+
+    public function getCompanyContactEmail($id){
+        $emails = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$id,'type'=>'email'])->get();
+        $companyEmails = [];
+        if(!empty($emails)){
+            foreach ($emails as $key => $email) {
+                $companyEmails[] = ['email'=>$email->value,'visible'=>$email->is_visible,'verified'=>$email->is_verified];
+            }
+             
+        }
+
+        return $companyEmails;
+    }
+
+    public function getCompanyContactMobile($id){
+        $mobilenos = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$id,'type'=>'mobile'])->get();
+        $companyMobile = [];
+        if(!empty($mobilenos)){
+            foreach ($mobilenos as $key => $mobileno) {
+                $companyMobile[] = ['mobile'=>$mobileno->value,'visible'=>$mobileno->is_visible,'verified'=>$mobileno->is_verified];
+            }
+             
+        }
+
+        return $companyMobile;
     }
 
     public function  getJobLocation(){

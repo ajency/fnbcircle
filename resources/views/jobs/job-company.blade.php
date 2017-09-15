@@ -53,7 +53,7 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Does your company have a website? <span class="text-lighter">(optional)</span>:</label>
-        <input type="text" name="company_website" data-parsley-type="url" class="form-control fnb-input" placeholder="http://" value="{{ $jobCompany['website'] }}">  
+        <input type="text" name="company_website" data-parsley-pattern="/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/" data-parsley-pattern-message="Please enter valid url"  class="form-control fnb-input" placeholder="http://" value="{{ $jobCompany['website'] }}">  
     </div>
 
 
@@ -77,11 +77,13 @@
             <label class="label-size">Enter your business email address </label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
+        @if($contactEmail)
+        @foreach($contactEmail as $email)
         <div class="contact-row m-t-5 contact-container">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
                     <input type="hidden" class="contact_id" readonly  name="contact_id">
-                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="primary_email" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -94,7 +96,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <input type="checkbox" class="toggle__check" name="visible_email_contact[]" data-parsley-multiple="contacts" @if($email['visible']) checked @endif data-parsley-errors-container="#toggleError">
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>
@@ -106,14 +108,45 @@
                 </div>
             </div>
         </div>
-        
+        @endforeach
+        @else
+        <div class="contact-row m-t-5 contact-container">
+            <div class="row no-m-b get-val ">
+                <div class="col-sm-5">
+                    <input type="hidden" class="contact_id" readonly  name="contact_id">
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                    <div class=dupError ></div>
+                </div>
+                <div class="col-sm-3 col-xs-4">
+                    <div class="verified flex-row">
+                        <a class="dark-link verify-link">Verify now</a>
+                        <input type="checkbox" name="verified_contact" class="hidden" readonly="">
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-8">
+                    <div class="flex-row close-section">
+                        <div class="verified-toggle flex-row">
+                            <div class="toggle m-l-10 m-r-10">
+                                <input type="checkbox" class="toggle__check" name="visible_email_contact[]" data-parsley-multiple="contacts"   data-parsley-errors-container="#toggleError">
+                                <b class="switch"></b>
+                                <b class="track"></b>
+                            </div>
+                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                        </div>
+                         
+                    </div>
+                    <div id="toggleError"></div>
+                </div>
+            </div>
+        </div>
+        @endif
  
        
         <div class="contact-row m-t-5 contact-group hidden">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="primary_email" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -126,7 +159,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <input type="checkbox" class="toggle__check" name="visible_email_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>
@@ -147,12 +180,14 @@
             <label class="label-size">Enter your business mobile number</label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
+        @if(!empty($contactMobile))
+        @foreach($contactMobile as $mobile)
         <div class="contact-row m-t-5">
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="comm-id" readonly  name="contact_IDs">
-                        <input type="tel" class="form-control fnb-input p-l-5" value="9344567888">
+                        <input type="text" class="form-control fnb-input p-l-5" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -168,7 +203,7 @@
                 <div class="col-sm-4 col-xs-8">
                     <div class="verified-toggle no-m-t flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                            <input type="checkbox" class="toggle__check" name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError"  @if($mobile['visible']) checked @endif>
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
@@ -178,7 +213,40 @@
                 </div>
             </div>
         </div>
-      
+        @endforeach
+        @else
+        <div class="contact-row m-t-5">
+            <div class="row phone-row get-val ">
+                <div class="col-sm-5">
+                    <div class="input-row">
+                        <input type="hidden" class="comm-id" readonly  name="contact_IDs">
+                        <input type="text" class="form-control fnb-input p-l-5"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                        <div class=dupError ></div>
+                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-4">
+                    <div class="verified flex-row">
+
+                        <a href="#" class="dark-link verify-link">Verify now</a>
+                        <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
+
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-8">
+                    <div class="verified-toggle no-m-t flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input type="checkbox" class="toggle__check" name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError"   >
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                    </div>
+                    <div id="toggleError"></div>
+                </div>
+            </div>
+        </div>
+        @endif
      
         <div class="contact-row m-t-5 contact-group hidden">
             <div class="row no-m-b get-val phone-row ">
@@ -187,7 +255,7 @@
                     <input type="hidden" class="comm-id" readonly  name="contact_IDs">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                        <input type="tel" class="form-control fnb-input p-l-5" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                          <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -202,7 +270,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <input type="checkbox" class="toggle__check" name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>

@@ -114,7 +114,7 @@ class JobController extends Controller
 
         if(!empty($experience)){
             $metaData['experience'] = $experience; 
-            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($postExperience); 
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience); 
              
             $experienceYearsLower = $experienceLowerUpperValue['lower'];
             $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
@@ -469,7 +469,7 @@ class JobController extends Controller
 
 
             
-        Session::flash('success_message','Job details successfully saved.');
+        Session::flash('success_message','Company Details saved successfully.');
         $request['next_step'] = 'step-three';
 
         return $request;

@@ -2,9 +2,17 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
   jobCityObj = $(this)
   html=''
   jobCityObj.closest('.location-select').find('.job-areas').html html
+  jobCityObj.closest('.city').find('.city-errors').text ''
   city = $(this).val()
   if city == ''
     return
+
+  jobCityObj.closest('.areas-select').find('select[name="job_city[]"]').each ->
+    if jobCityObj.get(0) != $(this).get(0) and $(this).val() == city
+      jobCityObj.closest('.city').find('.city-errors').text 'City already selected'
+      jobCityObj.val ''
+      return 
+
   $.ajax
     type: 'post'
     url: '/get_areas'

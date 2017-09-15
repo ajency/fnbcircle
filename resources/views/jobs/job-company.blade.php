@@ -82,7 +82,7 @@
         <div class="contact-row m-t-5 contact-container">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
-                    <input type="hidden" class="contact_id" readonly  name="contact_id">
+                    <input type="hidden" class="contact_email_id" readonly value="{{ $email['id'] }}"  name="contact_email_id[]">
                     <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
@@ -113,7 +113,7 @@
         <div class="contact-row m-t-5 contact-container">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
-                    <input type="hidden" class="contact_id" readonly  name="contact_id">
+                    <input type="hidden" class="contact_email_id" readonly value=""  name="contact_email_id[]">
                     <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
@@ -145,7 +145,7 @@
         <div class="contact-row m-t-5 contact-group hidden">
             <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
-                    <input type="hidden" class="comm-id" readonly  name="contact_IDs">
+                    <input type="hidden" class="contact_email_id" readonly value=""  name="contact_email_id[]">
                     <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                     <div class=dupError ></div>
                 </div>
@@ -186,7 +186,7 @@
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row">
-                        <input type="hidden" class="comm-id" readonly  name="contact_IDs">
+                        <input type="hidden" class="contact_mobile_id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
                         <input type="text" class="form-control fnb-input p-l-5" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
@@ -219,7 +219,7 @@
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row">
-                        <input type="hidden" class="comm-id" readonly  name="contact_IDs">
+                        <input type="hidden" class="contact_mobile_id" readonly value=""  name="contact_mobile_id[]">
                         <input type="text" class="form-control fnb-input p-l-5"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
@@ -252,7 +252,7 @@
             <div class="row no-m-b get-val phone-row ">
                 <div class="col-sm-5">
 
-                    <input type="hidden" class="comm-id" readonly  name="contact_IDs">
+                    <input type="hidden" class="comm-id" readonly  name="contact_mobile_id[]">
 
                     <div class="input-row">
                         <input type="tel" class="form-control fnb-input p-l-5" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">

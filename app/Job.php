@@ -151,7 +151,7 @@ class Job extends Model
         $companyEmails = [];
         if(!empty($emails)){
             foreach ($emails as $key => $email) {
-                $companyEmails[] = ['email'=>$email->value,'visible'=>$email->is_visible,'verified'=>$email->is_verified];
+                $companyEmails[] = ['id'=>$email->id,'email'=>$email->value,'visible'=>$email->is_visible,'verified'=>$email->is_verified];
             }
              
         }
@@ -164,7 +164,7 @@ class Job extends Model
         $companyMobile = [];
         if(!empty($mobilenos)){
             foreach ($mobilenos as $key => $mobileno) {
-                $companyMobile[] = ['mobile'=>$mobileno->value,'visible'=>$mobileno->is_visible,'verified'=>$mobileno->is_verified];
+                $companyMobile[] = ['id'=>$mobileno->id,'mobile'=>$mobileno->value,'visible'=>$mobileno->is_visible,'verified'=>$mobileno->is_verified];
             }
              
         }

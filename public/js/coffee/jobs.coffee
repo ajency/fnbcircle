@@ -255,3 +255,16 @@ if $(window).width() < 769
 
 
 
+
+$('body').on 'keyup', '.job-keywords', (e) ->
+  if $('.flexdatalist-multiple .value').length < 0
+    $('.job-keywords').attr('data-parsley-required','')
+  else
+    $('.job-keywords').removeAttr('data-parsley-required')  
+  return
+
+
+
+
+
+

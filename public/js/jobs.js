@@ -252,4 +252,12 @@
     });
   }
 
+  $('body').on('keyup', '.job-keywords', function(e) {
+    if ($('.flexdatalist-multiple .value').length < 0) {
+      $('.job-keywords').attr('data-parsley-required', '');
+    } else {
+      $('.job-keywords').removeAttr('data-parsley-required');
+    }
+  });
+
 }).call(this);

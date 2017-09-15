@@ -484,6 +484,10 @@ $(function(){
 
 		$('body').on('click', '.remove-select-col', function() {
   			$(this).closest('.location-select').remove();
+  			if($('.areas-select').find('.location-select').length ==1){
+  				$('.add-areas').click();
+  			}
+  			 
   		});
 
 

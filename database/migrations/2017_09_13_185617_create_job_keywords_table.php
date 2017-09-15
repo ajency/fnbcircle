@@ -226,7 +226,7 @@ class CreateJobKeywordsTable extends Migration
         }
 
 
-        $jobTypes = ['Full Time','Part Time','Contact/Temp','Internship','Work From Home','International Jobs-Work Abroad'];
+        $jobTypes = ['Full Time','Part Time','Contract/Temp','Internship','Work From Home','International Jobs-Work Abroad'];
 
         foreach ($jobTypes as $key => $jobType) {
             $default = new Defaults;

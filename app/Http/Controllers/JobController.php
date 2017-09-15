@@ -14,6 +14,7 @@ use App\JobKeyword;
 use App\JobCompany;
 use Auth;
 use Session;
+use App\UserCommunication;
 
 class JobController extends Controller
 {
@@ -88,7 +89,7 @@ class JobController extends Controller
         $jobArea = $data['job_area'];
         $jobType = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
-        $experience = $data['experience'];
+        $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
@@ -112,10 +113,9 @@ class JobController extends Controller
         $experienceYearsUpper  = 0;
 
         if(!empty($experience)){
-            $postExperience = explode(',', $experience);
-            $metaData['experience'] = $postExperience; 
+            $metaData['experience'] = $experience; 
             $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($postExperience); 
-            
+             
             $experienceYearsLower = $experienceLowerUpperValue['lower'];
             $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
           
@@ -187,7 +187,11 @@ class JobController extends Controller
 
 
             foreach ($jobExperience as $key => $experience) {
-                $experienceValues = explode('-', $experience);
+                if($experience != '10+')
+                    $experienceValues = explode('-', $experience);
+                else
+                    $experienceValues = explode('+', $experience);
+
                 if(!empty($experienceValues)){
                     $lower[] = trim($experienceValues[0]);
                     $upper[] = trim($experienceValues[1]);
@@ -253,7 +257,11 @@ class JobController extends Controller
         }
         elseif ($step == 'step-two'){
             $jobCompany  = $job->getJobCompany();
+            $contactEmail = $job->getCompanyContactEmail($job->id);
+            $contactMobile = $job->getCompanyContactMobile($job->id);
             $data['jobCompany'] = $jobCompany;
+            $data['contactEmail'] = $contactEmail;
+            $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
             $blade = 'jobs.job-company';
         }
@@ -319,7 +327,7 @@ class JobController extends Controller
         $jobArea = $data['job_area'];
         $jobType = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
-        $experience = $data['experience'];
+        $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
@@ -343,9 +351,8 @@ class JobController extends Controller
         $experienceYearsUpper  = 0;
 
         if(!empty($experience)){
-            $savedExperience = explode(',', $experience);
-            $metaData['experience'] = $savedExperience; 
-            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($savedExperience);
+            $metaData['experience'] = $experience; 
+            $experienceLowerUpperValue = $this->getExperienceLowerAndUpperValue($experience);
             
             $experienceYearsLower = $experienceLowerUpperValue['lower'];
             $experienceYearsUpper  = $experienceLowerUpperValue['upper'];
@@ -365,7 +372,7 @@ class JobController extends Controller
         $job->salary_upper = $salaryUpper;
         $job->job_modifier = $userId;
         $job->meta_data = $metaData;
-        $job->save();
+        $job->save(); 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
         Session::flash('success_message','Job details successfully saved.');
@@ -387,6 +394,10 @@ class JobController extends Controller
         $title = $data['company_name'];
         $description = $data['company_description'];
         $website = $data['company_website'];
+        $contactEmail = $data['contact_email'];
+        $contactMobile = $data['contact_mobile'];
+        $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
+        $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
  
         
         if($companyId == ''){
@@ -416,6 +427,47 @@ class JobController extends Controller
             $jobCompany->company_id = $company->id;
             $jobCompany->save();
         }  
+
+        foreach ($contactEmail as $key => $email) {
+            if(empty($email))
+                continue;
+
+            $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'email','value'=>$email])->first();
+            if (empty($userCom)) {
+                $userCom = new UserCommunication;
+            }  
+
+            $userCom->object_type  =  'App\Job' ;
+            $userCom->object_id  =  $job->id ;
+            $userCom->value  =  $email ;
+            $userCom->type  =  'email' ;
+            $userCom->is_primary = 0;
+            $userCom->is_communication = 1;
+            $userCom->is_visible = (isset($visibleEmailContact[$key]) && $visibleEmailContact[$key]=='on') ? 1 :0;
+            $userCom->save();
+        }
+
+        foreach ($contactMobile as $key => $mobile) {
+            if(empty($mobile))
+                continue;
+            
+            $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'mobile','value'=>$mobile])->first();
+            if (empty($userCom)) {
+                $userCom = new UserCommunication;
+            }  
+
+            $userCom->object_type  =  'App\Job' ;
+            $userCom->object_id  =  $job->id ;
+            $userCom->value  =  $mobile ;
+            $userCom->type  =  'mobile' ;
+            $userCom->is_primary = 0;
+            $userCom->is_communication = 1;
+            $userCom->is_visible = (isset($visibleMobileContact[$key]) && $visibleMobileContact[$key]=='on') ? 1 :0;
+            $userCom->save();
+        }
+
+
+
             
         Session::flash('success_message','Job details successfully saved.');
         $request['next_step'] = 'step-three';

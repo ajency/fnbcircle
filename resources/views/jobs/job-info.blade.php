@@ -59,7 +59,7 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size">Keywords :</label>
+        <label class="label-size required">Keywords :</label>
         <div class="m-t-5 flex-data-row">
             <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
@@ -98,7 +98,7 @@
                 <div id="fnb-errors" class="fnb-errors"></div>
             </div>
             
-            <div class=" remove-select-col flex-row @if($i==count($savedjobLocation)) hidden @endif">
+            <div class=" remove-select-col flex-row ">
                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
             </div>
             
@@ -185,9 +185,9 @@
  
         <div class="m-t-5 brands-container auto-exp-select catSelect">
 
-              <select class="fnb-select select-variant form-control text-lighter expSelect" name="experience" id="yrsExpInput"  multiple="multiple">
+              <select class="fnb-select select-variant form-control text-lighter expSelect" name="experience[]" id="yrsExpInput"  multiple="multiple">
                 @foreach($defaultExperience as $experienceId =>$experience)
-                    <option value="{{ $experience }}">{{ $experience }}</option>
+                    <option @if(isset($job['meta_data']['experience']) && in_array($experience,$job['meta_data']['experience'])) selected @endif value="{{ $experience }}">{{ $experience }}</option>
                 @endforeach
 
             </select>
@@ -253,13 +253,13 @@
             <div class="flex-row">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors">
+                  <input type="text" class="form-control salary-amt" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_type']) data-parsley-required @endif value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>
                 <p class="m-b-0 sal-divider">to</p>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" >
+                  <input type="text" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_type']) data-parsley-required @endif value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary.">
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>
             </div>

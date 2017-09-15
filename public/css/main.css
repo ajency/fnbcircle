@@ -7222,24 +7222,19 @@ input[type=checkbox].custom-checkbox:before {
   line-height: 1.3;
   font-size: 0.85em;
 }
-.dropify-wrapper .dropify-clear.dropify-clear {
-  top: 0;
-  right: 0;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  line-height: 24px;
-  padding: 0;
+@media screen and (min-width: 769px) {
+  .dropify-wrapper .dropify-clear.dropify-clear {
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    line-height: 24px;
+    padding: 0;
+  }
 }
 .dropify-wrapper .dropify-clear.dropify-clear i {
   font-style: normal;
-}
-.dropify-wrapper.touch-fallback .dropify-clear {
-  top: -15px;
-  right: -10px;
-  border-radius: 50%;
-  color: #000;
-  border-color: #fff;
 }
 .dropify-wrapper.touch-fallback .dropify-preview .dropify-infos .dropify-infos-inner {
   padding: 0;
@@ -8890,9 +8885,10 @@ input[type='checkbox'].remove-addr {
   }
 }
 .remove-select-col {
-  padding-left: 0.8em;
   cursor: pointer;
   padding-top: 0.5em;
+  position: relative;
+  left: 8px;
 }
 .location-select .multiselect-selected-text,
 .auto-exp-select .multiselect-selected-text {
@@ -9057,23 +9053,30 @@ input[type='checkbox'].remove-addr {
   margin: 0 auto;
 }
 @media screen and (max-width: 768px) {
+  .job-type {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
   .salary-row .radio-inline,
   .J-type .radio-inline,
   .salary-row .checkbox-inline,
   .J-type .checkbox-inline {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
     margin-left: 0;
     margin-right: 0.5em;
     -webkit-box-flex: 1;
-    -webkit-flex: 1 0 33.33%;
-        -ms-flex: 1 0 33.33%;
-            flex: 1 0 33.33%;
+    -webkit-flex: 1 0 35%;
+        -ms-flex: 1 0 35%;
+            flex: 1 0 35%;
+    max-width: inherit;
   }
   .salary-range {
     margin-top: 0;
   }
   .salary-range .input-group {
-    width: 120px;
+    width: 125px;
   }
   .J-company {
     -webkit-box-orient: vertical;
@@ -9087,8 +9090,23 @@ input[type='checkbox'].remove-addr {
     -webkit-flex: 1;
         -ms-flex: 1;
             flex: 1;
-    width: 80%;
     padding-right: 0;
+    -webkit-align-self: flex-start;
+        -ms-flex-item-align: start;
+            align-self: flex-start;
+  }
+  .J-company__logo .dropify-wrapper {
+    width: 150px;
+  }
+  .J-company__logo .dropify-wrapper.touch-fallback .dropify-message {
+    padding: 10px 0;
+  }
+  .J-company__logo .dropify-wrapper.has-preview {
+    width: auto;
+  }
+  .J-company__logo .dropify-wrapper.has-preview .dropify-clear {
+    font-size: 0.7em;
+    padding: 2px 4px;
   }
   .J-company__name {
     -webkit-box-flex: 1;

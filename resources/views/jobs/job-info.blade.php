@@ -43,7 +43,7 @@
                 </div> -->
                 <div class="brands-container">
                      <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
-                        <option value="">- select -</option>
+                        <option value="">- select category-</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
                             @endforeach
@@ -59,7 +59,7 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size">Keywords</label>
+        <label class="label-size">Keywords :</label>
         <div class="m-t-5 flex-data-row">
             <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
@@ -159,7 +159,7 @@
 
     <div class="m-t-40 c-gap">
  
-        <label class="label-size required">Job Description </label>
+        <label class="label-size required">Job description </label>
         <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
          
  
@@ -168,7 +168,7 @@
     <!-- Job type -->
     
     <div class="m-t-40 c-gap J-type">
-        <label class="label-size">What type of job is it?</label>
+        <label class="label-size">What type of a job is it? <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5 job-type mobile-flex flex-row flex-wrap">
         @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="checkbox-inline">
@@ -181,7 +181,7 @@
     <!-- Experience -->
 
     <div class="m-t-40 c-gap flex-data-row">
-        <label class="label-size">Required years of experience:</label>
+        <label class="label-size">Required years of experience: <span class="text-lighter">(optional)</span></label>
  
         <div class="m-t-5 brands-container auto-exp-select catSelect">
 
@@ -240,7 +240,7 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">Offered salary : <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">What is the salary for this job : <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">

@@ -239,5 +239,12 @@ $('.expSelect').multiselect
 
 
    
-
+$('.comp-logo').dropify messages:
+  'default': 'Add Logo'
+  'replace': 'Change Logo'
+  'remove': '<i class="">&#10005;</i>'
  
+
+
+
+

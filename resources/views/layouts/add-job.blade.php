@@ -10,7 +10,7 @@
     <!-- multiselect -->
     <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
     <!-- Ckeditor -->
-    <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet">
+    <!-- <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet"> -->
 @endsection
 
 @section('js')
@@ -128,7 +128,7 @@
                                     </li>
 
                                     <li class="@if(!$job->id) disable @endif">
-                                        <a href="#" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'step-three') # @else {{ url('/jobs/'.$job->reference_id.'/step-three') }} @endif" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -143,7 +143,7 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Fill in the details of the job properly
+                                        Fill in the details of the job properly.
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
@@ -219,11 +219,11 @@
                                    
                                 </div>
                                 <div class="fly-out__content">
-                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
+                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
 
-                                           <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle <span class="text-primary bolder status-changer">Published  </span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
+                                           <span class="text-primary bolder status-changer">Note:</span> You can add multiple jobs on FnB Circle <span class="text-primary bolder status-changer">Published  </span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
 
                                          
                                     </p>

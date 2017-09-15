@@ -31,7 +31,7 @@
     <div class="m-t-40 c-gap">
         <div class="J-company flex-row">
             <div class="J-company__logo">
-                <input type="file" class="list-image" data-height="100" />
+                <input type="file" class="comp-logo" data-height="100" />
             </div>
             <div class="J-company__name">
                 <label class="label-size required">Name of your company?</label>

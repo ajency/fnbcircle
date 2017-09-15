@@ -43,7 +43,7 @@
                 </div> -->
                 <div class="brands-container">
                      <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
-                        <option value="">- select -</option>
+                        <option value="">- select category-</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
                             @endforeach

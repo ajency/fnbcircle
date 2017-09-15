@@ -61,7 +61,7 @@
     <div class="m-t-40 c-gap">
         <label class="label-size">Keywords :</label>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
+            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" data-parsley-required placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
             <datalist id="jobKeyword">
               

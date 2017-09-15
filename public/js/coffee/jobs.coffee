@@ -75,17 +75,20 @@ $('.job-save-btn').click (e) ->
 
 
 $('#salary_lower').on 'change', ->
-  salaryLower = parseInt $(this).val()
-  salaryUpper = parseInt $('#salary_upper').val()
-  if salaryLower != ''
+  if $(this).val() != ''
+    salaryLower = parseInt $(this).val() 
+    salaryUpper = parseInt $('#salary_upper').val()
     $('#salary_upper').attr('data-parsley-min',salaryLower) 
+    $('#salary_upper').attr 'data-parsley-required', true
     if salaryUpper =='' &&  salaryUpper < salaryLower
       $('#salary_upper').val parseInt salaryLower + 1
-      $('#salary_upper').attr min salaryLower
+      $('#salary_upper').attr 'min', salaryLower
   else
+    console.log 1212
     $('#salary_upper').removeAttr('data-parsley-min') 
+    $('#salary_upper').removeAttr('data-parsley-required') 
     $('#salary_upper').val ''
-    $('#salary_upper').removeAttr min salaryLower
+    $('#salary_upper').removeAttr 'min'
 
   return
  

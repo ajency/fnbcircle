@@ -128,8 +128,10 @@
     contactObj = $(this);
     val = contactObj.val;
     contactObj.closest('.contact-info').find('.contact-input').each(function() {
-      console.log($(this).val());
+      console.log(contactObj.get(0));
       if (contactObj.get(0) !== $(this).get(0) && $(this).val() === val) {
+        console.log($(this).val());
+        console.log(val);
         contactObj.closest('div').find('.dupError').html(contactObj.val + ' already added to list.');
         contactObj.val('');
         return false;

@@ -258,6 +258,7 @@ class JobController extends Controller
             $blade = 'jobs.job-company';
         }
         elseif ($step == 'step-three'){
+            $data['back_url'] = url('jobs/'.$job->reference_id.'/step-two'); 
             $blade = 'jobs.job-plan-selection';
         }
         else{
@@ -417,7 +418,7 @@ class JobController extends Controller
         }  
             
         Session::flash('success_message','Job details successfully saved.');
-        $request['next_step'] = 'step-two';
+        $request['next_step'] = 'step-three';
 
         return $request;
     }

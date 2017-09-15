@@ -74,9 +74,20 @@
   });
 
   $('#salary_lower').on('change', function() {
-    var salaryLower;
-    salaryLower = $(this).val();
-    $('#salary_upper').attr('data-parsley-min', salaryLower);
+    var salaryLower, salaryUpper;
+    salaryLower = parseInt($(this).val());
+    salaryUpper = parseInt($('#salary_upper').val());
+    if (salaryLower !== '') {
+      $('#salary_upper').attr('data-parsley-min', salaryLower);
+      if (salaryUpper === '' && salaryUpper < salaryLower) {
+        $('#salary_upper').val(parseInt(salaryLower + 1));
+        $('#salary_upper').attr(min(salaryLower));
+      }
+    } else {
+      $('#salary_upper').removeAttr('data-parsley-min');
+      $('#salary_upper').val('');
+      $('#salary_upper').removeAttr(min(salaryLower));
+    }
   });
 
   $('body').on('click', '.add-another', function(e) {

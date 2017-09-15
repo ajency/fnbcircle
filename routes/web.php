@@ -82,5 +82,5 @@ Route::group( ['middleware' => ['auth']], function() {
 
 	/**Users**/
 
-	Route::get('/user/verify-contact-details','JobController@verifyContactDetails');
+	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 });

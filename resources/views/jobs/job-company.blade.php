@@ -72,31 +72,37 @@
 
     <!-- email -->
 
-    <div class="m-t-20 business-email business-contact contact-info" contact-type="email">
+    <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
         <div class="flex-row space-between mobile-sp-row">
             <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
         <div class="contact-row m-t-5 contact-container">
-            <div class="row no-m-b">
+            <div class="row no-m-b get-val ">
                 <div class="col-sm-5">
-                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="">
+                    <input type="hidden" class="contact_id" readonly  name="contact_id">
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="primary_email" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
+                    <div class=dupError ></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <a href="#" class="dark-link verify-link">Verify now</a>
+                        <a class="dark-link verify-link">Verify now</a>
+                        <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">
-                    <div class="verified-toggle flex-row">
-                        <div class="toggle m-l-10 m-r-10">
-                            <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
-                            <b class="switch"></b>
-                            <b class="track"></b>
+                    <div class="flex-row close-section">
+                        <div class="verified-toggle flex-row">
+                            <div class="toggle m-l-10 m-r-10">
+                                <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <b class="switch"></b>
+                                <b class="track"></b>
+                            </div>
+                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Visible on the listing</p>
+                         
                     </div>
-                    <div id="toggleError" class="visible-error"></div>
+                    <div id="toggleError"></div>
                 </div>
             </div>
         </div>
@@ -328,7 +334,7 @@
 <!-- Email verification -->
 
 
-<div class="modal fnb-modal verification-step-modal email-modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal verification-step-modal email-modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" modal-type="email">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -341,7 +347,7 @@
                     <p class="text-lighter x-small">Please enter the 4 digit code sent to your email address.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
-                            <div class="number">
+                            <div class="number contact-input-value">
                                 Qureshi@gmail.com
                             </div>
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
@@ -358,7 +364,7 @@
                     <h6 class="sub-title">Please provide a new email for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="email" class="fnb-input text-color value-enter" placeholder="Enter new email..." data-parsley-errors-container="#customError">
+                            <input text="email" class="fnb-input text-color value-enter change-contact-input" placeholder="Enter new email..." data-parsley-errors-container="#customError" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
                         <div id="customError" class="customError"></div>

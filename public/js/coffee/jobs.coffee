@@ -118,26 +118,119 @@ setTimeout (->
 
 
 $(document).on 'click', '.verify-link', (event) ->
-  contactValue = $(this).closest('.contact-container').find('.contact-input').val
-  contactType = $(this).closest('.contact-container').attr('contact-type')
-  objectType = $('input[name="object_type"]').val
-  objectId = $('input[name="object_id"]').val
+  $('.contact-container').removeClass('under-review')
+  $(this).closest('.contact-container').addClass('under-review')
+  verifyContactDetail(true)
 
+
+verifyContactDetail = (showModal) ->
+  contactValueObj = $('.under-review').find('.contact-input')
+  contactValue = contactValueObj.val()
+  contactType = $('.under-review').closest('.contact-info').attr('contact-type')
+  objectType = $('input[name="object_type"]').val()
+  objectId = $('input[name="object_id"]').val()
+
+ 
+  if showModal && contactValue != '' && contactValueObj.parsley().validate()
+    $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
+    $('#'+contactType+'-modal').modal 'show'
+  
+
+    console.log 'send OTP'
+    $.ajax
+      type: 'post'
+      url: '/user/verify-contact-details'
+      data:
+        'id': ''
+        'contact_value': contactValue
+        'contact_type': contactType
+        'object_id': objectId
+        'object_type': objectType
+      success: (data) ->
+         
+        # console.log id.val()
+        return
+      error: (request, status, error) ->
+        throwError()
+        return
+      async: false
+    # $('.verification-step-modal .number').text get_val
+    # $('.verify-steps').addClass 'hidden'
+    # $('.default-state, .verificationFooter').removeClass 'hidden'
+
+  else 
+    $('#'+contactType+'-modal').modal 'hide'
 
 $('.contact-info').on 'change', '.contact-input', (event) ->
   contactObj = $(this)
-  val = contactObj.val;
-  contactObj.closest('.contact-info').find('.contact-input').each ->
-    console.log contactObj.get(0)
-    if contactObj.get(0) != $(this).get(0) and $(this).val() == val
-      console.log $(this).val()
-      console.log val
-      contactObj.closest('div').find('.dupError').html contactObj.val+' already added to list.'
-      contactObj.val ''
-      return false
-  return
-  
+  contactval = contactObj.val()
+  if !checkDuplicateEntries(contactObj)
+    contactObj.closest('div').find('.dupError').html contactval+' already added to list.'
+    contactObj.val ''
+  else 
+    contactObj.closest('div').find('.dupError').html ''
 
+  return
+
+checkDuplicateEntries = (contactObj) ->
+  contactval = contactObj.val()
+  $('form').parsley().validate()
+  result = true
+  contactObj.closest('.contact-info').find('.contact-input').each ->
+
+    if contactObj.get(0) != $(this).get(0) and $(this).val() == contactval
+      result = false
+      return false
+
+  return result 
+
+
+$('.edit-number').click (event)->
+  $('.value-enter').val('')
+  $('.default-state').addClass 'hidden'
+  $('.add-number').removeClass 'hidden'
+  $('.verificationFooter').addClass 'no-bg'
+  return
+
+
+$('.step-back').click (event)->
+  $('.default-state').removeClass 'hidden'
+  $('.add-number').addClass 'hidden'
+  $('.verificationFooter').removeClass 'no-bg'
+  return
+
+
+$('.verify-stuff').click (event)->
+  newContactObj = $(this).closest('.modal').find('.change-contact-input')
+  changedValue = newContactObj.val()
+  oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
+
+  if newContactObj.parsley().validate() == true
+    # upadte parent conatiner input
+
+    oldContactObj = $('.under-review').find('.contact-input')
+    oldContactObj.val changedValue
+    
+    if !checkDuplicateEntries(oldContactObj)
+      oldContactObj.val oldCantactValue
+      $(this).closest('.verify-steps').find('.customError').text changedValue+' already added to list.'
+    else 
+      $(this).closest('.verify-steps').find('.customError').text ''
+      $(this).closest('.modal').find('.contact-input-value').text(changedValue)
+      $('.default-state').removeClass 'hidden'
+      $('.add-number').addClass 'hidden'
+      $('.verificationFooter').removeClass 'no-bg'
+      verifyContactDetail(false)
+
+  return
+
+$('.resend-link').click (event)->
+  $(this).addClass 'sending'
+  setTimeout (->
+    $('.resend-link').removeClass 'sending'
+    return
+  ), 2500
+  return
 
 $('.expSelect').multiselect
   includeSelectAllOption: true

@@ -2533,7 +2533,10 @@ input[type='checkbox'].remove-addr{
 
 .catSelect{
 	@media screen and (min-width: 769px){
-		width: 30%;
+		width: 20%;
+	}
+	@media screen and (max-width: @mobile){
+		width: 60%;
 	}
 }
 
@@ -2543,7 +2546,7 @@ input[type='checkbox'].remove-addr{
 	padding-top: 0.5em;
 }
 
-.location-select{
+.location-select,.auto-exp-select{
 	.multiselect-selected-text{
 		color: #353548;
 		font-size: 1em;

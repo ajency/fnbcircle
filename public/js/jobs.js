@@ -139,4 +139,10 @@
     });
   });
 
+  $('.expSelect').multiselect({
+    includeSelectAllOption: true,
+    numberDisplayed: 1,
+    nonSelectedText: 'Select Experience'
+  });
+
 }).call(this);

@@ -139,6 +139,11 @@ $('.contact-info').on 'change', '.contact-input', (event) ->
   
 
 
+$('.expSelect').multiselect
+  includeSelectAllOption: true
+  numberDisplayed: 1
+  nonSelectedText: 'Select Experience'
+
 
    
 

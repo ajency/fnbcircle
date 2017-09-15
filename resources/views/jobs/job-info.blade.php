@@ -42,7 +42,7 @@
                     Help text comes here
                 </div> -->
                 <div class="brands-container">
-                     <select class="fnb-select select-variant form-control text-lighter" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                     <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                         <option value="">- select -</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ $category }}</option>
@@ -183,15 +183,23 @@
     <div class="m-t-40 c-gap flex-data-row">
         <label class="label-size">Required years of experience:</label>
  
-        <div class="m-t-5 brands-container auto-exp-select">
-            <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) value='{{ implode(",",$job['meta_data']['experience']) }}' @endif>
+        <div class="m-t-5 brands-container auto-exp-select catSelect">
+
+              <select class="fnb-select select-variant form-control text-lighter expSelect" name="experience" id="yrsExpInput" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+                @foreach($defaultExperience as $experienceId =>$experience)
+                    <option value="{{ $experienceId }}">{{ $experience }}</option>
+                @endforeach
+
+            </select>
+
+            <!-- <input type="text" class="form-control fnb-input years-experience" name="experience" placeholder="Type and hit enter" list="yrsExp" multiple="multiple" id="yrsExpInput" @if(isset($job['meta_data']['experience']) && !empty($job['meta_data']['experience'])) value='{{ implode(",",$job['meta_data']['experience']) }}' @endif>
  
 
             <datalist id="yrsExp">
                @foreach($defaultExperience as $experienceId =>$experience)
                 <option value="{{ $experienceId }}" >{{ $experience }}</option>
                 @endforeach
-            </datalist>
+            </datalist> -->
             <!--  <div class="m-t-10">
                 <a href="#" class="secondary-link text-decor heavier add-custom">+ Add custom</a>
             </div> -->

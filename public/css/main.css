@@ -8881,7 +8881,12 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .catSelect {
-    width: 30%;
+    width: 20%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .catSelect {
+    width: 60%;
   }
 }
 .remove-select-col {
@@ -8889,18 +8894,22 @@ input[type='checkbox'].remove-addr {
   cursor: pointer;
   padding-top: 0.5em;
 }
-.location-select .multiselect-selected-text {
+.location-select .multiselect-selected-text,
+.auto-exp-select .multiselect-selected-text {
   color: #353548;
   font-size: 1em;
 }
-.location-select .multiselect-container.multiselect-container li label.checkbox {
+.location-select .multiselect-container.multiselect-container li label.checkbox,
+.auto-exp-select .multiselect-container.multiselect-container li label.checkbox {
   margin: 0.6em 0;
   padding-left: 2.5em;
 }
-.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox] {
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox],
+.auto-exp-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox] {
   position: relative;
 }
-.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
+.location-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before,
+.auto-exp-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
   top: -8px;
 }
 .cityArea {

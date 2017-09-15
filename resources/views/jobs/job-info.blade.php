@@ -59,7 +59,7 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size required">Keywords :</label>
+        <label class="label-size required">Keywords:</label>
         <div class="m-t-5 flex-data-row">
             <input type="text" class="form-control fnb-input job-keywords" name="job_keyword"  placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
@@ -162,7 +162,7 @@
 
     <div class="m-t-40 c-gap">
  
-        <label class="label-size required">Job description </label>
+        <label class="label-size required">Job description:</label>
         <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
          
  
@@ -243,7 +243,7 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">What is the salary for this job : <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">

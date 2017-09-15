@@ -143,7 +143,7 @@ class JobController extends Controller
 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-        Session::flash('success_message','Job details successfully saved.');
+        Session::flash('success_message','Job details saved successfully.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
     }
@@ -375,7 +375,7 @@ class JobController extends Controller
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
-        Session::flash('success_message','Job details successfully saved.');
+        Session::flash('success_message','Job details saved successfully.');
         $request['next_step'] = 'step-two';
 
         return $request;
@@ -388,7 +388,7 @@ class JobController extends Controller
             'company_name' => 'required|max:255',
         ]);
 
-        $data = $request->all();    
+        $data = $request->all();  
 
         $companyId = $data['company_id'];
         $title = $data['company_name'];
@@ -396,6 +396,8 @@ class JobController extends Controller
         $website = $data['company_website'];
         $contactEmail = $data['contact_email'];
         $contactMobile = $data['contact_mobile'];
+        $contactEmailId = $data['contact_email_id'];
+        $contactMobileId = $data['contact_mobile_id'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
  
@@ -432,9 +434,12 @@ class JobController extends Controller
             if(empty($email))
                 continue;
 
-            $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'email','value'=>$email])->first();
-            if (empty($userCom)) {
+            // $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'email','value'=>$email])->first();
+            if ($contactMobileId[$key] == '') {
                 $userCom = new UserCommunication;
+            }
+            else{
+                $userCom = UserCommunication::find($contactMobileId[$key]);
             }  
 
             $userCom->object_type  =  'App\Job' ;
@@ -450,11 +455,18 @@ class JobController extends Controller
         foreach ($contactMobile as $key => $mobile) {
             if(empty($mobile))
                 continue;
-            
-            $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'mobile','value'=>$mobile])->first();
-            if (empty($userCom)) {
+
+            // $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'mobile','value'=>$mobile])->first();
+            // if (empty($userCom)) {
+            //     $userCom = new UserCommunication;
+            // } 
+
+            if ($contactEmailId[$key] == '') {
                 $userCom = new UserCommunication;
-            }  
+            }
+            else{
+                $userCom = UserCommunication::find($contactEmailId[$key]);
+            } 
 
             $userCom->object_type  =  'App\Job' ;
             $userCom->object_id  =  $job->id ;
@@ -469,7 +481,7 @@ class JobController extends Controller
 
 
             
-        Session::flash('success_message','Company Details saved successfully.');
+        Session::flash('success_message','Company details saved successfully.');
         $request['next_step'] = 'step-three';
 
         return $request;

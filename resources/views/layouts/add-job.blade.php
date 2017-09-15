@@ -128,7 +128,7 @@
                                     </li>
 
                                     <li class="@if(!$job->id) disable @endif">
-                                        <a href="#" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'step-three') # @else {{ url('/jobs/'.$job->reference_id.'/step-three') }} @endif" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

@@ -493,11 +493,9 @@ $(function(){
 		  }
 		});
 
-		// $('body').on('click', '.pricing-table__cards', function(){
-		// 	setTimeout(function() {
-  //   			$(this).find('input[type=radio][name=plan-select]').trigger('click');
-		// 	}, 500);
-		// })
+		$('.sub-row .fnb-btn').click(function() {
+		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');	    
+		});
 
 		// cards equal heights
 		if ($(window).width() > 769){

@@ -100,7 +100,7 @@
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">@if($email['visible']) Visible on the listing @else Not visible on the listing @endif</p>
                         </div>
                          <i class="fa fa-times removeRow"></i>
                     </div>
@@ -208,7 +208,7 @@
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">@if($mobile['visible']) Visible on the listing @else Not visible on the listing @endif  </p>
                         </div>
                         <i class="fa fa-times removeRow"></i>
                     </div>

@@ -266,4 +266,12 @@
     }
   });
 
+  $(document).on('change', '.business-contact .toggle__check', function() {
+    if ($(this).is(':checked')) {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
+    } else {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
+    }
+  });
+
 }).call(this);

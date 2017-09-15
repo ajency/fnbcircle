@@ -270,7 +270,13 @@ $('body').on 'keyup', '.job-keywords', (e) ->
     $('.job-keywords').removeAttr('data-parsley-required')  
   return
 
-
+$(document).on 'change', '.business-contact .toggle__check', ->
+# $('.business-contact .toggle__check').change ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
+  return
 
 
 

@@ -273,7 +273,7 @@ $(function(){
 				$("#login-modal").modal('show');
 			}
 
-			if (window.location.search.indexOf("message=") > -1) { // If login=true exist in URL, then trigger the Popup
+			if (window.location.search.indexOf("message=") > -1) { // If login=true exist & message param exist in URL, then trigger the Popup
 				var message_key = window.location.search.split("message=")[1].split("&")[0];
 
 				var popup_message = "#login-modal .login-container .alert";
@@ -305,6 +305,27 @@ $(function(){
 					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
 				}
+			}
+
+			if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup
+				$(".require-modal").modal('show');
+
+				if (window.location.search.indexOf("login=") >= 0) { // check if the login=true exist in the URL, if it Does, then remove it
+					var url_split = window.location.search.split('?')[1].split('&');
+					for(i = 0; i < url_split.length; i++) {
+						if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+							url += (url == '/' ? '?': '&') + url_split[i];
+						}
+					}
+				} else {
+					url = window.location.search;
+				}
+
+				if (window.location.hash) {
+					url += window.location.hash;
+				}
+
+				window.history.pushState('', '', url);
 			}
 		});
 

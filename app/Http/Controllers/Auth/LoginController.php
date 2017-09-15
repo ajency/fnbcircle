@@ -88,7 +88,8 @@ class LoginController extends Controller
         
         if ($valid_response["status"] == "success") {
             if($valid_response["authentic_user"]) {
-                return $fnbauth_obj->rerouteUser(array("user" => $valid_response["user"], "status" => "success"), "website");
+                return $fnbauth_obj->rerouteUser(array("user" => $valid_response["user"], "status" => "success", "filled_required_status" => $valid_response["required_fields_filled"]), "website");
+
             } else {
                 $previous_url = url()->previous();
                 $redirect_url = strpos($previous_url, "?") >= 0 ? explode('?', url()->previous())[0] : url()->previous();

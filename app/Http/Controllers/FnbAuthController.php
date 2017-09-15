@@ -17,11 +17,16 @@ use Illuminate\Support\Facades\Session;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class FnbAuthController extends Controller {
-    public function activateUser($user, $type) {
+    public function activateUser($user, $required_field_status, $type) {
         if ($type == 'website') {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
-                return redirect('/');
+
+                $redirect_url = '/';
+                if(!$required_field_status["filled_required"]) {
+                	$redirect_url = "/?required_field=true";
+                }
+            	return redirect($redirect_url);
             } else if ($user->status == 'inactive') {
                 return redirect('/?login=true&message=email_confirm');
             } else if ($user->status == 'suspended') {
@@ -35,7 +40,7 @@ class FnbAuthController extends Controller {
 
         if ($type == "website") { // It's Website request
             if ($data["status"] == "success") { // If Account (Exist or Created) & Verified then,
-                return $this->activateUser($data["user"], "website"); // Pass User Object
+                return $this->activateUser($data["user"], $data["filled_required_status"], "website"); // Pass User Object
             } else { // Same Email but different Source
                 if ($arraySocial["status"] == "error") { // If 'account' exists but 'Different Source', then 'Reject'
                     return redirect('/?login=true&message=is_' . $data["user"]->signup_source . '_account');

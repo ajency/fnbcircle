@@ -10,7 +10,7 @@
     <!-- multiselect -->
     <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
     <!-- Ckeditor -->
-    <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet">
+    <!-- <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet"> -->
 @endsection
 
 @section('js')

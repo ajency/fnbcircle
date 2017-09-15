@@ -143,7 +143,7 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Fill in the details of the job properly
+                                        Fill in the details of the job properly.
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">

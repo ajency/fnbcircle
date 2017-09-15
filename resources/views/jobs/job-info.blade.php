@@ -159,7 +159,7 @@
 
     <div class="m-t-40 c-gap">
  
-        <label class="label-size required">Job Description </label>
+        <label class="label-size required">Job description </label>
         <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
          
  
@@ -168,7 +168,7 @@
     <!-- Job type -->
     
     <div class="m-t-40 c-gap J-type">
-        <label class="label-size">What type of job is it?</label>
+        <label class="label-size">What type of a job is it? <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5 job-type mobile-flex flex-row flex-wrap">
         @foreach($jobTypes as $jobTypeId => $jobType)
           <label class="checkbox-inline">
@@ -181,7 +181,7 @@
     <!-- Experience -->
 
     <div class="m-t-40 c-gap flex-data-row">
-        <label class="label-size">Required years of experience:</label>
+        <label class="label-size">Required years of experience: <span class="text-lighter">(optional)</span></label>
  
         <div class="m-t-5 brands-container auto-exp-select catSelect">
 
@@ -240,7 +240,7 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">Offered salary : <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">What is the salary for this job : <span class="text-lighter">(optional)</span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">

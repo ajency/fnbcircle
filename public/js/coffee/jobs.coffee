@@ -87,6 +87,9 @@ $('body').on 'click', '.add-another', (e)->
   contact_group_clone.insertBefore(contact_group)
 
 $('body').on 'click', '.removeRow', ->
+  if $(this).closest('.contact-info').find('.contact-container').length == 2
+    $(this).closest('.contact-info').find('.add-another').click()
+
   $(this).closest('.get-val').parent().remove()
  
 

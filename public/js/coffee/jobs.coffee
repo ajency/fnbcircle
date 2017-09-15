@@ -76,6 +76,7 @@ $('#salary_lower').on 'change', ->
   return
  
 
+
 $('body').on 'click', '.add-another', (e)->
   e.preventDefault()
   contact_group = $(this).closest('.business-contact').find('.contact-group')
@@ -146,8 +147,7 @@ verifyContactDetail = (showModal) ->
     $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
     $('#'+contactType+'-modal').modal 'show'
   
-
-    console.log 'send OTP'
+ 
     $.ajax
       type: 'post'
       url: '/user/verify-contact-details'
@@ -159,7 +159,6 @@ verifyContactDetail = (showModal) ->
         'object_type': objectType
       success: (data) ->
          
-        # console.log id.val()
         return
       error: (request, status, error) ->
         throwError()

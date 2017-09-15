@@ -144,7 +144,6 @@
     if (showModal && contactValue !== '' && contactValueObj.parsley().validate()) {
       $('#' + contactType + '-modal').find('.contact-input-value').text(contactValue);
       $('#' + contactType + '-modal').modal('show');
-      console.log('send OTP');
       return $.ajax({
         type: 'post',
         url: '/user/verify-contact-details',

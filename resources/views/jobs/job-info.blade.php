@@ -253,13 +253,13 @@
             <div class="flex-row">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors">
+                  <input type="number" min="1" max="300000000" class="form-control" name="salary_lower" id="salary_lower" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors">
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>
                 <p class="m-b-0 sal-divider">to</p>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" >
+                  <input type="number" min="1" max="300000000" class="form-control" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" >
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>
             </div>

@@ -84,11 +84,11 @@ class LoginController extends Controller
         $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup");
         $valid_response = $userauth_obj->validateUserLogin($user_data, "email_signup");
 
-        $output->writeln(json_encode($valid_response));
-        
         if ($valid_response["status"] == "success") {
             if($valid_response["authentic_user"]) {
-                return $fnbauth_obj->rerouteUser(array("user" => $valid_response["user"], "status" => "success", "filled_required_status" => $valid_response["required_fields_filled"]), "website");
+                $userdata_response = $userauth_obj->getUserData($valid_response["user"], false);
+                $output->writeln("Response: " . json_encode($userdata_response));
+                return $fnbauth_obj->rerouteUser(array("user" => $valid_response["user"], "status" => "success", "filled_required_status" => $userdata_response["required_fields_filled"]), "website");
 
             } else {
                 $previous_url = url()->previous();

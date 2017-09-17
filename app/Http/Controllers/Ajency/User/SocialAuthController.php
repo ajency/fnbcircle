@@ -57,10 +57,11 @@ class SocialAuthController extends Controller {
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
                 } else {
                     $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
+                    $user_resp["user"]->assignRole('listing_manager');
                 }
 
                 if($user_resp["user"]) {
-                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success"), "website");
+                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"]), "website");
                 } else {
                     return redirect(config('aj_user_config.social_failure_redirect_url'));
                 }
@@ -89,6 +90,7 @@ class SocialAuthController extends Controller {
                 if ($valid_response["authentic_user"]) { // If the user is Authentic, then
                     if(!$valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                         $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
+                        $user_resp["user"]->assignRole('listing_manager');
                     } else {
                         $user_resp = $userauthObj->getUserData($valid_response["user"]);
                     }

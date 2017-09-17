@@ -78,6 +78,46 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function getRequirement(Request $request) {
+        $userauth_obj = new UserAuth;
+
+        $output = new ConsoleOutput;
+
+        $user_obj = auth()->user();
+        
+        $request_data = [
+            //"user" => array("username" => auth()->user()->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup", "name" => $request->name),
+            "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_verified" => 0, "is_visible" => 0),
+            "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+        ];
+
+        if ($request->has("contact") && $request->has("contact_locality")) {
+            $request_data["user_comm"]["contact"] = $request->contact_locality . $request->contact;
+            $request_data["user_comm"]["contact_type"] = "mobile";
+        }
+
+        if ($request->has("description")) {
+            $request_data["user_details"]["subtype"] = json_encode($request->description);
+        }
+
+        if ($request->has("area") && $request->has("city")) {
+            $request_data["user_details"]["area"] = $request->area;
+            $request_data["user_details"]["city"] = $request->city;
+        }
+
+        $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"]);
+        $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
+
+        $required_fields_check = $userauth_obj->checkUserFilledRequiredFields($user_obj);
+
+        if($required_fields_check["filled_required"]) {
+            return $fnb_auth->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => $required_fields_check["required_fields_filled"]), "api");
+        } else {
+            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled"))
+        }
+
+    }
+
     /**
      * Handle a registration request for the application.
      *
@@ -116,30 +156,24 @@ class RegisterController extends Controller
             $request_data["user_details"]["city"] = $request->city;
         }
         
-        $output->writeln(json_encode($request_data));
         //return redirect("/");
         //$social_data = $socialaccount_obj->getSocialData($account, "email_signup");
         $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");
 
-        $output->writeln(json_encode($valid_response));
-
         if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
-            $output->writeln("IF");
             $fnb_auth = new FnbAuthController;
             
             if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
-                $output->writeln("authentic_user");
                 if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
-                    $output->writeln("GET user");
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
                 } else {
-                    $output->writeln("Create USer");
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
+
+                    $user_resp["user"]->assignRole('listing_manager');
                 }
 
                 if($user_resp["user"]) {
-                    $output->writeln("Rerouting");
-                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success"), "website");
+                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"]), "website");
                 } else {
                     ;
                 }

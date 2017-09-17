@@ -22,9 +22,16 @@ class FnbAuthController extends Controller {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
 
-                $redirect_url = '/';
+                $redirect_url = '';
+                
+                if ($user->hasPermissionTo('add_internal_user')) {
+                	$redirect_url = "/admin-dashboard/users/internal-users";
+                } else {
+                	$redirect_url = "/listing/create";
+                }
+                
                 if(!$required_field_status["filled_required"]) {
-                	$redirect_url = "/?required_field=true";
+                	$redirect_url .= "/?required_field=true";
                 }
             	return redirect($redirect_url);
             } else if ($user->status == 'inactive') {
@@ -32,6 +39,26 @@ class FnbAuthController extends Controller {
             } else if ($user->status == 'suspended') {
                 return redirect('/?login=true&message=account_suspended');
             }
+        } else {
+        	if ($user->status == 'active') {
+                $redirect_url = '';
+                if ($user->hasPermissionTo('add_internal_user')) {
+                	$redirect_url = "/admin-dashboard/users/internal-users";
+                } else {
+                	$redirect_url = "/listing/create";
+                }
+                
+                if(!$required_field_status["filled_required"]) {
+                	$redirect_url .= "/?required_field=true";
+                }
+            	return redirect($redirect_url);
+            } else if ($user->status == 'inactive') {
+                $redirect_url = '/?login=true&message=email_confirm';
+            } else if ($user->status == 'suspended') {
+                $redirect_url = '/?login=true&message=account_suspended';
+            }
+
+            return $redirect_url;
         }
     }
 
@@ -42,20 +69,20 @@ class FnbAuthController extends Controller {
             if ($data["status"] == "success") { // If Account (Exist or Created) & Verified then,
                 return $this->activateUser($data["user"], $data["filled_required_status"], "website"); // Pass User Object
             } else { // Same Email but different Source
-                if ($arraySocial["status"] == "error") { // If 'account' exists but 'Different Source', then 'Reject'
+                if ($data["status"] == "error") { // If 'account' exists but 'Different Source', then 'Reject'
                     return redirect('/?login=true&message=is_' . $data["user"]->signup_source . '_account');
                 } else {
                     return redirect('/?login=true');
                 }
             }
         } else { // It's API request
-            if ($arraySocial[1] == "present") { // If Account is created & Verified
-                return response()->json(array("url" => "/", "message" => 'created_account', "status" => 201, "data" => $data)); // Account created - HTTP_STATUS: Created
-            } else if ($arraySocial[1] == "exist") { // If Account exists & is Verified
-                return response()->json(array("url" => "/", "message" => 'verified', "status" => 200, "data" => $data)); // Account verified - HTTP_STATUS: Success
+        	$redirect_url = $this->activateUser($data["user"], $data["filled_required_status"], "api"); // Pass User Object
+
+            if ($data["status"] == "success") { // If Account is created & Verified
+                return response()->json(array("url" => $redirect_url, "message" => 'created_account', "status" => 200)); // Account created / found successfully
             } else {
-                if ($arraySocial[1] == "different") { // If 'account' exists but 'Different Source', then 'Reject'
-                    return response()->json(array("url" => "/", "message" => 'is_' . $data["user"]->signup_source . '_account', "status" => 409)); // Account with this Email / Credential already exist - HTTP_STATUS: Conflict
+                if ($data["status"] == "error") { // If 'account' exists but 'Different Source', then 'Reject'
+                    return response()->json(array("url" => '/', "message" => 'is_' . $data["user"]->signup_source . '_account', "status" => 409)); // Account with this Email / Credential already exist - HTTP_STATUS: Conflict
                 } else {
                     return response()->json(array("url" => "/", "message" => '', "status" => 400)); // Invalid Account - HTTP_STATUS: Bad Request
                 }

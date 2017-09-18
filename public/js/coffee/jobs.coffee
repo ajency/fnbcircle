@@ -100,14 +100,39 @@ $('body').on 'click', '.add-another', (e)->
   contact_group_clone = contact_group.clone()
   contact_group_clone.removeClass 'contact-group hidden'
   input = contact_group_clone.find('.fnb-input')
-  input.attr('data-parsley-required',true)
+  # input.attr('data-parsley-required',true)
   contact_group_clone.insertBefore(contact_group)
 
-$('body').on 'click', '.removeRow', ->
-  if $(this).closest('.contact-info').find('.contact-container').length == 2
-    $(this).closest('.contact-info').find('.add-another').click()
+# $('body').on 'click', '.removeRow', ->
+#   if $(this).closest('.contact-info').find('.contact-container').length == 2
+#     $(this).closest('.contact-info').find('.add-another').click()
 
-  $(this).closest('.get-val').parent().remove()
+#   $(this).closest('.get-val').parent().remove()
+
+$('.contact-info').on 'click', '.delete-contact', (event) ->
+  deleteObj = $(this)
+  contactId = deleteObj.closest('.contact-container').find('.contact-id').val()
+  
+  console.log contactId
+  if contactId!= ""
+    $.ajax
+      type: 'post'
+      url: '/user/delete-contact-details'
+      data:
+        'id': contactId
+      success: (data) ->
+         
+        return
+      error: (request, status, error) ->
+        throwError()
+        return
+      async: false     
+   
+
+  if deleteObj.closest('.contact-info').find('.contact-container').length == 2
+    deleteObj.closest('.contact-info').find('.add-another').click()
+
+  deleteObj.closest('.get-val').parent().remove()
  
 
 $('body').on 'click', '.add-custom', (e) ->
@@ -194,7 +219,8 @@ verifyContactDetail = (showModal) ->
 $('.contact-info').on 'change', '.contact-input', (event) ->
   contactObj = $(this)
   contactval = contactObj.val()
-  if !checkDuplicateEntries(contactObj)
+  console.log contactval
+  if !checkDuplicateEntries(contactObj) && contactval!= ""
     contactObj.closest('div').find('.dupError').html contactval+' already added to list.'
     contactObj.val ''
   else 
@@ -282,6 +308,7 @@ if $(window).width() < 769
     'replace': 'Change Logo'
 
 
+ 
 
 
 # $('body').on 'keyup', '.job-keywords', (e) ->
@@ -295,8 +322,10 @@ $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->
   if $(this).is(':checked')
     $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
+    $(this).closest('.toggle').find('input').val 1
   else
     $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
+    $(this).closest('.toggle').find('input').val 0
   return
 
 

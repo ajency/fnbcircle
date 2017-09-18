@@ -83,4 +83,5 @@ Route::group( ['middleware' => ['auth']], function() {
 	/**Users**/
 
 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
+	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });

@@ -383,7 +383,8 @@ class JobController extends Controller
 
 
     public function saveCompanyData($job,$request){ 
-        $userId = Auth::user()->id;
+        $user = Auth::user();
+        $userId = $user->id;
         $this->validate($request, [
             'company_name' => 'required|max:255',
         ]);
@@ -431,61 +432,24 @@ class JobController extends Controller
         }  
 
         foreach ($contactEmail as $key => $email) {
-            if(empty($email))
-                continue;
+            $isVisible = $visibleEmailContact[$key];
+            $conactDetails = ['id' => $contactEmailId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$email,'contact_type'=>'email','is_visible'=>$isVisible] ;
 
-            // $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'email','value'=>$email])->first();
-            if ($contactEmailId[$key] == '') {
-                $userCom = new UserCommunication;
-            }
-            else{
-                $userCom = UserCommunication::find($contactEmailId[$key]);
-            }  
+            $userCom = $user->saveContactDetails($conactDetails,'job');
 
-            $userCom->object_type  =  'App\Job' ;
-            $userCom->object_id  =  $job->id ;
-            $userCom->value  =  $email ;
-            $userCom->type  =  'email' ;
-            $userCom->is_primary = 0;
-            $userCom->is_communication = 1;
-            $userCom->is_visible = (isset($visibleEmailContact[$key]) && $visibleEmailContact[$key]=='on') ? 1 :0;
-            $userCom->save();
+ 
         }
 
-        // dd($contactEmailId);
-        // if(!empty($contactEmailId)){
-        //     dd(\DB::table('user_communications')->->whereNotIn('id', $contactEmailId)->get());
-        // }
-
+ 
         foreach ($contactMobile as $key => $mobile) {
-            if(empty($mobile))
-                continue;
+            $isVisible = $visibleMobileContact[$key];
+            $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'contact_type'=>'mobile','is_visible'=>$isVisible] ;
 
-            // $userCom = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$job->id,'type'=>'mobile','value'=>$mobile])->first();
-            // if (empty($userCom)) {
-            //     $userCom = new UserCommunication;
-            // } 
+            $userCom = $user->saveContactDetails($conactDetails,'job');
 
-            if ($contactMobileId[$key] == '') {
-                $userCom = new UserCommunication;
-            }
-            else{
-                $userCom = UserCommunication::find($contactMobileId[$key]);
-            } 
-
-            $userCom->object_type  =  'App\Job' ;
-            $userCom->object_id  =  $job->id ;
-            $userCom->value  =  $mobile ;
-            $userCom->type  =  'mobile' ;
-            $userCom->is_primary = 0;
-            $userCom->is_communication = 1;
-            $userCom->is_visible = (isset($visibleMobileContact[$key]) && $visibleMobileContact[$key]=='on') ? 1 :0;
-            $userCom->save();
         }
 
-
-
-            
+  
         Session::flash('success_message','Company details saved successfully.');
         $request['next_step'] = 'step-three';
 
@@ -500,7 +464,7 @@ class JobController extends Controller
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')
-        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%"');
+        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%" order by label asc');
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }

@@ -32,16 +32,16 @@
             <div class="col-sm-6">
                 <label class="label-size required">What is the job title?</label>
                 <input type="text" name="job_title" class="form-control fnb-input" placeholder=""  data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters." value="{{ $job['title'] }}">
-                <div class="text-lighter m-t-5">
+                <div class="text-lighter m-t-5 x-small">
                     This will be the display name of your job.
                 </div>
             </div>
             <div class="col-sm-6 c-gap">
-                <label class="label-size required">Choose a category that the job belongs to:</label>
+                <label class="label-size required">Choose Business type:</label>
                 <!-- <div class="text-lighter">
                     Help text comes here
                 </div> -->
-                <div class="brands-container">
+                <div class="brands-container businessType">
                      <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                         <option value="">- select category-</option>
                             @foreach($jobCategories as $categoryId =>$category)
@@ -59,7 +59,8 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size required">Keywords:</label>
+        <label class="label-size required">Select Job Role:</label>
+        <div class="text-lighter m-b-15 x-small">(Add as many Keywords, Functions &amp; skills to get maximum response).</div>
         <div class="m-t-5 flex-data-row">
             <input type="text" class="form-control fnb-input job-keywords" name="job_keyword"  placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
@@ -139,7 +140,7 @@
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach
                 </select>
-                <div id="city-errors" class="city-errors"></div>
+                <div id="city-errors" class="city-errors fnb-errors"></div>
             </div>
             <div class="select-col area">
 

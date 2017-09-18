@@ -28,7 +28,7 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
       jobCityObj.closest('.location-select').find('.job-areas').multiselect
         includeSelectAllOption: true
-        numberDisplayed: 5
+        numberDisplayed: 2
         delimiterText:','
         nonSelectedText: 'Select Area(s)'
 
@@ -139,7 +139,7 @@ setTimeout (->
 
 $('.expSelect').multiselect
   includeSelectAllOption: true
-  numberDisplayed: 5
+  numberDisplayed: 2
   delimiterText:','
   nonSelectedText: 'Select Experience'
 

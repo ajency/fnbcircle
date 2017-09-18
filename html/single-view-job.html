@@ -29,11 +29,11 @@
                     <div class="navbar-header mobile-head mobile-flex">
                         <div class="mobile-head__left mobile-flex">
                             <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
-                            <a class="navbar-brand" href="#">F&amp;BCircle.in</a>
+                            <a class="navbar-brand" href="#"><img src="http://stage.fnbcircle.com/img/logo-fnb.png" class="img-responsive"></a>
                         </div>
                         <div class="mobile-head__right mobile-flex">
                             <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
-                             <a href="" class="login">
+                            <a href="" class="login">
                                 <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -41,8 +41,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse m-side-bar" id="bs-example-navbar-collapse-1">
                         <ul class="mobile-top mobile-flex">
-                            <li><p class="mobile-top__text">Sign in to get a personalised feed!</p></li>
-                            <li><button type="button" class="fnb-btn outline bnw">Login</button></li>
+                            <li>
+                                <p class="mobile-top__text">Sign in to get a personalised feed!</p>
+                            </li>
+                            <li>
+                                <button type="button" class="fnb-btn outline bnw">Login</button>
+                            </li>
                         </ul>
                         <ul class="nav navbar-nav city-select">
                             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
@@ -71,10 +75,23 @@
                                 <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
                             </li>
                             <li class="mobile-hide">
-                                <a href="" class="login">
+                                <!-- <a href="" class="login">
                                     <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                                     <p class="login__title nav-title-size p-l-10">Login</p>
-                                </a>
+                                </a> -->
+                                <div class="dropdown login user-logged">
+                                    <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger">
+                                        <span class="ellipsis userName">Amit Adav</span>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                        <li>Test</li>
+                                        <li>test</li>
+                                        <li>test</li>
+                                    </ul>
+                                </div>
+                                
                             </li>
                             <li class="mobile-hide">
                                 <a href="" class="side-menu">
@@ -94,10 +111,10 @@
                                 <a href="" class="nav-title-size">How it works</a>
                             </li>
                             <li>
-                               <a href="" class="nav-title-size">Terms of use</a>
+                                <a href="" class="nav-title-size">Terms of use</a>
                             </li>
                             <li>
-                                 <a href="" class="nav-title-size">FAQ</a>
+                                <a href="" class="nav-title-size">FAQ</a>
                             </li>
                         </ul>
                     </div>
@@ -169,8 +186,8 @@
                                     <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                                 </a>
                             </div> -->
-                             <p class="m-b-0 published-title">Published on 20 May 2017</p>
-                            <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>                        
+                             <p class="m-b-0 published-title">Posted on : July 03, 2017</p>
+                            <button type="button" class="share-btn flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button>                        
                         </div>
                         <!-- slide navigation ends -->
                         
@@ -219,18 +236,18 @@
                                 </div>
                                 <div class="seller-info__body">
                                     <div class="flex-row space-between">
-                                        <h3 class="seller-info__title main-heading">Mystical the meat and fish store</h3>
+                                        <h3 class="seller-info__title main-heading">Food &amp; Beverage Manager</h3>
                                         <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
-                                        <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130">
-                                        <img src="../public/img/power-icon.png" class="img-responsive desk-hide" width="30">
+                                        <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
+                                        <img src="../public/img/power-icon.png" class="img-responsive" width="30">
                                     </div>
                                     
                                     <div class="location flex-row">
                                         <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title c-title">Mumbai <span class="map-link heavier">(Map)</span></h6>
+                                        <p class="location__title c-title">InterContinental Hotels Group <span class="map-link heavier">(Map)</span></h6>
                                     </div>
                                     <div class="stats flex-row m-t-25">
-                                        <div class="rating-view flex-row">
+                                        <!-- <div class="rating-view flex-row">
                                             <div class="rating">
                                                 <div class="bg"></div>
                                                 <div class="value" style="width: 80%;"></div>
@@ -243,10 +260,11 @@
                                                 <span class="fnb-icons verified-icon"></span>
                                                 <p class="c-title">Verified</p>
                                             </div>
-                                        </div>
+                                        </div> -->
+
                                         <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
+                                            <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
+                                            FULL - TIME
                                         </label>
                                         
                                        <!--  <div class="verified-toggle flex-row">

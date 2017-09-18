@@ -1,7 +1,6 @@
 .fnb-btn {
   font-size: 1.05em;
-  -webkit-transition: all 0.6s ease;
-          transition: all 0.6s ease;
+  transition: all 0.6s ease;
   font-weight: 500;
   text-transform: capitalize;
   border-radius: 4px;
@@ -62,7 +61,6 @@
   background-color: #000;
   color: #fff;
   border: 1px solid;
-  text-decoration: none;
 }
 .fnb-btn.grey {
   background-color: rgba(173, 167, 167, 0.52);
@@ -113,23 +111,12 @@
   width: 100%;
   margin-bottom: 1em;
   position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
 }
 .social-btn.google {
   background-color: #ec2c2c;
-}
-.social-btn:hover {
-  color: #fff;
-  text-decoration: none;
 }
 .social-btn i {
   position: absolute;
@@ -155,16 +142,10 @@ a:hover {
   margin-bottom: 20px;
 }
 .flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
 }
 .flex-space-between {
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 /* Vertical Align modal */
 .modal {
@@ -221,8 +202,7 @@ a:hover {
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
   opacity: 1;
-  -webkit-transition: all .2s ease;
-          transition: all .2s ease;
+  transition: all .2s ease;
 }
 .nav > li > a {
   position: relative;
@@ -320,9 +300,6 @@ a:hover {
   width: 230px;
   padding: 0;
   position: absolute;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
 }
 .nav-md .right_col {
@@ -336,17 +313,14 @@ a:hover {
     position: fixed;
     top: 0;
     left: 0;
-    -webkit-transform: translate3d(-500px, 0, 0);
-            transform: translate3d(-500px, 0, 0);
-    -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
-            transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
+    transform: translate3d(-500px, 0, 0);
+    transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
   .nav-md .col-md-3.left_col .left_col {
     width: 280px;
   }
   .nav-md .col-md-3.left_col.active {
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   .nav-md .right_col {
     margin-left: 0;
@@ -448,37 +422,12 @@ a:hover {
 .dataTables_filter {
   display: none;
 }
-.search-enabled .dataTables_filter {
-  display: block;
-}
-.contentHeavy {
-  overflow: auto;
-}
-#datatable-registered_wrapper .dt-buttons {
-  text-align: right;
-}
-@media screen and (max-width: 650px) {
-  #datatable-registered_wrapper .dt-buttons {
-    margin-bottom: -20px;
-    margin-top: 15px;
-  }
-  #datatable-registered_wrapper .dt-buttons .fnb-btn {
-    font-size: 0.9em;
-  }
-}
 @media (max-width: 767px) {
   .dataTables_wrapper > .row {
     overflow: auto!important;
   }
   .dataTable {
     min-height: 220px;
-  }
-  .filterAction {
-    padding-bottom: 15px;
-    text-align: center;
-  }
-  .filterAction .fnb-btn {
-    font-size: 0.95em;
   }
 }
 /* Datatable Select Row */
@@ -566,22 +515,4 @@ table.dataTable tr th.selected.select-checkbox:after {
 .dashboard-select {
   padding-left: 0;
   font-size: 1em;
-  border-bottom: 1px solid #ddd;
 }
-.multiSelect + .btn-group .multiselect {
-  width: 100%;
-  border-bottom: 1px solid #ddd;
-}
-.multiSelect + .btn-group .multiselect-container.dropdown-menu {
-  left: 0;
-}
-.multiSelect + .btn-group .multiselect-container input[type='checkbox'] {
-  position: relative;
-}
-.multiSelect + .btn-group .multiselect-container input[type='checkbox']:before {
-  top: -8px;
-}
-.multiSelect + .btn-group.open .multiselect {
-  border-color: #ddd;
-}
-/*# sourceMappingURL=dashboard.css.map */

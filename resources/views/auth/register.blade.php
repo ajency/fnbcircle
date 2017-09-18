@@ -128,6 +128,7 @@
                                             <!-- <label class=" text-lighter required">Area</label> -->
                                             <div class="required select-required">
                                                 <select class="form-control fnb-select border-bottom text-lighter" name="area">
+                                                    <option>City</option>
                                                     @foreach(App\Area::all() as $key => $value)
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach
@@ -309,15 +310,15 @@
                     </div>
                     <div class="form-group">
                         <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                        <input id="email" type="text" class="form-control fnb-input float-input" name="name" value="" required="">
+                        <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="" required="">
                     </div>
                     <div class="row phone-col">
                         <div class="col-sm-9">
                             <div class="form-group">
                                 <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
                                 <div class="number-code flex-row">
-                                  <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3">
-                                  <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx">
+                                  <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
+                                  <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" name="contact">
                                 </div>
                             </div>
                         </div>
@@ -337,9 +338,10 @@
                                 <!-- <label class=" text-lighter required">City</label> -->
                                 <div class="required select-required">
                                     <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>City</option>
-                                        <option>1</option>
-                                        <option>2</option>
+                                        <option>State</option>
+                                        @foreach(App\City::all() as $key => $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -349,9 +351,10 @@
                                 <!-- <label class=" text-lighter required">Area</label> -->
                                 <div class="required select-required">
                                     <select class="form-control fnb-select border-bottom text-lighter">
-                                        <option>Area</option>
-                                        <option>1</option>
-                                        <option>2</option>
+                                        <option>City</option>
+                                        @foreach(App\Area::all() as $key => $value)
+                                            <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

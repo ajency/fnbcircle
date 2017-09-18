@@ -69,6 +69,10 @@ setTimeout (->
  
 $('.job-save-btn').click (e) ->
   e.preventDefault()
+  if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
+    $('.job-keywords').removeAttr('data-parsley-required')
+  else
+    $('.job-keywords').attr('data-parsley-required','')  
   CKEDITOR.instances.editor.updateElement()
   $('form').submit()
   return
@@ -153,17 +157,27 @@ if $(window).width() < 769
     'replace': 'Change Logo'
 
 
- 
+if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
+else
+  $('.job-keywords').attr('data-parsley-required','')  
 
 
-# $('body').on 'keyup', '.job-keywords', (e) ->
-#   if $('.flexdatalist-multiple .value').length < 0
-#     $('.job-keywords').attr('data-parsley-required','')
-#   else
-#     $('.job-keywords').removeAttr('data-parsley-required')  
-#   return
+$('body').on 'keyup', '.job-keywords', (e) ->
+  if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
+    $('.job-keywords').removeAttr('data-parsley-required')
+  else
+    $('.job-keywords').attr('data-parsley-required','')  
+  return
 
-
+$('body').on 'blur', '.job-keywords', (e) ->
+  if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
+    $('.job-keywords').removeAttr('data-parsley-required')
+    
+    console.log('removed')
+  else
+    $('.job-keywords').attr('data-parsley-required','')  
+    console.log('added')
+  return
 
 
 

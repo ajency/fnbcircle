@@ -2822,9 +2822,6 @@ input[type='checkbox'].remove-addr{
 	.owner-info{
 		justify-content: flex-start;
 	}
-	.offered-salary{
-		padding-right: 2em;
-	}
 	&.seller-info{
 		.seller-info__footer{
 			border-top: 1px solid #eee;
@@ -3005,9 +3002,12 @@ input[type='checkbox'].remove-addr{
 	align-items: initial;
 	.article-col{
 		margin-bottom: 2.5em;
-		&:nth-child(odd){
-			margin-right: 3em;
+		@media screen and (min-width: 769px){
+			&:nth-child(odd){
+				margin-right: 3em;
+			}	
 		}
+		
 	}
 }
 
@@ -3036,4 +3036,89 @@ input[type='checkbox'].remove-addr{
 	border: 0;
     padding: 0.5em;
 }
+
+.role-selection{
+	align-items: initial;
+	& > div{
+		flex: 1;
+	}
+	.job-role{
+		flex: 2;
+	}
+	.role-gap{
+		padding-right: 1em;
+	}
+}
+
+@media screen and (max-width: @mobile){
+	.job-info{
+		.seller-info__title{
+			margin-bottom: 0;
+		}
+		.main-loc{
+			.map-icon{
+				display: none;
+			}
+		}
+		.owner-info{
+			align-items: flex-start;
+    		margin-top: 0.5em;
+    		border-top: 1px solid #ddd;
+    		padding-top: 0.5em;
+    		.fnb-label{
+    			align-self: inherit;
+    			margin-top: 0;
+    		}
+    		.owner-address{
+    			padding-left: 0
+    		}
+		}
+		.seller-info__footer{
+			padding-top: 1em;
+		}
+		.role-selection{
+			padding-bottom: 0
+		}
+	}
+	.role-selection{
+		.role-gap{
+			padding-right: 0;
+		}
+		& > div{
+    		flex: 1 0 50%;
+    		margin-bottom: 1em;
+    		.operations__title{
+    			font-size: 1em;
+    		}
+    		.cities.cities{
+    			padding-left: 0;
+    		}
+		}
+	}
+	.Company-info{
+		margin-top: 2em;
+	}
+	.jobDesc{
+		font-size: 1.3em;
+	}
+	.footer-share{
+		flex-direction: column;
+		.fnb-btn{
+			width: 60%;
+		}
+		.share-job{
+			text-align: center;
+    		margin-top: 1em;
+    		.options{
+    			li{
+    				&:last-child{
+    					padding-right: 0;
+    				}
+    			}
+    		}
+		}
+	}
+}
+
+
 

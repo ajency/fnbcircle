@@ -254,7 +254,7 @@
                             </div>
                             <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                         </div>
-                        <i class="fa fa-times removeRow delete-contact hidden "></i>
+                        <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
                     <div id="toggleError"></div>
                 </div>

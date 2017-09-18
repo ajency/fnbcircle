@@ -9148,6 +9148,21 @@ input[type='checkbox'].remove-addr {
     margin-top: -2.5em;
   }
 }
+.job-info .owner-info {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+.owner-address {
+  padding-left: 1em;
+}
+.owner-address .map-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 20px;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

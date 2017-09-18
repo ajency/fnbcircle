@@ -329,10 +329,9 @@ $(function(){
 			}
 
 			$('#requirement_form_btn').click(function(){                  
-	            var currentValue = $(this).attr("value");
 	            var descr_values = [];
 
-	            $.each($("input[name='description[]']:checked"), function() {
+	            $.each($("#require-modal input[name='description[]']:checked"), function() {
 				  descr_values.push($(this).val());
 				});
 	            
@@ -340,11 +339,11 @@ $(function(){
 	                url: 'api/requirement',
 	                method: 'post',             
 	                data: {
-	                	"name": $("input[name='name']").val(),
-	                	"email": $("input[name='email']").val(),
-	                	"contact": $("input[name='contact_locality']").val() + $("input[name='contact']").val(),
-	                	"area" : $("select[name='area']").val(),
-	                	"city" : $("select[name='city']").val(),
+	                	"name": $("#require-modal input[name='name']").val(),
+	                	"email": $("#require-modal input[name='email']").val(),
+	                	"contact": $("#require-modal input[name='contact_locality']").val() + $("input[name='contact']").val(),
+	                	"area" : $("#require-modal select[name='area']").val(),
+	                	"city" : $("#require-modal select[name='city']").val(),
 	                	"description" : descr_values
 	                },
 	                success: function(data){

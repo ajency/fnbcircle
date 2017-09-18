@@ -15,6 +15,7 @@ use App\Http\Controllers\FnbAuthController;
 use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Illuminate\Support\Facades\Hash;
+use Exception;
 
 class RegisterController extends Controller
 {
@@ -80,16 +81,21 @@ class RegisterController extends Controller
 
     public function getRequirement(Request $request) {
         $userauth_obj = new UserAuth;
+        $fnbauth_obj = new FnbAuthController;
 
         $output = new ConsoleOutput;
 
-        $user_obj = auth()->user();
-        
         $request_data = [
-            //"user" => array("username" => auth()->user()->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup", "name" => $request->name),
+            "user" => array("username" => $request->email, "email" => $request->email, "name" => $request->name),
             "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_verified" => 0, "is_visible" => 0),
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
+
+        if(!auth()->guest())  {
+            $user_obj = auth()->user();
+        } else {
+            $user_obj = $userauth_obj->checkIfUserExists($request_data["user"]);
+        }
 
         if ($request->has("contact") && $request->has("contact_locality")) {
             $request_data["user_comm"]["contact"] = $request->contact_locality . $request->contact;
@@ -106,14 +112,13 @@ class RegisterController extends Controller
         }
 
         $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"]);
-        $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
+        $response = $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
+        $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 
-        $required_fields_check = $userauth_obj->checkUserFilledRequiredFields($user_obj);
-
-        if($required_fields_check["filled_required"]) {
-            return $fnb_auth->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => $required_fields_check["required_fields_filled"]), "api");
+        if($required_fields_check["has_required_fields_filled"]) {
+            return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => $required_fields_check["fields_to_be_filled"]), "api");
         } else {
-            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled"))
+            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => $required_fields_check["fields_to_be_filled"]));
         }
 
     }

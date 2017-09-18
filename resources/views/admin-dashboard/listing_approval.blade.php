@@ -91,7 +91,7 @@
                         <option value="1">Published</option>
                         <option value="3">Draft</option>
                         <option value="4">Archived</option>
-                        <option value="2" selected>Pending Review</option>
+                        <option value="2">Pending Review</option>
                         <option value="5">Rejected</option>
                       </select>
                       <label class="flex-row notify-user-msg hidden m-t-15">
@@ -119,7 +119,7 @@
                         City
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
-                          <option value="{{$city->id}}" selected>{{$city->name}}</option>
+                          <option value="{{$city->id}}">{{$city->name}}</option>
                         @endforeach
                         </select>
                       </th>
@@ -135,8 +135,8 @@
                       <th class="no-sort" data-col="6" style="min-width: 10%;">
                         Last Updated by
                         <select multiple class="form-control multi-dd" id="updateUser">
-                          <option value="external" selected>External User</option>
-                          <option value="internal" selected>Internal User</option>
+                          <option value="external" >External User</option>
+                          <option value="internal" >Internal User</option>
                         </select>
                       </th>
                       <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
@@ -150,10 +150,11 @@
                       <th class="no-sort" data-col="9" style="min-width: 10%;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
-                          <option value="1" selected>Published</option>
-                        <option value="4" selected>Archived</option>
-                        <option value="2" selected>Pending Review</option>
-                        <option value="5" selected>Rejected</option>
+                          <option value="1" >Published</option>
+                           <option value="2" >Pending Review</option>
+                        <option value="4" >Archived</option>
+                       
+                        <option value="5" >Rejected</option>
                         </select>
                       </th>
                     </tr>

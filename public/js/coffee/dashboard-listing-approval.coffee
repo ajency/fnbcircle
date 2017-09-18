@@ -1,4 +1,4 @@
-filters =
+window.filters =
     'submission_date':
       'start': ''
       'end': ''
@@ -324,12 +324,12 @@ $('body').on 'click','button#applyCategFilter', (e)->
 $('body').on 'click','button#resetAll', (e)->
   $('div#categories.node-list').html ''
   $('input#draftstatus').prop('checked',false).change()
-  $('select#status-filter').multiselect('select',["1","2","4","5"]).change()
+  $('select#status-filter').multiselect('rebuild').change()
   $('#submissionDate').val('')
   $('#listingNameSearch').val('')
   $('.multi-dd').each ->
     # console.log this
-    $(this).multiselect('selectAll',false)
+    $(this).multiselect('deselectAll',false).change()
   filters =
     'submission_date':
       'start': ''
@@ -368,13 +368,35 @@ $('div#category-select').on 'change','div#selectall input[type="checkbox"]', () 
 
 selected_listings = []
 
+# $('body').on 'change','input#draftstatus', () ->
+#   if $(this).prop('checked')
+#     filters['status'].push("3")
+#   else
+#     filters['status']=_.without(filters['status'],"3");
+#   showBulk()
+#   sendRequest()
+
 $('body').on 'change','input#draftstatus', () ->
   if $(this).prop('checked')
-    filters['status'].push("3")
+    status = $('select#status-filter')
+    prev = status.val()
+    status.html '<option value="1">Published</option><option value="2">Pending Review</option>
+    <option value="3">Draft</option><option value="4">Archived</option><option value="5">Rejected</option>'
+    status.multiselect('rebuild')
+    status.multiselect('select', prev)
+    status.change()
   else
-    filters['status']=_.without(filters['status'],"3");
-  showBulk()
-  sendRequest()
+    status = $('select#status-filter')
+    prev = status.val()
+    status.html '<option value="1">Published</option><option value="2">Pending Review</option>
+    <option value="4">Archived</option><option value="5">Rejected</option>'
+    status.multiselect('rebuild')
+    status.multiselect('select', prev)
+    status.change()
+
+
+
+
 
 showBulk = () ->
   if filters['status'].length == 1
@@ -400,11 +422,17 @@ showBulk = () ->
     $('.bulk-status-update').addClass 'hidden'
 
 $('body').on 'change','select#status-filter',()->
+  filters['status']=[]
   val = $(this).val()
-  filters['status']=_.without(filters['status'],"1","4","2","5");
-  val.forEach (item) ->
-    # console.log item
-    filters['status'].push(item)
+  if val.length == 0
+    if $('input#draftstatus').prop('checked')
+      filters['status']=["1","2","3","4","5"]
+    else
+      filters['status']=["1","2","4","5"]
+  else
+    val.forEach (item) ->
+      # console.log item
+      filters['status'].push(item)
   showBulk()
   sendRequest()
 

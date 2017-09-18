@@ -23,7 +23,7 @@
         "psr-4": {
             "App\\": "app/",
             "Conner\\Tagging\\": "packages/rtconner/laravel-tagging/src",
-            "Ajency\\FileUpload\\": "packages/Ajency/laravel-file-upload-package/src"
+            "Ajency\\FileUpload\\": "packages/ajency/laravel-file-upload-package/src"
         },
         "files": ["app/Helper.php"]
     },

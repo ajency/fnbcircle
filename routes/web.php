@@ -26,7 +26,6 @@ Route::get('listing/create','ListingController@create');
 
 
 
-Route::get('admin-dashboard/config/categories','AdminConfigurationController@categoriesView');
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
 Route::post('/save-category','AdminConfigurationController@saveCategory');
 Route::post('/get-branches','AdminConfigurationController@getBranches');
@@ -43,7 +42,6 @@ Route::post('/get_areas','ListingController@getAreas');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
-Route::get('admin-dashboard/config/locations','AdminConfigurationController@locationView');
 Route::post('/has_listing','AdminConfigurationController@hasListing');
 Route::post('/get-cities','AdminConfigurationController@getCities');
 Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');
@@ -96,4 +94,20 @@ Route::group(['namespace' => 'Ajency'], function() {
 		//Route::get('/logout/{provider}', 'User\SocialAuthController@logout');
 	});
 });
- 
+
+Route::group(['middleware' => ['permission:add_listing'], 'prefix' => 'admin-dashboard'], function () {
+	Route::group(['prefix' => 'config'], function() {
+		Route::get('categories','AdminConfigurationController@categoriesView');
+		Route::get('locations','AdminConfigurationController@locationView');
+	});
+
+	Route::group(['prefix' => 'users'], function() {
+		Route::get('internal-users', function(){
+			return view('admin-dashboard.internal_users');
+		});
+
+		Route::get('registered-users', function(){
+			return view('admin-dashboard.registered_users');
+		});
+	});
+});

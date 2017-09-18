@@ -41,9 +41,23 @@
                         <li>
                             <p class="mobile-top__text">Sign in to get a personalised feed!</p>
                         </li>
-                        <li>
-                            <button type="button" class="fnb-btn outline bnw">Login</button>
-                        </li>
+                        @if(Auth::guest())
+                            <li>
+                                    <!-- <button type="button" class="fnb-btn outline bnw">Login</button> -->
+                                    <button type="button" class="fnb-btn outline bnw" data-toggle="modal" data-target="#login-modal">Login</button></li>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
+                                    <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        @endif
                     </ul>
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
@@ -72,10 +86,21 @@
                             <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
                         </li>
                         <li class="mobile-hide">
-                            <a href="" class="login">
-                                <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
-                                <p class="login__title nav-title-size p-l-10">Login</p>
-                            </a>
+                             @if(Auth::guest())
+                                <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                                    <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                                    <p class="login__title nav-title-size p-l-10">Login</p>
+                                </a>
+                            @else
+                                <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
+                                    <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            @endif
                         </li>
                         <li class="mobile-hide">
                             <a href="" class="side-menu">

@@ -116,9 +116,9 @@ class RegisterController extends Controller
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 
         if($required_fields_check["has_required_fields_filled"]) {
-            return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => $required_fields_check["fields_to_be_filled"]), "api");
+            return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "api");
         } else {
-            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => $required_fields_check["fields_to_be_filled"]));
+            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]));
         }
 
     }

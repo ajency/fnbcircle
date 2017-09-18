@@ -31,7 +31,7 @@
         jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
         jobCityObj.closest('.location-select').find('.job-areas').multiselect({
           includeSelectAllOption: true,
-          numberDisplayed: 5,
+          numberDisplayed: 2,
           delimiterText: ',',
           nonSelectedText: 'Select Area(s)'
         });
@@ -136,7 +136,7 @@
 
   $('.expSelect').multiselect({
     includeSelectAllOption: true,
-    numberDisplayed: 5,
+    numberDisplayed: 2,
     delimiterText: ',',
     nonSelectedText: 'Select Experience'
   });

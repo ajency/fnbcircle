@@ -168,8 +168,8 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
-        Ajency\FileUpload\FileUploadServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+        // Ajency\FileUpload\FileUploadServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...

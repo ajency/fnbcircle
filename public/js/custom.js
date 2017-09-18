@@ -264,10 +264,115 @@ $(function(){
 	//     $(this).ekkoLightbox();
 	// });
 
+		function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid
+			if(email.length > 0) {
+				var email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if(email_re.test(email)) {
+					$(error_path).addClass("hidden");
+					return true;
+				} else {
+					$(error_path).removeClass("hidden").text("* Please enter a valid EmailID");
+					return false;
+				}
+			} else {
+				$(error_path).removeClass("hidden").text("* Please enter your Email address");
+				return false;
+			}
+		}
+
+		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
+			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
+
+			console.log(contact);
+			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
+				if (region_code)
+					var contact_sub = contact.substring(1, contact.length);
+				else
+					contact_sub = contact;
+
+				console.log(contact_sub.length);
+				if(contact_sub.length <= 0) {
+					console.log("IF");
+					$("#require-modal #contact-error").removeClass("hidden").text("* Please enter your contact number");
+				} else if(contact_sub.length < 10) {
+					console.log("IF2");
+					$("#require-modal #contact-error").removeClass("hidden").text("* Contact number too short");
+				} else if(contact_sub.length > 13) {
+					console.log("IF3");
+					$("#require-modal #contact-error").removeClass("hidden").text("* Contact number too long");
+				} else {
+					console.log("IF4");
+					$("#require-modal #contact-error").addClass("hidden");
+					return true;
+				}
+			} else {
+				console.log("ELSE");
+				$("#require-modal #contact-error").removeClass("hidden").text("* Please enter a valid Contact number");
+			}
+			return false;
+		}
+
+		function validateUser(data) {
+			var flag = true;
+			if (data.hasOwnProperty("email")) {
+				flag = validateEmail(data["email"], "#require-modal #email-error");
+			}
+
+			if (data.hasOwnProperty('contact') & data["contact"] >= 10 && data["contact"] <= 13) { // The count includes +<region code> <contact No>
+				validateContact(data["contact"], "#require-modal #contact-error", true);
+			}
+
+			if (!(data.hasOwnProperty("description") && data["description"].length > 0)) { // If description doesn't exist or if exist & count <= 0, then return False
+				flag = false;
+			}
+
+			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
+				flag = flag ? true : false;
+			}
+		}
+
 		$(document).ready(function() {
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
+
+			$("#require-modal input[type='text'][name='email']").on('keyup', function() { // Check Email
+				validateEmail($(this).val(), "#require-modal #email-error");
+			});
+
+			$("#require-modal input[type='tel'][name='contact']").on('keyup', function() { // Check Contact
+				validateContact($(this).val(), "#require-modal #contact-error", false);
+			});
+
+			$("#require-modal select[name='city']").on('change', function() { // Check if State is selected
+				if($(this).val() == "" || $(this).val().toLowerCase() == "state") {
+					$("#require-modal #city-error").removeClass("hidden").text("* Please select a State");
+				} else {
+					$("#require-modal #city-error").addClass("hidden");
+				}
+			});
+
+			$("#require-modal select[name='area']").on('change', function() { // Check if City is selected
+				if($(this).val() == "" || $(this).val().toLowerCase() == "state") {
+					$("#require-modal #area-error").removeClass("hidden").text("* Please select a City");
+				} else {
+					$("#require-modal #area-error").addClass("hidden");
+				}
+			});
+
+			$("#require-modal input[type='checkbox'][name='description[]']").on('change', function() { // Check if State is selected
+				var descr_values = [];
+
+	            $.each($("#require-modal input[name='description[]']:checked"), function() {
+				  descr_values.push($(this).val());
+				});
+
+				if(descr_values.length > 0) {
+					$("#require-modal #description-error").addClass("hidden");
+				} else {
+					$("#require-modal #description-error").removeClass("hidden").text("* Please select atleast one description.");
+				}
+			});
 
 			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
 				$("#login-modal").modal('show');
@@ -334,24 +439,32 @@ $(function(){
 	            $.each($("#require-modal input[name='description[]']:checked"), function() {
 				  descr_values.push($(this).val());
 				});
-	            
-	            $.ajax({
-	                url: 'api/requirement',
-	                method: 'post',             
-	                data: {
-	                	"name": $("#require-modal input[name='name']").val(),
-	                	"email": $("#require-modal input[name='email']").val(),
-	                	"contact": $("#require-modal input[name='contact_locality']").val() + $("input[name='contact']").val(),
-	                	"area" : $("#require-modal select[name='area']").val(),
-	                	"city" : $("#require-modal select[name='city']").val(),
-	                	"description" : descr_values
-	                },
-	                success: function(data){
-	                	console.log(data);
-	                    //window.location.href = data;
-	                },
-	                error: function(){},
-	            });
+
+				var contact = $("#require-modal input[name='contact_locality']").val() + $("input[name='contact']").val();
+
+	            var request_data = {
+                	"name": $("#require-modal input[name='name']").val(),
+                	"email": $("#require-modal input[name='email']").val(),
+                	"contact": contact,
+                	"area" : $("#require-modal select[name='area']").val(),
+                	"city" : $("#require-modal select[name='city']").val(),
+                	"description" : descr_values
+                };
+
+				if(validateUser(request_data)) {
+		            $.ajax({
+		                url: 'api/requirement',
+		                method: 'post',             
+		                data: request_data,
+		                success: function(data){
+		                	console.log(data);
+		                    //window.location.href = data;
+		                },
+		                error: function(){},
+		            });
+		        } else {
+
+		        }
 	        });
 		});
 

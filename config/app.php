@@ -182,7 +182,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        'Ajency\User\LaravelAjUserServiceProvider',
+        Ajency\User\LaravelAjUserServiceProvider::class,
 
     ],
 
@@ -234,7 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'AjUser' => 'Ajency\User\LaravelAjUserServiceProvider',
+        'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
     ],
 
 ];

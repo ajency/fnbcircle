@@ -1,6 +1,4 @@
 (function() {
-  var checkDuplicateEntries, verifyContactDetail;
-
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
     jobCityObj = $(this);
@@ -93,24 +91,6 @@
     }
   });
 
-  $('body').on('click', '.add-another', function(e) {
-    var contact_group, contact_group_clone, input;
-    e.preventDefault();
-    contact_group = $(this).closest('.business-contact').find('.contact-group');
-    contact_group_clone = contact_group.clone();
-    contact_group_clone.removeClass('contact-group hidden');
-    input = contact_group_clone.find('.fnb-input');
-    input.attr('data-parsley-required', true);
-    return contact_group_clone.insertBefore(contact_group);
-  });
-
-  $('body').on('click', '.removeRow', function() {
-    if ($(this).closest('.contact-info').find('.contact-container').length === 2) {
-      $(this).closest('.contact-info').find('.add-another').click();
-    }
-    return $(this).closest('.get-val').parent().remove();
-  });
-
   $('body').on('click', '.add-custom', function(e) {
     e.preventDefault();
     $('.auto-exp-select').addClass('hidden');
@@ -149,111 +129,6 @@
     $('.alert-success').removeClass('active');
   }), 6000);
 
-  $(document).on('click', '.verify-link', function(event) {
-    $('.contact-container').removeClass('under-review');
-    $(this).closest('.contact-container').addClass('under-review');
-    return verifyContactDetail(true);
-  });
-
-  verifyContactDetail = function(showModal) {
-    var contactType, contactValue, contactValueObj, objectId, objectType;
-    contactValueObj = $('.under-review').find('.contact-input');
-    contactValue = contactValueObj.val();
-    contactType = $('.under-review').closest('.contact-info').attr('contact-type');
-    objectType = $('input[name="object_type"]').val();
-    objectId = $('input[name="object_id"]').val();
-    if (showModal && contactValue !== '' && contactValueObj.parsley().validate()) {
-      $('#' + contactType + '-modal').find('.contact-input-value').text(contactValue);
-      $('#' + contactType + '-modal').modal('show');
-      return $.ajax({
-        type: 'post',
-        url: '/user/verify-contact-details',
-        data: {
-          'id': '',
-          'contact_value': contactValue,
-          'contact_type': contactType,
-          'object_id': objectId,
-          'object_type': objectType
-        },
-        success: function(data) {},
-        error: function(request, status, error) {
-          throwError();
-        },
-        async: false
-      });
-    } else {
-      return $('#' + contactType + '-modal').modal('hide');
-    }
-  };
-
-  $('.contact-info').on('change', '.contact-input', function(event) {
-    var contactObj, contactval;
-    contactObj = $(this);
-    contactval = contactObj.val();
-    if (!checkDuplicateEntries(contactObj)) {
-      contactObj.closest('div').find('.dupError').html(contactval + ' already added to list.');
-      contactObj.val('');
-    } else {
-      contactObj.closest('div').find('.dupError').html('');
-    }
-  });
-
-  checkDuplicateEntries = function(contactObj) {
-    var contactval, result;
-    contactval = contactObj.val();
-    $('form').parsley().validate();
-    result = true;
-    contactObj.closest('.contact-info').find('.contact-input').each(function() {
-      if (contactObj.get(0) !== $(this).get(0) && $(this).val() === contactval) {
-        result = false;
-        return false;
-      }
-    });
-    return result;
-  };
-
-  $('.edit-number').click(function(event) {
-    $('.value-enter').val('');
-    $('.default-state').addClass('hidden');
-    $('.add-number').removeClass('hidden');
-    $('.verificationFooter').addClass('no-bg');
-  });
-
-  $('.step-back').click(function(event) {
-    $('.default-state').removeClass('hidden');
-    $('.add-number').addClass('hidden');
-    $('.verificationFooter').removeClass('no-bg');
-  });
-
-  $('.verify-stuff').click(function(event) {
-    var changedValue, newContactObj, oldContactObj, oldContactValue;
-    newContactObj = $(this).closest('.modal').find('.change-contact-input');
-    changedValue = newContactObj.val();
-    oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim();
-    if (newContactObj.parsley().validate() === true) {
-      oldContactObj = $('.under-review').find('.contact-input');
-      oldContactObj.val(changedValue);
-      if (!checkDuplicateEntries(oldContactObj)) {
-        oldContactObj.val(oldCantactValue);
-        $(this).closest('.verify-steps').find('.customError').text(changedValue + ' already added to list.');
-      } else {
-        $(this).closest('.verify-steps').find('.customError').text('');
-        $(this).closest('.modal').find('.contact-input-value').text(changedValue);
-        $('.default-state').removeClass('hidden');
-        $('.add-number').addClass('hidden');
-        $('.verificationFooter').removeClass('no-bg');
-        verifyContactDetail(false);
-      }
-    }
-  });
-
-  $('.resend-link').click(function(event) {
-    $(this).addClass('sending');
-    setTimeout((function() {
-      $('.resend-link').removeClass('sending');
-    }), 2500);
-  });
-
   $('.expSelect').multiselect({
     includeSelectAllOption: true,
     numberDisplayed: 5,
@@ -279,13 +154,5 @@
       }
     });
   }
-
-  $(document).on('change', '.business-contact .toggle__check', function() {
-    if ($(this).is(':checked')) {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
-    } else {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
-    }
-  });
 
 }).call(this);

@@ -38,6 +38,7 @@ class User extends Authenticatable
     }
 
     public function saveContactDetails($data,$type){
+
         if($type=='listing'){
             if ($data['id'] == null) {
                 $object = new ListingCommunication;
@@ -54,14 +55,24 @@ class User extends Authenticatable
                 $object = new UserCommunication;
             } else {
                 $object = UserCommunication::find($data['id']);
+
+                if($data['contact_value'] == ""){
+                    $object->delete();
+                }
             }
-            $object->object_type  =  $data['object_type'] ;
-            $object->object_id  =  $data['object_id'] ;
-            $object->value  =  $data['contact_value'] ;
-            $object->type  =  $data['contact_type'] ;
-            $object->is_primary = 0;
-            $object->is_communication = 1;
-            $object->save();
+
+            if($data['contact_value'] != ""){
+                $object->object_type  =  $data['object_type'] ;
+                $object->object_id  =  $data['object_id'] ;
+                $object->value  =  $data['contact_value'] ;
+                $object->type  =  $data['contact_type'] ;
+                $object->is_primary = 0;
+                $object->is_communication = 1;
+                $object->is_visible = $data['is_visible'] ;
+                $object->save();
+            }
+            
+ 
 
         }
 

@@ -271,11 +271,11 @@ $(function(){
 					$(error_path).addClass("hidden");
 					return true;
 				} else {
-					$(error_path).removeClass("hidden").text("* Please enter a valid EmailID");
+					$(error_path).removeClass("hidden").text("Please enter a valid EmailID");
 					return false;
 				}
 			} else {
-				$(error_path).removeClass("hidden").text("* Please enter your Email address");
+				$(error_path).removeClass("hidden").text("Please enter your Email address");
 				return false;
 			}
 		}
@@ -283,31 +283,24 @@ $(function(){
 		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
 			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
 
-			console.log(contact);
 			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
 				if (region_code)
 					var contact_sub = contact.substring(1, contact.length);
 				else
 					contact_sub = contact;
 
-				console.log(contact_sub.length);
 				if(contact_sub.length <= 0) {
-					console.log("IF");
-					$("#require-modal #contact-error").removeClass("hidden").text("* Please enter your contact number");
+					$("#require-modal #contact-error").removeClass("hidden").text("Please enter your contact number");
 				} else if(contact_sub.length < 10) {
-					console.log("IF2");
-					$("#require-modal #contact-error").removeClass("hidden").text("* Contact number too short");
+					$("#require-modal #contact-error").removeClass("hidden").text("Contact number too short");
 				} else if(contact_sub.length > 13) {
-					console.log("IF3");
-					$("#require-modal #contact-error").removeClass("hidden").text("* Contact number too long");
+					$("#require-modal #contact-error").removeClass("hidden").text("Contact number too long");
 				} else {
-					console.log("IF4");
 					$("#require-modal #contact-error").addClass("hidden");
 					return true;
 				}
 			} else {
-				console.log("ELSE");
-				$("#require-modal #contact-error").removeClass("hidden").text("* Please enter a valid Contact number");
+				$("#require-modal #contact-error").removeClass("hidden").text("Please enter a valid Contact number");
 			}
 			return false;
 		}
@@ -329,6 +322,8 @@ $(function(){
 			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
 				flag = flag ? true : false;
 			}
+
+			return flag;
 		}
 
 		$(document).ready(function() {
@@ -346,15 +341,15 @@ $(function(){
 
 			$("#require-modal select[name='city']").on('change', function() { // Check if State is selected
 				if($(this).val() == "" || $(this).val().toLowerCase() == "state") {
-					$("#require-modal #city-error").removeClass("hidden").text("* Please select a State");
+					$("#require-modal #city-error").removeClass("hidden").text("Please select a State");
 				} else {
 					$("#require-modal #city-error").addClass("hidden");
 				}
 			});
 
 			$("#require-modal select[name='area']").on('change', function() { // Check if City is selected
-				if($(this).val() == "" || $(this).val().toLowerCase() == "state") {
-					$("#require-modal #area-error").removeClass("hidden").text("* Please select a City");
+				if($(this).val() == "" || $(this).val().toLowerCase() == "city") {
+					$("#require-modal #area-error").removeClass("hidden").text("Please select a City");
 				} else {
 					$("#require-modal #area-error").addClass("hidden");
 				}
@@ -370,7 +365,7 @@ $(function(){
 				if(descr_values.length > 0) {
 					$("#require-modal #description-error").addClass("hidden");
 				} else {
-					$("#require-modal #description-error").removeClass("hidden").text("* Please select atleast one description.");
+					$("#require-modal #description-error").removeClass("hidden").text("Please select atleast one description.");
 				}
 			});
 
@@ -433,7 +428,8 @@ $(function(){
 				window.history.pushState('', '', url);
 			}
 
-			$('#requirement_form_btn').click(function(){                  
+			$('#requirement_form_btn').click(function(){ 
+
 	            var descr_values = [];
 
 	            $.each($("#require-modal input[name='description[]']:checked"), function() {
@@ -452,15 +448,19 @@ $(function(){
                 };
 
 				if(validateUser(request_data)) {
+					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
 		            $.ajax({
 		                url: 'api/requirement',
 		                method: 'post',             
 		                data: request_data,
 		                success: function(data){
+		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
 		                	console.log(data);
 		                    //window.location.href = data;
 		                },
-		                error: function(){},
+		                error: function(error){
+		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
+		                },
 		            });
 		        } else {
 

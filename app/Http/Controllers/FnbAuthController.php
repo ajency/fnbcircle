@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class FnbAuthController extends Controller {
     public function activateUser($user, $required_field_status, $type) {
-        if ($type == 'website') {
+    	if ($type == 'website') {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
 
@@ -41,17 +41,16 @@ class FnbAuthController extends Controller {
             }
         } else {
         	if ($user->status == 'active') {
-                $redirect_url = '';
+        		$redirect_url = '';
                 if ($user->hasPermissionTo('add_internal_user')) {
                 	$redirect_url = "/admin-dashboard/users/internal-users";
                 } else {
                 	$redirect_url = "/listing/create";
                 }
-                
+
                 if(!$required_field_status["filled_required"]) {
                 	$redirect_url .= "/?required_field=true";
                 }
-            	return redirect($redirect_url);
             } else if ($user->status == 'inactive') {
                 $redirect_url = '/?login=true&message=email_confirm';
             } else if ($user->status == 'suspended') {
@@ -64,7 +63,7 @@ class FnbAuthController extends Controller {
 
     public function rerouteUser($data, $type) { // function (<User Data>, <Response Type for - Website / API>) -> This reroute function will redirect 'Post' Login
         $service = new SocialAccountService();
-
+        
         if ($type == "website") { // It's Website request
             if ($data["status"] == "success") { // If Account (Exist or Created) & Verified then,
                 return $this->activateUser($data["user"], $data["filled_required_status"], "website"); // Pass User Object
@@ -79,7 +78,7 @@ class FnbAuthController extends Controller {
         	$redirect_url = $this->activateUser($data["user"], $data["filled_required_status"], "api"); // Pass User Object
 
             if ($data["status"] == "success") { // If Account is created & Verified
-                return response()->json(array("url" => $redirect_url, "message" => 'created_account', "status" => 200)); // Account created / found successfully
+            	return response()->json(array("url" => $redirect_url, "message" => 'success', "status" => 200)); // Account created / found successfully
             } else {
                 if ($data["status"] == "error") { // If 'account' exists but 'Different Source', then 'Reject'
                     return response()->json(array("url" => '/', "message" => 'is_' . $data["user"]->signup_source . '_account', "status" => 409)); // Account with this Email / Credential already exist - HTTP_STATUS: Conflict

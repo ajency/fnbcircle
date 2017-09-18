@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
                             <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="{{ Auth::user()->getPrimaryEmail() }}" required="">
-                            <label id="email-error" class="hidden"></label>
+                            <label id="email-error" class="fnb-errors hidden"></label>
                         </div>
                         <div class="row phone-col">
                             <div class="col-sm-9">
@@ -27,7 +27,6 @@
                                     <div class="number-code flex-row">
                                       <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
                                       <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
-                                      <label id="contact-error" class="hidden"></label>
                                     </div>
                                 </div>
                             </div>
@@ -40,6 +39,7 @@
                                     </div> -->
                                 </div>
                             </div>
+                            <label id="contact-error" class="fnb-errors hidden"></label>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -52,7 +52,7 @@
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach
                                         </select>
-                                        <label id="city-error" class="hidden"></label>
+                                        <label id="city-error" class="fnb-errors hidden"></label>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach
                                         </select>
-                                        <label id="area-error" class="hidden"></label>
+                                        <label id="area-error" class="fnb-errors hidden"></label>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                         <div class="row">
                             <div class="col-sm-12 describe-section m-b-10 form-group m-t-10">
                                 <label class="required describe-section__title">What describes you the best?</label>
-                                <label id="description-error" class="hidden"></label>
+                                <br/><label id="description-error" class="fnb-errors hidden"></label>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label class="flex-row points">
@@ -134,7 +134,7 @@
                 <div class="modal-footer">
                     <div class="form-group text-center m-b-0 m-t-10">
                         <button type="button" class="btn btn-lg fnb-btn primary-btn border-btn" id="requirement_form_btn">
-                            Save <i class="fa fa-circle-o-notch fa-spin"></i>
+                            Save <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                         </button>
                     </div>
                 </div>

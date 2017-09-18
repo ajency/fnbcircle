@@ -41,6 +41,14 @@
      <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
     <script type="text/javascript" src="/js/require.js"></script>
+
+    @if(Session::has('job_review_pending')) 
+     <script type="text/javascript">
+    $(document).ready(function() {
+        $('#job-review').modal('show');
+    });
+    </script> 
+    @endif 
 @endsection
 
 @section('content')
@@ -263,7 +271,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->id && $job->status == 1) 
+                                        @if($job->id && $job->status == 1 && !empty($jobCompany)) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -301,7 +309,7 @@
 
                 <!-- Modal -->
                 <!-- listing review -->
-                <div class="modal fnb-modal listing-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fnb-modal job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -396,4 +404,6 @@
         <div class="site-overlay"></div>
     </div>
     <!-- content ends -->
+
+     
 @endsection

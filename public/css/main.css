@@ -9059,6 +9059,9 @@ input[type='checkbox'].remove-addr {
   width: 80%;
   margin: 0 auto;
 }
+.businessType .fnb-select {
+  padding-left: 0;
+}
 @media screen and (max-width: 768px) {
   .job-type {
     -webkit-box-align: start;

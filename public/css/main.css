@@ -8971,6 +8971,13 @@ input[type='checkbox'].remove-addr {
   font-size: 0.95em;
   padding-top: 0;
 }
+@media screen and (min-width: 769px) {
+  @-moz-document url-prefix() {
+    .tips-header img {
+      height: 35px;
+    }
+  }
+}
 .tips-row__col {
   margin-top: 1.5em;
   font-weight: 400;

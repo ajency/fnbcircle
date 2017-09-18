@@ -2637,6 +2637,19 @@ input[type='checkbox'].remove-addr{
     padding-top: 0;
 }
 
+// Mozilla header issue
+@media screen and (min-width: 769px){
+	@-moz-document url-prefix() { 
+	 .tips-header{
+			img{
+				height: 35px;
+			}
+		}
+	}
+}
+
+
+
 
 .tips-row{
 	&__col{

@@ -181,14 +181,27 @@
                                         <div class="listing-status">
                                             <div class="label">STATUS</div>
                                             <div class="flex-row space-between">
-                                                <div class="statusMsg">@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") Pending Review @endif @if($listing->status=="1") Published @endif</div>
-                                                @if($listing->isReviewable() and $listing->status > "2")
+                                                <div class="statusMsg">
+                                                @if($listing->status=="3") 
+                                                    Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>  
+                                                @elseif($listing->status=="2") 
+                                                    Pending Review 
+                                                @elseif($listing->status=="1") 
+                                                    Published 
+                                                @elseif($listing->status=="4")
+                                                    Archived 
+                                                @elseif($listing->status=="5") 
+                                                    Rejected
+                                                @endif
+                                                </div>
+                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
                                                     <a href="#" class="review-submit-link">Submit for Review</a>
                                                 @endif
-
-
-                                                @if($listing->status=="1")
-                                                    <a href="#">Archive</a>
+                                                @if($listing->isReviewable() and ($listing->status == "1"))
+                                                    <a href="#" class="archive-submit-link">Archive</a>
+                                                @endif
+                                                @if($listing->isReviewable() and ($listing->status == "4"))
+                                                    <a href="#" class="publish-submit-link">Publish</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -291,8 +304,10 @@
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 View what a sample business listing would look like once created.
                                 <div class="m-t-10">
-                                    <img src="/img/sample_listing.png" class="img-responsive mobile-hide sample-img">
-                                    <a href="/img/sample_listing.png" class="desk-hide sample-img">View the sample</a>
+                                    <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
+                                        <img src="/img/sample_listing.png" class="img-responsive">
+                                    </a>
+                                    <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
                                 </div>
                             </div>
                             <!-- <div class="why-premium">
@@ -474,7 +489,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close">Skip <i class="fa fa-forward p-l-5" aria-hidden="true"></i></button>
+                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
                             </div>
                         </div>
                     </div>

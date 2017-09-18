@@ -29,10 +29,10 @@
           html = '';
           for (key in data) {
             html += '<li><label class="flex-row"><input type="checkbox" ';
-            if (_.indexOf(array, key) !== -1) {
+            if (_.indexOf(array, data[key]['id']) !== -1) {
               html += 'checked';
             }
-            html += ' class="checkbox" for="' + slugify(data[key]) + '" value="' + key + '" name="' + data[key] + '"><p class="lighter nodes__text" id="' + slugify(data[key]) + '">' + data[key] + '</p></label></li>';
+            html += ' class="checkbox" for="' + slugify(data[key]['name']) + '" value="' + data[key]['id'] + '" name="' + data[key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[key]['name']) + '">' + data[key]['name'] + '</p></label></li>';
           }
           city[cityID] = true;
           $('div[name="' + cityID + '"].tab-pane ul.nodes').html(html);
@@ -269,6 +269,12 @@
     parameters['change'] = window.change;
     if (window.submit === 1) {
       parameters['submitReview'] = 'yes';
+    }
+    if (window.archive === 1) {
+      parameters['archive'] = 'yes';
+    }
+    if (window.publish === 1) {
+      parameters['publish'] = 'yes';
     }
     parameters['latitude'] = $('input#latitude').val();
     parameters['longitude'] = $('input#longitude').val();

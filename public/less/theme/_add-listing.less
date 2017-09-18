@@ -469,6 +469,16 @@
 	}
 }
 
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+  .business-type,.interested-options{
+  	.radio{
+  		opacity: 0;
+  	}
+  }
+}
+
+
 @media screen and (max-width: 600px){
 	.business-type{
 		flex-wrap: inherit;
@@ -584,6 +594,17 @@
 	}
 }
 
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+   .payment-modes{
+		li{
+			flex: 0 0 30%;
+		}
+	}
+}
+
+
+
 .hours_day{
 	min-width: 100px;
 }
@@ -612,7 +633,11 @@
 .operation-hours{
 	label .fnb-radio{
 		margin-right: 12px;
-    	top: 2px;
+    	top: -2px;
+    	@media screen and (max-width: 650px){
+    		width: 18px;
+    		margin-right: 10px;
+    	}
 	}
 }
 
@@ -1038,6 +1063,7 @@
     	&__title{
     		width: auto;
     		font-size: 0.95em;
+    		padding-left: 0.5em;
     	}
     	&__submit{
     		margin-top: 0.8em;
@@ -1271,6 +1297,16 @@ input[type='checkbox'].remove-addr{
 	// 		display: none;
 	// 	}
 	// }
+}
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+   .location-hours{
+	   	.baseline{
+	   		.save-addr{
+	   			top: -4px;
+	   		}
+	   	}
+   }
 }
 
 .location-select{
@@ -1926,6 +1962,13 @@ input[type='checkbox'].remove-addr{
 }
 
 
+@media screen and (min-width: 767px) {
+    _::-webkit-full-page-media, _:future, :root .node-select .nav li {
+		margin-bottom: 3.35em;
+    }
+}
+
+
 
 
 @media screen and (max-width: @mobile){
@@ -2310,6 +2353,9 @@ input[type='checkbox'].remove-addr{
 .business-email{
 	.toggle{
 		overflow: inherit;
+		@media screen and (min-width: 769px){
+			margin-left: 0;	
+		}
 	}
 }
 

@@ -247,7 +247,7 @@
       success: function(data) {
         var key;
         for (key in data) {
-          html += '<option value="' + key + '">' + data[key] + '</option>';
+          html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
         $('.area select').html(html);
       },

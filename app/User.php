@@ -61,4 +61,8 @@ class User extends Authenticatable
             return null;
         }
     }
+    public function lastUpdatedListings()
+    {
+        return $this->hasMany('App\Listing', 'last_updated_by');
+    }
 }

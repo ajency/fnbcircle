@@ -408,6 +408,26 @@ table.dataTable tbody > tr > .selected {
     // background-color: rgba(236, 109, 75, 0.15);
     background-color: fade(@accent-primary, 15%);
 }
+table.dataTable thead th.select-checkbox{
+	position: relative;
+}
+table.dataTable thead th.select-checkbox:before{
+		content: ' ';
+		margin-top: -6px;
+	    margin-left: -6px;
+	    border: 1px solid black;
+	    border-radius: 3px;
+	    display: block;
+	    position: absolute;
+	    top: 1.2em;
+	    left: 50%;
+	    width: 12px;
+	    height: 12px;
+	    box-sizing: border-box;
+	    top: auto;
+	    bottom: 14px;
+		border-color: @grey-darker;
+}
 table.dataTable tbody td.select-checkbox:before,
 table.dataTable thead th.select-checkbox:before{
 	border-color: @grey-darker;
@@ -487,3 +507,80 @@ table.dataTable tr th.selected.select-checkbox:after {
 		padding-left: 0;
 	}
 }
+
+
+
+// Listing approval category modal
+
+.list-app-modal{
+	.close{
+		opacity: 0.8;
+	}
+	.interested-options{
+		.option{
+			.cat-icon{
+				height: 50px;
+				padding: 0.5em;
+			}
+		}
+	}
+	.instructions{
+		.fnb-icons.cat-icon{
+			height: 50px;
+			padding: 0.5em;
+		}
+	}
+	.firstStep{
+		.close{
+			@media screen and (max-width: 650px){
+				position: relative;
+    			right: 1em;
+    			top: 1em;
+    			font-size: 1em;
+    			z-index: 2;
+			}
+		}
+	}
+}
+
+
+.bulk-failure{
+	.modal-header{
+		background-color: #eee;
+    	margin: -20px;
+    	margin-bottom: 0;
+	}
+	.listings{
+		&__title{
+			font-weight: 500;
+			font-size: 1.1em;
+		}
+		&__links{
+			justify-content: flex-start;
+    		padding-top: 1em;
+    		align-items: inherit;
+    		margin-bottom: -1.2em;
+    		li{
+    			border-left: 3px solid #eaeaea;
+    			padding-left: 1em;
+    			margin-bottom: 1.2em;
+    			margin-right: 1em;
+    			@media screen and (min-width: 769px){
+    				max-width: calc(~'50% - 1em');
+    			}
+    			a{
+    				text-transform: capitalize;
+    			}
+    			p{
+    				font-size: 1em;
+    			}
+    		}
+		}
+	}
+}
+
+
+
+
+
+

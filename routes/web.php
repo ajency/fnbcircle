@@ -81,6 +81,7 @@ JOBS/USERS
 	/**Users**/
 
 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
+	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
 /*************/

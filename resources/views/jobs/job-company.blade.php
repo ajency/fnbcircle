@@ -2,16 +2,12 @@
 @section('js')
     @parent
     <script type="text/javascript" src="/js/jobs.js"></script>
+    <script type="text/javascript" src="/js/verification.js"></script>
 @endsection
 @section('form-data')
 
 
-@if(Session::has('success_message')) 
-<div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-   {{ Session::get('success_message')}}
-</div>
- @endif 
+@include('jobs.notification')
  
 <input type="hidden" name="_method" value="PUT">
 <input type="hidden" name="step" value="step-two">
@@ -66,7 +62,7 @@
         </div>
         <!-- <span class="fnb-icons contact mobile-hide"></span> -->
         <!-- <img src="img/enquiry.png" class="mobile-hide"> -->
-        <input type="hidden" name="object_type" value="job">
+        <input type="hidden" name="object_type" value="App\Job">
         <input type="hidden" name="object_id" value="{{ $job->id}}">
     </div>
 
@@ -84,12 +80,16 @@
                 <div class="col-sm-5">
                     <input type="hidden" class="contact_email_id contact-id" readonly value="{{ $email['id'] }}"  name="contact_email_id[]">
 
-                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email"  >
+                    <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email"  @if($email['verified']) readonly @endif>
                     <div class=dupError ></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <a class="dark-link verify-link">Verify now</a>
+                    @if($email['verified'])
+                        <span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>
+                    @else
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                    @endif
                         <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <a class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
                         <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                     </div>
                 </div>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <a href="#" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                     </div>
                 </div>
@@ -191,16 +191,19 @@
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row">
-                        <input type="hidden" class="contact_mobile_id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
+                        <input type="hidden" class="contact_mobile_id contact-id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif >
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-
-                        <a href="#" class="dark-link verify-link">Verify now</a>
+                    @if($mobile['verified'])
+                        <span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>
+                    @else
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                    @endif
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
 
                     </div>
@@ -238,7 +241,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
 
-                        <a href="#" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
 
                     </div>
@@ -267,7 +270,7 @@
             <div class="row no-m-b get-val phone-row ">
                 <div class="col-sm-5">
 
-                    <input type="hidden" class="comm-id" readonly  name="contact_mobile_id[]">
+                    <input type="hidden" class="contact-id" readonly  name="contact_mobile_id[]">
 
                     <div class="input-row">
                         <input type="tel" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
@@ -278,7 +281,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
                         <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
-                        <a href="#" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">
@@ -349,7 +352,7 @@
 
 <!-- Phone verification -->
 
-<div class="modal fnb-modal verification-step-modal phone-modal fade" id="phone-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal verification-step-modal mobile-modal fade" id="mobile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -362,7 +365,7 @@
                     <p class="text-lighter x-small">Please enter the 4 digit code sent to your number via sms.</p>
                     <div class="number-code">
                         <div class="show-number flex-row space-between">
-                            <div class="number">
+                            <div class="number contact-input-value">
                                 9344556878
                             </div>
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
@@ -379,10 +382,10 @@
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code">
                         <div class="code-submit flex-row space-between">
-                            <input text="tel" class="fnb-input text-color value-enter" placeholder="Enter new number..." data-parsley-errors-container="#phoneError">
+                            <input text="tel" class="fnb-input text-color value-enter change-contact-input" placeholder="Enter new number..." data-parsley-errors-container="#phoneError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
-                        <div id="phoneError" class="customError"></div>
+                        <div id="phoneError" class="customError fnb-errors"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">
@@ -438,7 +441,7 @@
                         </div>
                         <div class="code-submit flex-row space-between">
                             <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit <i class="fa fa-circle-o-notch fa-spin"></i></button>
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                         </div>
                         <div class="validationError text-left"></div>
                     </div>
@@ -451,7 +454,7 @@
                             <input text="email" class="fnb-input text-color value-enter change-contact-input" placeholder="Enter new email..." data-parsley-errors-container="#customError" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
-                        <div id="customError" class="customError"></div>
+                        <div id="customError" class="customError fnb-errors"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">

@@ -31,7 +31,7 @@
         jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
         jobCityObj.closest('.location-select').find('.job-areas').multiselect({
           includeSelectAllOption: true,
-          numberDisplayed: 5,
+          numberDisplayed: 2,
           delimiterText: ',',
           nonSelectedText: 'Select Area(s)'
         });
@@ -67,6 +67,11 @@
 
   $('.job-save-btn').click(function(e) {
     e.preventDefault();
+    if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
+      $('.job-keywords').removeAttr('data-parsley-required');
+    } else {
+      $('.job-keywords').attr('data-parsley-required', '');
+    }
     CKEDITOR.instances.editor.updateElement();
     $('form').submit();
   });
@@ -131,7 +136,7 @@
 
   $('.expSelect').multiselect({
     includeSelectAllOption: true,
-    numberDisplayed: 5,
+    numberDisplayed: 2,
     delimiterText: ',',
     nonSelectedText: 'Select Experience'
   });
@@ -154,5 +159,29 @@
       }
     });
   }
+
+  if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
+
+  } else {
+    $('.job-keywords').attr('data-parsley-required', '');
+  }
+
+  $('body').on('keyup', '.job-keywords', function(e) {
+    if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
+      $('.job-keywords').removeAttr('data-parsley-required');
+    } else {
+      $('.job-keywords').attr('data-parsley-required', '');
+    }
+  });
+
+  $('body').on('blur', '.job-keywords', function(e) {
+    if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
+      $('.job-keywords').removeAttr('data-parsley-required');
+      console.log('removed');
+    } else {
+      $('.job-keywords').attr('data-parsley-required', '');
+      console.log('added');
+    }
+  });
 
 }).call(this);

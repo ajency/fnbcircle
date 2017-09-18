@@ -9139,6 +9139,24 @@ input[type='checkbox'].remove-addr {
 .job-type .fnb-checkbox:before {
   left: -2px;
 }
+@media screen and (min-width: 767px) {
+  _::-webkit-full-page-media,
+  _:future,
+  :root .job-type .checkbox-inline {
+    margin-right: 0;
+  }
+  _::-webkit-full-page-media,
+  _:future,
+  :root .location-select .select-col {
+    max-width: 30%;
+  }
+  _::-webkit-full-page-media,
+  _:future,
+  :root .multiselect-native-select .caret {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+  }
+}
 .flex-data-row.flex-data-row .flexdatalist-multiple-value {
   margin-top: 10px;
   margin-left: 0;

@@ -139,7 +139,7 @@
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach
                 </select>
-                <div id="city-errors" class="city-errors"></div>
+                <div id="city-errors" class="city-errors fnb-errors"></div>
             </div>
             <div class="select-col area">
 

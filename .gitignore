@@ -6,6 +6,7 @@
 /log
 /.idea
 /.vagrant
+/packages/ajency/
 Homestead.json
 Homestead.yaml
 npm-debug.log

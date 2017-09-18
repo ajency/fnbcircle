@@ -66,12 +66,10 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 
-
-
-
-
-
-Route::group( ['middleware' => ['auth']], function() { 
+/******
+JOBS/USERS
+*******/
+ Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
@@ -85,3 +83,16 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
+/*************/
+ 
+ 
+Route::group(['namespace' => 'Ajency'], function() {
+	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
+	Route::get('/callback/{provider}', 'User\SocialAuthController@urlSocialAuthCallback');
+
+	Route::group(['prefix' => 'api'], function () {
+		Route::get('/login/{provider}', 'User\SocialAuthController@apiSocialAuth');
+		//Route::get('/logout/{provider}', 'User\SocialAuthController@logout');
+	});
+});
+ 

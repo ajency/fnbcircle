@@ -1,5 +1,8 @@
 var change = 0;
 var submit = 0;
+var archive = 0;
+var publish = 0;
+
 $('body').on('change', 'input', function() {
     change = 1;
 });

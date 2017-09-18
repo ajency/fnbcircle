@@ -62,6 +62,7 @@
   background-color: #000;
   color: #fff;
   border: 1px solid;
+  text-decoration: none;
 }
 .fnb-btn.grey {
   background-color: rgba(173, 167, 167, 0.52);
@@ -112,12 +113,23 @@
   width: 100%;
   margin-bottom: 1em;
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
 }
 .social-btn.google {
   background-color: #ec2c2c;
+}
+.social-btn:hover {
+  color: #fff;
+  text-decoration: none;
 }
 .social-btn i {
   position: absolute;

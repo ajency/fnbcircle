@@ -1,7 +1,7 @@
 (function() {
-  var applyCategFilter, approval_table, categ, categories, changeStatusAPI, filters, getNodes, populate, selected_listings, sendRequest, showBulk;
+  var applyCategFilter, approval_table, categ, categories, changeStatusAPI, getNodes, populate, selected_listings, sendRequest, showBulk;
 
-  filters = {
+  window.filters = {
     'submission_date': {
       'start': '',
       'end': ''
@@ -367,13 +367,14 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
+    var filters;
     $('div#categories.node-list').html('');
     $('input#draftstatus').prop('checked', false).change();
-    $('select#status-filter').multiselect('select', ["1", "2", "4", "5"]).change();
+    $('select#status-filter').multiselect('rebuild').change();
     $('#submissionDate').val('');
     $('#listingNameSearch').val('');
     $('.multi-dd').each(function() {
-      return $(this).multiselect('selectAll', false);
+      return $(this).multiselect('deselectAll', false).change();
     });
     filters = {
       'submission_date': {
@@ -409,13 +410,22 @@
   selected_listings = [];
 
   $('body').on('change', 'input#draftstatus', function() {
+    var prev, status;
     if ($(this).prop('checked')) {
-      filters['status'].push("3");
+      status = $('select#status-filter');
+      prev = status.val();
+      status.html('<option value="1">Published</option><option value="2">Pending Review</option> <option value="3">Draft</option><option value="4">Archived</option><option value="5">Rejected</option>');
+      status.multiselect('rebuild');
+      status.multiselect('select', prev);
+      return status.change();
     } else {
-      filters['status'] = _.without(filters['status'], "3");
+      status = $('select#status-filter');
+      prev = status.val();
+      status.html('<option value="1">Published</option><option value="2">Pending Review</option> <option value="4">Archived</option><option value="5">Rejected</option>');
+      status.multiselect('rebuild');
+      status.multiselect('select', prev);
+      return status.change();
     }
-    showBulk();
-    return sendRequest();
   });
 
   showBulk = function() {
@@ -451,11 +461,19 @@
 
   $('body').on('change', 'select#status-filter', function() {
     var val;
+    filters['status'] = [];
     val = $(this).val();
-    filters['status'] = _.without(filters['status'], "1", "4", "2", "5");
-    val.forEach(function(item) {
-      return filters['status'].push(item);
-    });
+    if (val.length === 0) {
+      if ($('input#draftstatus').prop('checked')) {
+        filters['status'] = ["1", "2", "3", "4", "5"];
+      } else {
+        filters['status'] = ["1", "2", "4", "5"];
+      }
+    } else {
+      val.forEach(function(item) {
+        return filters['status'].push(item);
+      });
+    }
     showBulk();
     return sendRequest();
   });

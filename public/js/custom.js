@@ -1,6 +1,64 @@
 
 $(function(){
 
+	$("#login-modal").on('shown.bs.modal', function() {
+		var url = '';
+
+		if (window.location.search && window.location.search.indexOf("login=") < 0) {
+			url = window.location.search + '&login=true';
+		} else if (!window.location.search) {
+			url = '/?login=true';
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$("#login-modal").on('hidden.bs.modal', function() {
+		var url = '/';
+
+		if (window.location.search.indexOf("login=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$('.alert').on('closed.bs.alert', function (e) {
+       var url = '/';
+
+		if (window.location.search.indexOf("message=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url); 
+    });
+
 	$(window).scroll(function (event) {
 	    var scroll = $(window).scrollTop();
 	    if($('.sticky-section').length){
@@ -210,6 +268,91 @@ $(function(){
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
+
+			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
+				$("#login-modal").modal('show');
+			}
+
+			if (window.location.search.indexOf("message=") > -1) { // If login=true exist & message param exist in URL, then trigger the Popup
+				var message_key = window.location.search.split("message=")[1].split("&")[0];
+
+				var popup_message = "#login-modal .login-container .alert";
+				
+				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
+					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
+					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
+					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'account_suspended') {
+					$(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'social_permission_denied') {
+					$(popup_message + ".alert-danger .no-account.no-email-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'email_confirm') {
+					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'is_verified') {
+					$(popup_message + ".alert-success").removeClass('hidden');
+				} else if (message_key == 'no_account') { // Account with this email ID doesn't exist
+					$(popup_message + ".alert-danger .no-account-exist.no-email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
+					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				}
+			}
+
+			if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup
+				$(".require-modal").modal('show');
+
+				if (window.location.search.indexOf("login=") >= 0) { // check if the login=true exist in the URL, if it Does, then remove it
+					var url_split = window.location.search.split('?')[1].split('&');
+					for(i = 0; i < url_split.length; i++) {
+						if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+							url += (url == '/' ? '?': '&') + url_split[i];
+						}
+					}
+				} else {
+					url = window.location.search;
+				}
+
+				if (window.location.hash) {
+					url += window.location.hash;
+				}
+
+				window.history.pushState('', '', url);
+			}
+
+			$('#requirement_form_btn').click(function(){                  
+	            var descr_values = [];
+
+	            $.each($("#require-modal input[name='description[]']:checked"), function() {
+				  descr_values.push($(this).val());
+				});
+	            
+	            $.ajax({
+	                url: 'api/requirement',
+	                method: 'post',             
+	                data: {
+	                	"name": $("#require-modal input[name='name']").val(),
+	                	"email": $("#require-modal input[name='email']").val(),
+	                	"contact": $("#require-modal input[name='contact_locality']").val() + $("input[name='contact']").val(),
+	                	"area" : $("#require-modal select[name='area']").val(),
+	                	"city" : $("#require-modal select[name='city']").val(),
+	                	"description" : descr_values
+	                },
+	                success: function(data){
+	                	console.log(data);
+	                    //window.location.href = data;
+	                },
+	                error: function(){},
+	            });
+	        });
 		});
 
 		if($('.photo-gallery').length){
@@ -323,6 +466,11 @@ $(function(){
 		    jQuery('.m-side-bar,.site-overlay').removeClass('active');
 		    jQuery('body').removeClass('blocked');
 		  }
+		});
+
+		$('.close-sidebar').click(function(){
+			jQuery('.m-side-bar,.site-overlay').removeClass('active');
+		    jQuery('body').removeClass('blocked');
 		});
 
 		// toggle icon
@@ -549,6 +697,26 @@ $(function(){
 		$('#login-modal').on('hidden.bs.modal', function (e) {
 		  $('.forget-password').removeClass('active');
 		})
+
+
+		// homepage search
+
+		$('.mobile-fake-search').click(function(){
+			$('.searchArea').addClass('active');
+		})
+
+
+		// only number in input phone
+		function isNumberKey(evt){
+		    var charCode = (evt.which) ? evt.which : event.keyCode
+		    if (charCode > 31 && (charCode < 48 || charCode > 57))
+		        return false;
+		    return true;
+		} 
+
+		$('.number-code__value').keypress(function(){
+			return isNumberKey(event);
+		});
 
 		// Multiselect options for signup
 

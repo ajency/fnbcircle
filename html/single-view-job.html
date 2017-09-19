@@ -29,11 +29,11 @@
                     <div class="navbar-header mobile-head mobile-flex">
                         <div class="mobile-head__left mobile-flex">
                             <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
-                            <a class="navbar-brand" href="#">F&amp;BCircle.in</a>
+                            <a class="navbar-brand" href="#"><img src="http://stage.fnbcircle.com/img/logo-fnb.png" class="img-responsive"></a>
                         </div>
                         <div class="mobile-head__right mobile-flex">
                             <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
-                             <a href="" class="login">
+                            <a href="" class="login">
                                 <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -41,8 +41,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse m-side-bar" id="bs-example-navbar-collapse-1">
                         <ul class="mobile-top mobile-flex">
-                            <li><p class="mobile-top__text">Sign in to get a personalised feed!</p></li>
-                            <li><button type="button" class="fnb-btn outline bnw">Login</button></li>
+                            <li>
+                                <p class="mobile-top__text">Sign in to get a personalised feed!</p>
+                            </li>
+                            <li>
+                                <button type="button" class="fnb-btn outline bnw">Login</button>
+                            </li>
                         </ul>
                         <ul class="nav navbar-nav city-select">
                             <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
@@ -71,10 +75,23 @@
                                 <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
                             </li>
                             <li class="mobile-hide">
-                                <a href="" class="login">
+                                <!-- <a href="" class="login">
                                     <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                                     <p class="login__title nav-title-size p-l-10">Login</p>
-                                </a>
+                                </a> -->
+                                <div class="dropdown login user-logged">
+                                    <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger">
+                                        <span class="ellipsis userName">Amit Adav</span>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                        <li>Test</li>
+                                        <li>test</li>
+                                        <li>test</li>
+                                    </ul>
+                                </div>
+                                
                             </li>
                             <li class="mobile-hide">
                                 <a href="" class="side-menu">
@@ -94,10 +111,10 @@
                                 <a href="" class="nav-title-size">How it works</a>
                             </li>
                             <li>
-                               <a href="" class="nav-title-size">Terms of use</a>
+                                <a href="" class="nav-title-size">Terms of use</a>
                             </li>
                             <li>
-                                 <a href="" class="nav-title-size">FAQ</a>
+                                <a href="" class="nav-title-size">FAQ</a>
                             </li>
                         </ul>
                     </div>
@@ -169,8 +186,8 @@
                                     <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                                 </a>
                             </div> -->
-                             <p class="m-b-0 published-title">Published on 20 May 2017</p>
-                            <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>                        
+                             <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : July 03, 2017</p>
+                            <button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button>                        
                         </div>
                         <!-- slide navigation ends -->
                         
@@ -179,21 +196,34 @@
                     </div>
                 </div>
                 <!-- premium benefits -->
-                <!-- <div class="row">
+                <div class="row hidden">
                     <div class="col-sm-12">
                         <div class="pre-benefits flex-row">
                             <div class="pre-benefits__intro flex-row">
-                                
                                 <img src="../public/img/power-icon.png" class="img-repsonsive" width="50">
                                 <div class="pre-benefits__content">
                                     <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                                    <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version</p>
+                                    <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click upgrade premium</p>
                                 </div>
                             </div>
                             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button>
                         </div>
                     </div>
-                </div> -->
+                </div>
+
+                <!-- pending review -->
+                <div class="row hidden">
+                    <div class="col-sm-12">
+                        <div class="pre-benefits pending-review flex-row">
+                            <div class="pre-benefits__intro flex-row">
+                                <div class="pre-benefits__content">
+                                    <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>Pending Review</b> <i class="fa fa-info-circle" aria-hidden="true"></i></h5>
+                                </div>
+                            </div>
+                            <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
+                        </div>
+                    </div>
+                </div>
                 <!-- premium benefits ends -->
                 <!-- edit business listing -->
 <!--                 <div class="row">
@@ -212,25 +242,25 @@
                     <div class="col-sm-8">
                         <div class="spacer">
                             <!-- Card Info starts -->
-                            <div class="seller-info card design-2-card">
+                            <div class="seller-info card design-2-card job-info">
                                 <div class="seller-info__header flex-row">
                                     
                                    
                                 </div>
                                 <div class="seller-info__body">
                                     <div class="flex-row space-between">
-                                        <h3 class="seller-info__title main-heading">Mystical the meat and fish store</h3>
+                                        <h3 class="seller-info__title main-heading">Food &amp; Beverage Manager</h3>
                                         <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
-                                        <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130">
-                                        <img src="../public/img/power-icon.png" class="img-responsive desk-hide" width="30">
+                                        <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
+                                        <img src="../public/img/power-icon.png" class="img-responsive" width="30">
                                     </div>
                                     
-                                    <div class="location flex-row">
+                                    <div class="location main-loc flex-row">
                                         <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title c-title">Mumbai <span class="map-link heavier">(Map)</span></h6>
+                                        <p class="location__title c-title">InterContinental Hotels Group <span class="map-link heavier">(Map)</span></h6>
                                     </div>
-                                    <div class="stats flex-row m-t-25">
-                                        <div class="rating-view flex-row">
+                                    <div class="stats flex-row m-t-15 owner-info">
+                                        <!-- <div class="rating-view flex-row">
                                             <div class="rating">
                                                 <div class="bg"></div>
                                                 <div class="value" style="width: 80%;"></div>
@@ -243,11 +273,19 @@
                                                 <span class="fnb-icons verified-icon"></span>
                                                 <p class="c-title">Verified</p>
                                             </div>
-                                        </div>
+                                        </div> -->
+
                                         <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
+                                            <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
+                                            FULL - TIME
                                         </label>
+
+                                        <div class="owner-address flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
+                                        </div>
+
+                                        
                                         
                                        <!--  <div class="verified-toggle flex-row">
                                             <p class="m-b-0 text-color mobile-hide">Un-Verified</p>
@@ -259,9 +297,10 @@
                                             <p class="m-b-0 text-color toggle-state">Verified</p>
                                         </div> -->
                                     </div>
-                                    <div class="operations p-t-5">
-                                        <h6 class="operations__title">Areas of operation of mystical the meat and fish store</h6>
-                                        <div class="opertaions__container flex-row">
+                                    <div class="operations p-t-10 p-b-20 flex-row flex-wrap role-selection">
+                                        <div class="role-gap">
+                                            <h6 class="operations__title sub-title">Offered Salary</h6>
+                                        <!-- <div class="opertaions__container flex-row">
                                             <div class="location flex-row">
                                                 <span class="fnb-icons map-icon"></span>
                                                 <p class="location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
@@ -301,6 +340,68 @@
                                                     <a href="" class="secondary-link remain__number">+10</a>
                                                 </li>
                                             </ul>
+                                        </div> -->
+                                            <div class="text-color lighter">2 - 2.5 Lakhs p.a</div>
+                                        </div>
+                                        <div class="role-gap">
+                                            <h6 class="operations__title sub-title">Years of experience</h6>
+                                            <div class="text-color lighter">1 - 2 years</div>
+                                        </div>
+                                        <div class="job-role">
+                                            <h6 class="operations__title sub-title">Job role</h6>
+                                            <ul class="cities flex-row">
+                                                <li>
+                                                    <p class="default-size cities__title">Area director, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Baker, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Accountant, </p>
+                                                </li>
+                                                 <li>
+                                                    <p class="default-size cities__title">Bartender, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Area director, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Baker, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Accountant, </p>
+                                                </li>
+                                                 <li>
+                                                    <p class="default-size cities__title">Bartender, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Area director, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Baker, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Accountant, </p>
+                                                </li>
+                                                 <li>
+                                                    <p class="default-size cities__title">Bartender, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Area director, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Baker, </p>
+                                                </li>
+                                                <li>
+                                                    <p class="default-size cities__title">Accountant, </p>
+                                                </li>
+                                                 <li>
+                                                    <p class="default-size cities__title">Bartender, </p>
+                                                </li>
+                                                <li class="remain more-show">
+                                                    <a href="" class="secondary-link">+10</a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -311,10 +412,10 @@
                                             <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
                                             <!-- If not logged in -->
-                                            <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button>
+                                            <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Apply Now</button>
 
                                             <!-- <h1 class="m-b-0">20</h1> -->
-                                            <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p>
+                                            <a href="#" class="secondary-link p-l-20"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                                         </div>
                                         <!-- <div class="contact__enquiry">
                                             <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
@@ -354,7 +455,7 @@
                             </div>
                             <!-- contact info ends -->
                             <!-- tabs structure -->
-                            <div class="nav-info m-t-20 p-t-20">
+                           <!--  <div class="nav-info m-t-20 p-t-20">
                                 <div class="sticky-section">
                                     <div class="container">
                                         <div class="row">
@@ -364,7 +465,6 @@
                                                     <li class="nav-section"><a href="#listed">Listed In</a></li>
                                                     <li class="nav-section"><a href="#overview">Overview</a></li>
                                                     <li class="nav-section"><a href="#business">Similar Businesses</a></li>
-                                                    <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                                 </ul>
                                             </div>
                                             <div class="col-sm-4">
@@ -381,7 +481,7 @@
                                     <li class="nav-section"><a href="#overview">Overview</a></li>
                                     <li class="nav-section"><a href="#business">Similar Businesses</a></li>
         	                    </ul>
-                            </div>
+                            </div> -->
                             <!-- tabs structure ends -->
 
                             <!-- updates section -->
@@ -390,22 +490,7 @@
                                     <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                                     <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
                                 </div> -->
-                                <div class="update-sec__body update-space">
-        <!--                             <div class="updatesForm p-b-30 m-b-10">
-                                        <div class="form-group p-b-10">
-                                            <input type="text" class="form-control fnb-input" placeholder="Title">
-                                        </div>
-                                        <div class="form-group p-b-5">
-                                            <label class="title-label text-lighter" for="desc">Description</label>
-                                            <textarea class="form-control fnb-textarea" id="desc"></textarea>
-                                        </div>
-                                        <div class="form-group p-b-5">
-                                            <a href="" class="text-lighter attach">Attach files to this update...</a>
-                                        </div>
-                                        <div class="form-group m-b-0 post-update">
-                                            <button class="btn fnb-btn outline full border-btn">Post this update</button>
-                                        </div>
-                                    </div> -->
+                              <!--   <div class="update-sec__body update-space">
                                     <h6 class="element-title update-sec__heading m-t-15 bolder">
                                         Mystical the meat and fish store recent updates
                                     </h6>
@@ -419,297 +504,184 @@
                                         <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
                                     </ul>
                                     <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a></p>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- update section ends -->
 
         					<!-- listed -->
 
-        					<div class="listed p-t-20 p-b-10" id="listed">
-        						<h6 class="element-title">Also Listed In</h6>
-        						<div class="listed__section flex-row">
-        							<div class="parent-cat flex-row">
-        								<span class="fnb-icons cat-icon meat m-r-15"></span>
-        								<p class="parent-cat__title cat-size">Meat</p>
-        							</div>
-        							<div class="child-cat">
-        								<p class="child-cat__title cat-size">Chicken</p>
-        							</div>
-        							<ul class="fnb-cat flex-row">
-        		                        <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Mutton</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Egg</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-        		                    </ul>
-        						</div>
+        					<div class="listed p-t-5 p-b-10" id="listed">
+        						<h5 class="jobDesc">Job description</h5>
         						<hr>
-        						<div class="listed__section flex-row">
-        							<div class="parent-cat flex-row">
-        								<span class="fnb-icons cat-icon veg m-r-15"></span>
-        								<p class="parent-cat__title cat-size sub-title">Vegetable</p>
-        							</div>
-        							<div class="child-cat">
-        								<p class="child-cat__title cat-size sub-title">Fresh Vegetables</p>
-        							</div>
-        							<ul class="fnb-cat flex-row">
-        		                        <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Mutton</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Egg</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-        		                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-        		                    </ul>
-        						</div>
-        					</div>
-        					<hr>
-        					<!-- listed ends -->
-
-        					<!-- brands -->
-        					<div class="brands p-t-20 p-b-20" id="overview">
-        						<h6 class="element-title m-b-20">Mystical the meat and fish store Brands</h6>
-        						<ul class="brands__list flex-row">
-        							<li class="flex-row">
-        								<!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                        <span class="fnb-icons tags"></span>
-        								<p class="sub-title">Real Goods</p>
-        							</li>
-        							<li class="flex-row">
-        								<!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                        <span class="fnb-icons tags"></span>
-        								<p class="sub-title">Yummiez</p>
-        							</li>
-        							<li class="flex-row">
-        								<!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                        <span class="fnb-icons tags"></span>
-        								<p class="sub-title">Wendy's Food</p>
-        							</li>
-        							<li class="flex-row">
-        								<!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                        <span class="fnb-icons tags"></span>
-        								<p class="sub-title">Venkys</p>
-        							</li>
-        						</ul>
-        					</div>
-        					<!-- Brands ends -->
-
-        					<!-- Highlights -->
-        					<div class="highlights p-t-20 p-b-20">
-        						<h6 class="element-title m-b-20">Mystical the meat and fish store Highlights</h6>
-        						<ul class="highlights__points">
-        							<li class="flex-row">
-        								<!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                        <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-        								<p class="sub-title">To maintain the freshness and quality</p>
-        							</li>
-        							<li class="flex-row">
-        								<!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                         <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-        								<p class="sub-title">Processed hygienically and are stored under desired temperature</p>
-        							</li>
-        							<li class="flex-row">
-        								<!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                         <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-        								<p class="sub-title">Strict quality measures are followed while packaging to prevent damage and outside contamination</p>
-        							</li>
-        						</ul>
-        					</div>
-        					<!-- highlights ends -->
-
-        					<!-- Description -->
-        					<div class="description p-t-20 p-b-20">
-        						<h6 class="element-title m-b-20">Mystical the meat and fish store Description</h6>
-        						<p class="sub-title description__detail">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta modi ut cupiditate iste quia aperiam ab quibusdam nesciunt temporibus magnam nobis, dolore dicta eum libero quaerat ipsam perferendis culpa deleniti incidunt ex nemo. Ab temporibus enim, voluptatibus. Ullam impedit fugit sapiente vitae temporibus nulla quisquam reprehenderit officiis, amet consequatur accusantium quis quo velit, earum animi aut tenetur modi praesentium optio ratione ipsam. Quis pariatur debitis sequi dolorum atque eius laboriosam ullam beatae. Corporis sint eum, totam placeat recusandae error a nihil repudiandae. Quae nobis rerum amet laboriosam incidunt est consequatur, iste repudiandae harum maiores hic corporis iusto dolores repellat et cumque minima adipisci expedita, dignissimos, placeat, reiciendis aut temporibus consectetur optio? Quasi expedita nesciunt molestias, sunt ducimus. Optio quisquam magni molestias porro. Expedita deserunt esse neque ipsa.</p>
-        					</div>
-        					<!-- Description ends -->
-
-        					<!-- more-details -->
-        					<div class="more-details p-t-20 p-b-20">
-        						<!-- <h3 class="main-heading p-b-15">More details of Mystical The Meat And Fish Store</h3> -->
-        						<div class="detail-1 flex-row m-t-25 m-b-25">
-        							<div class="year">
-        								<p class="element-title heavier m-b-20">Year of establishment</p>
-        								<p class="sub-title lighter">1998</p>
-        							</div>
-        							<div class="site">
-        								<p class="element-title heavier m-b-10">Website</p>
-        								<p class="sub-title lighter "><a href="http://www.mystical.com" target="_blank" class="link-click">www.mystical.com <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
-        							</div>
-        						</div>
-        						<div class="detail-2 flex-row m-t-25 m-b-25">
-        							<div class="operation">
-        								<p class="element-title heavier m-b-20">Hours of operation <span class="text-danger">(Closed now)</span></p>
-        								<p class="sub-title lighter operation__hours">Today 07:30 am - 02:00 pm <span class="dis-block data-show m-t-5">Today 07:30 am - 02:00 pm</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
-        							</div>
-        						</div>
-        						<div class="detail-3 flex-row m-t-25 m-b-25">
-        							<div class="address">
-        								<p class="element-title heavier m-b-20">Address Mystical the meat and fish store</p>
-        								<p class="sub-title lighter">Shop No 1, Navjeevan Building, Evershine Nagar-Malad West, Mumbai - 400064.</p>
-        							</div>
-        						</div>
-        						<div class="detail-4 flex-row m-t-25 m-b-25">
-        							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
-        						</div>
-                                <div class="detail-4 flex-row m-t-25">
-                                    <div class="payment-mode">
-                                        <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
-                                        <ul class="credit-card flex-row flex-wrap">
-                                            <li><i class="fa fa-credit-card" aria-hidden="true"></i> Cash
-                                            </li>
-                                            <li><i class="fa fa-credit-card" aria-hidden="true"></i> Master Card
-                                            </li>
-                                            <li><i class="fa fa-credit-card" aria-hidden="true"></i> Debit card
-                                            </li>
-                                            <li><i class="fa fa-credit-card" aria-hidden="true"></i> Visa card
-                                            </li>
-                                            <li><i class="fa fa-credit-card" aria-hidden="true"></i> American card
-                                            </li>
+                                <div class="job-desc text-color stable-size">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                                </div>
+                                <div class="job-summary job-points">
+                                    <h6 class="sub-title">Job Summary</h6>
+                                    <div class="text-color stable-size">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt. minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                                    </div>
+                                </div>
+                                <div class="candidate-profile job-points">
+                                    <h6 class="sub-title">Candidate Profile</h6>
+                                    <p class="sub-seperator">Education and Experience</p>
+                                    <div class="text-color stable-size">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                                    </div>
+                                    <p class="sub-seperator">OR</p>
+                                    <div class="text-color stable-size">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                                    </div>
+                                </div>
+                                <div class="core-activities job-points">
+                                    <h6 class="sub-title">Core Work Activities</h6>
+                                    <div class="text-color stable-size">
+                                        <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
+                                         <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
+                                         <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
+                                         <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
+                                         <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
+                                    </div>
+                                </div>
+                                <div class="footer-share flex-row">  
+                                    <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
+                                      
+                                     <div class="share-job">
+                                        <p class="sub-title heavier m-b-5">Share</p>
+                                        <ul class="options flex-row flex-wrap">
+                                            <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                                            <li><i class="fa fa-facebook-official" aria-hidden="true"></i></li></li>
+                                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
         					</div>
-        					<!-- more details ends -->
+        					<hr>
+        					<!-- listed ends -->
 
-        					<!-- Similar businesses -->
 
-        					<div class="similar-business p-t-20 p-b-20" id="business">
-        						<div class="section-start-head m-b-15 flex-row">
-        							<h6 class="element-title">Similar Businesses</h6>
-        							<a href="" class="secondary-link view-more heavier">View More</a>
-        						</div>
-        						<div class="similar-business__section flex-row">
-        							<div class="card business-card article-col">
-        								<div class="business-card__header">
-                                            <img src="../public/img/power-seller.png" class="img-responsive powerSeller" width="100">
-        									<ul class="fnb-cat flex-row">
-                                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                                <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            </ul>
-                                            <div class="operations m-t-20">
-                                                <span class="dis-block lighter">Area of operations</span>
-                                                <ul class="areas flex-row">
-                                                    <li>
-                                                        <p class="default-size areas__title">Thane, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Navi-mumbai, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Dadar, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Matunga</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-        								</div>
-        								<div class="business-card__body">
-                                            <div class="flex-row space-between">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 80%;"></div>
-                                                </div>
-                                                <span class="fnb-icons verified-icon"></span>
-                                            </div>
-                                            <div class="address">
-                                                <p class="sub-title heavier">Kasam quershi sons pvt ltd</p>
-                                                <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i> Andheri Mumbai</p>
-                                            </div>
-        								</div>
-        								<div class="business-card__footer flex-row">
-        									<p class="sub-title heavier footer-text"><a href="">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-        									<span class="x-small date lighter">Updated on 20 Dec</span>
-        								</div>
-        							</div>
-        							<div class="card business-card article-col">
-                                        <div class="business-card__header">
-                                            <img src="../public/img/power-seller.png" class="img-responsive powerSeller" width="100">
-                                            <ul class="fnb-cat flex-row">
-                                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                                <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            </ul>
-                                            <div class="operations m-t-20">
-                                                <span class="dis-block lighter">Area of operations</span>
-                                                <ul class="areas flex-row">
-                                                    <li>
-                                                        <p class="default-size areas__title">Thane, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Navi-mumbai, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Dadar, </p>
-                                                    </li>
-                                                    <li>
-                                                        <p class="default-size areas__title">Matunga</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                        <!--     <div class="featured-news">
+                                <h5>Featured News Articles</h5>
+                                <hr>
+                                <div class="featured-news__container flex-row flex-wrap">
+                                   <div class="featured-news__row flex-row">
+                                        <div class="newslogo">
+                                             <img src="http://via.placeholder.com/90x90">
                                         </div>
-                                        <div class="business-card__body">
-                                            <div class="flex-row space-between">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 80%;"></div>
-                                                </div>
-                                                <span class="fnb-icons verified-icon"></span>
+                                        <div class="newsdetail">
+                                            <div>
+                                                <p class="m-b-0 default-size">Nestle details ways to make cappuc-cinos creamier.</p>
+                                                <span class="x-small text-color lighter">June 28, 2017</span>
                                             </div>
-                                            <div class="address">
-                                                <p class="sub-title heavier">Kasam quershi sons pvt ltd</p>
-                                                <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i> Andheri Mumbai</p>
-                                            </div>
-                                        </div>
-                                        <div class="business-card__footer flex-row">
-                                            <p class="sub-title heavier footer-text"><a href="">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-                                            <span class="x-small date lighter">Updated on 20 Dec</span>
+                                            <label class="fnb-label supplier">Supplier innovation</label>
                                         </div>
                                     </div>
-        						</div>
-        					</div>
-        					<!-- similar business ends -->
+                                    <div class="featured-news__row flex-row">
+                                        <div class="newslogo">
+                                             <img src="http://via.placeholder.com/90x90">
+                                        </div>
+                                        <div class="newsdetail">
+                                            <div>
+                                                <p class="m-b-0 default-size">Nestle details ways to make cappuc-cinos creamier.</p>
+                                                <span class="x-small text-color lighter">June 28, 2017</span>
+                                            </div>
+                                            <label class="fnb-label supplier">Supplier innovation</label>
+                                        </div>
+                                    </div> 
+                                    <div class="featured-news__row flex-row">
+                                        <div class="newslogo">
+                                             <img src="http://via.placeholder.com/90x90">
+                                        </div>
+                                        <div class="newsdetail">
+                                            <div>
+                                                <p class="m-b-0 default-size">Nestle details ways to make cappuc-cinos creamier.</p>
+                                                <span class="x-small text-color lighter">June 28, 2017</span>
+                                            </div>
+                                            <label class="fnb-label supplier">Supplier innovation</label>
+                                        </div>
+                                    </div>
+                                    <div class="featured-news__row flex-row">
+                                        <div class="newslogo">
+                                             <img src="http://via.placeholder.com/90x90">
+                                        </div>
+                                        <div class="newsdetail">
+                                            <div>
+                                                <p class="m-b-0 default-size">Nestle details ways to make cappuc-cinos creamier.</p>
+                                                <span class="x-small text-color lighter">June 28, 2017</span>
+                                            </div>
+                                            <label class="fnb-label supplier">Supplier innovation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div> -->
+                            
+
 
         					<!-- Related article section -->
 
         					<div class="related-article p-b-20" id="article">
         						<div class="section-start-head m-b-15 flex-row">
-        							<h6 class="element-title">Related Articles</h6>
-        							<a href="" class="secondary-link view-more heavier">View More</a>
+        							<h6 class="element-title">Featured News Articles</h6>
+        							<!-- <a href="" class="secondary-link view-more heavier">View More</a> -->
         						</div>
-        						<div class="related-article__section flex-row">
+        						<div class="related-article__section equalCol flex-row">
         							<div class="related-article__col article-col fnb-article">
         								<a href="" class="article-link">
         									<div class="fnb-article__banner"></div>
-        									<div class="fnb-article__content m-t-15">
-        										<h6 class="sub-title fnb-article__title">There could be Ketamine in your 'natural' chicken</h6>
-        										<p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-        										<span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+        									<div class="fnb-article__content m-t-10">
+        										<h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
+        										<!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
         									</div>
         								</a>
+                                        <span class="dis-block fnb-article__caption lighter date flex-row space-between">
+                                            <label class="fnb-label news-label">Supplier innovation</label>
+                                            June 28, 2017
+                                        </span>
         							</div>
         							<div class="related-article__col article-col fnb-article">
-        								<a href="" class="article-link">
-        									<div class="fnb-article__banner banner-2"></div>
-        									<div class="fnb-article__content m-t-15">
-        										<h6 class="sub-title fnb-article__title">There could be Ketamine in your 'natural' chicken</h6>
-        										<p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-        										<span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
-        									</div>
-        								</a>
-        							</div>
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner banner-2"></div>
+                                            <div class="fnb-article__content m-t-10">
+                                                <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
+                                                <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
+                                            </div>
+                                        </a>
+                                        <span class="dis-block fnb-article__caption lighter date flex-row space-between">
+                                            <label class="fnb-label news-label">Supplier innovation</label>
+                                            June 28, 2017
+                                        </span>
+                                    </div>
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner"></div>
+                                            <div class="fnb-article__content m-t-10">
+                                                <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
+                                                <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
+                                            </div>
+                                        </a>
+                                        <span class="dis-block fnb-article__caption lighter date flex-row space-between">
+                                            <label class="fnb-label news-label">Supplier innovation</label>
+                                            June 28, 2017
+                                        </span>
+                                    </div>
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner banner-2"></div>
+                                            <div class="fnb-article__content m-t-10">
+                                                <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
+                                                <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
+                                            </div>
+                                        </a>
+                                        <span class="dis-block fnb-article__caption lighter date flex-row space-between">
+                                            <label class="fnb-label news-label">Supplier innovation</label>
+                                            June 28, 2017
+                                        </span>
+                                    </div>
         						</div>
         					</div>
-
-
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -733,87 +705,212 @@
                             </div> -->
                         <!-- core categories -->
                             <div class="equal-col">
-                               <div class="core-cat">
-                                    <h6 class="element-title m-t-0 m-b-15">We specialise in</h6>
-                                    <ul class="fnb-cat flex-row">
-                                        <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                        <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
+                               <!-- <div class="core-cat">
+                                    <h6 class="element-title m-t-0 m-b-15 text-center">Post a job on FnB Circle for free!</h6>
+                                    <div class="contact__enquiry text-center mobile-hide">    
+                                       <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
+                                       
+                                    </div>
+                                </div>  -->
+                               <!--  <div class="share-job">
+                                    <p class="element-title heavier text-center">Share</p>
+                                    <ul class="options flex-row flex-wrap">
+                                        <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                                        <li><i class="fa fa-facebook-official" aria-hidden="true"></i></li></li>
+                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i><</a>/li>
+                                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                                     </ul>
-                                </div> 
-                                <div class="contact__enquiry text-center mobile-hide">                                
-                                    <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
-                                    <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
-                                    <!-- <div class="approval">
-                                        <p class="contact__title lighter">Your listing is submitted for approval</p>
-                                        <div class="heavier sub-title"><i class="fa fa-clock-o text-primary" aria-hidden="true"></i> Pending approval</div>
-                                    </div> -->
+                                </div> -->
+                                <div class="Company-info">
+                                    <div class="flex-row name-row">
+                                        <div class="company-logo">
+                                            <img src="http://via.placeholder.com/80x80">
+                                        </div>
+                                        <div class="company-name heavier">
+                                            <div>
+                                                <div>InterContinental Hotels Group</div>
+                                                <a href="#" class="primary-link x-small ">www.ichotelsgroup.com</a>
+                                            </div>
+                                             <div class="share-job">
+                                                <ul class="options flex-row flex-wrap">
+                                                    <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="company-detail text-color">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi debitis consequatur sed ea recusandae ut iure, odit hic inventore dignissimos iste incidunt neque, quasi, fuga aliquid! Voluptatem ipsa autem nihil fugiat corporis nostrum, in esse nesciunt! Ratione illum maiores est, quidem ipsum, consequatur quo ipsam possimus itaque nisi sit delectus! Placeat quis perspiciatis veniam culpa cumque quidem unde aliquid dicta?
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <!-- Advertisement ends -->
+
+                            <div class="advertisement flex-row m-t-40">
+                                <h6 class="element-title">Advertisement</h6>
+                            </div>
+                            <!-- advertisement ends -->
+
+                            <!-- Featured Jobs -->
+
+                            <div class="featured-jobs browse-cat">
+                                <h6 class="element-title m-t-0">Featured Jobs</h6>
+                                <hr>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc ellipsis">
+                                        <div>
+                                            <p class="default-size heavier m-b-0 ellipsis">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- End featured jobs -->
+
+                            
+
+                            <!-- Similar Jobs -->
+
+                            <div class="featured-jobs browse-cat">
+                                <h6 class="element-title m-t-0">Similar Jobs</h6>
+                                <hr>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="featured-jobs__row flex-row">
+                                    <div class="joblogo">
+                                        <img src="http://via.placeholder.com/60x60">
+                                    </div>
+                                    <div class="jobdesc">
+                                        <div>
+                                            <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                                            <span class="x-small text-color">Contactx Resource Management</span>
+                                        </div>
+                                        <div class="location flex-row">
+                                            <span class="fnb-icons map-icon"></span>
+                                            <span class="x-small">Delhi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Similar jobs -->
                             
                             <!-- Claim -->
-                            <div class="claim-box p-b-10">
+                            <div class="claim-box p-b-10 job-post">
                                 <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
                                 <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
-                                <span class="fnb-icons exclamation"></span>
-                                <p class="claim-box__text sub-title">Is this your business? <a href="">Claim it now.</a><br> or <a href="">Report/Delete</a></p>
-                            </div>
-                            <!-- Photos and documents -->
-                            <div class="docs p-t-20 p-b-20">
-                                <h6 class="element-title m-b-15">Photos &amp; Documents of Mystical the meat and fish store</h6>
-                                <div class="photo-gallery">
-                                    <div class="photo-gallery__banner">
-                                        <a href="../public/img/gallery-1.png" class="thumb-click">
-                                          <img src="../public/img/gallery-1.png" class="img-responsive main-img">
-                                        </a>
-                                    </div>
-                                    <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
-                                        <li>
-                                            <a href="../public/img/gallery-1.png" class="thumb-click">
-                                                <img src="../public/img/gallery-1.png" alt="" class="img-responsive">
-                                                <!-- <div class="gal-img" src="../public/img/gallery-1.png" style="background-image: url('../public/img/gallery-1.png')"></div> -->
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="../public/img/gallery-1.png" class="thumb-click">
-                                                <img src="../public/img/gallery-1.png" alt="" class="img-responsive">
+                                <!-- <span class="fnb-icons exclamation"></span> -->
+                                <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
+                                <div class="contact__enquiry text-center m-t-15">    
+                                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
+                                   
+                                </div>
 
-                                                <p class="sub-title">+ 2 More</p>
-                                                <!-- <div class="gal-img" src="../public/img/gallery-1.png" style="background-image: url('../public/img/gallery-1.png')"></div> -->
-                                            </a>
-                                        </li>
-                                        <!-- <li>
-                                            <a href="../public/img/gallery-1.png" class="thumb-click">
-                                                <img src="../public/img/gallery-1.png" alt="" class="img-responsive">
-                                            </a>
-                                        </li>
-                                        <li class="flex-row count">
-                                            <p class="sub-title">+ 2 More</p>
-                                        </li> -->
-                                    </ul>
-                                </div>
-                                <div class="catalogue flex-row p-t-20 p-b-20">
-                                    <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                        Chicken- Catalogue.pdf
-                                    </p>
-                                    <a href="">
-                                        <span class="fnb-icons download"></span>
-                                    </a>
-                                </div>
-                                <div class="catalogue flex-row p-t-20 p-b-20">
-                                    <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                        Chicken- Catalogue.pdf
-                                    </p>
-                                    <a href="">
-                                        <!-- <i class="fa fa-download catalogue-download" aria-hidden="true"></i> -->
-                                        <span class="fnb-icons download"></span>
-                                    </a>
-                                </div>
                             </div>
-                            <!-- documents ends -->
+
                         </div>
 
         				<!-- enquiry form -->
@@ -822,6 +919,8 @@
                             <span class="fnb-icons enquiry-white"></span>
                         </div> -->
 
+
+<!-- 
                         <div class="sticky-bottom mobile-flex desk-hide">
                             <div class="stick-bottom__text">
                                 <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
@@ -829,24 +928,24 @@
                             <div class="actions">
                                 <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Send Enquiry</button>
                             </div>
-                        </div>
+                        </div> -->
 
 
-                        <div class="pos-fixed fly-out">
+                       <!--  <div class="pos-fixed fly-out">
                             <div class="mobile-back desk-hide mobile-flex">
                                 <div class="left mobile-flex">
                                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                     <p class="element-title heavier m-b-0">Enquiry</p>
                                 </div>
                                 <div class="right">
-                                    <!-- <a href="" class="text-primary heavier element-title">Clear All</a> -->
+                                   
                                 </div>
                             </div>
                             <div class="fly-out__content">
                 				<div class="enquiry-form card m-t-30 m-b-20">
                 					<form method="">
                 						<div class="enquiry-form__header flex-row space-between">
-                							<!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
+                							
                 							<div class="enquiry-title">
                 								<h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
                 								<p class="sub-title">Mystical the meat and fish store</p>
@@ -855,19 +954,19 @@
                 						</div>
                 						<div class="enquiry-form__body m-t-10">
                 							<div class="form-group p-t-10 m-b-0">
-                								<!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
+                								
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                 <input type="text" class="form-control fnb-input float-input" id="contact_name">
                 							</div>
                 							<div class="form-group p-t-10 m-b-0">
-                								<!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
+                								
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                 <input type="email" class="form-control fnb-input float-input" id="contact_email">
                 							</div>
                 							<div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
                                                 <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
-                								<!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
+                								
                 							</div>
                 							<div class="form-group p-t-20 p-b-10 m-b-0">
                     							<label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
@@ -880,29 +979,11 @@
                 	                                <option>I work in the F&amp;B industry</option>
                 	                            </select>
                   							</div>
-                  							<!-- <div class="form-group p-t-10 p-b-10 m-b-0">
-                  								<label class="">Interested in</label>
-                  								<ul class="interested-options flex-row m-t-15">
-                  									<li>
-                  										<input type="radio" class="radio" name="interests" checked>
-                  										<div class="meat option flex-row">
-                  											<span class="fnb-icons cat-icon meat"></span>
-                  										</div>
-                  									</li>
-                  									<li>
-                  										<input type="radio" class="radio" name="interests">
-                  										<div class="veg option flex-row">
-                  											<span class="fnb-icons cat-icon veg"></span>
-                  										</div>
-                  									</li>
-                  								</ul>
-                  							</div> -->
+                  							
                   							<div class="form-group p-t-10 p-b-20 m-b-0">
-                  								<!-- <label class="custom-label">Message</label> -->
-                  								<!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
+                  								
                                                 <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
-                                                <!-- <input> -->
-                                                <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
+                                                
                                                 <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
                   							</div>
                   							<div class="form-group p-t-10 m-b-0">
@@ -912,13 +993,14 @@
                 					</form>
                 				</div>
                             </div>
-                        </div>
+                        </div> -->
         				<!-- enquiry form ends -->
 
         				<!-- browse category -->
 
-        				<div class="browse-cat">
-        					<h6 class="element-title">Browse Categories</h6>
+        				<div class="browse-cat list-of-business">
+        					<h6 class="element-title">FnB Circle also has business listings</h6>
+                            <span class="text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, doloribus.</span>
         					<ul class="browse-cat__list m-t-20">
         						<li>
         							<a href="">
@@ -957,21 +1039,7 @@
         					</ul>
         				</div>
         				<!-- Browse category ends-->
-
-        				<!-- Advertisement ends -->
-
-        				<div class="advertisement flex-row m-t-20">
-        					<h6 class="element-title">Advertisement</h6>
-        				</div>
-        				<!-- advertisement ends -->
-                        <div class="boost-row single-boost text-center">
-                            <i class="fa fa-rocket text-secondary" aria-hidden="true"></i> 
-                            <div class="element-title heavier boost-row__title">
-                                Give your marketing a boost!
-                            </div>
-                            <button class="btn fnb-btn s-outline full border-btn default-size">Advertise with us</button>
-                        </div>
-        				<!-- business listing -->
+                    
 
         				<!-- <div class="business-listing p-t-20 p-b-20 text-center">
         					
@@ -982,17 +1050,6 @@
         					</div>
         					<button class="btn fnb-btn outline full border-btn">Create Listing</button>
         				</div> -->
-                        <div class="business-listing businessListing increase-sale text-center">
-                            <!-- <span class="fnb-icons note"></span> -->
-                            <div class="bl-top">
-                                <img src="../public/img/business-graph.png" class="img-responsive center-block">
-                                <div class="business-listing__content m-b-15">
-                                    <h6 class="element-title business-listing__title">Increase your business sales on F&amp;BCircle</h6>
-                                    <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
-                                </div>
-                            </div>
-                            <button class="btn fnb-btn outline full border-btn default-size">Advertise with us</button>
-                        </div>
 
                     </div>
                 </div>
@@ -1949,7 +2006,7 @@
             </div>
         </div>
 
-        <div class="pos-fixed fly-out side-toggle">
+     <!--    <div class="pos-fixed fly-out side-toggle">
             <div class="mobile-back desk-hide mobile-flex">
                 <div class="left mobile-flex">
                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -2043,7 +2100,7 @@
                     <div class="page-sidebar__footer"></div>
                 </div>  
             </div>
-        </div>
+        </div> -->
     </div>    
         <!-- updates sidebar -->
 

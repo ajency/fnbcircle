@@ -2847,5 +2847,319 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+// single view job
+
+.job-info{
+	.owner-info{
+		justify-content: flex-start;
+	}
+	&.seller-info{
+		.seller-info__footer{
+			border-top: 1px solid #eee;
+		}
+	}
+	.contact__info{
+		flex: 1;
+		.fnb-btn{
+			width: 35%;
+		}
+	}
+	// .equal-col{
+	// 	justify-content: space-around;
+	// }	
+}
+
+.owner-address{
+	padding-left: 1em;
+	.map-icon{
+		transform: scale(0.6);
+    	width: 20px;
+	}
+}
+
+
+.share-job{
+	.fa{
+		&-whatsapp{
+			color: @whats-app;
+		}
+		&-linkedin-square{
+			color: @linkedin;
+		}
+		&-facebook-official{
+			color: @fb;
+		}
+		&-twitter{
+			color: @twitter;
+		}
+		&-google-plus{
+			color: @gplus;
+		}
+	}
+	.options{
+		justify-content: center;
+		li{
+			font-size: 1.8em;
+    		padding-right: 0.8em;
+		}
+	}
+}
+
+
+
+.Company-info{
+	align-items: flex-start;
+	overflow: auto;
+	.name-row{
+		align-items: initial;
+	}
+	.company-name{
+		padding-left: 1em;
+		display: flex;
+    	flex-direction: column;
+    	justify-content: space-between;
+	}
+	.company-detail{
+		padding-top: 1em;
+    	color: #525252;
+	}
+	.share-job{
+		.options{
+			justify-content: flex-start;
+			li{
+				font-size: 1.2em;
+    			padding-right: 0.6em;
+			}
+		}
+	}
+}
+
+.job-desc{
+	&.stable-size{
+		line-height: 1.5;
+	}
+}
+
+.job-points{
+	margin-top: 2em;
+	.stable-size{
+		line-height: 1.5;
+	}
+}
+
+
+.sub-seperator{
+	margin: 1em 0 0.8em 0;
+	color: #717171;
+    font-weight: 500;
+}
+
+.footer-share{
+	padding: 1.5em 1em;
+    background-color: #f3f3f3;
+    margin: 2em 0 0.5em 0;
+    justify-content: space-between;
+    .fnb-btn{
+    	width: 40%;
+    	border-color: @accent-primary;
+    }
+}
+
+.list-of-business{
+	li{
+		a > p{
+			margin-bottom: -10px;
+    		margin-top: -10px;
+		}
+	}
+}
+
+
+.featured-jobs{
+	&__row{
+		align-items: inherit;
+		&:not(:last-child){
+			margin-bottom: 1em;
+    		border-bottom: 1px solid #eee;
+    		padding-bottom: 1em;
+		}
+	}
+	.jobdesc{
+		flex: 1;
+	    padding-left: 1em;
+	    display: flex;
+	    flex-direction: column;
+	    justify-content: space-between;
+	}
+	.location{
+		position: relative;
+    	left: -5px;
+    	.map-icon{
+    		transform: scale(0.5);
+    		width: 18px;
+    	}
+	}
+}
+
+
+
+
+
+
+// featured news
+
+.featured-news{
+	&__container{
+
+	}
+	&__row{
+		flex: 1 0 50%;
+		margin-bottom: 1.5em;
+    	padding-right: 1em;
+		.newsdetail{
+			padding-left: 0.8em;
+		}
+	}
+}
+
+.news-label{
+	background-color: #eee;
+	font-weight: 600;
+    font-size: 0.85em;
+    color: #000;
+}
+
+.equalCol{
+	align-items: initial;
+	.article-col{
+		margin-bottom: 2.5em;
+		@media screen and (min-width: 769px){
+			&:nth-child(odd){
+				margin-right: 3em;
+			}	
+		}
+		
+	}
+}
+
+
+
+.job-published-date{
+	color: #fff;
+}
+
+.edit-job{
+	font-size: 1em;
+    background-color: rgba(18, 19, 18, 0.36);
+    border-color: transparent;
+    .fa{
+    	color: #fff;
+    	padding-right: 0.5em;
+    }
+}
+
+.job-post{
+	margin-top: 2em;
+}
+
+
+.pending-review{
+	border: 0;
+    padding: 0.5em;
+}
+
+.role-selection{
+	align-items: initial;
+	& > div{
+		// flex: 1;
+		min-width: 25%;
+	}
+	.job-role{
+		// flex: 2;
+		width: 45%;
+	}
+	.role-gap{
+		padding-right: 1em;
+	}
+}
+
+@media screen and (max-width: @mobile){
+	.job-info{
+		.seller-info__title{
+			margin-bottom: 0;
+		}
+		.main-loc{
+			.map-icon{
+				display: none;
+			}
+		}
+		.owner-info{
+			align-items: flex-start;
+    		margin-top: 0.5em;
+    		border-top: 1px solid #ddd;
+    		padding-top: 0.5em;
+    		.fnb-label{
+    			align-self: inherit;
+    			margin-top: 0;
+    		}
+    		.owner-address{
+    			padding-left: 0
+    		}
+		}
+		.seller-info__footer{
+			padding-top: 1em;
+		}
+		.role-selection{
+			padding-bottom: 0
+		}
+	}
+	.role-selection{
+		.role-gap{
+			padding-right: 0;
+		}
+		& > div{
+    		flex: 1 0 50%;
+    		margin-bottom: 1em;
+    		.operations__title{
+    			font-size: 1em;
+    		}
+    		.cities.cities{
+    			padding-left: 0;
+    		}
+		}
+	}
+	.job-points{
+		.stable-size{
+			font-size: 0.96em;
+		}
+	}
+	.job-desc.stable-size{
+		font-size: 0.96em;
+	}
+	.Company-info{
+		margin-top: 2em;
+	}
+	.jobDesc{
+		font-size: 1.3em;
+	}
+	.footer-share{
+		flex-direction: column;
+		.fnb-btn{
+			width: 60%;
+		}
+		.share-job{
+			text-align: center;
+    		margin-top: 1em;
+    		.options{
+    			li{
+    				&:last-child{
+    					padding-right: 0;
+    				}
+    			}
+    		}
+		}
+	}
+}
+
 
 

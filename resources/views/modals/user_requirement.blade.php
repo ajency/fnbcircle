@@ -1,6 +1,16 @@
 @if(!Auth::guest())
+    @section('js')
+        @if(!Auth::user()->has_required_fields_filled)
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $(".require-modal").modal('show');
+                });
+            </script>
+        @endif
+    @endsection
     <!-- Requirement Modal Popup -->
     <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -14,6 +24,7 @@
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
                             <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="{{ Auth::user()->name }}" required="">
+                            <label id="name-error" class="fnb-errors hidden"></label>
                         </div>
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
@@ -47,7 +58,7 @@
                                     <!-- <label class=" text-lighter required">City</label> -->
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="city">
-                                            <option>State</option>
+                                            <option value="">State</option>
                                             @foreach(App\City::all() as $key => $value)
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach
@@ -61,7 +72,7 @@
                                     <!-- <label class=" text-lighter required">Area</label> -->
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
-                                            <option>City</option>
+                                            <option value="">City</option>
                                             @foreach(App\Area::all() as $key => $value)
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach

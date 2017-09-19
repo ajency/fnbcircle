@@ -80,6 +80,7 @@
                                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-b-10 p-b-10">
                                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
                                             <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="{{ old('name') }}" required>
+                                            <label id="name-error" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('name'))
                                                 <span class="help-block">
@@ -110,6 +111,11 @@
                                               <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" id="contact" name="contact">
                                             </div>
                                             <label id="contact-error" class="fnb-errors hidden"></label>
+                                            @if ($errors->has('contact'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('contact') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -117,7 +123,7 @@
                                             <!-- <label class=" text-lighter required">City</label> -->
                                             <div class="required select-required">
                                                 <select class="form-control fnb-select border-bottom text-lighter" name="city">
-                                                    <option>State</option>
+                                                    <option value="">State</option>
                                                     @foreach(App\City::all() as $key => $value)
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach
@@ -131,7 +137,7 @@
                                             <!-- <label class=" text-lighter required">Area</label> -->
                                             <div class="required select-required">
                                                 <select class="form-control fnb-select border-bottom text-lighter" name="area">
-                                                    <option>City</option>
+                                                    <option value="">City</option>
                                                     @foreach(App\Area::all() as $key => $value)
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach

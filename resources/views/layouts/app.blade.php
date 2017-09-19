@@ -175,6 +175,8 @@
     <script type="text/javascript" src="/js/readmore.min.js"></script>
     <!-- custom script -->
     <script type="text/javascript" src="/js/custom.js"></script>
+
+    @yield('js')
 </body>
 
 </html>

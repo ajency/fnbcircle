@@ -11,7 +11,13 @@
 |
 */
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 Route::get('/', function () {
+
+	$output = new ConsoleOutput;
+
+	$output->writeln(session('required_field'));
     return view('welcome');
 });
 

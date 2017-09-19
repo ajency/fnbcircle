@@ -231,6 +231,9 @@ class JobController extends Controller
         $data['postUrl'] = $postUrl;
         $data['step'] = $step;
 
+        $jobCompany  = $job->getJobCompany();
+        $data['jobCompany'] = $jobCompany;
+
         if($step == 'step-one'){
             $jobCategories = $job->jobCategories();
             $defaultExperience  = $job->jobExperience();
@@ -256,10 +259,9 @@ class JobController extends Controller
 
         }
         elseif ($step == 'step-two'){
-            $jobCompany  = $job->getJobCompany();
+            
             $contactEmail = $job->getCompanyContactEmail($job->id);
             $contactMobile = $job->getCompanyContactMobile($job->id);
-            $data['jobCompany'] = $jobCompany;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
@@ -475,7 +477,7 @@ class JobController extends Controller
         $job->status = 2; 
         $job->save();
 
-        Session::flash('success_message','Job details submitted for review.');
+        Session::flash('job_review_pending','Job details submitted for review.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
     }
 

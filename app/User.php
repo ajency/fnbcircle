@@ -93,7 +93,10 @@ class User extends Authenticatable
 
             if($data['contact_value'] != ""){
                 $object->object_type  =  $data['object_type'] ;
-                $object->object_id  =  $data['object_id'] ;
+
+                if(!isset($data['action']))
+                    $object->object_id  =  $data['object_id'] ;
+
                 $object->value  =  $data['contact_value'] ;
                 $object->type  =  $data['contact_type'] ;
                 $object->is_primary = 0;

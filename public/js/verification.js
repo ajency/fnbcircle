@@ -15,25 +15,15 @@
     var contactId, deleteObj;
     deleteObj = $(this);
     contactId = deleteObj.closest('.contact-container').find('.contact-id').val();
-    console.log(contactId);
-    if (contactId !== "") {
-      $.ajax({
-        type: 'post',
-        url: '/user/delete-contact-details',
-        data: {
-          'id': contactId
-        },
-        success: function(data) {},
-        error: function(request, status, error) {
-          throwError();
-        },
-        async: false
-      });
-    }
     if (deleteObj.closest('.contact-info').find('.contact-container').length === 2) {
       deleteObj.closest('.contact-info').find('.add-another').click();
     }
-    return deleteObj.closest('.get-val').parent().remove();
+    if (contactId === '') {
+      return deleteObj.closest('.get-val').parent().remove();
+    } else {
+      deleteObj.closest('.contact-container').find('.contact-input').val('');
+      return deleteObj.closest('.contact-container').addClass('hidden');
+    }
   });
 
   $(document).on('click', '.verify-link', function(event) {

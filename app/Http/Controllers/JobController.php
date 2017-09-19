@@ -222,10 +222,16 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($reference_id)
     {
-       
-         return view('jobs.job-view');
+        $pageName = "show";
+        $job = Job::where('reference_id',$reference_id)->first();
+        $data = ['job' => $job]; 
+        $data['pageName'] = $job->title;
+        $data['breadcrumb'] = $job->title;
+        
+
+         return view('jobs.job-view')->with($data);
     }
 
     /**

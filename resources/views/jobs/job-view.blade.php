@@ -1,7 +1,9 @@
 @extends('layouts.single-view')
+@section('title', $pageName )
 @section('js')
     @parent
     <script type="text/javascript" src="/js/jobs.js"></script>
+    <script type="text/javascript" src="/js/maps.js"></script>
 @endsection
 @section('single-view-data')
 <div class="container">
@@ -119,7 +121,7 @@
                </div>
                <div class="seller-info__body">
                   <div class="flex-row space-between">
-                     <h3 class="seller-info__title main-heading">Food &amp; Beverage Manager</h3>
+                     <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <img src="../public/img/power-icon.png" class="img-responsive" width="30">
@@ -127,7 +129,7 @@
                   <div class="location main-loc flex-row">
                      <!-- <span class="fnb-icons map-icon"></span> -->
                      <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
-                     <p class="location__title c-title">Restaurant/bar</p>
+                     <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
                   </div>
                   <div class="stats flex-row m-t-15 owner-info">
                      <!-- <div class="rating-view flex-row">
@@ -152,60 +154,12 @@
                         <span class="fnb-icons map-icon"></span>
                         <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
                      </div>
-                     <!--  <div class="verified-toggle flex-row">
-                        <p class="m-b-0 text-color mobile-hide">Un-Verified</p>
-                        <div class="toggle m-l-10 m-r-10">
-                          <input type="checkbox" class="toggle__check">
-                          <b class="switch"></b>
-                          <b class="track"></b>
-                        </div>
-                        <p class="m-b-0 text-color toggle-state">Verified</p>
-                        </div> -->
+          
                   </div>
                   <div class="operations p-t-10 p-b-20 flex-row flex-wrap role-selection">
                      <div class="role-gap">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
-                        <!-- <div class="opertaions__container flex-row">
-                           <div class="location flex-row">
-                               <span class="fnb-icons map-icon"></span>
-                               <p class="location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
-                           </div>
-                           <ul class="cities flex-row p-l-10">
-                               <li>
-                                   <p class="cities__title">Bandra, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Andheri, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Juhu, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Worli, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Powai, </p>
-                               </li>
-                                <li>
-                                   <p class="cities__title">Bandra, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Andheri, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Juhu, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Worli, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Powai</p>
-                               </li>
-                               <li class="remain more-show">
-                                   <a href="" class="secondary-link remain__number">+10</a>
-                               </li>
-                           </ul>
-                           </div> -->
+                        
                         <div class="text-color lighter">2 - 2.5 Lakhs p.a</div>
                      </div>
                      <div class="role-gap">
@@ -369,39 +323,18 @@
                <h5 class="jobDesc">Job Description</h5>
                <hr>
                <div class="job-desc text-color stable-size">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                  {!! $job->description !!}
                </div>
-               <div class="job-summary job-points">
-                  <h6 class="sub-title">Job Summary</h6>
-                  <div class="text-color stable-size">
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt. minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
-                  </div>
-               </div>
-               <div class="candidate-profile job-points">
-                  <h6 class="sub-title">Candidate Profile</h6>
-                  <p class="sub-seperator">Education and Experience</p>
-                  <div class="text-color stable-size">
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
-                  </div>
-                  <p class="sub-seperator">OR</p>
-                  <div class="text-color stable-size">
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
-                  </div>
-               </div>
-               <div class="core-activities job-points">
-                  <h6 class="sub-title">Core Work Activities</h6>
-                  <div class="text-color stable-size">
-                     <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
-                     <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
-                     <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
-                     <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
-                     <div class="m-t-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis,</div>
-                  </div>
-               </div>
+             
                <div class="job-summary job-points">
                   <h6 class="sub-title">Address/Map</h6>
                   <div class="text-color stable-size">
-                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="100%" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+                      
+        <div class="m-t-10" id="map" map-title="your interview location" >
+
+        </div>
+        <input type="hidden" id=latitude name=latitude value="{{ $job->interview_location_lat }}">
+        <input type="hidden" id=longitude name=longitude value="{{ $job->interview_location_long  }}">
                   </div>
                </div>
                <div class="footer-share flex-row">

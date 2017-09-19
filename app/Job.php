@@ -23,6 +23,10 @@ class Job extends Model
         return $this->belongsTo( 'App\User' ,'published_by');
     }
 
+    public function category() {
+        return $this->belongsTo( 'App\Category');
+    }
+
     public function jobStatuses(){
     	// $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
     	$jobStatuses = Defaults::where("type","job_status")->get();
@@ -49,6 +53,10 @@ class Job extends Model
         }
         $categories = $categories+$others;
         return $categories;
+    }
+
+    public function getJobCategoryName(){ 
+        return ucwords($this->category->name);
     }
 
     public function getJobStatus(){

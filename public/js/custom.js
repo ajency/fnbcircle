@@ -707,8 +707,6 @@ $(function(){
 
 
 
- CKEDITOR.replace( 'editor' );
-
 
 
 });

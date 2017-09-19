@@ -187,4 +187,6 @@
     }
   });
 
+  CKEDITOR.replace('editor');
+
 }).call(this);

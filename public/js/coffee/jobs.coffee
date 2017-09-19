@@ -183,5 +183,6 @@ $('body').on 'blur', '.job-keywords', (e) ->
     console.log('added')
   return
 
+# Ckeditor inti
 
-
+ CKEDITOR.replace( 'editor' )

@@ -18,26 +18,30 @@ $('.contact-info').on 'click', '.delete-contact', (event) ->
   deleteObj = $(this)
   contactId = deleteObj.closest('.contact-container').find('.contact-id').val()
   
-  console.log contactId
-  if contactId!= ""
-    $.ajax
-      type: 'post'
-      url: '/user/delete-contact-details'
-      data:
-        'id': contactId
-      success: (data) ->
+  # console.log contactId
+  # if contactId!= ""
+  #   $.ajax
+  #     type: 'post'
+  #     url: '/user/delete-contact-details'
+  #     data:
+  #       'id': contactId
+  #     success: (data) ->
          
-        return
-      error: (request, status, error) ->
-        throwError()
-        return
-      async: false     
+  #       return
+  #     error: (request, status, error) ->
+  #       throwError()
+  #       return
+  #     async: false     
    
-
   if deleteObj.closest('.contact-info').find('.contact-container').length == 2
     deleteObj.closest('.contact-info').find('.add-another').click()
 
-  deleteObj.closest('.get-val').parent().remove()
+  if contactId == ''
+    deleteObj.closest('.get-val').parent().remove()
+  else
+    deleteObj.closest('.contact-container').find('.contact-input').val('')
+    deleteObj.closest('.contact-container').addClass 'hidden'
+
 
 $(document).on 'click', '.verify-link', (event) ->
   $('.contact-container').removeClass('under-review')

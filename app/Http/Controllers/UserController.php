@@ -95,6 +95,7 @@ class UserController extends Controller
         
         $user = Auth::user();
         $data = $request->all();
+        $data['action'] = 'verify';
         $contact = $user->saveContactDetails($data,'job');
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;

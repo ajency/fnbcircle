@@ -1,5 +1,5 @@
 @extends('layouts.fnbtemplate')
-@section('title', 'Add Job')
+@section('title', $pageName )
 @section('css')
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="/css/magnify.css">
@@ -85,7 +85,7 @@
                         </li>
                         <li class="fnb-breadcrums__section">
                             <a href="#">
-                                <p class="fnb-breadcrums__title">Add a Job</p>
+                                <p class="fnb-breadcrums__title">{{ $breadcrumb }}</p>
                             </a>
                         </li>
                     </ul>
@@ -116,7 +116,12 @@
                                     <div class="listing-status">
                                         <div class="label">STATUS</div>
                                         <div class="flex-row space-between">
-                                            <div class="statusMsg">{{ $job->getJobStatus()}} <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i></div>
+                                            <div class="statusMsg">{{ $job->getJobStatus()}} 
+                                            @if($job->status == 1)
+                                            <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
+                                            @endif
+
+                                            </div>
                                             <!-- <a href="#" class="review-submit-link">Submit for Review</a> -->
                                         </div>
                                     </div>

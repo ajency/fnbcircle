@@ -48,6 +48,8 @@ class JobController extends Controller
         $defaultKeywords  = $job->jobKeywords();
         $jobCategories = $job->jobCategories();
         $postUrl = url('jobs');
+        $pageName = "Add Job" ;
+        $breadcrumb = "Add a Job" ;
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
                                     ->with('job', $job) 
@@ -58,6 +60,8 @@ class JobController extends Controller
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
                                     ->with('step', 'step-one')
+                                    ->with('pageName', $pageName)
+                                    ->with('breadcrumb', $breadcrumb)
                                     ->with('postUrl', $postUrl);
     }
 
@@ -256,6 +260,9 @@ class JobController extends Controller
             $data['back_url'] = null;
             
             $blade = 'jobs.job-info';
+            $pageName = $job->title .'- Job Details' ;
+            // $breadcrumb = $job->title .'/ Job Details' ;
+            $breadcrumb = $job->title .'/ Edit Job' ;
 
         }
         elseif ($step == 'step-two'){
@@ -266,16 +273,23 @@ class JobController extends Controller
             $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
             $blade = 'jobs.job-company';
+            $pageName = $job->title .'- Company Details' ;
+            // $breadcrumb = $job->title .'/ Company Details' ;
+            $breadcrumb = $job->title .'/ Edit Job' ;
         }
         elseif ($step == 'step-three'){
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-two'); 
             $blade = 'jobs.job-plan-selection';
+            $pageName = $job->title .'- Plan-Selection' ;
+            // $breadcrumb = $job->title .'/ Plan-Selection' ;
+            $breadcrumb = $job->title .'/ Edit Job' ;
         }
         else{
 
             abort(404);
         }
- 
+        $data['pageName'] = $pageName;
+        $data['breadcrumb'] = $breadcrumb;
         return view($blade)->with($data);
     }
 

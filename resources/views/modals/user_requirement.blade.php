@@ -1,5 +1,15 @@
 @if(!Auth::guest())
+    @section('js')
+        @if(!Auth::user()->has_required_fields_filled)
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $(".require-modal").modal('show');
+                });
+            </script>
+        @endif
+    @endsection
     <!-- Requirement Modal Popup -->
+    <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
     <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -9,37 +19,42 @@
                     </div>
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button> -->
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" contact-type="mobile">
                     <form method="post" id="requirement_form">
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
                             <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="{{ Auth::user()->name }}" required="">
+                            <label id="name-error" class="fnb-errors hidden"></label>
                         </div>
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
                             <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="{{ Auth::user()->getPrimaryEmail() }}" required="">
                             <label id="email-error" class="fnb-errors hidden"></label>
                         </div>
-                        <div class="row phone-col">
-                            <div class="col-sm-9">
-                                <div class="form-group">
-                                    <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
-                                    <div class="number-code flex-row">
-                                      <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
-                                      <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
+                        <div class="contact-info contact-info-mobile" contact-type="mobile">
+                            <div class="row phone-col contact-container">
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
+                                        <div class="number-code flex-row">
+                                            <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
+                                            <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
+                                            <input type="tel" class="form-control fnb-input number-code__value contact-input" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="verify-container">
-                                    <a href="#" class="secondary-link text-decor verifyPhone x-small">Verify Now</a>
-                                    <!-- <div class="verified verifiedMini flex-row">
-                                        <span class="fnb-icons verified-icon"></span>
-                                        <p class="c-title m-b-0">Verified</p>
-                                    </div> -->
+                                <div class="col-sm-3">
+                                    <div class="verify-container">
+                                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                                        <!-- <a href="#" class="secondary-link text-decor verifyPhone x-small" data-toggle="modal" data-target="#mobile-modal">Verify Now</a> -->
+                                        <!-- <div class="verified verifiedMini flex-row">
+                                            <span class="fnb-icons verified-icon"></span>
+                                            <p class="c-title m-b-0">Verified</p>
+                                        </div> -->
+                                    </div>
                                 </div>
+                                <label id="contact-error" class="fnb-errors hidden"></label>
                             </div>
-                            <label id="contact-error" class="fnb-errors hidden"></label>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -47,7 +62,7 @@
                                     <!-- <label class=" text-lighter required">City</label> -->
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="city">
-                                            <option>State</option>
+                                            <option value="">State</option>
                                             @foreach(App\City::all() as $key => $value)
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach
@@ -61,7 +76,7 @@
                                     <!-- <label class=" text-lighter required">Area</label> -->
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
-                                            <option>City</option>
+                                            <option value="">City</option>
                                             @foreach(App\Area::all() as $key => $value)
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endforeach

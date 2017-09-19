@@ -30,9 +30,10 @@ class FnbAuthController extends Controller {
                 	$redirect_url = "/listing/create";
                 }
                 
-                if(!$required_field_status["filled_required"]) {
+                /*if(!$required_field_status["filled_required"]) {
                 	$redirect_url .= "/?required_field=true";
-                }
+                }*/ 
+
             	return redirect($redirect_url);
             } else if ($user->status == 'inactive') {
                 return redirect('/?login=true&message=email_confirm');

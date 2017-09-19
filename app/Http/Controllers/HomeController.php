@@ -22,8 +22,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('welcome')->with('user',Auth::user());
+    public function index() {
+        $header_type = "trans-header";
+        return view('welcome', compact('header_type'))->with('user',Auth::user());
     }
 }

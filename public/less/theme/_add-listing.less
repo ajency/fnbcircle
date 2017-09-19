@@ -2937,13 +2937,23 @@ input[type='checkbox'].remove-addr{
 .job-desc{
 	&.stable-size{
 		line-height: 1.5;
+		// @media screen and (min-width: 769px){
+			margin-bottom: 2em;
+			font-weight: 300;
+			font-size: 1.1em;
+		// }
 	}
 }
 
 .job-points{
-	margin-top: 2em;
+	margin-top: 1em;
+    border-top: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
+    padding: 1em 0 1em 0;
 	.stable-size{
 		line-height: 1.5;
+		font-weight: 300;
+		font-size: 1.1em;
 	}
 }
 
@@ -3129,6 +3139,9 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 	.job-points{
+		& > h6 {
+			font-size: 1.05em;
+		}
 		.stable-size{
 			font-size: 0.96em;
 		}
@@ -3138,6 +3151,9 @@ input[type='checkbox'].remove-addr{
 	}
 	.Company-info{
 		margin-top: 2em;
+	}
+	.sub-seperator{
+		font-size: 1em;
 	}
 	.jobDesc{
 		font-size: 1.3em;

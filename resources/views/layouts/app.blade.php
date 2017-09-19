@@ -41,10 +41,10 @@
                 <div class="collapse navbar-collapse m-side-bar" id="bs-example-navbar-collapse-1">
                     <ul class="mobile-top mobile-flex">
                         @if(Auth::guest())
-                            <li><p class="mobile-top__text">Sign in to get a personalised feed!</p></li>
+                            <li><p class="mobile-top__text x-small">Sign in to get a personalised feed!</p></li>
                             <li><button type="button" class="fnb-btn outline bnw close-sidebar" data-toggle="modal" data-target="#login-modal">Login</button></li>
                         @else
-                            <li><p class="mobile-top__text">Find suppliers, jobs and a lot more</p></li>
+                            <li><p class="mobile-top__text x-small">Find suppliers, jobs and a lot more</p></li>
                             <li><a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                         @endif
                     </ul>

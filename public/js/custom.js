@@ -271,7 +271,7 @@ $(function(){
 					$(error_path).addClass("hidden");
 					return true;
 				} else {
-					$(error_path).removeClass("hidden").text("Please enter a valid EmailID");
+					$(error_path).removeClass("hidden").text("Please enter a valid Email ID");
 					return false;
 				}
 			} else {
@@ -533,6 +533,28 @@ $(function(){
                 }
 
                 return false;
+	        });
+
+	        $("#login_form_modal_btn").click(function() {
+	        	var parent = "#login_form_modal";
+        		$(parent + " #login_form_modal_btn i").removeClass("hidden");
+
+	        	if($(parent + " input[type='email'][name='email']").val() && $(parent + " input[type='password'][name='password']").val()) {
+	        		return $("#login_form_modal").submit(); // Submit the form
+	        	} else {
+	        		if(!$(parent + " input[type='email'][name='email']").val()) { // If Email is not filled
+	        			$(parent + " #email-error").removeClass("hidden").text("Please enter your Email ID");
+	        		} else {
+	        			$(parent + " #email-error").addClass("hidden");
+	        			validateEmail($(parent + " input[type='email'][name='email']").val(), parent + " #email-error");
+	        		}
+	        		if(!$(parent + " input[type='password'][name='password']").val()) { // If password is not filled
+	        			$(parent + " #password-error").removeClass("hidden").text("Please enter the password");
+	        		} else {
+	        			$(parent + " #password-error").addClass("hidden");
+	        		}
+	        		$(parent + " #login_form_modal_btn i").addClass("hidden"); // Hide the loader
+	        	}
 	        });
 		});
 

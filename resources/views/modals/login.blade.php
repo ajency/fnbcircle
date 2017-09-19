@@ -62,15 +62,17 @@
                         </div>
                         <div class="alternate-login">
                             <p class="sub-title text-color text-medium m-b-0 alternate-login__title"><span>Already part of the Circle?</span></p>
-                            <form method="POST" action="{{ route('login') }}">
+                            <form method="POST" action="{{ route('login') }}" id="login_form_modal">
                                 {{ csrf_field() }}
                                 <div class="form-group text-left m-b-0">
                                     <!-- <input type="text" class="form-control fnb-input float-input required" id="email" placeholder="Email"> -->
                                     <input type="email" class="form-control fnb-input float-input required" id="email" name="email" value="{{ old('email') }}" placeholder="Email">
+                                    <label id="email-error" class="fnb-errors hidden"></label>
                                 </div>
                                 <div class="form-group text-left m-b-0">
                                     <!-- <input type="password" class="form-control fnb-input float-input required" id="password" placeholder="Password"> -->
                                     <input type="password" class="form-control fnb-input float-input required" id="password" name="password" placeholder="Password">
+                                    <label id="password-error" class="fnb-errors hidden"></label>
                                 </div>
                                 <div class="form-group m-b-0 flex-row space-between forgot-actions">
                                     <label class="stay-logged flex-row text-medium m-b-0 text-color">
@@ -79,11 +81,12 @@
                                     <a href="#" class="primary-link forget-link">Forgot password?</a>
                                 </div>
                                 <div class="form-group m-b-0">
-                                    <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="submit">Log In <i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                    <!-- <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="submit">Log In <i class="fa fa-circle-o-notch fa-spin"></i></button> -->
+                                    <button class="btn fnb-btn primary-btn full border-btn log-action log-in" type="button" id="login_form_modal_btn">Log In <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                                 </div>
                             </form>
                         </div>
-                        <hr>
+                        <hr/>
                         <div class="form-group m-b-0 flex-row space-between no-account">
                             <div class="text-color">
                                 Don't have an account yet?

@@ -72,7 +72,7 @@
 
                     <div class="row">
                         <div class="col-sm-8 col-lg-offset-2 sign-up-row">
-                            <form class="" method="POST" action="{{ route('register') }}">
+                            <form class="" method="POST" action="{{ route('register') }}" id="register_form">
                                 {{ csrf_field() }}
 
                                 <div class="row flex-row flex-wrap">
@@ -92,6 +92,7 @@
                                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} m-b-10 p-b-10">
                                             <label class="m-b-0 text-lighter float-label required" for="email">E-Mail</label>
                                             <input id="email" type="email" class="form-control fnb-input float-input" name="email" value="{{ old('email') }}" required>
+                                            <label id="email-error" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('email'))
                                                 <span class="help-block">
@@ -108,6 +109,7 @@
                                               <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
                                               <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" id="contact" name="contact">
                                             </div>
+                                            <label id="contact-error" class="fnb-errors hidden"></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -120,6 +122,7 @@
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                <label id="city-error" class="fnb-errors hidden"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -133,11 +136,13 @@
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                <label id="area-error" class="fnb-errors hidden"></label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 describe-section m-b-10 form-group">
                                         <label class="required describe-section__title">What describes you the best?</label>
+                                        <br/><label id="description-error" class="fnb-errors hidden"></label>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="flex-row">
@@ -199,6 +204,7 @@
                                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} p-b-10 m-t-10">
                                             <label class="m-b-0 text-lighter float-label required" for="password">Password</label>
                                             <input id="password" type="password" class="form-control fnb-input float-input" name="password" required>
+                                            <label id="password_errors" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('password'))
                                                 <span class="help-block">
@@ -211,31 +217,30 @@
                                          <div class="form-group m-t-10 p-b-10">
                                             <label class="m-b-0 text-lighter float-label required" for="password-confirm">Confirm Password</label>
                                             <input id="password-confirm" type="password" class="form-control fnb-input float-input" name="password_confirmation" required>
+                                            <label id="password_confirm_errors" class="fnb-errors hidden"></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group m-t-30 m-b-40">
                                             <label class="flex-row accept-row">
-                                                  <input type="checkbox" class="checkbox" for="accept_terms">
+                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox">
                                                   <div class="text-medium m-b-0 accept_terms" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
+                                                  <label id="terms_conditions" class="fnb-errors hidden">Please accept our terms and conditions</label>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                          <div class="form-group text-center m-t-20 m-b-20 signBtn">
-                                            <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn">
-                                                Sign Up
+                                            <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
+                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn">
+                                                Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>
                                     </div>
                                    
                                 </div>
 
-                            
-                                
-                               
-
-              <!--                   <div class="form-group p-t-10 p-b-10 multipleOptions">
+                            <!--<div class="form-group p-t-10 p-b-10 multipleOptions">
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter describe-best" id="describe-best" multiple="multiple">
                                             <option value="hospital">Hospitality Business Owner</option>

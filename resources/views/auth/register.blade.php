@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', 'Create your F&B Circle Account')
 
 @section('css')

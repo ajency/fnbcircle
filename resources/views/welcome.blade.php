@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('js')
+@parent
+    <!-- <script type="text/javascript" src="/js/verification.js"></script> -->
+    <!-- <script type="text/javascript">
+        $(document).ready(function() {
+            verifyContactDetail(true);
+        });
+    </script> -->
+@endsection
+
 @section('content')
     <!-- Banner -->
     <div class="fnb-banner home-banner">

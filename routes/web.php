@@ -11,14 +11,9 @@
 |
 */
 
-use Symfony\Component\Console\Output\ConsoleOutput;
-
 Route::get('/', function () {
-
-	$output = new ConsoleOutput;
-
-	$output->writeln(session('required_field'));
-    return view('welcome');
+	$header_type = "trans-header";
+    return view('welcome', compact('header_type'));
 });
 
 Auth::routes();
@@ -62,6 +57,7 @@ Route::get('/business-premium', function(){
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
+/* Custom Auth Routes */
 Route::group(['namespace' => 'Ajency'], function() {
 	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
 	Route::get('/callback/{provider}', 'User\SocialAuthController@urlSocialAuthCallback');
@@ -72,6 +68,7 @@ Route::group(['namespace' => 'Ajency'], function() {
 	});
 });
 
+/* Admin dashboard routes */
 Route::group(['middleware' => ['permission:add_listing'], 'prefix' => 'admin-dashboard'], function () {
 	Route::group(['prefix' => 'config'], function() {
 		Route::get('categories','AdminConfigurationController@categoriesView');

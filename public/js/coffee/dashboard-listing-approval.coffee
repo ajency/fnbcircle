@@ -322,6 +322,21 @@ $('body').on 'click','button#applyCategFilter', (e)->
   applyCategFilter()
 
 $('body').on 'click','button#resetAll', (e)->
+  filters =
+    'submission_date':
+      'start': ''
+      'end': ''
+    'category_nodes': []
+    'status': [
+      "1","2","4","5"
+    ]
+    'city': []
+    'updated_by':
+      'user_id': []
+      'user_type': [
+        'internal'
+        'external'
+      ]
   $('div#categories.node-list').html ''
   $('input#draftstatus').prop('checked',false).change()
   $('select#status-filter').multiselect('rebuild').change()
@@ -330,27 +345,7 @@ $('body').on 'click','button#resetAll', (e)->
   $('.multi-dd').each ->
     # console.log this
     $(this).multiselect('deselectAll',false).change()
-  filters =
-    'submission_date':
-      'start': ''
-      'end': ''
-    'category_nodes': [
-
-    ]
-    'status': [
-      "1","2","4","5"
-    ]
-    'city': [
-
-    ]
-    'updated_by':
-      'user_id': [
-
-      ]
-      'user_type': [
-        'internal'
-        'external'
-      ]
+  
   sendRequest()
   return
 

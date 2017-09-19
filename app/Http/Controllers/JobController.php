@@ -224,7 +224,8 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+       
+         return view('jobs.job-view');
     }
 
     /**

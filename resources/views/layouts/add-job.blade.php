@@ -314,7 +314,7 @@
 
                 <!-- Modal -->
                 <!-- listing review -->
-                <div class="modal fnb-modal job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fnb-modal listing-review job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">

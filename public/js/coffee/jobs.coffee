@@ -73,7 +73,10 @@ $('.job-save-btn').click (e) ->
     $('.job-keywords').removeAttr('data-parsley-required')
   else
     $('.job-keywords').attr('data-parsley-required','')  
-  CKEDITOR.instances.editor.updateElement()
+
+  if $('input[name="input"]')  == 'step-one' || $('input[name="input"]')  == 'step-two'
+    CKEDITOR.instances.editor.updateElement()
+    
   $('form').submit()
   return
 

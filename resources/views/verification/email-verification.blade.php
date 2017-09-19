@@ -60,7 +60,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_email_contact[]" data-parsley-multiple="contacts"  data-parsley-errors-container="#toggleError">
+                            <input type="checkbox" class="toggle__check" data-parsley-multiple="contacts"  data-parsley-errors-container="#toggleError">
                             <b class="switch"></b>
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
@@ -93,7 +93,7 @@
                 <div class="flex-row close-section">
                     <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input type="checkbox" class="toggle__check" name="visible_email_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                            <input type="checkbox" class="toggle__check" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                             <b class="switch"></b>
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">

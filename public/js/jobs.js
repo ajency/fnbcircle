@@ -72,7 +72,9 @@
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
     }
-    CKEDITOR.instances.editor.updateElement();
+    if ($('input[name="input"]') === 'step-one' || $('input[name="input"]') === 'step-two') {
+      CKEDITOR.instances.editor.updateElement();
+    }
     $('form').submit();
   });
 

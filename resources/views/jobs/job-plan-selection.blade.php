@@ -8,6 +8,8 @@
 
 
 @include('jobs.notification')
+<input type="hidden" name="_method" value="PUT">
+<input type="hidden" name="step" value="step-three">
 
 <div class="business-info tab-pane fade in active" id="plan_selection">
  

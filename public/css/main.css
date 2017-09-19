@@ -9243,6 +9243,10 @@ input[type='checkbox'].remove-addr {
   -webkit-align-items: initial;
       -ms-flex-align: initial;
           align-items: initial;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .Company-info .company-name {
   padding-left: 1em;
@@ -9284,12 +9288,12 @@ input[type='checkbox'].remove-addr {
   margin-top: 1em;
   border-top: 1px solid #eee;
   /* border-bottom: 1px solid #eee; */
-  padding: 1em 0 1em 0;
+  padding: 1em;
 }
 .job-points .stable-size {
   line-height: 1.5;
   font-weight: 300;
-  font-size: 1.1em;
+  font-size: 1.03em;
 }
 .sub-seperator {
   margin: 1em 0 0.8em 0;
@@ -9418,6 +9422,14 @@ input[type='checkbox'].remove-addr {
 }
 .role-selection .role-gap {
   padding-right: 1em;
+}
+.applyJob {
+  text-align: center;
+}
+.applyJob .fnb-btn {
+  width: 80%;
+  border-color: #ec6d4b;
+  margin-bottom: 1em;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {

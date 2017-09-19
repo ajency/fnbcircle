@@ -25,14 +25,19 @@
   };
 
   window.init = function() {
-    var inp, lat, lng;
+    var inp, lat, lng, mapTextMsg;
+    mapTextMsg = 'your business location';
+    if ($("#map").attr('map-title') !== "") {
+      mapTextMsg = $("#map").attr('map-title');
+    }
     document.getElementById('map').style.height = "300px";
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
     marker = new google.maps.Marker({
-      draggable: true,
-      title: 'your business location'
+      draggable: true
+    }, {
+      title: mapTextMsg
     });
     inp = $("input#mapadd").val();
     lat = $('input#latitude').val();
@@ -41,6 +46,10 @@
       populate(inp);
     } else {
       initMap(lat, lng);
+    }
+    console.log($("#map").attr('show-address'));
+    if ($("#map").attr('show-address') !== "") {
+      getAddress();
     }
     google.maps.event.addListener(marker, 'dragend', function(ev) {
       return getAddress();

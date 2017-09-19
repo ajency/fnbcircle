@@ -1,7 +1,15 @@
 @extends('layouts.add-job')
 @section('js')
     @parent
+    <script type="text/javascript" src="/js/maps.js"></script>
     <script type="text/javascript" src="/js/jobs.js"></script>
+    @if($job->id)
+     <script type="text/javascript">
+    // $(document).ready(function() {
+    //     getAddress();
+    // });
+    </script> 
+    @endif 
 @endsection
 @section('form-data')
 
@@ -152,6 +160,24 @@
             <a href="#" class="secondary-link text-decor heavier add-areas">+ Add more</a>
         </div>
         <div id="areaError" ></div>
+    </div>
+
+    <!-- map -->
+    <div class="m-t-30 c-gap">
+        <label class="label-size">Please provide the google map address for the interview location</label>
+
+        <div class="text-lighter">
+            Note: You can drag the pin on the map to point the address
+        </div>
+    </div>
+    <div class="m-t-20 c-gap">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="">
+        <div class="m-t-10" id="map" map-title="your interview location" show-address="@if($job->id) yes @endif">
+
+        </div>
+        <input type="hidden" id=latitude name=latitude value="{{ $job['interview_location_lat'] }}">
+        <input type="hidden" id=longitude name=longitude value="{{ $job['interview_location_long'] }}">
+
     </div>
 
     <!-- Job description -->

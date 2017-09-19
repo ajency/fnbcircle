@@ -50,6 +50,9 @@ class JobController extends Controller
         $postUrl = url('jobs');
         $pageName = "Add Job" ;
         $breadcrumb = "Add a Job" ;
+        $job->interview_location_lat = "28.7040592";
+        $job->interview_location_long = "77.10249019999992";
+
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
                                     ->with('job', $job) 
@@ -97,6 +100,8 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
 
         $metaData = [] ;
 
@@ -141,6 +146,8 @@ class JobController extends Controller
         $job->status = 1;
         $job->job_creator = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location_lat = $latitude;
+        $job->interview_location_long = $longitude;
         $job->save();
 
         $jobId = $job->id;
@@ -347,6 +354,8 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
 
         $metaData = [] ;
 
@@ -388,6 +397,8 @@ class JobController extends Controller
         $job->salary_upper = $salaryUpper;
         $job->job_modifier = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location_lat = $latitude;
+        $job->interview_location_long = $longitude;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
         // $this->addJobKeywords($job,$jobKeywords);
@@ -447,6 +458,9 @@ class JobController extends Controller
             $jobCompany->save();
         }  
 
+
+
+        ///save conatct detailts
         foreach ($contactEmail as $key => $email) {
             $isVisible = $visibleEmailContact[$key];
             $conactDetails = ['id' => $contactEmailId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$email,'contact_type'=>'email','is_visible'=>$isVisible] ;
@@ -456,7 +470,6 @@ class JobController extends Controller
  
         }
 
- 
         foreach ($contactMobile as $key => $mobile) {
             $isVisible = $visibleMobileContact[$key];
             $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'contact_type'=>'mobile','is_visible'=>$isVisible] ;
@@ -465,7 +478,10 @@ class JobController extends Controller
 
         }
 
-  
+        
+        $job->job_modifier = $userId;
+        $job->save(); 
+
         Session::flash('success_message','Company details saved successfully.');
         $request['next_step'] = 'step-three';
 
@@ -486,9 +502,10 @@ class JobController extends Controller
     }
 
     public function submitForReview($reference_id){
- 
+        $date = date('Y-m-d H:i:s');    
         $job = Job::where('reference_id',$reference_id)->first();
         $job->status = 2; 
+        $job->date_of_submission = $date; 
         $job->save();
 
         Session::flash('job_review_pending','Job details submitted for review.');

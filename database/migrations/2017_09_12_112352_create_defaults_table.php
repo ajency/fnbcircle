@@ -21,7 +21,7 @@ class CreateDefaultsTable extends Migration
             $table->text( 'meta_data' )->nullable();
         });
 
-        $statuses = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
+        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Published','4'=>'Archived'];
 
         foreach ($statuses as $key => $status) {
             $default = new Defaults;

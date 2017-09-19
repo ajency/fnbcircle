@@ -40,10 +40,14 @@ class Job extends Model
         $jobCategories = Category::where("type","job")->get();
 
         $categories = [];
+        $others = [];
         foreach ($jobCategories as $key => $jobCategory) {
-            $categories[$jobCategory->id] = $jobCategory->name;
+            if(strtolower($jobCategory->name) == 'other')
+                $others[$jobCategory->id] = $jobCategory->name;
+            else
+                $categories[$jobCategory->id] = $jobCategory->name;
         }
-
+        $categories = $categories+$others;
         return $categories;
     }
 

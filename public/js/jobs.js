@@ -72,7 +72,8 @@
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
     }
-    if ($('input[name="input"]') === 'step-one' || $('input[name="input"]') === 'step-two') {
+    console.log($('input[name="step"]').val());
+    if ($('input[name="step"]').val() === 'step-one' || $('input[name="step"]').val() === 'step-two') {
       CKEDITOR.instances.editor.updateElement();
     }
     $('form').submit();

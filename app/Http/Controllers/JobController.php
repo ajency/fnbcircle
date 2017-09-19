@@ -262,7 +262,7 @@ class JobController extends Controller
             $blade = 'jobs.job-info';
             $pageName = $job->title .'- Job Details' ;
             // $breadcrumb = $job->title .'/ Job Details' ;
-            $breadcrumb = $job->title .'/ Edit Job' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
 
         }
         elseif ($step == 'step-two'){
@@ -275,14 +275,14 @@ class JobController extends Controller
             $blade = 'jobs.job-company';
             $pageName = $job->title .'- Company Details' ;
             // $breadcrumb = $job->title .'/ Company Details' ;
-            $breadcrumb = $job->title .'/ Edit Job' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'step-three'){
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-two'); 
             $blade = 'jobs.job-plan-selection';
             $pageName = $job->title .'- Plan-Selection' ;
             // $breadcrumb = $job->title .'/ Plan-Selection' ;
-            $breadcrumb = $job->title .'/ Edit Job' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
         }
         else{
 

@@ -77,8 +77,11 @@ $('body').on 'click', '.removeCol', (e)->
 # )
 # uploader.init()
 
-uploadFile = (element)->
-  url = document.head.querySelector('[property="photo-upload-url"]').content
+uploadFile = (element,type)->
+  if type == 0
+    url = document.head.querySelector('[property="photo-upload-url"]').content
+  else
+    url = document.head.querySelector('[property="file-upload-url"]').content
   # e.preventDefault()
   container = $(element).closest('.image-grid__cols') 
   file = container.find('input[type="file"]')
@@ -89,7 +92,10 @@ uploadFile = (element)->
     formData = new FormData
     container.find(".image-loader").removeClass('hidden')
     formData.append 'file', file[0].files[0]
-    formData.append 'name', file[0].value
+    if type == 0
+      formData.append 'name', ''
+    else  
+      formData.append 'name', container.find('input.doc-name').val()
     formData.append 'listing_id', document.getElementById('listing_id').value
     xhr = new XMLHttpRequest
     xhr.open 'POST', url
@@ -99,6 +105,8 @@ uploadFile = (element)->
         if(data['status'] == "200")
           container.find('input[type="hidden"]').val data['data']['id']
           container.find(".image-loader").addClass('hidden')
+          if type == 1
+            container.find('.doc-name').prop('disabled',true)
         else
           #throw some error
           $(element).val ''
@@ -114,6 +122,55 @@ image_dropify.on 'dropify.afterClear', (event, element) ->
   console.log "file deleted"
   return
 
-$('input[type="file"]').on 'change', (e) ->
-  uploadFile(this)
-  
+$('.imageUpload input[type="file"]').on 'change', (e) ->
+  uploadFile(this,0)
+
+$('.fileUpload input[type="file"]').on 'change', (e) ->
+  uploadFile(this,1)
+
+$('.fileUpload input[type="file"]').prop('disabled',true)
+
+$('body').on 'keyup', '.doc-name', () ->
+  if $(this).val() == ""
+    $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',true)
+    $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title','You cannot upload a file till you write a name')
+  else
+    $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',false)
+    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
+
+window.validatePhotosDocuments = () ->
+  $('.section-loader').removeClass('hidden');
+  images = []
+  files = []
+  $('.imageUpload input[type="hidden"]').each () ->
+    if $(this).val() != ""
+      images.push $(this).val()
+  $('.fileUpload input[type="hidden"]').each () ->
+    if $(this).val() != ""
+      files.push [$(this).val(), $(this).closest('.image-grid__cols').find('.doc-name').val()]
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-photos-documents'
+  parameters['change'] = window.change
+  if window.submit ==1
+    parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
+  parameters['images'] = images
+  parameters['files'] = files
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  return

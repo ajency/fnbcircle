@@ -27,7 +27,7 @@
             Tip: Photos are the most important feature of your listing. Listing with images in general get 5x more responses.
         </div>
         <img src="/img/main-pic-down.png" class="m-t-15 desk-hide">
-        <div class="image-grid">
+        <div class="image-grid imageUpload">
         @for($i=0;$i< config('tempconfig.add-listing-photos-number');$i++)
             <div class="image-grid__cols @if($i == 0) main-image @endif">
                 <input type="hidden" name="image-id" value="">
@@ -70,16 +70,20 @@
         </div> -->
         <div class="image-grid fileUpload">
             <div class="image-grid__cols">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf" />
-                <input type="text" class="fnb-input title-input" placeholder="Enter file name">
+            <input type="hidden" name="file-id" value="">
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"   title="You cannot upload a file till you write a name"/>
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <div class="image-loader hidden">This is a Loader</div>
             </div>
             <div class="image-grid__cols addCol">
                 <a href="#" class="add-uploader secondary-link">Add more files</a>
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
-                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg pdf" />
+            <input type="hidden" name="file-id" value="">
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg pdf"  title="You cannot upload a file till you write a name"/>
                 <div type="button" class="removeCol"><i class="">✕</i></div>
-                <input type="text" class="fnb-input title-input" placeholder="Enter file name">
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <div class="image-loader hidden">This is a Loader</div>
             </div>
         </div>
     </div>

@@ -69,7 +69,10 @@
       validateLocationHours();
     }
     if (step === 'business-details') {
-      return validateBusinessDetails();
+      validateBusinessDetails();
+    }
+    if (step === 'business-photos-documents') {
+      return validatePhotosDocuments();
     }
   };
 

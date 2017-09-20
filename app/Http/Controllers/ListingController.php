@@ -538,22 +538,23 @@ class ListingController extends Controller
     public function validateListingPhotosAndDocuments($data)
     {
         $this->validate($data, [
-            'listing_id' => 'required|integer|min:1',
-            'photos'     => 'required|photo_json',
-            'documents'  => 'required|doc_json',
+            'listing_id' => 'required',
+            
         ]);
-        if (!Common::verify_id($data->listing_id, 'listings')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Listing id is fabricated. Id doesnt exist'));
-        }
-
         return true;
     }
     public function saveListingPhotosAndDocuments($data)
     {
-        $listing            = Listing::find($data->listing_id);
-        $listing->photos    = $data->photos;
-        $listing->documents = $data->documents;
+        $listing            = Listing::where('reference',$data->listing_id)->firstorFail();
+        if (isset($data->images)) $images = explode(',',$data->images);
+        else $images= [];
+        // if (isset($data->files)) $files = explode(',',$data->files);
+        // else $files= [];
+        $listing->mapImages($images);
+        // $listing->mapFiles($files);
+        $listing->updated_at = Carbon::now();
         $listing->save();
+        dd($listing->getImages());
     }
     public function listingPhotosAndDocuments($request)
     {
@@ -595,13 +596,13 @@ class ListingController extends Controller
             'file' => 'file'
         ]);
         $file = $request->file('file');
-        // $listing = Listing::where('reference',$request->listing_id)->first();
-        // $id = $listing->uploadImage($request->file('file'));
-        // if($id != false){
-        //     return response()->json(['status'=>'200','message'=>'Image Uploaded successfully', 'data'=>['id'=>$id]]);
-        // }else{
-        //     return response()->json(['status'=>'400','message'=>'Image Upload Failed', 'data'=>[]]);
-        // }
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        $id = $listing->uploadFile($request->file('file'),true,$request->name);
+        if($id != false){
+            return response()->json(['status'=>'200','message'=>'File Uploaded successfully', 'data'=>['id'=>$id]]);
+        }else{
+            return response()->json(['status'=>'400','message'=>'File Upload Failed', 'data'=>[]]);
+        }
     }
 
     //--------------------Common method ------------------------

@@ -92,6 +92,8 @@ submitForm = (e) ->
     validateLocationHours()
   if step == 'business-details'
     validateBusinessDetails()
+  if step == 'business-photos-documents'
+    validatePhotosDocuments()
 
 
 

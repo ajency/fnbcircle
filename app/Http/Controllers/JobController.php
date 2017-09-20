@@ -226,6 +226,10 @@ class JobController extends Controller
     {
         $pageName = "show";
         $job = Job::where('reference_id',$reference_id)->first();
+  
+        if(!$job->isJobVisible())
+            abort(404);
+
         $jobCompany  = $job->getJobCompany();
         $jobTypes  = $job->getJobTypes();
         $locations  = $job->getJobLocationNames();
@@ -239,7 +243,7 @@ class JobController extends Controller
         $data['keywords'] = $splitKeywords['array'];
         $data['moreKeywords'] = $splitKeywords['moreArray'];
         $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
-        
+
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;

@@ -57,10 +57,12 @@
         <div class="container">
             <div class="pull-left">
                 <span class="text-primary">Note:</span> You can add multiple jobs on FnB Circle
-            </div>
+            </div> 
+            @if($job->isJobVisible())
             <div class="pull-right">
                 <a href="" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
             </div>
+            @endif
             <div class="clearfix"></div>
         </div>
     </div>
@@ -91,9 +93,11 @@
                     </ul>
                     <!-- Breadcrums ends -->
                 </div>
+                @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
                     <a href="{{ url('/jobs/'.$job->reference_id) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
                 </div> 
+                @endif
             </div>
         </div>
     </div>
@@ -276,7 +280,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->id && $job->status == 1 && !empty($jobCompany)) 
+                                        @if($job->id && $job->status == 1 && $job->isJobDataComplete()) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">

@@ -252,4 +252,22 @@ class Job extends Model
             return false;
 
     }
+
+    public function isJobVisible(){
+        if($this->job_creator == Auth::user()->id && $this->isJobDataComplete())
+            return true;
+        elseif($this->status == 3 || $this->status == 4)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function isJobDataComplete(){
+
+        if($this->title !="" && $this->description !="" && $this->category_id !="" &&  (isset($this->meta_data['job_keyword']) && !empty($this->meta_data['job_keyword'])) && (!empty($this->hasLocations())) && (!empty($this->getJobCompany()) && $this->getJobCompany()->title !=""))
+            return true;
+        else
+            return false;
+    }
 }

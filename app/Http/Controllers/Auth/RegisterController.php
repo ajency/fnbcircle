@@ -181,7 +181,9 @@ class RegisterController extends Controller
                 } else {
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
 
-                    $user_resp["user"]->assignRole('listing_manager');
+                    $user_resp["user"]->assignRole('customer');
+                    $user_resp["user"]->type = "external";
+
                 }
 
                 if($user_resp["user"]) {

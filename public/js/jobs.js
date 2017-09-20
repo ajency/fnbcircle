@@ -1,4 +1,6 @@
 (function() {
+  var getheight;
+
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
     jobCityObj = $(this);
@@ -47,22 +49,26 @@
     return $('.salary-amt').attr('data-parsley-required', true);
   });
 
-  $('.years-experience').flexdatalist({
-    selectionRequired: true,
-    minLength: 1,
-    removeOnBackspace: false
-  });
-
-  setTimeout((function() {
-    $('.job-keywords').flexdatalist({
-      removeOnBackspace: false,
-      searchByWord: true,
-      searchContain: true,
+  if ($('.years-experience').length) {
+    $('.years-experience').flexdatalist({
       selectionRequired: true,
       minLength: 1,
-      url: '/get-keywords',
-      searchIn: ["label"]
+      removeOnBackspace: false
     });
+  }
+
+  setTimeout((function() {
+    if ($('.job-keywords').length) {
+      $('.job-keywords').flexdatalist({
+        removeOnBackspace: false,
+        searchByWord: true,
+        searchContain: true,
+        selectionRequired: true,
+        minLength: 1,
+        url: '/get-keywords',
+        searchIn: ["label"]
+      });
+    }
   }), 500);
 
   $('.job-save-btn').click(function(e) {
@@ -137,30 +143,36 @@
     $('.alert-success').removeClass('active');
   }), 6000);
 
-  $('.expSelect').multiselect({
-    includeSelectAllOption: true,
-    numberDisplayed: 2,
-    delimiterText: ',',
-    nonSelectedText: 'Select Experience'
-  });
-
-  if ($(window).width() > 769) {
-    $('.comp-logo').dropify({
-      messages: {
-        'default': 'Add Logo',
-        'replace': 'Change Logo',
-        'remove': '<i class="">&#10005;</i>'
-      }
+  if ($('.expSelect').length) {
+    $('.expSelect').multiselect({
+      includeSelectAllOption: true,
+      numberDisplayed: 2,
+      delimiterText: ',',
+      nonSelectedText: 'Select Experience'
     });
   }
 
+  if ($(window).width() > 769) {
+    if ($('.comp-logo').length) {
+      $('.comp-logo').dropify({
+        messages: {
+          'default': 'Add Logo',
+          'replace': 'Change Logo',
+          'remove': '<i class="">&#10005;</i>'
+        }
+      });
+    }
+  }
+
   if ($(window).width() < 769) {
-    $('.comp-logo').dropify({
-      messages: {
-        'default': 'Add Logo',
-        'replace': 'Change Logo'
-      }
-    });
+    if ($('.comp-logo').length) {
+      $('.comp-logo').dropify({
+        messages: {
+          'default': 'Add Logo',
+          'replace': 'Change Logo'
+        }
+      });
+    }
   }
 
   if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
@@ -187,6 +199,21 @@
     }
   });
 
-  CKEDITOR.replace('editor');
+  if ($('#editor').length) {
+    CKEDITOR.replace('editor');
+  }
+
+  $("html").easeScroll();
+
+  if ($(window).width() > 769) {
+    getheight = $('.design-2-card').outerHeight();
+    $('.equal-col').css('height', getheight);
+  }
+
+  $('.check-detail').click(function() {
+    $('html, body').animate({
+      scrollTop: $('#about-company').offset().top - 20
+    }, 2000);
+  });
 
 }).call(this);

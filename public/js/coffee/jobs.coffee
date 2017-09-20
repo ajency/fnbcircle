@@ -40,8 +40,8 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       return
 
 
-$('input[name="salary_type"]').click (e) ->
-  $('.salary-amt').attr('data-parsley-required',true)
+# $('input[name="salary_type"]').click (e) ->
+#   $('.salary-amt').attr('data-parsley-required',true)
  
 $('.years-experience').flexdatalist
   selectionRequired: true,

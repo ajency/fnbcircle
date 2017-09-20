@@ -46,22 +46,25 @@ class Job extends Model
         $categories = [];
         $others = [];
         foreach ($jobCategories as $key => $jobCategory) {
-            if(strtolower($jobCategory->name) == 'other')
-                $others[$jobCategory->id] = $jobCategory->name;
+            $categoryName = strtolower($jobCategory->name);
+            if($categoryName == 'other')
+                $others[$jobCategory->id] = ucwords($jobCategory->name);
             else
-                $categories[$jobCategory->id] = $jobCategory->name;
+                $categories[$jobCategory->id] = ucwords($jobCategory->name);
         }
         $categories = $categories+$others;
         return $categories;
     }
 
     public function getJobCategoryName(){ 
-        return ucwords($this->category->name);
+        $categoryName = strtolower($this->category->name);
+        return ucwords($categoryName);
     }
 
     public function getJobStatus(){
         $jobStatus = Defaults::find($this->status);
-    	return ucwords($jobStatus->label);
+        $jobStatus = strtolower($jobStatus->label);
+        return ucwords($jobStatus);
     }
 
     public function jobTypes($jobTypeIds = []){
@@ -125,10 +128,9 @@ class Job extends Model
         return $keywords;
     }
 
-    public function getSalaryType($id){
-    	$salaryTypes = $this->salaryTypes();
-    	$salaryType = $salaryTypes[$id];
-    	return $salaryType;
+    public function getSalaryType(){
+        $salaryType = Defaults::find($this->salary_type);
+        return ucwords($salaryType->label);
     }
 
 
@@ -214,7 +216,9 @@ class Job extends Model
         $savedLocation = [];
         $cityNames = [] ;
         $areas = [] ;
+        $cityId = '';
         foreach ($locations as $key => $location) {
+
             if(!isset($cityNames[$location['city_id']])){
                 $city = City::find($location['city_id'])->name;
                 $cityNames[$location['city_id']] = $city;
@@ -234,5 +238,9 @@ class Job extends Model
         }
 
         return $savedLocation;
+    }
+
+    public function jobPostedOn(){
+        return date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
     }
 }

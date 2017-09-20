@@ -1,4 +1,4 @@
-<div class="modal fnb-modal verification-step-modal email-modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" modal-type="email">
+<div class="modal fnb-modal verification-step-modal email-modal contact-verification-modal fade" id="email-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" modal-type="email">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

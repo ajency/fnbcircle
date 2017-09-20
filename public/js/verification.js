@@ -24,7 +24,7 @@
         return deleteObj.closest('.contact-container').addClass('hidden');
       }
     });
-    $(document).on('click', '.contact-verify-link', function(event) {
+    $('.contact-info').on('click', '.contact-verify-link', function(event) {
       $('.contact-container').removeClass('under-review');
       $(this).closest('.contact-container').addClass('under-review');
       return verifyContactDetail(true);
@@ -69,7 +69,7 @@
         return $('#' + contactType + '-modal').modal('hide');
       }
     };
-    $('.contact-info').on('change', '.contact-input', function(event) {
+    $('.contact-verification-modal .contact-info').on('change', '.contact-input', function(event) {
       var contactObj, contactval;
       contactObj = $(this);
       contactval = contactObj.val();
@@ -93,18 +93,18 @@
       });
       return result;
     };
-    $('.edit-number').click(function(event) {
+    $('.contact-verification-modal .edit-number').click(function(event) {
       $('.value-enter').val('');
       $('.default-state').addClass('hidden');
       $('.add-number').removeClass('hidden');
       $('.verificationFooter').addClass('no-bg');
     });
-    $('.step-back').click(function(event) {
+    $('.contact-verification-modal .step-back').click(function(event) {
       $('.default-state').removeClass('hidden');
       $('.add-number').addClass('hidden');
       $('.verificationFooter').removeClass('no-bg');
     });
-    $('.contact-verify-stuff').click(function(event) {
+    $('.contact-verification-modal .contact-verify-stuff').click(function(event) {
       var changedValue, newContactObj, oldContactObj, oldContactValue;
       newContactObj = $(this).closest('.modal').find('.change-contact-input');
       changedValue = newContactObj.val();
@@ -125,7 +125,7 @@
         }
       }
     });
-    $('.code-send').click(function() {
+    $('.contact-verification-modal .code-send').click(function() {
       var contactId, errordiv, otpObj, otpValue, validator;
       errordiv = $(this).closest('.number-code').find('.validationError');
       otpObj = $(this).closest('.code-submit').find('.fnb-input');
@@ -185,13 +185,13 @@
         async: false
       });
     });
-    $('.verification-step-modal').on('hidden.bs.modal', function(e) {
+    $('.contact-verification-modal .verification-step-modal').on('hidden.bs.modal', function(e) {
       $('.step-success,.add-number').addClass('hidden');
       $('.verificationFooter').removeClass('no-bg');
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.resend-link').click(function(event) {
+    $('.contact-verification-modal .resend-link').click(function(event) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');

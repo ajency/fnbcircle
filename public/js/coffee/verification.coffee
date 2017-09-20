@@ -44,7 +44,7 @@ $(document).ready ()->
       deleteObj.closest('.contact-container').addClass 'hidden'
 
 
-  $(document).on 'click', '.contact-verify-link', (event) ->
+  $('.contact-info').on 'click', '.contact-verify-link', (event) ->
     $('.contact-container').removeClass('under-review')
     $(this).closest('.contact-container').addClass('under-review')
     verifyContactDetail(true)
@@ -90,7 +90,7 @@ $(document).ready ()->
     else 
       $('#'+contactType+'-modal').modal 'hide'
 
-  $('.contact-info').on 'change', '.contact-input', (event) ->
+  $('.contact-verification-modal .contact-info').on 'change', '.contact-input', (event) ->
     contactObj = $(this)
     contactval = contactObj.val()
     # console.log contactval
@@ -115,7 +115,7 @@ $(document).ready ()->
     return result 
 
 
-  $('.edit-number').click (event)->
+  $('.contact-verification-modal .edit-number').click (event)->
     $('.value-enter').val('')
     $('.default-state').addClass 'hidden'
     $('.add-number').removeClass 'hidden'
@@ -123,14 +123,14 @@ $(document).ready ()->
     return
 
 
-  $('.step-back').click (event)->
+  $('.contact-verification-modal .step-back').click (event)->
     $('.default-state').removeClass 'hidden'
     $('.add-number').addClass 'hidden'
     $('.verificationFooter').removeClass 'no-bg'
     return
 
 
-  $('.contact-verify-stuff').click (event)->
+  $('.contact-verification-modal .contact-verify-stuff').click (event)->
     newContactObj = $(this).closest('.modal').find('.change-contact-input')
     changedValue = newContactObj.val()
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
@@ -155,7 +155,7 @@ $(document).ready ()->
 
     return
 
-  $('.code-send').click ->
+  $('.contact-verification-modal .code-send').click ->
     # $('.processing').removeClass 'hidden'
     errordiv=$(this).closest('.number-code').find('.validationError')
     otpObj=$(this).closest('.code-submit').find('.fnb-input')
@@ -213,14 +213,14 @@ $(document).ready ()->
       async: false
     return
 
-  $('.verification-step-modal').on 'hidden.bs.modal', (e) ->
+  $('.contact-verification-modal .verification-step-modal').on 'hidden.bs.modal', (e) ->
     $('.step-success,.add-number').addClass 'hidden'
     $('.verificationFooter').removeClass 'no-bg'
     $('.default-state,.verificationFooter').removeClass 'hidden'
     $('.default-state .fnb-input').val ''
     return
 
-  $('.resend-link').click (event)->
+  $('.contact-verification-modal .resend-link').click (event)->
     $(this).addClass 'sending'
     setTimeout (->
       $('.resend-link').removeClass 'sending'

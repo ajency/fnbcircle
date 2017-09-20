@@ -69,20 +69,20 @@
     <input type="hidden" name="object_type" value="App\Job">
     <input type="hidden" name="object_id" value="{{ $job->id}}">
     <!-- email -->
-    @include('verification.email-verification')
+    @include('modals.verification.email-verification')
     
     <!-- phone number -->
-    @include('verification.mobile-verification')
+    @include('modals.verification.mobile-verification')
     <!-- /contact verification HTML -->
 
     </div>
 
 <!-- contact verification MODAL -->
 <!-- Phone verification -->
-@include('verification.mobile-modal')
+@include('modals.verification.mobile-modal')
 
 <!-- Email verification -->
-@include('verification.email-modal')
+@include('modals.verification.email-modal')
 <!-- contact verification MODAL -->
 
 

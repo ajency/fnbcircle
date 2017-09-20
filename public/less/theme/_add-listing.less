@@ -3113,7 +3113,8 @@ input[type='checkbox'].remove-addr{
 	}
 	.job-places{
 		// min-width: 42%;
-		flex-basis: 36%;
+		flex-basis: 7%;
+		min-width: 250px;
 		.job-location{
 			.location{
 				min-width: 98px;
@@ -3163,6 +3164,20 @@ input[type='checkbox'].remove-addr{
     }
 }
 
+.year-exp{
+	&:not(:last-child){
+		&:after{
+			content: ',';
+			display: inline-block;
+			padding: 0 3px;
+		}	
+	}
+}
+
+.publish-warning{
+	background-color: #fff4b8;
+    padding: 1.3em 0;
+}
 
 
 @media screen and (max-width: @mobile){

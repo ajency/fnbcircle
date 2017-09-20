@@ -91,6 +91,18 @@
          </div>
       </div>
    </div>
+
+   <div class="row hidden">
+      <div class="col-sm-12">
+         <div class="pre-benefits pending-review flex-row publish-warning">
+            <div class="pre-benefits__intro flex-row">
+               <div class="pre-benefits__content">
+                  <h5 class="sub-title pre-benefits__title m-b-0">You're viewing the job which is not yet published.</h5>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
    <!-- premium benefits ends -->
    <!-- edit business listing -->
    <!--                 <div class="row">
@@ -211,7 +223,7 @@
                   @endif
 
                   @if($job->salary_lower !="" && $job->salary_upper !="" )
-                     <div class="role-gap">
+                     <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         
                         <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
@@ -219,13 +231,13 @@
                     @endif
 
                   @if(!empty($experience))
-                     <div class="role-gap">
+                     <div class="year-exp">
                         <h6 class="operations__title sub-title">Years of experience</h6>
-                        
+                        <div class="flex-row">
                           @foreach($experience as $exp)
-                           <div class="text-color lighter">{{ $exp }} years</div>
+                           <div class="text-color lighter year-exp">{{ $exp }} years</div>
                           @endforeach
-                        
+                        </div>
                         
                      </div>
                      @endif
@@ -385,7 +397,7 @@
                     @endif
                      <div class="company-name heavier">
                         <div>
-                           <div class="flex-row heavier"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>
+                           <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @endif"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>
 
                            @if(!empty($jobCompany->website))
                            <a href="#" class="primary-link x-small ">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>

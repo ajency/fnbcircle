@@ -9446,9 +9446,10 @@ input[type='checkbox'].remove-addr {
   }
 }
 .role-selection .job-places {
-  -webkit-flex-basis: 36%;
-      -ms-flex-preferred-size: 36%;
-          flex-basis: 36%;
+  -webkit-flex-basis: 7%;
+      -ms-flex-preferred-size: 7%;
+          flex-basis: 7%;
+  min-width: 250px;
 }
 .role-selection .job-places .job-location .location {
   min-width: 98px;
@@ -9494,6 +9495,15 @@ input[type='checkbox'].remove-addr {
   margin-bottom: 0.6em;
   margin-right: 5px;
   font-size: 0.85em;
+}
+.year-exp:not(:last-child):after {
+  content: ',';
+  display: inline-block;
+  padding: 0 3px;
+}
+.publish-warning {
+  background-color: #fff4b8;
+  padding: 1.3em 0;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {

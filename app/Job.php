@@ -60,9 +60,8 @@ class Job extends Model
     }
 
     public function getJobStatus(){
-    	$statuses = $this->jobStatuses();
-    	$status = $statuses[$this->status];
-    	return $status;
+        $jobStatus = Defaults::find($this->status);
+    	return ucwords($jobStatus);
     }
 
     public function jobTypes(){

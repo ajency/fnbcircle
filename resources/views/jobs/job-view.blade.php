@@ -21,11 +21,13 @@
                   <p class="fnb-breadcrums__title">/</p>
                </a>
             </li>
-            <li class="fnb-breadcrums__section">
+               <li class="fnb-breadcrums__section">
                <a href="">
-                  <p class="fnb-breadcrums__title">Delhi</p>
+                  <p class="fnb-breadcrums__title main-name">{{ $job->getJobCategoryName() }}</p>
                </a>
             </li>
+            
+
             <li class="fnb-breadcrums__section">
                <a href="">
                   <p class="fnb-breadcrums__title">/</p>
@@ -33,17 +35,7 @@
             </li>
             <li class="fnb-breadcrums__section">
                <a href="">
-                  <p class="fnb-breadcrums__title main-name">Foods Restaurant jobs</p>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title">/</p>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title main-name">Foods &amp; Beverage Manager</p>
+                  <p class="fnb-breadcrums__title main-name">{{ $job->title }}</p>
                </a>
             </li>
          </ul>

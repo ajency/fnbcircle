@@ -23,7 +23,8 @@
       return deleteObj.closest('.get-val').parent().remove();
     } else {
       deleteObj.closest('.contact-container').find('.contact-input').val('');
-      return deleteObj.closest('.contact-container').addClass('hidden');
+      deleteObj.closest('.contact-container').addClass('hidden');
+      return deleteObj.closest('.contact-container').removeClass('contact-container');
     }
   });
 

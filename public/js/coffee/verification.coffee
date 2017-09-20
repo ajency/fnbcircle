@@ -41,6 +41,7 @@ $('.contact-info').on 'click', '.delete-contact', (event) ->
   else
     deleteObj.closest('.contact-container').find('.contact-input').val('')
     deleteObj.closest('.contact-container').addClass 'hidden'
+    deleteObj.closest('.contact-container').removeClass 'contact-container'
 
 
 $(document).on 'click', '.verify-link', (event) ->

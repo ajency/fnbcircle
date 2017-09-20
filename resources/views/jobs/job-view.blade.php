@@ -197,14 +197,19 @@
                      <div class="job-role">
                         <h6 class="operations__title sub-title">Job role</h6>
                         <ul class="cities flex-row">
+
                           @foreach($keywords as $keyword)
                            <li>
                               <p class="default-size cities__title">{{ $keyword }}, </p>
                            </li>
                            @endforeach
+
+                           @if($moreKeywordCount)
                            <li class="remain more-show">
-                              <a href="" class="secondary-link">+10</a>
+                              <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
                            </li>
+                           @endif
+                          
                         </ul>
                      </div>
                      @endif

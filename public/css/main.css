@@ -9419,12 +9419,19 @@ input[type='checkbox'].remove-addr {
 }
 .role-selection > div {
   min-width: 25%;
+  margin-bottom: 1em;
+}
+.role-selection > div:last-child {
+  margin-bottom: 0;
 }
 .role-selection .job-role {
   width: 45%;
 }
+.role-selection .job-places {
+  min-width: 42%;
+}
 .role-selection .role-gap {
-  padding-right: 1em;
+  padding-left: 1em;
 }
 .applyJob {
   text-align: center;
@@ -9433,6 +9440,19 @@ input[type='checkbox'].remove-addr {
   width: 80%;
   border-color: #ec6d4b;
   margin-bottom: 1em;
+}
+.job-location {
+  margin-top: -3px;
+  margin-left: -5px;
+}
+.job-location .map-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+}
+.job-location .cities__title,
+.job-location .cities .remain__number {
+  font-size: 1em;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {
@@ -9467,6 +9487,7 @@ input[type='checkbox'].remove-addr {
   }
   .role-selection .role-gap {
     padding-right: 0;
+    padding-left: 0;
   }
   .role-selection > div {
     -webkit-box-flex: 1;

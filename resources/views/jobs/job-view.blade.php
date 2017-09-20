@@ -139,6 +139,43 @@
           
                   </div>
                   <div class="operations p-t-10 p-b-20 flex-row flex-wrap role-selection">
+                    <div class="job-places">
+                        <h6 class="operations__title sub-title">Job location</h6>
+                        <div class="opertaions__container flex-row job-location">
+                           <div class="location flex-row">
+                               <span class="fnb-icons map-icon"></span>
+                               <p class="default-size location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                           </div>
+                           <ul class="cities flex-row p-l-10">
+                               <li>
+                                   <p class="cities__title">Bandra, </p>
+                               </li>
+                               <li>
+                                   <p class="cities__title">Andheri, </p>
+                               </li>
+                               <li>
+                                   <p class="cities__title">Juhu, </p>
+                               </li>
+                               <li class="remain more-show">
+                                   <a href="" class="secondary-link remain__number">+10</a>
+                               </li>
+                           </ul>
+                        </div>
+                        <div class="opertaions__container flex-row job-location">
+                           <div class="location flex-row">
+                               <span class="fnb-icons map-icon"></span>
+                               <p class="default-size location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                           </div>
+                           <ul class="cities flex-row p-l-10">
+                               <li>
+                                   <p class="cities__title">Bandra, </p>
+                               </li>
+                               <li>
+                                   <p class="cities__title">Andheri, </p>
+                               </li>
+                           </ul>
+                        </div>                            
+                    </div>
                      <div class="role-gap">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         

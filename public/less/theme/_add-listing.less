@@ -3093,13 +3093,20 @@ input[type='checkbox'].remove-addr{
 	& > div{
 		// flex: 1;
 		min-width: 25%;
+		margin-bottom: 1em;
+		&:last-child{
+			margin-bottom: 0;
+		}
 	}
 	.job-role{
 		// flex: 2;
 		width: 45%;
 	}
+	.job-places{
+		min-width: 42%;
+	}
 	.role-gap{
-		padding-right: 1em;
+		padding-left: 1em;
 	}
 }
 
@@ -3113,6 +3120,19 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+
+.job-location{
+	margin-top: -3px;
+    margin-left: -5px;
+	.map-icon{
+		transform: scale(0.6);
+	}
+	.cities{
+		&__title,.remain__number{
+			font-size: 1em;
+		}
+	}
+}
 
 
 @media screen and (max-width: @mobile){
@@ -3148,6 +3168,7 @@ input[type='checkbox'].remove-addr{
 	.role-selection{
 		.role-gap{
 			padding-right: 0;
+			padding-left: 0;
 		}
 		& > div{
     		flex: 1 0 50%;

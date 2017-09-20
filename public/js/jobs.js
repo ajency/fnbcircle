@@ -216,4 +216,11 @@
     }, 2000);
   });
 
+  $('.more-show').click(function(event) {
+    event.preventDefault();
+    $(this).addClass('hidden');
+    $('.line').addClass('hidden');
+    $(this).parent().addClass('expand-more');
+  });
+
 }).call(this);

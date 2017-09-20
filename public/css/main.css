@@ -9184,6 +9184,10 @@ input[type='checkbox'].remove-addr {
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 .job-info.seller-info .seller-info__footer {
   border-top: 1px solid #eee;
@@ -9199,6 +9203,15 @@ input[type='checkbox'].remove-addr {
 }
 .owner-address {
   padding-left: 1em;
+}
+@media screen and (min-width: 769px) {
+  .owner-address {
+    min-width: 250px;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+  }
 }
 .owner-address .map-icon {
   -webkit-transform: scale(0.6);
@@ -9463,6 +9476,20 @@ input[type='checkbox'].remove-addr {
 .job-location .cities__title,
 .job-location .cities .remain__number {
   font-size: 1em;
+}
+.job-type {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.job-type .fnb-label {
+  margin-bottom: 0.6em;
+  margin-right: 5px;
+  font-size: 0.85em;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {

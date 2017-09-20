@@ -2859,6 +2859,7 @@ input[type='checkbox'].remove-addr{
 .job-info{
 	.owner-info{
 		justify-content: flex-start;
+		align-items: flex-start;
 	}
 	&.seller-info{
 		.seller-info__footer{
@@ -2878,6 +2879,10 @@ input[type='checkbox'].remove-addr{
 
 .owner-address{
 	padding-left: 1em;
+	@media screen and (min-width: 769px){
+		min-width: 250px;
+    	justify-content: flex-end;
+	}
 	.map-icon{
 		transform: scale(0.6);
     	width: 20px;
@@ -3146,6 +3151,17 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 }
+
+.job-type{
+	display: flex;
+    flex-wrap: wrap;
+    .fnb-label{
+    	margin-bottom: 0.6em;
+    	margin-right: 5px;
+    	font-size: 0.85em;
+    }
+}
+
 
 
 @media screen and (max-width: @mobile){

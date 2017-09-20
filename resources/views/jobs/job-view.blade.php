@@ -125,13 +125,15 @@
                      <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
                   </div>
                   <div class="stats flex-row m-t-15 owner-info">
-                    @if(!empty($jobTypes))
-                      @foreach($jobTypes as $jobType)
-                       <label class="fnb-label wholesaler flex-row">
-                          {{ $jobType }}
-                       </label>
-                      @endforeach
-                    @endif
+                    <div class="job-type">
+                      @if(!empty($jobTypes))
+                        @foreach($jobTypes as $jobType)
+                         <label class="fnb-label wholesaler flex-row">
+                            {{ $jobType }}
+                         </label>
+                        @endforeach
+                      @endif
+                    </div>
                      <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>

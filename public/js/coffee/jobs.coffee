@@ -43,6 +43,12 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
 $('input[name="salary_type"]').click (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
  
+$('.clear-salary').on 'click', ->
+  $('input[name="salary_type"]').prop('checked',false).removeAttr('data-parsley-required') 
+  $('input[name="salary_lower"]').removeAttr('data-parsley-required').val ''
+  $('input[name="salary_upper"]').removeAttr('data-parsley-required').val ''
+
+
 $('.years-experience').flexdatalist
   selectionRequired: true,
   minLength: 1,

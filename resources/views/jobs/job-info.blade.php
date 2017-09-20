@@ -239,7 +239,7 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span> <span class="text-lighter"><a href="javascript:void(0)" class="dark-link clear-salary">Clear</a></span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">

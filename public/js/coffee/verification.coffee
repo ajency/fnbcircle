@@ -60,7 +60,11 @@ $(document).ready ()->
     objectId = $('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
     contactValueObj.closest('div').find('.dupError').html ''
-   
+
+    if(!contactValueObj.parsley().isValid())
+      contactValueObj.parsley().validate()
+      
+    console.log contactValueObj.parsley().isValid()
     if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)

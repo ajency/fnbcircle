@@ -10,7 +10,7 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif >
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif data-parsley-type-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits.">
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-type-message="Mobile number should be 10 digits.">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -91,7 +91,7 @@
                     <input type="hidden" class="contact-id" readonly  name="contact_mobile_id[]">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-type-message="Mobile number should be 10 digits." >
                         <div class=dupError ></div>
                          <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>

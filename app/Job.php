@@ -255,7 +255,7 @@ class Job extends Model
     }
 
     public function canEditJob(){
-        if($this->job_creator == Auth::user()->id)
+        if(Auth::check() && $this->job_creator == Auth::user()->id)
             return true;
         else
             return false;
@@ -263,6 +263,7 @@ class Job extends Model
     }
 
     public function isJobVisible(){
+     
         if($this->canEditJob() && $this->isJobDataComplete())
             return true;
         elseif($this->status == 3 || $this->status == 4)

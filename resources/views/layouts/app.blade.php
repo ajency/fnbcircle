@@ -13,11 +13,11 @@
     <!-- Font awesome cdn -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/bootstrap.min.css') }}">
     <!-- Magnify css -->
-    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Main styles -->
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
 </head>
 
@@ -171,21 +171,20 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script> -->
     <!-- BS Script -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <!-- Smooth Mouse scroll -->
-    <script type="text/javascript" src="/js/jquery.easeScroll.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/jquery.easeScroll.min.js') }}"></script>
     <!-- BS lightbox -->
-    <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/ekko-lightbox/dist/ekko-lightbox.min.js') }}"></script>
     <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="/js/magnify.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/magnify.min.js') }}"></script>
     <!-- Read more -->
-    <script type="text/javascript" src="/js/readmore.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/readmore.min.js') }}"></script>
     <!-- Parsley text validation -->
-    <script type="text/javascript" src="/js/parsley.min.js" ></script>
+    <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- custom script -->
-    <script type="text/javascript" src="/js/custom.js"></script>
-
-    <script type="text/javascript" src="/js/verification.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
 
 
     @yield('js')

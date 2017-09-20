@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="verify-container">
-                                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                                        <a href="javascript:void(0)" class="dark-link verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
                                         <!-- <a href="#" class="secondary-link text-decor verifyPhone x-small" data-toggle="modal" data-target="#mobile-modal">Verify Now</a> -->
                                         <!-- <div class="verified verifiedMini flex-row">
                                             <span class="fnb-icons verified-icon"></span>

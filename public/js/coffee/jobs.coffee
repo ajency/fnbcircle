@@ -209,7 +209,12 @@ $('.check-detail').click ->
   return
 
 
-
+$('.more-show').click (event) ->
+  event.preventDefault()
+  $(this).addClass 'hidden'
+  $('.line').addClass 'hidden'
+  $(this).parent().addClass 'expand-more'
+  return
 
 
 

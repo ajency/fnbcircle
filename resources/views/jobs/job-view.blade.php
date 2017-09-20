@@ -161,7 +161,7 @@
                       @endforeach
                     @endif
                     </div>
-<<<<<<< HEAD
+
 
                     <!-- publish date -->
                     <div class="pusblished-date">{{ $job->jobPublishedOn()}}</div>
@@ -171,12 +171,12 @@
                     <span class="fnb-icons map-icon"></span>
                    
                      <input id="mapadd" type="text" class="form-control fnb-input location-val"  value="">
-=======
+
                     <!-- <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
                      </div> -->
->>>>>>> 85465b8095d1c3fed553070ec54a61199575e33a
+
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                       <div class="job-places">

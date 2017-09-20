@@ -105,12 +105,8 @@ Route::group(['middleware' => ['permission:add_listing'], 'prefix' => 'admin-das
 	});
 
 	Route::group(['prefix' => 'users'], function() {
-		Route::get('internal-users', function(){
-			return view('admin-dashboard.internal_users');
-		});
+		Route::get('internal-users', 'AdminConfigurationController@internalUserView');
 
-		Route::get('registered-users', function(){
-			return view('admin-dashboard.registered_users');
-		});
+		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
 	});
 });

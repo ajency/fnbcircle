@@ -18,7 +18,7 @@
                 @if($email['verified'])
                     <span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>
                 @else
-                    <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                    <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                 @endif
                     <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                 </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                    <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                     <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                 </div>
             </div>
@@ -85,7 +85,7 @@
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
-                    <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                    <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                     <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                 </div>
             </div>

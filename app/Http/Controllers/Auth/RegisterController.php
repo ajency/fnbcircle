@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'contact' => 'required',
+            'contact' => 'required|min:10|max:13',
         ]);
     }
 
@@ -92,6 +92,12 @@ class RegisterController extends Controller
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
 
+        if($request->has("next_url"))  {
+            $next_redirect_url = $request->next_url;
+        } else {
+            $next_redirect_url = '';
+        }
+
         if(!auth()->guest())  {
             $user_obj = auth()->user();
         } else {
@@ -117,9 +123,9 @@ class RegisterController extends Controller
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 
         if($required_fields_check["has_required_fields_filled"]) {
-            return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "api");
+            return $fnbauth_obj->rerouteUser(array("user" => $user_obj, "status" => "success", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url), "api");
         } else {
-            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]));
+            return response()->json(array("redirect_url" => "","status" => 400, "message" => "required_fields_not_filled", "filled_required_status" => ["filled_required" => true, "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]], "next_url" => $next_redirect_url));
         }
 
     }
@@ -175,7 +181,9 @@ class RegisterController extends Controller
                 } else {
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
 
-                    $user_resp["user"]->assignRole('listing_manager');
+                    $user_resp["user"]->assignRole('customer');
+                    $user_resp["user"]->type = "external";
+
                 }
 
                 if($user_resp["user"]) {

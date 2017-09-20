@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', 'Add Listing')
 @section('css')
     <!-- Magnify css -->

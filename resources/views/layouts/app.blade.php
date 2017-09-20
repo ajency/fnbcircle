@@ -13,11 +13,11 @@
     <!-- Font awesome cdn -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/bootstrap.min.css') }}">
     <!-- Magnify css -->
-    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Main styles -->
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
 </head>
 
@@ -145,8 +145,6 @@
         </nav>
     </header>
     <!-- header ends -->
-    <!-- content -->
-    @yield('content')
 
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())
@@ -154,7 +152,7 @@
     @endif
 
     <!-- requirement popup signup -->
-    @if(!Auth::guest())
+    @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         @include('modals.user_requirement')
     @endif
 
@@ -163,6 +161,8 @@
 
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
+    <!-- content -->
+    @yield('content')
 
     <!-- banner ends -->
     <div class="site-overlay"></div>
@@ -171,22 +171,29 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script> -->
     <!-- BS Script -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <!-- Smooth Mouse scroll -->
-    <script type="text/javascript" src="/js/jquery.easeScroll.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/jquery.easeScroll.min.js') }}"></script>
     <!-- BS lightbox -->
-    <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/ekko-lightbox/dist/ekko-lightbox.min.js') }}"></script>
     <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="/js/magnify.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/magnify.min.js') }}"></script>
     <!-- Read more -->
-    <script type="text/javascript" src="/js/readmore.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/readmore.min.js') }}"></script>
     <!-- Parsley text validation -->
-    <script type="text/javascript" src="/js/parsley.min.js" ></script>
+    <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- custom script -->
-    <script type="text/javascript" src="/js/custom.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
 
-    <script type="text/javascript" src="/js/verification.js"></script>
-
+    @if(!Auth::user()->has_required_fields_filled)
+        <!-- This is defined here as the "require" modal is included to this blade -->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#require-modal").modal('show');
+            });
+        </script>
+    @endif
 
     @yield('js')
 </body>

@@ -128,21 +128,19 @@
                      <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
                   </div>
                   <div class="stats flex-row m-t-15 owner-info">
-                    @if(!empty($jobTypes))
+
+                    <div class="job-type">
+                        @if(!empty($jobTypes))
                       @foreach($jobTypes as $jobType)
                        <label class="fnb-label wholesaler flex-row">
                           {{ $jobType }}
                        </label>
                       @endforeach
                     @endif
-                    <!--  <div class="owner-address flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
-                     </div> -->
-          
+                    </div>
                   </div>
-                  <div class="operations p-t-10 p-b-20 flex-row flex-wrap role-selection">
-                    <div class="job-places">
+                  <div class="operations p-t-10 flex-row flex-wrap role-selection">
+                      <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
                         @foreach($locations as $city => $locAreas)
                         <div class="opertaions__container flex-row job-location">
@@ -150,14 +148,18 @@
                                <span class="fnb-icons map-icon"></span>
                                <p class="default-size location__title c-title">{{ $city }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                            </div>
-                           <ul class="cities flex-row p-l-10">
+
+                           <ul class="cities flex-row">
+
                               <?php
                               $splitAreas =  splitArrayData($locAreas,2);
                               $areas = $splitAreas['array'];
                               $moreArea = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
+
                               ?>
                               @foreach($areas as $area)
+
                                <li>
                                    <p class="cities__title">{{ $area }}, </p>
                                </li>
@@ -170,8 +172,26 @@
                               @endif
                            </ul>
                         </div>
+
+                        <div class="opertaions__container flex-row job-location">
+                           <div class="location flex-row">
+                               <span class="fnb-icons map-icon"></span>
+                               <p class="default-size location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                           </div>
+                           <ul class="cities flex-row">
+                               <li>
+                                   <p class="cities__title">Bandra, </p>
+                               </li>
+                               <li>
+                                   <p class="cities__title">Andheri, </p>
+                               </li>
+                           </ul>
+                        </div>                            
+
+                      </div>
+  
                       @endforeach                             
-                    </div>
+                  </div>
 
                     @if($job->salary_lower !="" && $job->salary_upper !="" )
                      <div class="role-gap">
@@ -193,6 +213,7 @@
                      </div>
                      @endif
 
+
                      @if(!empty($keywords))
                      <div class="job-role">
                         <h6 class="operations__title sub-title">Job role</h6>
@@ -213,8 +234,9 @@
                         </ul>
                      </div>
                      @endif
+
                   </div>
-               </div>
+              
             </div>
             <!-- Card info ends -->
             <!-- contact info -->
@@ -403,149 +425,151 @@
                <h6 class="element-title">Advertisement</h6>
             </div>
             <!-- advertisement ends -->
-            <!-- Featured Jobs -->
-            <div class="featured-jobs browse-cat">
-               <h6 class="element-title m-t-0">Featured Jobs</h6>
-               <hr>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc ellipsis">
-                     <div>
-                        <p class="default-size heavier m-b-0 ellipsis">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- End featured jobs -->
-            <!-- Similar Jobs -->
-            <div class="featured-jobs browse-cat">
-               <h6 class="element-title m-t-0">Similar Jobs</h6>
-               <hr>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-               <div class="featured-jobs__row flex-row">
-                  <div class="joblogo">
-                     <img src="http://via.placeholder.com/60x60">
-                  </div>
-                  <div class="jobdesc">
-                     <div>
-                        <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                        <span class="x-small text-color">Contactx Resource Management</span>
-                     </div>
-                     <div class="location flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        <span class="x-small">Delhi</span>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- Similar jobs -->
-            <!-- Claim -->
-            <div class="claim-box p-b-10 job-post">
-               <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
-               <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
-               <!-- <span class="fnb-icons exclamation"></span> -->
-               <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
-               <div class="contact__enquiry text-center m-t-15">    
-                  <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
-               </div>
-            </div>
          </div>
+
+         <!-- Featured Jobs -->
+        <div class="featured-jobs browse-cat">
+           <h6 class="element-title m-t-0">Featured Jobs</h6>
+           <hr>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc ellipsis">
+                 <div>
+                    <p class="default-size heavier m-b-0 ellipsis">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <!-- End featured jobs -->
+        <!-- Similar Jobs -->
+        <div class="featured-jobs browse-cat">
+           <h6 class="element-title m-t-0">Similar Jobs</h6>
+           <hr>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+           <div class="featured-jobs__row flex-row">
+              <div class="joblogo">
+                 <img src="http://via.placeholder.com/60x60">
+              </div>
+              <div class="jobdesc">
+                 <div>
+                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
+                    <span class="x-small text-color">Contactx Resource Management</span>
+                 </div>
+                 <div class="location flex-row">
+                    <span class="fnb-icons map-icon"></span>
+                    <span class="x-small">Delhi</span>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <!-- Similar jobs -->
+        <!-- Claim -->
+        <div class="claim-box p-b-10 job-post">
+           <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
+           <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
+           <!-- <span class="fnb-icons exclamation"></span> -->
+           <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
+           <div class="contact__enquiry text-center m-t-15">    
+              <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
+           </div>
+        </div>
+
          <!-- browse category -->
          <div class="browse-cat list-of-business">
             <h6 class="element-title">FnB Circle also has business listings</h6>

@@ -42,11 +42,12 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
 
 $('input[name="salary_type"]').click (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
- 
-$('.years-experience').flexdatalist
-  selectionRequired: true,
-  minLength: 1,
-  removeOnBackspace: false
+
+if $('.years-experience').length
+  $('.years-experience').flexdatalist
+    selectionRequired: true,
+    minLength: 1,
+    removeOnBackspace: false
 
 # $('.job-keywords').flexdatalist
 #   selectionRequired: true,
@@ -56,16 +57,17 @@ $('.years-experience').flexdatalist
 #   searchIn: ["name"]
 
 setTimeout (->
-  $('.job-keywords').flexdatalist
-    removeOnBackspace: false
-    searchByWord:true
-    searchContain:true
-    selectionRequired:true
-    minLength: 1
-    url: '/get-keywords'
-    searchIn: ["label"]
-  return
-), 500
+  if $('.job-keywords').length
+    $('.job-keywords').flexdatalist
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      selectionRequired:true
+      minLength: 1
+      url: '/get-keywords'
+      searchIn: ["label"]
+    return
+  ), 500
  
 $('.job-save-btn').click (e) ->
   e.preventDefault()
@@ -140,25 +142,27 @@ setTimeout (->
 ), 6000
 
 
+if $('.expSelect').length
+  $('.expSelect').multiselect
+    includeSelectAllOption: true
+    numberDisplayed: 2
+    delimiterText:','
+    nonSelectedText: 'Select Experience'
 
-$('.expSelect').multiselect
-  includeSelectAllOption: true
-  numberDisplayed: 2
-  delimiterText:','
-  nonSelectedText: 'Select Experience'
 
 
-
-if $(window).width() > 769   
-  $('.comp-logo').dropify messages:
-    'default': 'Add Logo'
-    'replace': 'Change Logo'
-    'remove': '<i class="">&#10005;</i>'
+if $(window).width() > 769  
+  if $('.comp-logo').length 
+    $('.comp-logo').dropify messages:
+      'default': 'Add Logo'
+      'replace': 'Change Logo'
+      'remove': '<i class="">&#10005;</i>'
  
-if $(window).width() < 769   
-  $('.comp-logo').dropify messages:
-    'default': 'Add Logo'
-    'replace': 'Change Logo'
+if $(window).width() < 769  
+  if $('.comp-logo').length
+    $('.comp-logo').dropify messages:
+      'default': 'Add Logo'
+      'replace': 'Change Logo'
 
 
 if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
@@ -185,4 +189,27 @@ $('body').on 'blur', '.job-keywords', (e) ->
 
 # Ckeditor inti
 
- CKEDITOR.replace( 'editor' )
+if $('#editor').length
+  CKEDITOR.replace( 'editor' )
+
+# Ease scrolling
+
+$("html").easeScroll()
+
+# Equal card height
+
+if $(window).width() > 769
+  getheight = $('.design-2-card').outerHeight()
+  $('.equal-col').css 'height', getheight
+
+# scroll to details
+
+$('.check-detail').click ->
+  $('html, body').animate { scrollTop: $('#about-company').offset().top - 20 }, 2000
+  return
+
+
+
+
+
+

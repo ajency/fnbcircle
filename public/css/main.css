@@ -9358,6 +9358,9 @@ input[type='checkbox'].remove-addr {
           transform: scale(0.5);
   width: 18px;
 }
+.jobDesc {
+  font-size: 1.35em;
+}
 .featured-news__row {
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 50%;

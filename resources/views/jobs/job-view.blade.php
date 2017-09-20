@@ -147,6 +147,10 @@
                       @endforeach
                     @endif
                     </div>
+                    <!-- <div class="owner-address flex-row">
+                        <span class="fnb-icons map-icon"></span>
+                        <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
+                     </div> -->
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                       <div class="job-places">

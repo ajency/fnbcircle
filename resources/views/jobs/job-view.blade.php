@@ -92,7 +92,7 @@
       </div>
    </div>
 
-   <div class="row">
+   <div class="row hidden">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row publish-warning alert alert-dismissible fade in" role="alert">
             <div class="pre-benefits__intro flex-row">

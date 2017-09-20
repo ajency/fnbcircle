@@ -55,7 +55,11 @@
                                         <select class="form-control fnb-select border-bottom text-lighter" name="city">
                                             <option value="">State</option>
                                             @foreach(App\City::all() as $key => $value)
-                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                @if(Auth::user()->getUserDetails()->first() && Auth::user()->getUserDetails()->first()->city == $value->id)
+                                                    <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
+                                                @else
+                                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         <label id="city-error" class="fnb-errors hidden"></label>
@@ -69,7 +73,11 @@
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                             <option value="">City</option>
                                             @foreach(App\Area::all() as $key => $value)
-                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                @if(Auth::user()->getUserDetails()->first() && Auth::user()->getUserDetails()->first()->area == $value->id)
+                                                    <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
+                                                @else
+                                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         <label id="area-error" class="fnb-errors hidden"></label>

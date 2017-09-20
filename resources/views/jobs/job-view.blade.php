@@ -57,7 +57,7 @@
                    <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                </a>
                </div> -->
-            <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : July 03, 2017</p>
+            <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : {{ $job->jobPostedOn() }}</p>
             <button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button>                        
          </div>
          <!-- slide navigation ends -->
@@ -132,39 +132,39 @@
                        </label>
                       @endforeach
                     @endif
-                     <div class="owner-address flex-row">
+                    <!--  <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
-                     </div>
+                     </div> -->
           
                   </div>
                   <div class="operations p-t-10 p-b-20 flex-row flex-wrap role-selection">
                     <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
-                        @foreach($locations as $city => $areas)
+                        @foreach($locations as $city => $locAreas)
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
                                <p class="default-size location__title c-title">{{ $city }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                            </div>
                            <ul class="cities flex-row p-l-10">
-                              <?php 
-                              
-                              if(count($areas) > 3 ){
-                                $moreAreaCount =  count($areas) - 3
-                              }
-                              else {
-                                0
-                              } 
+                              <?php
+                              $splitAreas =  splitArrayData($locAreas,2);
+                              $areas = $splitAreas['array'];
+                              $moreArea = $splitAreas['moreArray'];
+                              $moreAreaCount = $splitAreas['moreArrayCount'];
                               ?>
                               @foreach($areas as $area)
                                <li>
                                    <p class="cities__title">{{ $area }}, </p>
                                </li>
                                @endforeach  
+
+                               @if($moreAreaCount) 
                                <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li>
+                              @endif
                            </ul>
                         </div>
                       @endforeach                             
@@ -174,7 +174,7 @@
                      <div class="role-gap">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         
-                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} Lakhs p.a</div>
+                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
                      </div>
                     @endif
 

@@ -53,3 +53,16 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
    return $result;
 
 }
+
+function splitArrayData($array,$count){
+	 
+    $arrayCount = count($array);
+    $limitedArray = ($arrayCount > $count) ? array_splice($array,0,$count) : $array;
+    $moreArray = $array;
+    $data['array'] = $limitedArray;
+    $data['moreArray'] = $moreArray;
+    $data['moreArrayCount'] = $arrayCount - count($limitedArray);
+
+    return $data;
+
+}

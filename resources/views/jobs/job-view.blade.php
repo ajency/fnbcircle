@@ -175,9 +175,10 @@
                                @endforeach  
 
                                @if($moreAreaCount) 
-                               <li class="remain more-show">
+                               <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
-                               </li>
+                               </li> -->
+                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
                               @endif
                            </ul>
                         </div>
@@ -213,9 +214,10 @@
                            @endforeach
 
                            @if($moreKeywordCount)
-                           <li class="remain more-show">
+                           <!-- <li class="remain more-show">
                               <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                           </li>
+                           </li> -->
+                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
                            @endif
                           
                         </ul>

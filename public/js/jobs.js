@@ -247,4 +247,6 @@
     $('.list-of-business').after(Articles);
   }
 
+  $('[data-toggle="tooltip"]').tooltip();
+
 }).call(this);

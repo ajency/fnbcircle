@@ -240,5 +240,5 @@ if $(window).width() <= 768
   Articles = $('.related-article').detach()
   $('.list-of-business').after Articles
 
-
+$('[data-toggle="tooltip"]').tooltip()
 

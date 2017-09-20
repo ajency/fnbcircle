@@ -518,7 +518,7 @@ class ListingController extends Controller
         }
 
         // echo $data->change;
-        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
+        return redirect('/listing/' . $listing->reference . '/edit/business-photos-documents?step=true' . $change);
     }
 
     public function listingOtherDetails($request)
@@ -533,7 +533,6 @@ class ListingController extends Controller
         
 
     }
-
 
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
@@ -574,6 +573,37 @@ class ListingController extends Controller
 
     }
 
+
+    public Function uploadListingPhotos(Request $request){
+        $this->validate($request,[
+            'listing_id'  => 'required',
+            'file' => 'image'
+        ]);
+        $image = $request->file('file');
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        $id = $listing->uploadImage($request->file('file'));
+        if($id != false){
+            return response()->json(['status'=>'200','message'=>'Image Uploaded successfully', 'data'=>['id'=>$id]]);
+        }else{
+            return response()->json(['status'=>'400','message'=>'Image Upload Failed', 'data'=>[]]);
+        }
+    }
+
+    public Function uploadListingFiles(Request $request){
+        $this->validate($request,[
+            'listing_id'  => 'required',
+            'file' => 'file'
+        ]);
+        $file = $request->file('file');
+        // $listing = Listing::where('reference',$request->listing_id)->first();
+        // $id = $listing->uploadImage($request->file('file'));
+        // if($id != false){
+        //     return response()->json(['status'=>'200','message'=>'Image Uploaded successfully', 'data'=>['id'=>$id]]);
+        // }else{
+        //     return response()->json(['status'=>'400','message'=>'Image Upload Failed', 'data'=>[]]);
+        // }
+    }
+
     //--------------------Common method ------------------------
     public function store(Request $request)
     {
@@ -595,7 +625,7 @@ class ListingController extends Controller
                 case 'business-details':
                     return $this->listingOtherDetails($request);
                     break;
-                case 'listing_photos_and_documents':
+                case 'business-photos-documents':
                     return $this->listingPhotosAndDocuments($request);
                     break;
                 default:
@@ -645,10 +675,10 @@ class ListingController extends Controller
             
             return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
         }
-        if ($step == 'business-photos') {
+        if ($step == 'business-photos-documents') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             
-            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
+            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
         }
     }
 

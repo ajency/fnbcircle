@@ -64,3 +64,5 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 
 
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
+Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
+Route::post('/upload-listing-file','ListingController@uploadListingFiles');

@@ -7,22 +7,32 @@ return [
 	'valid_image_formats' => ['jpg', 'png', ],
 	'valid_file_formats' => ['doc', 'docx', 'pdf'],
 	'sizes' => [
-		'thumb' => [
-			'width' => 250,
-			'height' => 188,
+		'400X300' => [
+			'width' => 400,
+			'height' => 300,
 			'watermark' => [
-				'image_path' => public_path().'/img/facebook.png',
-				'position'=>'bottom-right', 
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
+				'x'=> 10, 
+				'y'=>10
+			],
+		],
+		'200x150' => [
+			'width' => 200,
+			'height' => 150,
+			'watermark' => [
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
 			],
 		],
 	],
 	'model' => [
-		'App\City' => [
-			'base_path' => 'cities',
+		'App\Listing' => [
+			'base_path' => 'Listings',
 			'slug_column' => 'slug',
-			'sizes' => ['thumb']
+			'sizes' => ['400X300','200x150']
 		],
 	],
 ];

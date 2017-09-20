@@ -9454,6 +9454,12 @@ input[type='checkbox'].remove-addr {
 .role-selection .job-places .job-location .location {
   min-width: 98px;
 }
+.role-selection .job-places .job-location .location .c-title {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
 .role-selection .role-gap {
   padding-left: 1em;
 }

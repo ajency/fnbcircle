@@ -155,7 +155,7 @@
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
-                               <p class="default-size location__title c-title">{{ $city }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                               <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-r-10" aria-hidden="true"></i></h6>
                            </div>
 
                            <ul class="cities flex-row">
@@ -185,7 +185,7 @@
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
-                               <p class="default-size location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                               <p class="default-size location__title c-title flex-row space-between">Mumbai <i class="fa fa-caret-right p-r-10" aria-hidden="true"></i></h6>
                            </div>
                            <ul class="cities flex-row">
                                <li>

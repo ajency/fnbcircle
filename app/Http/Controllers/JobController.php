@@ -222,11 +222,11 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($reference_id)
+    public function show($jobSlug,$reference_id)
     {
         $pageName = "show";
         $job = Job::where('reference_id',$reference_id)->first();
-  
+
         if(!$job->isJobVisible())
             abort(404);
 

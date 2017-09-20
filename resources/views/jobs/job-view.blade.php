@@ -82,20 +82,29 @@
       </div>
    </div>
    <!-- pending review -->
-   <div class="row hidden">
+   @if($job->canEditJob())
+   <div class="row">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
-                  <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>Pending Review</b> <i class="fa fa-info-circle" aria-hidden="true"></i></h5>
+                  <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
+                  @if($job->status == 1)
+                  <i class="fa fa-info-circle" aria-hidden="true" title="Job will remain in draft status till submitted for review."></i>
+                  @endif
+                  </h5>
                </div>
             </div>
+            @if($job->status == 1 && $job->isJobDataComplete()) 
             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
+            @endif
          </div>
       </div>
    </div>
+  @endif
 
-   <div class="row hidden">
+   @if($job->status != 3 && $job->status != 4)
+   <div class="row">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row publish-warning">
             <div class="pre-benefits__intro flex-row">
@@ -106,6 +115,7 @@
          </div>
       </div>
    </div>
+   @endif
    <!-- premium benefits ends -->
    <!-- edit business listing -->
    <!--                 <div class="row">
@@ -150,6 +160,15 @@
                       @endforeach
                     @endif
                     </div>
+
+                    <!-- publish date -->
+                    <div class="pusblished-date">{{ $job->jobPublishedOn()}}</div>
+                    
+
+                    <!-- map address -->
+                    <span class="fnb-icons map-icon"></span>
+                   
+                     <input id="mapadd" type="text" class="form-control fnb-input location-val"  value="">
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                       <div class="job-places">
@@ -280,7 +299,7 @@
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">
                       
-                      <div class="m-t-10" id="map" map-title="your interview location" >
+                      <div class="m-t-10" id="map" map-title="your interview location" show-address="yes">
 
                       </div>
                       <input type="hidden" id=latitude name=latitude value="{{ $job->interview_location_lat }}">

@@ -28,6 +28,11 @@ class Job extends Model
         return $this->belongsTo( 'App\Category');
     }
 
+    public function getTitleAttribute( $value ) { 
+        $value = ucwords( $value );      
+        return $value;
+    }
+
     public function jobStatuses(){
     	// $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
     	$jobStatuses = Defaults::where("type","job_status")->get();
@@ -245,6 +250,10 @@ class Job extends Model
         return date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
     }
 
+    public function jobPublishedOn(){
+        return (!empty($this->published_on)) ? date('F j, Y', strtotime(str_replace('-','/', $this->published_on))) : '';
+    }
+
     public function canEditJob(){
         if($this->job_creator == Auth::user()->id)
             return true;
@@ -254,7 +263,7 @@ class Job extends Model
     }
 
     public function isJobVisible(){
-        if($this->job_creator == Auth::user()->id && $this->isJobDataComplete())
+        if($this->canEditJob() && $this->isJobDataComplete())
             return true;
         elseif($this->status == 3 || $this->status == 4)
             return true;
@@ -269,5 +278,11 @@ class Job extends Model
             return true;
         else
             return false;
+    }
+
+    public function jobCustomSlug(){
+
+        $slug = $this->slug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug;
+        return  $slug;
     }
 }

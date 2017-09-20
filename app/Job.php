@@ -208,4 +208,31 @@ class Job extends Model
 
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
     }
+
+    public function  getJobLocationNames(){
+        $locations = $this->hasLocations()->get()->toArray(); 
+        $savedLocation = [];
+        $cityNames = [] ;
+        $areas = [] ;
+        foreach ($locations as $key => $location) {
+            if(!isset($cityNames[$location['city_id']])){
+                $city = City::find($location['city_id'])->name;
+                $cityNames[$location['city_id']] = $city;
+            }
+            else
+                $city = $cityNames[$location['city_id']];
+
+            if(!isset($areas[$location['area_id']])){
+                $area = Area::find($location['area_id'])->name;
+                $areas[$location['area_id']] = $area;
+            }
+            else
+                $area = $areas[$location['area_id']];
+
+            $savedLocation[$city][] = $area;
+   
+        }
+
+        return $savedLocation;
+    }
 }

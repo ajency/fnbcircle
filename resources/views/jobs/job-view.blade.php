@@ -143,26 +143,35 @@
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
+                        @foreach($locations as $city => $areas)
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
-                               <p class="default-size location__title c-title">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                               <p class="default-size location__title c-title">{{ $city }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                            </div>
                            <ul class="cities flex-row">
+
+                              <?php 
+                              
+                              if(count($areas) > 3 ){
+                                $moreAreaCount =  count($areas) - 3
+                              }
+                              else {
+                                0
+                              } 
+                              ?>
+                              @foreach($areas as $area)
+
                                <li>
-                                   <p class="cities__title">Bandra, </p>
+                                   <p class="cities__title">{{ $area }}, </p>
                                </li>
-                               <li>
-                                   <p class="cities__title">Andheri, </p>
-                               </li>
-                               <li>
-                                   <p class="cities__title">Juhu, </p>
-                               </li>
+                               @endforeach  
                                <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li>
                            </ul>
                         </div>
+
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
@@ -180,16 +189,9 @@
 
                       </div>
   
-                     @if(!empty($experience))
-                     <div class="role-gap">
-                        <h6 class="operations__title sub-title">Years of experience</h6>
-                        
-                          @foreach($experience as $exp)
-                           <div class="text-color lighter">{{ $exp }} years</div>
-                          @endforeach
+                      @endforeach                             
+                    </div>
 
-                     </div>
-                     @endif
 
                      @if(!empty($keywords))
                      <div class="job-role">
@@ -211,16 +213,24 @@
                         </ul>
                      </div>
 
-                     <div class="offered-sal">
+                    @if($job->salary_lower !="" && $job->salary_upper !="" )
+                     <div class="role-gap">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         
-                        <div class="text-color lighter">2 - 2.5 Lakhs p.a</div>
+                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} Lakhs p.a</div>
                      </div>
+                    @endif
 
-                     <div class="exp-years">
+                    @if(!empty($experience))
+                     <div class="role-gap">
                         <h6 class="operations__title sub-title">Years of experience</h6>
-                        <div class="text-color lighter">1 - 2 years</div>
+                        
+                          @foreach($experience as $exp)
+                           <div class="text-color lighter">{{ $exp }} years</div>
+                          @endforeach
+
                      </div>
+                     @endif
 
                      @endif
                   </div>
@@ -277,11 +287,13 @@
                       <input type="hidden" id=longitude name=longitude value="{{ $job->interview_location_long  }}">
                   </div>
                </div>
+               @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptatum iure aliquid assumenda id quibusdam incidunt reiciendis molestias facilis, minima ut. Quos aut soluta quo sunt neque enim, dolore illum ullam libero rem fugit laborum ut nostrum necessitatibus minima nisi saepe id. Natus possimus eaque tempora debitis quasi deleniti sunt.
+                  {!! $job->description !!}
                </div>
+              @endif
                <div class="footer-share flex-row">
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   <div class="share-job flex-row">
@@ -367,14 +379,22 @@
             <div class="equal-col">
                <div class="Company-info">
                   <div class="flex-row name-row">
+                    @if(!empty($jobCompany->logo))
                      <div class="company-logo">
                         <img src="http://via.placeholder.com/60x60">
                      </div>
+                    @endif
                      <div class="company-name heavier">
                         <div>
-                           <div class="flex-row heavier"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> InterContinental Hotels Group</div>
-                           <a href="#" class="primary-link x-small ">www.ichotelsgroup.com <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           <div class="flex-row heavier"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>
+
+                           @if(!empty($jobCompany->website))
+                           <a href="#" class="primary-link x-small ">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           @endif
+
+                           @if(!empty($jobCompany->description))
                            <a href="#" class="secondary-link dis-block x-small m-t-5 check-detail">View details</a>
+                           @endif
                         </div>
                      </div>
                   </div>

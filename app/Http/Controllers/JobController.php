@@ -228,6 +228,8 @@ class JobController extends Controller
         $job = Job::where('reference_id',$reference_id)->first();
         $jobCompany  = $job->getJobCompany();
         $jobTypes  = $job->getJobTypes();
+        $locations  = $job->getJobLocationNames();
+        
         $metaData = $job->meta_data;
       
         $data = ['job' => $job]; 
@@ -242,7 +244,7 @@ class JobController extends Controller
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
-        $data['breadcrumb'] = $job->title;
+        $data['locations'] = $locations;
          
 
          return view('jobs.job-view')->with($data);

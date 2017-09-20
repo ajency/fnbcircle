@@ -90,7 +90,7 @@
       $('#salary_upper').removeAttr('data-parsley-min');
       $('#salary_upper').removeAttr('data-parsley-required');
       $('#salary_upper').val('');
-      $('#salary_upper').removeAttr('min');
+      $('#salary_upper').attr('min', 0);
     }
   });
 

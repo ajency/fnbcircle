@@ -2,15 +2,35 @@
 
 @section('css')
     <!-- Datatables -->
-    <link href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <!-- Google font cdn -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+    <!-- Font awesome cdn -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/bootstrap.min.css') }}">
+    <!-- Datatables -->
+    <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
     <!-- Main styles -->
-    <link href="/css/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
+    <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
 @endsection
 
 @section('js')
   @parent
-  <script type="text/javascript" src="/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js"></script>
+  <!-- <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
+  <script src="{{ asset('/js/bootstrap-multiselect.js') }}"></script> -->
+
+    <!-- Datatables -->
+    <!-- <script src="{{ asset('bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script> -->
+    <!-- <script src="{{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script> -->
+
+    <!-- Autosize textarea -->
+    <!-- <script src="{{ asset('bower_components/autosize/dist/autosize.min.js') }}"></script> -->
+
+    <!-- custom script -->
+    <!-- <script type="text/javascript" src="{{ asset('js/dashboard.js') }}"></script> -->
 @endsection
 
 @section('page-data')
@@ -303,41 +323,46 @@
 
 		</div>
     </div>
-@section
+@endsection
 
 @section('js')
 	<div class="site-overlay"></div>
     <!-- jquery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <!-- BS Script -->
-    <script type="text/javascript" src="../public/js/bootstrap.min.js"></script>
+    <!-- <script type="text/javascript" src="../public/js/bootstrap.min.js"></script> -->
     <!-- Smooth Mouse scroll -->
-    <script type="text/javascript" src="../public/js/jquery.easeScroll.min.js"></script>
+    <!-- <script type="text/javascript" src="../public/js/jquery.easeScroll.min.js"></script> -->
     <!-- BS lightbox -->
     <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
     <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="../public/js/magnify.min.js"></script>
+    <!-- <script type="text/javascript" src="../public/js/magnify.min.js"></script> -->
     <!-- Read more -->
-    <script type="text/javascript" src="../public/js/readmore.min.js"></script>
+    <!-- <script type="text/javascript" src="../public/js/readmore.min.js"></script> -->
 
-    <script src="../public/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
+    <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
+  	<script src="{{ asset('/js/bootstrap-multiselect.js') }}"></script>
 
     <!-- Datatables -->
-    <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+    <!-- <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script> -->
     <!-- <script src="../public/js/datatable-button.js"></script> -->
+    <script src="{{ asset('/js/datatable-button.js') }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
   
     <!-- Autosize textarea -->
-    <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>
+    <!-- <script src="../public/bower_components/autosize/dist/autosize.min.js"></script> -->
 
     <!-- Date range -->
-    <script src="../public/bower_components/moment/min/moment.min.js"></script>
-    <script src="../public/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="{{ asset('/bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- custom script -->
-    <script type="text/javascript" src="../public/js/custom.js"></script>
+    <!-- <script type="text/javascript" src="../public/js/custom.js"></script>
 
-    <script type="text/javascript" src="../public/js/dashboard.js"></script>
-@section
+    <script type="text/javascript" src="../public/js/dashboard.js"></script> -->
+@endsection

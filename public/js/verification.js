@@ -1,7 +1,7 @@
 (function() {
   $(document).ready(function() {
     var checkDuplicateEntries, verifyContactDetail;
-    $('body').on('click', '.add-another', function(e) {
+    $('.contact-info').on('click', '.add-another', function(e) {
       var contact_group, contact_group_clone, input;
       e.preventDefault();
       contact_group = $(this).closest('.business-contact').find('.contact-group');
@@ -24,7 +24,7 @@
         return deleteObj.closest('.contact-container').addClass('hidden');
       }
     });
-    $(document).on('click', '.verify-link', function(event) {
+    $(document).on('click', '.contact-verify-link', function(event) {
       $('.contact-container').removeClass('under-review');
       $(this).closest('.contact-container').addClass('under-review');
       return verifyContactDetail(true);
@@ -58,12 +58,12 @@
             $('.under-review').find('.contact-id').val(data['id']);
           },
           error: function(request, status, error) {
-            throwError();
+            throw Error(error);
           },
           async: false
         });
         $('.verification-step-modal .number').text(contactValue);
-        $('.verify-steps').addClass('hidden');
+        $('.contact-verify-steps').addClass('hidden');
         return $('.default-state, .verificationFooter').removeClass('hidden');
       } else {
         return $('#' + contactType + '-modal').modal('hide');
@@ -73,7 +73,6 @@
       var contactObj, contactval;
       contactObj = $(this);
       contactval = contactObj.val();
-      console.log(contactval);
       if (!checkDuplicateEntries(contactObj) && contactval !== "") {
         contactObj.closest('div').find('.dupError').html(contactval + ' already added to list.');
         contactObj.val('');
@@ -105,7 +104,7 @@
       $('.add-number').addClass('hidden');
       $('.verificationFooter').removeClass('no-bg');
     });
-    $('.verify-stuff').click(function(event) {
+    $('.contact-verify-stuff').click(function(event) {
       var changedValue, newContactObj, oldContactObj, oldContactValue;
       newContactObj = $(this).closest('.modal').find('.change-contact-input');
       changedValue = newContactObj.val();
@@ -115,9 +114,9 @@
         oldContactObj.val(changedValue);
         if (!checkDuplicateEntries(oldContactObj)) {
           oldContactObj.val(oldContactValue);
-          $(this).closest('.verify-steps').find('.customError').text(changedValue + ' already added to list.');
+          $(this).closest('.contact-verify-steps').find('.customError').text(changedValue + ' already added to list.');
         } else {
-          $(this).closest('.verify-steps').find('.customError').text('');
+          $(this).closest('.contact-verify-steps').find('.customError').text('');
           $(this).closest('.modal').find('.contact-input-value').text(changedValue);
           $('.default-state').removeClass('hidden');
           $('.add-number').addClass('hidden');
@@ -198,7 +197,7 @@
         $('.resend-link').removeClass('sending');
       }), 2500);
     });
-    return $(document).on('change', '.business-contact .toggle__check', function() {
+    return $(".contact-info").on('change', '.business-contact .toggle__check', function() {
       if ($(this).is(':checked')) {
         $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
         $(this).closest('.toggle').find('input').val(1);

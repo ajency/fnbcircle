@@ -2,15 +2,26 @@
 
 @section('css')
     <!-- Datatables -->
-    <link href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
     <!-- Main styles -->
-    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
 @endsection
 
 @section('js')
   @parent
-  <script type="text/javascript" src="/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js"></script>
+  <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
+  <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
+
+    <!-- Datatables -->
+    <!-- <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script> -->
+
+    <!-- Autosize textarea -->
+    <!-- <script src="../public/bower_components/autosize/dist/autosize.min.js"></script> -->
+
+    <!-- custom script -->
+    <!-- <script type="text/javascript" src="../public/js/dashboard.js"></script> -->
 @endsection
 
 @section('page-data')
@@ -224,4 +235,4 @@
 
       </div>
     </div>
-@section
+@endsection

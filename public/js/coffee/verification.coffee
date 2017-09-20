@@ -1,5 +1,6 @@
 $(document).ready ()->
-  $('body').on 'click', '.add-another', (e)->
+  #$('body').on 'click', '.add-another', (e)->
+  $('.contact-info').on 'click', '.add-another', (e)->
     e.preventDefault()
     contact_group = $(this).closest('.business-contact').find('.contact-group')
     contact_group_clone = contact_group.clone()
@@ -43,7 +44,7 @@ $(document).ready ()->
       deleteObj.closest('.contact-container').addClass 'hidden'
 
 
-  $(document).on 'click', '.verify-link', (event) ->
+  $(document).on 'click', '.contact-verify-link', (event) ->
     $('.contact-container').removeClass('under-review')
     $(this).closest('.contact-container').addClass('under-review')
     verifyContactDetail(true)
@@ -79,11 +80,11 @@ $(document).ready ()->
           $('.under-review').find('.contact-id').val(data['id']) 
           return
         error: (request, status, error) ->
-          throwError()
+          throw Error(error)
           return
         async: false
       $('.verification-step-modal .number').text contactValue
-      $('.verify-steps').addClass 'hidden'
+      $('.contact-verify-steps').addClass 'hidden'
       $('.default-state, .verificationFooter').removeClass 'hidden'
 
     else 
@@ -92,7 +93,7 @@ $(document).ready ()->
   $('.contact-info').on 'change', '.contact-input', (event) ->
     contactObj = $(this)
     contactval = contactObj.val()
-    console.log contactval
+    # console.log contactval
     if !checkDuplicateEntries(contactObj) && contactval!= ""
       contactObj.closest('div').find('.dupError').html contactval+' already added to list.'
       contactObj.val ''
@@ -129,7 +130,7 @@ $(document).ready ()->
     return
 
 
-  $('.verify-stuff').click (event)->
+  $('.contact-verify-stuff').click (event)->
     newContactObj = $(this).closest('.modal').find('.change-contact-input')
     changedValue = newContactObj.val()
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
@@ -143,9 +144,9 @@ $(document).ready ()->
       if !checkDuplicateEntries(oldContactObj)
    
         oldContactObj.val oldContactValue
-        $(this).closest('.verify-steps').find('.customError').text changedValue+' already added to list.'
+        $(this).closest('.contact-verify-steps').find('.customError').text changedValue+' already added to list.'
       else 
-        $(this).closest('.verify-steps').find('.customError').text ''
+        $(this).closest('.contact-verify-steps').find('.customError').text ''
         $(this).closest('.modal').find('.contact-input-value').text(changedValue)
         $('.default-state').removeClass 'hidden'
         $('.add-number').addClass 'hidden'
@@ -228,7 +229,8 @@ $(document).ready ()->
     return
 
 
-  $(document).on 'change', '.business-contact .toggle__check', ->
+  #$(document).on 'change', '.business-contact .toggle__check', ->
+  $(".contact-info").on 'change', '.business-contact .toggle__check', ->
   # $('.business-contact .toggle__check').change ->
     if $(this).is(':checked')
       $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')

@@ -514,25 +514,27 @@ $(function(){
                 	"contact": contact,
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
-                	"description" : descr_values
+                	"description" : descr_values,
+                	"next_url": window.location.href
                 };
 
 				if(validateUser(request_data, parent)) {
 					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
 		            $.ajax({
-		                url: 'api/requirement',
+		                url: '/api/requirement',
 		                method: 'post',             
 		                data: request_data,
 		                success: function(data){
 		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
 		                	console.log(data);
-		                	/*if(data.hasOwnProperty("url")) {
+		                	//window.location.href = "/listing/create";
+		                	if(data.hasOwnProperty("url")) {
 		                    	window.location.href = data["url"];
 		                	} else if (data.hasOwnProperty("redirect_url")) {
 		                		window.location.href = data["redirect_url"];
 		                	} else if (data.hasOwnProperty("next_url")) {
 		                		window.location.href = data["next_url"];
-		                	}*/
+		                	}
 		                },
 		                error: function(error){
 		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");

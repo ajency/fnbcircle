@@ -145,8 +145,6 @@
         </nav>
     </header>
     <!-- header ends -->
-    <!-- content -->
-    @yield('content')
 
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())
@@ -154,7 +152,7 @@
     @endif
 
     <!-- requirement popup signup -->
-    @if(!Auth::guest())
+    @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         @include('modals.user_requirement')
     @endif
 
@@ -163,6 +161,8 @@
 
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
+    <!-- content -->
+    @yield('content')
 
     <!-- banner ends -->
     <div class="site-overlay"></div>
@@ -186,6 +186,14 @@
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
 
+    @if(!Auth::user()->has_required_fields_filled)
+        <!-- This is defined here as the "require" modal is included to this blade -->
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#require-modal").modal('show');
+            });
+        </script>
+    @endif
 
     @yield('js')
 </body>

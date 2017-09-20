@@ -1,13 +1,4 @@
 @if(!Auth::guest())
-    @section('js')
-        @if(!Auth::user()->has_required_fields_filled)
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    $(".require-modal").modal('show');
-                });
-            </script>
-        @endif
-    @endsection
     <!-- Requirement Modal Popup -->
     <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
     <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -19,7 +10,7 @@
                     </div>
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button> -->
                 </div>
-                <div class="modal-body" contact-type="mobile">
+                <div class="modal-body">
                     <form method="post" id="requirement_form">
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
@@ -45,7 +36,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="verify-container">
-                                        <a href="javascript:void(0)" class="dark-link verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
+                                        <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
                                         <!-- <a href="#" class="secondary-link text-decor verifyPhone x-small" data-toggle="modal" data-target="#mobile-modal">Verify Now</a> -->
                                         <!-- <div class="verified verifiedMini flex-row">
                                             <span class="fnb-icons verified-icon"></span>

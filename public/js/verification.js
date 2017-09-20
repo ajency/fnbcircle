@@ -15,6 +15,7 @@
     var contactId, deleteObj;
     deleteObj = $(this);
     contactId = deleteObj.closest('.contact-container').find('.contact-id').val();
+    console.log(deleteObj.closest('.contact-info').find('.contact-container').length);
     if (deleteObj.closest('.contact-info').find('.contact-container').length === 2) {
       deleteObj.closest('.contact-info').find('.add-another').click();
     }
@@ -41,7 +42,8 @@
     objectType = $('input[name="object_type"]').val();
     objectId = $('input[name="object_id"]').val();
     isVisible = $('.under-review').find('.contact-visible').val();
-    if (contactValue !== '' && contactValueObj.parsley().validate()) {
+    contactValueObj.closest('div').find('.dupError').html('');
+    if (contactValue !== '' && contactValueObj.parsley().isValid()) {
       if (showModal) {
         $('#' + contactType + '-modal').find('.contact-input-value').text(contactValue);
         $('#' + contactType + '-modal').modal('show');
@@ -69,6 +71,9 @@
       $('.verify-steps').addClass('hidden');
       return $('.default-state, .verificationFooter').removeClass('hidden');
     } else {
+      if (contactValue === '') {
+        contactValueObj.closest('div').find('.dupError').html('Please enter ' + contactType);
+      }
       return $('#' + contactType + '-modal').modal('hide');
     }
   };
@@ -118,7 +123,7 @@
     newContactObj = $(this).closest('.modal').find('.change-contact-input');
     changedValue = newContactObj.val();
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim();
-    if (newContactObj.parsley().validate() === true) {
+    if (newContactObj.parsley().isValid() === true) {
       oldContactObj = $('.under-review').find('.contact-input');
       oldContactObj.val(changedValue);
       if (!checkDuplicateEntries(oldContactObj)) {

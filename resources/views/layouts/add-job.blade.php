@@ -257,7 +257,7 @@
                                         </div>
 
                                     <!-- failure message-->
-                                    <div class="alert fnb-alert hidden @if ($errors->any()) server-error @endif alert-failure alert-dismissible fade in " role="alert">
+                                    <div class="alert fnb-alert @if ($errors->any()) server-error @else hidden @endif alert-failure alert-dismissible fade in " role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         <div class="flex-row">
                                             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>

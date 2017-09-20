@@ -176,31 +176,9 @@
 
                       </div>
   
-                      @endforeach                             
-                  </div>
+                      @endforeach    
 
-                    @if($job->salary_lower !="" && $job->salary_upper !="" )
-                     <div class="role-gap">
-                        <h6 class="operations__title sub-title">Offered Salary</h6>
-                        
-                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
-                     </div>
-                    @endif
-
-                     @if(!empty($experience))
-                     <div class="role-gap">
-                        <h6 class="operations__title sub-title">Years of experience</h6>
-                        
-                          @foreach($experience as $exp)
-                           <div class="text-color lighter">{{ $exp }} years</div>
-                          @endforeach
-                        
-                        
-                     </div>
-                     @endif
-
-
-                     @if(!empty($keywords))
+                  @if(!empty($keywords))
                      <div class="job-role">
                         <h6 class="operations__title sub-title">Job role</h6>
                         <ul class="cities flex-row">
@@ -219,7 +197,29 @@
                           
                         </ul>
                      </div>
+                  @endif
+
+                  @if($job->salary_lower !="" && $job->salary_upper !="" )
+                     <div class="role-gap">
+                        <h6 class="operations__title sub-title">Offered Salary</h6>
+                        
+                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
+                     </div>
+                    @endif
+
+                  @if(!empty($experience))
+                     <div class="role-gap">
+                        <h6 class="operations__title sub-title">Years of experience</h6>
+                        
+                          @foreach($experience as $exp)
+                           <div class="text-color lighter">{{ $exp }} years</div>
+                          @endforeach
+                        
+                        
+                     </div>
                      @endif
+
+                  </div>
 
                   </div>
               

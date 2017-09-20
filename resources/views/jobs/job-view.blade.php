@@ -92,14 +92,15 @@
       </div>
    </div>
 
-   <div class="row hidden">
+   <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row publish-warning">
+         <div class="pre-benefits pending-review flex-row publish-warning alert alert-dismissible fade in" role="alert">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">You're viewing the job which is not yet published.</h5>
                </div>
             </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
          </div>
       </div>
    </div>

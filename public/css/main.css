@@ -9510,6 +9510,16 @@ input[type='checkbox'].remove-addr {
 .publish-warning {
   background-color: #fff4b8;
   padding: 1.3em 0;
+  position: relative;
+  border-radius: 0;
+}
+.publish-warning .close {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  outline: 0;
+  font-size: 1.05em;
+  opacity: 0.8;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {

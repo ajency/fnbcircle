@@ -1,5 +1,5 @@
 (function() {
-  var getheight;
+  var Applybtn, Articles, coreCat, getheight;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -222,5 +222,14 @@
     $('.line').addClass('hidden');
     $(this).parent().addClass('expand-more');
   });
+
+  if ($(window).width() <= 768) {
+    coreCat = $('.detach-col-1').detach();
+    $('.sell-re').after(coreCat);
+    Applybtn = $('.applyJob').detach();
+    $('.role-selection').after(Applybtn);
+    Articles = $('.related-article').detach();
+    $('.list-of-business').after(Articles);
+  }
 
 }).call(this);

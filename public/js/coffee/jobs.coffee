@@ -216,5 +216,13 @@ $('.more-show').click (event) ->
   $(this).parent().addClass 'expand-more'
   return
 
+if $(window).width() <= 768
+  coreCat = $('.detach-col-1').detach()
+  $('.sell-re').after coreCat
+  Applybtn = $('.applyJob').detach()
+  $('.role-selection').after Applybtn
+  Articles = $('.related-article').detach()
+  $('.list-of-business').after Articles
+
 
 

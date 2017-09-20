@@ -3092,7 +3092,8 @@ input[type='checkbox'].remove-addr{
 	align-items: initial;
 	& > div{
 		// flex: 1;
-		min-width: 25%;
+		// min-width: 25%;
+		flex: 1 0 28%;
 		margin-bottom: 1em;
 		&:last-child{
 			margin-bottom: 0;
@@ -3100,10 +3101,22 @@ input[type='checkbox'].remove-addr{
 	}
 	.job-role{
 		// flex: 2;
-		width: 45%;
+		// width: 45%;
+		@media screen and (min-width: 769px){
+			margin: 0 0.8em;
+		}
 	}
 	.job-places{
-		min-width: 42%;
+		// min-width: 42%;
+		flex-basis: 36%;
+		.job-location{
+			.location{
+				min-width: 98px;
+			}
+			.cities{
+
+			}
+		}
 	}
 	.role-gap{
 		padding-left: 1em;
@@ -3150,6 +3163,7 @@ input[type='checkbox'].remove-addr{
     		margin-top: 0.5em;
     		border-top: 1px solid #ddd;
     		padding-top: 0.5em;
+    		flex-direction: column;
     		.fnb-label{
     			align-self: inherit;
     			margin-top: 0;
@@ -3171,14 +3185,36 @@ input[type='checkbox'].remove-addr{
 			padding-left: 0;
 		}
 		& > div{
-    		flex: 1 0 50%;
+    		// flex: 1 0 50%;
     		margin-bottom: 1em;
+    		min-width: initial;
+    		flex: inherit;
     		.operations__title{
     			font-size: 1em;
     		}
     		.cities.cities{
     			padding-left: 0;
     		}
+		}
+		.job-places{
+			min-width: initial;
+			width: 100%;
+			flex-basis: 100%;
+			.job-location{
+				margin-top: 5px;
+				.location{
+					flex: 0.9;
+				}
+				.cities{
+					flex: 2;
+				}
+			}
+		}
+		.job-role{
+			width: inherit;
+		}
+		.offered-sal{
+			padding-right: 1.5em;
 		}
 	}
 	.job-points{
@@ -3201,10 +3237,25 @@ input[type='checkbox'].remove-addr{
 	.jobDesc{
 		font-size: 1.3em;
 	}
+	.contact__info{
+		&.applyJob{
+			width: 100%;
+    		margin: 1em 0 0 0;
+    		.fnb-btn{
+    			width: 80%;
+    		}
+    		a{
+    			padding-left: 0;
+    		}
+		}
+	}
+	.share-job{
+		margin-top: 2em;
+	}
 	.footer-share{
 		flex-direction: column;
 		.fnb-btn{
-			width: 60%;
+			width: 80%;
 		}
 		.share-job{
 			text-align: center;

@@ -92,8 +92,8 @@
                     <!-- Breadcrums ends -->
                 </div>
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
-                </div>
+                    <a href="{{ url('/jobs/'.$job->reference_id) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                </div> 
             </div>
         </div>
     </div>

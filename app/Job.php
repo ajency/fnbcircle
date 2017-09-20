@@ -8,6 +8,7 @@ use App\Area;
 use App\Company;
 use App\Category;
 use App\UserCommunication;
+use Auth;
 
 class Job extends Model
 {
@@ -242,5 +243,13 @@ class Job extends Model
 
     public function jobPostedOn(){
         return date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+    }
+
+    public function canEditJob(){
+        if($this->job_creator == Auth::user()->id)
+            return true;
+        else
+            return false;
+
     }
 }

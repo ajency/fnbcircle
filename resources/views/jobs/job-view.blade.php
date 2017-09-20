@@ -58,7 +58,10 @@
                </a>
                </div> -->
             <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : {{ $job->jobPostedOn() }}</p>
-            <button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button>                        
+
+            @if($job->canEditJob())
+            <a href="{{ url('/jobs/'.$job->reference_id.'/step-one') }}"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
+            @endif                        
          </div>
          <!-- slide navigation ends -->
       </div>

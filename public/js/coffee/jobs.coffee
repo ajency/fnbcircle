@@ -40,9 +40,10 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       return
 
 
-$('input[name="salary_type"]').click (e) ->
-  $('.salary-amt').attr('data-parsley-required',true)
 
+# $('input[name="salary_type"]').click (e) ->
+#   $('.salary-amt').attr('data-parsley-required',true)
+ 
 if $('.years-experience').length
   $('.years-experience').flexdatalist
     selectionRequired: true,
@@ -94,11 +95,18 @@ $('#salary_lower').on 'change', ->
       $('#salary_upper').val parseInt salaryLower + 1
       $('#salary_upper').attr 'min', salaryLower
   else
-    console.log 1212
     $('#salary_upper').removeAttr('data-parsley-min') 
     $('#salary_upper').removeAttr('data-parsley-required') 
     $('#salary_upper').val ''
-    $('#salary_upper').removeAttr 'min'
+    $('#salary_upper').attr 'min', 0
+
+  return
+
+$('#salary_upper').on 'change', ->
+  if $(this).val() != ''
+    $('#salary_lower').attr 'data-parsley-required', true
+  else
+    $('#salary_lower').removeAttr('data-parsley-required')
 
   return
  

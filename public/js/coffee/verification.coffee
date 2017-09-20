@@ -32,7 +32,7 @@ $('.contact-info').on 'click', '.delete-contact', (event) ->
   #       throwError()
   #       return
   #     async: false     
-   
+  console.log deleteObj.closest('.contact-info').find('.contact-container').length
   if deleteObj.closest('.contact-info').find('.contact-container').length == 2
     deleteObj.closest('.contact-info').find('.add-another').click()
 
@@ -41,6 +41,7 @@ $('.contact-info').on 'click', '.delete-contact', (event) ->
   else
     deleteObj.closest('.contact-container').find('.contact-input').val('')
     deleteObj.closest('.contact-container').addClass 'hidden'
+    deleteObj.closest('.contact-container').removeClass 'contact-container'
 
 
 $(document).on 'click', '.verify-link', (event) ->
@@ -57,9 +58,9 @@ verifyContactDetail = (showModal) ->
   objectType = $('input[name="object_type"]').val()
   objectId = $('input[name="object_id"]').val()
   isVisible = $('.under-review').find('.contact-visible').val()
-
+  contactValueObj.closest('div').find('.dupError').html ''
  
-  if contactValue != '' && contactValueObj.parsley().validate()
+  if contactValue != '' && contactValueObj.parsley().isValid()
     
     if(showModal)
       $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
@@ -87,6 +88,8 @@ verifyContactDetail = (showModal) ->
     $('.default-state, .verificationFooter').removeClass 'hidden'
 
   else 
+    if contactValue == ''
+      contactValueObj.closest('div').find('.dupError').html 'Please enter '+contactType
     $('#'+contactType+'-modal').modal 'hide'
 
 $('.contact-info').on 'change', '.contact-input', (event) ->
@@ -134,7 +137,7 @@ $('.verify-stuff').click (event)->
   changedValue = newContactObj.val()
   oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
 
-  if newContactObj.parsley().validate() == true
+  if newContactObj.parsley().isValid() == true
     # upadte parent conatiner input
 
     oldContactObj = $('.under-review').find('.contact-input')

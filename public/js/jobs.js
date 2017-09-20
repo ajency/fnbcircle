@@ -45,10 +45,6 @@
     });
   });
 
-  $('input[name="salary_type"]').click(function(e) {
-    return $('.salary-amt').attr('data-parsley-required', true);
-  });
-
   if ($('.years-experience').length) {
     $('.years-experience').flexdatalist({
       selectionRequired: true,
@@ -97,11 +93,18 @@
         $('#salary_upper').attr('min', salaryLower);
       }
     } else {
-      console.log(1212);
       $('#salary_upper').removeAttr('data-parsley-min');
       $('#salary_upper').removeAttr('data-parsley-required');
       $('#salary_upper').val('');
-      $('#salary_upper').removeAttr('min');
+      $('#salary_upper').attr('min', 0);
+    }
+  });
+
+  $('#salary_upper').on('change', function() {
+    if ($(this).val() !== '') {
+      $('#salary_lower').attr('data-parsley-required', true);
+    } else {
+      $('#salary_lower').removeAttr('data-parsley-required');
     }
   });
 

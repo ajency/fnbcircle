@@ -227,12 +227,23 @@ class JobController extends Controller
         $pageName = "show";
         $job = Job::where('reference_id',$reference_id)->first();
         $jobCompany  = $job->getJobCompany();
-        $data['jobCompany'] = $jobCompany;
-        $defaultKeywords  = $job->jobKeywords();
+        $jobTypes  = $job->getJobTypes();
+        $metaData = $job->meta_data;
+      
         $data = ['job' => $job]; 
+        $data['jobTypes'] = $jobTypes;
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[]; 
+        $jobKeywordsCount = count($jobKeywords);
+        $limitedKeyWords = ($jobKeywordsCount > 4) ? array_splice($jobKeywords,0,4) : $jobKeywords;
+        $moreKeywords = $jobKeywords;
+        $data['keywords'] = $limitedKeyWords;
+        $data['moreKeywords'] = $moreKeywords;
+        $data['moreKeywordCount'] = $jobKeywordsCount - count($limitedKeyWords);
+        $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $data['jobCompany'] = $jobCompany;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
         $data['breadcrumb'] = $job->title;
-        
+         
 
          return view('jobs.job-view')->with($data);
     }

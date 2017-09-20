@@ -324,7 +324,11 @@
                </div>
               @endif
                <div class="footer-share flex-row">
+                  @if($job->canEditJob())
+                    Number of job applicants : 0
+                  @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
+                  @endif
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">

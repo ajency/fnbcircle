@@ -9372,7 +9372,7 @@ input[type='checkbox'].remove-addr {
   width: 18px;
 }
 .jobDesc {
-  font-size: 1.35em;
+  font-size: 1.3em;
 }
 .featured-news__row {
   -webkit-box-flex: 1;
@@ -9510,6 +9510,16 @@ input[type='checkbox'].remove-addr {
 .publish-warning {
   background-color: #fff4b8;
   padding: 1.3em 0;
+  position: relative;
+  border-radius: 0;
+}
+.publish-warning .close {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  outline: 0;
+  font-size: 1.05em;
+  opacity: 0.8;
 }
 @media screen and (max-width: 768px) {
   .job-info .seller-info__title {
@@ -9590,7 +9600,8 @@ input[type='checkbox'].remove-addr {
   .role-selection .job-role {
     width: inherit;
   }
-  .role-selection .offered-sal {
+  .role-selection .offered-sal,
+  .role-selection .off-salary {
     padding-right: 1.5em;
   }
   .job-points > h6 {
@@ -9643,6 +9654,16 @@ input[type='checkbox'].remove-addr {
   }
   .footer-share .share-job .options li {
     font-size: 1.5em;
+  }
+  .publish-warning {
+    padding: 1em 1.5em 1em 1em;
+  }
+  .publish-warning .pre-benefits__content {
+    text-align: left;
+    margin: 0;
+  }
+  .publish-warning .pre-benefits__content .pre-benefits__title {
+    line-height: 1.5;
   }
 }
 .profile-stats {

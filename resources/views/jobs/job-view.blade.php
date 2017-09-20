@@ -106,12 +106,13 @@
    @if($job->status != 3 && $job->status != 4)
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row publish-warning">
+         <div class="pre-benefits pending-review flex-row publish-warning alert alert-dismissible fade in" role="alert">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">You're viewing the job which is not yet published.</h5>
                </div>
             </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
          </div>
       </div>
    </div>
@@ -160,6 +161,7 @@
                       @endforeach
                     @endif
                     </div>
+<<<<<<< HEAD
 
                     <!-- publish date -->
                     <div class="pusblished-date">{{ $job->jobPublishedOn()}}</div>
@@ -169,6 +171,12 @@
                     <span class="fnb-icons map-icon"></span>
                    
                      <input id="mapadd" type="text" class="form-control fnb-input location-val"  value="">
+=======
+                    <!-- <div class="owner-address flex-row">
+                        <span class="fnb-icons map-icon"></span>
+                        <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
+                     </div> -->
+>>>>>>> 85465b8095d1c3fed553070ec54a61199575e33a
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                       <div class="job-places">
@@ -197,9 +205,10 @@
                                @endforeach  
 
                                @if($moreAreaCount) 
-                               <li class="remain more-show">
+                               <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
-                               </li>
+                               </li> -->
+                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
                               @endif
                            </ul>
                         </div>
@@ -221,9 +230,10 @@
                            @endforeach
 
                            @if($moreKeywordCount)
-                           <li class="remain more-show">
+                           <!-- <li class="remain more-show">
                               <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                           </li>
+                           </li> -->
+                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
                            @endif
                           
                         </ul>

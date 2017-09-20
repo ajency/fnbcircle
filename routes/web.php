@@ -25,8 +25,6 @@ Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
 Route::get('listing/create','ListingController@create');
 
 
-
-
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
 Route::post('/save-category','AdminConfigurationController@saveCategory');
 Route::post('/get-branches','AdminConfigurationController@getBranches');

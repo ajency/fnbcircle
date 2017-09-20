@@ -243,9 +243,10 @@
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
-            <input type="radio" name="salary_type"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
+            <input type="radio" name="salary_type"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."> {{ $salaryType }}
           </label>
         @endforeach 
+        <div id="salary-type-errors" class="fnb-errors"></div>
         </div>
         
         <div class="salary-range">
@@ -254,7 +255,7 @@
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
      
-                  <input type="number" min="0" class="form-control" name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"   value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
+                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
                
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>
@@ -262,7 +263,7 @@
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
-                  <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_lower']!='') data-parsley-required @endif value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary.">
+                  <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_lower']!='') data-parsley-required @endif @if($job['salary_type']) data-parsley-required @endif value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary.">
  
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>

@@ -61,13 +61,19 @@ class Job extends Model
 
     public function getJobStatus(){
         $jobStatus = Defaults::find($this->status);
-    	return ucwords($jobStatus);
+    	return ucwords($jobStatus->label);
     }
 
-    public function jobTypes(){
+    public function jobTypes($jobTypeIds = []){
     	// $status = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
-    	$jobTypes =  Defaults::where("type","job_type")->get();
+    	$jobTypeQry =  Defaults::where("type","job_type");
 
+        if(!empty($jobTypeIds)){
+            $jobTypeQry->whereIn("id",$jobTypeIds);
+        }
+
+        $jobTypes = $jobTypeQry->get();
+        
     	$types = [];
     	foreach ($jobTypes as $key => $jobType) {
     		$types[$jobType->id] = $jobType->label;
@@ -76,10 +82,13 @@ class Job extends Model
     	return $types;
     }
 
-    public function getJobTypes($id){
-    	$jobTypes = $this->getJobTypes();
-    	$jobType = $jobTypes[$id];
-    	return $jobType;
+    public function getJobTypes(){
+        $jobMetaData = $this->meta_data;
+        $jobTypeIds = (isset($jobMetaData['job_type'])) ? $jobMetaData['job_type'] :[];
+
+        $jobTypes = $this->jobTypes($jobTypeIds);
+         
+    	return $jobTypes;
     }
 
     public function jobExperience(){

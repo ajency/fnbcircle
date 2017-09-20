@@ -125,10 +125,13 @@
                      <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
                   </div>
                   <div class="stats flex-row m-t-15 owner-info">
-                     <label class="fnb-label wholesaler flex-row">
-                        <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
-                        FULL - TIME
-                     </label>
+                    @if(!empty($jobTypes))
+                      @foreach($jobTypes as $jobType)
+                       <label class="fnb-label wholesaler flex-row">
+                          {{ $jobType }}
+                       </label>
+                      @endforeach
+                    @endif
                      <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
@@ -141,66 +144,33 @@
                         
                         <div class="text-color lighter">2 - 2.5 Lakhs p.a</div>
                      </div>
+                     @if(!empty($experience))
                      <div class="role-gap">
                         <h6 class="operations__title sub-title">Years of experience</h6>
-                        <div class="text-color lighter">1 - 2 years</div>
+                        
+                          @foreach($experience as $exp)
+                           <div class="text-color lighter">{{ $exp }} years</div>
+                          @endforeach
+                        
+                        
                      </div>
+                     @endif
+
+                     @if(!empty($keywords))
                      <div class="job-role">
                         <h6 class="operations__title sub-title">Job role</h6>
                         <ul class="cities flex-row">
+                          @foreach($keywords as $keyword)
                            <li>
-                              <p class="default-size cities__title">Area director, </p>
+                              <p class="default-size cities__title">{{ $keyword }}, </p>
                            </li>
-                           <li>
-                              <p class="default-size cities__title">Baker, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Accountant, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Bartender, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Area director, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Baker, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Accountant, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Bartender, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Area director, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Baker, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Accountant, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Bartender, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Area director, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Baker, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Accountant, </p>
-                           </li>
-                           <li>
-                              <p class="default-size cities__title">Bartender, </p>
-                           </li>
+                           @endforeach
                            <li class="remain more-show">
                               <a href="" class="secondary-link">+10</a>
                            </li>
                         </ul>
                      </div>
+                     @endif
                   </div>
                </div>
             </div>

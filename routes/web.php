@@ -69,7 +69,7 @@ Route::group(['namespace' => 'Ajency'], function() {
 });
 
 /* Admin dashboard routes */
-Route::group(['middleware' => ['permission:add_listing'], 'prefix' => 'admin-dashboard'], function () {
+Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'admin-dashboard'], function () {
 	Route::group(['prefix' => 'config'], function() {
 		Route::get('categories','AdminConfigurationController@categoriesView');
 		Route::get('locations','AdminConfigurationController@locationView');

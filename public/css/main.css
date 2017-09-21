@@ -1817,6 +1817,12 @@ input[type="checkbox"].toggle__check {
   opacity: 1;
   background-color: transparent;
 }
+.sign-page .signup-container {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
 @media screen and (max-width: 650px) {
   .log-sign .welcome-text {
     font-size: 1.4em;

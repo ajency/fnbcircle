@@ -75,7 +75,7 @@
                             <form class="" method="POST" action="{{ route('register') }}" id="register_form">
                                 {{ csrf_field() }}
 
-                                <div class="row flex-row flex-wrap">
+                                <div class="row flex-row flex-wrap signup-container">
                                     <div class="col-sm-6">
                                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} m-b-10 p-b-10">
                                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>

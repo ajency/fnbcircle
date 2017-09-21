@@ -110,7 +110,6 @@ class Listing extends Model
             $this->slug = $slug1;
         }
 
-        $this->show_primary_phone = 0;
         $this->show_primary_email = $email;
         $this->locality_id        = $area;
         if ($this->status == null) {

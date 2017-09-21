@@ -149,9 +149,20 @@ window.validatePhotosDocuments = () ->
   $('.section-loader').removeClass('hidden');
   images = []
   files = {}
+  main = $('.main-image input[type="hidden"]').val()
   $('.imageUpload input[type="hidden"]').each () ->
     if $(this).val() != ""
       images.push $(this).val()
+  if main == "" and images.length > 0
+    $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Please Upload main image</div>'
+    $('.alert-failure').removeClass 'hidden'
+    $('.alert-failure').addClass 'active'
+    setTimeout (->
+      $('.alert-failure').removeClass 'active'
+      return
+    ), 6000
+    $('.section-loader').addClass('hidden');
+    return
   $('.fileUpload input[type="hidden"]').each () ->
     if $(this).val() != ""
       files[$(this).val()] = {"id" : $(this).val(), "name" : $(this).closest('.image-grid__cols').find('.doc-name').val()}
@@ -167,6 +178,7 @@ window.validatePhotosDocuments = () ->
     parameters['publish'] = 'yes'
   parameters['images'] = images
   parameters['files'] = JSON.stringify files
+  parameters['main'] = main
   form = $('<form></form>')
   form.attr("method", "post")
   form.attr("action", "/listing")

@@ -30,12 +30,14 @@
         <div class="image-grid imageUpload">
         @php
             $images = $listing->getImages();
+            $list_photos = json_decode($listing->photos);
+            $order = explode(',',$list_photos->order);
             $i=0;
         @endphp
-        @foreach($images as $image)
+        @foreach($order as $img)
             <div class="image-grid__cols @if($i == 0) main-image @endif">
-            <input type="hidden" name="image-id" value="{{$image['id']}}">
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"  data-default-file="{{$image['200x150']}}"/>
+            <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"  data-default-file="{{$images[$img]['200x150']}}"/>
             <div class="image-loader hidden">This is a Loader</div>
             @if($i == 0) <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide"> @endif
         </div>

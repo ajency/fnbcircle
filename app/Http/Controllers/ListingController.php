@@ -539,26 +539,12 @@ class ListingController extends Controller
     {
         $this->validate($data, [
             'listing_id' => 'required',
+            'main' => 'nullable|integer'
             
         ]);
         return true;
     }
-    public function saveListingPhotosAndDocuments($data)
-    {
-        $listing            = Listing::where('reference',$data->listing_id)->firstorFail();
-        if (isset($data->images)) $images = explode(',',$data->images);
-        else $images= [];
-        if (isset($data->files)) $files = json_decode($data['files'],true);
-        else $files= [];
-        $filemap=array();
-        foreach ($files as $file) {
-            $filemap[] = (int)$file['id'];
-        }
-        $listing->remapImages($images);
-        $listing->remapFiles($filemap);
-        $listing->updated_at = Carbon::now();
-        $listing->save();
-    }
+   
     public function listingPhotosAndDocuments($request)
     {
         $check = $this->validateListingPhotosAndDocuments($request);
@@ -583,6 +569,10 @@ class ListingController extends Controller
         $listing->remapImages($images);
         $listing->remapFiles($filemap);
         $listing->updated_at = Carbon::now();
+        $saved_images = $listing->getImages();
+        if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
+            $listing->photos = '{"id": "'.$request->main.'", "url" : "'.$saved_images[$request->main][config('tempconfig.listing-thumb-size')].'", "order" : "'.implode(',',$images).'"}';
+        }
         $listing->save();
         
         if (isset($request->submitReview) and $request->submitReview == 'yes') {

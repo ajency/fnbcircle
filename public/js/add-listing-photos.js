@@ -136,15 +136,26 @@
   });
 
   window.validatePhotosDocuments = function() {
-    var files, form, images, parameters;
+    var files, form, images, main, parameters;
     $('.section-loader').removeClass('hidden');
     images = [];
     files = {};
+    main = $('.main-image input[type="hidden"]').val();
     $('.imageUpload input[type="hidden"]').each(function() {
       if ($(this).val() !== "") {
         return images.push($(this).val());
       }
     });
+    if (main === "" && images.length > 0) {
+      $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Please Upload main image</div>');
+      $('.alert-failure').removeClass('hidden');
+      $('.alert-failure').addClass('active');
+      setTimeout((function() {
+        $('.alert-failure').removeClass('active');
+      }), 6000);
+      $('.section-loader').addClass('hidden');
+      return;
+    }
     $('.fileUpload input[type="hidden"]').each(function() {
       if ($(this).val() !== "") {
         return files[$(this).val()] = {
@@ -168,6 +179,7 @@
     }
     parameters['images'] = images;
     parameters['files'] = JSON.stringify(files);
+    parameters['main'] = main;
     form = $('<form></form>');
     form.attr("method", "post");
     form.attr("action", "/listing");

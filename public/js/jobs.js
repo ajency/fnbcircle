@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, coreCat, getaddress, getheight;
+  var Applybtn, Articles, coreCat, getheight;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -249,8 +249,10 @@
 
   $('[data-toggle="tooltip"]').tooltip();
 
-  getaddress = $('.location-val').val();
-
-  $('.mapAddress').text(getaddress);
+  setTimeout((function() {
+    var getaddress;
+    getaddress = $('.location-val').val();
+    $('.mapAddress').text(getaddress);
+  }), 1000);
 
 }).call(this);

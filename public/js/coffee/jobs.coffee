@@ -245,6 +245,9 @@ $('[data-toggle="tooltip"]').tooltip()
 
 # Get map address value and pass to div text
 
-getaddress = $('.location-val').val()
-$('.mapAddress').text(getaddress)
+setTimeout (->
+  getaddress = $('.location-val').val()
+  $('.mapAddress').text(getaddress)
+  return
+), 1000
 

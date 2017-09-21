@@ -29,3 +29,47 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 		
 	echo $html;
 }
+
+/**
+* This function can be called in blade to generate the HTML required.
+* This function @return
+* [
+*	array("html" => "", "title" => "", "content" => ""),
+* 	....
+* ]
+* 
+* Note: If a new content is to be generated, please refer config/helper_generate_html_config.php
+*/
+function generateHTML($reference) {
+	$config_content = config("helper_generate_html_config." . $reference);
+	$response_html = [];
+	
+	foreach ($config_content as $key => $value) {
+		$temp_html = [];
+		if($value["type"] == "checkbox") {
+			if(!auth()->guest()) {
+				$userDetailsObj = auth()->user()->getUserDetails()->first();
+			} else {
+				$userDetailsObj = null;
+			}
+
+			if(!auth()->guest() && $userDetailsObj && in_array($value["value"], unserialize($userDetailsObj->subtype))) {
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\"/>";
+			} else {
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\"/>";
+			}
+		}
+
+		if(isset($value["title"])) {
+			$temp_html["title"] = $value["title"];
+		}
+
+		if(isset($value["content"])) {
+			$temp_html["content"] = $value["content"];
+		}
+
+		array_push($response_html, $temp_html);
+	}
+
+	return $response_html;
+}

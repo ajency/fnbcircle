@@ -183,10 +183,9 @@ class RegisterController extends Controller
                 if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
                 } else {
+                    $request_data["user"]["roles"] = "customer";
+                    $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
-
-                    $user_resp["user"]->assignRole('customer');
-                    $user_resp["user"]->type = "external";
                 }
 
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm

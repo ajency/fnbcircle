@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, coreCat, getheight;
+  var Applybtn, Articles, coreCat, getaddress, getheight;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -248,5 +248,9 @@
   }
 
   $('[data-toggle="tooltip"]').tooltip();
+
+  getaddress = $('.location-val').val();
+
+  $('.mapAddress').text(getaddress);
 
 }).call(this);

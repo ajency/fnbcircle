@@ -172,7 +172,7 @@
                     <!-- map address -->
                     <div class="owner-address flex-row">
                       <span class="fnb-icons map-icon"></span>
-                      <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="Delhi (Dwarka, Ghonda, Mumbai)">
+                      <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
                       <span class="text-color lighter mapAddress"></span>
                      </div>
 

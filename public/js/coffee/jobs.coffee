@@ -242,3 +242,12 @@ if $(window).width() <= 768
 
 $('[data-toggle="tooltip"]').tooltip()
 
+
+# Get map address value and pass to div text
+
+setTimeout (->
+  getaddress = $('.location-val').val()
+  $('.mapAddress').text(getaddress)
+  return
+), 1000
+

@@ -269,7 +269,7 @@
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
-            <input type="radio" name="salary_type"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."> {{ $salaryType }}
+            <input type="radio" name="salary_type" class="fnb-radio"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."> {{ $salaryType }}
           </label>
         @endforeach 
         <div id="salary-type-errors" class="fnb-errors"></div>

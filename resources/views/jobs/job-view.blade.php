@@ -85,7 +85,7 @@
    @if($job->canEditJob())
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row">
+         <div class="pre-benefits pending-review flex-row pending-no-action alert alert-dismissible fade in">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
@@ -95,6 +95,7 @@
                   </h5>
                </div>
             </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
             @if($job->status == 1 && $job->isJobDataComplete()) 
             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
             @endif
@@ -145,11 +146,16 @@
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <img src="/img/power-icon.png" class="img-responsive" width="30">
                   </div>
-                  <div class="location main-loc flex-row">
-                     <!-- <span class="fnb-icons map-icon"></span> -->
-                     <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
-                     <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
+                  <div class="m-t-5 flex-row space-between">
+                    <div class="location main-loc flex-row">
+                       <!-- <span class="fnb-icons map-icon"></span> -->
+                       <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
+                       <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
+                    </div>
+                    <!-- publish date -->
+                    <div class="pusblished-date text-color lighter text-right x-small">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
                   </div>
+
                   <div class="stats flex-row m-t-15 owner-info">
 
                     <div class="job-type">
@@ -161,20 +167,18 @@
                       @endforeach
                     @endif
                     </div>
-
-
-                    <!-- publish date -->
-                    <div class="pusblished-date">{{ $job->jobPublishedOn()}}</div>
                     
 
                     <!-- map address -->
-                    <span class="fnb-icons map-icon"></span>
-                   
-                     <input id="mapadd" type="text" class="form-control fnb-input location-val"  value="">
+                    <div class="owner-address flex-row">
+                      <span class="fnb-icons map-icon"></span>
+                      <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
+                      <span class="text-color lighter mapAddress"></span>
+                     </div>
 
                     <!-- <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
-                        <span class="text-color lighter">Delhi (Dwarka, Ghonda, Mumbai)</span>
+                        
                      </div> -->
 
                   </div>
@@ -185,7 +189,7 @@
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
-                               <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-r-10" aria-hidden="true"></i></h6>
+                               <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-l-10" aria-hidden="true"></i></h6>
                            </div>
 
                            <ul class="cities flex-row">
@@ -323,7 +327,7 @@
               @endif
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
-                    Number of job applicants : 0
+                    <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
@@ -438,7 +442,7 @@
                   <!-- If logged in -->
                   <!-- If not logged in -->
                    @if($job->canEditJob())
-                    Number of job applicants : 0
+                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   

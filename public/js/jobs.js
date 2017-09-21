@@ -249,4 +249,10 @@
 
   $('[data-toggle="tooltip"]').tooltip();
 
+  setTimeout((function() {
+    var getaddress;
+    getaddress = $('.location-val').val();
+    $('.mapAddress').text(getaddress);
+  }), 1000);
+
 }).call(this);

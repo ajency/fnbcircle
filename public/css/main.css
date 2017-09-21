@@ -9211,6 +9211,7 @@ input[type='checkbox'].remove-addr {
     -webkit-justify-content: flex-end;
         -ms-flex-pack: end;
             justify-content: flex-end;
+    margin-top: -8px;
   }
 }
 .owner-address .map-icon {
@@ -9218,6 +9219,11 @@ input[type='checkbox'].remove-addr {
       -ms-transform: scale(0.6);
           transform: scale(0.6);
   width: 20px;
+}
+.owner-address .location-val[readonly] {
+  background-color: transparent;
+  border-bottom: 0;
+  width: auto;
 }
 .share-job .fa-whatsapp {
   color: #34af23;
@@ -9424,6 +9430,19 @@ input[type='checkbox'].remove-addr {
   border: 0;
   padding: 0.5em;
 }
+.pending-review.pending-no-action {
+  padding: 1.3em 0;
+  border-radius: 0;
+  position: relative;
+}
+.pending-review.pending-no-action .close {
+  right: 10px;
+  top: 10px;
+  position: absolute;
+  outline: 0;
+  font-size: 1.05em;
+  opacity: 0.8;
+}
 .role-selection {
   -webkit-box-align: initial;
   -webkit-align-items: initial;
@@ -9449,16 +9468,10 @@ input[type='checkbox'].remove-addr {
   -webkit-flex-basis: 7%;
       -ms-flex-preferred-size: 7%;
           flex-basis: 7%;
-  min-width: 250px;
+  min-width: 220px;
 }
 .role-selection .job-places .job-location .location {
-  min-width: 98px;
-}
-.role-selection .job-places .job-location .location .c-title {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  min-width: 80px;
 }
 .role-selection .role-gap {
   padding-left: 1em;

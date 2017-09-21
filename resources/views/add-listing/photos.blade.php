@@ -36,7 +36,20 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
             <input type="hidden" name="image-id" value="{{$image['id']}}">
             <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"  data-default-file="{{$image['200x150']}}"/>
-            <div class="image-loader hidden">This is a Loader</div>
+            <div class="image-loader hidden">
+                <div class="site-loader section-loader">
+                <div id="floatingBarsG">
+                    <div class="blockG" id="rotateG_01"></div>
+                    <div class="blockG" id="rotateG_02"></div>
+                    <div class="blockG" id="rotateG_03"></div>
+                    <div class="blockG" id="rotateG_04"></div>
+                    <div class="blockG" id="rotateG_05"></div>
+                    <div class="blockG" id="rotateG_06"></div>
+                    <div class="blockG" id="rotateG_07"></div>
+                    <div class="blockG" id="rotateG_08"></div>
+                </div>
+            </div>
+            </div>
             @if($i == 0) <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide"> @endif
         </div>
             @php $i++; @endphp
@@ -45,7 +58,20 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
                 <input type="hidden" name="image-id" value="">
                 <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"/>
-                <div class="image-loader hidden">This is a Loader</div>
+                <div class="image-loader hidden">
+                    <div class="site-loader section-loader">
+                        <div id="floatingBarsG">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
+                        </div>
+                    </div>
+                </div>
                 @if($i == 0) <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide"> @endif
             </div>
             @php $i++; @endphp
@@ -67,7 +93,20 @@
                 <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"   title="You cannot upload a file till you write a name"/>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
-                <div class="image-loader hidden">This is a Loader</div>
+                <div class="image-loader hidden">
+                    <div class="site-loader section-loader">
+                        <div id="floatingBarsG">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         @else
             @php $files = $listing->getFiles(); @endphp
@@ -76,7 +115,20 @@
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
                     <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"  data-default-file="{{$file['url']}}" />
                     <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name" disabled value="{{$file['name']}}">
-                    <div class="image-loader hidden">This is a Loader</div>
+                    <div class="image-loader hidden">
+                        <div class="site-loader section-loader">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endforeach
             @if(count($files)==0)
@@ -84,7 +136,20 @@
                 <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"   title="You cannot upload a file till you write a name"/>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
-                <div class="image-loader hidden">This is a Loader</div>
+                <div class="image-loader hidden">
+                    <div class="site-loader section-loader">
+                        <div id="floatingBarsG">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             @endif
         @endif

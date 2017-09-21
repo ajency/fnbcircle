@@ -6532,7 +6532,7 @@ input[type="checkbox"].toggle__check {
   .preview-header {
     position: fixed;
     width: 100%;
-    z-index: 3;
+    z-index: 10;
   }
   .preview-header.active {
     top: 0;
@@ -7199,6 +7199,18 @@ input[type="checkbox"].toggle__check {
 .image-grid__cols {
   width: 20%;
   padding: 0.5em;
+  position: relative;
+}
+.image-grid__cols:first-child .site-loader {
+  height: 58%;
+}
+@media screen and (min-width: 1024px) and (max-width: 1400px) {
+  .image-grid__cols:first-child .site-loader {
+    height: 68%;
+  }
+}
+.image-grid .site-loader.section-loader {
+  z-index: 9;
 }
 .dropify-wrapper {
   overflow: inherit;

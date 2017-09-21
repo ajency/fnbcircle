@@ -285,7 +285,7 @@ $(function(){
 
 			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
 				if (region_code)
-					var contact_sub = contact.substring(1, contact.length);
+					var contact_sub = contact.substring(1, contact.length); // Exclude the +
 				else
 					contact_sub = contact;
 
@@ -293,7 +293,7 @@ $(function(){
 					$(error_path).removeClass("hidden").text("Please enter your contact number");
 				} else if(contact_sub.length < 10) {
 					$(error_path).removeClass("hidden").text("Contact number too short");
-				} else if(contact_sub.length > 13) {
+				} else if((region_code && contact_sub.length > 13) || (!region_code && contact_sub.length > 10)) { // If excluding <region_code> & length is greater than 10, then
 					$(error_path).removeClass("hidden").text("Contact number too long");
 				} else {
 					$(error_path).addClass("hidden");
@@ -305,25 +305,33 @@ $(function(){
 			return false;
 		}
 
-		function validatePassword(password, confirm_password = '', parent_path = '') {
+		function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
 			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			var message = '', status = true;
 
 			if(expression.test(password)) {
 				if (confirm_password != '' && confirm_password == password) { // Confirm_password isn't empty & is Same
-					$(parent_path + "#password_errors").removeClass('hidden');
-					return true;
+					status = true;
 				} else if (confirm_password == '') { // Just validate Password
-					$(parent_path + "#password_errors").removeClass('hidden');
-					return true;
+					status = true;
 				} else { // confirm_password != '' && password != confirm_password
-					$(parent_path + "#password_errors").removeClass('hidden').text("Password & Confirm Password are not matching");
-					return false;
+					message = "Password & Confirm Password are not matching";
+					status = false;
 				}
 			} else { // Else password not Satisfied the criteria
-				$(parent_path + "#password_errors").removeClass('hidden').text("Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character");
-				return false;
+				message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+				status = false;
 			}
+
+			if(!status && parent_path !== '') {
+				$(parent_path + " " + child_path).removeClass('hidden').text(message);
+			} else if(status && parent_path !== '') {
+				//$(parent_path + " " + child_path).addClass('hidden');
+				$(parent_path + " " + "#password_errors").addClass('hidden');
+				$(parent_path + " " + "#password_confirm_errors").addClass('hidden');
+			}
+			return status;
 		}
 
 		function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
@@ -367,8 +375,8 @@ $(function(){
 			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
 				flag = flag ? true : false;
 			} else {
-				validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city");
-				validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state");
+				flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
+				flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
 			}
 
 			return flag;
@@ -379,12 +387,12 @@ $(function(){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
 
-			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email']").on('keyup', function() { // Check Email
+			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				validateEmail($(this).val(), "#" + id + " #email-error");
 			});
 
-			$("#require-modal input[type='tel'][name='contact'], #register_form input[type='tel'][name='contact']").on('keyup', function() { // Check Contact
+			$("#require-modal input[type='tel'][name='contact'], #register_form input[type='tel'][name='contact']").on('keyup change', function() { // Check Contact
 				var id = $(this).closest('form').prop('id');
 				validateContact($(this).val(), "#" + id + " #contact-error", false);
 			});
@@ -426,9 +434,21 @@ $(function(){
 			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
 				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form")) {
-					$("#register_form #password_errors").removeClass("hidden").text("Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character");
+					return false;
 				} else {
 					$("#register_form #password_errors").addClass("hidden");
+					return true;
+				}
+			});
+
+			$("#register_form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
+					// $("#register_form #password_confirm_errors").removeClass("hidden").text("Password and Confirm password are not matching");
+					return false;
+				} else {
+					$("#register_form #password_confirm_errors").addClass("hidden");
+					return true;
 				}
 			});
 
@@ -563,9 +583,9 @@ $(function(){
                 	"description" : descr_values
                 };
 
-                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val());
+                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent);
 
-                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val())) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
+                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent)) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
                 	if($("#accept_terms_checkbox").prop("checked")) {
                 		return $(parent).submit(); // Submit the form
                 	} else {

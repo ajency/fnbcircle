@@ -56,8 +56,10 @@ class SocialAuthController extends Controller {
                 if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
                 } else {
+                    $social_data["user"]["roles"] = "customer";
+                    $social_data["user"]["type"] = "external";
+                    
                     $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
-                    $user_resp["user"]->assignRole('listing_manager');
                 }
 
                 if($user_resp["user"]) {
@@ -89,8 +91,9 @@ class SocialAuthController extends Controller {
             if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
                 if ($valid_response["authentic_user"]) { // If the user is Authentic, then
                     if(!$valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
+                        $social_data["user"]["roles"] = "customer";
+                        $social_data["user"]["type"] = "external";
                         $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
-                        $user_resp["user"]->assignRole('listing_manager');
                     } else {
                         $user_resp = $userauthObj->getUserData($valid_response["user"]);
                     }

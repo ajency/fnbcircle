@@ -59,7 +59,12 @@ class User extends Authenticatable
             //return $comm_obj->value;
             return array("contact_region" => substr($comm_obj->value, 0, strlen($comm_obj->value) - 10), "contact" => substr($comm_obj->value, strlen($comm_obj->value) - 10));
         } else {
-            return null;
+            $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User']])->whereIn('type', ["telephone", "mobile"])->first();
+            if ($comm_obj) {
+                return array("contact_region" => substr($comm_obj->value, 0, strlen($comm_obj->value) - 10), "contact" => substr($comm_obj->value, strlen($comm_obj->value) - 10));    
+            } else {
+                return null;
+            }
         }
     }
     public function lastUpdatedListings()

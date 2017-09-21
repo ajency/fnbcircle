@@ -33,7 +33,7 @@
                                 <span>Seems like the access to social login is <b>denied</b> by you. Please <b>confirm</b> the access permission.</span>
                             </div>
                             <div class="no-account-exist no-email-exist-error hidden">
-                                <h6 class="sub-title">No account exist with this email</h6>
+                                <h6 class="sub-title">No account exists</h6>
                                 <span>Looks like there is no account associated this Email-ID, please create an account or sign in with <b>Facebook</b> or <b>Google</b>.</span>
                             </div>
                             <div class="account-exist wrong-password-error hidden">

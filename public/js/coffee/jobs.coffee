@@ -242,3 +242,9 @@ if $(window).width() <= 768
 
 $('[data-toggle="tooltip"]').tooltip()
 
+
+# Get map address value and pass to div text
+
+var get-address = $('.location-val').val()
+$('.mapAddress').text(get-address)
+

@@ -40,6 +40,7 @@ $('body').on 'click', '.add-uploader', (e)->
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
       'error': 'Ooops, something wrong happended.'
+    contact_group_clone.find('.doc-uploadd').prop('disabled',true)
   else
     console.log 'max '+max+' allowed'
     #throw error
@@ -121,14 +122,20 @@ image_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   console.log "file deleted"
   return
+file_dropify.on 'dropify.afterClear', (event, element) ->
+  $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+  $(this).closest('.image-grid__cols').find('.doc-name').val ""
+  $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
+  console.log "file deleted"
+  return
 
-$('.imageUpload input[type="file"]').on 'change', (e) ->
+$('body').on 'change','.imageUpload input[type="file"]', (e) ->
   uploadFile(this,0)
 
-$('.fileUpload input[type="file"]').on 'change', (e) ->
+$('body').on 'change', '.fileUpload input[type="file"]', (e) ->
   uploadFile(this,1)
 
-$('.fileUpload input[type="file"]').prop('disabled',true)
+$('input[type="file"].doc-upload').prop('disabled',true)
 
 $('body').on 'keyup', '.doc-name', () ->
   if $(this).val() == ""
@@ -141,13 +148,13 @@ $('body').on 'keyup', '.doc-name', () ->
 window.validatePhotosDocuments = () ->
   $('.section-loader').removeClass('hidden');
   images = []
-  files = []
+  files = {}
   $('.imageUpload input[type="hidden"]').each () ->
     if $(this).val() != ""
       images.push $(this).val()
   $('.fileUpload input[type="hidden"]').each () ->
     if $(this).val() != ""
-      files.push [$(this).val(), $(this).closest('.image-grid__cols').find('.doc-name').val()]
+      files[$(this).val()] = {"id" : $(this).val(), "name" : $(this).closest('.image-grid__cols').find('.doc-name').val()}
   parameters = {}
   parameters['listing_id'] = document.getElementById('listing_id').value
   parameters['step'] = 'business-photos-documents'
@@ -159,7 +166,7 @@ window.validatePhotosDocuments = () ->
   if window.publish ==1
     parameters['publish'] = 'yes'
   parameters['images'] = images
-  parameters['files'] = files
+  parameters['files'] = JSON.stringify files
   form = $('<form></form>')
   form.attr("method", "post")
   form.attr("action", "/listing")

@@ -39,7 +39,7 @@
       getTarget = $(this).closest('.fileUpload').find('.addCol');
       contact_group_clone.insertBefore(getTarget);
       console.log(contact_group_clone);
-      return contact_group_clone.find('.doc-uploadd').dropify({
+      contact_group_clone.find('.doc-uploadd').dropify({
         messages: {
           'default': 'Upload file',
           'replace': 'Replace file',
@@ -47,6 +47,7 @@
           'error': 'Ooops, something wrong happended.'
         }
       });
+      return contact_group_clone.find('.doc-uploadd').prop('disabled', true);
     } else {
       return console.log('max ' + max + ' allowed');
     }
@@ -107,15 +108,22 @@
     console.log("file deleted");
   });
 
-  $('.imageUpload input[type="file"]').on('change', function(e) {
+  file_dropify.on('dropify.afterClear', function(event, element) {
+    $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
+    $(this).closest('.image-grid__cols').find('.doc-name').val("");
+    $(this).closest('.image-grid__cols').find('.doc-name').prop("disabled", false);
+    console.log("file deleted");
+  });
+
+  $('body').on('change', '.imageUpload input[type="file"]', function(e) {
     return uploadFile(this, 0);
   });
 
-  $('.fileUpload input[type="file"]').on('change', function(e) {
+  $('body').on('change', '.fileUpload input[type="file"]', function(e) {
     return uploadFile(this, 1);
   });
 
-  $('.fileUpload input[type="file"]').prop('disabled', true);
+  $('input[type="file"].doc-upload').prop('disabled', true);
 
   $('body').on('keyup', '.doc-name', function() {
     if ($(this).val() === "") {
@@ -131,7 +139,7 @@
     var files, form, images, parameters;
     $('.section-loader').removeClass('hidden');
     images = [];
-    files = [];
+    files = {};
     $('.imageUpload input[type="hidden"]').each(function() {
       if ($(this).val() !== "") {
         return images.push($(this).val());
@@ -139,7 +147,10 @@
     });
     $('.fileUpload input[type="hidden"]').each(function() {
       if ($(this).val() !== "") {
-        return files.push([$(this).val(), $(this).closest('.image-grid__cols').find('.doc-name').val()]);
+        return files[$(this).val()] = {
+          "id": $(this).val(),
+          "name": $(this).closest('.image-grid__cols').find('.doc-name').val()
+        };
       }
     });
     parameters = {};
@@ -156,7 +167,7 @@
       parameters['publish'] = 'yes';
     }
     parameters['images'] = images;
-    parameters['files'] = files;
+    parameters['files'] = JSON.stringify(files);
     form = $('<form></form>');
     form.attr("method", "post");
     form.attr("action", "/listing");

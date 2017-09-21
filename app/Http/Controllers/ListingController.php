@@ -309,7 +309,7 @@ class ListingController extends Controller
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
-            $listing->last_updated_by = Auth::user()->id;
+            $listing->updated_at = Carbon::now();
             $listing->save();
         }
 
@@ -548,13 +548,16 @@ class ListingController extends Controller
         $listing            = Listing::where('reference',$data->listing_id)->firstorFail();
         if (isset($data->images)) $images = explode(',',$data->images);
         else $images= [];
-        // if (isset($data->files)) $files = explode(',',$data->files);
-        // else $files= [];
-        $listing->mapImages($images);
-        // $listing->mapFiles($files);
+        if (isset($data->files)) $files = json_decode($data['files'],true);
+        else $files= [];
+        $filemap=array();
+        foreach ($files as $file) {
+            $filemap[] = (int)$file['id'];
+        }
+        $listing->remapImages($images);
+        $listing->remapFiles($filemap);
         $listing->updated_at = Carbon::now();
         $listing->save();
-        dd($listing->getImages());
     }
     public function listingPhotosAndDocuments($request)
     {
@@ -563,7 +566,25 @@ class ListingController extends Controller
             return $check;
         }
 
-        $this->saveListingPhotosAndDocuments($request);
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+
+        $listing            = Listing::where('reference',$request->listing_id)->firstorFail();
+        if (isset($request->images)) $images = explode(',',$request->images);
+        else $images= [];
+        if (isset($request->files)) $files = json_decode($request['files'],true);
+        else $files= [];
+        $filemap=array();
+        foreach ($files as $file) {
+            $filemap[] = (int)$file['id'];
+        }
+        $listing->remapImages($images);
+        $listing->remapFiles($filemap);
+        $listing->updated_at = Carbon::now();
+        $listing->save();
+        
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
         }elseif (isset($request->archive) and $request->archive == 'yes') {
@@ -571,6 +592,9 @@ class ListingController extends Controller
         }elseif (isset($request->publish) and $request->publish == 'yes') {
             return ($this->publish($request));
         }
+
+        return redirect('/listing/' . $listing->reference . '/edit/business-premium?step=true' . $change);
+
 
     }
 
@@ -680,6 +704,11 @@ class ListingController extends Controller
             $listing = Listing::where('reference', $reference)->firstorFail();
             
             return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
+        }
+        if ($step == 'business-premium') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents');
         }
     }
 

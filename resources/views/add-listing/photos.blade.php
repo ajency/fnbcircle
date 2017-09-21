@@ -28,35 +28,28 @@
         </div>
         <img src="/img/main-pic-down.png" class="m-t-15 desk-hide">
         <div class="image-grid imageUpload">
-        @for($i=0;$i< config('tempconfig.add-listing-photos-number');$i++)
+        @php
+            $images = $listing->getImages();
+            $i=0;
+        @endphp
+        @foreach($images as $image)
+            <div class="image-grid__cols @if($i == 0) main-image @endif">
+            <input type="hidden" name="image-id" value="{{$image['id']}}">
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"  data-default-file="{{$image['200x150']}}"/>
+            <div class="image-loader hidden">This is a Loader</div>
+            @if($i == 0) <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide"> @endif
+        </div>
+            @php $i++; @endphp
+        @endforeach
+        @while($i< config('tempconfig.add-listing-photos-number'))
             <div class="image-grid__cols @if($i == 0) main-image @endif">
                 <input type="hidden" name="image-id" value="">
                 <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"/>
                 <div class="image-loader hidden">This is a Loader</div>
-                <!-- <button type="button" class='upload-button' style="width: 100%" >Upload Photo</button> -->
                 @if($i == 0) <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide"> @endif
             </div>
-        @endfor
-
-
-<!-- 
-            <div class="image-grid__cols main-image" id="main-div">
-                <input type="file" class="list-image" data-height="100" id='browse-photos' />
-                <button type="button" class='upload-button' style="width: 100%" id="upload-main-photo">Upload Photo</button>
-                <img src="/img/main_photo.png" class="m-t-10 m-l-10 mobile-hide">
-            </div>
-            <div class="image-grid__cols">
-                <input type="file" class="list-image" data-height="100" />
-            </div>
-            <div class="image-grid__cols">
-                <input type="file" class="list-image" data-height="100" />
-            </div>
-            <div class="image-grid__cols">
-                <input type="file" class="list-image" data-height="100" />
-            </div>
-            <div class="image-grid__cols">
-                <input type="file" class="list-image" data-height="100" />
-            </div> -->
+            @php $i++; @endphp
+        @endwhile
         </div>
     </div>
     <div class="m-t-10 upload-container c-gap">
@@ -69,18 +62,38 @@
             <label for="file-2" class="btn fnb-btn outline full border-btn"><i class="fa fa-upload" aria-hidden="true"></i> <span>Upload File</span></label>
         </div> -->
         <div class="image-grid fileUpload">
+        @if($listing==null)
             <div class="image-grid__cols">
-            <input type="hidden" name="file-id" value="">
+                <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"   title="You cannot upload a file till you write a name"/>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">This is a Loader</div>
             </div>
+        @else
+            @php $files = $listing->getFiles(); @endphp
+            @foreach($files as $file)
+                <div class="image-grid__cols">
+                    <input type="hidden" name="file-id" value="{{$file['id']}}">
+                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"  data-default-file="{{$file['url']}}" />
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name" disabled value="{{$file['name']}}">
+                    <div class="image-loader hidden">This is a Loader</div>
+                </div>
+            @endforeach
+            @if(count($files)==0)
+            <div class="image-grid__cols">
+                <input type="hidden" name="file-id" value="">
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf"   title="You cannot upload a file till you write a name"/>
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <div class="image-loader hidden">This is a Loader</div>
+            </div>
+            @endif
+        @endif
             <div class="image-grid__cols addCol">
                 <a href="#" class="add-uploader secondary-link">Add more files</a>
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
-            <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg pdf"  title="You cannot upload a file till you write a name"/>
+                <input type="hidden" name="file-id" value="">
+                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg pdf"  title="You cannot upload a file till you write a name"/>
                 <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">This is a Loader</div>

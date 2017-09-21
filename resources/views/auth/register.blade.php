@@ -52,7 +52,7 @@
                     </div>
                     <div class="text-center m-t-30 log-sign">
                         <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
-                        <p class="text-medium have-acc">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
+                        <p class="text-medium have-acc">Already have an account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
 
                         <div class="row">
                             <div class="col-sm-4 col-sm-offset-4">

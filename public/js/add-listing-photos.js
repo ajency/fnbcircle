@@ -47,7 +47,8 @@
           'error': 'Ooops, something wrong happended.'
         }
       });
-      return contact_group_clone.find('.doc-uploadd').prop('disabled', true);
+      contact_group_clone.find('.doc-uploadd').prop('disabled', true);
+      return contact_group_clone.find('.doc-uploadd').parent().addClass('disable');
     } else {
       return console.log('max ' + max + ' allowed');
     }
@@ -125,12 +126,16 @@
 
   $('input[type="file"].doc-upload').prop('disabled', true);
 
+  $('input[type="file"].doc-upload').parent().addClass('disable');
+
   $('body').on('keyup', '.doc-name', function() {
     if ($(this).val() === "") {
       $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled', true);
+      $(this).closest('.image-grid__cols').find('input[type="file"]').parent().addClass('disable');
       return $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title', 'You cannot upload a file till you write a name');
     } else {
       $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled', false);
+      $(this).closest('.image-grid__cols').find('input[type="file"]').parent().removeClass('disable');
       return $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
     }
   });

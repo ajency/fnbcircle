@@ -41,6 +41,7 @@ $('body').on 'click', '.add-uploader', (e)->
       'remove': '<i class="">&#10005;</i>'
       'error': 'Ooops, something wrong happended.'
     contact_group_clone.find('.doc-uploadd').prop('disabled',true)
+    contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'
   else
     console.log 'max '+max+' allowed'
     #throw error
@@ -137,12 +138,16 @@ $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
 
 $('input[type="file"].doc-upload').prop('disabled',true)
 
+$('input[type="file"].doc-upload').parent().addClass 'disable'
+
 $('body').on 'keyup', '.doc-name', () ->
   if $(this).val() == ""
     $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',true)
+    $(this).closest('.image-grid__cols').find('input[type="file"]').parent().addClass 'disable'
     $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title','You cannot upload a file till you write a name')
   else
     $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',false)
+    $(this).closest('.image-grid__cols').find('input[type="file"]').parent().removeClass 'disable'
     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
 
 window.validatePhotosDocuments = () ->

@@ -81,7 +81,7 @@
 	    // transition: all 0.2s ease;
 	    position: fixed;
 	    width: 100%;
-	    z-index: 3;
+	    z-index: 10;
 	    // top: 5.3em;
     	&.active{
     		top: 0;
@@ -767,6 +767,20 @@
 		// flex: 1 0 calc(50% - 1.6em);
 		width: 20%;
 		padding: 0.5em;
+		position: relative;
+		&:first-child{
+			.site-loader{
+				height: 58%;
+				@media screen and (min-width: 1024px) and (max-width: 1400px){
+					height: 68%;
+				}
+			}
+		}
+	}
+	.site-loader{
+		&.section-loader{
+			z-index: 9;
+		}
 	}
 }
 

@@ -83,9 +83,9 @@
                                             <label id="name-error" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('name'))
-                                                <span class="help-block">
+                                                <!-- <span class="help-block">
                                                     <strong>{{ $errors->first('name') }}</strong>
-                                                </span>
+                                                </span> -->
                                             @endif
                                         </div>
                                     </div>
@@ -96,9 +96,9 @@
                                             <label id="email-error" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('email'))
-                                                <span class="help-block">
+                                               <!--  <span class="help-block">
                                                     <strong>{{ $errors->first('email') }}</strong>
-                                                </span>
+                                                </span> -->
                                             @endif
                                         </div>
                                     </div>
@@ -150,7 +150,19 @@
                                         <label class="required describe-section__title">What describes you the best?</label>
                                         <br/><label id="description-error" class="fnb-errors hidden"></label>
                                         <div class="row">
-                                            <div class="col-sm-6">
+                                            @foreach(generateHTML("register_description") as $keyContent => $valueContent)
+                                                <div class="col-sm-6">
+                                                    <div class="flex-row">
+                                                        <label class="flex-row points">
+                                                        <!-- <input type="checkbox" class="checkbox" for="hospitality" name="description[]" value="hospitality"> -->
+                                                            {!! $valueContent["html"] !!}
+                                                            <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                                                        </label>  
+                                                        <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                            <!-- <div class="col-sm-6">
                                                 <div class="flex-row">
                                                     <label class="flex-row points">
                                                     <input type="checkbox" class="checkbox" for="hospitality" name="description[]" value="hospitality">
@@ -203,7 +215,7 @@
                                                     </label>
                                                     <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Consultants, Media, Investors, etc"></i>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -213,9 +225,9 @@
                                             <label id="password_errors" class="fnb-errors hidden"></label>
 
                                             @if ($errors->has('password'))
-                                                <span class="help-block">
+                                                <!-- <span class="help-block">
                                                     <strong>{{ $errors->first('password') }}</strong>
-                                                </span>
+                                                </span> -->
                                             @endif
                                         </div>
                                     </div>

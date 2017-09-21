@@ -164,7 +164,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("description")) {
-            $request_data["user_details"]["subtype"] = json_encode($request->description);
+            $request_data["user_details"]["subtype"] = serialize($request->description);
         }
 
         if ($request->has("area") && $request->has("city")) {

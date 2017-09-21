@@ -95,7 +95,7 @@
                 </div>
                 @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="{{ url('/job/'.$job->jobCustomSlug().'/'.$job->reference_id) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    <a href="{{ url('/jobs/'.$job->jobCustomSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
                 </div> 
                 @endif
             </div>

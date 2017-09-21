@@ -85,4 +85,4 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
 
-Route::get('/job/{job_slug}/{reference_id}','JobController@show');
+// Route::get('/job/{job_slug}/{reference_id}','JobController@show');

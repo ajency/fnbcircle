@@ -85,7 +85,7 @@
    @if($job->canEditJob())
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row pending-no-action alert alert-dismissible fade in">
+         <div class="pre-benefits pending-review flex-row  @if($job->status != 1 && !$job->isJobDataComplete())  pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
@@ -95,7 +95,9 @@
                   </h5>
                </div>
             </div>
+            @if($job->status != 1 && !$job->isJobDataComplete())
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+            @endif
             @if($job->status == 1 && $job->isJobDataComplete()) 
             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
             @endif

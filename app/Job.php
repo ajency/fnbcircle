@@ -95,7 +95,7 @@ class Job extends Model
         $jobMetaData = $this->meta_data;
         $jobTypeIds = (isset($jobMetaData['job_type'])) ? $jobMetaData['job_type'] :[];
 
-        $jobTypes = $this->jobTypes($jobTypeIds);
+        $jobTypes = (!empty($jobTypeIds)) ? $this->jobTypes($jobTypeIds) :[];
          
     	return $jobTypes;
     }
@@ -292,7 +292,7 @@ class Job extends Model
 
     public function jobCustomSlug(){
 
-        $slug = $this->slug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug;
+        $slug = $this->slug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
         return  $slug;
     }
 }

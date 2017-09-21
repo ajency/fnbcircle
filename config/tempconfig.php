@@ -5,4 +5,5 @@ return [
 	'add-listing-photos-maxsize' => '3M',
 	'add-listing-files-maxsize' => '1M',
 	'add-listing-files-maxnumber' => '5',
+	'listing-thumb-size'=>'200x150',
 ];

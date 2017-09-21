@@ -9,7 +9,7 @@
 	return [
 		"social_failure_redirect_url" => "/",
 		"social_account_provider" => ["google", "facebook"], // Social account Domains that are considered for now
-		"social_email_domain" => "aj",
+		"social_email_domain" => "fnb",
 		"table_required_fields" => [
 			array("table" => "user_details", "columns" => ["area", "city"], "column_relating_to_user" => "user_id"),
 			array("table" => "user_communications", "columns" => ["object_type", "type", "value"], "column_relating_to_user" => "object_id")

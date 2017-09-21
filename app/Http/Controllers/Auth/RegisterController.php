@@ -104,13 +104,13 @@ class RegisterController extends Controller
             $user_obj = $userauth_obj->checkIfUserExists($request_data["user"]);
         }
 
-        if ($request->has("contact") && $request->has("contact_locality")) {
-            $request_data["user_comm"]["contact"] = $request->contact_locality . $request->contact;
+        if ($request->has("contact")) //{ && $request->has("contact_locality")) {
+            $request_data["user_comm"]["contact"] = $request->contact;//$request->contact_locality . $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
 
         if ($request->has("description")) {
-            $request_data["user_details"]["subtype"] = json_encode($request->description);
+            $request_data["user_details"]["subtype"] = serialize($request->description);
         }
 
         if ($request->has("area") && $request->has("city")) {

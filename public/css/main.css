@@ -1737,6 +1737,11 @@ input[type="checkbox"].toggle__check {
 .describe-section .points .checkbox:before {
   top: -10px;
   font-size: 1.15em;
+  background-color: #f8f8f8;
+  color: #afafaf;
+}
+.describe-section .points .checkbox:checked:before {
+  color: #27b7b0;
 }
 .describe-section .points__text {
   font-size: 0.95em;

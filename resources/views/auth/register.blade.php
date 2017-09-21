@@ -181,9 +181,9 @@
                                                 <div class="flex-row">
                                                     <label class="flex-row points">
                                                     <input type="checkbox" class="checkbox" for="student" name="description[]" value="student">
-                                                        <p class="m-b-0 text-medium points__text flex-points__text text-color" id="student">Student </p>
+                                                        <p class="m-b-0 text-medium points__text flex-points__text text-color" id="student">Hospitality Student </p>
                                                     </label>
-                                                    <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are pursuing your education in hospitality sector currently"></i>
+                                                    <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Consultants, Media, Investors, Foodie, etc"></i>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">

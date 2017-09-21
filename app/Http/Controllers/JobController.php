@@ -227,6 +227,9 @@ class JobController extends Controller
         $pageName = "show";
         $job = Job::where('reference_id',$reference_id)->first();
 
+        if(empty($job))
+            abort(404);
+
         if(!$job->isJobVisible())
             abort(404);
 
@@ -536,6 +539,36 @@ class JobController extends Controller
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
+    }
+
+    public function getSimilarJobs($job){
+
+    }
+
+    private function getFilteredJobs($jobs, $filters){
+
+            // //Category Subcategory Filter
+            // if(isset($filters['category'])){
+
+            //      $projects = $projects->filter(function($project)use($filters){ 
+            //         $filters = (isset($_REQUEST['filters'])) ? $_REQUEST['filters'] : $filters;  
+            //         $cat_filters = getCatFilterTree($filters);
+
+            //         $status = array();
+            //         foreach($cat_filters as $key=>$cat){
+            //             //Log::info($cat);
+            //             $status[] = $this->isCategoryTrue($cat,$project);
+            //         }
+
+            //         if(in_array(true, $status)){
+            //             return $project;
+            //         }
+
+            //     });
+            // }
+
+            
+            return $jobs;
     }
 
     /**

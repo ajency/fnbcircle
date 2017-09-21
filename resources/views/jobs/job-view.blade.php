@@ -153,7 +153,7 @@
                   <div class="stats flex-row m-t-15 owner-info">
 
                     <div class="job-type">
-                        @if(!empty($jobTypes))
+                    @if(!empty($jobTypes))
                       @foreach($jobTypes as $jobType)
                        <label class="fnb-label wholesaler flex-row">
                           {{ $jobType }}
@@ -193,22 +193,20 @@
                               <?php
                               $splitAreas =  splitArrayData($locAreas,2);
                               $areas = $splitAreas['array'];
-                              $moreArea = $splitAreas['moreArray'];
+                              $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
-
                               ?>
                               @foreach($areas as $area)
-
                                <li>
                                    <p class="cities__title">{{ $area }}, </p>
                                </li>
-                               @endforeach  
+                              @endforeach  
 
                                @if($moreAreaCount) 
                                <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
-                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i>
                               @endif
                            </ul>
                         </div>
@@ -233,7 +231,7 @@
                            <!-- <li class="remain more-show">
                               <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
                            </li> -->
-                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreKeywords)}}"></i>
                            @endif
                           
                         </ul>
@@ -329,6 +327,8 @@
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
+
+                  @if($job->isPublished())
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
@@ -340,6 +340,7 @@
                         <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
+                  @endif
                </div>
             </div>
             <hr>
@@ -440,10 +441,12 @@
                     Number of job applicants : 0
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                  @endif
+                  
                   <!-- <h1 class="m-b-0">20</h1> -->
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  @endif
                </div>
+               @if($job->isPublished())
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
@@ -454,6 +457,7 @@
                      <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
+              @endif
             </div>
             <!-- Advertisement ends -->
             <div class="advertisement flex-row m-t-40">

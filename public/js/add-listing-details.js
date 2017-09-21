@@ -101,7 +101,7 @@
           $('input#cash').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
         case 'Master Card':
-          $('input#masters').prop('checked', true);
+          $('input#master').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
         case 'Diner\'s Club':
           $('input#diners').prop('checked', true);

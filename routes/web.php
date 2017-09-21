@@ -108,3 +108,5 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
 	});
 });
+Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
+Route::post('/upload-listing-file','ListingController@uploadListingFiles');

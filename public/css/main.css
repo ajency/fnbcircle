@@ -1738,6 +1738,15 @@ input[type="checkbox"].toggle__check {
   top: -10px;
   font-size: 1.15em;
 }
+@media screen and (max-width: 768px) {
+  .describe-section .points .checkbox:before {
+    background-color: #f8f8f8;
+    color: #afafaf;
+  }
+}
+.describe-section .points .checkbox:checked:before {
+  color: #27b7b0;
+}
 .describe-section .points__text {
   font-size: 0.95em;
   color: #6b6b6b;
@@ -1822,6 +1831,9 @@ input[type="checkbox"].toggle__check {
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
+}
+.sign-page .signup-container .float-label.filled {
+  margin-bottom: 0;
 }
 @media screen and (max-width: 650px) {
   .log-sign .welcome-text {

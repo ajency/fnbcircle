@@ -52,7 +52,7 @@
                     </div>
                     <div class="text-center m-t-30 log-sign">
                         <h4 class="welcome-text text-medium">Create your FnB Circle Account</h4>
-                        <p class="text-medium have-acc">Already have and account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
+                        <p class="text-medium have-acc">Already have an account? <a href="#" class="primary-link" data-toggle="modal" data-target="#login-modal">Log In</a></p>
 
                         <div class="row">
                             <div class="col-sm-4 col-sm-offset-4">
@@ -181,9 +181,9 @@
                                                 <div class="flex-row">
                                                     <label class="flex-row points">
                                                     <input type="checkbox" class="checkbox" for="student" name="description[]" value="student">
-                                                        <p class="m-b-0 text-medium points__text flex-points__text text-color" id="student">Student </p>
+                                                        <p class="m-b-0 text-medium points__text flex-points__text text-color" id="student">Hospitality Student </p>
                                                     </label>
-                                                    <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are pursuing your education in hospitality sector currently"></i>
+                                                    <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Consultants, Media, Investors, Foodie, etc"></i>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">

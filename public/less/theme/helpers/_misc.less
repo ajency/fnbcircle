@@ -103,6 +103,15 @@
 			&:before{
 				top: -10px;
 				font-size: 1.15em;
+				@media screen and (max-width: @mobile){
+					background-color: #f8f8f8;
+					color: #afafaf;
+				}
+			}
+			&:checked{
+				&:before{
+					color: @accent-secondary;
+				}
 			}
 		}
 		&__text{
@@ -198,6 +207,11 @@
 	}
 	.signup-container{
 		align-items: flex-start;
+		.float-label{
+			&.filled{
+				margin-bottom: 0;
+			}
+		}
 	}
 }
 

@@ -31,7 +31,9 @@
         @php
             $images = $listing->getImages();
             $list_photos = json_decode($listing->photos);
-            $order = explode(',',$list_photos->order);
+            if($list_photos != null) $order = explode(',',$list_photos->order);
+            else $order = [];
+            //dd($order);
             $i=0;
         @endphp
         @foreach($order as $img)

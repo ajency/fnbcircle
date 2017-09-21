@@ -9471,6 +9471,10 @@ input[type='checkbox'].remove-addr {
             flex-basis: 18%;
   }
 }
+.role-selection .job-role .cities li:not(:last-child) .cities__title:after {
+  content: ',';
+  display: inline-block;
+}
 .role-selection .job-places {
   -webkit-flex-basis: 7%;
       -ms-flex-preferred-size: 7%;
@@ -9483,7 +9487,7 @@ input[type='checkbox'].remove-addr {
   }
 }
 .role-selection .job-places .job-location .location {
-  min-width: 80px;
+  min-width: 68px;
 }
 .role-selection .role-gap {
   padding-left: 1em;

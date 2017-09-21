@@ -3132,6 +3132,19 @@ input[type='checkbox'].remove-addr{
 		@media screen and (min-width: 769px){
 			flex-basis: 18%;
 		}
+		.cities{
+			li{
+				&:not(:last-child){
+					.cities__title{
+						&:after{
+							content: ',';
+							display: inline-block;
+							// padding: 0 3px;
+						}
+					}
+				}
+			}
+		}
 	}
 	.job-places{
 		// min-width: 42%;
@@ -3142,7 +3155,7 @@ input[type='checkbox'].remove-addr{
 		}
 		.job-location{
 			.location{
-				min-width: 80px;
+				min-width: 68px;
 				.c-title{
 					// flex: 1;
 				}

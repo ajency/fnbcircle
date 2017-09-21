@@ -6,6 +6,32 @@
     <script type="text/javascript" src="/js/maps.js"></script>
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 @endsection
+
+@section('openGraph')
+<!-- Open Graph -->
+<meta property="og:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
+<meta property="og:url" content="{{ url('jobs/'.$job->slug) }}" />
+
+<meta property="og:description" content="{{ $job->getMetaDescription() }}" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="fnbcircle" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@fnbcircle">
+<meta name="twitter:creator" content="@fnbcircle">
+<meta name="twitter:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
+<meta name="twitter:url" content="{{ url('jobs/'.$job->slug) }}" />
+<meta name="twitter:description" content="{{ $job->getMetaDescription() }}" />
+ 
+
+<!-- google+ -->
+<meta itemprop="name" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
+<meta itemprop="url" content="{{ url('jobs/'.$job->slug) }}" />
+<meta itemprop="description" content="{{ $job->getMetaDescription() }}" />
+ 
+@endsection
+
 @section('single-view-data')
 <div class="container">
    <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
@@ -24,7 +50,7 @@
             </li>
                <li class="fnb-breadcrums__section">
                <a href="">
-                  <p class="fnb-breadcrums__title main-name">{{ $job->getJobCategoryName() }}</p>
+                  <p class="fnb-breadcrums__title main-name">{{ breadCrumbText($job->getJobCategoryName()) }} Jobs</p>
                </a>
             </li>
             
@@ -35,9 +61,7 @@
                </a>
             </li>
             <li class="fnb-breadcrums__section">
-               <a href="">
                   <p class="fnb-breadcrums__title main-name">{{ $job->title }}</p>
-               </a>
             </li>
          </ul>
          <!-- Breadcrums ends -->
@@ -57,7 +81,9 @@
                    <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                </a>
                </div> -->
+            @if($job->jobPostedOn()!="")
             <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : {{ $job->jobPostedOn() }}</p>
+            @endif
 
             @if($job->canEditJob())
             <a href="{{ url('/jobs/'.$job->reference_id.'/step-one') }}"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
@@ -85,7 +111,7 @@
    @if($job->canEditJob())
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row  @if($job->status != 1 && !$job->isJobDataComplete())  pending-no-action  alert alert-dismissible fade in @endif">
+         <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
@@ -95,10 +121,10 @@
                   </h5>
                </div>
             </div>
-            @if($job->status != 1 && !$job->isJobDataComplete())
+            @if(!$job->submitForReview())
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
             @endif
-            @if($job->status == 1 && $job->isJobDataComplete()) 
+            @if($job->submitForReview()) 
             <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
             @endif
          </div>
@@ -152,10 +178,12 @@
                     <div class="location main-loc flex-row">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
-                       <p class="location__title c-title">{{ $job->getJobCategoryName() }}</p>
+                       <a class="location__title c-title">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
+                    @if($job->jobPublishedOn()!='')
                     <div class="pusblished-date text-color lighter text-right x-small">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
+                    @endif
                   </div>
 
                   <div class="stats flex-row m-t-15 owner-info">
@@ -175,7 +203,7 @@
                     <div class="owner-address flex-row">
                       <span class="fnb-icons map-icon"></span>
                       <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
-                      <span class="text-color lighter mapAddress"></span>
+                      <div class="text-color lighter mapAddress scroll-to-location"></div>
                      </div>
 
                     <!-- <div class="owner-address flex-row">
@@ -185,6 +213,28 @@
 
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
+                     @if(!empty($keywords))
+                       <div class="job-role">
+                          <h6 class="operations__title sub-title">Job role</h6>
+                          <ul class="cities flex-row">
+
+                            @foreach($keywords as $keyword)
+                             <li>
+                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a>, </p>
+                             </li>
+                             @endforeach
+
+                             @if($moreKeywordCount)
+                             <!-- <li class="remain more-show">
+                                <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
+                             </li> -->
+                             <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                             @endif
+                            
+                          </ul>
+                       </div>
+                    @endif
+
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
                         @foreach($locations as $city => $locAreas)
@@ -222,35 +272,18 @@
   
                       @endforeach    
 
-                  @if(!empty($keywords))
-                     <div class="job-role">
-                        <h6 class="operations__title sub-title">Job role</h6>
-                        <ul class="cities flex-row">
+ 
 
-                          @foreach($keywords as $keyword)
-                           <li>
-                              <p class="default-size cities__title">{{ $keyword }}, </p>
-                           </li>
-                           @endforeach
-
-                           @if($moreKeywordCount)
-                           <!-- <li class="remain more-show">
-                              <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                           </li> -->
-                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreKeywords)}}"></i>
-                           @endif
-                          
-                        </ul>
-                     </div>
-                  @endif
-
-                  @if($job->salary_lower !="" && $job->salary_upper !="" )
+                  
                      <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
-                        
+                        @if($job->salary_lower !="" && $job->salary_upper !="" )
                         <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
+                        @else
+                        <div class="text-color lighter">Not disclosed</div>
+                        @endif
                      </div>
-                    @endif
+                    
 
                   @if(!empty($experience))
                      <div class="year-exp">
@@ -340,7 +373,10 @@
                      <ul class="options flex-row flex-wrap">
                         <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
-                        <li><i class="fa fa-facebook-official" aria-hidden="true"></i></li>
+                        
+                        <li><a href="https://www.facebook.com/sharer/sharer.php?u='+escape(shareurl)+'&t='+document.title, '', 
+    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                        
                         </li>
                         <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
@@ -452,17 +488,19 @@
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
-               @if($job->isPublished())
+               
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
-                     <li><i class="fa fa-facebook-official" aria-hidden="true"></i></li>
+                     <li>
+                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('/jobs/'.$job->getJobSlug()) }}&t={{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
                      <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                      <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
+               @if($job->isPublished())
               @endif
             </div>
             <!-- Advertisement ends -->
@@ -539,70 +577,29 @@
         </div>
         <!-- End featured jobs -->
         <!-- Similar Jobs -->
+        @if($similarjobs->count())
         <div class="featured-jobs browse-cat">
            <h6 class="element-title m-t-0">Similar Jobs</h6>
            <hr>
+           @foreach($similarjobs as $similarjob)
            <div class="featured-jobs__row flex-row">
               <div class="joblogo">
                  <img src="http://via.placeholder.com/60x60">
               </div>
               <div class="jobdesc">
                  <div>
-                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                    <span class="x-small text-color">Contactx Resource Management</span>
+                    <p class="default-size heavier m-b-0">{{ $similarjob->title }}</p>
+                    <span class="x-small text-color">{{ $similarjob->getJobCategoryName() }}</span>
                  </div>
                  <div class="location flex-row">
                     <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">Delhi</span>
+                    <span class="x-small">{{ implode(', ',$similarjob->getJobLocationNames('city'))}}</span>
                  </div>
               </div>
            </div>
-           <div class="featured-jobs__row flex-row">
-              <div class="joblogo">
-                 <img src="http://via.placeholder.com/60x60">
-              </div>
-              <div class="jobdesc">
-                 <div>
-                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                    <span class="x-small text-color">Contactx Resource Management</span>
-                 </div>
-                 <div class="location flex-row">
-                    <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">Delhi</span>
-                 </div>
-              </div>
-           </div>
-           <div class="featured-jobs__row flex-row">
-              <div class="joblogo">
-                 <img src="http://via.placeholder.com/60x60">
-              </div>
-              <div class="jobdesc">
-                 <div>
-                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                    <span class="x-small text-color">Contactx Resource Management</span>
-                 </div>
-                 <div class="location flex-row">
-                    <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">Delhi</span>
-                 </div>
-              </div>
-           </div>
-           <div class="featured-jobs__row flex-row">
-              <div class="joblogo">
-                 <img src="http://via.placeholder.com/60x60">
-              </div>
-              <div class="jobdesc">
-                 <div>
-                    <p class="default-size heavier m-b-0">Regional Manager food Service</p>
-                    <span class="x-small text-color">Contactx Resource Management</span>
-                 </div>
-                 <div class="location flex-row">
-                    <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">Delhi</span>
-                 </div>
-              </div>
-           </div>
+          @endforeach
         </div>
+        @endif
         <!-- Similar jobs -->
         <!-- Claim -->
         <div class="claim-box p-b-10 job-post">

@@ -163,6 +163,16 @@ class Job extends Model
         return $this->hasOne('App\JobCompany');
     }
 
+    public function getMetaDescription(){
+       if(!empty($this->description)){            
+
+        return strip_tags(trim($this->description));
+
+        }else{
+            return '';
+        } 
+    }
+
     public function getJobCompany(){
         $jobCompany = $this->jobCompany()->first();
         $company = null;
@@ -217,37 +227,49 @@ class Job extends Model
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
     }
 
-    public function  getJobLocationNames(){
+    public function  getJobLocationNames($getData='all'){
         $locations = $this->hasLocations()->get()->toArray(); 
         $savedLocation = [];
         $cityNames = [] ;
         $areas = [] ;
-        $cityId = '';
+        $cityId =  $area ='';
         foreach ($locations as $key => $location) {
 
-            if(!isset($cityNames[$location['city_id']])){
-                $city = City::find($location['city_id'])->name;
-                $cityNames[$location['city_id']] = $city;
-            }
-            else
-                $city = $cityNames[$location['city_id']];
+            if($getData=='city' || $getData=='all'){
 
-            if(!isset($areas[$location['area_id']])){
-                $area = Area::find($location['area_id'])->name;
-                $areas[$location['area_id']] = $area;
-            }
-            else
-                $area = $areas[$location['area_id']];
+                if(!isset($cityNames[$location['city_id']])){
+                    $city = City::find($location['city_id'])->name;
+                    $cityNames[$location['city_id']] = $city;
+                }
+                else
+                    $city = $cityNames[$location['city_id']];
 
-            $savedLocation[$city][] = $area;
-   
+                if($getData=='city')
+                    $savedLocation[] = $city;
+            }
+            
+            if($getData=='area' || $getData=='all'){
+                if(!isset($areas[$location['area_id']])){
+                    $area = Area::find($location['area_id'])->name;
+                    $areas[$location['area_id']] = $area;
+                }
+                else
+                    $area = $areas[$location['area_id']];
+
+                if($getData=='area')
+                    $savedLocation[] = $city;
+            }
+
+            if($getData=='all')
+                $savedLocation[$city][] = $area;
+             
         }
 
         return $savedLocation;
     }
 
     public function jobPostedOn(){
-        return date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+        return (!empty($this->date_of_submission)) ? date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission))): '';
     }
 
     public function jobPublishedOn(){
@@ -282,6 +304,29 @@ class Job extends Model
 
     }
 
+    public function publishJob(){
+        
+        $this->status = 3;
+        $this->slug = $this->getJobSlug();
+        $this->save();
+
+        $company = $this->getJobCompany();
+        $company->status = 2;
+        $company->save();
+        
+        return true;
+
+    }
+
+    public function submitForReview(){
+     
+        if($this->status == 1 && $this->isJobDataComplete())
+            return true;
+        else
+            return false;
+
+    }
+
     public function isJobDataComplete(){
 
         if($this->title !="" && $this->description !="" && $this->category_id !="" &&  (isset($this->meta_data['job_keyword']) && !empty($this->meta_data['job_keyword'])) && (!empty($this->hasLocations())) && (!empty($this->getJobCompany()) && $this->getJobCompany()->title !=""))
@@ -290,9 +335,29 @@ class Job extends Model
             return false;
     }
 
-    public function jobCustomSlug(){
+    public function getJobSlug(){
+        $titleSlug = str_slug($this->title);
 
-        $slug = $this->slug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+        if(empty($this->slug))
+            $slug = $titleSlug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+        else
+            $slug = $this->slug;
+
         return  $slug;
     }
+
+
+    public function getSimilarJobs(){
+
+        //, 'status'=>3  
+        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
+        return $jobs;
+    }
+
+    // private function getFilteredJobs($jobs,$filters){
+     
+    //     return $jobs;
+    // }
+
+    
 }

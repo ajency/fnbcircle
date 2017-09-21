@@ -3122,18 +3122,24 @@ input[type='checkbox'].remove-addr{
 		&:last-child{
 			margin-bottom: 0;
 		}
+		@media screen and (min-width: 769px){
+			max-width: 28%;
+		}
 	}
 	.job-role{
 		// flex: 2;
 		// width: 45%;
 		@media screen and (min-width: 769px){
-			margin: 0 0.8em;
+			flex-basis: 18%;
 		}
 	}
 	.job-places{
 		// min-width: 42%;
 		flex-basis: 7%;
 		min-width: 220px;
+		@media screen and (min-width: 769px){
+			margin: 0 0.8em;
+		}
 		.job-location{
 			.location{
 				min-width: 80px;

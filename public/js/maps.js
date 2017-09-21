@@ -77,6 +77,9 @@
       success: function(data) {
         console.log(data['results'][0]['formatted_address']);
         document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
+        if ($(".mapAddress").length) {
+          $(".mapAddress").html(data['results'][0]['formatted_address']);
+        }
         updateAddr();
       }
     });

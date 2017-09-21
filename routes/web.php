@@ -76,6 +76,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	
 	Route::get('/get-keywords','JobController@getKeywords');
+	Route::get('/get-company','JobController@getCompanies');
 	
 
 	/**Users**/

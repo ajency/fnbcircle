@@ -450,6 +450,8 @@ $(function(){
 	        // $('.flexdatalist-multiple .value').remove();
 	    });
 
+	    
+
 		$('.verification-modal').on('hidden.bs.modal', function (e) {
 		  	$('.content-data').removeClass('hidden');
   			$('.success-stuff').addClass('hidden');

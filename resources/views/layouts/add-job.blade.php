@@ -60,7 +60,7 @@
             </div> 
             @if($job->isJobVisible())
             <div class="pull-right">
-                <a href="" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
             </div>
             @endif
             <div class="clearfix"></div>
@@ -95,7 +95,7 @@
                 </div>
                 @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="{{ url('/jobs/'.$job->jobCustomSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
                 </div> 
                 @endif
             </div>
@@ -229,15 +229,19 @@
                                         <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                         <p class="element-title heavier m-b-0">Back</p>
                                     </div>
-                                    
+                                        
+                                        @if($job->isJobVisible())
                                         <div>
-                                            <a href="http://staging.fnbcircle.com/single-view.html" class="fnb-btn mini outline btn preview-header__link">Preview</a>
+                                            <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
                                         </div>
+                                        @endif
                                    
                                 </div>
                                 <div class="fly-out__content">
-                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
-                                    </div>
+                                    @if($job->isJobVisible())
+                                    <!-- <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link">Preview</a>
+                                    </div> -->
+                                    @endif
                                     <p class="note-row__text--status text-medium desk-hide">
 
                                            <span class="text-primary bolder status-changer">Note:</span> You can add multiple jobs on FnB Circle 
@@ -280,7 +284,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->id && $job->status == 1 && $job->isJobDataComplete()) 
+                                        @if($job->submitForReview()) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">

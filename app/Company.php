@@ -10,4 +10,8 @@ class Company extends Model
         $value = ucwords( $value );      
         return $value;
     }
+
+    public function companyStatuses(){
+    	return ['1'=>'Published','2'=>'Not Published'];
+    }
 }

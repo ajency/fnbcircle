@@ -131,11 +131,11 @@ class JobController extends Controller
         }
 
         $job    = new Job;
-        $slug = getUniqueSlug($job, $title);
+        // $slug = getUniqueSlug($job, $title);
         $job->reference_id = generateRefernceId($job,'reference_id');
         $job->title = $title;
         $job->description = $description;
-        $job->slug = $slug;
+        $job->slug = '';
         $job->category_id = $category;
         $job->job_type = $jobType;
         $job->experience_years_lower = $experienceYearsLower;
@@ -222,10 +222,11 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($jobSlug,$reference_id)
+    public function show($jobSlug)
     {
-        $pageName = "show";
-        $job = Job::where('reference_id',$reference_id)->first();
+
+        $referenceId = getReferenceIdFromSlug($jobSlug);
+        $job = Job::where('reference_id',$referenceId)->first();
 
         if(empty($job))
             abort(404);
@@ -236,6 +237,7 @@ class JobController extends Controller
         $jobCompany  = $job->getJobCompany();
         $jobTypes  = $job->getJobTypes();
         $locations  = $job->getJobLocationNames();
+        $similarjobs  = $job->getSimilarJobs(); 
         
         $metaData = $job->meta_data;
       
@@ -251,6 +253,7 @@ class JobController extends Controller
         $data['jobCompany'] = $jobCompany;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
         $data['locations'] = $locations;
+        $data['similarjobs'] = $similarjobs;
          
 
          return view('jobs.job-view')->with($data);
@@ -461,9 +464,11 @@ class JobController extends Controller
         
         if($companyId == ''){
             $company = new Company;
+            $status = 1 ;
         }
         else{
             $company = Company::find($companyId);
+            $status = $company->status ;
         }
         
         $slug = getUniqueSlug($company, $title);
@@ -472,6 +477,7 @@ class JobController extends Controller
         $company->description = $description;
         $company->slug = $slug;
         $company->website = $website;
+        $company->status = $status;
         $company->save();
 
 
@@ -530,6 +536,17 @@ class JobController extends Controller
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }
 
+    public function getCompanies(Request $request)
+    { 
+        $this->validate($request, [
+            'keyword' => 'required',
+        ]);
+
+        $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
+        
+        return response()->json(['results' => $companies]);
+    }
+
     public function submitForReview($reference_id){
         $date = date('Y-m-d H:i:s');    
         $job = Job::where('reference_id',$reference_id)->first();
@@ -541,35 +558,6 @@ class JobController extends Controller
         return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
     }
 
-    public function getSimilarJobs($job){
-
-    }
-
-    private function getFilteredJobs($jobs, $filters){
-
-            // //Category Subcategory Filter
-            // if(isset($filters['category'])){
-
-            //      $projects = $projects->filter(function($project)use($filters){ 
-            //         $filters = (isset($_REQUEST['filters'])) ? $_REQUEST['filters'] : $filters;  
-            //         $cat_filters = getCatFilterTree($filters);
-
-            //         $status = array();
-            //         foreach($cat_filters as $key=>$cat){
-            //             //Log::info($cat);
-            //             $status[] = $this->isCategoryTrue($cat,$project);
-            //         }
-
-            //         if(in_array(true, $status)){
-            //             return $project;
-            //         }
-
-            //     });
-            // }
-
-            
-            return $jobs;
-    }
 
     /**
      * Remove the specified resource from storage.

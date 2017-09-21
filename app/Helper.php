@@ -66,3 +66,14 @@ function splitArrayData($array,$count){
     return $data;
 
 }
+
+function getReferenceIdFromSlug($slug){
+
+        $slugArray = explode("-", $slug);
+        return  end($slugArray);;
+}
+
+function breadCrumbText($text){
+	$text = str_replace("/", " ", $text);
+	return ucwords($text);
+}

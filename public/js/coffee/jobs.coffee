@@ -63,7 +63,7 @@ if $('.years-experience').length
 #   url: '/jobs/get-keywords'
 #   searchIn: ["name"]
 
-setTimeout (->
+$(document).ready ()->
   if $('.job-keywords').length
     $('.job-keywords').flexdatalist
       removeOnBackspace: false
@@ -74,7 +74,36 @@ setTimeout (->
       url: '/get-keywords'
       searchIn: ["label"]
     return
-  ), 500
+
+  if $('.auto-company').length
+    $('.auto-company').flexdatalist
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      selectionRequired:true
+      minLength: 1
+      url: '/get-company'
+      searchIn: ["title"]
+    return
+
+
+$('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
+  console.log set.id
+  return 
+
+$('.auto-company').on 'select:flexdatalist', (event, set, options) ->
+  $('input[name="company_id"]').val set.id
+  $('textarea[name="company_description"]').text set.description
+  CKEDITOR.instances['editor'].setData(set.description);
+  $('input[name="company_website"]').val set.website
+  return 
+
+$('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
+  console.log "event"
+  console.log set
+  console.log options
+  return  
+
  
 $('.job-save-btn').click (e) ->
   e.preventDefault()
@@ -224,6 +253,11 @@ $('.check-detail').click ->
   $('html, body').animate { scrollTop: $('#about-company').offset().top - 20 }, 2000
   return
 
+$('.scroll-to-location').click ->
+  console.log 12
+  $('html, body').animate { scrollTop: $('#map').offset().top - 35 }, 2000
+  return
+
 
 $('.more-show').click (event) ->
   event.preventDefault()
@@ -245,9 +279,9 @@ $('[data-toggle="tooltip"]').tooltip()
 
 # Get map address value and pass to div text
 
-setTimeout (->
-  getaddress = $('.location-val').val()
-  $('.mapAddress').text(getaddress)
-  return
-), 1000
+# setTimeout (->
+#   getaddress = $('.location-val').val()
+#   $('.mapAddress').text(getaddress)
+#   return
+# ), 1000
 

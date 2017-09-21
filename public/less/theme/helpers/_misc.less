@@ -1,0 +1,228 @@
+
+// ---------------------------
+// MISCELLANEOUS STYLES GOES HERE -----------
+// ---------------------------
+
+
+
+// arrow generator
+
+.arrow_box {
+	position: relative;
+	background: #27b7b0;
+	border: 2px solid #27b7b0;
+	&:after,&:before{
+		left: 100%;
+		top: 50%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+	}
+	&:after{
+		border-color: rgba(39, 183, 176, 0);
+		border-left-color: #27b7b0;
+		border-width: 8px;
+		margin-top: -8px;
+	}
+	&:before{
+		border-color: rgba(39, 183, 176, 0);
+		border-left-color: #27b7b0;
+		border-width: 11px;
+		margin-top: -11px;		
+	}
+}
+
+
+// Bootstrap confirmation
+
+.confirmation-content{
+	font-size: 1em;
+}
+
+.form-disabled{
+	pointer-events: none;
+}
+
+.popover.confirmation{
+	pointer-events: auto;
+}
+
+
+// Sign up 
+
+.sign-up-row,.require-modal{
+	.float-label,.fnb-select{
+		color: #5a5a5a;
+	}
+}
+
+
+.sign-up-row{
+	.float-label{
+		font-size: 1em;
+		&.filled{
+			font-size: 0.85em;
+		}
+	}
+	.fnb-select{
+		padding-left: 0;
+		font-size: 1em;
+	}
+}
+
+
+.number-code{
+	margin-top: 5px;
+	input{
+		padding-top: 0;
+		font-size: 1em;
+	}
+	&__region{
+		width: 10%;
+    	outline: 0;
+    	border-right: 1px solid #efefef;
+    	padding-right: 0px;
+    	&:focus,&:active{
+			border-right: 1px solid #efefef;
+    	}
+	}
+	&__value{
+		padding-left: 10px;
+	}
+}
+
+
+.select-required{
+	position: relative;
+	&:after{
+		position: absolute;
+    	top: 8px;
+    	right: -10px;
+	}
+}
+
+
+.describe-best{
+	& + .btn-group{
+	.multiselect-selected-text{
+		color: #5a5a5a;
+	}
+	.multiselect-container{
+		padding: 0.5em 0;
+			label.checkbox{
+				padding: 5px 28px 4px 28px;
+				input[type='checkbox']{
+					margin-right: 6px;
+	    			position: relative;	
+	    			&:before{
+	    				top: -7px;
+	    			}
+				}
+			}
+		}
+	} 
+}
+
+
+@media screen and (max-width: 650px){
+	.log-sign{
+		.welcome-text{
+			font-size: 1.4em;
+		}
+		.have-acc,.no-post-text{
+			font-size: 1em;
+		}
+		.social-btn{
+			width: 80%;
+		}
+	}
+	.formTitle.formTitle{
+		font-size: 1.2em;
+    	line-height: 1.5;
+    	margin-top: 30px;
+	}
+	.sign-up-row{
+		padding: 0 1.5em;
+	}
+	.accept-row.accept-row{
+		align-items: flex-start;
+		padding-top: 1em;
+	}
+	.accept_terms{
+		padding-left: 0.8em;
+		margin-top: -8px;
+		font-size: 0.95em;
+	}
+	.signBtn{
+		margin-bottom: -20px;
+	}
+}
+
+
+
+// Signup Require modal
+
+.require-modal{
+	@media (min-width: 768px){
+		.modal-dialog {
+		    width: 500px;
+		}
+	}
+	.verify-container{
+		margin-top: 2em;
+    	text-align: center;
+    	@media screen and (max-width: @mobile){
+			text-align: right;
+    		margin-top: 0;
+    		margin-bottom: -25px;
+    		position: relative;
+    		top: 10px;
+    		display: flex;
+    		justify-content: flex-end;
+    	}
+	}
+	.phone-col{
+		@media screen and (max-width: @mobile){
+			display: flex;
+    		flex-direction: column-reverse;
+    	}
+	}
+	.modal-content{
+		padding: 1em 1.5em;
+	}
+	.modal-header{
+		position: relative;
+	}
+	&__title{
+		text-align: center;
+    	margin-top: 0.5em;
+    	font-size: 1.25em;
+    	font-weight: 500;
+	}
+	.close{
+		position: absolute;
+		top: 0;
+		right: -5px;
+		font-size: 1.1em;
+	}
+	.modal-body{
+		padding: 0;
+	}
+	@media screen and (max-width: @mobile){
+		&__title{
+			font-size: 1.2em;
+		}
+		.verifyPhone{
+			font-size: 0.9em;
+		}
+	}
+}
+
+
+
+
+
+

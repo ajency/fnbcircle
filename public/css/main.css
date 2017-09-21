@@ -9460,8 +9460,15 @@ input[type='checkbox'].remove-addr {
   margin-bottom: 0;
 }
 @media screen and (min-width: 769px) {
+  .role-selection > div {
+    max-width: 28%;
+  }
+}
+@media screen and (min-width: 769px) {
   .role-selection .job-role {
-    margin: 0 0.8em;
+    -webkit-flex-basis: 18%;
+        -ms-flex-preferred-size: 18%;
+            flex-basis: 18%;
   }
 }
 .role-selection .job-places {
@@ -9469,6 +9476,11 @@ input[type='checkbox'].remove-addr {
       -ms-flex-preferred-size: 7%;
           flex-basis: 7%;
   min-width: 220px;
+}
+@media screen and (min-width: 769px) {
+  .role-selection .job-places {
+    margin: 0 0.8em;
+  }
 }
 .role-selection .job-places .job-location .location {
   min-width: 80px;

@@ -183,6 +183,28 @@
 
                   </div>
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
+                     @if(!empty($keywords))
+                       <div class="job-role">
+                          <h6 class="operations__title sub-title">Job role</h6>
+                          <ul class="cities flex-row">
+
+                            @foreach($keywords as $keyword)
+                             <li>
+                                <p class="default-size cities__title">{{ $keyword }}, </p>
+                             </li>
+                             @endforeach
+
+                             @if($moreKeywordCount)
+                             <!-- <li class="remain more-show">
+                                <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
+                             </li> -->
+                             <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                             @endif
+                            
+                          </ul>
+                       </div>
+                    @endif
+
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
                         @foreach($locations as $city => $locAreas)
@@ -222,27 +244,6 @@
   
                       @endforeach    
 
-                  @if(!empty($keywords))
-                     <div class="job-role">
-                        <h6 class="operations__title sub-title">Job role</h6>
-                        <ul class="cities flex-row">
-
-                          @foreach($keywords as $keyword)
-                           <li>
-                              <p class="default-size cities__title">{{ $keyword }}, </p>
-                           </li>
-                           @endforeach
-
-                           @if($moreKeywordCount)
-                           <!-- <li class="remain more-show">
-                              <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                           </li> -->
-                           <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                           @endif
-                          
-                        </ul>
-                     </div>
-                  @endif
 
                   @if($job->salary_lower !="" && $job->salary_upper !="" )
                      <div class="off-salary">

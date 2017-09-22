@@ -246,8 +246,11 @@ $("html").easeScroll()
 # Equal card height
 
 if $(window).width() > 769
-  getheight = $('.design-2-card').outerHeight()
-  $('.equal-col').css 'height', getheight
+  setTimeout (->
+    getheight = $('.design-2-card').outerHeight()
+    $('.equal-col').css 'height', getheight
+    return
+  ), 500
 
 # scroll to details
 

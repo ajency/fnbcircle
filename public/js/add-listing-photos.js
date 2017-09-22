@@ -1,5 +1,5 @@
 (function() {
-  var file_dropify, fileuploaders, image_dropify, uploadFile;
+  var ef, file_dropify, fileuploaders, image_dropify, uploadFile;
 
   $('.dropify').dropify({
     messages: {
@@ -20,17 +20,38 @@
       'default': 'Upload file',
       'replace': 'Replace file',
       'remove': '<i class="">&#10005;</i>',
-      'error': 'Ooops, something wrong happended.'
+      'error': ''
     }
   });
 
-  fileuploaders = 1;
+  ef = 0;
+
+  image_dropify.on('dropify.errors', function(event, element) {
+    ef = 1;
+    setTimeout((function() {
+      ef = 0;
+    }), 2000);
+  });
+
+  file_dropify.on('dropify.errors', function(event, element) {
+    ef = 1;
+    setTimeout((function() {
+      ef = 0;
+    }), 2000);
+  });
+
+  fileuploaders = $('.fileUpload input[type="file"]').length;
+
+  fileuploaders -= 1;
+
+  console.log(fileuploaders);
 
   $('body').on('click', '.add-uploader', function(e) {
     var contact_group, contact_group_clone, getTarget, max;
     e.preventDefault();
     max = parseInt(document.head.querySelector('[property="max-file-upload"]').content);
     if (fileuploaders < max) {
+      console.log(fileuploaders + ' < ' + max);
       fileuploaders++;
       contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
       contact_group_clone = contact_group.clone();
@@ -38,7 +59,7 @@
       getTarget = $(this).closest('.fileUpload').find('.addCol');
       contact_group_clone.insertBefore(getTarget);
       console.log(contact_group_clone);
-      contact_group_clone.find('.doc-uploadd').dropify({
+      return contact_group_clone.find('.doc-uploadd').dropify({
         messages: {
           'default': 'Upload file',
           'replace': 'Replace file',
@@ -46,8 +67,6 @@
           'error': 'Ooops, something wrong happended.'
         }
       });
-      contact_group_clone.find('.doc-uploadd').prop('disabled', true);
-      return contact_group_clone.find('.doc-uploadd').parent().addClass('disable');
     } else {
       return console.log('max ' + max + ' allowed');
     }
@@ -59,14 +78,13 @@
     return $(this).parent().remove();
   });
 
-  uploadFile = function(element, type) {
-    var container, file, formData, url, xhr;
+  uploadFile = function(container, type) {
+    var file, formData, url, xhr;
     if (type === 0) {
       url = document.head.querySelector('[property="photo-upload-url"]').content;
     } else {
       url = document.head.querySelector('[property="file-upload-url"]').content;
     }
-    container = $(element).closest('.image-grid__cols');
     file = container.find('input[type="file"]');
     if (file[0].files.length > 0) {
       formData = new FormData;
@@ -87,11 +105,8 @@
           if (data['status'] === "200") {
             container.find('input[type="hidden"]').val(data['data']['id']);
             container.find(".image-loader").addClass('hidden');
-            if (type === 1) {
-              container.find('.doc-name').prop('disabled', true);
-            }
           } else {
-            $(element).val('');
+            $container.find('input[type="file"]').val('');
           }
         } else {
 
@@ -111,32 +126,27 @@
   file_dropify.on('dropify.afterClear', function(event, element) {
     $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
     $(this).closest('.image-grid__cols').find('.doc-name').val("");
-    $(this).closest('.image-grid__cols').find('.doc-name').prop("disabled", false);
     console.log("file deleted");
   });
 
   $('body').on('change', '.imageUpload input[type="file"]', function(e) {
-    return uploadFile(this, 0);
+    var container;
+    container = $(this).closest('.image-grid__cols');
+    return setTimeout((function() {
+      if (ef === 0) {
+        uploadFile(container, 0);
+      }
+    }), 250);
   });
 
   $('body').on('change', '.fileUpload input[type="file"]', function(e) {
-    return uploadFile(this, 1);
-  });
-
-  $('input[type="file"].doc-upload').prop('disabled', true);
-
-  $('input[type="file"].doc-upload').parent().addClass('disable');
-
-  $('body').on('keyup', '.doc-name', function() {
-    if ($(this).val() === "") {
-      $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled', true);
-      $(this).closest('.image-grid__cols').find('input[type="file"]').parent().addClass('disable');
-      return $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title', 'You cannot upload a file till you write a name');
-    } else {
-      $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled', false);
-      $(this).closest('.image-grid__cols').find('input[type="file"]').parent().removeClass('disable');
-      return $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
-    }
+    var container;
+    container = $(this).closest('.image-grid__cols');
+    return setTimeout((function() {
+      if (ef === 0) {
+        uploadFile(container, 1);
+      }
+    }), 250);
   });
 
   window.validatePhotosDocuments = function() {

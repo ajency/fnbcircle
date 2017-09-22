@@ -78,7 +78,7 @@
         return $('#' + contactType + '-modal').modal('hide');
       }
     };
-    $('.contact-verification-modal .contact-info').on('change', '.contact-input', function(event) {
+    $('.contact-info').on('change', '.contact-input', function(event) {
       var contactObj, contactval;
       contactObj = $(this);
       contactval = contactObj.val();
@@ -102,18 +102,18 @@
       });
       return result;
     };
-    $('.contact-verification-modal .edit-number').click(function(event) {
+    $('.contact-verification-modal').on('click', '.edit-number', function(e) {
       $('.value-enter').val('');
       $('.default-state').addClass('hidden');
       $('.add-number').removeClass('hidden');
       $('.verificationFooter').addClass('no-bg');
     });
-    $('.contact-verification-modal .step-back').click(function(event) {
+    $('.contact-verification-modal').on('click', '.step-back', function(e) {
       $('.default-state').removeClass('hidden');
       $('.add-number').addClass('hidden');
       $('.verificationFooter').removeClass('no-bg');
     });
-    $('.contact-verification-modal .contact-verify-stuff').click(function(event) {
+    $('.contact-verification-modal').on('click', '.contact-verify-stuff', function(e) {
       var changedValue, newContactObj, oldContactObj, oldContactValue;
       newContactObj = $(this).closest('.modal').find('.change-contact-input');
       changedValue = newContactObj.val();
@@ -134,7 +134,7 @@
         }
       }
     });
-    $('.contact-verification-modal .code-send').click(function() {
+    $('.contact-verification-modal').on('click', '.code-send', function(e) {
       var contactId, errordiv, otpObj, otpValue, validator;
       errordiv = $(this).closest('.number-code').find('.validationError');
       otpObj = $(this).closest('.code-submit').find('.fnb-input');
@@ -200,7 +200,7 @@
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.contact-verification-modal .resend-link').click(function(event) {
+    $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');

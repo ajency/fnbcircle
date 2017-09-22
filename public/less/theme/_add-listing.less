@@ -2784,9 +2784,6 @@ input[type='checkbox'].remove-addr{
 }
 
 @media screen and (max-width: @mobile){
-	.job-type{
-		align-items: flex-start;
-	}
 	.salary-row,.J-type{
 		.radio-inline,.checkbox-inline{
 			margin-bottom: 1em;
@@ -2901,8 +2898,10 @@ input[type='checkbox'].remove-addr{
 	.map-icon{
 		transform: scale(0.6);
     	width: 20px;
-    	position: relative;
-    	top: -3px;
+    	@media screen and (min-width: 769px){
+			position: relative;
+    		top: -3px;
+		}
 	}
 	.location-val[readonly]{
 		background-color: transparent;
@@ -3251,8 +3250,17 @@ input[type='checkbox'].remove-addr{
     }
 }
 
+// .whats-app-row{
+// 	iframe{
+// 		visibility: hidden;
+// 	}
+// }
 
 @media screen and (max-width: @mobile){
+	.job-type{
+		align-items: flex-start;
+		flex: inherit;
+	}
 	.job-info{
 		.seller-info__title{
 			margin-bottom: 0;
@@ -3267,13 +3275,19 @@ input[type='checkbox'].remove-addr{
     		margin-top: 0.5em;
     		border-top: 1px solid #ddd;
     		padding-top: 0.5em;
-    		flex-direction: column;
+    		flex-direction: row;
+    		flex-wrap: wrap;
     		.fnb-label{
     			align-self: inherit;
     			margin-top: 0;
     		}
     		.owner-address{
-    			padding-left: 0
+    			// padding-left: 0
+    			padding-left: 0.5em;
+    			align-items: flex-start;
+    			.mapAddress{
+    				width: 80%;
+    			}
     		}
 		}
 		.seller-info__footer{
@@ -3307,7 +3321,8 @@ input[type='checkbox'].remove-addr{
 			.job-location{
 				margin-top: 5px;
 				.location{
-					flex: 0.9;
+					flex: inherit;
+					min-width: auto;
 				}
 				.cities{
 					flex: 2;
@@ -3345,6 +3360,8 @@ input[type='checkbox'].remove-addr{
 		&.applyJob{
 			width: 100%;
     		margin: 1em 0 0 0;
+    		border-top: 1px solid #eee;
+    		padding-top: 0.8em;
     		.fnb-btn{
     			width: 80%;
     		}

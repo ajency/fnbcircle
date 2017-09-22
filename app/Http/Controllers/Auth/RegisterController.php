@@ -104,13 +104,13 @@ class RegisterController extends Controller
             $user_obj = $userauth_obj->checkIfUserExists($request_data["user"]);
         }
 
-        if ($request->has("contact") && $request->has("contact_locality")) {
-            $request_data["user_comm"]["contact"] = $request->contact_locality . $request->contact;
+        if ($request->has("contact")) {// && $request->has("contact_locality")) {
+            $request_data["user_comm"]["contact"] = $request->contact;//$request->contact_locality . $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
 
         if ($request->has("description")) {
-            $request_data["user_details"]["subtype"] = json_encode($request->description);
+            $request_data["user_details"]["subtype"] = serialize($request->description);
         }
 
         if ($request->has("area") && $request->has("city")) {
@@ -164,7 +164,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("description")) {
-            $request_data["user_details"]["subtype"] = json_encode($request->description);
+            $request_data["user_details"]["subtype"] = serialize($request->description);
         }
 
         if ($request->has("area") && $request->has("city")) {
@@ -183,10 +183,9 @@ class RegisterController extends Controller
                 if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
                 } else {
+                    $request_data["user"]["roles"] = "customer";
+                    $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
-
-                    $user_resp["user"]->assignRole('customer');
-                    $user_resp["user"]->type = "external";
                 }
 
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm

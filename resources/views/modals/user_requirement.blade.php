@@ -1,6 +1,9 @@
 @if(!Auth::guest())
     <!-- Requirement Modal Popup -->
     <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
+    <input type="hidden" name="object_type" value="App\User">
+    <input type="hidden" name="object_id" value="{{ auth()->user()->id }}">
+    
     <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -74,13 +77,6 @@
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                             <option value="">City</option>
-                                            @foreach(App\Area::all() as $key => $value)
-                                                @if(Auth::user()->getUserDetails()->first() && Auth::user()->getUserDetails()->first()->area == $value->id)
-                                                    <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
-                                                @else
-                                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                                @endif
-                                            @endforeach
                                         </select>
                                         <p id="area-error" class="fnb-errors hidden"></p>
                                     </div>
@@ -92,7 +88,19 @@
                             <div class="col-sm-12 describe-section m-b-10 form-group m-t-10">
                                 <label class="required describe-section__title">What describes you the best?</label>
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    @foreach(generateHTML("register_description") as $keyContent => $valueContent)
+                                        <div class="col-sm-6">
+                                            <div class="flex-row">
+                                                <label class="flex-row points">
+                                                <!-- <input type="checkbox" class="checkbox" for="hospitality" name="description[]" value="hospitality"> -->
+                                                    {!! $valueContent["html"] !!}
+                                                    <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                                                </label>  
+                                                <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <!-- <div class="col-sm-6">
                                         <label class="flex-row points">
                                             <input type="checkbox" class="checkbox" for="hospitality" name="description[]" value="hospitality">
                                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">Hospitality Business Owner <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business"></i></p>
@@ -127,7 +135,7 @@
                                             <input type="checkbox" class="checkbox" for="others" name="description[]" value="others">
                                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="others">Others   <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Consultants, Media, Investors, etc"></i></p>
                                         </label>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <p id="description-error" class="fnb-errors hidden"></p>
                             </div>

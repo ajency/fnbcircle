@@ -255,8 +255,27 @@ class JobController extends Controller
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
-         
 
+        $shareLink = url('/jobs/'.$job->getJobSlug());
+        $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
+
+        $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
+
+        $twitterShare = "http://www.twitter.com/share?url=".$shareLink;
+        
+        $googleShare = "https://plus.google.com/share?url=".$shareLink;
+
+        $linkedInShare = "https://www.linkedin.com/shareArticle?mini=true&url=".$shareLink;
+
+        $watsappShare = "whatsapp://send?text=".$shareLink;
+        //https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext
+ 
+        $data['facebookShare'] = $facebookShare;
+        $data['twitterShare'] = $twitterShare;
+        $data['googleShare'] = $googleShare;
+        $data['linkedInShare'] = $linkedInShare;
+        $data['watsappShare'] = $watsappShare;
+        
          return view('jobs.job-view')->with($data);
     }
 
@@ -273,7 +292,7 @@ class JobController extends Controller
         if(!$job->canEditJob())
             abort(403);
 
-        
+
         $data = [];
         $data = ['job' => $job];
         $postUrl = url('jobs/'.$job->reference_id);

@@ -368,19 +368,23 @@
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
 
+
+
+
+
+
                   @if($job->isPublished())
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
-                        <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                         
-                        <li><a href="https://www.facebook.com/sharer/sharer.php?u='+escape(shareurl)+'&t='+document.title, '', 
-    'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
                         
                         </li>
-                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
                   @endif
@@ -493,12 +497,12 @@
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
-                     <li><a href="#"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
-                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ url('/jobs/'.$job->getJobSlug()) }}&t={{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                     <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                     <a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
                @if($job->isPublished())

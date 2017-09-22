@@ -220,7 +220,11 @@
 
                             @foreach($keywords as $keyword)
                              <li>
+<<<<<<< HEAD
                                 <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a>, </p>
+=======
+                                <p class="default-size cities__title">{{ $keyword }} </p>
+>>>>>>> d9bc94b9749f6de9207ba9be71b09baaadbc38db
                              </li>
                              @endforeach
 
@@ -241,7 +245,7 @@
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
-                               <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-l-10" aria-hidden="true"></i></h6>
+                               <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i></h6>
                            </div>
 
                            <ul class="cities flex-row">

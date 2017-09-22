@@ -450,6 +450,10 @@ $(function(){
 	        // $('.flexdatalist-multiple .value').remove();
 	    });
 
+	    $('.job-keywords').on('before:flexdatalist.remove', function () {
+	         console.log(1212121)
+	    });
+
 	    
 
 		$('.verification-modal').on('hidden.bs.modal', function (e) {

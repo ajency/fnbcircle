@@ -70,6 +70,8 @@
             <datalist id="jobKeyword">
               
             </datalist>
+            <div id="keyword-ids">
+            </div>
         </div>
     </div>
 

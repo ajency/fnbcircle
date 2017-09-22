@@ -90,7 +90,9 @@
   });
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
-    console.log(set.id);
+    var inputTxt;
+    inputTxt = '<input type="text" name="keyword_id" value="' + set.id + '">';
+    $('#keyword-ids').append(inputTxt);
   });
 
   $('.auto-company').on('select:flexdatalist', function(event, set, options) {
@@ -98,12 +100,6 @@
     $('textarea[name="company_description"]').text(set.description);
     CKEDITOR.instances['editor'].setData(set.description);
     $('input[name="company_website"]').val(set.website);
-  });
-
-  $('.job-keywords').on('before:flexdatalist.remove', function(event, set, options) {
-    console.log("event");
-    console.log(set);
-    console.log(options);
   });
 
   $('.job-save-btn').click(function(e) {

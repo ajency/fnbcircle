@@ -88,7 +88,8 @@ $(document).ready ()->
 
 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
-  console.log set.id
+  inputTxt = '<input type="text" name="keyword_id" value="'+set.id+'">'
+  $('#keyword-ids').append inputTxt
   return 
 
 $('.auto-company').on 'select:flexdatalist', (event, set, options) ->
@@ -98,11 +99,11 @@ $('.auto-company').on 'select:flexdatalist', (event, set, options) ->
   $('input[name="company_website"]').val set.website
   return 
 
-$('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
-  console.log "event"
-  console.log set
-  console.log options
-  return  
+# $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
+#   console.log "event"
+#   console.log set
+#   console.log options
+#   return  
 
  
 $('.job-save-btn').click (e) ->

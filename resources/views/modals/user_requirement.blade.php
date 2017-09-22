@@ -18,12 +18,12 @@
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
                             <input id="name" type="text" class="form-control fnb-input float-input" name="name" value="{{ Auth::user()->name }}" required="">
-                            <label id="name-error" class="fnb-errors hidden"></label>
+                            <p id="name-error" class="fnb-errors hidden"></p>
                         </div>
                         <div class="form-group">
                             <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
                             <input id="email" type="text" class="form-control fnb-input float-input" name="email" value="{{ Auth::user()->getPrimaryEmail() }}" required="">
-                            <label id="email-error" class="fnb-errors hidden"></label>
+                            <p id="email-error" class="fnb-errors hidden"></p>
                         </div>
                         <div class="contact-info contact-info-mobile" contact-type="mobile">
                             <div class="row phone-col contact-container">
@@ -47,7 +47,9 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <label id="contact-error" class="fnb-errors hidden"></label>
+                                <div class="col-sm-12">
+                                    <p id="contact-error" class="fnb-errors hidden"></p>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -65,7 +67,7 @@
                                                 @endif
                                             @endforeach
                                         </select>
-                                        <label id="city-error" class="fnb-errors hidden"></label>
+                                        <p id="city-error" class="fnb-errors hidden"></p>
                                     </div>
                                 </div>
                             </div>
@@ -76,7 +78,7 @@
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                             <option value="">City</option>
                                         </select>
-                                        <label id="area-error" class="fnb-errors hidden"></label>
+                                        <p id="area-error" class="fnb-errors hidden"></p>
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +87,6 @@
                         <div class="row">
                             <div class="col-sm-12 describe-section m-b-10 form-group m-t-10">
                                 <label class="required describe-section__title">What describes you the best?</label>
-                                <br/><label id="description-error" class="fnb-errors hidden"></label>
                                 <div class="row">
                                     @foreach(generateHTML("register_description") as $keyContent => $valueContent)
                                         <div class="col-sm-6">
@@ -136,6 +137,7 @@
                                         </label>
                                     </div> -->
                                 </div>
+                                <p id="description-error" class="fnb-errors hidden"></p>
                             </div>
                         </div>
          

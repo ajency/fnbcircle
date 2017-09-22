@@ -55,6 +55,13 @@ Route::get('/business-premium', function(){
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
+
+Route::get('admin-dashboard/moderation/listing-approval','AdminModerationController@listingApproval');
+Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
+
+
+Route::post('/all-listing','AdminModerationController@displayListingsDum');
+
 /* Custom Auth Routes */
 Route::group(['namespace' => 'Ajency'], function() {
 	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');

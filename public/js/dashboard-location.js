@@ -198,6 +198,7 @@
           $('#add_location_modal').modal('hide');
           $('.alert-success #message').html("Location added successfully.");
           $('.alert-success').addClass('active');
+          updateCities();
           return setTimeout((function() {
             $('.alert-success').removeClass('active');
           }), 2000);
@@ -403,7 +404,10 @@
         }
         selected = $('#filtercities').val();
         $('#filtercities').html(filter);
-        $('#allcities').html(dropdown);
+        $('select#allcities').each(function(index, item) {
+          console.log(index);
+          return $(item).html(dropdown);
+        });
         $('#filtercities').multiselect('rebuild');
         $('#filtercities').multiselect('select', selected);
       }

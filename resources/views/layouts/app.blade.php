@@ -152,6 +152,10 @@
     </header>
     <!-- header ends -->
 
+    <!-- content -->
+    @yield('content')
+
+    <!-- Modals -->
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())
         @include('modals.login')
@@ -167,15 +171,13 @@
 
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
-    <!-- content -->
-    @yield('content')
 
     <!-- banner ends -->
     <div class="site-overlay"></div>
     
     <!-- jquery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <script type="text/javascript" src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- BS Script -->
     <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <!-- Smooth Mouse scroll -->

@@ -220,11 +220,8 @@
 
                             @foreach($keywords as $keyword)
                              <li>
-<<<<<<< HEAD
-                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a>, </p>
-=======
-                                <p class="default-size cities__title">{{ $keyword }} </p>
->>>>>>> d9bc94b9749f6de9207ba9be71b09baaadbc38db
+                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
+
                              </li>
                              @endforeach
 

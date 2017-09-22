@@ -1,4 +1,23 @@
 <?php
+	/*	[
+			<$reference-Key> => [
+				....
+				array( "type" ->  <Type of tag i.e checkbox, input, email, password, etc >, "css_classes" -> "< a string which has all the css_classes>",
+				"id" -> <ID for the Tag>, "name" => "Name for the tag. For group please append '[]' after the name, ex: 'name' => 'description[]' ", "value" => "<Value to be assigned for tag>",
+				"for" => "<Define the 'for' tag for mapping it to any html Tag ID>", "title" => "Main Label to be displayed. Note: This value is not added to the HTML tag, instead it is passed seperately in array", "content" => "<The content to be displayed> (optional)"),
+				....
+			]
+		]
+
+		* The function generateHTML($reference) uses this config where, "$reference" will be the Key & html is generated based on that.
+		* The Response will be:
+		* [
+		*	array("html" => "<html in string>1", "title" => <String: title1>, "content" => <String: content1>),
+		*	array("html" => "<html in string>2", "title" => <String: title2>, "content" => <String: content2>),
+		*	....
+		* ]
+		* Ex: $reference = "register_description"
+	*/
 	return [
 		"register_description" => [
 			array(

@@ -2894,18 +2894,25 @@ input[type='checkbox'].remove-addr{
 .owner-address{
 	padding-left: 1em;
 	@media screen and (min-width: 769px){
-		min-width: 250px;
+		align-items: flex-start;
     	justify-content: flex-end;
     	margin-top: -8px;
 	}
 	.map-icon{
 		transform: scale(0.6);
     	width: 20px;
+    	position: relative;
+    	top: -3px;
 	}
 	.location-val[readonly]{
 		background-color: transparent;
     	border-bottom: 0;
     	width: auto;
+	}
+	.mapAddress{
+		@media screen and (min-width: 769px){
+			max-width: 350px;
+		}
 	}
 }
 

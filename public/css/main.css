@@ -9453,7 +9453,10 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .owner-address {
-    min-width: 250px;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
     -webkit-box-pack: end;
     -webkit-justify-content: flex-end;
         -ms-flex-pack: end;
@@ -9466,11 +9469,18 @@ input[type='checkbox'].remove-addr {
       -ms-transform: scale(0.6);
           transform: scale(0.6);
   width: 20px;
+  position: relative;
+  top: -3px;
 }
 .owner-address .location-val[readonly] {
   background-color: transparent;
   border-bottom: 0;
   width: auto;
+}
+@media screen and (min-width: 769px) {
+  .owner-address .mapAddress {
+    max-width: 350px;
+  }
 }
 .share-job .fa-whatsapp {
   color: #34af23;

@@ -178,8 +178,8 @@
                   <div class="m-t-5 flex-row space-between">
                     <div class="location main-loc flex-row">
                        <!-- <span class="fnb-icons map-icon"></span> -->
-                       <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
-                       <a  href="#" class="location__title c-title">{{ $job->getJobCategoryName() }}</a>
+                       <i class="fa fa-tag p-r-5 x-small p-t-5" aria-hidden="true"></i>
+                       <a href="#" class="location__title c-title text-decor default-size">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
@@ -378,7 +378,7 @@
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
-                        <li><a href="{{ $watsappShare }}" class="desk-hide" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li class="desk-hide" ><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                         <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                         
                         <li><a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
@@ -475,7 +475,7 @@
                            @endif
 
                            @if(!empty($jobCompany->description))
-                           <a href="#" class="secondary-link dis-block x-small m-t-5 check-detail">View details</a>
+                           <a href="#" class="secondary-link dis-block x-small m-t-5 check-detail @if(empty($jobCompany->website) && empty($jobCompany->logo)) text-center @endif">View details</a>
                            @endif
                         </div>
                      </div>

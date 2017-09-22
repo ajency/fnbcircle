@@ -1905,6 +1905,12 @@ input[type="checkbox"].toggle__check {
 .require-modal .fnb-select {
   font-size: 1em;
 }
+@media screen and (max-width: 768px) {
+  .require-modal .fnb-select {
+    font-size: 0.95em;
+    padding-left: 0;
+  }
+}
 .require-modal .verify-container {
   margin-top: 2em;
   text-align: center;

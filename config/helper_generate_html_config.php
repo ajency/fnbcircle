@@ -33,7 +33,7 @@
 					"content" => "If you or your company trades in or supplies/provides anything to the Hospitality Industry. This category includes Food &amp; Beverage Traders, Manufacturers, Importers, Exporters, Service/Solution Providers"
 				),
 			array(
-					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "student", "for" => "student", "title" => "Hospitality Business Owner",
+					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "student", "for" => "student", "title" => "Hospitality Student",
 					"content" => "Consultants, Media, Investors, Foodie, etc"
 				),
 			array(

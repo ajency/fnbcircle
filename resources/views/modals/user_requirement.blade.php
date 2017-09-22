@@ -47,10 +47,12 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    <p id="contact-error" class="fnb-errors hidden"></p>
-                                </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <p id="contact-error" class="fnb-errors hidden"></p>
+                            </div>    
                         </div>
                         <div class="row">
                             <div class="col-sm-6">

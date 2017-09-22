@@ -1,9 +1,9 @@
 @if(!Auth::guest())
     <!-- Requirement Modal Popup -->
     <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
-    <input type="hidden" name="object_type" value="App\User">
-    <input type="hidden" name="object_id" value="{{ auth()->user()->id }}">
-    
+    <input type="hidden" name="object_type" value="App\User"/>
+    <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
+
     <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -40,6 +40,9 @@
                                 <div class="col-sm-3">
                                     <div class="verify-container">
                                         <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
+                                        <div name="" class="under-review">
+                                            <input type="hidden" class="contact-visible" value="0"/>
+                                        </div>
                                         <!-- <a href="#" class="secondary-link text-decor verifyPhone x-small" data-toggle="modal" data-target="#mobile-modal">Verify Now</a> -->
                                         <!-- <div class="verified verifiedMini flex-row">
                                             <span class="fnb-icons verified-icon"></span>

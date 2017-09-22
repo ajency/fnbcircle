@@ -168,8 +168,8 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Conner\Tagging\Providers\TaggingServiceProvider::class,
-        // Ajency\FileUpload\FileUploadServiceProvider::class,
-        // Intervention\Image\ImageServiceProvider::class,
+        Ajency\FileUpload\FileUploadServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -235,7 +235,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'AjFileUpload' => Ajency\FileUpload\FileUploadServiceProvider::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
     ],

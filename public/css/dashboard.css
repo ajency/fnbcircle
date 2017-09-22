@@ -663,3 +663,25 @@ table.dataTable tr th.selected.select-checkbox:after {
   border-color: #ddd;
 }
 /*# sourceMappingURL=dashboard.css.map */
+.dashboard-select {
+  padding-left: 0;
+  font-size: 1em;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect-container.dropdown-menu {
+  left: 0;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox'] {
+  position: relative;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox']:before {
+  top: -8px;
+}
+.multiSelect + .btn-group.open .multiselect {
+  border-color: #ddd;
+}
+/*# sourceMappingURL=dashboard.css.map */

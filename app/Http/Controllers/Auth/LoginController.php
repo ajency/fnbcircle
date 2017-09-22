@@ -80,7 +80,7 @@ class LoginController extends Controller
         /*if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }*/
-
+        
         $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup");
         $valid_response = $userauth_obj->validateUserLogin($user_data, "email_signup");
 
@@ -187,5 +187,19 @@ class LoginController extends Controller
         return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request) {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect('/');
     }
 }

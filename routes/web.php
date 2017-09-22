@@ -90,6 +90,9 @@ Route::group( ['middleware' => ['auth']], function() {
 /*************/
   
 /* Custom Auth Routes */
+
+Route::get('/logout', 'Auth\LoginController@logout');
+
 Route::group(['namespace' => 'Ajency'], function() {
 	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
 	Route::get('/callback/{provider}', 'User\SocialAuthController@urlSocialAuthCallback');
@@ -115,4 +118,3 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
- 

@@ -91,7 +91,8 @@
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
-    inputTxt = '<input type="text" name="keyword_id" value="' + set.id + '">';
+    console.log(set);
+    inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
   });
 

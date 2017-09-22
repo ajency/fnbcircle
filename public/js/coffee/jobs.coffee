@@ -88,7 +88,8 @@ $(document).ready ()->
 
 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
-  inputTxt = '<input type="text" name="keyword_id" value="'+set.id+'">'
+  console.log set
+  inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
   return 
 

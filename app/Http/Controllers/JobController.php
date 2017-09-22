@@ -102,6 +102,7 @@ class JobController extends Controller
         $salaryUpper = $data['salary_upper'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
+        $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
 
         $metaData = [] ;
 
@@ -153,7 +154,7 @@ class JobController extends Controller
         $jobId = $job->id;
 
         $this->addJobLocation($job,$jobArea);
-        // $this->addJobKeywords($job,$jobKeywords);
+        $this->addJobKeywords($job,$keywordIds);
         Session::flash('success_message','Job details saved successfully.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
@@ -268,6 +269,11 @@ class JobController extends Controller
     public function edit($reference_id,$step='step-one')
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
+
+        if(!$job->canEditJob())
+            abort(403);
+
+        
         $data = [];
         $data = ['job' => $job];
         $postUrl = url('jobs/'.$job->reference_id);
@@ -388,6 +394,8 @@ class JobController extends Controller
         $salaryUpper = $data['salary_upper'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
+        $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
+ 
 
         $metaData = [] ;
 
@@ -433,7 +441,7 @@ class JobController extends Controller
         $job->interview_location_long = $longitude;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
-        // $this->addJobKeywords($job,$jobKeywords);
+        $this->addJobKeywords($job,$keywordIds);
         Session::flash('success_message','Job details saved successfully.');
         $request['next_step'] = 'step-two';
 

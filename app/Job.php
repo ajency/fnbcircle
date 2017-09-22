@@ -307,13 +307,14 @@ class Job extends Model
     public function publishJob(){
         
         $this->status = 3;
-        $this->slug = $this->getJobSlug();
+        if($this->slug =="")
+            $this->slug = $this->getJobSlug();
         $this->save();
 
         $company = $this->getJobCompany();
         $company->status = 2;
         $company->save();
-        
+
         return true;
 
     }

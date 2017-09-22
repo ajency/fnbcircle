@@ -126,7 +126,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
             @endif
             @if($job->submitForReview()) 
-            <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button>
+             <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button></a>
             @endif
          </div>
       </div>

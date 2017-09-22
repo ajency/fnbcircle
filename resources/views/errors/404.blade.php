@@ -19,7 +19,7 @@
                     <h1 class="nf-wrapper__title text-primary bolder">404</h1>
                     <h3 class="main-heading text-uppercase nf-wrapper__sub-title">Page not found</h3>
                     <p class="m-b-0 sub-title heavier text-color nf-wrapper__caption">It looks like you're lost...</p>
-                    <img src="../public/img/404.png" class="img-reponsive center-block img-nf">
+                    <img src="/img/404.png" class="img-reponsive center-block img-nf">
                     <a href="/"><button class="btn fnb-btn primary-btn full border-btn">Take me out of here</button></a>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, coreCat, getheight;
+  var Applybtn, Articles, coreCat;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -247,8 +247,11 @@
   $("html").easeScroll();
 
   if ($(window).width() > 769) {
-    getheight = $('.design-2-card').outerHeight();
-    $('.equal-col').css('height', getheight);
+    setTimeout((function() {
+      var getheight;
+      getheight = $('.design-2-card').outerHeight();
+      $('.equal-col').css('height', getheight);
+    }), 500);
   }
 
   $('.check-detail').click(function() {

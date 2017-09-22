@@ -2162,6 +2162,14 @@ input[type="checkbox"].toggle__check {
   color: #646464;
   text-decoration: none;
 }
+.no-decor {
+  text-decoration: none;
+}
+.no-decor:hover,
+.no-decor:active,
+.no-decor:focus {
+  text-decoration: none;
+}
 .text-lighter {
   color: #9b9ea0;
 }
@@ -9084,12 +9092,6 @@ input[type='checkbox'].remove-addr {
   padding-left: 0;
 }
 @media screen and (max-width: 768px) {
-  .job-type {
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-  }
   .salary-row .radio-inline,
   .J-type .radio-inline,
   .salary-row .checkbox-inline,
@@ -9222,8 +9224,12 @@ input[type='checkbox'].remove-addr {
       -ms-transform: scale(0.6);
           transform: scale(0.6);
   width: 20px;
-  position: relative;
-  top: -3px;
+}
+@media screen and (min-width: 769px) {
+  .owner-address .map-icon {
+    position: relative;
+    top: -3px;
+  }
 }
 .owner-address .location-val[readonly] {
   background-color: transparent;
@@ -9561,6 +9567,16 @@ input[type='checkbox'].remove-addr {
   opacity: 0.8;
 }
 @media screen and (max-width: 768px) {
+  .job-type {
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-flex: inherit;
+    -webkit-flex: inherit;
+        -ms-flex: inherit;
+            flex: inherit;
+  }
   .job-info .seller-info__title {
     margin-bottom: 0;
   }
@@ -9575,11 +9591,14 @@ input[type='checkbox'].remove-addr {
     margin-top: 0.5em;
     border-top: 1px solid #ddd;
     padding-top: 0.5em;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
   }
   .job-info .owner-info .fnb-label {
     -webkit-align-self: inherit;
@@ -9588,7 +9607,14 @@ input[type='checkbox'].remove-addr {
     margin-top: 0;
   }
   .job-info .owner-info .owner-address {
-    padding-left: 0;
+    padding-left: 0.5em;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .job-info .owner-info .owner-address .mapAddress {
+    width: 80%;
   }
   .job-info .seller-info__footer {
     padding-top: 1em;
@@ -9625,10 +9651,11 @@ input[type='checkbox'].remove-addr {
     margin-top: 5px;
   }
   .role-selection .job-places .job-location .location {
-    -webkit-box-flex: 0.9;
-    -webkit-flex: 0.9;
-        -ms-flex: 0.9;
-            flex: 0.9;
+    -webkit-box-flex: inherit;
+    -webkit-flex: inherit;
+        -ms-flex: inherit;
+            flex: inherit;
+    min-width: auto;
   }
   .role-selection .job-places .job-location .cities {
     -webkit-box-flex: 2;
@@ -9664,6 +9691,8 @@ input[type='checkbox'].remove-addr {
   .contact__info.applyJob {
     width: 100%;
     margin: 1em 0 0 0;
+    border-top: 1px solid #eee;
+    padding-top: 0.8em;
   }
   .contact__info.applyJob .fnb-btn {
     width: 80%;

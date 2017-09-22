@@ -1835,6 +1835,13 @@ input[type="checkbox"].toggle__check {
 .sign-page .signup-container .float-label.filled {
   margin-bottom: 0;
 }
+@media screen and (min-width: 769px) {
+  _::-webkit-full-page-media,
+  _:future,
+  :root .email-col {
+    margin: 0 -1px;
+  }
+}
 @media screen and (max-width: 650px) {
   .log-sign .welcome-text {
     font-size: 1.4em;

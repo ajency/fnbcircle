@@ -89,7 +89,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6 email-col">
                                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }} m-b-10 p-b-10">
                                             <label class="m-b-0 text-lighter float-label required" for="email">E-Mail</label>
                                             <input id="email" type="email" class="form-control fnb-input float-input" name="email" value="{{ old('email') }}" required>

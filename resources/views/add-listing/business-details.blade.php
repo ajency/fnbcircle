@@ -127,8 +127,16 @@
     </div>
     <div class="m-t-20 c-gap">
 
-        <input type="text" class="form-control fnb-input payment-add flexdatalist" multiple="multiple" placeholder="+ Add modes of payment &amp; press enter">
-
+        <input type="text" class="form-control fnb-input payment-add flexdatalist" multiple="multiple" placeholder="+ Add modes of payment &amp; press enter" list="payment-modes" value="{{ implode(',',$listing->tagNames('payment-modes')) }}">
+        <datalist id="payment-modes">
+            @php
+                $payment_modes = $listing->existingTagsLike('payment-modes','');
+                foreach($payment_modes as $mode){
+                echo '<option value="'.$mode->slug.'">'.$mode->name.'</option>';
+                }
+            @endphp
+            <option value="visa">Visa cards</option><option value="debit">Debit Card</option><option value="money_order">Money Order</option><option value="cheque">Cheque</option><option value="credit">Credit Card</option><option value="travelers">Travelers Cheque</option><option value="cash">Cash</option><option value="masters">Master Card</option><option value="diners">Diner's Club</option>
+        </datalist>
     </div>
 </div>
 

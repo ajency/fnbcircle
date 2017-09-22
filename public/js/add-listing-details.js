@@ -63,8 +63,7 @@
   setTimeout((function() {
     $('.flexdatalist').flexdatalist({
       removeOnBackspace: false,
-      minLength: 1,
-      searchIn: ["name"]
+      minLength: 1
     });
   }), 500);
 
@@ -77,14 +76,37 @@
   });
 
   setTimeout((function() {
-    $('.payment-add').on('change:flexdatalist', function() {
-      var value;
-      value = $(this).val();
-      console.log(value);
-      if ($(this).val().length !== 0) {
-        $(this).closest('.business-details').find('.payment-modes').append('<li><label class="flex-row text-medium"><input type="checkbox" class="checkbox" id="visa"><span class="text-color">' + value + '</span></label></li>');
+    $('.payment-add').on('change:flexdatalist', function(event, set, options) {
+      console.log(set);
+      switch (set.value) {
+        case 'Visa cards':
+          $('input#visa').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Debit Card':
+          $('input#debit').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Money Order':
+          $('input#money_order').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Cheque':
+          $('input#cheque').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Credit Card':
+          $('input#credit').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Travelers Cheque':
+          $('input#travelers').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Cash':
+          $('input#cash').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Master Card':
+          $('input#masters').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Diner\'s Club':
+          $('input#diners').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
       }
-      return $(this).val('');
     });
   }), 500);
 
@@ -111,8 +133,15 @@
         parameters['payment[' + $(item).attr('id') + ']'] = "0";
       }
     });
+    parameters['other_payment'] = $('.flexdatalist').val();
     if (window.submit === 1) {
       parameters['submitReview'] = 'yes';
+    }
+    if (window.archive === 1) {
+      parameters['archive'] = 'yes';
+    }
+    if (window.publish === 1) {
+      parameters['publish'] = 'yes';
     }
     form = $('<form></form>');
     form.attr("method", "post");

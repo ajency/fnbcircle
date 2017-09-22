@@ -2961,6 +2961,7 @@ input[type="checkbox"].toggle__check {
   .rating .bg,
   .rating .value {
     height: 30px;
+    text-align: left;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
@@ -7157,6 +7158,12 @@ input[type="checkbox"].toggle__check {
   font-weight: 500;
   color: #6f6f6f;
 }
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .business-type .radio,
+  .interested-options .radio {
+    opacity: 0;
+  }
+}
 @media screen and (max-width: 600px) {
   .business-type {
     -webkit-flex-wrap: inherit;
@@ -7281,6 +7288,14 @@ input[type="checkbox"].toggle__check {
           flex: 0 0 33%;
   padding: 5px 10px;
 }
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .payment-modes li {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 30%;
+        -ms-flex: 0 0 30%;
+            flex: 0 0 30%;
+  }
+}
 .hours_day {
   min-width: 100px;
 }
@@ -7299,7 +7314,13 @@ input[type="checkbox"].toggle__check {
 }
 .operation-hours label .fnb-radio {
   margin-right: 12px;
-  top: 2px;
+  top: -2px;
+}
+@media screen and (max-width: 650px) {
+  .operation-hours label .fnb-radio {
+    width: 18px;
+    margin-right: 10px;
+  }
 }
 .inputfile {
   width: 0.1px;
@@ -7675,6 +7696,7 @@ input[type="checkbox"].toggle__check {
   .review-note__title {
     width: auto;
     font-size: 0.95em;
+    padding-left: 0.5em;
   }
   .review-note__submit {
     margin-top: 0.8em;
@@ -7897,6 +7919,11 @@ input[type='checkbox'].remove-addr {
   height: 20px;
   float: left;
   top: 8px;
+}
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .location-hours .baseline .save-addr {
+    top: -4px;
+  }
 }
 .location-select {
   padding: 0.5em 0 1em 0;
@@ -8548,6 +8575,13 @@ input[type='checkbox'].remove-addr {
   cursor: pointer;
   padding-left: 3px;
 }
+@media screen and (min-width: 767px) {
+  _::-webkit-full-page-media,
+  _:future,
+  :root .node-select .nav li {
+    margin-bottom: 3.35em;
+  }
+}
 @media screen and (max-width: 768px) {
   .add-editCat {
     color: #27b7b0;
@@ -8927,6 +8961,11 @@ input[type='checkbox'].remove-addr {
 }
 .business-email .toggle {
   overflow: inherit;
+}
+@media screen and (min-width: 769px) {
+  .business-email .toggle {
+    margin-left: 0;
+  }
 }
 .edit-summary-card {
   margin-bottom: 1em;

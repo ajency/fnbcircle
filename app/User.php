@@ -33,6 +33,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Listing', 'owner_id');
     }
+    public function lastUpdatedListings()
+    {
+        return $this->hasMany('App\Listing', 'last_updated_by');
+    }
 
 	public function getUserDetails() { 
 		return $this->hasOne('App\UserDetail', 'user_id');

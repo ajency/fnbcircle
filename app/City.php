@@ -22,11 +22,11 @@ class City extends Model
 
     public function isPublishable()
     {
-        $areas = Area::where('city_id', $this->id)->count();
+        $areas = Area::where('city_id', $this->id)->where('status','1')->count();
         if ($areas > 0) {
             return array("response"=>true, "message"=>"");
         } else {
-          return array("response"=>false, "message"=>"City has no published areas under it");
+          return array("response"=>false, "message"=>"City cannot be published as there is no published area under this city.");
         }
 
     }
@@ -36,7 +36,7 @@ class City extends Model
       foreach ($areas as $area) {
         $archieve = $area->isArchivable();
         // dd($archieve);
-        if($archieve['response'] == false) return array("response"=>false, "message"=>"Listings are associated with this City");
+        if($archieve['response'] == false) return array("response"=>false, "message"=>"This city has listings associated with it. Click here to view the listings.<br>You can archive this city only once this is removed from all the listings.");
         # code...
       }
       return array("response"=>true, "message"=>"");

@@ -490,6 +490,26 @@ table.dataTable tbody > tr.selected,
 table.dataTable tbody > tr > .selected {
   background-color: rgba(236, 109, 75, 0.15);
 }
+table.dataTable thead th.select-checkbox {
+  position: relative;
+}
+table.dataTable thead th.select-checkbox:before {
+  content: ' ';
+  margin-top: -6px;
+  margin-left: -6px;
+  border: 1px solid black;
+  border-radius: 3px;
+  display: block;
+  position: absolute;
+  top: 1.2em;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+  top: auto;
+  bottom: 14px;
+  border-color: #686565;
+}
 table.dataTable tbody td.select-checkbox:before,
 table.dataTable thead th.select-checkbox:before {
   border-color: #686565;
@@ -563,6 +583,65 @@ table.dataTable tr th.selected.select-checkbox:after {
     padding-left: 0;
   }
 }
+.list-app-modal .close {
+  opacity: 0.8;
+}
+.list-app-modal .interested-options .option .cat-icon {
+  height: 50px;
+  padding: 0.5em;
+}
+.list-app-modal .instructions .fnb-icons.cat-icon {
+  height: 50px;
+  padding: 0.5em;
+}
+@media screen and (max-width: 650px) {
+  .list-app-modal .firstStep .close {
+    position: relative;
+    right: 1em;
+    top: 1em;
+    font-size: 1em;
+    z-index: 2;
+  }
+}
+.bulk-failure .modal-header {
+  background-color: #eee;
+  margin: -20px;
+  margin-bottom: 0;
+}
+.bulk-failure .listings__title {
+  font-weight: 500;
+  font-size: 1.1em;
+}
+.bulk-failure .listings__links {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding-top: 1em;
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+  margin-bottom: -1.2em;
+}
+.bulk-failure .listings__links li {
+  border-left: 3px solid #eaeaea;
+  padding-left: 1em;
+  margin-bottom: 1.2em;
+  margin-right: 1em;
+}
+@media screen and (min-width: 769px) {
+  .bulk-failure .listings__links li {
+    max-width: calc(50% - 1em);
+  }
+}
+.bulk-failure .listings__links li a {
+  text-transform: capitalize;
+}
+.bulk-failure .listings__links li p {
+  font-size: 1em;
+}
+/*# sourceMappingURL=dashboard.css.map */
 .dashboard-select {
   padding-left: 0;
   font-size: 1em;

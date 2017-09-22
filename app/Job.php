@@ -240,24 +240,27 @@ class Job extends Model
                 if(!isset($cityNames[$location['city_id']])){
                     $city = City::find($location['city_id'])->name;
                     $cityNames[$location['city_id']] = $city;
+
+                    if($getData=='city')
+                        $savedLocation[] = $city;
                 }
                 else
                     $city = $cityNames[$location['city_id']];
 
-                if($getData=='city')
-                    $savedLocation[] = $city;
+                
             }
             
             if($getData=='area' || $getData=='all'){
                 if(!isset($areas[$location['area_id']])){
                     $area = Area::find($location['area_id'])->name;
                     $areas[$location['area_id']] = $area;
+
+                    if($getData=='area')
+                        $savedLocation[] = $city;
                 }
                 else
                     $area = $areas[$location['area_id']];
 
-                if($getData=='area')
-                    $savedLocation[] = $city;
             }
 
             if($getData=='all')

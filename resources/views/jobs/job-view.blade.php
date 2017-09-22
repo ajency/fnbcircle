@@ -4,6 +4,7 @@
     @parent
     <script type="text/javascript" src="/js/jobs.js"></script>
     <script type="text/javascript" src="/js/maps.js"></script>
+    <script type="text/javascript" src="/js/whatsapp-button.js"></script>
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 @endsection
 
@@ -497,7 +498,9 @@
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
-                     <li><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                     <li>
+                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s" style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+                     <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
                      <a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>

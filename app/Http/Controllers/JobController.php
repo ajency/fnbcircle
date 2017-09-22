@@ -270,6 +270,8 @@ class JobController extends Controller
         $watsappShare = "whatsapp://send?text=".$shareLink;
         //https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext
  
+        $data['shareLink'] = $shareLink;
+        $data['shareTitle'] = $shareTitle;
         $data['facebookShare'] = $facebookShare;
         $data['twitterShare'] = $twitterShare;
         $data['googleShare'] = $googleShare;

@@ -475,13 +475,13 @@ class JobController extends Controller
         $user = Auth::user();
         $userId = $user->id;
         $this->validate($request, [
-            'company_name' => 'required|max:255',
+            'flexdatalist-company_name' => 'required|max:255',
         ]);
 
         $data = $request->all();  
 
         $companyId = $data['company_id'];
-        $title = $data['company_name'];
+        $title = $data['flexdatalist-company_name'];
         $description = $data['company_description'];
         $website = $data['company_website'];
         $contactEmail = $data['contact_email'];

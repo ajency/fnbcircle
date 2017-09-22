@@ -1,0 +1,29 @@
+{
+  "name": "fnb circle",
+  "homepage": "https://github.com/ajency/fnbcircle",
+  "authors": [
+    "Nutan Kamat <nutan@ajency.in>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-daterangepicker": "^2.1.25",
+    "autosize": "^4.0.0",
+    "bootstrap-confirmation2": "^2.4.0",
+    "datatables-select": "^1.2.2",
+    "datatables.net-select-dt": "^1.2.2",
+    "datatables.net-bs": "^2.1.1",
+    "ekko-lightbox": "^5.2.0",
+    "jquery": "^3.2.1"
+  }
+}

@@ -7,6 +7,7 @@ use App\ListingCategory;
 use Illuminate\Database\Eloquent\Model;
 use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
+use Conner\Tagging\Model\TagGroup;
 use Auth;
 
 class Listing extends Model
@@ -14,19 +15,35 @@ class Listing extends Model
     const PUBLISHED    = 1;
     const REVIEW       = 2;
     const DRAFT        = 3;
+    const ARCHIVED     = 4;
+    const REJECTED     = 5;
+
     const WHOLESALER   = 11;
     const RETAILER     = 12;
     const MANUFACTURER = 13;
+    const IMPORTER = 14;
+    const EXPORTER = 15;
+    const SERVICEPROVIDER = 16;
 
     use Taggable;
 
     protected $table = "listings";
 
     protected $fillable = ['title', 'status', 'type'];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'published_on',
+        'submission_date'
+    ];
 
     public function owner()
     {
-        return $this->hasOne('App\User', 'owner_id');
+        return $this->hasOne('App\User', 'id' ,'owner_id');
+    }
+    public function lastUpdatedBy()
+    {
+        return $this->hasOne('App\User','id', 'last_updated_by');
     }
     public function createdBy()
     {
@@ -111,14 +128,22 @@ class Listing extends Model
         $this->save();
     }
 
-    public static function existingTagsLike($str)
+    public static function existingTagsLike($group,$str)
      {
+        $groups = TagGroup::where('slug',$group)->get();
+        $group=$groups[0];
         return Tagged::distinct()
             ->join('tagging_tags', 'tag_slug', '=', 'tagging_tags.slug')
             ->where('taggable_type', '=', (new static)->getMorphClass())
+            ->where('tag_group_id',$group->id)
             ->where('tag_name','like', title_case($str).'%')
             ->orderBy('tag_slug', 'ASC')
             ->get(array('tag_slug as slug', 'tag_name as name', 'tagging_tags.count as count'));
      }
+
+    public function save(array $options = []){
+        $this->last_updated_by = Auth::user()->id;
+        parent::save();
+    }
 
 }

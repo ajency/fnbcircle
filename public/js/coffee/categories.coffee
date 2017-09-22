@@ -18,6 +18,7 @@ $('body').on 'click', 'input:radio[name=\'categories\']', ->
     url: '/get_categories'
     data: {
       'parent' : JSON.stringify(obj)
+      'status': '1';
     }
     success: (data) ->
       # console.log data
@@ -65,6 +66,7 @@ getNodes = (branchID) ->
       url: '/get_categories'
       data:
         'parent' : JSON.stringify(obj)
+        'status': '1'
       success: (data) ->
         array = []
         $('ul#view-categ-node').find('input[type=\'hidden\']').each (index,data) ->
@@ -81,15 +83,15 @@ getNodes = (branchID) ->
             j++
           if j == 0
             delete categories['categories'][branch]
-        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']+'">'
-        html += '<input type="hidden" name="image" value="'+data[branchID]['image']+'">'
+        html = '<input type="hidden" name="parent" value="'+data[branchID]['parent']['name']+'">'
+        html += '<input type="hidden" name="image" value="'+data[branchID]['parent']['icon_url']+'">'
         html += '<input type="hidden" name="branch" value="'+data[branchID]['name']+'" id="'+branchID+'">'
+        data[branchID]['children'] = _.sortBy(_.sortBy(data[branchID]['children'],'name'),'order');
         for key of data[branchID]['children']
           html += '<li><label class="flex-row"><input type="checkbox" class="checkbox" '
-          if _.indexOf(array,key) != -1
+          if _.indexOf(array,String(data[branchID]['children'][key]['id'])) != -1
             html+='checked'
-          html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+key+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
-        # console.log  slugify(data[branchID]['name'])
+          html +=' for="'+slugify(data[branchID]['children'][key]['name'])+'" value="'+data[branchID]['children'][key]['id']+'" name="'+data[branchID]['children'][key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[branchID]['children'][key]['name'])+'">'+data[branchID]['children'][key]['name']+'</p></label></li>'
         $('div#'+slugify(data[branchID]['name'])+'.tab-pane ul.nodes').html html
         categ[branchID] = true
         return
@@ -300,6 +302,10 @@ window.validateCategories = ->
   parameters['brands'] = brands
   if window.submit ==1
     parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
   form = $('<form></form>')
   form.attr("method", "post")
   form.attr("action", "/listing")

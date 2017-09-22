@@ -387,6 +387,37 @@ $(function(){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
 
+			if($("#require-modal select[name='city']").val()) {
+				// IF the State (City) value is available then populate the Select options for City (Area)
+				var city, html = '<option value="">City</option>';
+				
+				$('#require-modal select[name="area"]').html(html);
+				city = $("#require-modal select[name='city']").val();
+
+				return $.ajax({
+					type: 'post',
+					url: '/get_areas',
+					data: {
+						'city': city
+					},
+					success: function(data) {
+						var key, area = $("#require-modal input[type='hidden'][name='user_area']").val();
+
+						for (key in data) {
+							if(area && area == data[key]["id"]) { // If inpput-hidden value exist & is matching, then "select" that option
+								html += '<option value="' + data[key]["id"] + '" selected="true">' + data[key]["name"] + '</option>';
+							} else {
+								html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
+							}
+						}
+						$('#require-modal select[name="area"]').html(html);
+					},
+					error: function(request, status, error) {
+						throw Error();
+					}
+				});
+			}
+
 			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
 				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
 				html = '<option value="">City</option>';
@@ -406,7 +437,7 @@ $(function(){
 					success: function(data) {
 						var key;
 						for (key in data) {
-							html += '<option value="' + key + '">' + data[key] + '</option>';
+							html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
 						}
 						$("#" + parent + ' select[name="area"]').html(html);
 					},
@@ -416,7 +447,7 @@ $(function(){
 				});
 			});
 
-			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email']").on('keyup change', function() { // Check Email
+			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				validateEmail($(this).val(), "#" + id + " #email-error");
 			});
@@ -629,7 +660,7 @@ $(function(){
 	        	var parent = "#login_form_modal";
         		$(parent + " #login_form_modal_btn i").removeClass("hidden");
 
-	        	if($(parent + " input[type='email'][name='email']").val() && $(parent + " input[type='password'][name='password']").val()) {
+	        	if(validateEmail($(parent + " input[type='email'][name='email']").val()) && $(parent + " input[type='password'][name='password']").val()) {
 	        		return $("#login_form_modal").submit(); // Submit the form
 	        	} else {
 	        		if(!$(parent + " input[type='email'][name='email']").val()) { // If Email is not filled

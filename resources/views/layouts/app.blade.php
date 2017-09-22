@@ -49,8 +49,9 @@
                         @else
                             <li><p class="mobile-top__text x-small">Find suppliers, jobs and a lot more</p></li>
                             <li>
-                                <a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                <!-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                <a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar">Logout</a>
+                                <!-- <a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
                                 </form> -->
                             </li>
@@ -96,14 +97,18 @@
                                         <p class="login__title nav-title-size p-l-10 nav-color">Login</p>
                                     </a>
                                 @else
-                                    <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <a href="{{ route('logout') }}" class="login">
+                                        <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
+                                        <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
+                                    </a>
+                                    <!-- <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
                                         <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
                                 @endif
                             </li>
                             <li class="mobile-hide">
@@ -147,6 +152,10 @@
     </header>
     <!-- header ends -->
 
+    <!-- content -->
+    @yield('content')
+
+    <!-- Modals -->
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())
         @include('modals.login')
@@ -162,15 +171,13 @@
 
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
-    <!-- content -->
-    @yield('content')
 
     <!-- banner ends -->
     <div class="site-overlay"></div>
     
     <!-- jquery -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+    <script type="text/javascript" src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- BS Script -->
     <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
     <!-- Smooth Mouse scroll -->

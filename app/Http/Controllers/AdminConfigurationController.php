@@ -14,7 +14,7 @@ class AdminConfigurationController extends Controller
 {
     public function __construct()
     {
-        // Common::authenticate('dashboard', $this);
+        Common::authenticate('dashboard', $this);
     }
 
     public function locationView(Request $request)
@@ -480,6 +480,7 @@ class AdminConfigurationController extends Controller
 
             if ($request->status == "2") {
                 $area = Area::find($request->id);
+                // dd($area->isArchivable());
                 return response()->json(array("status" => "200", "msg" => "", "data" => $area->isArchivable()));
             }
             return response()->json(array("status" => "200", "msg" => "", "data" => array('response' => true, 'message' => "")));

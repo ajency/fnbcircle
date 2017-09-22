@@ -50,7 +50,7 @@ class ListingController extends Controller
     {
         $this->validate($data, [
             'title'         => 'required|max:255',
-            'type'          => 'required|integer|between:11,13',
+            'type'          => 'required|integer|between:11,16',
             'primary_email' => 'required|boolean',
             'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
@@ -81,6 +81,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -170,15 +174,17 @@ class ListingController extends Controller
             'contacts' => 'required|json',
         ]);
 
-        $titles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
+        $alltitles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
         $similar = array();
-        foreach ($titles as $key => $value) {
+        $titles = array();
+        foreach ($alltitles as $key => $value) {
             similar_text($request->title, $value, $percent);
             if ($percent >= 80) {
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
+                $titles[$key] = array('id'=>$key, 'title'=>$value);
             }
         }
-
+        
         $contact = json_decode($request->contacts, true);
         $query   = ListingCommunication::whereNotNull('listing_id');
         $query   = $query->where(function ($query) use ($contact) {
@@ -196,7 +202,8 @@ class ListingController extends Controller
                 $query->orWhere('email', $value['value']);
             }
         })->with('listing')->get();
-
+        $emails = [];
+        $phones = [];
         foreach ($users as $user) {
             foreach ($user->listing as $business) {
                 if ($business['status'] != 1) {
@@ -204,8 +211,13 @@ class ListingController extends Controller
                 }
                 if (!isset($similar[$business['reference']]) /* listing is published*/) {
                     $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+                    
+                }
+                if(!isset($emails[$business['reference']])){
+                    $emails[$business['reference']] = array('id'=>$business['reference'], 'email'=>[]);
                 }
                 $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+                 $emails[$business['reference']]['email'][] =$user->email;
             }
         }
 
@@ -219,13 +231,21 @@ class ListingController extends Controller
             }
             if ($row->communication_type == 1) {
                 $similar[$row->listing['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$row->value}</span>)";
+                if(!isset($emails[$row->listing['reference']])){
+                    $emails[$row->listing['reference']] = array('id'=>$row->listing['reference'], 'email'=>[]);
+                }
+                $emails[$row->listing['reference']]['email'][] =$row->value;
             }
             if ($row->communication_type == 2) {
 
                 $similar[$row->listing['reference']]['messages'][] = "Matches found Phone Number(<span class=\"heavier\">{$row->value}</span>)";
+                if(!isset($phones[$row->listing['reference']])){
+                    $phones[$row->listing['reference']] = array('id'=>$row->listing, 'email'=>[]);
+                }
+                $phones[$row->listing['reference']]['email'][] =$row->value;
             }
         }
-        return response()->json($similar);
+        return response()->json(array('matches'=> array('title'=>$titles, 'email' => $emails, 'phones'=> $phones), 'similar'=>$similar));
 
     }
 
@@ -237,7 +257,7 @@ class ListingController extends Controller
         $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
-            $res[$area->id] = $area->name;
+            $res[] = array('id'=>$area->id,'name'=>$area->name);
         }
         return response()->json($res);
     }
@@ -282,17 +302,23 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         $this->saveListingCategories($listing->id, $categories);
         if (isset($request->brands) and $request->brands != '') {
-            $listing->retag($request->brands);
+            $listing->retag('brands',$request->brands);
         } else {
-            $listing->untag();
+            $listing->untag('brands');
         }
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
+            $listing->last_updated_by = Auth::user()->id;
+            $listing->save();
         }
 
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
+        }elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        }elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
 
         // echo $data->change;
@@ -304,6 +330,7 @@ class ListingController extends Controller
     {
         $this->validate($request, [
             'parent' => 'id_json|not_empty_json|required',
+            'status' =>'required'
         ]);
         $parents = json_decode($request->parent);
         foreach ($parents as $parent) {
@@ -311,8 +338,19 @@ class ListingController extends Controller
                 return abort(404);
             }
         }
+        $statuses = explode(",",$request->status);
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $child       = Category::where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
+                $i=0;
+                foreach ($statuses as $status) {
+                    if($i==0){
+                        $sql->where('status',$status);
+                    }
+                    else{$sql->orWhere('status',$status);}
+                    $i++;
+                }
+            })->orderBy('order')->orderBy('name')->get();
+            // dd($child);
             $child_array = array();
             foreach ($child as $ch) {
                 $child_array[$ch->id] = array('id' => $ch->id, 'name' => $ch->name, 'order' => $ch->order);
@@ -324,7 +362,7 @@ class ListingController extends Controller
                 $grandparent = new Category;
             }
 
-            $parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent->name, 'image' => $grandparent->icon_url);
+            $parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
         }
         return response()->json($parent_array);
     }
@@ -335,7 +373,7 @@ class ListingController extends Controller
             'keyword' => 'required',
         ]);
         // dd(Listing::existingTagsLike($request->keyword));
-        return response()->json(['results' => Listing::existingTagsLike($request->keyword), 'options' => []]);
+        return response()->json(['results' => Listing::existingTagsLike('brands',$request->keyword), 'options' => []]);
     }
 
     //------------------------step 3 --------------------
@@ -343,8 +381,8 @@ class ListingController extends Controller
     public function validateListingLocationAndOperationHours($data)
     {
         $this->validate($data, [
-            'latitude'        => 'required|numeric|min:0|max:90',
-            'longitude'       => 'required|numeric|min:0|max:180',
+            'latitude'        => 'required|numeric|min:-90|max:90',
+            'longitude'       => 'required|numeric|min:-180|max:180',
             'address'         => 'nullable|max:255',
             'map_address'     => 'nullable|max:255',
             'display_hours'   => 'required|boolean',
@@ -400,6 +438,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -455,6 +497,11 @@ class ListingController extends Controller
             $payment[$key] = $value;
         }
         $listing->payment_modes = json_encode($payment);
+        if (isset($data->other_payment) and $data->other_payment != '') {
+            $listing->retag('payment-modes',$data->other_payment);
+        } else {
+            $listing->untag('payment-modes');
+        }
         $listing->save();
 
         $change = "";
@@ -464,6 +511,10 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
+        }elseif (isset($data->archive) and $data->archive == 'yes') {
+            return ($this->archive($data));
+        }elseif (isset($data->publish) and $data->publish == 'yes') {
+            return ($this->publish($data));
         }
 
         // echo $data->change;
@@ -482,6 +533,8 @@ class ListingController extends Controller
         
 
     }
+
+
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
     {
@@ -513,6 +566,10 @@ class ListingController extends Controller
         $this->saveListingPhotosAndDocuments($request);
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
+        }elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        }elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
 
     }
@@ -604,11 +661,42 @@ class ListingController extends Controller
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
             $listing->status = Listing::REVIEW;
+            $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
             return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+        }
+    }
+
+    public function archive(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        if ($listing->isReviewable() and $listing->status=="1") {
+            $listing->status = Listing::ARCHIVED;
+            $listing->save();
+            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+        } else {
+            return \Redirect::back()->withErrors(array('archive' => 'Only Published listings can be archived'));
+        }
+    }
+
+    public function publish(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        if ($listing->isReviewable() and $listing->status=="4") {
+            $listing->status = Listing::PUBLISHED;
+            $listing->save();
+            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+        } else {
+            return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }
     }
 

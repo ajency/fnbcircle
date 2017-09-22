@@ -238,7 +238,7 @@ $(document).on 'change', '.city select', ->
     success: (data) ->
       # console.log data
       for key of data
-        html += '<option value="' + key + '">' + data[key] + '</option>'
+        html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
       $('.area select').html html
       return
     error: (request, status, error) ->

@@ -188,6 +188,7 @@ $('#add_location_modal').on 'click','.save-btn', (e)->
         $('#add_location_modal').modal('hide')
         $('.alert-success #message').html "Location added successfully."
         $('.alert-success').addClass 'active'
+        updateCities();
         setTimeout (->
           $('.alert-success').removeClass 'active'
           return
@@ -445,7 +446,9 @@ updateCities = () ->
           i++
         selected = $('#filtercities').val()
         $('#filtercities').html filter
-        $('#allcities').html dropdown
+        $('select#allcities').each (index,item)->
+          console.log index
+          $(item).html dropdown
         $('#filtercities').multiselect('rebuild')
         $('#filtercities').multiselect('select',selected)
         return

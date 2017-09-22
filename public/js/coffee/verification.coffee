@@ -42,6 +42,7 @@ $(document).ready ()->
     else
       deleteObj.closest('.contact-container').find('.contact-input').val('')
       deleteObj.closest('.contact-container').addClass 'hidden'
+      deleteObj.closest('.contact-container').removeClass 'contact-container'
 
 
   $('.contact-info').on 'click', '.contact-verify-link', (event) ->
@@ -58,9 +59,13 @@ $(document).ready ()->
     objectType = $('input[name="object_type"]').val()
     objectId = $('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
+    contactValueObj.closest('div').find('.dupError').html ''
 
-   
-    if contactValue != '' && contactValueObj.parsley().validate()
+    if(!contactValueObj.parsley().isValid())
+      contactValueObj.parsley().validate()
+      
+    console.log contactValueObj.parsley().isValid()
+    if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)
         $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
@@ -87,10 +92,12 @@ $(document).ready ()->
       $('.contact-verify-steps').addClass 'hidden'
       $('.default-state, .verificationFooter').removeClass 'hidden'
 
-    else 
+    else
+      if contactValue == ''
+        contactValueObj.closest('div').find('.dupError').html 'Please enter '+contactType 
       $('#'+contactType+'-modal').modal 'hide'
 
-  $('.contact-verification-modal .contact-info').on 'change', '.contact-input', (event) ->
+  $('.contact-info').on 'change', '.contact-input', (event) ->
     contactObj = $(this)
     contactval = contactObj.val()
     # console.log contactval
@@ -104,7 +111,8 @@ $(document).ready ()->
 
   checkDuplicateEntries = (contactObj) ->
     contactval = contactObj.val()
-    $('form').parsley().validate()
+
+    contactObj.closest('form').parsley().validate()
     result = true
     contactObj.closest('.contact-info').find('.contact-input').each ->
 
@@ -115,7 +123,7 @@ $(document).ready ()->
     return result 
 
 
-  $('.contact-verification-modal .edit-number').click (event)->
+  $('.contact-verification-modal').on 'click', '.edit-number', (e)->
     $('.value-enter').val('')
     $('.default-state').addClass 'hidden'
     $('.add-number').removeClass 'hidden'
@@ -123,14 +131,14 @@ $(document).ready ()->
     return
 
 
-  $('.contact-verification-modal .step-back').click (event)->
+  $('.contact-verification-modal').on 'click', '.step-back', (e)->
     $('.default-state').removeClass 'hidden'
     $('.add-number').addClass 'hidden'
     $('.verificationFooter').removeClass 'no-bg'
     return
 
 
-  $('.contact-verification-modal .contact-verify-stuff').click (event)->
+  $('.contact-verification-modal').on 'click', '.contact-verify-stuff', (e)->
     newContactObj = $(this).closest('.modal').find('.change-contact-input')
     changedValue = newContactObj.val()
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
@@ -155,7 +163,8 @@ $(document).ready ()->
 
     return
 
-  $('.contact-verification-modal .code-send').click ->
+
+  $('.contact-verification-modal').on 'click', '.code-send', (e)->
     # $('.processing').removeClass 'hidden'
     errordiv=$(this).closest('.number-code').find('.validationError')
     otpObj=$(this).closest('.code-submit').find('.fnb-input')
@@ -220,7 +229,8 @@ $(document).ready ()->
     $('.default-state .fnb-input').val ''
     return
 
-  $('.contact-verification-modal .resend-link').click (event)->
+ 
+  $('.contact-verification-modal').on 'click', '.resend-link', (e)->
     $(this).addClass 'sending'
     setTimeout (->
       $('.resend-link').removeClass 'sending'

@@ -167,7 +167,9 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
-        //Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Conner\Tagging\Providers\TaggingServiceProvider::class,
+        Ajency\FileUpload\FileUploadServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -231,6 +233,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'AjFileUpload' => Ajency\FileUpload\FileUploadServiceProvider::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,

@@ -107,7 +107,14 @@ $('body').on 'click', '.removeCol', (e)->
 
 $(document).on 'click', 'a.review-submit-link', (e) ->
   window.submit = 1;
-  # $('#listing-review').modal 'show'
+  submitForm(e)
+
+$(document).on 'click', 'a.archive-submit-link', (e) ->
+  window.archive = 1;
+  submitForm(e)
+
+$(document).on 'click', 'a.publish-submit-link', (e) ->
+  window.publish = 1;
   submitForm(e)
 
 $(document).on 'click', '.full.save-btn.gs-next', (e) ->

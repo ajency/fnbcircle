@@ -770,9 +770,11 @@
 		position: relative;
 		&:first-child{
 			.site-loader{
-				height: 58%;
 				@media screen and (min-width: 1024px) and (max-width: 1400px){
 					height: 68%;
+				}
+				@media screen and (min-width: 769px){
+					height: 58%;	
 				}
 			}
 		}
@@ -833,6 +835,28 @@
 	}
 }
 
+
+.imageUpload{
+	@media screen and (min-width: 769px){
+		.dropify-wrapper{
+			overflow: inherit;
+			&:hover{
+				.dropify-clear{
+	    			top: -10px;
+	    			right: -8px;
+	    			background-color: #fff;
+	    			color: #000;
+	    			box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+				}
+			}
+			.dropify-clear{
+				transition: inherit;
+			}
+		}
+	}
+}
+
+
 .fileUpload{
 	align-items: center;
 	.title-input{
@@ -880,6 +904,11 @@
 	}
 	@media screen and (max-width: @mobile){
 		// align-items: flex-start;
+		.addCol{
+			height: 60px;
+    		display: flex;
+    		align-items: center;
+		}
 	}
 }
 

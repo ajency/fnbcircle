@@ -7465,12 +7465,14 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0.5em;
   position: relative;
 }
-.image-grid__cols:first-child .site-loader {
-  height: 58%;
-}
 @media screen and (min-width: 1024px) and (max-width: 1400px) {
   .image-grid__cols:first-child .site-loader {
     height: 68%;
+  }
+}
+@media screen and (min-width: 769px) {
+  .image-grid__cols:first-child .site-loader {
+    height: 58%;
   }
 }
 .image-grid .site-loader.section-loader {
@@ -7506,6 +7508,22 @@ input[type=checkbox].custom-checkbox:before {
 }
 .dropify-wrapper.touch-fallback .dropify-preview .dropify-infos .dropify-infos-inner p.dropify-filename {
   font-size: 0.9em;
+}
+@media screen and (min-width: 769px) {
+  .imageUpload .dropify-wrapper {
+    overflow: inherit;
+  }
+  .imageUpload .dropify-wrapper:hover .dropify-clear {
+    top: -10px;
+    right: -8px;
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+  }
+  .imageUpload .dropify-wrapper .dropify-clear {
+    -webkit-transition: inherit;
+            transition: inherit;
+  }
 }
 .fileUpload {
   -webkit-box-align: center;
@@ -7553,6 +7571,19 @@ input[type=checkbox].custom-checkbox:before {
 }
 .fileUpload .removeCol i {
   font-style: normal;
+}
+@media screen and (max-width: 768px) {
+  .fileUpload .addCol {
+    height: 60px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
 }
 @media screen and (max-width: 768px) {
   .image-grid__cols {

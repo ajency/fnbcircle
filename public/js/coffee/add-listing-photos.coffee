@@ -9,7 +9,7 @@ image_dropify = $('.list-image').dropify messages:
   'default': 'Add photo'
   'replace': 'Replace photo'
   'remove': '<i class="">&#10005;</i>'
-  'error': 'Ooops, something wrong happended.'
+  # 'error': 'Ooops, something wrong happended.'
 
 
 file_dropify = $('.doc-upload').dropify messages:

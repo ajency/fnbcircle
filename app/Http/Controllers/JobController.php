@@ -471,7 +471,7 @@ class JobController extends Controller
 
 
     public function saveCompanyData($job,$request){ 
-        dd($request->all());
+       
         $user = Auth::user();
         $userId = $user->id;
         $this->validate($request, [

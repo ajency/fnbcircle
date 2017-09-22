@@ -93,6 +93,7 @@
             <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />
             <label for="file-2" class="btn fnb-btn outline full border-btn"><i class="fa fa-upload" aria-hidden="true"></i> <span>Upload File</span></label>
         </div> -->
+        
         <div class="image-grid fileUpload">
         @if($listing==null)
             <div class="image-grid__cols">

@@ -75,13 +75,6 @@
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                             <option value="">City</option>
-                                            @foreach(App\Area::all() as $key => $value)
-                                                @if(Auth::user()->getUserDetails()->first() && Auth::user()->getUserDetails()->first()->area == $value->id)
-                                                    <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
-                                                @else
-                                                    <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                                @endif
-                                            @endforeach
                                         </select>
                                         <label id="area-error" class="fnb-errors hidden"></label>
                                     </div>

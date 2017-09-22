@@ -387,6 +387,35 @@ $(function(){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
 
+			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
+				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
+				html = '<option value="">City</option>';
+				$('#' + parent + ' select[name="area"]').html(html);				
+				city = $(this).val();
+
+				if (city === '') {
+					return;
+				}
+
+				return $.ajax({
+					type: 'post',
+					url: '/get_areas',
+					data: {
+						'city': city
+					},
+					success: function(data) {
+						var key;
+						for (key in data) {
+							html += '<option value="' + key + '">' + data[key] + '</option>';
+						}
+						$("#" + parent + ' select[name="area"]').html(html);
+					},
+					error: function(request, status, error) {
+						throw Error();
+					}
+				});
+			});
+
 			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				validateEmail($(this).val(), "#" + id + " #email-error");

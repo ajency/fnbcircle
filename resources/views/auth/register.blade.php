@@ -138,9 +138,6 @@
                                             <div class="required select-required">
                                                 <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                                     <option value="">City</option>
-                                                    @foreach(App\Area::all() as $key => $value)
-                                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                                    @endforeach
                                                 </select>
                                                 <label id="area-error" class="fnb-errors hidden"></label>
                                             </div>

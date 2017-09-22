@@ -7306,6 +7306,19 @@ input[type="checkbox"].toggle__check {
   font-style: normal;
 }
 @media screen and (max-width: 768px) {
+  .fileUpload .addCol {
+    height: 60px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+@media screen and (max-width: 768px) {
   .image-grid__cols {
     width: 50%;
   }

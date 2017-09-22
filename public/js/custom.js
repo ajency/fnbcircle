@@ -387,6 +387,35 @@ $(function(){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
 
+			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
+				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
+				html = '<option value="">City</option>';
+				$('#' + parent + ' select[name="area"]').html(html);				
+				city = $(this).val();
+
+				if (city === '') {
+					return;
+				}
+
+				return $.ajax({
+					type: 'post',
+					url: '/get_areas',
+					data: {
+						'city': city
+					},
+					success: function(data) {
+						var key;
+						for (key in data) {
+							html += '<option value="' + key + '">' + data[key] + '</option>';
+						}
+						$("#" + parent + ' select[name="area"]').html(html);
+					},
+					error: function(request, status, error) {
+						throw Error();
+					}
+				});
+			});
+
 			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				validateEmail($(this).val(), "#" + id + " #email-error");
@@ -834,7 +863,7 @@ $(function(){
 		// });
 
 		// Bootstrap multiselect
-		if($('.multi-select').length){
+		if($('.multi-select,.location-select').length){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
 	            numberDisplayed: 1
@@ -842,7 +871,8 @@ $(function(){
 	        // different select init
 	        $('.default-area-select').multiselect({
 	            includeSelectAllOption: true,
-	            numberDisplayed: 1,
+	            numberDisplayed: 5,
+        		delimiterText:',',
 	            nonSelectedText: 'Select Area(s)'
 	        });
 		}
@@ -878,6 +908,11 @@ $(function(){
 		    area_group_clone = area_group.clone();
 		    area_group_clone.removeClass('area-append hidden');
 		    area_group_clone.find('.areas-appended').addClass('newly-created');
+		    console.log(area_group_clone);
+		    area_group_clone.find('.selectCity').attr('data-parsley-required','');
+		    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
+		    area_group_clone.find('.newly-created').attr('data-parsley-required','');
+		    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
 		    area_group_clone.find('.newly-created').multiselect({
 		    	includeSelectAllOption: true,
 	            numberDisplayed: 1,
@@ -886,10 +921,26 @@ $(function(){
 		    area_group_clone.insertBefore(area_group);
   		});
 
+
+
+
+		$('body').on('click', '.remove-select-col', function() {
+  			$(this).closest('.location-select').remove();
+  			if($('.areas-select').find('.location-select').length ==1){
+  				$('.add-areas').click();
+  			}
+  			 
+  		});
+
+
 		$('input[type=radio][name=plan-select]').change(function() {
 		  if ($(this).is(':checked')) {
 		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
 		  }
+		});
+
+		$('.sub-row .fnb-btn').click(function() {
+		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');	    
 		});
 
 		// cards equal heights
@@ -1060,6 +1111,66 @@ $(function(){
 		});
 		var infoIcon = '<i class="fa fa-info-circle p-l-5" aria-hidden="true"></i>'
 		$('.multipleOptions .multiselect-container li:not(.multiselect-all) .checkbox').append(infoIcon);
+
+
+
+
+		// /* exported initSample */
+
+		// if ( CKEDITOR.env.ie && CKEDITOR.env.version < 9 )
+		// 	CKEDITOR.tools.enableHtml5Elements( document );
+
+		// // The trick to keep the editor in the sample quite small
+		// // unless user specified own height.
+		// CKEDITOR.config.height = 150;
+		// CKEDITOR.config.width = 'auto';
+
+		// var initSample = ( function() {
+		// 	var wysiwygareaAvailable = isWysiwygareaAvailable(),
+		// 		isBBCodeBuiltIn = !!CKEDITOR.plugins.get( 'bbcode' );
+
+		// 	return function() {
+		// 		var editorElement = CKEDITOR.document.getById( 'editor' );
+
+		// 		// :(((
+		// 		if ( isBBCodeBuiltIn ) {
+		// 			editorElement.setHtml(
+		// 				'Hello world!\n\n' +
+		// 				'I\'m an instance of [url=http://ckeditor.com]CKEditor[/url].'
+		// 			);
+		// 		}
+
+		// 		// Depending on the wysiwygare plugin availability initialize classic or inline editor.
+		// 		if ( wysiwygareaAvailable ) {
+		// 			CKEDITOR.replace( 'editor' );
+		// 		} else {
+		// 			editorElement.setAttribute( 'contenteditable', 'true' );
+		// 			CKEDITOR.inline( 'editor' );
+
+		// 			// TODO we can consider displaying some info box that
+		// 			// without wysiwygarea the classic editor may not work.
+		// 		}
+		// 	};
+
+		// 	function isWysiwygareaAvailable() {
+		// 		// If in development mode, then the wysiwygarea must be available.
+		// 		// Split REV into two strings so builder does not replace it :D.
+		// 		if ( CKEDITOR.revision == ( '%RE' + 'V%' ) ) {
+		// 			return true;
+		// 		}
+
+		// 		return !!CKEDITOR.plugins.get( 'wysiwygarea' );
+		// 	}
+		// } )();
+
+
+		// initSample();
+
+
+
+ CKEDITOR.replace( 'editor' );
+
+
 
 });
 

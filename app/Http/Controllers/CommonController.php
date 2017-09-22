@@ -33,7 +33,7 @@ class CommonController extends Controller
         $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
-            $res[$area->id] = $area->name;
+            $res[] = array('id'=>$area->id,'name'=>$area->name);
         }
         return response()->json($res);
     }

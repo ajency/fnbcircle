@@ -63,16 +63,19 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 
+ 
 /******
 JOBS/USERS
 *******/
- Route::group( ['middleware' => ['auth']], function() { 
+
+Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	
 	Route::get('/get-keywords','JobController@getKeywords');
+	Route::get('/get-company','JobController@getCompanies');
 	
 
 	/**Users**/
@@ -81,9 +84,11 @@ JOBS/USERS
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
+// Route::get('/job/{job_slug}/{reference_id}','JobController@show');
+
+
 /*************/
- 
- 
+  
 /* Custom Auth Routes */
 Route::group(['namespace' => 'Ajency'], function() {
 	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
@@ -110,3 +115,4 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
+ 

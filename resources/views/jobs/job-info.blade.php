@@ -1,7 +1,15 @@
 @extends('layouts.add-job')
 @section('js')
     @parent
+    <script type="text/javascript" src="/js/maps.js"></script>
     <script type="text/javascript" src="/js/jobs.js"></script>
+    @if($job->id)
+     <script type="text/javascript">
+    // $(document).ready(function() {
+    //     getAddress();
+    // });
+    </script> 
+    @endif 
 @endsection
 @section('form-data')
 
@@ -38,7 +46,7 @@
                 </div> -->
                 <div class="brands-container businessType">
                      <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
-                        <option value="">- select category-</option>
+                        <option value="">Select Category</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ ucwords($category) }}</option>
                             @endforeach
@@ -62,12 +70,14 @@
             <datalist id="jobKeyword">
               
             </datalist>
+            <div id="keyword-ids">
+            </div>
         </div>
     </div>
 
     <!-- Job located -->
 
-    <div class="m-t-40 c-gap areas-select">
+    <div class="m-t-40 c-gap areas-select job-areas">
 
         <label class="label-size required">Where is the job located?  </label>
         @if($job->id)
@@ -152,6 +162,24 @@
             <a href="#" class="secondary-link text-decor heavier add-areas">+ Add more</a>
         </div>
         <div id="areaError" ></div>
+    </div>
+
+    <!-- map -->
+    <div class="m-t-30 c-gap">
+        <label class="label-size">Please provide the google map address for the interview location</label>
+
+        <div class="text-lighter">
+            Note: You can drag the pin on the map to point the address
+        </div>
+    </div>
+    <div class="m-t-20 c-gap">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="">
+        <div class="m-t-10" id="map" map-title="your interview location" show-address="@if($job->id) yes @endif">
+
+        </div>
+        <input type="hidden" id=latitude name=latitude value="{{ $job['interview_location_lat'] }}">
+        <input type="hidden" id=longitude name=longitude value="{{ $job['interview_location_long'] }}">
+
     </div>
 
     <!-- Job description -->
@@ -239,13 +267,14 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span> <span class="text-lighter"><a href="javascript:void(0)" class="dark-link clear-salary">Clear</a></span></label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
-            <input type="radio" name="salary_type"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}" class="fnb-radio"> {{ $salaryType }}
+            <input type="radio" name="salary_type" class="fnb-radio"  @if($job['salary_type'] == $salaryTypeId) checked @endif value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."> {{ $salaryType }}
           </label>
         @endforeach 
+        <div id="salary-type-errors" class="fnb-errors"></div>
         </div>
         
         <div class="salary-range">
@@ -254,15 +283,15 @@
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
      
-                  <input type="number" class="form-control" name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_type']) data-parsley-required @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
- 
+                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
+               
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>
                 <p class="m-b-0 sal-divider">to</p>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
-                  <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_type']) data-parsley-required @endif @if($job['salary_lower']!='') data-parsley-required @endif value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary.">
+                  <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status" @if($job['salary_lower']!='') data-parsley-required @endif @if($job['salary_type']) data-parsley-required @endif value="{{ $job['salary_upper'] }}" data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary.">
  
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>

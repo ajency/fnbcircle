@@ -30,7 +30,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check"  @if($mobile['visible']) checked @endif name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <input type="checkbox" class="toggle__check"  @if($mobile['visible']) checked @endif   data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                                 <b class="switch"></b>
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="{{ $mobile['visible'] }}">
@@ -68,7 +68,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError"   >
+                                <input type="checkbox" class="toggle__check"  data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError"   >
                                 <b class="switch"></b>
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
@@ -106,7 +106,7 @@
                     <div class="flex-row close-section">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_mobile_contact[]" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
+                                <input type="checkbox" class="toggle__check"  data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                                 <b class="switch"></b>
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">

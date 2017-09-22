@@ -1,4 +1,6 @@
 (function() {
+  var Applybtn, Articles, coreCat, getheight;
+
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
     jobCityObj = $(this);
@@ -47,23 +49,59 @@
     return $('.salary-amt').attr('data-parsley-required', true);
   });
 
-  $('.years-experience').flexdatalist({
-    selectionRequired: true,
-    minLength: 1,
-    removeOnBackspace: false
+  $('.clear-salary').on('click', function() {
+    $('input[name="salary_type"]').prop('checked', false).removeAttr('data-parsley-required');
+    $('input[name="salary_lower"]').removeAttr('data-parsley-required').val('');
+    return $('input[name="salary_upper"]').removeAttr('data-parsley-required').val('');
   });
 
-  setTimeout((function() {
-    $('.job-keywords').flexdatalist({
-      removeOnBackspace: false,
-      searchByWord: true,
-      searchContain: true,
+  if ($('.years-experience').length) {
+    $('.years-experience').flexdatalist({
       selectionRequired: true,
       minLength: 1,
-      url: '/get-keywords',
-      searchIn: ["label"]
+      removeOnBackspace: false
     });
-  }), 500);
+  }
+
+  $(document).ready(function() {
+    if ($('.job-keywords').length) {
+      $('.job-keywords').flexdatalist({
+        removeOnBackspace: false,
+        searchByWord: true,
+        searchContain: true,
+        selectionRequired: true,
+        minLength: 1,
+        url: '/get-keywords',
+        searchIn: ["label"]
+      });
+      return;
+    }
+    if ($('.auto-company').length) {
+      $('.auto-company').flexdatalist({
+        removeOnBackspace: false,
+        searchByWord: true,
+        searchContain: true,
+        selectionRequired: true,
+        minLength: 1,
+        url: '/get-company',
+        searchIn: ["title"]
+      });
+    }
+  });
+
+  $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
+    var inputTxt;
+    console.log(set);
+    inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
+    $('#keyword-ids').append(inputTxt);
+  });
+
+  $('.auto-company').on('select:flexdatalist', function(event, set, options) {
+    $('input[name="company_id"]').val(set.id);
+    $('textarea[name="company_description"]').text(set.description);
+    CKEDITOR.instances['editor'].setData(set.description);
+    $('input[name="company_website"]').val(set.website);
+  });
 
   $('.job-save-btn').click(function(e) {
     e.preventDefault();
@@ -72,7 +110,10 @@
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
     }
-    CKEDITOR.instances.editor.updateElement();
+    console.log($('input[name="step"]').val());
+    if ($('input[name="step"]').val() === 'step-one' || $('input[name="step"]').val() === 'step-two') {
+      CKEDITOR.instances.editor.updateElement();
+    }
     $('form').submit();
   });
 
@@ -83,16 +124,25 @@
       salaryUpper = parseInt($('#salary_upper').val());
       $('#salary_upper').attr('data-parsley-min', salaryLower);
       $('#salary_upper').attr('data-parsley-required', true);
+      $('input[name="salary_type"]').attr('data-parsley-required', true);
       if (salaryUpper === '' && salaryUpper < salaryLower) {
         $('#salary_upper').val(parseInt(salaryLower + 1));
         $('#salary_upper').attr('min', salaryLower);
       }
     } else {
-      console.log(1212);
       $('#salary_upper').removeAttr('data-parsley-min');
       $('#salary_upper').removeAttr('data-parsley-required');
+      $('input[name="salary_type"]').removeAttr('data-parsley-required');
       $('#salary_upper').val('');
-      $('#salary_upper').removeAttr('min');
+      $('#salary_upper').attr('min', 0);
+    }
+  });
+
+  $('#salary_upper').on('change', function() {
+    if ($(this).val() !== '') {
+      $('#salary_lower').attr('data-parsley-required', true);
+    } else {
+      $('#salary_lower').removeAttr('data-parsley-required');
     }
   });
 
@@ -134,30 +184,36 @@
     $('.alert-success').removeClass('active');
   }), 6000);
 
-  $('.expSelect').multiselect({
-    includeSelectAllOption: true,
-    numberDisplayed: 2,
-    delimiterText: ',',
-    nonSelectedText: 'Select Experience'
-  });
-
-  if ($(window).width() > 769) {
-    $('.comp-logo').dropify({
-      messages: {
-        'default': 'Add Logo',
-        'replace': 'Change Logo',
-        'remove': '<i class="">&#10005;</i>'
-      }
+  if ($('.expSelect').length) {
+    $('.expSelect').multiselect({
+      includeSelectAllOption: true,
+      numberDisplayed: 2,
+      delimiterText: ',',
+      nonSelectedText: 'Select Experience'
     });
   }
 
+  if ($(window).width() > 769) {
+    if ($('.comp-logo').length) {
+      $('.comp-logo').dropify({
+        messages: {
+          'default': 'Add Logo',
+          'replace': 'Change Logo',
+          'remove': '<i class="">&#10005;</i>'
+        }
+      });
+    }
+  }
+
   if ($(window).width() < 769) {
-    $('.comp-logo').dropify({
-      messages: {
-        'default': 'Add Logo',
-        'replace': 'Change Logo'
-      }
-    });
+    if ($('.comp-logo').length) {
+      $('.comp-logo').dropify({
+        messages: {
+          'default': 'Add Logo',
+          'replace': 'Change Logo'
+        }
+      });
+    }
   }
 
   if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
@@ -183,5 +239,47 @@
       console.log('added');
     }
   });
+
+  if ($('#editor').length) {
+    CKEDITOR.replace('editor');
+  }
+
+  $("html").easeScroll();
+
+  if ($(window).width() > 769) {
+    getheight = $('.design-2-card').outerHeight();
+    $('.equal-col').css('height', getheight);
+  }
+
+  $('.check-detail').click(function() {
+    $('html, body').animate({
+      scrollTop: $('#about-company').offset().top - 20
+    }, 2000);
+  });
+
+  $('.scroll-to-location').click(function() {
+    console.log(12);
+    $('html, body').animate({
+      scrollTop: $('#map').offset().top - 35
+    }, 2000);
+  });
+
+  $('.more-show').click(function(event) {
+    event.preventDefault();
+    $(this).addClass('hidden');
+    $('.line').addClass('hidden');
+    $(this).parent().addClass('expand-more');
+  });
+
+  if ($(window).width() <= 768) {
+    coreCat = $('.detach-col-1').detach();
+    $('.sell-re').after(coreCat);
+    Applybtn = $('.applyJob').detach();
+    $('.role-selection').after(Applybtn);
+    Articles = $('.related-article').detach();
+    $('.list-of-business').after(Articles);
+  }
+
+  $('[data-toggle="tooltip"]').tooltip();
 
 }).call(this);

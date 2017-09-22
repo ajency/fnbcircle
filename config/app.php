@@ -183,7 +183,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        Ajency\User\LaravelAjUserServiceProvider::class,
+        // Ajency\User\LaravelAjUserServiceProvider::class,
 
     ],
 

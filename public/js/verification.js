@@ -21,7 +21,8 @@
         return deleteObj.closest('.get-val').parent().remove();
       } else {
         deleteObj.closest('.contact-container').find('.contact-input').val('');
-        return deleteObj.closest('.contact-container').addClass('hidden');
+        deleteObj.closest('.contact-container').addClass('hidden');
+        return deleteObj.closest('.contact-container').removeClass('contact-container');
       }
     });
     $('.contact-info').on('click', '.contact-verify-link', function(event) {
@@ -38,7 +39,12 @@
       objectType = $('input[name="object_type"]').val();
       objectId = $('input[name="object_id"]').val();
       isVisible = $('.under-review').find('.contact-visible').val();
-      if (contactValue !== '' && contactValueObj.parsley().validate()) {
+      contactValueObj.closest('div').find('.dupError').html('');
+      if (!contactValueObj.parsley().isValid()) {
+        contactValueObj.parsley().validate();
+      }
+      console.log(contactValueObj.parsley().isValid());
+      if (contactValue !== '' && contactValueObj.parsley().isValid()) {
         if (showModal) {
           $('#' + contactType + '-modal').find('.contact-input-value').text(contactValue);
           $('#' + contactType + '-modal').modal('show');
@@ -66,6 +72,9 @@
         $('.contact-verify-steps').addClass('hidden');
         return $('.default-state, .verificationFooter').removeClass('hidden');
       } else {
+        if (contactValue === '') {
+          contactValueObj.closest('div').find('.dupError').html('Please enter ' + contactType);
+        }
         return $('#' + contactType + '-modal').modal('hide');
       }
     };

@@ -42,6 +42,7 @@ $(document).ready ()->
     else
       deleteObj.closest('.contact-container').find('.contact-input').val('')
       deleteObj.closest('.contact-container').addClass 'hidden'
+      deleteObj.closest('.contact-container').removeClass 'contact-container'
 
 
   $('.contact-info').on 'click', '.contact-verify-link', (event) ->
@@ -58,9 +59,13 @@ $(document).ready ()->
     objectType = $('input[name="object_type"]').val()
     objectId = $('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
+    contactValueObj.closest('div').find('.dupError').html ''
 
-   
-    if contactValue != '' && contactValueObj.parsley().validate()
+    if(!contactValueObj.parsley().isValid())
+      contactValueObj.parsley().validate()
+      
+    console.log contactValueObj.parsley().isValid()
+    if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)
         $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
@@ -87,7 +92,9 @@ $(document).ready ()->
       $('.contact-verify-steps').addClass 'hidden'
       $('.default-state, .verificationFooter').removeClass 'hidden'
 
-    else 
+    else
+      if contactValue == ''
+        contactValueObj.closest('div').find('.dupError').html 'Please enter '+contactType 
       $('#'+contactType+'-modal').modal 'hide'
 
   $('.contact-verification-modal .contact-info').on 'change', '.contact-input', (event) ->

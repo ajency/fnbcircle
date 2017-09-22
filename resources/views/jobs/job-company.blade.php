@@ -31,7 +31,7 @@
             </div>
             <div class="J-company__name">
                 <label class="label-size required">Name of your company?</label>
-                <input type="text" name="company_name" class="form-control fnb-input" placeholder="" value="{{ $jobCompany['title'] }}" data-parsley-required-message="Please enter the company name." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="company name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="company name cannot be less than 2 characters."> 
+                <input type="text" name="company_name" class="form-control fnb-input auto-company flexdatalist"  data-min-length='1' placeholder="" value="{{ $jobCompany['title'] }}" data-parsley-required-message="Please enter the company name." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="company name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="company name cannot be less than 2 characters."> 
                 <input type="hidden" name="company_id" value="{{ $jobCompany['id'] }}">  
             </div>
         </div>
@@ -69,20 +69,20 @@
     <input type="hidden" name="object_type" value="App\Job">
     <input type="hidden" name="object_id" value="{{ $job->id}}">
     <!-- email -->
-    @include('verification.email-verification')
+    @include('modals.verification.email-verification')
     
     <!-- phone number -->
-    @include('verification.mobile-verification')
+    @include('modals.verification.mobile-verification')
     <!-- /contact verification HTML -->
 
     </div>
 
 <!-- contact verification MODAL -->
 <!-- Phone verification -->
-@include('verification.mobile-modal')
+@include('modals.verification.mobile-modal')
 
 <!-- Email verification -->
-@include('verification.email-modal')
+@include('modals.verification.email-modal')
 <!-- contact verification MODAL -->
 
 

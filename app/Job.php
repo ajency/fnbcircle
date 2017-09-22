@@ -8,6 +8,7 @@ use App\Area;
 use App\Company;
 use App\Category;
 use App\UserCommunication;
+use Auth;
 
 class Job extends Model
 {
@@ -21,6 +22,15 @@ class Job extends Model
 
     public function publishedBy() {
         return $this->belongsTo( 'App\User' ,'published_by');
+    }
+
+    public function category() {
+        return $this->belongsTo( 'App\Category');
+    }
+
+    public function getTitleAttribute( $value ) { 
+        $value = ucwords( $value );      
+        return $value;
     }
 
     public function jobStatuses(){
@@ -40,23 +50,39 @@ class Job extends Model
         $jobCategories = Category::where("type","job")->get();
 
         $categories = [];
+        $others = [];
         foreach ($jobCategories as $key => $jobCategory) {
-            $categories[$jobCategory->id] = $jobCategory->name;
+            $categoryName = strtolower($jobCategory->name);
+            if($categoryName == 'other')
+                $others[$jobCategory->id] = ucwords($jobCategory->name);
+            else
+                $categories[$jobCategory->id] = ucwords($jobCategory->name);
         }
-
+        $categories = $categories+$others;
         return $categories;
     }
 
-    public function getJobStatus(){
-    	$statuses = $this->jobStatuses();
-    	$status = $statuses[$this->status];
-    	return $status;
+    public function getJobCategoryName(){ 
+        $categoryName = strtolower($this->category->name);
+        return ucwords($categoryName);
     }
 
-    public function jobTypes(){
-    	// $status = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
-    	$jobTypes =  Defaults::where("type","job_type")->get();
+    public function getJobStatus(){
+        $jobStatus = Defaults::find($this->status);
+        $jobStatus = strtolower($jobStatus->label);
+        return ucwords($jobStatus);
+    }
 
+    public function jobTypes($jobTypeIds = []){
+    	// $status = ['1'=>'Part-time','2'=>'Full-time','3'=>'Temporary'];
+    	$jobTypeQry =  Defaults::where("type","job_type");
+
+        if(!empty($jobTypeIds)){
+            $jobTypeQry->whereIn("id",$jobTypeIds);
+        }
+
+        $jobTypes = $jobTypeQry->get();
+        
     	$types = [];
     	foreach ($jobTypes as $key => $jobType) {
     		$types[$jobType->id] = $jobType->label;
@@ -65,10 +91,13 @@ class Job extends Model
     	return $types;
     }
 
-    public function getJobTypes($id){
-    	$jobTypes = $this->getJobTypes();
-    	$jobType = $jobTypes[$id];
-    	return $jobType;
+    public function getJobTypes(){
+        $jobMetaData = $this->meta_data;
+        $jobTypeIds = (isset($jobMetaData['job_type'])) ? $jobMetaData['job_type'] :[];
+
+        $jobTypes = (!empty($jobTypeIds)) ? $this->jobTypes($jobTypeIds) :[];
+         
+    	return $jobTypes;
     }
 
     public function jobExperience(){
@@ -105,10 +134,9 @@ class Job extends Model
         return $keywords;
     }
 
-    public function getSalaryType($id){
-    	$salaryTypes = $this->salaryTypes();
-    	$salaryType = $salaryTypes[$id];
-    	return $salaryType;
+    public function getSalaryType(){
+        $salaryType = Defaults::find($this->salary_type);
+        return ucwords($salaryType->label);
     }
 
 
@@ -133,6 +161,16 @@ class Job extends Model
 
 	public function jobCompany() {
         return $this->hasOne('App\JobCompany');
+    }
+
+    public function getMetaDescription(){
+       if(!empty($this->description)){            
+
+        return strip_tags(trim($this->description));
+
+        }else{
+            return '';
+        } 
     }
 
     public function getJobCompany(){
@@ -188,4 +226,139 @@ class Job extends Model
 
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
     }
+
+    public function  getJobLocationNames($getData='all'){
+        $locations = $this->hasLocations()->get()->toArray(); 
+        $savedLocation = [];
+        $cityNames = [] ;
+        $areas = [] ;
+        $cityId =  $area ='';
+        foreach ($locations as $key => $location) {
+
+            if($getData=='city' || $getData=='all'){
+
+                if(!isset($cityNames[$location['city_id']])){
+                    $city = City::find($location['city_id'])->name;
+                    $cityNames[$location['city_id']] = $city;
+                }
+                else
+                    $city = $cityNames[$location['city_id']];
+
+                if($getData=='city')
+                    $savedLocation[] = $city;
+            }
+            
+            if($getData=='area' || $getData=='all'){
+                if(!isset($areas[$location['area_id']])){
+                    $area = Area::find($location['area_id'])->name;
+                    $areas[$location['area_id']] = $area;
+                }
+                else
+                    $area = $areas[$location['area_id']];
+
+                if($getData=='area')
+                    $savedLocation[] = $city;
+            }
+
+            if($getData=='all')
+                $savedLocation[$city][] = $area;
+             
+        }
+
+        return $savedLocation;
+    }
+
+    public function jobPostedOn(){
+        return (!empty($this->date_of_submission)) ? date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission))): '';
+    }
+
+    public function jobPublishedOn(){
+        return (!empty($this->published_on)) ? date('F j, Y', strtotime(str_replace('-','/', $this->published_on))) : '';
+    }
+
+    public function canEditJob(){
+        if(Auth::check() && $this->job_creator == Auth::user()->id)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function isJobVisible(){
+
+        if($this->canEditJob() && $this->isJobDataComplete())
+            return true;
+        elseif($this->status == 3 || $this->status == 4)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function isPublished(){
+     
+        if($this->status == 3)
+            return true;
+        else
+            return false;
+
+    }
+
+    public function publishJob(){
+        
+        $this->status = 3;
+        if($this->slug =="")
+            $this->slug = $this->getJobSlug();
+        $this->save();
+
+        $company = $this->getJobCompany();
+        $company->status = 2;
+        $company->save();
+
+        return true;
+
+    }
+
+    public function submitForReview(){
+     
+        if($this->status == 1 && $this->isJobDataComplete())
+            return true;
+        else
+            return false;
+
+    }
+
+    public function isJobDataComplete(){
+
+        if($this->title !="" && $this->description !="" && $this->category_id !="" &&  (isset($this->meta_data['job_keyword']) && !empty($this->meta_data['job_keyword'])) && (!empty($this->hasLocations())) && (!empty($this->getJobCompany()) && $this->getJobCompany()->title !=""))
+            return true;
+        else
+            return false;
+    }
+
+    public function getJobSlug(){
+        $titleSlug = str_slug($this->title);
+
+        if(empty($this->slug))
+            $slug = $titleSlug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+        else
+            $slug = $this->slug;
+
+        return  $slug;
+    }
+
+
+    public function getSimilarJobs(){
+
+        //, 'status'=>3  
+        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
+        return $jobs;
+    }
+
+    // private function getFilteredJobs($jobs,$filters){
+     
+    //     return $jobs;
+    // }
+
+    
 }

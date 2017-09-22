@@ -54,6 +54,7 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
 
 }
 
+
 /**
 * This function can be called in blade to generate the HTML required.
 * This function @return
@@ -96,4 +97,28 @@ function generateHTML($reference) {
 	}
 
 	return $response_html;
+}
+
+function splitArrayData($array,$count){
+	 
+    $arrayCount = count($array);
+    $limitedArray = ($arrayCount > $count) ? array_splice($array,0,$count) : $array;
+    $moreArray = $array;
+    $data['array'] = $limitedArray;
+    $data['moreArray'] = $moreArray;
+    $data['moreArrayCount'] = $arrayCount - count($limitedArray);
+
+    return $data;
+
+}
+
+function getReferenceIdFromSlug($slug){
+
+        $slugArray = explode("-", $slug);
+        return  end($slugArray);;
+}
+
+function breadCrumbText($text){
+	$text = str_replace("/", " ", $text);
+	return ucwords($text);
 }

@@ -48,6 +48,11 @@ class JobController extends Controller
         $defaultKeywords  = $job->jobKeywords();
         $jobCategories = $job->jobCategories();
         $postUrl = url('jobs');
+        $pageName = "Add Job" ;
+        $breadcrumb = "Add a Job" ;
+        $job->interview_location_lat = "28.7040592";
+        $job->interview_location_long = "77.10249019999992";
+
 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
                                     ->with('job', $job) 
@@ -58,6 +63,8 @@ class JobController extends Controller
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
                                     ->with('step', 'step-one')
+                                    ->with('pageName', $pageName)
+                                    ->with('breadcrumb', $breadcrumb)
                                     ->with('postUrl', $postUrl);
     }
 
@@ -93,6 +100,9 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+        $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
 
         $metaData = [] ;
 
@@ -122,11 +132,11 @@ class JobController extends Controller
         }
 
         $job    = new Job;
-        $slug = getUniqueSlug($job, $title);
+        // $slug = getUniqueSlug($job, $title);
         $job->reference_id = generateRefernceId($job,'reference_id');
         $job->title = $title;
         $job->description = $description;
-        $job->slug = $slug;
+        $job->slug = '';
         $job->category_id = $category;
         $job->job_type = $jobType;
         $job->experience_years_lower = $experienceYearsLower;
@@ -137,12 +147,14 @@ class JobController extends Controller
         $job->status = 1;
         $job->job_creator = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location_lat = $latitude;
+        $job->interview_location_long = $longitude;
         $job->save();
 
         $jobId = $job->id;
-
+        
         $this->addJobLocation($job,$jobArea);
-        // $this->addJobKeywords($job,$jobKeywords);
+        $this->addJobKeywords($job,$keywordIds);
         Session::flash('success_message','Job details saved successfully.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
@@ -211,9 +223,62 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($jobSlug)
     {
-        //
+
+        $referenceId = getReferenceIdFromSlug($jobSlug);
+        $job = Job::where('reference_id',$referenceId)->first();
+
+        if(empty($job))
+            abort(404);
+
+        if(!$job->isJobVisible())
+            abort(404);
+
+        $jobCompany  = $job->getJobCompany();
+        $jobTypes  = $job->getJobTypes();
+        $locations  = $job->getJobLocationNames();
+        $similarjobs  = $job->getSimilarJobs(); 
+        
+        $metaData = $job->meta_data;
+      
+        $data = ['job' => $job]; 
+        $data['jobTypes'] = $jobTypes;
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[]; 
+        $splitKeywords =  splitArrayData($jobKeywords,4);
+        $data['keywords'] = $splitKeywords['array'];
+        $data['moreKeywords'] = $splitKeywords['moreArray'];
+        $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
+
+        $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $data['jobCompany'] = $jobCompany;
+        $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
+        $data['locations'] = $locations;
+        $data['similarjobs'] = $similarjobs;
+
+        $shareLink = url('/jobs/'.$job->getJobSlug());
+        $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
+
+        $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
+
+        $twitterShare = "http://www.twitter.com/share?url=".$shareLink;
+        
+        $googleShare = "https://plus.google.com/share?url=".$shareLink;
+
+        $linkedInShare = "https://www.linkedin.com/shareArticle?mini=true&url=".$shareLink;
+
+        $watsappShare = "whatsapp://send?text=".$shareLink;
+        //https://api.whatsapp.com/send?phone=whatsappphonenumber&text=urlencodedtext
+ 
+        $data['shareLink'] = $shareLink;
+        $data['shareTitle'] = $shareTitle;
+        $data['facebookShare'] = $facebookShare;
+        $data['twitterShare'] = $twitterShare;
+        $data['googleShare'] = $googleShare;
+        $data['linkedInShare'] = $linkedInShare;
+        $data['watsappShare'] = $watsappShare;
+        
+         return view('jobs.job-view')->with($data);
     }
 
     /**
@@ -225,6 +290,11 @@ class JobController extends Controller
     public function edit($reference_id,$step='step-one')
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
+
+        if(!$job->canEditJob())
+            abort(403);
+
+
         $data = [];
         $data = ['job' => $job];
         $postUrl = url('jobs/'.$job->reference_id);
@@ -256,6 +326,9 @@ class JobController extends Controller
             $data['back_url'] = null;
             
             $blade = 'jobs.job-info';
+            $pageName = $job->title .'- Job Details' ;
+            // $breadcrumb = $job->title .'/ Job Details' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
 
         }
         elseif ($step == 'step-two'){
@@ -266,16 +339,23 @@ class JobController extends Controller
             $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
             $blade = 'jobs.job-company';
+            $pageName = $job->title .'- Company Details' ;
+            // $breadcrumb = $job->title .'/ Company Details' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'step-three'){
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-two'); 
             $blade = 'jobs.job-plan-selection';
+            $pageName = $job->title .'- Plan-Selection' ;
+            // $breadcrumb = $job->title .'/ Plan-Selection' ;
+            $breadcrumb = $job->title .' / Edit Job' ;
         }
         else{
 
             abort(404);
         }
- 
+        $data['pageName'] = $pageName;
+        $data['breadcrumb'] = $breadcrumb;
         return view($blade)->with($data);
     }
 
@@ -333,6 +413,10 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+        $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
+ 
 
         $metaData = [] ;
 
@@ -374,9 +458,11 @@ class JobController extends Controller
         $job->salary_upper = $salaryUpper;
         $job->job_modifier = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location_lat = $latitude;
+        $job->interview_location_long = $longitude;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
-        // $this->addJobKeywords($job,$jobKeywords);
+        $this->addJobKeywords($job,$keywordIds);
         Session::flash('success_message','Job details saved successfully.');
         $request['next_step'] = 'step-two';
 
@@ -385,6 +471,7 @@ class JobController extends Controller
 
 
     public function saveCompanyData($job,$request){ 
+        dd($request->all());
         $user = Auth::user();
         $userId = $user->id;
         $this->validate($request, [
@@ -407,9 +494,11 @@ class JobController extends Controller
         
         if($companyId == ''){
             $company = new Company;
+            $status = 1 ;
         }
         else{
             $company = Company::find($companyId);
+            $status = $company->status ;
         }
         
         $slug = getUniqueSlug($company, $title);
@@ -418,6 +507,7 @@ class JobController extends Controller
         $company->description = $description;
         $company->slug = $slug;
         $company->website = $website;
+        $company->status = $status;
         $company->save();
 
 
@@ -433,6 +523,9 @@ class JobController extends Controller
             $jobCompany->save();
         }  
 
+
+
+        ///save conatct detailts
         foreach ($contactEmail as $key => $email) {
             $isVisible = $visibleEmailContact[$key];
             $conactDetails = ['id' => $contactEmailId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$email,'contact_type'=>'email','is_visible'=>$isVisible] ;
@@ -442,7 +535,6 @@ class JobController extends Controller
  
         }
 
- 
         foreach ($contactMobile as $key => $mobile) {
             $isVisible = $visibleMobileContact[$key];
             $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'contact_type'=>'mobile','is_visible'=>$isVisible] ;
@@ -451,7 +543,10 @@ class JobController extends Controller
 
         }
 
-  
+        
+        $job->job_modifier = $userId;
+        $job->save(); 
+
         Session::flash('success_message','Company details saved successfully.');
         $request['next_step'] = 'step-three';
 
@@ -471,15 +566,28 @@ class JobController extends Controller
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }
 
+    public function getCompanies(Request $request)
+    { 
+        $this->validate($request, [
+            'keyword' => 'required',
+        ]);
+
+        $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
+        
+        return response()->json(['results' => $companies]);
+    }
+
     public function submitForReview($reference_id){
- 
+        $date = date('Y-m-d H:i:s');    
         $job = Job::where('reference_id',$reference_id)->first();
         $job->status = 2; 
+        $job->date_of_submission = $date; 
         $job->save();
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
     }
+
 
     /**
      * Remove the specified resource from storage.

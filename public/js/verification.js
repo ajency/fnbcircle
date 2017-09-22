@@ -21,7 +21,8 @@
         return deleteObj.closest('.get-val').parent().remove();
       } else {
         deleteObj.closest('.contact-container').find('.contact-input').val('');
-        return deleteObj.closest('.contact-container').addClass('hidden');
+        deleteObj.closest('.contact-container').addClass('hidden');
+        return deleteObj.closest('.contact-container').removeClass('contact-container');
       }
     });
     $('.contact-info').on('click', '.contact-verify-link', function(event) {
@@ -38,7 +39,12 @@
       objectType = $('input[name="object_type"]').val();
       objectId = $('input[name="object_id"]').val();
       isVisible = $('.under-review').find('.contact-visible').val();
-      if (contactValue !== '' && contactValueObj.parsley().validate()) {
+      contactValueObj.closest('div').find('.dupError').html('');
+      if (!contactValueObj.parsley().isValid()) {
+        contactValueObj.parsley().validate();
+      }
+      console.log(contactValueObj.parsley().isValid());
+      if (contactValue !== '' && contactValueObj.parsley().isValid()) {
         if (showModal) {
           $('#' + contactType + '-modal').find('.contact-input-value').text(contactValue);
           $('#' + contactType + '-modal').modal('show');
@@ -66,10 +72,13 @@
         $('.contact-verify-steps').addClass('hidden');
         return $('.default-state, .verificationFooter').removeClass('hidden');
       } else {
+        if (contactValue === '') {
+          contactValueObj.closest('div').find('.dupError').html('Please enter ' + contactType);
+        }
         return $('#' + contactType + '-modal').modal('hide');
       }
     };
-    $('.contact-verification-modal .contact-info').on('change', '.contact-input', function(event) {
+    $('.contact-info').on('change', '.contact-input', function(event) {
       var contactObj, contactval;
       contactObj = $(this);
       contactval = contactObj.val();
@@ -83,7 +92,7 @@
     checkDuplicateEntries = function(contactObj) {
       var contactval, result;
       contactval = contactObj.val();
-      $('form').parsley().validate();
+      contactObj.closest('form').parsley().validate();
       result = true;
       contactObj.closest('.contact-info').find('.contact-input').each(function() {
         if (contactObj.get(0) !== $(this).get(0) && $(this).val() === contactval) {
@@ -93,18 +102,18 @@
       });
       return result;
     };
-    $('.contact-verification-modal .edit-number').click(function(event) {
+    $('.contact-verification-modal').on('click', '.edit-number', function(e) {
       $('.value-enter').val('');
       $('.default-state').addClass('hidden');
       $('.add-number').removeClass('hidden');
       $('.verificationFooter').addClass('no-bg');
     });
-    $('.contact-verification-modal .step-back').click(function(event) {
+    $('.contact-verification-modal').on('click', '.step-back', function(e) {
       $('.default-state').removeClass('hidden');
       $('.add-number').addClass('hidden');
       $('.verificationFooter').removeClass('no-bg');
     });
-    $('.contact-verification-modal .contact-verify-stuff').click(function(event) {
+    $('.contact-verification-modal').on('click', '.contact-verify-stuff', function(e) {
       var changedValue, newContactObj, oldContactObj, oldContactValue;
       newContactObj = $(this).closest('.modal').find('.change-contact-input');
       changedValue = newContactObj.val();
@@ -125,7 +134,7 @@
         }
       }
     });
-    $('.contact-verification-modal .code-send').click(function() {
+    $('.contact-verification-modal').on('click', '.code-send', function(e) {
       var contactId, errordiv, otpObj, otpValue, validator;
       errordiv = $(this).closest('.number-code').find('.validationError');
       otpObj = $(this).closest('.code-submit').find('.fnb-input');
@@ -191,7 +200,7 @@
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.contact-verification-modal .resend-link').click(function(event) {
+    $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');

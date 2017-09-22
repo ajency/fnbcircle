@@ -11,8 +11,7 @@
     messages: {
       'default': 'Add photo',
       'replace': 'Replace photo',
-      'remove': '<i class="">&#10005;</i>',
-      'error': ''
+      'remove': '<i class="">&#10005;</i>'
     }
   });
 

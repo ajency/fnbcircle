@@ -179,7 +179,7 @@
                     <div class="location main-loc flex-row">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <i class="fa fa-tag p-r-5" aria-hidden="true"></i>
-                       <a class="location__title c-title">{{ $job->getJobCategoryName() }}</a>
+                       <a  href="#" class="location__title c-title">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
@@ -378,7 +378,7 @@
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
-                        <li><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $watsappShare }}" class="desk-hide" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                         <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                         
                         <li><a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
@@ -499,8 +499,8 @@
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li>
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s" style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
-                     <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+                     <a href="{{ $watsappShare }}" class="desk-hide" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
                      <a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>

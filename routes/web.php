@@ -63,6 +63,9 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 /* Custom Auth Routes */
+
+Route::get('/logout', 'Auth\LoginController@logout');
+
 Route::group(['namespace' => 'Ajency'], function() {
 	Route::get('/redirect/{provider}', 'User\SocialAuthController@urlSocialAuthRedirect');
 	Route::get('/callback/{provider}', 'User\SocialAuthController@urlSocialAuthCallback');

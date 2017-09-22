@@ -111,7 +111,8 @@ $(document).ready ()->
 
   checkDuplicateEntries = (contactObj) ->
     contactval = contactObj.val()
-    $('form').parsley().validate()
+
+    contactObj.closest('form').parsley().validate()
     result = true
     contactObj.closest('.contact-info').find('.contact-input').each ->
 

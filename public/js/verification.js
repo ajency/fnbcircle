@@ -92,7 +92,7 @@
     checkDuplicateEntries = function(contactObj) {
       var contactval, result;
       contactval = contactObj.val();
-      $('form').parsley().validate();
+      contactObj.closest('form').parsley().validate();
       result = true;
       contactObj.closest('.contact-info').find('.contact-input').each(function() {
         if (contactObj.get(0) !== $(this).get(0) && $(this).val() === contactval) {

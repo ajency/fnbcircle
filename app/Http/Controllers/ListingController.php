@@ -309,7 +309,7 @@ class ListingController extends Controller
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
-            $listing->last_updated_by = Auth::user()->id;
+            $listing->updated_at = Carbon::now();
             $listing->save();
         }
 
@@ -518,7 +518,7 @@ class ListingController extends Controller
         }
 
         // echo $data->change;
-        return redirect('/listing/' . $listing->reference . '/edit/business-photos?step=true' . $change);
+        return redirect('/listing/' . $listing->reference . '/edit/business-photos-documents?step=true' . $change);
     }
 
     public function listingOtherDetails($request)
@@ -534,28 +534,17 @@ class ListingController extends Controller
 
     }
 
-
     //----------------------------step 5------------------------------
     public function validateListingPhotosAndDocuments($data)
     {
         $this->validate($data, [
-            'listing_id' => 'required|integer|min:1',
-            'photos'     => 'required|photo_json',
-            'documents'  => 'required|doc_json',
+            'listing_id' => 'required',
+            'main' => 'nullable|integer'
+            
         ]);
-        if (!Common::verify_id($data->listing_id, 'listings')) {
-            return \Redirect::back()->withErrors(array('wrong_step' => 'Listing id is fabricated. Id doesnt exist'));
-        }
-
         return true;
     }
-    public function saveListingPhotosAndDocuments($data)
-    {
-        $listing            = Listing::find($data->listing_id);
-        $listing->photos    = $data->photos;
-        $listing->documents = $data->documents;
-        $listing->save();
-    }
+   
     public function listingPhotosAndDocuments($request)
     {
         $check = $this->validateListingPhotosAndDocuments($request);
@@ -563,7 +552,31 @@ class ListingController extends Controller
             return $check;
         }
 
-        $this->saveListingPhotosAndDocuments($request);
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+
+        $listing            = Listing::where('reference',$request->listing_id)->firstorFail();
+        if (isset($request->images)) $images = explode(',',$request->images);
+        else $images= [];
+        if (isset($request->files)) $files = json_decode($request['files'],true);
+        else $files= [];
+        $filemap=array();
+        foreach ($files as $file) {
+            $filemap[] = (int)$file['id'];
+        }
+        $listing->remapImages($images);
+        $listing->remapFiles($filemap);
+        $listing->updated_at = Carbon::now();
+        $saved_images = $listing->getImages();
+        if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
+            $listing->photos = '{"id": "'.$request->main.'", "url" : "'.$saved_images[$request->main][config('tempconfig.listing-thumb-size')].'", "order" : "'.implode(',',$images).'"}';
+        }else{
+            $listing->photos = null;
+        }
+        $listing->save();
+        
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
         }elseif (isset($request->archive) and $request->archive == 'yes') {
@@ -572,6 +585,40 @@ class ListingController extends Controller
             return ($this->publish($request));
         }
 
+        return redirect('/listing/' . $listing->reference . '/edit/business-premium?step=true' . $change);
+
+
+    }
+
+
+    public Function uploadListingPhotos(Request $request){
+        $this->validate($request,[
+            'listing_id'  => 'required',
+            'file' => 'image'
+        ]);
+        $image = $request->file('file');
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        $id = $listing->uploadImage($request->file('file'));
+        if($id != false){
+            return response()->json(['status'=>'200','message'=>'Image Uploaded successfully', 'data'=>['id'=>$id]]);
+        }else{
+            return response()->json(['status'=>'400','message'=>'Image Upload Failed', 'data'=>[]]);
+        }
+    }
+
+    public Function uploadListingFiles(Request $request){
+        $this->validate($request,[
+            'listing_id'  => 'required',
+            'file' => 'file'
+        ]);
+        $file = $request->file('file')->getClientOriginalName();
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        $id = $listing->uploadFile($request->file('file'),true,$file);
+        if($id != false){
+            return response()->json(['status'=>'200','message'=>'File Uploaded successfully', 'data'=>['id'=>$id]]);
+        }else{
+            return response()->json(['status'=>'400','message'=>'File Upload Failed', 'data'=>[]]);
+        }
     }
 
     //--------------------Common method ------------------------
@@ -595,7 +642,7 @@ class ListingController extends Controller
                 case 'business-details':
                     return $this->listingOtherDetails($request);
                     break;
-                case 'listing_photos_and_documents':
+                case 'business-photos-documents':
                     return $this->listingPhotosAndDocuments($request);
                     break;
                 default:
@@ -645,10 +692,15 @@ class ListingController extends Controller
             
             return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
         }
-        if ($step == 'business-photos') {
+        if ($step == 'business-photos-documents') {
             $listing = Listing::where('reference', $reference)->firstorFail();
             
-            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos')->with('back', 'business-details');
+            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
+        }
+        if ($step == 'business-premium') {
+            $listing = Listing::where('reference', $reference)->firstorFail();
+            
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents');
         }
     }
 

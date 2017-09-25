@@ -183,7 +183,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        Ajency\User\LaravelAjUserServiceProvider::class,
+        // Ajency\User\LaravelAjUserServiceProvider::class,
 
     ],
 
@@ -235,7 +235,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'AjFileUpload' => Ajency\FileUpload\FileUploadServiceProvider::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
         'Role' => Spatie\Permission\Models\Role::class,

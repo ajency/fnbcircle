@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\ListingCommunication;
+use App\UserCommunication;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -69,5 +70,49 @@ class User extends Authenticatable
                 return null;
             }
         }
+    }
+
+    public function saveContactDetails($data,$type){
+
+        if($type=='listing'){
+            if ($data['id'] == null) {
+                $object = new ListingCommunication;
+            } else {
+                $object = ListingCommunication::findorFail($data['id']);
+            }
+            $object->value              =  $data['value'] ;
+            $object->communication_type = $data['type'];
+            $object->save();
+        }
+        else{
+
+            if ($data['id'] == null) {
+                $object = new UserCommunication;
+            } else {
+                $object = UserCommunication::find($data['id']);
+
+                if($data['contact_value'] == ""){
+                    $object->delete();
+                }
+            }
+
+            if($data['contact_value'] != ""){
+                $object->object_type  =  $data['object_type'] ;
+
+                if(!isset($data['action']))
+                    $object->object_id  =  $data['object_id'] ;
+
+                $object->value  =  $data['contact_value'] ;
+                $object->type  =  $data['contact_type'] ;
+                $object->is_primary = 0;
+                $object->is_communication = 1;
+                $object->is_visible = $data['is_visible'] ;
+                $object->save();
+            }
+            
+
+        }
+
+        return $object;
     }
 }

@@ -16,11 +16,14 @@ window.onload = ->
       return
   return
 window.init = ->
+  mapTextMsg = 'your business location'
+  if $("#map").attr('map-title') != ""
+    mapTextMsg = $("#map").attr('map-title')
   document.getElementById('map').style.height="300px"
   map = new (google.maps.Map)(document.getElementById('map'), zoom: 12)
   marker = new (google.maps.Marker)(
     draggable: true
-    title: 'your business location')
+  title: mapTextMsg)
   inp=$("input#mapadd").val();
   lat=$('input#latitude').val()
   lng=$('input#longitude').val()
@@ -28,6 +31,13 @@ window.init = ->
     populate(inp)
   else
     initMap(lat,lng)
+
+  #show address in textbox whwn page loads 
+  console.log $("#map").attr('show-address')
+  if $("#map").attr('show-address') != ""
+    getAddress()
+
+
   google.maps.event.addListener marker, 'dragend', (ev) ->
     getAddress()
   return
@@ -49,6 +59,10 @@ getAddress = ()->
     success: (data) ->
       console.log data['results'][0]['formatted_address']
       document.getElementById('mapadd').value = data['results'][0]['formatted_address']
+
+      if $(".mapAddress").length
+        $(".mapAddress").html data['results'][0]['formatted_address']
+
       updateAddr()
       return
   return

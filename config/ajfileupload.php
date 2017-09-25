@@ -5,24 +5,34 @@ return [
 	'base_root_path' => '',
 	'default_base_path' => 'other_files',
 	'valid_image_formats' => ['jpg', 'png', ],
-	'valid_file_formats' => ['doc', 'docx', 'pdf'],
+	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf'],
 	'sizes' => [
-		'thumb' => [
-			'width' => 100,
-			'height' => 56,
+		'400X300' => [
+			'width' => 400,
+			'height' => 300,
 			'watermark' => [
-				'image_path' => public_path().'/img/logo.png',
-				'position'=>'bottom-right', 
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
+				'x'=> 10, 
+				'y'=>10
+			],
+		],
+		'200x150' => [
+			'width' => 200,
+			'height' => 150,
+			'watermark' => [
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
 			],
 		],
 	],
 	'model' => [
-		'App\Model_name' => [
-			'base_path' => 'model/',
+		'App\Listing' => [
+			'base_path' => 'Listings',
 			'slug_column' => 'slug',
-			'sizes' => ['thumb']
+			'sizes' => ['400X300','200x150']
 		],
 	],
 ];

@@ -30,6 +30,31 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 	echo $html;
 }
 
+function getUniqueSlug(\Illuminate\Database\Eloquent\Model $model, $value)
+{
+    $slug = \Illuminate\Support\Str::slug($value);
+    $slugCount = count($model->whereRaw("slug REGEXP '^{$slug}(-[0-9]+)?$' and id != '{$model->id}'")->get());
+
+    return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
+}
+
+function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernceKey, $length=8)
+{
+   $refernceId = str_random($length);
+
+   $record = $model->where([$refernceKey=> $refernceId])->first();
+
+   if(empty($record)){
+      $result = $refernceId;
+   }else{
+      $result = $this->generateRefernceId($model, $refernceKey,$length);
+   }
+
+   return $result;
+
+}
+
+
 /**
 * This function can be called in blade to generate the HTML required.
 * This function @return
@@ -72,4 +97,28 @@ function generateHTML($reference) {
 	}
 
 	return $response_html;
+}
+
+function splitArrayData($array,$count){
+	 
+    $arrayCount = count($array);
+    $limitedArray = ($arrayCount > $count) ? array_splice($array,0,$count) : $array;
+    $moreArray = $array;
+    $data['array'] = $limitedArray;
+    $data['moreArray'] = $moreArray;
+    $data['moreArrayCount'] = $arrayCount - count($limitedArray);
+
+    return $data;
+
+}
+
+function getReferenceIdFromSlug($slug){
+
+        $slugArray = explode("-", $slug);
+        return  end($slugArray);;
+}
+
+function breadCrumbText($text){
+	$text = str_replace("/", " ", $text);
+	return ucwords($text);
 }

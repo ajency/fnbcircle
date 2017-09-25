@@ -62,6 +62,33 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
+
+ 
+/******
+JOBS/USERS
+*******/
+
+Route::group( ['middleware' => ['auth']], function() { 
+	/**Jobs**/
+	Route::resource( 'jobs', 'JobController' );
+	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
+	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
+	
+	Route::get('/get-keywords','JobController@getKeywords');
+	Route::get('/get-company','JobController@getCompanies');
+	
+
+	/**Users**/
+
+	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
+	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
+	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
+});
+// Route::get('/job/{job_slug}/{reference_id}','JobController@show');
+
+
+/*************/
+  
 /* Custom Auth Routes */
 
 Route::get('/logout', 'Auth\LoginController@logout');
@@ -95,3 +122,5 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 		Route::post('{username}', 'AdminConfigurationController@editCurrentUser'); // Edit current Users - Internal / External
 	});
 });
+Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
+Route::post('/upload-listing-file','ListingController@uploadListingFiles');

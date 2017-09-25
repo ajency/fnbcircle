@@ -307,7 +307,7 @@
                                     <a href="/pdf/sample-business-listing.pdf" class="mobile-hide" target="_blank">
                                         <img src="/img/sample_listing.png" class="img-responsive">
                                     </a>
-                                    <a href="/pdf/sample-business-listing.pdf" class="desk-hide">View the sample</a>
+                                    <a href="/pdf/sample-business-listing.pdf" class="desk-hide" target="_blank">View the sample</a>
                                 </div>
                             </div>
                             <!-- <div class="why-premium">

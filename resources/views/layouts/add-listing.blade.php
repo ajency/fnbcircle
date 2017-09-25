@@ -15,7 +15,7 @@
     <!-- Read more -->
     <script type="text/javascript" src="/js/readmore.min.js"></script>
     <!-- Dropify -->
-    <script type="text/javascript" src="/js/dropify.js"></script>
+    <script type="text/javascript" src="/js/plugins/dropify.js"></script>
     <!-- jquery tags -->
     <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
 

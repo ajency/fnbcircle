@@ -216,9 +216,11 @@
     }
   }
 
-  companyLogo.on('dropify.afterClear', function(event, element) {
-    return $("input[name='delete_logo']").val(1);
-  });
+  if ($('.comp-logo').length) {
+    companyLogo.on('dropify.afterClear', function(event, element) {
+      return $("input[name='delete_logo']").val(1);
+    });
+  }
 
   if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
 

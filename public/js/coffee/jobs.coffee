@@ -211,9 +211,9 @@ if $(window).width() < 769
       'default': 'Add Logo'
       'replace': 'Change Logo'
 
-
-companyLogo.on 'dropify.afterClear', (event, element) ->
-  $("input[name='delete_logo']").val 1
+if $('.comp-logo').length
+  companyLogo.on 'dropify.afterClear', (event, element) ->
+    $("input[name='delete_logo']").val 1
 
 
 if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')

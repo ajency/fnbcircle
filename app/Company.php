@@ -31,7 +31,7 @@ class Company extends Model
 
         $companyLogoUrl  ='';
         foreach ($companyLogo as $key => $logo) {
-        	$companyLogoUrl = $logo['thumb'];
+        	$companyLogoUrl = (isset($logo['company_logo'])) ? $logo['company_logo'] : '';
         }
         return $companyLogoUrl;
     }

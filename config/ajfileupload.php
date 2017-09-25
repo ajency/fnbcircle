@@ -27,7 +27,7 @@ return [
 				'y'=>10
 			],
 		],
-		'300x150' => [
+		'company_logo' => [
 			'width' => 300,
 			'height' => 150,
 			'watermark' => [
@@ -43,7 +43,7 @@ return [
 		'App\Company' => [
 			'base_path' => 'company',
 			'slug_column' => 'slug',
-			'sizes' => ['300x150']
+			'sizes' => ['company_logo']
  		],
 		'App\Listing' => [
 			'base_path' => 'Listings',

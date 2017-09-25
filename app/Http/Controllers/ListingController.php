@@ -611,9 +611,9 @@ class ListingController extends Controller
             'listing_id'  => 'required',
             'file' => 'file'
         ]);
-        $file = $request->file('file');
+        $file = $request->file('file')->getClientOriginalName();
         $listing = Listing::where('reference',$request->listing_id)->first();
-        $id = $listing->uploadFile($request->file('file'),true,$request->name);
+        $id = $listing->uploadFile($request->file('file'),true,$file);
         if($id != false){
             return response()->json(['status'=>'200','message'=>'File Uploaded successfully', 'data'=>['id'=>$id]]);
         }else{

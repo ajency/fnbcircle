@@ -113,8 +113,6 @@ $('.auto-company').on 'select:flexdatalist', (event, set, options) ->
   CKEDITOR.instances['editor'].setData(set.description);
   $('input[name="company_website"]').val set.website
 
-  
-
  
   return
 

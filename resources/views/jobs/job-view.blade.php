@@ -251,7 +251,7 @@
                            <ul class="cities flex-row">
 
                               <?php
-                              $splitAreas =  splitArrayData($locAreas,2);
+                              $splitAreas =  splitJobArrayData($locAreas,2);
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];

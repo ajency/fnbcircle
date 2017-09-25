@@ -30,6 +30,10 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 	echo $html;
 }
 
+/***
+generates unique slug for the modal
+incase if duplicates found appends slug with - count
+***/
 function getUniqueSlug(\Illuminate\Database\Eloquent\Model $model, $value)
 {
     $slug = \Illuminate\Support\Str::slug($value);
@@ -37,6 +41,11 @@ function getUniqueSlug(\Illuminate\Database\Eloquent\Model $model, $value)
 
     return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
 }
+
+
+/***
+generates unique refernce id for the modal
+***/
 
 function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernceKey, $length=8)
 {
@@ -54,10 +63,21 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
 
 }
 
-function splitArrayData($array,$count){
+/***
+breaks the array data by the given limit
+"array"  will contain limited array values 
+"moreArray"  will contain remaining array values 
+"moreArrayCount" will conatin count of remaing values
+eg: $a = [1,2,3,4,5,6]
+splitJobArrayData($a,3)
+$data['array'] = [1,2,3]
+$data['moreArray'] = [4,5,6]
+$data['moreArrayCount'] = 3 
+***/
+function splitJobArrayData($array,$limit){
 	 
     $arrayCount = count($array);
-    $limitedArray = ($arrayCount > $count) ? array_splice($array,0,$count) : $array;
+    $limitedArray = ($arrayCount > $limit) ? array_splice($array,0,$limit) : $array;
     $moreArray = $array;
     $data['array'] = $limitedArray;
     $data['moreArray'] = $moreArray;
@@ -67,12 +87,19 @@ function splitArrayData($array,$count){
 
 }
 
+/**
+get refernce id from the slug generated
+refernce id will be the last value in slug  diffrenciated by "-"
+**/
 function getReferenceIdFromSlug($slug){
 
         $slugArray = explode("-", $slug);
         return  end($slugArray);;
 }
 
+/**
+replace "-" with " " 
+**/
 function breadCrumbText($text){
 	$text = str_replace("/", " ", $text);
 	return ucwords($text);

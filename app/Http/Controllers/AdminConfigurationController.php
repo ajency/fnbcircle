@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Area;
 use App\Category;
 use App\City;
@@ -9,6 +10,10 @@ use App\Common;
 use App\Listing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\CommonController;
+use Ajency\User\Ajency\userauth\UserAuth;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminConfigurationController extends Controller
 {
@@ -510,7 +515,131 @@ class AdminConfigurationController extends Controller
         return view('admin-dashboard.registered_users');
     }
 
-    /*public function getUserData(Request $request) {
-        
-    }*/
+    /**
+    * This function is a GET request & is used to get the Internal / External User data
+    *
+    * This function @return
+    * 
+    */
+    public function getUserData(Request $request) {
+        $response_data = []; $common_obj = new CommonController;
+        $output = new ConsoleOutput;
+        $userauth_obj = new UserAuth; $status = 200;
+
+        if ($request->has('filters') && isset($request->filters["user_type"])) {
+            $user_obj = User::where("type", $request->filters["user_type"])->get();
+        } else {
+            $user_obj = User::where("type", "external")->get();
+        }
+
+        try {
+            $total_count = $user_obj->count();
+            $filtered_count = $total_count;
+
+            foreach($user_obj as $obj_key => $obj_val) {
+                $ui_data = array("display" => "<i class=\"fa fa-pencil\"></i>", "href_url" => "#");
+                $data_tag = array("data-toggle" => "modal", "data-target" => "#add_newuser_modal");
+                $columns_html = []; $roles = '';
+
+                //$columns_html = "<td class=\"sorting_1\">" . $common_obj->generateHtml("anchor", "editUser", "", "", $ui_data, $data_tag) . "</td><td>" . $obj_val->name . "</td><td>" . implode(", ", $userauth_obj->getAllUserRoles($obj_val, false)["roles"]) . "</td><td>" . $obj_val->status . "</td>";
+
+                if(isset($userauth_obj->getAllUserRoles($obj_val, false)["roles"])) {
+                    foreach ($userauth_obj->getAllUserRoles($obj_val, false)["roles"] as $key_role => $value_role) {
+                        if($key_role !== 0) {
+                            $roles .= ", ";
+                        }
+                        $roles .= ucfirst($value_role); // Make 1st character UpperCase
+                    }
+                }
+
+                $columns_html["edit"] = $common_obj->generateHtml("anchor", "editUser", $obj_val->id, "", $ui_data, $data_tag)["html"];
+
+                $columns_html["name"] = $obj_val->name;
+                $columns_html["email"] = ($obj_val->getPrimaryEmail()) ? $obj_val->getPrimaryEmail() : $obj_val->email;
+                $columns_html["roles"] = $roles;//implode(", ", $userauth_obj->getAllUserRoles($obj_val, false)["roles"]);
+                $columns_html["status"] = ucfirst($obj_val->status);
+
+                //$row_html = "<tr role=\"row\" class=\"" . ((($obj_key + 1) % 2) == 1 ? "odd" : "even") . "\">" . $columns_html . "</tr>"; // Generate table row
+                array_push($response_data, $columns_html);
+            }
+
+            /*$response_data = [
+                [
+                    "1", "2", "3", "4", "5"
+                ], [
+                    "1", "2", "3", "4", "5"
+                ], [
+                    "1", "2", "3", "4", "5"
+                ]
+            ];*/
+        } catch (Exception $e) {
+            $status = 400;
+            $output->writeln("error: " . json_encode($e));
+        }
+
+        $result_output = array(
+            #"draw" => 1,
+            "data" => $response_data,
+            "recordsTotal" => $total_count,
+            "recordsFiltered" => $filtered_count
+        );
+
+        return response()->json($result_output, $status);
+    }
+
+    /**
+    * This function is a POST request & is used to add the Internal / External User data
+    *
+    * This function @return
+    * 
+    */
+    public function addNewUser(Request $request) {
+        $status = 200; $response_data = [];
+        if($username) {
+            $user_obj = User::find($username)->first();
+
+            $output = new ConsoleOutput;
+
+            $output->writeln(json_encode($request));
+        } else {
+            $status = 406; ## Not Acceptable
+        }
+
+        return response()->json($response_data, $status);
+    }
+
+    /**
+    * This function is a POST request & is used to update the Internal / External User data
+    *
+    * This function @return
+    * 
+    */
+    public function editCurrentUser(Request $request, $username) {
+        $status = 200; $response_data = [];
+        $userauth_obj = new UserAuth;
+        $request = $request->all();
+
+        if($username) {
+            $user_obj = User::find($username)->first();
+
+            $user_data = array("name" => $request["name"], "username" => $user_obj->email, "email" => $request["email"], "has_required_fields_filled" => true);
+            $user_comm = array("email" => $request["email"], "is_verified" => true);
+            if(isset($request["roles"]) && sizeof($request["roles"]) > 0) {
+                $user_data["roles"] = $request["roles"][0];
+            }
+            
+            if($request["status"]) {
+                $user_data["status"] = $request["status"];
+            }
+
+            $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
+            $user_comm_obj = $user_obj->getUserCommunications()->get();
+            $response_data = array("message" => "success");
+        } else {
+            $status = 406; ## Not Acceptable
+            $response_data = array("message" => "fail");
+        }
+
+        return response()->json($response_data, $status);
+    }
 }

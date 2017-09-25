@@ -84,8 +84,14 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 	});
 
 	Route::group(['prefix' => 'users'], function() {
-		Route::get('internal-users', 'AdminConfigurationController@internalUserView');
+		/* Get Users */
+		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
+		Route::get('registered-users', 'AdminConfigurationController@registeredUserView'); // Get Registered / External Users
 
-		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
+		Route::post('get-users', 'AdminConfigurationController@getUserData'); // Get all the User Data
+
+		/* Add / Edit users */
+		Route::post('add', 'AdminConfigurationController@addNewUser'); // Add new Users - Internal / External
+		Route::post('{username}', 'AdminConfigurationController@editCurrentUser'); // Edit current Users - Internal / External
 	});
 });

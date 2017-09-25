@@ -94,11 +94,29 @@ $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
   return 
 
 $('.auto-company').on 'select:flexdatalist', (event, set, options) ->
+  
   $('input[name="company_id"]').val set.id
+
+  if(set.logo == '')
+    $('input[name="company_logo"]').removeAttr 'data-default-file' 
+    $('.dropify-preview').css('display','none')
+    $('.dropify-wrapper').removeClass('has-preview')
+    $('.dropify-render').html('')
+  else
+    $('input[name="company_logo"]').attr 'data-default-file', set.logo
+    $('.dropify-preview').css('display','block')
+    $('.dropify-wrapper').addClass('has-preview')
+    $('.dropify-render').html('<img src="'+set.logo+'">')
+
+
   $('textarea[name="company_description"]').text set.description
   CKEDITOR.instances['editor'].setData(set.description);
   $('input[name="company_website"]').val set.website
-  return 
+
+  
+
+ 
+  return
 
 # $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
 #   console.log "event"
@@ -114,11 +132,11 @@ $('.job-save-btn').click (e) ->
   else
     $('.job-keywords').attr('data-parsley-required','')  
 
-  console.log $('input[name="step"]').val()
+
   if $('input[name="step"]').val()  == 'step-one' || $('input[name="step"]').val()  == 'step-two'
     CKEDITOR.instances.editor.updateElement()
 
-  $('form').submit()
+  $(this).closest('form').submit()
   return
 
 

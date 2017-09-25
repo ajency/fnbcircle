@@ -28,8 +28,18 @@ return [
 			],
 		],
 		'company_logo' => [
-			'width' => 300,
+			'width' => 150,
 			'height' => 150,
+			'watermark' => [
+				'image_path' => public_path().'/img/logo-fnb.png',
+				'position'=>'bottom-left', 
+				'x'=> 10, 
+				'y'=>10
+			],
+		],
+		'company_thumb' => [
+			'width' => 80,
+			'height' => 80,
 			'watermark' => [
 				'image_path' => public_path().'/img/logo-fnb.png',
 				'position'=>'bottom-left', 
@@ -43,7 +53,7 @@ return [
 		'App\Company' => [
 			'base_path' => 'company',
 			'slug_column' => 'slug',
-			'sizes' => ['company_logo']
+			'sizes' => ['company_logo','company_thumb']
  		],
 		'App\Listing' => [
 			'base_path' => 'Listings',

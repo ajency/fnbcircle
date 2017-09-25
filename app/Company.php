@@ -26,12 +26,11 @@ class Company extends Model
     }
 
 
-    public Function getCompanyLogo(){
+    public Function getCompanyLogo($type){
+    	$companyLogoUrl  ='';
         $companyLogo = $this->getImages();
-
-        $companyLogoUrl  ='';
         foreach ($companyLogo as $key => $logo) {
-        	$companyLogoUrl = (isset($logo['company_logo'])) ? $logo['company_logo'] : '';
+        	$companyLogoUrl = (isset($logo[$type])) ? $logo[$type] : '';
         }
         return $companyLogoUrl;
     }

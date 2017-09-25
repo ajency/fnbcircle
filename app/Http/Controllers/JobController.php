@@ -236,6 +236,7 @@ class JobController extends Controller
             abort(404);
 
         $jobCompany  = $job->getJobCompany();
+        $companyLogo = $jobCompany->getCompanyLogo('company_logo'); 
         $jobTypes  = $job->getJobTypes();
         $locations  = $job->getJobLocationNames();
         $similarjobs  = $job->getSimilarJobs(); 
@@ -252,6 +253,7 @@ class JobController extends Controller
 
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
+        $data['companyLogo'] = $companyLogo;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
@@ -335,7 +337,7 @@ class JobController extends Controller
             
             $contactEmail = $job->getCompanyContactEmail($job->id);
             $contactMobile = $job->getCompanyContactMobile($job->id);
-            $companyLogo = $jobCompany->getCompanyLogo(); 
+            $companyLogo = (!empty($jobCompany)) ? $jobCompany->getCompanyLogo('company_logo') : ''; 
             $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
@@ -447,10 +449,10 @@ class JobController extends Controller
           
         }
 
-        $slug = getUniqueSlug($job, $title);
+        // $slug = getUniqueSlug($job, $title);
         $job->title = $title;
         $job->description = $description;
-        $job->slug = $slug;
+        // $job->slug = $slug;
         $job->category_id = $category;
         $job->job_type = $jobType;
         $job->experience_years_lower = $experienceYearsLower;
@@ -596,8 +598,15 @@ class JobController extends Controller
             'keyword' => 'required',
         ]);
 
-        $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
-        
+        $companies =  Company::where('title', 'like', '%'.$request->keyword.'%')->orderBy('title','asc')->select('id','title','description','website','logo')->get();
+        // $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
+
+        $companyData = [];
+        foreach ($companies as $key => $company) {
+
+            $companies[$key]['logo'] = Company::find($company->id)->getCompanyLogo('company_logo');
+        }
+ 
         return response()->json(['results' => $companies]);
     }
 

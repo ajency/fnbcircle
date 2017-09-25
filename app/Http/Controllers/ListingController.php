@@ -187,6 +187,7 @@ class ListingController extends Controller
         
         $contact = json_decode($request->contacts, true);
         $query   = ListingCommunication::whereNotNull('listing_id');
+        
         $query   = $query->where(function ($query) use ($contact) {
             $query->where("value", Auth::user()->email);
             foreach ($contact as $value) {
@@ -657,7 +658,8 @@ class ListingController extends Controller
         // dd(Auth::user());
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
+        $user = Auth::user();
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner',$user);
     }
     public function edit($reference, $step = 'business-information')
     {
@@ -670,8 +672,8 @@ class ListingController extends Controller
             $areas   = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
-            // echo $areas;
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
+            $user = User::find($listing->owner_id);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner',$user);
         }
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();

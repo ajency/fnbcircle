@@ -98,9 +98,42 @@ function getReferenceIdFromSlug($slug){
 }
 
 /**
-replace "-" with " " 
+replace "-" with " " while displaying breadcrumb
 **/
 function breadCrumbText($text){
 	$text = str_replace("/", " ", $text);
 	return ucwords($text);
 }
+
+/**
+get values from defaults table
+pass type of that need to be retrived
+arrayType :
+1 : return object
+2 : key value [id=>value]
+3 : data array with key as id
+**/
+function getDefaultValues($type, $arrayType=1){
+	$defaults = App\Defaults::where("type",$type)->get();
+	$defaultValues = [];
+	if(!empty($defaults))
+	{
+		if($arrayType == 2){
+	    	foreach ($defaults as $key => $default) {
+	    		$defaultValues[$default->id] = $default->label;
+	    	}
+		}
+		elseif($arrayType == 3){
+	    	foreach ($defaults as $key => $default) {
+	    		$defaultValues[$default->id] = ['label' => $default->label,'meta_data' => $default->meta_data];
+	    	}
+		}
+		else{
+			$defaultValues = $defaults;
+		}
+	}
+
+	return $defaultValues;
+}
+
+

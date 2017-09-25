@@ -35,12 +35,7 @@ class Job extends Model
 
     public function jobStatuses(){
     	// $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
-    	$jobStatuses = Defaults::where("type","job_status")->get();
-
-    	$statuses = [];
-    	foreach ($jobStatuses as $key => $jobStatus) {
-    		$statuses[$jobStatus->id] = $jobStatus->label;
-    	}
+    	$statuses =  getDefaultValues("job_status",2);
 
     	return $statuses;
     }
@@ -113,24 +108,15 @@ class Job extends Model
     }
 
     public function salaryTypes(){
-    	$salaryTypes =  Defaults::where("type","salary_type")->get();
-    	 
-    	$types = [];
-    	foreach ($salaryTypes as $key => $salaryType) {
-    		$types[$salaryType->id] = $salaryType->label;
-    	}
+    	$types =  getDefaultValues("salary_type",2);  
 
     	return $types;
     }
 
     public function jobKeywords(){
-        $jobKeywords =  Defaults::where("type","job_keyword")->get();
-         
-        $keywords = [];
-        foreach ($jobKeywords as $key => $jobKeyword) {
-            $keywords[$jobKeyword->id] = $jobKeyword->label;
-        }
-
+        
+        $keywords = getDefaultValues("job_keyword",2);
+        
         return $keywords;
     }
 

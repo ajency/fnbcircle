@@ -10,7 +10,7 @@
   @parent
   <script type="text/javascript" src="/bower_components/datatables.net-select/js/dataTables.select.min.js"></script>
   <script type="text/javascript" src="/js/underscore-min.js" ></script>
-   <script type="text/javascript" src="/js/handlebars.js"></script>
+   <script type="text/javascript" src="/js/plugins/handlebars.js"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 
     <!-- bootstrap-daterangepicker -->

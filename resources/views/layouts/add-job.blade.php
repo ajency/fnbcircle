@@ -278,7 +278,7 @@
                                                   @endforeach
                                               </ul>
                                     </div>
-                                        <form id="job-form" method="post" action="{{ $postUrl }}" data-parsley-validate>
+                                        <form id="job-form" method="post" action="{{ $postUrl }}" data-parsley-validate enctype="multipart/form-data">
                                             
                                             @yield('form-data')
 

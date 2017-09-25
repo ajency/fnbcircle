@@ -335,6 +335,8 @@ class JobController extends Controller
             
             $contactEmail = $job->getCompanyContactEmail($job->id);
             $contactMobile = $job->getCompanyContactMobile($job->id);
+            $companyLogo = $jobCompany->getCompanyLogo(); 
+            $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
@@ -477,7 +479,7 @@ class JobController extends Controller
             'flexdatalist-company_name' => 'required|max:255',
         ]);
 
-        $data = $request->all();  
+        $data = $request->all();   
 
         $companyId = $data['company_id'];
         $title = $data['flexdatalist-company_name'];
@@ -487,10 +489,17 @@ class JobController extends Controller
         $contactMobile = $data['contact_mobile'];
         $contactEmailId = $data['contact_email_id'];
         $contactMobileId = $data['contact_mobile_id'];
+        $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
- 
-        
+
+        if(isset($data['company_logo'])){
+            $companyLogo = $data['company_logo'];
+            $deleteLogo = '1';
+        }else{
+            $companyLogo = '';
+        }
+                
         if($companyId == ''){
             $company = new Company;
             $status = 1 ;
@@ -508,6 +517,21 @@ class JobController extends Controller
         $company->website = $website;
         $company->status = $status;
         $company->save();
+
+        if($deleteLogo==1){
+            $company->unmapImage($company->logo);
+            $company->logo = '';
+            $company->save();
+        }
+
+        if(!empty($companyLogo)){
+            $logoId = $company->uploadCompanyLogo($companyLogo);
+            $company->logo = $logoId;
+            $company->save();
+        }
+
+        
+         
 
 
         $jobCompany = JobCompany::where('job_id',$job->id)->first();

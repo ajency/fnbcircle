@@ -200,16 +200,20 @@ if $('.expSelect').length
 
 if $(window).width() > 769  
   if $('.comp-logo').length 
-    $('.comp-logo').dropify messages:
+    companyLogo = $('.comp-logo').dropify messages:
       'default': 'Add Logo'
       'replace': 'Change Logo'
       'remove': '<i class="">&#10005;</i>'
  
 if $(window).width() < 769  
   if $('.comp-logo').length
-    $('.comp-logo').dropify messages:
+    companyLogo = $('.comp-logo').dropify messages:
       'default': 'Add Logo'
       'replace': 'Change Logo'
+
+
+companyLogo.on 'dropify.afterClear', (event, element) ->
+  $("input[name='delete_logo']").val 1
 
 
 if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')

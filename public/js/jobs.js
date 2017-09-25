@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, coreCat;
+  var Applybtn, Articles, companyLogo, coreCat;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -195,7 +195,7 @@
 
   if ($(window).width() > 769) {
     if ($('.comp-logo').length) {
-      $('.comp-logo').dropify({
+      companyLogo = $('.comp-logo').dropify({
         messages: {
           'default': 'Add Logo',
           'replace': 'Change Logo',
@@ -207,7 +207,7 @@
 
   if ($(window).width() < 769) {
     if ($('.comp-logo').length) {
-      $('.comp-logo').dropify({
+      companyLogo = $('.comp-logo').dropify({
         messages: {
           'default': 'Add Logo',
           'replace': 'Change Logo'
@@ -215,6 +215,10 @@
       });
     }
   }
+
+  companyLogo.on('dropify.afterClear', function(event, element) {
+    return $("input[name='delete_logo']").val(1);
+  });
 
   if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
 

@@ -237,6 +237,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
+        'Role' => Spatie\Permission\Models\Role::class,
     ],
 
 ];

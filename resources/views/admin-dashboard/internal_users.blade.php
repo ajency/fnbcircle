@@ -11,6 +11,7 @@
 @section('js')
   @parent
   <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('/js/admin_dashboard_internal.js') }}"></script>
   <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
 
     <!-- Datatables -->
@@ -25,7 +26,7 @@
 @endsection
 
 @section('page-data')
-	<div class="right_col" role="main">
+	<div class="admin_internal_users right_col" role="main">
     	<div class="">
 
 	    <!-- <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
@@ -84,10 +85,11 @@
 	          <div class="col-md-12 col-sm-12 col-xs-12">
 	            <div class="x_panel">
 	              <div class="x_content search-enabled">
+	                <!-- <div id="datatable-internal-users_filter" class="dataTables_filter">
+	                	<input type="search" name="" placeholder="Search by Name" id="internal_name_search" class="form-control fnb-input pull-right customDtSrch" aria-controls="datatable-internal-users"/>
+	                </div> -->
 
-	                <input type="text" name="" placeholder="Search by Name" id="catNameSearch" class="form-control fnb-input pull-right customDtSrch" >
-
-	                <table id="datatable-users" class="table table-striped  no-wrap" cellspacing="0" width="100%">
+	                <table id="datatable-internal-users" class="display table table-striped  no-wrap" cellspacing="0" width="100%">
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>
@@ -95,21 +97,27 @@
 	                      <th class="">Email </th>
 	                      <th class="no-sort ">Roles
 	                        <select multiple class="form-control multi-dd">
-	                          <option value="yes">Yes</option>
-	                          <option value="no">No</option>
+	                          <!-- <option value="yes">Yes</option>
+	                          <option value="no">No</option> -->
+	                          @foreach(Role::all() as $key_role => $value_role)
+	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
+	                          @endforeach
 	                        </select>
 	                      </th>
 	                      <th class="no-sort">Status
 	                        <select multiple class="form-control multi-dd">
-	                          <option value="published">Published</option>
+	                          <!-- <option value="published">Published</option>
 	                          <option value="draft">Draft</option>
-	                          <option value="archived">Archived</option>
+	                          <option value="archived">Archived</option> -->
+	                          <option value="active">Active</option>
+	                          <option value="inactive">Inactive</option>
+	                          <option value="suspended">Suspended</option>
 	                        </select>
 	                      </th>
 	                    </tr>
 	                  </thead>
 	                  <tbody>
-	                    <tr>
+	                    <!-- <tr>
 	                      <td><a href="#" class="editUser" data-toggle="modal" data-target="#add_newuser_modal"><i class="fa fa-pencil"></i></a></td>
 	                      <td>Valenie Lourenco</td>
 	                      <td>valenie@ajency.in</td>
@@ -143,7 +151,7 @@
 	                      <td>ajaj@ajency.in</td>
 	                      <td>News Manager</td>
 	                      <td>inactive</td>
-	                    </tr>
+	                    </tr> -->
 	                  </tbody>
 	                </table>
 
@@ -158,7 +166,9 @@
 	        <div class="modal fade" id="add_newuser_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	          <div class="modal-dialog" role="document">
 	            <div class="modal-content">
-	              <form>
+	              <form method="post" id="add_newuser_modal_form">
+	              	<input type="hidden" name="form_type" value=""/>
+	              	<input type="hidden" name="user_id" value=""/>
 	                <div class="modal-header">
 	                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	                  <h6 class="modal-title">Add New Internal User</h6>
@@ -168,13 +178,13 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Name  <span class="text-danger">*</span></label>
-	                        <input type="text" class="form-control fnb-input" name="" placeholder="Enter your name">
+	                        <input type="text" class="form-control fnb-input" name="name" placeholder="Enter your name">
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Email  <span class="text-danger">*</span></label>
-	                        <input type="text" class="form-control fnb-input" name="" placeholder="Email Address">
+	                        <input type="email" class="form-control fnb-input" name="email" placeholder="Email Address">
 	                      </div>
 	                    </div>
 	                  </div>
@@ -183,20 +193,23 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select roles-select multiSelect" multiple="multiple">
-	                          <option >Published</option>
-	                          <option >Draft</option>
-	                          <option >Archived</option>
+	                        <select class="form-control fnb-select roles-select multiSelect" multiple="multiple" name="role">
+	                          @foreach(Role::all() as $key_role => $value_role)
+	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
+	                          @endforeach
 	                        </select>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                          <label>Status  <span class="text-danger">*</span></label>
-	                          <select class="form-control fnb-select dashboard-select">
-	                            <option value="">Published</option>
+	                          <select class="form-control fnb-select dashboard-select" name="status">
+	                            <option value="active">Active</option>
+	                            <option value="inactive">Inactive</option>
+	                            <option value="suspended">Suspended</option>
+	                            <!-- <option value="">Published</option>
 	                            <option value="">Draft</option>
-	                            <option value="">Archived</option>
+	                            <option value="">Archived</option> -->
 	                          </select>
 	                        </div>
 	                    </div>
@@ -206,19 +219,19 @@
 	                    <div class="col-sm-6 hidden old-password">
 	                      <div class="form-group">
 	                        <label>Old Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="" placeholder="Old password">
+	                        <input type="password" class="form-control fnb-input" name="old_password" placeholder="Old password">
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="" placeholder="Enter a password">
+	                        <input type="password" class="form-control fnb-input" name="password" placeholder="Enter a password">
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Confirm Password <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="" placeholder="Confirm your password">
+	                        <input type="password" class="form-control fnb-input" name="confirm_password" placeholder="Confirm your password">
 	                      </div>
 	                    </div>
 	                  </div>
@@ -226,7 +239,8 @@
 	                </div>
 	                <div class="modal-footer">
 	                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
-	                  <button type="submit" class="btn primary-btn fnb-btn border-btn">Save <i class="fa fa-circle-o-notch fa-spin"></i></button>
+	                  <!-- <button type="submit" class="btn primary-btn fnb-btn border-btn">Save <i class="fa fa-circle-o-notch fa-spin"></i></button> -->
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn" id="add_newuser_modal_btn">Save <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
 	                </div>
 	              </form>
 	            </div>

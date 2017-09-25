@@ -105,6 +105,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("contact")) {// && $request->has("contact_locality")) {
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
             $request_data["user_comm"]["contact"] = $request->contact;//$request->contact_locality . $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
@@ -158,8 +159,9 @@ class RegisterController extends Controller
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
 
-        if ($request->has("contact") && $request->has("contact_locality")) {
-            $request_data["user_comm"]["contact"] = $request->contact_locality . $request->contact;
+        if ($request->has("contact")) {
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
+            $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
 
@@ -172,7 +174,6 @@ class RegisterController extends Controller
             $request_data["user_details"]["city"] = $request->city;
         }
         
-        //return redirect("/");
         //$social_data = $socialaccount_obj->getSocialData($account, "email_signup");
         $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");
 

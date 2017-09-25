@@ -857,8 +857,50 @@
 }
 
 
+// Mobile dropify fix
+
+.dropify-wrapper.touch-fallback.has-preview{
+	.dropify-clear{
+		bottom: 4px;
+	    right: 0;
+	    border: 0;
+	    text-transform: none;
+	    width: 56%;
+	    left: 0;
+	    right: 0;
+	    margin: 0 auto;
+	    padding: 0;
+	    box-shadow: none;
+	    color: @accent-primary;
+	    transition: inherit;
+	    i{
+	    	text-decoration: underline;
+	    }
+	}
+	.dropify-preview{
+		.dropify-infos{
+			padding-bottom: 1.3em;
+			.dropify-infos-inner{
+				padding: 5px;
+				p{
+					text-align: center;
+					&.dropify-infos-message{
+						text-decoration: underline;
+						color: @accent-primary;
+					}
+				}
+			}
+		}
+	}
+
+}
+
+
 .fileUpload{
 	align-items: center;
+	@media screen and (min-width: 769px){
+		margin-bottom: 0.5em;
+	}
 	.title-input{
 		width: 100%;
     	font-size: 0.9em;
@@ -867,14 +909,22 @@
 	}
 	.image-grid__cols{
 		position: relative;
-		&:nth-child(6){
-			top: 0;
+		&:nth-child(6),&:nth-child(11){
+			// top: 0;
+			justify-content: flex-start;
+			.add-uploader{
+				padding-left: 0.5em;
+			}
 		}
 	}
 	.addCol{
 		text-align: center;
     	position: relative;
-    	top: -20px;
+    	top: -10px;
+    	min-height: 60px;
+    	display: flex;
+    	align-items: center;
+    	justify-content: center;
 	}
 	.has-preview{
 		& + .removeCol{

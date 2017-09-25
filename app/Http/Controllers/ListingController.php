@@ -572,6 +572,8 @@ class ListingController extends Controller
         $saved_images = $listing->getImages();
         if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
             $listing->photos = '{"id": "'.$request->main.'", "url" : "'.$saved_images[$request->main][config('tempconfig.listing-thumb-size')].'", "order" : "'.implode(',',$images).'"}';
+        }else{
+            $listing->photos = null;
         }
         $listing->save();
         

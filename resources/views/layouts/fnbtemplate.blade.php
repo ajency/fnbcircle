@@ -115,7 +115,7 @@
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- BS Script -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/plugins/bootstrap.min.js"></script>
     <!-- Smooth Mouse scroll -->
     <script type="text/javascript" src="/js/jquery.easeScroll.min.js"></script>
     <!-- BS lightbox -->

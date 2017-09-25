@@ -501,4 +501,16 @@ class AdminConfigurationController extends Controller
         }
 
     }
+
+    public function internalUserView(Request $request) {
+        return view('admin-dashboard.internal_users');
+    }
+
+    public function registeredUserView(Request $request) {
+        return view('admin-dashboard.registered_users');
+    }
+
+    /*public function getUserData(Request $request) {
+        
+    }*/
 }

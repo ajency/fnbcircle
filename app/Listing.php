@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
 use Conner\Tagging\Model\TagGroup;
+use Ajency\FileUpload\FileUpload;
 use Auth;
 
 class Listing extends Model
@@ -26,6 +27,7 @@ class Listing extends Model
     const SERVICEPROVIDER = 16;
 
     use Taggable;
+    use FileUpload;
 
     protected $table = "listings";
 
@@ -108,7 +110,6 @@ class Listing extends Model
             $this->slug = $slug1;
         }
 
-        $this->show_primary_phone = 0;
         $this->show_primary_email = $email;
         $this->locality_id        = $area;
         if ($this->status == null) {

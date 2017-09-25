@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', 'Add Listing')
 @section('css')
     <!-- Magnify css -->
@@ -304,10 +304,10 @@
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 View what a sample business listing would look like once created.
                                 <div class="m-t-10">
-                                    <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
+                                    <a href="/pdf/sample-business-listing.pdf" class="mobile-hide" target="_blank">
                                         <img src="/img/sample_listing.png" class="img-responsive">
                                     </a>
-                                    <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
+                                    <a href="/pdf/sample-business-listing.pdf" class="desk-hide" target="_blank">View the sample</a>
                                 </div>
                             </div>
                             <!-- <div class="why-premium">
@@ -377,7 +377,7 @@
                                         @yield('form-data')
 
                                         <!-- Submit for review section -->
-                                        <input style="visibility: hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
+                                        <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable() and $listing->status > "2")
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">

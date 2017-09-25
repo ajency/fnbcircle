@@ -24,4 +24,20 @@ class CommonController extends Controller
     	}
     	echo "success";
     }
+
+    public function getAreas(Request $request)
+    {
+        $this->validate($request, [
+            'city' => 'required|min:1|integer',
+        ]);
+        
+        $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+        $res   = array();
+        
+        foreach ($areas as $area) {
+            $res[] = array('id'=>$area->id,'name'=>$area->name);
+        }
+        
+        return response()->json($res);
+    }
 }

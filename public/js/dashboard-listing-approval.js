@@ -368,14 +368,6 @@
 
   $('body').on('click', 'button#resetAll', function(e) {
     var filters;
-    $('div#categories.node-list').html('');
-    $('input#draftstatus').prop('checked', false).change();
-    $('select#status-filter').multiselect('rebuild').change();
-    $('#submissionDate').val('');
-    $('#listingNameSearch').val('');
-    $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
-    });
     filters = {
       'submission_date': {
         'start': '',
@@ -389,6 +381,14 @@
         'user_type': ['internal', 'external']
       }
     };
+    $('div#categories.node-list').html('');
+    $('input#draftstatus').prop('checked', false).change();
+    $('select#status-filter').multiselect('rebuild').change();
+    $('#submissionDate').val('');
+    $('#listingNameSearch').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false).change();
+    });
     sendRequest();
   });
 

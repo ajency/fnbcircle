@@ -152,7 +152,7 @@ class JobController extends Controller
         $job->save();
 
         $jobId = $job->id;
-
+        
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds);
         Session::flash('success_message','Job details saved successfully.');
@@ -473,6 +473,7 @@ class JobController extends Controller
 
 
     public function saveCompanyData($job,$request){ 
+       
         $user = Auth::user();
         $userId = $user->id;
         $this->validate($request, [

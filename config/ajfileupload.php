@@ -5,24 +5,50 @@ return [
 	'base_root_path' => '',
 	'default_base_path' => 'other_files',
 	'valid_image_formats' => ['jpg', 'png', ],
-	'valid_file_formats' => ['doc', 'docx', 'pdf'],
+	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf'],
 	'sizes' => [
-		'thumb' => [
-			'width' => 300,
-			'height' => 150,
+		'400X300' => [
+			'width' => 400,
+			'height' => 300,
 			'watermark' => [
-				'image_path' => public_path().'/img/logo-fnb.png',
-				'position'=>'bottom-right', 
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
 			],
 		],
+		'200x150' => [
+			'width' => 200,
+			'height' => 150,
+			'watermark' => [
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
+				'x'=> 10, 
+				'y'=>10
+			],
+		],
+		'300x150' => [
+			'width' => 300,
+			'height' => 150,
+			'watermark' => [
+				'image_path' => public_path().'/img/logo-fnb.png',
+				'position'=>'bottom-left', 
+				'x'=> 10, 
+				'y'=>10
+			],
+		],
+		
 	],
 	'model' => [
 		'App\Company' => [
 			'base_path' => 'company',
 			'slug_column' => 'slug',
-			'sizes' => ['thumb']
+			'sizes' => ['300x150']
+ 		],
+		'App\Listing' => [
+			'base_path' => 'Listings',
+			'slug_column' => 'slug',
+			'sizes' => ['400X300','200x150']
 		],
 	],
 ];

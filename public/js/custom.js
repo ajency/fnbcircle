@@ -1,6 +1,64 @@
 
 $(function(){
 
+	$("#login-modal").on('shown.bs.modal', function() {
+		var url = '';
+
+		if (window.location.search && window.location.search.indexOf("login=") < 0) {
+			url = window.location.search + '&login=true';
+		} else if (!window.location.search) {
+			url = '/?login=true';
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$("#login-modal").on('hidden.bs.modal', function() {
+		var url = '/';
+
+		if (window.location.search.indexOf("login=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url);
+	});
+
+	$('.alert').on('closed.bs.alert', function (e) {
+       var url = '/';
+
+		if (window.location.search.indexOf("message=") >= 0) {
+			var url_split = window.location.search.split('?')[1].split('&');
+			for(i = 0; i < url_split.length; i++) {
+				if(url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+					url += (url == '/' ? '?': '&') + url_split[i];
+				}
+			}
+		} else {
+			url = window.location.search;
+		}
+
+		if (window.location.hash) {
+			url += window.location.hash;
+		}
+
+		window.history.pushState('', '', url); 
+    });
+
 	$(window).scroll(function (event) {
 	    var scroll = $(window).scrollTop();
 	    if($('.sticky-section').length){
@@ -206,10 +264,419 @@ $(function(){
 	//     $(this).ekkoLightbox();
 	// });
 
+		function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid
+			if(email.length > 0) {
+				var email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if(email_re.test(email)) {
+					$(error_path).addClass("hidden");
+					return true;
+				} else {
+					$(error_path).removeClass("hidden").text("Please enter a valid Email ID");
+					return false;
+				}
+			} else {
+				$(error_path).removeClass("hidden").text("Please enter your Email address");
+				return false;
+			}
+		}
+
+		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
+			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
+
+			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
+				if (region_code)
+					var contact_sub = contact.substring(1, contact.length); // Exclude the +
+				else
+					contact_sub = contact;
+
+				if((!region_code && contact_sub.length <= 0) || (region_code && contact_sub.length <= 2)) {
+					$(error_path).removeClass("hidden").text("Please enter your contact number");
+				} else if(contact_sub.length < 10) {
+					$(error_path).removeClass("hidden").text("Contact number too short");
+				} else if((region_code && contact_sub.length > 13) || (!region_code && contact_sub.length > 10)) { // If excluding <region_code> & length is greater than 10, then
+					$(error_path).removeClass("hidden").text("Contact number too long");
+				} else {
+					$(error_path).addClass("hidden");
+					return true;
+				}
+			} else {
+				$(error_path).removeClass("hidden").text("Please enter a valid Contact number");
+			}
+			return false;
+		}
+
+		function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
+			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
+			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			var message = '', status = true;
+
+			if(expression.test(password)) {
+				if (confirm_password != '' && confirm_password == password) { // Confirm_password isn't empty & is Same
+					status = true;
+				} else if (confirm_password == '') { // Just validate Password
+					status = true;
+				} else { // confirm_password != '' && password != confirm_password
+					message = "Password & Confirm Password are not matching";
+					status = false;
+				}
+			} else { // Else password not Satisfied the criteria
+				message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+				status = false;
+			}
+
+			if(!status && parent_path !== '') {
+				$(parent_path + " " + child_path).removeClass('hidden').text(message);
+			} else if(status && parent_path !== '') {
+				//$(parent_path + " " + child_path).addClass('hidden');
+				$(parent_path + " " + "#password_errors").addClass('hidden');
+				$(parent_path + " " + "#password_confirm_errors").addClass('hidden');
+			}
+			return status;
+		}
+
+		function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
+			if($(path).val() == '' || $(path).val == 0) {
+				$(error_path).removeClass('hidden').text(error_msg);
+				return false;
+			} else {
+				$(error_path).addClass('hidden');
+				return true;
+			}
+		}
+
+		function validateUser(data, parent_path="") {
+			var flag = true;
+
+			if (data.hasOwnProperty("name") && !data["name"]) {
+				$(parent_path + " #name-error").removeClass("hidden").text("Please enter your name");
+				flag = false;
+			} else {
+				$(parent_path + " #name-error").addClass("hidden");
+			}
+
+			if (data.hasOwnProperty("email")) {
+				flag = validateEmail(data["email"], parent_path + " #email-error");
+			}
+
+			if (data.hasOwnProperty('contact') && data["contact"]) { // The count includes +<region code> <contact No>
+				validateContact(data["contact"], parent_path + " #contact-error", true);
+			} else {
+				$(parent_path + " #contact-error").removeClass("hidden").text("Please enter your contact");
+				flag = false;
+			}
+
+			if (!(data.hasOwnProperty("description") && data["description"].length > 0)) { // If description doesn't exist or if exist & count <= 0, then return False
+				$(parent_path + " #description-error").removeClass("hidden").text("Please select atleast one description.");
+				flag = false;
+			} else {
+				$(parent_path + " #description-error").addClass("hidden");
+			}
+
+			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
+				flag = flag ? true : false;
+			} else {
+				flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
+				flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
+			}
+
+			return flag;
+		}
+
 		$(document).ready(function() {
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
+
+			if($("#require-modal select[name='city']").val()) {
+				// IF the State (City) value is available then populate the Select options for City (Area)
+				var city, html = '<option value="">City</option>';
+				
+				$('#require-modal select[name="area"]').html(html);
+				city = $("#require-modal select[name='city']").val();
+
+				return $.ajax({
+					type: 'post',
+					url: '/get_areas',
+					data: {
+						'city': city
+					},
+					success: function(data) {
+						var key, area = $("#require-modal input[type='hidden'][name='user_area']").val();
+
+						for (key in data) {
+							if(area && area == data[key]["id"]) { // If inpput-hidden value exist & is matching, then "select" that option
+								html += '<option value="' + data[key]["id"] + '" selected="true">' + data[key]["name"] + '</option>';
+							} else {
+								html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
+							}
+						}
+						$('#require-modal select[name="area"]').html(html);
+					},
+					error: function(request, status, error) {
+						throw Error();
+					}
+				});
+			}
+
+			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
+				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
+				html = '<option value="">City</option>';
+				$('#' + parent + ' select[name="area"]').html(html);				
+				city = $(this).val();
+
+				if (city === '') {
+					return;
+				}
+
+				return $.ajax({
+					type: 'post',
+					url: '/get_areas',
+					data: {
+						'city': city
+					},
+					success: function(data) {
+						var key;
+						for (key in data) {
+							html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
+						}
+						$("#" + parent + ' select[name="area"]').html(html);
+					},
+					error: function(request, status, error) {
+						throw Error();
+					}
+				});
+			});
+
+			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
+				var id = $(this).closest('form').prop('id');
+				validateEmail($(this).val(), "#" + id + " #email-error");
+			});
+
+			$("#require-modal input[type='tel'][name='contact'], #register_form input[type='tel'][name='contact']").on('keyup change', function() { // Check Contact
+				var id = $(this).closest('form').prop('id');
+				validateContact($(this).val(), "#" + id + " #contact-error", false);
+			});
+
+			$("#require-modal select[name='city'], #register_form select[name='city']").on('change', function() { // Check if State is selected
+				var id = $(this).closest('form').prop('id');
+
+				if($(this).val() == "" || $(this).val().toLowerCase() == "state") {
+					$("#" + id + " #city-error").removeClass("hidden").text("Please select a State");
+				} else {
+					$("#" + id + " #city-error").addClass("hidden");
+				}
+			});
+
+			$("#require-modal select[name='area'], #register_form select[name='area']").on('change', function() { // Check if City is selected
+				var id = $(this).closest('form').prop('id');
+
+				if($(this).val() == "" || $(this).val().toLowerCase() == "city") {
+					$("#" + id + " #area-error").removeClass("hidden").text("Please select a City");
+				} else {
+					$("#" + id + " #area-error").addClass("hidden");
+				}
+			});
+
+			$("#require-modal input[type='checkbox'][name='description[]'], #register_form input[type='checkbox'][name='description[]']").on('change', function() { // Check if State is selected
+				var id = $(this).closest('form').prop('id'), descr_values = [];
+
+	            $.each($("#" + id + " input[name='description[]']:checked"), function() {
+				  descr_values.push($(this).val());
+				});
+
+				if(descr_values.length > 0) {
+					$("#" + id + " #description-error").addClass("hidden");
+				} else {
+					$("#" + id + " #description-error").removeClass("hidden").text("Please select atleast one description.");
+				}
+			});
+
+			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form")) {
+					return false;
+				} else {
+					$("#register_form #password_errors").addClass("hidden");
+					return true;
+				}
+			});
+
+			$("#register_form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
+					// $("#register_form #password_confirm_errors").removeClass("hidden").text("Password and Confirm password are not matching");
+					return false;
+				} else {
+					$("#register_form #password_confirm_errors").addClass("hidden");
+					return true;
+				}
+			});
+
+			$("#register_form #accept_terms_checkbox").on('change', function() {
+				if(!$(this).prop("checked")) {
+					$("#register_form_btn").attr("disabled","disabled");
+				} else {
+					$("#register_form_btn").removeAttr("disabled");
+				}
+			});
+
+			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
+				$("#login-modal").modal('show');
+			}
+
+			if (window.location.search.indexOf("message=") > -1) { // If login=true exist & message param exist in URL, then trigger the Popup
+				var message_key = window.location.search.split("message=")[1].split("&")[0];
+
+				var popup_message = "#login-modal .login-container .alert";
+				
+				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
+					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
+					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
+					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'account_suspended') {
+					$(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'social_permission_denied') {
+					$(popup_message + ".alert-danger .no-account.no-email-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'email_confirm') {
+					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'is_verified') {
+					$(popup_message + ".alert-success").removeClass('hidden');
+				} else if (message_key == 'no_account') { // Account with this email ID doesn't exist
+					$(popup_message + ".alert-danger .no-account-exist.no-email-exist-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
+					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				}
+			}
+
+			if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup
+				$(".require-modal").modal('show');
+
+				if (window.location.search.indexOf("login=") >= 0) { // check if the login=true exist in the URL, if it Does, then remove it
+					var url_split = window.location.search.split('?')[1].split('&');
+					for(i = 0; i < url_split.length; i++) {
+						if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+							url += (url == '/' ? '?': '&') + url_split[i];
+						}
+					}
+				} else {
+					url = window.location.search;
+				}
+
+				if (window.location.hash) {
+					url += window.location.hash;
+				}
+
+				window.history.pushState('', '', url);
+			}
+
+			$('#requirement_form_btn').click(function() { // On click of Requirement Popup "Save" btn
+	            var descr_values = [], parent = "#requirement_form";
+
+	            $.each($(parent + " input[name='description[]']:checked"), function() {
+				  descr_values.push($(this).val());
+				});
+
+				var contact = $(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+
+	            var request_data = {
+                	"name": $(parent + " input[name='name']").val(),
+                	"email": $(parent + " input[name='email']").val(),
+                	"contact": contact,
+                	"area" : $(parent + " select[name='area']").val(),
+                	"city" : $(parent + " select[name='city']").val(),
+                	"description" : descr_values,
+                	"next_url": window.location.href
+                };
+
+				if(validateUser(request_data, parent)) {
+					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
+		            $.ajax({
+		                url: '/api/requirement',
+		                method: 'post',             
+		                data: request_data,
+		                success: function(data){
+		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
+		                	console.log(data);
+		                	//window.location.href = "/listing/create";
+		                	if(data.hasOwnProperty("url")) {
+		                    	window.location.href = data["url"];
+		                	} else if (data.hasOwnProperty("redirect_url")) {
+		                		window.location.href = data["redirect_url"];
+		                	} else if (data.hasOwnProperty("next_url")) {
+		                		window.location.href = data["next_url"];
+		                	}
+		                },
+		                error: function(error){
+		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
+		                },
+		            });
+		        } else {
+		        	
+		        }
+	        });
+
+	        $("#register_form_btn").click(function() { // On Register form submit btn click
+	        	var parent = "#register_form";
+	        	var contact = $(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+				var descr_values = [];
+
+	            $.each($(parent + " input[name='description[]']:checked"), function() {
+				  descr_values.push($(this).val());
+				});
+
+				var request_data = {
+                	"name": $(parent + " input[name='name']").val(),
+                	"email": $(parent + " input[name='email']").val(),
+                	"contact": contact,
+                	"area" : $(parent + " select[name='area']").val(),
+                	"city" : $(parent + " select[name='city']").val(),
+                	"description" : descr_values
+                };
+
+                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent);
+
+                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent)) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
+                	if($("#accept_terms_checkbox").prop("checked")) {
+                		return $(parent).submit(); // Submit the form
+                	} else {
+                		$("#accept_terms_checkbox").removeClass("hidden");
+                	}
+                }
+
+                return false;
+	        });
+
+	        $("#login_form_modal_btn").click(function() {
+	        	var parent = "#login_form_modal";
+        		$(parent + " #login_form_modal_btn i").removeClass("hidden");
+
+	        	if(validateEmail($(parent + " input[type='email'][name='email']").val()) && $(parent + " input[type='password'][name='password']").val()) {
+	        		return $("#login_form_modal").submit(); // Submit the form
+	        	} else {
+	        		if(!$(parent + " input[type='email'][name='email']").val()) { // If Email is not filled
+	        			$(parent + " #email-error").removeClass("hidden").text("Please enter your Email ID");
+	        		} else {
+	        			$(parent + " #email-error").addClass("hidden");
+	        			validateEmail($(parent + " input[type='email'][name='email']").val(), parent + " #email-error");
+	        		}
+	        		if(!$(parent + " input[type='password'][name='password']").val()) { // If password is not filled
+	        			$(parent + " #password-error").removeClass("hidden").text("Please enter the password");
+	        		} else {
+	        			$(parent + " #password-error").addClass("hidden");
+	        		}
+	        		$(parent + " #login_form_modal_btn i").addClass("hidden"); // Hide the loader
+	        	}
+	        });
 		});
 
 		if($('.photo-gallery').length){
@@ -323,6 +790,11 @@ $(function(){
 		    jQuery('.m-side-bar,.site-overlay').removeClass('active');
 		    jQuery('body').removeClass('blocked');
 		  }
+		});
+
+		$('.close-sidebar').click(function(){
+			jQuery('.m-side-bar,.site-overlay').removeClass('active');
+		    jQuery('body').removeClass('blocked');
 		});
 
 		// toggle icon
@@ -555,6 +1027,26 @@ $(function(){
 		$('#login-modal').on('hidden.bs.modal', function (e) {
 		  $('.forget-password').removeClass('active');
 		})
+
+
+		// homepage search
+
+		$('.mobile-fake-search').click(function(){
+			$('.searchArea').addClass('active');
+		})
+
+
+		// only number in input phone
+		function isNumberKey(evt){
+		    var charCode = (evt.which) ? evt.which : event.keyCode
+		    if (charCode > 31 && (charCode < 48 || charCode > 57))
+		        return false;
+		    return true;
+		} 
+
+		$('.number-code__value').keypress(function(){
+			return isNumberKey(event);
+		});
 
 		// Multiselect options for signup
 

@@ -48,7 +48,7 @@
                      <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
                         <option value="">Select Category</option>
                             @foreach($jobCategories as $categoryId =>$category)
-                            <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ ucwords(strtolower($category)) }}</option>
+                            <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ ucwords($category) }}</option>
                             @endforeach
                     </select>
                 </div>
@@ -77,7 +77,7 @@
 
     <!-- Job located -->
 
-    <div class="m-t-40 c-gap areas-select">
+    <div class="m-t-40 c-gap areas-select job-areas">
 
         <label class="label-size required">Where is the job located?  </label>
         @if($job->id)

@@ -59,14 +59,14 @@
       getTarget = $(this).closest('.fileUpload').find('.addCol');
       contact_group_clone.insertBefore(getTarget);
       console.log(contact_group_clone);
-      return contact_group_clone.find('.doc-uploadd').dropify({
+      contact_group_clone.find('.doc-uploadd').dropify({
         messages: {
           'default': 'Upload file',
           'replace': 'Replace file',
-          'remove': '<i class="">&#10005;</i>',
-          'error': 'Ooops, something wrong happended.'
+          'remove': '<i class="">&#10005;</i>'
         }
       });
+      return $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
     } else {
       return console.log('max ' + max + ' allowed');
     }
@@ -149,6 +149,8 @@
       }
     }), 250);
   });
+
+  $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 
   window.validatePhotosDocuments = function() {
     var files, form, images, main, parameters;

@@ -858,6 +858,45 @@
 }
 
 
+// Mobile dropify fix
+
+.dropify-wrapper.touch-fallback.has-preview{
+	.dropify-clear{
+		bottom: 4px;
+	    right: 0;
+	    border: 0;
+	    text-transform: none;
+	    width: 56%;
+	    left: 0;
+	    right: 0;
+	    margin: 0 auto;
+	    padding: 0;
+	    box-shadow: none;
+	    color: @accent-primary;
+	    transition: inherit;
+	    i{
+	    	text-decoration: underline;
+	    }
+	}
+	.dropify-preview{
+		.dropify-infos{
+			padding-bottom: 1.3em;
+			.dropify-infos-inner{
+				padding: 5px;
+				p{
+					text-align: center;
+					&.dropify-infos-message{
+						text-decoration: underline;
+						color: @accent-primary;
+					}
+				}
+			}
+		}
+	}
+
+}
+
+
 .fileUpload{
 	align-items: center;
 	@media screen and (min-width: 769px){

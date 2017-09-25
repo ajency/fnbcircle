@@ -59,9 +59,10 @@ $('body').on 'click', '.add-uploader', (e)->
       'default': 'Upload file'
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
-      'error': 'Ooops, something wrong happended.'
+      # 'error': 'Ooops, something wrong happended.'
     # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
-    # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'
+    # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'    
+    $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
   else
     console.log 'max '+max+' allowed'
     #throw error
@@ -167,6 +168,11 @@ $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
       uploadFile(container,1)
     return
   ), 250
+
+
+$('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
+
+
 
 # $('input[type="file"].doc-upload').prop('disabled',true)
 

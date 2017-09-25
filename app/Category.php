@@ -39,7 +39,7 @@ class Category extends Model
         if ($this->status == '1') {
             return true;
         } else {
-            $count = Category::where('parent_id', $this->id)->where('status', '1')->count();
+            $count = Category::where('type','listing')->where('parent_id', $this->id)->where('status', '1')->count();
             if ($count > 0 or $this->level == '3') {
                 $this->published_date = Carbon::now();
                 return true;

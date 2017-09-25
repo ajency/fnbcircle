@@ -340,7 +340,7 @@ class ListingController extends Controller
         }
         $statuses = explode(",",$request->status);
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
+            $child       = Category::where('type','listing')->where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
                 $i=0;
                 foreach ($statuses as $status) {
                     if($i==0){
@@ -675,7 +675,7 @@ class ListingController extends Controller
         }
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();
-            $parent_categ  = Category::whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $parent_categ  = Category::where('type','listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $category_json = ListingCategory::getCategories($listing->id);
             return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
             // dd($category_json);

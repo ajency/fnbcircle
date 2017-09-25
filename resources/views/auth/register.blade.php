@@ -11,7 +11,7 @@
     <!-- Add listing -->
     <!-- <script type="text/javascript" src="/js/add-listing.js"></script> -->
     <!-- custom script -->
-    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="/js/plugins/bootstrap-multiselect.js"></script>
 
     <script type="text/javascript" src="/js/custom.js"></script>
 

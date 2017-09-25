@@ -14,7 +14,7 @@
     <!-- Read more -->
     <script type="text/javascript" src="/js/readmore.min.js"></script>
 
-    <script src="/js/bootstrap-multiselect.js"></script>
+    <script src="/js/plugins/bootstrap-multiselect.js"></script>
 
     <!-- Datatables -->
     <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>

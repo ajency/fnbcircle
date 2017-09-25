@@ -12,6 +12,7 @@ image_dropify = $('.list-image').dropify messages:
   # 'error': 'Ooops, something wrong happended.'
 
 
+
 file_dropify = $('.doc-upload').dropify messages:
   'default': 'Upload file'
   'replace': 'Replace file'
@@ -143,6 +144,7 @@ uploadFile = (container,type)->
 
 image_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+  $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
   console.log "file deleted"
   return
 file_dropify.on 'dropify.afterClear', (event, element) ->

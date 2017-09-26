@@ -121,7 +121,7 @@
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
                     <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" />
-                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name" disabled value="{{$file['name']}}">
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="{{$file['name']}}">
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                             <div id="floatingBarsG">

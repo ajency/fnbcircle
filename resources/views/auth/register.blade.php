@@ -124,7 +124,7 @@
                                             <div class="required select-required">
                                                 <select class="form-control fnb-select border-bottom text-lighter" name="city">
                                                     <option value="">State</option>
-                                                    @foreach(App\City::all() as $key => $value)
+                                                    @foreach(App\City::where('status', 1)->get() as $key => $value)
                                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                                     @endforeach
                                                 </select>

@@ -251,7 +251,7 @@
                            <ul class="cities flex-row">
 
                               <?php
-                              $splitAreas =  splitArrayData($locAreas,2);
+                              $splitAreas =  splitJobArrayData($locAreas,2);
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
@@ -463,11 +463,11 @@
             <div class="equal-col">
                <div class="Company-info">
                   <div class="flex-row name-row">
-                    @if(!empty($jobCompany->logo))
+                    
                      <div class="company-logo">
-                        <img src="http://via.placeholder.com/60x60">
+                        <img src="{{ $companyLogo }}">
                      </div>
-                    @endif
+                    @if(!empty($jobCompany->logo))@endif
                      <div class="company-name heavier">
                         <div>
                            <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @endif"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>

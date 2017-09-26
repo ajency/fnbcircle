@@ -236,6 +236,7 @@ class JobController extends Controller
             abort(404);
 
         $jobCompany  = $job->getJobCompany();
+        $companyLogo = $jobCompany->getCompanyLogo('company_logo'); 
         $jobTypes  = $job->getJobTypes();
         $locations  = $job->getJobLocationNames();
         $similarjobs  = $job->getSimilarJobs(); 
@@ -245,13 +246,14 @@ class JobController extends Controller
         $data = ['job' => $job]; 
         $data['jobTypes'] = $jobTypes;
         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[]; 
-        $splitKeywords =  splitArrayData($jobKeywords,4);
+        $splitKeywords =  splitJobArrayData($jobKeywords,4);
         $data['keywords'] = $splitKeywords['array'];
         $data['moreKeywords'] = $splitKeywords['moreArray'];
         $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
 
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
+        $data['companyLogo'] = $companyLogo;
         $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
@@ -333,8 +335,10 @@ class JobController extends Controller
         }
         elseif ($step == 'step-two'){
             
-            $contactEmail = $job->getCompanyContactEmail($job->id);
-            $contactMobile = $job->getCompanyContactMobile($job->id);
+            $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
+            $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
+            $companyLogo = (!empty($jobCompany)) ? $jobCompany->getCompanyLogo('company_logo') : ''; 
+            $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
@@ -445,10 +449,10 @@ class JobController extends Controller
           
         }
 
-        $slug = getUniqueSlug($job, $title);
+        // $slug = getUniqueSlug($job, $title);
         $job->title = $title;
         $job->description = $description;
-        $job->slug = $slug;
+        // $job->slug = $slug;
         $job->category_id = $category;
         $job->job_type = $jobType;
         $job->experience_years_lower = $experienceYearsLower;
@@ -478,7 +482,7 @@ class JobController extends Controller
             'flexdatalist-company_name' => 'required|max:255',
         ]);
 
-        $data = $request->all();  
+        $data = $request->all(); 
 
         $companyId = $data['company_id'];
         $title = $data['flexdatalist-company_name'];
@@ -488,10 +492,18 @@ class JobController extends Controller
         $contactMobile = $data['contact_mobile'];
         $contactEmailId = $data['contact_email_id'];
         $contactMobileId = $data['contact_mobile_id'];
+        $contactMobileCode = $data['contact_country_code'];
+        $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
- 
-        
+
+        if(isset($data['company_logo'])){
+            $companyLogo = $data['company_logo'];
+            $deleteLogo = '1';
+        }else{
+            $companyLogo = '';
+        }
+                
         if($companyId == ''){
             $company = new Company;
             $status = 1 ;
@@ -509,6 +521,21 @@ class JobController extends Controller
         $company->website = $website;
         $company->status = $status;
         $company->save();
+
+        if($deleteLogo==1){
+            $company->unmapImage($company->logo);
+            $company->logo = '';
+            $company->save();
+        }
+
+        if(!empty($companyLogo)){
+            $logoId = $company->uploadCompanyLogo($companyLogo);
+            $company->logo = $logoId;
+            $company->save();
+        }
+
+        
+         
 
 
         $jobCompany = JobCompany::where('job_id',$job->id)->first();
@@ -537,7 +564,8 @@ class JobController extends Controller
 
         foreach ($contactMobile as $key => $mobile) {
             $isVisible = $visibleMobileContact[$key];
-            $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'contact_type'=>'mobile','is_visible'=>$isVisible] ;
+            $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'country_code'=>$contactMobileCode[$key],'contact_type'=>'mobile','is_visible'=>$isVisible] ;
+
 
             $userCom = $user->saveContactDetails($conactDetails,'job');
 
@@ -572,8 +600,15 @@ class JobController extends Controller
             'keyword' => 'required',
         ]);
 
-        $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
-        
+        $companies =  Company::where('title', 'like', '%'.$request->keyword.'%')->orderBy('title','asc')->select('id','title','description','website','logo')->get();
+        // $companies = \DB::select('select id,title,description,website,logo  from  companies where title like "%'.$request->keyword.'%" order by title asc');
+
+        $companyData = [];
+        foreach ($companies as $key => $company) {
+
+            $companies[$key]['logo'] = Company::find($company->id)->getCompanyLogo('company_logo');
+        }
+ 
         return response()->json(['results' => $companies]);
     }
 

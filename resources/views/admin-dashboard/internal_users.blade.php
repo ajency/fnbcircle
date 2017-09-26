@@ -10,6 +10,7 @@
 
 @section('js')
   @parent
+  <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
   <script type="text/javascript" src="{{ asset('/bower_components/bootstrap-confirmation2/bootstrap-confirmation.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('/js/admin_dashboard_internal.js') }}"></script>
   <!-- <script src="../public/js/bootstrap-multiselect.js"></script> -->
@@ -166,7 +167,7 @@
 	        <div class="modal fade" id="add_newuser_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	          <div class="modal-dialog" role="document">
 	            <div class="modal-content">
-	              <form method="post" id="add_newuser_modal_form">
+	              <form method="post" id="add_newuser_modal_form" data-parsley-validate="">
 	              	<input type="hidden" name="form_type" value=""/>
 	              	<input type="hidden" name="user_id" value=""/>
 	                <div class="modal-header">
@@ -178,13 +179,13 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Name  <span class="text-danger">*</span></label>
-	                        <input type="text" class="form-control fnb-input" name="name" placeholder="Enter your name">
+	                        <input type="text" class="form-control fnb-input" name="name" placeholder="Enter your name" data-required="true" required>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Email  <span class="text-danger">*</span></label>
-	                        <input type="email" class="form-control fnb-input" name="email" placeholder="Email Address">
+	                        <input type="email" class="form-control fnb-input" name="email" placeholder="Email Address" data-parsley-trigger="change" data-required="true" required>
 	                      </div>
 	                    </div>
 	                  </div>
@@ -193,9 +194,9 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select roles-select multiSelect" multiple="multiple" name="role">
+	                        <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true">
 	                          @foreach(Role::all() as $key_role => $value_role)
-	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
+	                          	<option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>
 	                      </div>
@@ -225,13 +226,13 @@
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="password" placeholder="Enter a password">
+	                        <input type="password" class="form-control fnb-input" name="password" placeholder="Enter a password" parsley-type="password" data-parsley-trigger="keyup" data-required="true" required>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Confirm Password <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="confirm_password" placeholder="Confirm your password">
+	                        <input type="password" class="form-control fnb-input" name="confirm_password" placeholder="Confirm your password" data-parsley-trigger="keyup" data-required="true" required>
 	                      </div>
 	                    </div>
 	                  </div>

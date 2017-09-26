@@ -922,12 +922,6 @@ $(function(){
 	        // $('.flexdatalist-multiple .value').remove();
 	    });
 
-	    $('.job-keywords').on('after:flexdatalist.remove', function () {
-	         console.log(1212121)
-	    });
-
-	    
-
 		$('.verification-modal').on('hidden.bs.modal', function (e) {
 		  	$('.content-data').removeClass('hidden');
   			$('.success-stuff').addClass('hidden');
@@ -1204,6 +1198,8 @@ $(function(){
 		// initSample();
 
 
+
+ CKEDITOR.replace( 'editor' );
 
 
 

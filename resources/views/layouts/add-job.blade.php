@@ -40,7 +40,7 @@
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
-    <script type="text/javascript" src="/js/require.js"></script>
+    <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 
     @if(Session::has('job_review_pending')) 
      <script type="text/javascript">
@@ -278,7 +278,7 @@
                                                   @endforeach
                                               </ul>
                                     </div>
-                                        <form id="job-form" method="post" action="{{ $postUrl }}" data-parsley-validate>
+                                        <form id="job-form" method="post" action="{{ $postUrl }}" data-parsley-validate enctype="multipart/form-data">
                                             
                                             @yield('form-data')
 

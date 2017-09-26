@@ -335,8 +335,8 @@ class JobController extends Controller
         }
         elseif ($step == 'step-two'){
             
-            $contactEmail = $job->getCompanyContactEmail($job->id);
-            $contactMobile = $job->getCompanyContactMobile($job->id);
+            $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
+            $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
             $companyLogo = (!empty($jobCompany)) ? $jobCompany->getCompanyLogo('company_logo') : ''; 
             $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
@@ -492,6 +492,7 @@ class JobController extends Controller
         $contactMobile = $data['contact_mobile'];
         $contactEmailId = $data['contact_email_id'];
         $contactMobileId = $data['contact_mobile_id'];
+        $contactMobileCode = $data['contact_country_code'];
         $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
@@ -563,7 +564,7 @@ class JobController extends Controller
 
         foreach ($contactMobile as $key => $mobile) {
             $isVisible = $visibleMobileContact[$key];
-            $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'contact_type'=>'mobile','is_visible'=>$isVisible] ;
+            $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'country_code'=>$contactMobileCode[$key],'contact_type'=>'mobile','is_visible'=>$isVisible] ;
 
             $userCom = $user->saveContactDetails($conactDetails,'job');
 

@@ -1,8 +1,17 @@
 @extends('layouts.add-job')
+
+
+@section('css')
+    @parent
+    <link rel="stylesheet" href="/node_modules/intl-tel-input/build/css/intlTelInput.css">
+@endsection
+
 @section('js')
     @parent
     <script type="text/javascript" src="/js/jobs.js"></script>
     <script type="text/javascript" src="/js/verification.js"></script>
+    <script type="text/javascript" src="/node_modules/intl-tel-input/build/js/intlTelInput.min.js"></script>
+  >
 @endsection
 @section('form-data')
 

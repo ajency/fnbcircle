@@ -182,3 +182,19 @@ function getDefaultValues($type, $arrayType=1){
 }
 
 
+function getCommunicationContactDetail($objectId,$objectType,$type){
+    $commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+    
+    $contactInfo = [];
+    if(!empty($commObjs)){
+        foreach ($commObjs as $key => $commObj) {
+            $contactInfo[] = ['id'=>$commObj->id,$type =>$commObj->value,'country_code' =>$commObj->country_code,'visible'=>$commObj->is_visible,'verified'=>$commObj->is_verified];
+        }
+         
+    }
+
+    return $contactInfo;
+}
+ 
+
+

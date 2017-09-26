@@ -170,32 +170,7 @@ class Job extends Model
         return $company;
     }
 
-    public function getCompanyContactEmail($id){
-        $emails = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$id,'type'=>'email'])->get();
-        $companyEmails = [];
-        if(!empty($emails)){
-            foreach ($emails as $key => $email) {
-                $companyEmails[] = ['id'=>$email->id,'email'=>$email->value,'visible'=>$email->is_visible,'verified'=>$email->is_verified];
-            }
-             
-        }
-
-        return $companyEmails;
-    }
-
-    public function getCompanyContactMobile($id){
-        $mobilenos = UserCommunication::where(['object_type'=>'App\Job','object_id'=>$id,'type'=>'mobile'])->get();
-        $companyMobile = [];
-        if(!empty($mobilenos)){
-            foreach ($mobilenos as $key => $mobileno) {
-                $companyMobile[] = ['id'=>$mobileno->id,'mobile'=>$mobileno->value,'visible'=>$mobileno->is_visible,'verified'=>$mobileno->is_verified];
-            }
-             
-        }
-
-        return $companyMobile;
-    }
-
+    
     public function  getJobLocation(){
     	$locations = $this->hasLocations()->get()->toArray(); 
     	$savedLocation = [];

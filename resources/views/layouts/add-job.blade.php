@@ -40,7 +40,7 @@
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
-    <script type="text/javascript" src="/js/require.js"></script>
+    <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 
     @if(Session::has('job_review_pending')) 
      <script type="text/javascript">

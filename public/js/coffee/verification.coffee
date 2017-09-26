@@ -23,12 +23,13 @@ $(document).ready ()->
       formatOnDisplay:false
 
 
-  $('.contact-mobile-input').on 'countrychange', (e, countryData) ->
+  $('.contact-info').on 'countrychange', '.contact-mobile-input', (e, countryData)->
     console.log countryData.dialCode
     if $(this).closest('.modal').length
       $('.under-review').find('.contact-country-code').val countryData.dialCode
       $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryData.dialCode)
     else
+      console.log countryData.dialCode
       $(this).closest('.contact-container').find('.contact-country-code').val countryData.dialCode
     return
 

@@ -108,8 +108,9 @@ class User extends Authenticatable
                 $object->is_primary = 0;
                 $object->is_communication = 1;
                 $object->is_visible = $data['is_visible'] ;
-                $object->country_code = $countryCode;
 
+                if($data['contact_type'] == 'mobile' && $countryCode!="")
+                    $object->country_code = $countryCode;
 
                 $object->save();
             }

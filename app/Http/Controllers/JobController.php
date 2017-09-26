@@ -482,7 +482,7 @@ class JobController extends Controller
             'flexdatalist-company_name' => 'required|max:255',
         ]);
 
-        $data = $request->all();   
+        $data = $request->all(); 
 
         $companyId = $data['company_id'];
         $title = $data['flexdatalist-company_name'];
@@ -565,6 +565,7 @@ class JobController extends Controller
         foreach ($contactMobile as $key => $mobile) {
             $isVisible = $visibleMobileContact[$key];
             $conactDetails = ['id' => $contactMobileId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$mobile,'country_code'=>$contactMobileCode[$key],'contact_type'=>'mobile','is_visible'=>$isVisible] ;
+
 
             $userCom = $user->saveContactDetails($conactDetails,'job');
 

@@ -24,12 +24,10 @@
       });
     });
     $('.contact-info').on('countrychange', '.contact-mobile-input', function(e, countryData) {
-      console.log(countryData.dialCode);
       if ($(this).closest('.modal').length) {
         $('.under-review').find('.contact-country-code').val(countryData.dialCode);
         $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+" + countryData.dialCode);
       } else {
-        console.log(countryData.dialCode);
         $(this).closest('.contact-container').find('.contact-country-code').val(countryData.dialCode);
       }
     });
@@ -257,13 +255,13 @@
         $('.resend-link').removeClass('sending');
       }), 2500);
     });
-    return $(".contact-info").on('change', '.business-contact .toggle__check', function() {
+    return $(".contact-info").on('change', '.toggle__check', function() {
       if ($(this).is(':checked')) {
         $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
-        $(this).closest('.toggle').find('input').val(1);
+        $(this).closest('.toggle').find('.contact-visible').val(1);
       } else {
         $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
-        $(this).closest('.toggle').find('input').val(0);
+        $(this).closest('.toggle').find('.contact-visible').val(0);
       }
     });
   });

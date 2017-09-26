@@ -894,7 +894,7 @@ $(function(){
 		// });
 
 		// Bootstrap multiselect
-		if($('.multi-select,.location-select').length){
+		if($('.multi-select,.default-area-select').length){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
 	            numberDisplayed: 1

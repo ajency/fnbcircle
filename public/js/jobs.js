@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, coreCat;
+  var Applybtn, Articles, companyLogo, coreCat;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -98,6 +98,17 @@
 
   $('.auto-company').on('select:flexdatalist', function(event, set, options) {
     $('input[name="company_id"]').val(set.id);
+    if (set.logo === '') {
+      $('input[name="company_logo"]').removeAttr('data-default-file');
+      $('.dropify-preview').css('display', 'none');
+      $('.dropify-wrapper').removeClass('has-preview');
+      $('.dropify-render').html('');
+    } else {
+      $('input[name="company_logo"]').attr('data-default-file', set.logo);
+      $('.dropify-preview').css('display', 'block');
+      $('.dropify-wrapper').addClass('has-preview');
+      $('.dropify-render').html('<img src="' + set.logo + '">');
+    }
     $('textarea[name="company_description"]').text(set.description);
     CKEDITOR.instances['editor'].setData(set.description);
     $('input[name="company_website"]').val(set.website);
@@ -110,11 +121,10 @@
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
     }
-    console.log($('input[name="step"]').val());
     if ($('input[name="step"]').val() === 'step-one' || $('input[name="step"]').val() === 'step-two') {
       CKEDITOR.instances.editor.updateElement();
     }
-    $('form').submit();
+    $(this).closest('form').submit();
   });
 
   $('#salary_lower').on('change', function() {
@@ -195,7 +205,7 @@
 
   if ($(window).width() > 769) {
     if ($('.comp-logo').length) {
-      $('.comp-logo').dropify({
+      companyLogo = $('.comp-logo').dropify({
         messages: {
           'default': 'Add Logo',
           'replace': 'Change Logo',
@@ -207,13 +217,19 @@
 
   if ($(window).width() < 769) {
     if ($('.comp-logo').length) {
-      $('.comp-logo').dropify({
+      companyLogo = $('.comp-logo').dropify({
         messages: {
           'default': 'Add Logo',
           'replace': 'Change Logo'
         }
       });
     }
+  }
+
+  if ($('.comp-logo').length) {
+    companyLogo.on('dropify.afterClear', function(event, element) {
+      return $("input[name='delete_logo']").val(1);
+    });
   }
 
   if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {

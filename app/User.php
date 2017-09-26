@@ -97,6 +97,7 @@ class User extends Authenticatable
             }
 
             if($data['contact_value'] != ""){
+                $countryCode = (isset($data['country_code'])) ? $data['country_code'] : '';
                 $object->object_type  =  $data['object_type'] ;
 
                 if(!isset($data['action']))
@@ -107,6 +108,10 @@ class User extends Authenticatable
                 $object->is_primary = 0;
                 $object->is_communication = 1;
                 $object->is_visible = $data['is_visible'] ;
+
+                if($data['contact_type'] == 'mobile' && $countryCode!="")
+                    $object->country_code = $countryCode;
+
                 $object->save();
             }
             

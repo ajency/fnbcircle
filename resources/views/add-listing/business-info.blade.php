@@ -275,7 +275,7 @@
                             <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
                             <b class="switch"></b>
                             <b class="track"></b>
-                             <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="{{ $mobile['visible'] }}">
+                             <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
                         </div>
                         <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                     </div>

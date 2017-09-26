@@ -31,6 +31,7 @@ function listingInformation() {
                 url: '/contact_save',
                 data: {
                     'value': value[i].value,
+                    'country' : $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'],
                     'type': type,
                     'id': contact_IDs[i].value
                 },
@@ -45,6 +46,8 @@ function listingInformation() {
                 async: false
             });
             contact['id'] = contact_IDs[i].value;
+            contact['country'] =  $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'];
+
             // contact['email'] = emails[i].value;
             // contact['verify'] = (contact_verified[i].checked) ? "1" : "0";
             contact['visible'] = (contact_visible[i].checked) ? "1" : "0";

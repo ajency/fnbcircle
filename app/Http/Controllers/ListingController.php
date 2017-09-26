@@ -60,7 +60,7 @@ class ListingController extends Controller
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('visible' => $contact->visible);
+            $contacts[$contact->id] = array('visible' => $contact->visible, 'country' => $contact->country);
         }
         // print_r($contacts);
         if ($data->listing_id == "") {
@@ -71,7 +71,9 @@ class ListingController extends Controller
         $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
         UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
         foreach ($contacts as $contact => $info) {
+            // dd($info);
             $com = UserCommunication::find($contact);
+            $com->country_code = $info['country'];
             $com->object_id = $listing->id;
             $com->is_visible = $info['visible'];
             $com->save();
@@ -109,7 +111,9 @@ class ListingController extends Controller
         } else {
             $contact = UserCommunication::find($id);
         }
-
+        if(isset($request->country)){
+            $contact->country_code = $request->country;
+        }
         $contact->value              = $value;
         $contact->type = $type;
         $contact->save();

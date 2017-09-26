@@ -180,6 +180,8 @@ $(document).ready () ->
 	$("#add_newuser_modal #add_newuser_modal_btn").on 'click', () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
 
+		form_status = form_obj.parsley().validate()
+
 		data = 
 			user_type : "internal"
 			name : form_obj.find('input[type="text"][name="name"]').val()
@@ -192,7 +194,7 @@ $(document).ready () ->
 
 		url_type = form_obj.find("input[type='hidden'][name='form_type']").val()
 
-		if(1)
+		if(form_status)
 			$(this).find(".fa-circle-o-notch.fa-spin").removeClass "hidden"
 
 			$.ajax
@@ -234,6 +236,7 @@ $(document).ready () ->
 		modal_object.find("input[type='text'][name='name']").val(row.find('td:eq(1)').text())
 		modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text())
 
+		### --- Select the user's Role --- ###
 		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
 		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
 

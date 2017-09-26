@@ -8,7 +8,8 @@ getColumns = () ->
 	]
 
 getFiltersForListInternalUsers = () ->
-	filters = {}
+	filters = 
+		user_type : "internal"
 	filters_param_url = ''
 
 	sort_value = $('#datatable-internal-users').dataTable().fnSettings().aaSorting
@@ -133,6 +134,7 @@ $(document).ready () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
 
 		data = 
+			user_type : "internal"
 			name : form_obj.find('input[type="text"][name="name"]').val()
 			email : form_obj.find('input[type="email"][name="email"]').val()
 			roles : if form_obj.find('select[name="role"]').val().length then form_obj.find('select[name="role"]').val() else []
@@ -153,7 +155,7 @@ $(document).ready () ->
 				dataType: 'json'
 				success: (data) ->
 					console.log data
-					
+
 					$("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 					$("#add_newuser_modal").modal "hide"
 

@@ -20,7 +20,9 @@
 
   getFiltersForListInternalUsers = function() {
     var columns_replacement, filters, filters_param_url, length, page_param_url, sort_value, start;
-    filters = {};
+    filters = {
+      user_type: "internal"
+    };
     filters_param_url = '';
     sort_value = $('#datatable-internal-users').dataTable().fnSettings().aaSorting;
     if (sort_value.length > 0 && sort_value[0].length > 0) {
@@ -140,6 +142,7 @@
       var data, form_obj, url_type;
       form_obj = $("#add_newuser_modal #add_newuser_modal_form");
       data = {
+        user_type: "internal",
         name: form_obj.find('input[type="text"][name="name"]').val(),
         email: form_obj.find('input[type="email"][name="email"]').val(),
         roles: form_obj.find('select[name="role"]').val().length ? form_obj.find('select[name="role"]').val() : [],

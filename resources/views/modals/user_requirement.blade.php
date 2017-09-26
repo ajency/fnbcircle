@@ -64,7 +64,7 @@
                                     <div class="required select-required">
                                         <select class="form-control fnb-select border-bottom text-lighter" name="city">
                                             <option value="">State</option>
-                                            @foreach(App\City::all() as $key => $value)
+                                            @foreach(App\City::where('status', 1)->get() as $key => $value)
                                                 @if(Auth::user()->getUserDetails()->first() && Auth::user()->getUserDetails()->first()->city == $value->id)
                                                     <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
                                                 @else

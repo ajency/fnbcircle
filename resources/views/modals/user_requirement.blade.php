@@ -80,6 +80,7 @@
                                 <div class="form-group p-t-10 p-b-10">
                                     <!-- <label class=" text-lighter required">Area</label> -->
                                     <div class="required select-required">
+                                        <input type="hidden" name="user_area" value="{{ Auth::user()->getUserDetails()->first() ? Auth::user()->getUserDetails()->first()->area : '' }}"/>
                                         <select class="form-control fnb-select border-bottom text-lighter" name="area">
                                             <option value="">City</option>
                                         </select>

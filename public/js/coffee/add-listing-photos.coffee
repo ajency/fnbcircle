@@ -9,24 +9,45 @@ image_dropify = $('.list-image').dropify messages:
   'default': 'Add photo'
   'replace': 'Replace photo'
   'remove': '<i class="">&#10005;</i>'
-  'error': 'Ooops, something wrong happended.'
+  # 'error': 'Ooops, something wrong happended.'
+
 
 
 file_dropify = $('.doc-upload').dropify messages:
   'default': 'Upload file'
   'replace': 'Replace file'
   'remove': '<i class="">&#10005;</i>'
-  'error': 'Ooops, something wrong happended.'
+  'error': ''
 
+ef= 0
 
+image_dropify.on 'dropify.errors', (event, element) ->
+  ef = 1
+  setTimeout (->
+    ef = 0
+    return
+  ), 2000
+  return
+file_dropify.on 'dropify.errors', (event, element) ->
+  ef = 1
+  setTimeout (->
+    ef = 0
+    return
+  ), 2000
+  return
+
+# ---
 # add more files
-
-fileuploaders = 1
+# console.log $('.fileUpload input[type="file"]')
+fileuploaders = $('.fileUpload input[type="file"]').length
+fileuploaders -= 1
+console.log fileuploaders
 
 $('body').on 'click', '.add-uploader', (e)->
   e.preventDefault()
   max = parseInt document.head.querySelector('[property="max-file-upload"]').content
   if(fileuploaders< max)
+    console.log fileuploaders+' < '+max
     fileuploaders++
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
     contact_group_clone = contact_group.clone()
@@ -39,9 +60,10 @@ $('body').on 'click', '.add-uploader', (e)->
       'default': 'Upload file'
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
-      'error': 'Ooops, something wrong happended.'
-    contact_group_clone.find('.doc-uploadd').prop('disabled',true)
-    contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'
+      # 'error': 'Ooops, something wrong happended.'
+    # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
+    # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'    
+    $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
   else
     console.log 'max '+max+' allowed'
     #throw error
@@ -79,14 +101,15 @@ $('body').on 'click', '.removeCol', (e)->
 # )
 # uploader.init()
 
-uploadFile = (element,type)->
+uploadFile = (container,type)->
   if type == 0
     url = document.head.querySelector('[property="photo-upload-url"]').content
   else
     url = document.head.querySelector('[property="file-upload-url"]').content
   # e.preventDefault()
-  container = $(element).closest('.image-grid__cols') 
+  # container = $(element).closest('.image-grid__cols') 
   file = container.find('input[type="file"]')
+  # console.log element
   if file[0].files.length > 0
     # if container.find('input[type="hidden"]').val() != ""
     #   console.log "File already uploaded"
@@ -107,11 +130,11 @@ uploadFile = (element,type)->
         if(data['status'] == "200")
           container.find('input[type="hidden"]').val data['data']['id']
           container.find(".image-loader").addClass('hidden')
-          if type == 1
-            container.find('.doc-name').prop('disabled',true)
+          # if type == 1
+          #   container.find('.doc-name').prop('disabled',true)
         else
           #throw some error
-          $(element).val ''
+          $container.find('input[type="file"]').val ''
       else
         #throw some error
       return
@@ -121,34 +144,51 @@ uploadFile = (element,type)->
 
 image_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+  $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
   console.log "file deleted"
   return
 file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
-  $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
+  # $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
   console.log "file deleted"
   return
 
 $('body').on 'change','.imageUpload input[type="file"]', (e) ->
-  uploadFile(this,0)
+  container =$(this).closest('.image-grid__cols')
+  setTimeout (->
+    if ef == 0
+      uploadFile(container,0)
+    return
+  ), 250
+  
 
 $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
-  uploadFile(this,1)
+  container =$(this).closest('.image-grid__cols')
+  setTimeout (->
+    if ef == 0
+      uploadFile(container,1)
+    return
+  ), 250
 
-$('input[type="file"].doc-upload').prop('disabled',true)
 
-$('input[type="file"].doc-upload').parent().addClass 'disable'
+$('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 
-$('body').on 'keyup', '.doc-name', () ->
-  if $(this).val() == ""
-    $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',true)
-    $(this).closest('.image-grid__cols').find('input[type="file"]').parent().addClass 'disable'
-    $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title','You cannot upload a file till you write a name')
-  else
-    $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',false)
-    $(this).closest('.image-grid__cols').find('input[type="file"]').parent().removeClass 'disable'
-    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
+
+
+# $('input[type="file"].doc-upload').prop('disabled',true)
+
+# $('input[type="file"].doc-upload').parent().addClass 'disable'
+
+# $('body').on 'keyup', '.doc-name', () ->
+#   if $(this).val() == ""
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',true)
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').parent().addClass 'disable'
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').attr('title','You cannot upload a file till you write a name')
+#   else
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').prop('disabled',false)
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').parent().removeClass 'disable'
+#     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
 
 window.validatePhotosDocuments = () ->
   $('.section-loader').removeClass('hidden');

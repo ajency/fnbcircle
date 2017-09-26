@@ -572,6 +572,8 @@ class ListingController extends Controller
         $saved_images = $listing->getImages();
         if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
             $listing->photos = '{"id": "'.$request->main.'", "url" : "'.$saved_images[$request->main][config('tempconfig.listing-thumb-size')].'", "order" : "'.implode(',',$images).'"}';
+        }else{
+            $listing->photos = null;
         }
         $listing->save();
         
@@ -609,9 +611,9 @@ class ListingController extends Controller
             'listing_id'  => 'required',
             'file' => 'file'
         ]);
-        $file = $request->file('file');
+        $file = $request->file('file')->getClientOriginalName();
         $listing = Listing::where('reference',$request->listing_id)->first();
-        $id = $listing->uploadFile($request->file('file'),true,$request->name);
+        $id = $listing->uploadFile($request->file('file'),true,$file);
         if($id != false){
             return response()->json(['status'=>'200','message'=>'File Uploaded successfully', 'data'=>['id'=>$id]]);
         }else{

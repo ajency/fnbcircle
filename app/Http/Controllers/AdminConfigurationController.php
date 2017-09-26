@@ -562,16 +562,6 @@ class AdminConfigurationController extends Controller
                 //$row_html = "<tr role=\"row\" class=\"" . ((($obj_key + 1) % 2) == 1 ? "odd" : "even") . "\">" . $columns_html . "</tr>"; // Generate table row
                 array_push($response_data, $columns_html);
             }
-
-            /*$response_data = [
-                [
-                    "1", "2", "3", "4", "5"
-                ], [
-                    "1", "2", "3", "4", "5"
-                ], [
-                    "1", "2", "3", "4", "5"
-                ]
-            ];*/
         } catch (Exception $e) {
             $status = 400;
             $output->writeln("error: " . json_encode($e));
@@ -594,15 +584,37 @@ class AdminConfigurationController extends Controller
     * 
     */
     public function addNewUser(Request $request) {
-        $status = 200; $response_data = [];
-        if($username) {
-            $user_obj = User::find($username)->first();
+        $status = 201; $response_data = [];
+        $userauth_obj = new UserAuth;
 
-            $output = new ConsoleOutput;
+        $output = new ConsoleOutput;
 
-            $output->writeln(json_encode($request));
+        $request = $request->all();
+
+        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "email_signup");
+        $user_comm = array("email" => $request["email"], "is_verified" => true);
+        
+        if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {
+            $user_data["password"] = $request["password"];
+        }
+
+        if(isset($request["roles"]) && sizeof($request["roles"]) > 0) {
+            $user_data["roles"] = $request["roles"][0];
+        }
+        
+        if($request["status"]) {
+            $user_data["status"] = $request["status"];
+        }
+
+        $user_obj_response = $userauth_obj->checkIfUserExists($user_data);
+
+        if(!$user_obj_response) { // If user doesn't exist then create user, else
+            $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
+            $output->writeln(json_encode($create_response));
+            $status = 201;
         } else {
             $status = 406; ## Not Acceptable
+            $response_data = array("message" => "Email exist");
         }
 
         return response()->json($response_data, $status);

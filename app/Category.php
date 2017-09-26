@@ -6,9 +6,11 @@ use App\Http\Controllers\AdminConfigurationController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Ajency\FileUpload\FileUpload;
 
 class Category extends Model
 {
+    use FileUpload;
     protected $table    = "categories";
     protected $fillable = ['name', 'path', 'level', 'parent_id'];
     public $parent, $children;

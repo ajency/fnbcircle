@@ -165,6 +165,7 @@ class AdminConfigurationController extends Controller
                 "parent_id"  => "",
                 "branch_id"  => "",
                 "name_data"  => $category->name,
+                "image_url"  => $category->icon_url,
             );
             if ($category->level == "1") {
                 $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
@@ -380,7 +381,7 @@ class AdminConfigurationController extends Controller
             'slug'       => 'required|string|max:255',
             'sort_order' => 'required|integer',
             'status'     => 'required|integer|min:0|max:2',
-            'image_url'  => 'nullable|url',
+            
         ]);
         // dd($request);
         if ($request->id != '') {
@@ -418,13 +419,24 @@ class AdminConfigurationController extends Controller
         }
         $category->name     = $request->name;
         $category->order    = $request->sort_order;
-        $category->icon_url = $request->image_url;
+        // $category->icon_url = $request->image_url;
+        // dd(isset($request->image) and $request->image!='undefined');
+
         $message            = $category->saveStatus($request->status);
         if ($message != true) {
             return response()->json(array("status" => "400", "msg" => $message, "data" => array()));
         }
 
         $category->save();
+        if(isset($request->image) and $request->image!='undefined'){
+            $photoId = $category->uploadImage($request->file('image'),false);  
+            $category->remapImages([$photoId]);
+            $cat_image = $category->getImages();
+            foreach($cat_image as $img){
+                $category->icon_url = $img['65x65'];    
+            }
+            $category->save(); 
+        }
         $category = Category::find($category->id);
         $parents  = Category::where('type','listing')->where('level', '1')->orderBy('order')->orderBy('name')->get();
         $branches = Category::where('type','listing')->where('level', '2')->orderBy('order')->orderBy('name')->get();

@@ -569,10 +569,12 @@ class ListingController extends Controller
         else $files= [];
         $filemap=array();
         foreach ($files as $file) {
+            $listing->renameFile($file);
             $filemap[] = (int)$file['id'];
         }
         $listing->remapImages($images);
         $listing->remapFiles($filemap);
+
         $listing->updated_at = Carbon::now();
         $saved_images = $listing->getImages();
         if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){

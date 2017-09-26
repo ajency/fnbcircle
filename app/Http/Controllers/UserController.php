@@ -89,7 +89,7 @@ class UserController extends Controller
         $this->validate($request, [
             'contact_value' => 'required',
             'contact_type'  => 'required',
-            'object_id'    => 'required|integer',
+            // 'object_id'    => 'required|integer',
             'object_type'    => 'required',
         ]);
         

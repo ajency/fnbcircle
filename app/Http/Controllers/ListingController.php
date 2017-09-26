@@ -9,7 +9,7 @@ use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
-use App\ListingCommunication;
+use App\UserCommunication;
 use App\ListingOperationTime;
 use App\User;
 use Auth;
@@ -60,7 +60,7 @@ class ListingController extends Controller
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('visible' => $contact->visible);
+            $contacts[$contact->id] = array('visible' => $contact->visible, 'country' => $contact->country);
         }
         // print_r($contacts);
         if ($data->listing_id == "") {
@@ -69,10 +69,14 @@ class ListingController extends Controller
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
         $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
-        ListingCommunication::where('listing_id', $listing->id)->update(['listing_id' => null]);
+        UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
         foreach ($contacts as $contact => $info) {
-            $com = ListingCommunication::find($contact);
-            $com->saveInformation($listing->id, $info['visible']);
+            // dd($info);
+            $com = UserCommunication::find($contact);
+            $com->country_code = $info['country'];
+            $com->object_id = $listing->id;
+            $com->is_visible = $info['visible'];
+            $com->save();
         }
         $change = "";
         if (isset($data->change) and $data->change == "1") {
@@ -98,74 +102,78 @@ class ListingController extends Controller
             'id'    => 'nullable|integer',
         ]);
         $value = $request->value;
-        $type  = $request->type;
+        $types = ['1'=>'email','2'=>'mobile','3'=>'landline'];
+        $type  = $types[$request->type];
         $id    = $request->id;
         if ($id == "") {
-            $contact = new ListingCommunication;
+            $contact = new UserCommunication;
+            $contact->object_type = 'App\\Listing';
         } else {
-            $contact = ListingCommunication::find($id);
+            $contact = UserCommunication::find($id);
         }
-
+        if(isset($request->country)){
+            $contact->country_code = $request->country;
+        }
         $contact->value              = $value;
-        $contact->communication_type = $type;
+        $contact->type = $type;
         $contact->save();
         return response()->json(array('id' => $contact->id));
     }
-    public function createOTP(Request $request)
-    {
-        $this->validate($request, [
-            'value' => 'required',
-            'type'  => 'required|integer',
-            'id'    => 'nullable|  integer',
-        ]);
-        // $request->session()->flush();
-        if ($request->id == null) {
-            $contact = new ListingCommunication;
-        } else {
-            $contact = ListingCommunication::findorFail($request->id);
-        }
-        $contact->value              = $request->value;
-        $contact->communication_type = $request->type;
-        $contact->save();
-        $OTP       = rand(1000, 9999);
-        $timestamp = Carbon::now()->timestamp;
-        $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
-        error_log($json); //send sms or email here
-        $request->session()->put('contact#' . $contact->id, $json);
-        return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value, 'OTP' => $OTP));
+    // public function createOTP(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'value' => 'required',
+    //         'type'  => 'required|integer',
+    //         'id'    => 'nullable|  integer',
+    //     ]);
+    //     // $request->session()->flush();
+    //     if ($request->id == null) {
+    //         $contact = new ListingCommunication;
+    //     } else {
+    //         $contact = ListingCommunication::findorFail($request->id);
+    //     }
+    //     $contact->value              = $request->value;
+    //     $contact->communication_type = $request->type;
+    //     $contact->save();
+    //     $OTP       = rand(1000, 9999);
+    //     $timestamp = Carbon::now()->timestamp;
+    //     $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
+    //     error_log($json); //send sms or email here
+    //     $request->session()->put('contact#' . $contact->id, $json);
+    //     return response()->json(array('id' => $contact->id, 'verify' => $contact->is_verified, 'value' => $contact->value, 'OTP' => $OTP));
 
-    }
+    // }
 
-    public function validateOTP(Request $request)
-    {
-        $this->validate($request, [
-            'OTP' => 'integer|min:1000|max:9999',
-            'id'  => 'integer|min:1',
-        ]);
-        $json = session('contact#' . $request->id);
-        if ($json == null) {
-            abort(404);
-        }
+    // public function validateOTP(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'OTP' => 'integer|min:1000|max:9999',
+    //         'id'  => 'integer|min:1',
+    //     ]);
+    //     $json = session('contact#' . $request->id);
+    //     if ($json == null) {
+    //         abort(404);
+    //     }
 
-        $array = json_decode($json);
-        $old   = Carbon::createFromTimestamp($array->timestamp);
-        $now   = Carbon::now();
-        if ($now > $old->addMinutes(15)) {
-            abort(410);
-        }
+    //     $array = json_decode($json);
+    //     $old   = Carbon::createFromTimestamp($array->timestamp);
+    //     $now   = Carbon::now();
+    //     if ($now > $old->addMinutes(15)) {
+    //         abort(410);
+    //     }
 
-        if ($request->OTP == $array->OTP) {
-            $contact              = ListingCommunication::find($request->id);
-            $contact->is_verified = 1;
-            $contact->save();
-            // dd($request->session);
-            $request->session()->forget('contact#' . $request->id);
-            return response()->json(array('success' => "1"));
+    //     if ($request->OTP == $array->OTP) {
+    //         $contact              = ListingCommunication::find($request->id);
+    //         $contact->is_verified = 1;
+    //         $contact->save();
+    //         // dd($request->session);
+    //         $request->session()->forget('contact#' . $request->id);
+    //         return response()->json(array('success' => "1"));
 
-        }
-        return response()->json(array('success' => "0"));
+    //     }
+    //     return response()->json(array('success' => "0"));
 
-    }
+    // }
 
     public function findDuplicates(Request $request)
     {
@@ -186,7 +194,8 @@ class ListingController extends Controller
         }
         
         $contact = json_decode($request->contacts, true);
-        $query   = ListingCommunication::whereNotNull('listing_id');
+        // $query   = UserCommunication::where('object_type','App\\Listing')->whereNotNull('object_id');
+        $query   = ListingCommunication::whereNotNull('object_id');
         $query   = $query->where(function ($query) use ($contact) {
             $query->where("value", Auth::user()->email);
             foreach ($contact as $value) {
@@ -340,7 +349,7 @@ class ListingController extends Controller
         }
         $statuses = explode(",",$request->status);
         foreach ($parents as $parent) {
-            $child       = Category::where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
+            $child       = Category::where('type','listing')->where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
                 $i=0;
                 foreach ($statuses as $status) {
                     if($i==0){
@@ -564,10 +573,12 @@ class ListingController extends Controller
         else $files= [];
         $filemap=array();
         foreach ($files as $file) {
+            $listing->renameFile($file);
             $filemap[] = (int)$file['id'];
         }
         $listing->remapImages($images);
         $listing->remapFiles($filemap);
+
         $listing->updated_at = Carbon::now();
         $saved_images = $listing->getImages();
         if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
@@ -657,25 +668,27 @@ class ListingController extends Controller
         // dd(Auth::user());
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities);
+        $user = Auth::user();
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner',$user);
     }
     public function edit($reference, $step = 'business-information')
     {
         if ($step == 'business-information') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            $emails  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '1')->get();
-            $mobiles = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '2')->get();
-            $phones  = ListingCommunication::where('listing_id', $listing->id)->where('communication_type', '3')->get();
+            $emails  = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
+            $mobiles = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
+            // dd($mobiles);
+            $phones  = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'landline')->get();
             $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             $areas   = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
-            // echo $areas;
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas);
+            $user = User::find($listing->owner_id);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner',$user);
         }
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();
-            $parent_categ  = Category::whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $parent_categ  = Category::where('type','listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $category_json = ListingCategory::getCategories($listing->id);
             return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
             // dd($category_json);

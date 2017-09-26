@@ -29,8 +29,8 @@ class AdminConfigurationController extends Controller
     }
     public function categoriesView(Request $request)
     {
-        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
-        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
+        $parents  = Category::where('type','listing')->where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('type','listing')->where('level', '2')->orderBy('order')->orderBy('name')->get();
         return view('admin-dashboard.categories')->with('parents', $parents)->with('branches', $branches);
     }
     public function getCities(Request $request)
@@ -148,7 +148,7 @@ class AdminConfigurationController extends Controller
     public function categConfigList(Request $request)
     {
         $status     = array("0" => "Draft", "1" => "Published", "2" => "Archived");
-        $categories = Category::all();
+        $categories = Category::where('type','listing')->get();
         $data       = array();
         foreach ($categories as $category) {
             $pub                 = ($category->published_date != null) ? $category->published_date->toDateTimeString() : "";
@@ -165,6 +165,7 @@ class AdminConfigurationController extends Controller
                 "parent_id"  => "",
                 "branch_id"  => "",
                 "name_data"  => $category->name,
+                "image_url"  => $category->icon_url,
             );
             if ($category->level == "1") {
                 $data[$category->id]['isParent'] = "<i class=\"fa fa-check text-success\"></i><span class=\"hidden\">Yes</span>";
@@ -301,9 +302,9 @@ class AdminConfigurationController extends Controller
         $categSibCount = array();
         foreach ($categories as $category) {
             if ($category->type == "1") {
-                $branches = Category::where('parent_id', $category->id)->get();
+                $branches = Category::where('type','listing')->where('parent_id', $category->id)->get();
                 foreach ($branches as $branch) {
-                    $nodes = Category::where('parent_id', $branch->id)->get();
+                    $nodes = Category::where('type','listing')->where('parent_id', $branch->id)->get();
                     foreach ($nodes as $node) {
                         $listings = Category::find($node->id)->listing()->get();
                         foreach ($listings as $listing) {
@@ -314,7 +315,7 @@ class AdminConfigurationController extends Controller
                 $categSibCount[$category->id] = array();
             }
             if ($category->type == "2") {
-                $nodes = Category::where('parent_id', $category->id)->get();
+                $nodes = Category::where('type','listing')->where('parent_id', $category->id)->get();
                 foreach ($nodes as $node) {
                     $listings = Category::find($node->id)->listing()->get();
                     foreach ($listings as $listing) {
@@ -380,7 +381,7 @@ class AdminConfigurationController extends Controller
             'slug'       => 'required|string|max:255',
             'sort_order' => 'required|integer',
             'status'     => 'required|integer|min:0|max:2',
-            'image_url'  => 'nullable|url',
+            
         ]);
         // dd($request);
         if ($request->id != '') {
@@ -404,6 +405,7 @@ class AdminConfigurationController extends Controller
         if ($request->id == '') {
             $category         = new Category;
             $category->status = "0";
+            $category->type = 'listing';
             $category->level  = $request->level;
         } else {
             $category = Category::find($request->id);
@@ -417,16 +419,27 @@ class AdminConfigurationController extends Controller
         }
         $category->name     = $request->name;
         $category->order    = $request->sort_order;
-        $category->icon_url = $request->image_url;
+        // $category->icon_url = $request->image_url;
+        // dd(isset($request->image) and $request->image!='undefined');
+
         $message            = $category->saveStatus($request->status);
         if ($message != true) {
             return response()->json(array("status" => "400", "msg" => $message, "data" => array()));
         }
 
         $category->save();
+        if(isset($request->image) and $request->image!='undefined'){
+            $photoId = $category->uploadImage($request->file('image'),false);  
+            $category->remapImages([$photoId]);
+            $cat_image = $category->getImages();
+            foreach($cat_image as $img){
+                $category->icon_url = $img['65x65'];    
+            }
+            $category->save(); 
+        }
         $category = Category::find($category->id);
-        $parents  = Category::where('level', '1')->orderBy('order')->orderBy('name')->get();
-        $branches = Category::where('level', '2')->orderBy('order')->orderBy('name')->get();
+        $parents  = Category::where('type','listing')->where('level', '1')->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('type','listing')->where('level', '2')->orderBy('order')->orderBy('name')->get();
         return response()->json(array("status" => "200", "msg" => "", "data" => array("item" => $category, "other_data" => array("parents" => $parents, "branches" => $branches))));
     }
     public function getBranches(Request $request)
@@ -437,7 +450,7 @@ class AdminConfigurationController extends Controller
         if (!Common::verify_id($request->id, 'categories')) {
             return response()->json(array("status" => "404", "msg" => "category not found", "data" => array()));
         }
-        $branches = Category::where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
+        $branches = Category::where('type','listing')->where('parent_id', $request->id)->orderBy('order')->orderBy('name')->get();
         return response()->json(array("status" => "200", "msg" => "", "data" => $branches));
     }
     public function checkCategStatus(Request $request)

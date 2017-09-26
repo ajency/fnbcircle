@@ -6,9 +6,11 @@ use App\Http\Controllers\AdminConfigurationController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Ajency\FileUpload\FileUpload;
 
 class Category extends Model
 {
+    use FileUpload;
     protected $table    = "categories";
     protected $fillable = ['name', 'path', 'level', 'parent_id'];
     public $parent, $children;
@@ -39,7 +41,7 @@ class Category extends Model
         if ($this->status == '1') {
             return true;
         } else {
-            $count = Category::where('parent_id', $this->id)->where('status', '1')->count();
+            $count = Category::where('type','listing')->where('parent_id', $this->id)->where('status', '1')->count();
             if ($count > 0 or $this->level == '3') {
                 $this->published_date = Carbon::now();
                 return true;

@@ -1,3 +1,5 @@
+filters_array = ['roles', 'status']
+
 getColumns = () ->
 	columns = [
 		{data : "edit"}
@@ -34,8 +36,8 @@ getFiltersForListInternalUsers = () ->
 	length = $('#datatable-internal-users').dataTable().fnSettings()._iDisplayLength
 
 	### -- Set the page No & the No of Entries in the URL -- ###
-	page_param_url = '?page=' + (parseInt(start / length) + 1) + '&entry_no=' + length + filters_param_url + '&order_by=' + filters['orderBy']
-	window.history.pushState '', '', page_param_url
+	#page_param_url = '?page=' + (parseInt(start / length) + 1) + '&entry_no=' + length + filters_param_url + '&order_by=' + filters['orderBy']
+	#window.history.pushState '', '', page_param_url
 
 	### -- Get the start point -- ###
 	filters['start'] = start
@@ -43,6 +45,50 @@ getFiltersForListInternalUsers = () ->
 	filters['length'] = length
 
 	return filters
+
+get_filters = () ->
+	### --- This function will read the 'Search Params' from URL & apply values to the Filter --- ###
+	jQuery.each filters_array, (index, name_value) ->
+		### --- Check if the filter was selected by checking the URL --- ###
+		if window.location.search.split(name_value + '=')[1]
+			### --- If the filter was selected, then update by selecting the Filters before making the DataTable AJAX call --- ###
+			filter_value_array = decodeURIComponent window.location.search.split(name_value + '=')[1].split('&')[0] # replace all 'UTF-8' to 'ASCII' chars
+			filter_value_array = JSON.parse filter_value_array
+			jQuery.each filter_value_array, (index, value) ->
+				### --- Select all the values that were selected in the Filter & updated in the URL --- ###
+				$('input:checkbox[name="' + name_value + '"][value="' + value + '"]').attr 'checked','true'
+				return
+			return
+	return
+
+get_page_no_n_entry_no = () ->
+	### --- This function will get the 'Page No' & the 'No of Entries on a page' from URL --- ###
+	length = if window.location.search.split('entry_no=')[1] then parseInt(window.location.search.split('entry_no=')[1].split('&')[0]) else 25
+	start =  if window.location.search.split('page=')[1] then (parseInt(window.location.search.split('page=')[1].split('&')[0]) - 1) * length else 0
+
+	return [start, length]
+
+get_sort_order = () ->
+	### --- This function will get the 'Sort Order' from URL --- ###
+	if window.location.search.indexOf('order_by=') > -1
+		### --- Checks if the order of display is ascending or descending --- ###
+		display_order = if window.location.search.split('order_by=')[1][0] == '-' then 'desc' else 'asc'
+
+
+		key_column = window.location.search.split('order_by=')[1]
+		key_column = if display_order == 'desc' then key_column.substring(1, key_column.length) else key_column
+
+		display_column = 0
+		getColumns().find (item, i) ->
+			if (item.data == key_column)
+				display_column = i
+				return i
+
+	else
+		display_order = 'desc'
+		display_column = 2
+
+	return [display_column, display_order]
 
 requestData = (table_id) ->
 	# disable error mode for data tables
@@ -59,8 +105,8 @@ requestData = (table_id) ->
 		pagingType: 'simple'
 		#fixedColumns: leftColumns: 2
 		#lengthMenu: [[ 25, 50, 100, 200, 500, -1],[ 25, 50, 100, 200, 500, 'All']]
-		iDisplayStart: $('#datatable-internal-users').dataTable().fnSettings()._iDisplayStart
-		iDisplayLength: $('#datatable-internal-users').dataTable().fnSettings()._iDisplayLength
+		iDisplayStart: get_page_no_n_entry_no()[0]# $('#datatable-internal-users').dataTable().fnSettings()._iDisplayStart
+		iDisplayLength: get_page_no_n_entry_no()[1]# $('#datatable-internal-users').dataTable().fnSettings()._iDisplayLength
 		dom: 'Blfrtip'
 		buttons: []
 
@@ -80,7 +126,7 @@ requestData = (table_id) ->
 			{ mData: "status", sWidth: "20%", className: "text-center", bSearchable: false, bSortable: false }
 		]
 		'bSort': true
-		'order': [[ 2, "desc" ]]
+		'order': [get_sort_order()]#[[ 2, "desc" ]]
 		'ajax':
 			url: '/admin-dashboard/users/get-users'
 			type: 'post'
@@ -128,6 +174,7 @@ requestData = (table_id) ->
 
 $(document).ready () ->
 
+	#get_filters()
 	requestData("datatable-internal-users")
 	
 	$("#add_newuser_modal #add_newuser_modal_btn").on 'click', () ->
@@ -187,6 +234,9 @@ $(document).ready () ->
 		modal_object.find("input[type='text'][name='name']").val(row.find('td:eq(1)').text())
 		modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text())
 
+		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
+		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+
 		return
 
 	$(document).on "click", "div.admin_internal_users div.page-title button.btn-link", () ->
@@ -202,6 +252,10 @@ $(document).ready () ->
 		modal_object.find("input[type='text'][name='name']").val('')
 		modal_object.find("input[type='email'][name='email']").val('')
 
+		### --- Deselect All the options --- ###
+		modal_object.find('select.form-control.multiSelect').multiselect('deselectAll', false)
+		### --- Update the text --- ###
+		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
 		return
 
 	#table = $("#datatable-internal-users").DataTable()

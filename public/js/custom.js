@@ -1199,7 +1199,7 @@ $(function(){
 
 
 
- CKEDITOR.replace( 'editor' );
+ // CKEDITOR.replace( 'editor' );
 
 
 

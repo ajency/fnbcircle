@@ -8,6 +8,50 @@ $(document).ready ()->
     input = contact_group_clone.find('.fnb-input')
     # input.attr('data-parsley-required',true)
     contact_group_clone.insertBefore(contact_group)
+     
+    contact_group.prev().find('.contact-mobile-input').intlTelInput
+      initialCountry: 'auto'
+      geoIpLookup: (callback) ->
+        $.get('https://ipinfo.io', (->
+        ), 'jsonp').always (resp) ->
+          countryCode = if resp and resp.country then resp.country else ''
+          callback countryCode
+          return
+        return
+      preferredCountries: [ 'IN' ]
+      americaMode: false
+      formatOnDisplay:false
+
+
+  $('.contact-info').on 'countrychange', '.contact-mobile-input', (e, countryData)->
+     
+    if $(this).closest('.modal').length
+      $('.under-review').find('.contact-country-code').val countryData.dialCode
+      $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryData.dialCode)
+    else
+ 
+      $(this).closest('.contact-container').find('.contact-country-code').val countryData.dialCode
+    return
+
+  $('.contact-mobile-input').each ()->
+    mobileNo  = $(this).val()
+    country = $(this).attr('data-intl-country')
+    $(this).intlTelInput
+      # initialCountry: country
+      geoIpLookup: (callback) ->
+        $.get('https://ipinfo.io', (->
+        ), 'jsonp').always (resp) ->
+          countryCode = if resp and resp.country then resp.country else ''
+          callback countryCode
+          return
+        return
+      preferredCountries: [ 'IN' ]
+      americaMode: false
+      formatOnDisplay:false
+
+    countryCode = $(this).closest('.contact-container').find('.contact-country-code').val()
+    $(this).closest('.contact-container').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryCode).val mobileNo
+
 
   # $('body').on 'click', '.removeRow', ->
   #   if $(this).closest('.contact-info').find('.contact-container').length == 2
@@ -56,6 +100,7 @@ $(document).ready ()->
     contactValue = contactValueObj.val()
     contactType = $('.under-review').closest('.contact-info').attr('contact-type')
     contactId = $('.under-review').find('.contact-id').val()
+    countryCode = $('.under-review').find('.contact-country-code').val()
     objectType = $('input[name="object_type"]').val()
     objectId = $('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
@@ -64,12 +109,14 @@ $(document).ready ()->
     if(!contactValueObj.parsley().isValid())
       contactValueObj.parsley().validate()
       
-    console.log contactValueObj.parsley().isValid()
+    # console.log contactValueObj.parsley().isValid()
     if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)
-        $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
+        # $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
         $('#'+contactType+'-modal').modal 'show'
+
+        
     
       $.ajax
         type: 'post'
@@ -88,7 +135,12 @@ $(document).ready ()->
           throw Error(error)
           return
         async: false
-      $('.verification-step-modal .number').text contactValue
+
+      if contactType == 'mobile'
+          $('.verification-step-modal .number').text '+'+countryCode+contactValue
+        else
+          $('.verification-step-modal .number').text contactValue
+   
       $('.contact-verify-steps').addClass 'hidden'
       $('.default-state, .verificationFooter').removeClass 'hidden'
 
@@ -140,6 +192,7 @@ $(document).ready ()->
 
   $('.contact-verification-modal').on 'click', '.contact-verify-stuff', (e)->
     newContactObj = $(this).closest('.modal').find('.change-contact-input')
+    contactType = $(this).closest('.modal').attr('modal-type')
     changedValue = newContactObj.val()
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
 
@@ -148,6 +201,8 @@ $(document).ready ()->
 
       oldContactObj = $('.under-review').find('.contact-input')
       oldContactObj.val changedValue
+      changedCountryCodeObj = newContactObj.intlTelInput("getSelectedCountryData");
+
       
       if !checkDuplicateEntries(oldContactObj)
    
@@ -156,12 +211,18 @@ $(document).ready ()->
       else 
         $(this).closest('.contact-verify-steps').find('.customError').text ''
         $(this).closest('.modal').find('.contact-input-value').text(changedValue)
+
+        $('.under-review').find('.contact-country-code').val changedCountryCodeObj.dialCode
+        $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+changedCountryCodeObj.dialCode).val changedValue 
+
         $('.default-state').removeClass 'hidden'
         $('.add-number').addClass 'hidden'
         $('.verificationFooter').removeClass 'no-bg'
         verifyContactDetail(false)
+    else
+      $(this).closest('.contact-verify-steps').find('.customError').text 'Please enter valid '+contactType
 
-    return
+    
 
 
   $('.contact-verification-modal').on 'click', '.code-send', (e)->
@@ -240,12 +301,12 @@ $(document).ready ()->
 
 
   #$(document).on 'change', '.business-contact .toggle__check', ->
-  $(".contact-info").on 'change', '.business-contact .toggle__check', ->
+  $(".contact-info").on 'change', '.toggle__check', ->
   # $('.business-contact .toggle__check').change ->
     if $(this).is(':checked')
       $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
-      $(this).closest('.toggle').find('input').val 1
+      $(this).closest('.toggle').find('.contact-visible').val 1
     else
       $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
-      $(this).closest('.toggle').find('input').val 0
+      $(this).closest('.toggle').find('.contact-visible').val 0
     return

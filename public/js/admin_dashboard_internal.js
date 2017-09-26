@@ -151,7 +151,7 @@
         confirm_password: form_obj.find('input[type="password"][name="confirm_password"]').prop('disabled') ? '' : form_obj.find('input[type="password"][name="confirm_password"]').val()
       };
       url_type = form_obj.find("input[type='hidden'][name='form_type']").val();
-      if (1) {
+      if (1.) {
         $(this).find(".fa-circle-o-notch.fa-spin").removeClass("hidden");
         $.ajax({
           type: 'post',

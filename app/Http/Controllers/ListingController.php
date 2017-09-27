@@ -9,14 +9,13 @@ use App\Common;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
-use App\UserCommunication;
 use App\ListingOperationTime;
 use App\User;
+use App\UserCommunication;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
@@ -69,13 +68,13 @@ class ListingController extends Controller
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
         $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
-        UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
+        UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
         foreach ($contacts as $contact => $info) {
             // dd($info);
-            $com = UserCommunication::find($contact);
+            $com               = UserCommunication::find($contact);
             $com->country_code = $info['country'];
-            $com->object_id = $listing->id;
-            $com->is_visible = $info['visible'];
+            $com->object_id    = $listing->id;
+            $com->is_visible   = $info['visible'];
             $com->save();
         }
         $change = "";
@@ -85,9 +84,9 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
-        }elseif (isset($data->archive) and $data->archive == 'yes') {
+        } elseif (isset($data->archive) and $data->archive == 'yes') {
             return ($this->archive($data));
-        }elseif (isset($data->publish) and $data->publish == 'yes') {
+        } elseif (isset($data->publish) and $data->publish == 'yes') {
             return ($this->publish($data));
         }
 
@@ -102,20 +101,20 @@ class ListingController extends Controller
             'id'    => 'nullable|integer',
         ]);
         $value = $request->value;
-        $types = ['1'=>'email','2'=>'mobile','3'=>'landline'];
+        $types = ['1' => 'email', '2' => 'mobile', '3' => 'landline'];
         $type  = $types[$request->type];
         $id    = $request->id;
         if ($id == "") {
-            $contact = new UserCommunication;
+            $contact              = new UserCommunication;
             $contact->object_type = 'App\\Listing';
         } else {
             $contact = UserCommunication::find($id);
         }
-        if(isset($request->country)){
+        if (isset($request->country)) {
             $contact->country_code = $request->country;
         }
-        $contact->value              = $value;
-        $contact->type = $type;
+        $contact->value = $value;
+        $contact->type  = $type;
         $contact->save();
         return response()->json(array('id' => $contact->id));
     }
@@ -177,87 +176,102 @@ class ListingController extends Controller
 
     public function findDuplicates(Request $request)
     {
-        $this->validate($request, [
-            'title'    => 'required|max:255',
-            'contacts' => 'required|json',
-        ]);
-
-        $alltitles  = Listing::where('status', "1")->pluck('title', 'reference')->toArray();
-        $similar = array();
-        $titles = array();
+        if (isset($request->id)) {
+            $listing = Listing::find($request->id);
+            $comm    = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $request->id)->get();
+            //only(['country_code','value','type'])->all();
+            $contacts = array();
+            foreach ($comm as $com) {
+                $contacts[] = ['value' => $com->value, 'country' => $com->country_code, 'type' => $com->type];
+            }
+        } else {
+            $listing           = new Listing;
+            $listing->title    = $request->title;
+            $contacts          = json_decode($request->contacts, true);
+            $listing->owner_id = Auth::user()->id;
+        }
+        $alltitles = Listing::where('status', "1")->where('id', '!=', $listing->id)->pluck('title', 'reference')->toArray();
+        $similar   = array();
+        $titles    = array();
+        $output = [];
         foreach ($alltitles as $key => $value) {
-            similar_text($request->title, $value, $percent);
+            similar_text($listing->title, $value, $percent);
+            $output[] = $value.'=>'.$percent;
             if ($percent >= 80) {
+                 
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
-                $titles[$key] = array('id'=>$key, 'title'=>$value);
+                $titles[$key]  = array('id' => $key, 'title' => $value);
             }
         }
-        
-        $contact = json_decode($request->contacts, true);
-        // $query   = UserCommunication::where('object_type','App\\Listing')->whereNotNull('object_id');
-        $query   = ListingCommunication::whereNotNull('object_id');
-        $query   = $query->where(function ($query) use ($contact) {
-            $query->where("value", Auth::user()->email);
-            foreach ($contact as $value) {
-                $query->orWhere('value', $value['value']);
-            }
-        });
-        $query    = $query->with('listing');
-        $contacts = $query->get();
+        // dd($output);
+        $owner = User::find($listing->owner_id);
+        $query = UserCommunication::where('object_type', 'App\\Listing')->whereNotNull('object_id')->where('object_id','!=',$listing->id);
+        $query = $query->where(function ($query) use ($contacts, $owner) {
+            $query->where(function ($query) use ($owner) {
+                $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+            });
+            foreach ($contacts as $value) {
+                $query->orWhere(function ($query) use ($value) {
+                    if($value['type'] != 'email') {$query->where('value',$value['value'])->where('country_code',$value['country'])->where('type',$value['type']);}
+                    else {$query->where('value',$value['value'])->where('type',$value['type']);}
 
-        $users = User::where(function ($query) use ($contact) {
-            $query->where('id', '0');
-            foreach ($contact as $value) {
-                $query->orWhere('email', $value['value']);
+                });
             }
-        })->with('listing')->get();
+        })->with('object');
+        $dup_com = $query->get();
+        // dd($dup_com);
+
+        //create an array of only emails
+        // $users = $userauth_obj->getPrimanyUsersUsingContact()
+        
         $emails = [];
         $phones = [];
-        foreach ($users as $user) {
-            foreach ($user->listing as $business) {
-                if ($business['status'] != 1) {
-                    continue;
-                }
-                if (!isset($similar[$business['reference']]) /* listing is published*/) {
-                    $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
-                    
-                }
-                if(!isset($emails[$business['reference']])){
-                    $emails[$business['reference']] = array('id'=>$business['reference'], 'email'=>[]);
-                }
-                $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
-                 $emails[$business['reference']]['email'][] =$user->email;
-            }
-        }
+        // foreach ($users as $user) {
+        //     foreach ($user->listing as $business) {
+        //         if ($business['status'] != 1) {
+        //             continue;
+        //         }
+        //         if (!isset($similar[$business['reference']]) /* listing is published*/) {
+        //             $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
 
-        foreach ($contacts as $row) {
-            if ($row->listing['status'] != 1) {
+        //         }
+        //         if (!isset($emails[$business['reference']])) {
+        //             $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
+        //         }
+        //         $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+        //         $emails[$business['reference']]['email'][]     = $user->email;
+        //     }
+        // }
+
+        foreach ($dup_com as $row) {
+            if ($row->object['status'] != 1) {
                 continue;
             }
 
-            if (!isset($similar[$row->listing['reference']]) /* listing is published*/) {
-                $similar[$row->listing['reference']] = array('name' => $row->listing['title'], 'messages' => array());
-            }
-            if ($row->communication_type == 1) {
-                $similar[$row->listing['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$row->value}</span>)";
-                if(!isset($emails[$row->listing['reference']])){
-                    $emails[$row->listing['reference']] = array('id'=>$row->listing['reference'], 'email'=>[]);
-                }
-                $emails[$row->listing['reference']]['email'][] =$row->value;
-            }
-            if ($row->communication_type == 2) {
+            if (!isset($similar[$row->object['reference']]) /* object is published*/) {
+                $similar[$row->object['reference']] = array('name' => $row->object['title'], 'messages' => array());
 
-                $similar[$row->listing['reference']]['messages'][] = "Matches found Phone Number(<span class=\"heavier\">{$row->value}</span>)";
-                if(!isset($phones[$row->listing['reference']])){
-                    $phones[$row->listing['reference']] = array('id'=>$row->listing, 'email'=>[]);
+            }
+            if ($row->type == 'email') {
+                $similar[$row->object['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$row->value}</span>)";
+                if (!isset($emails[$row->object['reference']])) {
+                    $emails[$row->object['reference']] = array('id' => $row->object['reference'], 'email' => []);
                 }
-                $phones[$row->listing['reference']]['email'][] =$row->value;
+                $emails[$row->object['reference']]['email'][] = $row->value;
+            }
+            if ($row->type == 'mobile' or $row->type == 'landline') {
+
+                $similar[$row->object['reference']]['messages'][] = "Matches found Phone Number(<span class=\"heavier\">{$row->value}</span>)";
+                if (!isset($phones[$row->object['reference']])) {
+                    $phones[$row->object['reference']] = array('id' => $row->object, 'email' => []);
+                }
+                $phones[$row->object['reference']]['email'][] = $row->value;
+                // dd($similar);
             }
         }
-        return response()->json(array('matches'=> array('title'=>$titles, 'email' => $emails, 'phones'=> $phones), 'similar'=>$similar));
+        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar));
 
     }
-
     public function getAreas(Request $request)
     {
         $this->validate($request, [
@@ -266,7 +280,7 @@ class ListingController extends Controller
         $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         $res   = array();
         foreach ($areas as $area) {
-            $res[] = array('id'=>$area->id,'name'=>$area->name);
+            $res[] = array('id' => $area->id, 'name' => $area->name);
         }
         return response()->json($res);
     }
@@ -311,22 +325,22 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         $this->saveListingCategories($listing->id, $categories);
         if (isset($request->brands) and $request->brands != '') {
-            $listing->retag('brands',$request->brands);
+            $listing->retag('brands', $request->brands);
         } else {
             $listing->untag('brands');
         }
         $change = "";
         if (isset($request->change) and $request->change == "1") {
-            $change = "&success=true";
+            $change              = "&success=true";
             $listing->updated_at = Carbon::now();
             $listing->save();
         }
 
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
-        }elseif (isset($request->archive) and $request->archive == 'yes') {
+        } elseif (isset($request->archive) and $request->archive == 'yes') {
             return ($this->archive($request));
-        }elseif (isset($request->publish) and $request->publish == 'yes') {
+        } elseif (isset($request->publish) and $request->publish == 'yes') {
             return ($this->publish($request));
         }
 
@@ -339,7 +353,7 @@ class ListingController extends Controller
     {
         $this->validate($request, [
             'parent' => 'id_json|not_empty_json|required',
-            'status' =>'required'
+            'status' => 'required',
         ]);
         $parents = json_decode($request->parent);
         foreach ($parents as $parent) {
@@ -347,15 +361,14 @@ class ListingController extends Controller
                 return abort(404);
             }
         }
-        $statuses = explode(",",$request->status);
+        $statuses = explode(",", $request->status);
         foreach ($parents as $parent) {
-            $child       = Category::where('type','listing')->where('parent_id', $parent->id)->where(function ($sql) use ($statuses){
-                $i=0;
+            $child = Category::where('type', 'listing')->where('parent_id', $parent->id)->where(function ($sql) use ($statuses) {
+                $i = 0;
                 foreach ($statuses as $status) {
-                    if($i==0){
-                        $sql->where('status',$status);
-                    }
-                    else{$sql->orWhere('status',$status);}
+                    if ($i == 0) {
+                        $sql->where('status', $status);
+                    } else { $sql->orWhere('status', $status);}
                     $i++;
                 }
             })->orderBy('order')->orderBy('name')->get();
@@ -382,7 +395,7 @@ class ListingController extends Controller
             'keyword' => 'required',
         ]);
         // dd(Listing::existingTagsLike($request->keyword));
-        return response()->json(['results' => Listing::existingTagsLike('brands',$request->keyword), 'options' => []]);
+        return response()->json(['results' => Listing::existingTagsLike('brands', $request->keyword), 'options' => []]);
     }
 
     //------------------------step 3 --------------------
@@ -447,9 +460,9 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
-        }elseif (isset($data->archive) and $data->archive == 'yes') {
+        } elseif (isset($data->archive) and $data->archive == 'yes') {
             return ($this->archive($data));
-        }elseif (isset($data->publish) and $data->publish == 'yes') {
+        } elseif (isset($data->publish) and $data->publish == 'yes') {
             return ($this->publish($data));
         }
 
@@ -507,7 +520,7 @@ class ListingController extends Controller
         }
         $listing->payment_modes = json_encode($payment);
         if (isset($data->other_payment) and $data->other_payment != '') {
-            $listing->retag('payment-modes',$data->other_payment);
+            $listing->retag('payment-modes', $data->other_payment);
         } else {
             $listing->untag('payment-modes');
         }
@@ -520,9 +533,9 @@ class ListingController extends Controller
 
         if (isset($data->submitReview) and $data->submitReview == 'yes') {
             return ($this->submitForReview($data));
-        }elseif (isset($data->archive) and $data->archive == 'yes') {
+        } elseif (isset($data->archive) and $data->archive == 'yes') {
             return ($this->archive($data));
-        }elseif (isset($data->publish) and $data->publish == 'yes') {
+        } elseif (isset($data->publish) and $data->publish == 'yes') {
             return ($this->publish($data));
         }
 
@@ -537,9 +550,8 @@ class ListingController extends Controller
         if ($check !== true) {
             return $check;
         }
-        
+
         return $this->saveListingOtherDetails($request);
-        
 
     }
 
@@ -548,12 +560,12 @@ class ListingController extends Controller
     {
         $this->validate($data, [
             'listing_id' => 'required',
-            'main' => 'nullable|integer'
-            
+            'main'       => 'nullable|integer',
+
         ]);
         return true;
     }
-   
+
     public function listingPhotosAndDocuments($request)
     {
         $check = $this->validateListingPhotosAndDocuments($request);
@@ -566,69 +578,77 @@ class ListingController extends Controller
             $change = "&success=true";
         }
 
-        $listing            = Listing::where('reference',$request->listing_id)->firstorFail();
-        if (isset($request->images)) $images = explode(',',$request->images);
-        else $images= [];
-        if (isset($request->files)) $files = json_decode($request['files'],true);
-        else $files= [];
-        $filemap=array();
+        $listing = Listing::where('reference', $request->listing_id)->firstorFail();
+        if (isset($request->images)) {
+            $images = explode(',', $request->images);
+        } else {
+            $images = [];
+        }
+
+        if (isset($request->files)) {
+            $files = json_decode($request['files'], true);
+        } else {
+            $files = [];
+        }
+
+        $filemap = array();
         foreach ($files as $file) {
             $listing->renameFile($file);
-            $filemap[] = (int)$file['id'];
+            $filemap[] = (int) $file['id'];
         }
         $listing->remapImages($images);
         $listing->remapFiles($filemap);
 
         $listing->updated_at = Carbon::now();
-        $saved_images = $listing->getImages();
-        if(isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])){
-            $listing->photos = '{"id": "'.$request->main.'", "url" : "'.$saved_images[$request->main][config('tempconfig.listing-thumb-size')].'", "order" : "'.implode(',',$images).'"}';
-        }else{
+        $saved_images        = $listing->getImages();
+        if (isset($saved_images[$request->main][config('tempconfig.listing-thumb-size')])) {
+            $listing->photos = '{"id": "' . $request->main . '", "url" : "' . $saved_images[$request->main][config('tempconfig.listing-thumb-size')] . '", "order" : "' . implode(',', $images) . '"}';
+        } else {
             $listing->photos = null;
         }
         $listing->save();
-        
+
         if (isset($request->submitReview) and $request->submitReview == 'yes') {
             return ($this->submitForReview($request));
-        }elseif (isset($request->archive) and $request->archive == 'yes') {
+        } elseif (isset($request->archive) and $request->archive == 'yes') {
             return ($this->archive($request));
-        }elseif (isset($request->publish) and $request->publish == 'yes') {
+        } elseif (isset($request->publish) and $request->publish == 'yes') {
             return ($this->publish($request));
         }
 
         return redirect('/listing/' . $listing->reference . '/edit/business-premium?step=true' . $change);
 
-
     }
 
-
-    public Function uploadListingPhotos(Request $request){
-        $this->validate($request,[
-            'listing_id'  => 'required',
-            'file' => 'image'
+    public function uploadListingPhotos(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+            'file'       => 'image',
         ]);
-        $image = $request->file('file');
-        $listing = Listing::where('reference',$request->listing_id)->first();
-        $id = $listing->uploadImage($request->file('file'));
-        if($id != false){
-            return response()->json(['status'=>'200','message'=>'Image Uploaded successfully', 'data'=>['id'=>$id]]);
-        }else{
-            return response()->json(['status'=>'400','message'=>'Image Upload Failed', 'data'=>[]]);
+        $image   = $request->file('file');
+        $listing = Listing::where('reference', $request->listing_id)->first();
+        $id      = $listing->uploadImage($request->file('file'));
+        if ($id != false) {
+            return response()->json(['status' => '200', 'message' => 'Image Uploaded successfully', 'data' => ['id' => $id]]);
+        } else {
+            return response()->json(['status' => '400', 'message' => 'Image Upload Failed', 'data' => []]);
         }
     }
 
-    public Function uploadListingFiles(Request $request){
-        $this->validate($request,[
-            'listing_id'  => 'required',
-            'file' => 'file'
+    public function uploadListingFiles(Request $request)
+    {
+        $this->validate($request, [
+            'listing_id' => 'required',
+            'file'       => 'file',
         ]);
-        $file = $request->file('file')->getClientOriginalName();
-        $listing = Listing::where('reference',$request->listing_id)->first();
-        $id = $listing->uploadFile($request->file('file'),true,$file);
-        if($id != false){
-            return response()->json(['status'=>'200','message'=>'File Uploaded successfully', 'data'=>['id'=>$id]]);
-        }else{
-            return response()->json(['status'=>'400','message'=>'File Upload Failed', 'data'=>[]]);
+        $file    = $request->file('file')->getClientOriginalName();
+        $listing = Listing::where('reference', $request->listing_id)->first();
+        $id      = $listing->uploadFile($request->file('file'), true, $file);
+        if ($id != false) {
+            return response()->json(['status' => '200', 'message' => 'File Uploaded successfully', 'data' => ['id' => $id]]);
+        } else {
+            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []]);
         }
     }
 
@@ -668,27 +688,27 @@ class ListingController extends Controller
         // dd(Auth::user());
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-        $user = Auth::user();
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner',$user);
+        $user    = Auth::user();
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user);
     }
     public function edit($reference, $step = 'business-information')
     {
         if ($step == 'business-information') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            $emails  = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
-            $mobiles = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
+            $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
+            $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
             // dd($mobiles);
-            $phones  = UserCommunication::where('object_type','App\\Listing')->where('object_id', $listing->id)->where('type', 'landline')->get();
-            $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
-            $areas   = Area::where('city_id', function ($area) use ($listing) {
+            $phones = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'landline')->get();
+            $cities = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $areas  = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $user = User::find($listing->owner_id);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner',$user);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user);
         }
         if ($step == 'business-categories') {
             $listing       = Listing::where('reference', $reference)->firstorFail();
-            $parent_categ  = Category::where('type','listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $category_json = ListingCategory::getCategories($listing->id);
             return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
             // dd($category_json);
@@ -702,17 +722,17 @@ class ListingController extends Controller
         }
         if ($step == 'business-details') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            
+
             return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
         }
         if ($step == 'business-photos-documents') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            
+
             return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
         }
         if ($step == 'business-premium') {
             $listing = Listing::where('reference', $reference)->firstorFail();
-            
+
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents');
         }
     }
@@ -725,7 +745,7 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
-            $listing->status = Listing::REVIEW;
+            $listing->status          = Listing::REVIEW;
             $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
@@ -741,7 +761,7 @@ class ListingController extends Controller
             'listing_id' => 'required',
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
-        if ($listing->isReviewable() and $listing->status=="1") {
+        if ($listing->isReviewable() and $listing->status == "1") {
             $listing->status = Listing::ARCHIVED;
             $listing->save();
             return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
@@ -756,7 +776,7 @@ class ListingController extends Controller
             'listing_id' => 'required',
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
-        if ($listing->isReviewable() and $listing->status=="4") {
+        if ($listing->isReviewable() and $listing->status == "4") {
             $listing->status = Listing::PUBLISHED;
             $listing->save();
             return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');

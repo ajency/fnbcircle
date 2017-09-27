@@ -105,7 +105,14 @@ function validateListing(event) {
         var value = document.getElementsByName("contacts");
         var json = '[';
         for (var i = 0; i < value.length; i++) {
-            if (value[i].value !== "") json += '{\"value\":\"' + value[i].value + '\"},'
+            if ($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 'email'
+            if ($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 'mobile'
+            if ($(value[i]).closest('.business-contact').hasClass('landline')) var type = 'landline'
+            if (value[i].value !== "") {
+                json += '{\"value\":\"' +  value[i].value + '\",'+
+                        '\"country\":\"' +$(value[i]).intlTelInput("getSelectedCountryData")['dialCode'] + '\",'+
+                        '\"type\":\"' +type + '\"'+'},';
+            }
         }
         json = json.slice(0, -1);
         json += ']';

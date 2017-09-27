@@ -176,17 +176,17 @@ class AdminModerationController extends Controller
 
     private function getDuplicateCount($id, $name)
     {
-        $contacts = ListingCommunication::where('listing_id', $id)->get();
+        // $contacts = ListingCommunication::where('listing_id', $id)->get();
         $request  = new Request;
-        $title    = $name;
-        $req      = array();
-        $req[]    = array('value' => Listing::find($id)->owner->email);
-        foreach ($contacts as $contact) {
-            $req[] = array('value' => $contact->value);
-        }
-        $contacts = json_encode($req);
+        // $title    = $name;
+        // $req      = array();
+        // $req[]    = array('value' => Listing::find($id)->owner->email);
+        // foreach ($contacts as $contact) {
+        //     $req[] = array('value' => $contact->value);
+        // }
+        // $contacts = json_encode($req);
         // if ($id=='27') dd($contacts);
-        $request->merge(array('title' => $title, 'contacts' => $contacts));
+        $request->merge(array('id' => $id));
         $lc   = new ListingController;
         $dup  = $lc->findDuplicates($request);
         $data = json_decode(json_encode($dup), true)['original']['matches'];

@@ -112,17 +112,8 @@
     var hash_url, internal_user_table;
     $.fn.dataTable.ext.errMode = 'none';
     $.extend($.fn.dataTable.defaults, {
-      destroy: true,
-      scrollY: 620,
-      scrollX: true,
-      scrollCollapse: true,
-      searching: true,
-      ordering: true,
-      pagingType: 'simple',
       iDisplayStart: get_page_no_n_entry_no()[0],
-      iDisplayLength: get_page_no_n_entry_no()[1],
-      dom: 'Blfrtip',
-      buttons: []
+      iDisplayLength: get_page_no_n_entry_no()[1]
     });
     if (window.location.hash !== '' && window.location.hash !== '#') {
       hash_url = window.location.hash;
@@ -183,15 +174,16 @@
       'fnDrawCallback': function(oSettings) {
 
         /* --- Search box --- */
-        $(".admin_internal_users #datatable-internal-users_filter label").html($(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop('outerHTML'));
         $(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop("placeholder", "Search by Name");
         $(".admin_internal_users #datatable-internal-users_filter label input[type='search']").addClass("fnb-input");
       }
     });
+    return internal_user_table;
   };
 
   $(document).ready(function() {
-    requestData("datatable-internal-users");
+    var table;
+    table = requestData("datatable-internal-users");
     $("#add_newuser_modal #add_newuser_modal_btn").on('click', function() {
       var data, form_obj, form_status, url_type;
       form_obj = $("#add_newuser_modal #add_newuser_modal_form");
@@ -214,13 +206,11 @@
           data: data,
           dataType: 'json',
           success: function(data) {
-            var table;
             console.log(data);
             $("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass("hidden");
             $("#add_newuser_modal").modal("hide");
 
             /* --- Reload the DataTable --- */
-            table = $("#datatable-internal-users").DataTable();
             return table.ajax.reload();
           },
           error: function(request, status, error) {

@@ -96,19 +96,19 @@ requestData = (table_id) ->
 
 	# data table defaults
 	$.extend $.fn.dataTable.defaults,
-		destroy: true
-		scrollY: 620
-		scrollX: true
-		scrollCollapse: true
-		searching: true
-		ordering: true
-		pagingType: 'simple'
+		#destroy: true
+		# scrollY: 620
+		# scrollX: true
+		# scrollCollapse: true
+		# searching: true
+		# ordering: true
+		# pagingType: 'simple'
 		#fixedColumns: leftColumns: 2
 		#lengthMenu: [[ 25, 50, 100, 200, 500, -1],[ 25, 50, 100, 200, 500, 'All']]
 		iDisplayStart: get_page_no_n_entry_no()[0]# $('#datatable-internal-users').dataTable().fnSettings()._iDisplayStart
 		iDisplayLength: get_page_no_n_entry_no()[1]# $('#datatable-internal-users').dataTable().fnSettings()._iDisplayLength
-		dom: 'Blfrtip'
-		buttons: []
+		#dom: 'pBlfrti'
+		#buttons: []
 
 	if window.location.hash != '' and window.location.hash != '#'
 		hash_url = window.location.hash
@@ -161,7 +161,7 @@ requestData = (table_id) ->
 			# $('.bcf_details').popover({trigger:'hover click',container: 'body'})
 				
 			### --- Search box --- ###
-			$(".admin_internal_users #datatable-internal-users_filter label").html($(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop('outerHTML'))
+			# $(".admin_internal_users #datatable-internal-users_filter label").html($(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop('outerHTML'))
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop "placeholder", "Search by Name"
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").addClass "fnb-input"
 
@@ -170,12 +170,12 @@ requestData = (table_id) ->
 			# 	return
 
 			return
-	return
+	return internal_user_table
 
 $(document).ready () ->
 
 	#get_filters()
-	requestData("datatable-internal-users")
+	table = requestData("datatable-internal-users")
 	
 	$("#add_newuser_modal #add_newuser_modal_btn").on 'click', () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
@@ -209,7 +209,7 @@ $(document).ready () ->
 					$("#add_newuser_modal").modal "hide"
 
 					### --- Reload the DataTable --- ###
-					table = $("#datatable-internal-users").DataTable()
+					# table = $("#datatable-internal-users").DataTable()
 					table.ajax.reload()
 
 				error: (request, status, error) ->

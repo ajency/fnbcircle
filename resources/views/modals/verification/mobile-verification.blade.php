@@ -15,7 +15,7 @@
 
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $mobile['country_code']}}">
                         <div class=dupError ></div>
-                        <i class="fa fa-mobile" aria-hidden="true"></i> 
+                        <!-- <i class="fa fa-mobile" aria-hidden="true"></i>  -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -57,7 +57,7 @@
                         <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits.">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class=dupError ></div>
-                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -98,7 +98,7 @@
                         <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class=dupError ></div>
-                         <i class="fa fa-mobile" aria-hidden="true"></i>
+                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">

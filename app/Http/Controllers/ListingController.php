@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Ajency\User\Ajency\userauth\UserAuth;
 use App\Area;
 use App\Category;
 use App\City;
@@ -59,7 +60,9 @@ class ListingController extends Controller
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('visible' => $contact->visible, 'country' => $contact->country);
+            $contacts[$contact->id] = array('visible' => $contact->visible);
+            if(isset($contact->country) ) $contacts[$contact->id]['country'] = $contact->country;
+            else $contacts[$contact->id]['country'] = null;
         }
         // print_r($contacts);
         if ($data->listing_id == "") {
@@ -221,27 +224,33 @@ class ListingController extends Controller
         $dup_com = $query->get();
         // dd($dup_com);
 
+        $check_emails = [];
+        foreach ($contacts as $value) {
+            if($value['type'] == 'email') $check_emails[] = $value['value'];
+        }
+        $userauth_obj = new UserAuth;
         //create an array of only emails
-        // $users = $userauth_obj->getPrimanyUsersUsingContact()
-        
+        $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_emails,'email',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
+        $users = User::whereIn('id', $user_comm)->with('listing')->get();
+        // dd($users);
         $emails = [];
         $phones = [];
-        // foreach ($users as $user) {
-        //     foreach ($user->listing as $business) {
-        //         if ($business['status'] != 1) {
-        //             continue;
-        //         }
-        //         if (!isset($similar[$business['reference']]) /* listing is published*/) {
-        //             $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+        foreach ($users as $user) {
+            foreach ($user->listing as $business) {
+                if ($business['status'] != 1) {
+                    continue;
+                }
+                if (!isset($similar[$business['reference']]) /* listing is published*/) {
+                    $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
 
-        //         }
-        //         if (!isset($emails[$business['reference']])) {
-        //             $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
-        //         }
-        //         $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
-        //         $emails[$business['reference']]['email'][]     = $user->email;
-        //     }
-        // }
+                }
+                if (!isset($emails[$business['reference']])) {
+                    $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
+                }
+                $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+                $emails[$business['reference']]['email'][]     = $user->email;
+            }
+        }
 
         foreach ($dup_com as $row) {
             if ($row->object['status'] != 1) {

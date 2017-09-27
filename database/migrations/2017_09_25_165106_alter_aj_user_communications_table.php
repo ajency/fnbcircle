@@ -14,7 +14,7 @@ class AlterAjUserCommunicationsTable extends Migration
     public function up()
     {
         Schema::table('user_communications', function (Blueprint $table) {
-            $table->string('country_code', 250)->nullable();
+            $table->string('country_code', 250)->nullable()->after('value');
         });
     }
 

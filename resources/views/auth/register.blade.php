@@ -17,7 +17,8 @@
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
-    <script type="text/javascript" src="/js/require.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/contact_flag_initialization.js') }}"></script>
+    <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 @endsection
 
 @section('content')
@@ -107,7 +108,7 @@
                                             <label class="m-b-0 text-lighter float-label filled required" for="phone">Phone Number</label>
                                             <!-- <input id="phone" type="tel" class="form-control fnb-input float-input" name="phone" value="" required> -->
                                             <div class="number-code flex-row">
-                                              <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality">
+                                              <!-- <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality"> -->
                                               <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" id="contact" name="contact">
                                             </div>
                                             <label id="contact-error" class="fnb-errors hidden"></label>

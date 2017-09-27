@@ -685,13 +685,23 @@ class AdminConfigurationController extends Controller
 
     public function getJobs(Request $request){
 
-        $requestData = $request->all();  
+        $requestData = $request->all();  //dd($requestData);
         $data =[];
         $startPage = $requestData['start'];
         $length = $requestData['length'];
         $orderValue = $requestData['order'][0];
+
+ 
+        $columnOrder = array( 
+                                        '2'=> 'jobs.title',
+                                        '3'=> 'categories.name',
+                                        '5'=> 'jobs.date_of_submission',
+                                        '6'=> 'jobs.published_on',
+                                        '7'=> 'jobs.updated_at'
+                                        );
+
         
-        $jobQuery = Job::select('jobs.*');
+        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
 
 
         if($requestData['filters']['job_name']!="")
@@ -724,8 +734,14 @@ class AdminConfigurationController extends Controller
         }
 
 
-        $columnName = 'jobs.created_at';
-        $orderBy = 'desc';
+        $columnName = 'jobs.title';
+        $orderBy = 'asc';
+ 
+        if(isset($columnOrder[$orderValue['column']]))
+        {   
+                $columnName = $columnOrder[$orderValue['column']];
+                $orderBy = $orderValue['dir'];
+        }
 
         $totalJobs = $jobQuery->count();
         if($length>1)

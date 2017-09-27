@@ -383,6 +383,12 @@ $(function(){
 		}
 
 		$(document).ready(function() {
+
+
+			if ($("#register_form").length) { // Load only if #register_form exist in the Page
+				$("#register_form input[name='contact']").intlTelInput(); // Initialize
+			}
+
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
@@ -394,7 +400,7 @@ $(function(){
 				$('#require-modal select[name="area"]').html(html);
 				city = $("#require-modal select[name='city']").val();
 
-				return $.ajax({
+				$.ajax({
 					type: 'post',
 					url: '/get_areas',
 					data: {
@@ -417,7 +423,7 @@ $(function(){
 					}
 				});
 			}
-
+			
 			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
 				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
 				html = '<option value="">City</option>';
@@ -586,7 +592,7 @@ $(function(){
 				  descr_values.push($(this).val());
 				});
 
-				var contact = $(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+				var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();
 
 	            var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
@@ -627,7 +633,7 @@ $(function(){
 
 	        $("#register_form_btn").click(function() { // On Register form submit btn click
 	        	var parent = "#register_form";
-	        	var contact = $(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+	        	var contact = $(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
 				var descr_values = [];
 
 	            $.each($(parent + " input[name='description[]']:checked"), function() {

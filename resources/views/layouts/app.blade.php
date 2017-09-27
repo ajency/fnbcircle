@@ -17,6 +17,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/bootstrap.min.css') }}">
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
+    <!-- Internationalization CSS -->
+    <link rel="stylesheet" href="{{ asset('/node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
@@ -190,14 +192,19 @@
     <script type="text/javascript" src="{{ asset('/js/readmore.min.js') }}"></script>
     <!-- Parsley text validation -->
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
+    <!-- Internationalization plugin -->
+    <script type="text/javascript" src="{{ asset('/node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
 
     @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         <!-- This is defined here as the "require" modal is included to this blade -->
+        <script type="text/javascript" src="{{ asset('/bower_components/tether/src/js/utils.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('/js/contact_flag_initialization.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function(){
+                $("#requirement_form input[name='contact']").intlTelInput();
                 $("#require-modal").modal('show');
             });
         </script>

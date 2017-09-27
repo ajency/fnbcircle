@@ -2,8 +2,8 @@
 
 @section('js')
   @parent
-  <script type="text/javascript" src="/js/underscore-min.js"></script>
-  <script type="text/javascript" src="/js/dashboard-jobs.js"></script>
+  <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/dashboard-jobs.js') }}"></script>
  
   <script type="text/javascript">
     

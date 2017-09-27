@@ -2,9 +2,9 @@
 @section('title', $pageName )
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/jobs.js"></script>
-    <script type="text/javascript" src="/js/maps.js"></script>
-    <script type="text/javascript" src="/js/whatsapp-button.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/whatsapp-button.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 @endsection
 

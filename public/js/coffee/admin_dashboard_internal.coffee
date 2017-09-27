@@ -161,7 +161,14 @@ requestData = (table_id) ->
 			# $('.bcf_details').popover({trigger:'hover click',container: 'body'})
 				
 			### --- Search box --- ###
-			# $(".admin_internal_users #datatable-internal-users_filter label").html($(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop('outerHTML'))
+			# $("#datatable-internal-users_filter label").html($("#datatable-internal-users_filter label").children())
+			div = $("#datatable-internal-users_filter label")[0]
+			if div.childNodes.length
+			  i = 0
+			  while i < div.childNodes.length
+			    if div.childNodes[i].nodeType == 3
+			      div.removeChild div.childNodes[i]
+			    i++
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop "placeholder", "Search by Name"
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").addClass "fnb-input"
 

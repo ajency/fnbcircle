@@ -11,6 +11,7 @@ $(document).ready ()->
      
     contact_group.prev().find('.contact-mobile-input').intlTelInput
       initialCountry: 'auto'
+      autoHideDialCode : false
       geoIpLookup: (callback) ->
         $.get('https://ipinfo.io', (->
         ), 'jsonp').always (resp) ->
@@ -38,6 +39,7 @@ $(document).ready ()->
     country = $(this).attr('data-intl-country')
     $(this).intlTelInput
       # initialCountry: country
+      autoHideDialCode : false
       geoIpLookup: (callback) ->
         $.get('https://ipinfo.io', (->
         ), 'jsonp').always (resp) ->

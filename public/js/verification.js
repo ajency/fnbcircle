@@ -11,6 +11,7 @@
       contact_group_clone.insertBefore(contact_group);
       return contact_group.prev().find('.contact-mobile-input').intlTelInput({
         initialCountry: 'auto',
+        autoHideDialCode: false,
         geoIpLookup: function(callback) {
           $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
             var countryCode;
@@ -36,6 +37,7 @@
       mobileNo = $(this).val();
       country = $(this).attr('data-intl-country');
       $(this).intlTelInput({
+        autoHideDialCode: false,
         geoIpLookup: function(callback) {
           $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
             var countryCode;

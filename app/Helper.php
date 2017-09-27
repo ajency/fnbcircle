@@ -195,6 +195,19 @@ function getCommunicationContactDetail($objectId,$objectType,$type){
 
     return $contactInfo;
 }
+
+function isAdmin()
+{
+    $roleId = App\Role::where('name','superadmin')->first()->id;
+    if(Auth::check() && Auth::user()->role_id==$roleId)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
  
 
 

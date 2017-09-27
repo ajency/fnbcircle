@@ -61,10 +61,10 @@
                 </ul>
               </li>
               <li><a><i class="fa fa-briefcase"></i> Jobs </a>
-                <!-- <ul class="nav child_menu">
-                  <li><a href="form.html">General Form</a></li>
-                  <li><a href="form_advanced.html">Advanced Components</a></li>
-                </ul> -->
+                <ul class="nav child_menu" style="display: block">
+                  <li><a href="{{ url ('admin-dashboard/jobs/manage-jobs') }}">Manage Jobs</a></li>
+                  <!-- <li><a href="form_advanced.html">Advanced Components</a></li> -->
+                </ul>
               </li>
               <li><a><i class="fa fa-user"></i> Users </a>
                 <ul class="nav child_menu" style="display: block">

@@ -192,7 +192,7 @@
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script> -->
 
     @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         <!-- This is defined here as the "require" modal is included to this blade -->

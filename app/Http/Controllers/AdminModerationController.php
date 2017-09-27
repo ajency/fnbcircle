@@ -222,6 +222,7 @@ class AdminModerationController extends Controller
             } else if ($listing->status == Listing::REVIEW) {
                 if ($change->status == (string) Listing::PUBLISHED) {
                     $listing->status = Listing::PUBLISHED;
+                    $listing->published_on = Carbon::now();
                     $listing->save();
                     $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     if ($request->sendmail == "1") {

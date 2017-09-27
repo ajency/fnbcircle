@@ -16,6 +16,8 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -124,3 +126,5 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
+
+Route::get('/{city_slug}/{listing_slug}', 'ListingViewController@index');

@@ -60,7 +60,9 @@ class ListingController extends Controller
         $contacts_json = json_decode($data->contacts);
         $contacts      = array();
         foreach ($contacts_json as $contact) {
-            $contacts[$contact->id] = array('visible' => $contact->visible, 'country' => $contact->country);
+            $contacts[$contact->id] = array('visible' => $contact->visible);
+            if(isset($contact->country) ) $contacts[$contact->id]['country'] => $contact->country;
+            else $contacts[$contact->id]['country'] = null;
         }
         // print_r($contacts);
         if ($data->listing_id == "") {

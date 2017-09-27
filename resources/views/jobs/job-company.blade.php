@@ -36,7 +36,7 @@
     <div class="m-t-40 c-gap">
         <div class="J-company flex-row">
             <div class="J-company__logo">
-                <input type="file" name="company_logo" class="comp-logo" data-height="100" @if($companyLogo!="") data-default-file="{{ $companyLogo }}" @endif />
+                <input type="file" name="company_logo" class="comp-logo" data-height="100" @if($companyLogo!="") data-default-file="{{ $companyLogo }}" @endif data-allowed-file-extensions="png jpg jpeg gif" />
 
                 <input type="hidden" name="delete_logo" value="0">
             </div>

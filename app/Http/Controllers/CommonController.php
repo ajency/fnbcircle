@@ -108,4 +108,22 @@ class CommonController extends Controller
 
         return $temp_html;
     }
+
+    public function checkIfEmailExist(Request $request) {
+        $userauth_obj = new UserAuth;$response_data = []; $status;
+
+        $user_data = array("email" => $request["email"], "username" => $request["email"]);
+
+        $response_obj = $userauth_obj->checkIfUserExist($user_data, true);
+
+        if($respone_obj["comm"] || $respone_obj["user"]) {
+            $response_data = array("message" => "Email exist");
+            $status = 400;
+        } else {
+            $response_data = array("message" => "No such email");
+            $status = 200;
+        }
+
+        return response()->json($response_data, $status);
+    }
 }

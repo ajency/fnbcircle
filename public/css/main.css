@@ -1898,6 +1898,9 @@ input[type="checkbox"].toggle__check {
     margin-bottom: -20px;
   }
 }
+.require-modal {
+  overflow-y: auto;
+}
 @media (min-width: 768px) {
   .require-modal .modal-dialog {
     width: 550px;

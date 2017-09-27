@@ -61,6 +61,8 @@
         'data': 'branch_id'
       }, {
         'data': 'name_data'
+      }, {
+        'data': 'image_url'
       }
     ],
     'order': [[10, 'desc']],
@@ -69,7 +71,7 @@
         'targets': 'no-sort',
         'orderable': false
       }, {
-        'targets': [2, 12, 13, 14, 15, 16],
+        'targets': [2, 12, 13, 14, 15, 16, 17],
         'visible': false,
         'searchable': false
       }, {
@@ -92,6 +94,9 @@
     $('input[name="categoryType"]').prop('disabled', false);
     $('input#parent_cat[name="categoryType"]').change();
     $('#add_category_modal .save-btn').prop('disabled', false);
+    $('#add_category_modal input[type="file"]').val('');
+    $('#add_category_modal input[type="file"]').dropify();
+    $('#add_category_modal .dropify-clear').click();
   });
 
   $('body').on('change', 'input[type=radio][name=categoryType]', function() {
@@ -167,7 +172,7 @@
   });
 
   $('#add_category_modal').on('click', '.save-btn', function(e) {
-    var id, image_url, instance, level, name, parent_id, slug, sort_order, status;
+    var formData, id, image, instance, level, name, parent_id, slug, sort_order, status, xhr;
     $('#add_category_modal .save-btn').prop('disabled', true);
     e.preventDefault();
     instance = $('#add_category_modal #categoryForm').parsley();
@@ -190,34 +195,44 @@
     slug = $('#add_category_modal input[name="slug"]').val();
     sort_order = $('#add_category_modal input[name="order"]').val();
     status = $('#add_category_modal select[name="status"]').val();
-    image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png";
-    return $.ajax({
-      type: 'post',
-      url: '/save-category',
-      data: {
-        'level': level,
-        'id': id,
-        'parent_id': parent_id,
-        'name': name,
-        'slug': slug,
-        'sort_order': sort_order,
-        'status': status,
-        'image_url': image_url
-      },
-      success: function(data) {
-        console.log(data);
+    image = $('#add_category_modal').find('input[type="file"]')[0].files[0];
+    formData = new FormData;
+    formData.append('level', level);
+    formData.append('id', id);
+    formData.append('parent_id', parent_id);
+    formData.append('name', name);
+    formData.append('slug', slug);
+    formData.append('sort_order', sort_order);
+    formData.append('status', status);
+    formData.append('image', image);
+    xhr = new XMLHttpRequest;
+    xhr.open('POST', '/save-category');
+    xhr.onreadystatechange = function() {
+      var data;
+      if (this.readyState === 4 && this.status === 200) {
+        data = JSON.parse(this.responseText);
         if (saveCategory(level, data)) {
           $('.alert-success #message').html("Category added successfully.");
-          return $('#add_category_modal').modal('hide');
+          $('#add_category_modal').modal('hide');
+        } else {
+          console.log(status);
+          console.log(error);
+          $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
+          $('.alert-failure').addClass('active');
+          return;
         }
-      },
-      error: function(request, status, error) {
-        console.log(status);
-        console.log(error);
-        $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
-        $('.alert-failure').addClass('active');
+        return;
+      } else {
+        setTimeout((function() {
+          if (this.readyState !== 4 && this.readyState !== void 0) {
+            console.log(this.readyState);
+            $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
+            $('.alert-failure').addClass('active');
+          }
+        }), 15000);
       }
-    });
+    };
+    return xhr.send(formData);
   });
 
   saveCategory = function(level, data) {
@@ -281,6 +296,10 @@
     cat = cat_table.row(editrow).data();
     $('input[name="categoryType"]').prop('checked', false);
     console.log(cat);
+    $('#edit_category_modal .parent_cat_icon').find('.dropify-wrapper').remove();
+    $('#edit_category_modal .parent_cat_icon').append('<input type="file">');
+    $('#edit_category_modal input[type="file"]').attr('data-default-file', cat['image_url']);
+    $('#edit_category_modal input[type="file"]').dropify();
     if (cat['level'] === 1) {
       $('input#parent_cat[name="categoryType"]').prop('checked', true);
     }
@@ -377,7 +396,7 @@
   });
 
   $('#edit_category_modal').on('click', '.save-btn', function(e) {
-    var id, image_url, instance, level, name, parent_id, slug, sort_order;
+    var formData, id, image, instance, level, name, parent_id, slug, sort_order, xhr;
     $('#edit_category_modal .save-btn').prop('disabled', true);
     e.preventDefault();
     instance = $('#edit_category_modal #categoryForm').parsley();
@@ -402,34 +421,44 @@
     slug = $('#edit_category_modal input[name="slug"]').val();
     sort_order = $('#edit_category_modal input[name="order"]').val();
     status = $('#edit_category_modal select[name="status"]').val();
-    image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png";
-    return $.ajax({
-      type: 'post',
-      url: '/save-category',
-      data: {
-        'level': level,
-        'id': id,
-        'parent_id': parent_id,
-        'name': name,
-        'slug': slug,
-        'sort_order': sort_order,
-        'status': status,
-        'image_url': image_url
-      },
-      success: function(data) {
-        console.log(data);
+    image = $('#edit_category_modal').find('input[type="file"]')[0].files[0];
+    formData = new FormData;
+    formData.append('level', level);
+    formData.append('id', id);
+    formData.append('parent_id', parent_id);
+    formData.append('name', name);
+    formData.append('slug', slug);
+    formData.append('sort_order', sort_order);
+    formData.append('status', status);
+    formData.append('image', image);
+    xhr = new XMLHttpRequest;
+    xhr.open('POST', '/save-category');
+    xhr.onreadystatechange = function() {
+      var data;
+      if (this.readyState === 4 && this.status === 200) {
+        data = JSON.parse(this.responseText);
         if (saveCategory(level, data)) {
           $('.alert-success #message').html("Category edited successfully.");
-          return $('#edit_category_modal').modal('hide');
+          $('#edit_category_modal').modal('hide');
+        } else {
+          console.log(status);
+          console.log(error);
+          $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
+          $('.alert-failure').addClass('active');
+          return;
         }
-      },
-      error: function(request, status, error) {
-        console.log(status);
-        console.log(error);
-        $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
-        $('.alert-failure').addClass('active');
+        return;
+      } else {
+        setTimeout((function() {
+          if (this.readyState !== 4 && this.readyState !== void 0) {
+            console.log(this.readyState);
+            $('.alert-failure #message').html("An unknown error occured.<br>Please reload and try again");
+            $('.alert-failure').addClass('active');
+          }
+        }), 15000);
       }
-    });
+    };
+    return xhr.send(formData);
   });
 
 }).call(this);

@@ -27,6 +27,16 @@ return [
 				'y'=>10
 			],
 		],
+		'65x65' => [
+			'width' => 65,
+			'height' => 65,
+			'watermark' => [
+				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'position'=>'bottom-left', 
+				'x'=> 0, 
+				'y'=>0
+			],
+		],
 		'company_logo' => [
 			'width' => 150,
 			'height' => 150,
@@ -59,6 +69,11 @@ return [
 			'base_path' => 'Listings',
 			'slug_column' => 'slug',
 			'sizes' => ['400X300','200x150']
+		],
+		'App\Category' => [
+			'base_path' => 'Categories',
+			'slug_column' => 'id',
+			'sizes' => ['65x65']
 		],
 	],
 ];

@@ -88,8 +88,7 @@ $(document).ready ()->
 
 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
-  console.log set
-  inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
+  inputTxt = '<input type="hidden" name="keyword_id['+set.id+']" value="'+set.label+'" label="">'
   $('#keyword-ids').append inputTxt
   return 
 
@@ -244,7 +243,7 @@ $('body').on 'keyup', '.job-keywords', (e) ->
     $('.job-keywords').removeAttr('data-parsley-required')
   else
     $('.job-keywords').attr('data-parsley-required','')  
-  return
+ 
 
 $('body').on 'blur', '.job-keywords', (e) ->
   if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
@@ -254,7 +253,14 @@ $('body').on 'blur', '.job-keywords', (e) ->
   else
     $('.job-keywords').attr('data-parsley-required','')  
     console.log('added')
-  return
+ 
+
+# $('body').on 'click', '.fdl-remove', (e) ->
+#   console.log '121' 
+#   console.log($(this).closest('li').find('span[class="text"]').text())
+ 
+
+
 
 # Ckeditor inti
 

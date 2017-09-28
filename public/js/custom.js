@@ -453,6 +453,17 @@ $(function(){
 				});
 			});
 
+			$("#require-modal input[type='text'][name='name'], #register_form input[type='text'][name='name']").on('keyup change', function() { // Check Name
+				var id = $(this).closest('form').prop('id');
+
+				if($(this).val().length > 0) {
+					$("#" + id + " #name-error").addClass("hidden");
+				} else {
+					$("#" + id + " #name-error").removeClass("hidden").text("Please enter your name");
+				}
+				
+			});
+
 			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
 				var id = $(this).closest('form').prop('id');
 				validateEmail($(this).val(), "#" + id + " #email-error");
@@ -633,7 +644,7 @@ $(function(){
 
 	        $("#register_form_btn").click(function() { // On Register form submit btn click
 	        	var parent = "#register_form";
-	        	var contact = $(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+	        	var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();//$(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
 				var descr_values = [];
 
 	            $.each($(parent + " input[name='description[]']:checked"), function() {
@@ -900,7 +911,7 @@ $(function(){
 		// });
 
 		// Bootstrap multiselect
-		if($('.multi-select,.default-area-select').length){
+		if($('.multi-select,.default-area-select').length > 0){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
 	            numberDisplayed: 1
@@ -915,7 +926,6 @@ $(function(){
 		}
 
 		// Category add
-
   		$('.cat-add-data').on('change:flexdatalist', function () {
 	        value = $(this).val();
 	        // console.log('Changed to: ' + value);
@@ -938,26 +948,28 @@ $(function(){
   			$('.success-stuff').removeClass('hidden');
   		});
 
-  		$('.add-areas').click(function(e){
-  			var area_group, area_group_clone;
-		    e.preventDefault();
-		    area_group = $(this).closest('.areas-select').find('.area-append');
-		    area_group_clone = area_group.clone();
-		    area_group_clone.removeClass('area-append hidden');
-		    area_group_clone.find('.areas-appended').addClass('newly-created');
-		    console.log(area_group_clone);
-		    area_group_clone.find('.selectCity').attr('data-parsley-required','');
-		    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
-		    area_group_clone.find('.newly-created').attr('data-parsley-required','');
-		    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
-		    area_group_clone.find('.newly-created').multiselect({
-		    	includeSelectAllOption: true,
-	            numberDisplayed: 1,
-	            nonSelectedText: 'Select Area(s)'
-		    });
-		    area_group_clone.insertBefore(area_group);
-  		});
-
+  		// ".add-areas" class exist in the HTML, only then access the function
+  		if($(".add-areas").length > 0) {
+	  		$('.add-areas').click(function(e){
+	  			var area_group, area_group_clone;
+			    e.preventDefault();
+			    area_group = $(this).closest('.areas-select').find('.area-append');
+			    area_group_clone = area_group.clone();
+			    area_group_clone.removeClass('area-append hidden');
+			    area_group_clone.find('.areas-appended').addClass('newly-created');
+			    console.log(area_group_clone);
+			    area_group_clone.find('.selectCity').attr('data-parsley-required','');
+			    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
+			    area_group_clone.find('.newly-created').attr('data-parsley-required','');
+			    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
+			    area_group_clone.find('.newly-created').multiselect({
+			    	includeSelectAllOption: true,
+		            numberDisplayed: 1,
+		            nonSelectedText: 'Select Area(s)'
+			    });
+			    area_group_clone.insertBefore(area_group);
+	  		});
+	  	}
 
 
 

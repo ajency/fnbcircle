@@ -40,7 +40,7 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
 
             <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="replace photo" data-default-file="{{$images[$img]['200x150']}}"/>
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="replace photo" data-default-file="{{$images[$img][config('tempconfig.listing-photo-thumb')]}}"/>
             <div class="image-loader hidden">
                 <div class="site-loader section-loader">
                 <div id="floatingBarsG">

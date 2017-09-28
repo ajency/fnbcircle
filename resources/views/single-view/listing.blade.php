@@ -7,10 +7,11 @@
 @section('js')
     @parent
     <!-- Dropify -->
-      <script type="text/javascript" src="../public/js/dropify.js"></script>
+      <script type="text/javascript" src="/js/dropify.js"></script>
       <!-- custom script -->
-      <script type="text/javascript" src="../public/js/flex-datalist/jquery.flexdatalist.min.js"></script>
-      <script type="text/javascript" src="../public/js/bootstrap-multiselect.js"></script>
+      <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
+      <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+      <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
 @endsection
 
 @section('opengraph')
@@ -250,41 +251,23 @@
                     <!-- listed -->
                     <div class="listed p-t-20 p-b-10" id="listed">
                         <h6 class="element-title">Also Listed In</h6>
+                        @foreach($data['categories'] as $category)
                         <div class="listed__section flex-row">
                             <div class="parent-cat flex-row">
                                 <span class="fnb-icons cat-icon meat m-r-15"></span>
-                                <p class="parent-cat__title cat-size">Meat</p>
+                                <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
                             </div>
                             <div class="child-cat">
-                                <p class="child-cat__title cat-size">Chicken</p>
+                                <p class="child-cat__title cat-size">{{$category['branch']}}</p>
                             </div>
                             <ul class="fnb-cat flex-row">
-                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
+                                @foreach($category['nodes'] as $node)
+                                <li><a href="" class="fnb-cat__title">{{$node['name']}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
-                        <hr>
-                        <div class="listed__section flex-row">
-                            <div class="parent-cat flex-row">
-                                <span class="fnb-icons cat-icon veg m-r-15"></span>
-                                <p class="parent-cat__title cat-size sub-title">Vegetable</p>
-                            </div>
-                            <div class="child-cat">
-                                <p class="child-cat__title cat-size sub-title">Fresh Vegetables</p>
-                            </div>
-                            <ul class="fnb-cat flex-row">
-                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                            </ul>
-                        </div>
+                        @if(!$loop->last)<hr>@endif
+                        @endforeach
                     </div>
                     <hr>
                     <!-- listed ends -->
@@ -292,26 +275,13 @@
                     <div class="brands p-t-20 p-b-20" id="overview">
                         <h6 class="element-title m-b-20">{{$data['title']['name']}} Brands</h6>
                         <ul class="brands__list flex-row">
+                            @foreach($data['brands'] as $brand)
                             <li class="flex-row">
                                 <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
                                 <span class="fnb-icons tags"></span>
-                                <p class="sub-title">Real Goods</p>
+                                <p class="sub-title">{{$brand}}</p>
                             </li>
-                            <li class="flex-row">
-                                <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                <span class="fnb-icons tags"></span>
-                                <p class="sub-title">Yummiez</p>
-                            </li>
-                            <li class="flex-row">
-                                <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                <span class="fnb-icons tags"></span>
-                                <p class="sub-title">Wendy's Food</p>
-                            </li>
-                            <li class="flex-row">
-                                <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                <span class="fnb-icons tags"></span>
-                                <p class="sub-title">Venkys</p>
-                            </li>
+                            @endforeach
                         </ul>
                     </div>
                     <!-- Brands ends -->
@@ -319,28 +289,21 @@
                     <div class="highlights p-t-20 p-b-20">
                         <h6 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h6>
                         <ul class="highlights__points">
+                            @foreach($data['highlights'] as $highlight)
                             <li class="flex-row">
                                 <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
                                 <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-                                <p class="sub-title">To maintain the freshness and quality</p>
+                                <p class="sub-title">{{$highlight}}</p>
                             </li>
-                            <li class="flex-row">
-                                <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                 <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-                                <p class="sub-title">Processed hygienically and are stored under desired temperature</p>
-                            </li>
-                            <li class="flex-row">
-                                <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                 <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-                                <p class="sub-title">Strict quality measures are followed while packaging to prevent damage and outside contamination</p>
-                            </li>
+                            @endforeach
+                           
                         </ul>
                     </div>
                     <!-- highlights ends -->
                     <!-- Description -->
                     <div class="description p-t-20 p-b-20">
                         <h6 class="element-title m-b-20">{{$data['title']['name']}} Description</h6>
-                        <p class="sub-title description__detail">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta modi ut cupiditate iste quia aperiam ab quibusdam nesciunt temporibus magnam nobis, dolore dicta eum libero quaerat ipsam perferendis culpa deleniti incidunt ex nemo. Ab temporibus enim, voluptatibus. Ullam impedit fugit sapiente vitae temporibus nulla quisquam reprehenderit officiis, amet consequatur accusantium quis quo velit, earum animi aut tenetur modi praesentium optio ratione ipsam. Quis pariatur debitis sequi dolorum atque eius laboriosam ullam beatae. Corporis sint eum, totam placeat recusandae error a nihil repudiandae. Quae nobis rerum amet laboriosam incidunt est consequatur, iste repudiandae harum maiores hic corporis iusto dolores repellat et cumque minima adipisci expedita, dignissimos, placeat, reiciendis aut temporibus consectetur optio? Quasi expedita nesciunt molestias, sunt ducimus. Optio quisquam magni molestias porro. Expedita deserunt esse neque ipsa.</p>
+                        <p class="sub-title description__detail">{{$data['description']}}</p>
                     </div>
                     <!-- Description ends -->
                     <!-- more-details -->
@@ -349,42 +312,70 @@
                         <div class="detail-1 flex-row m-t-25 m-b-25">
                             <div class="year">
                                 <p class="element-title heavier m-b-20">Year of establishment</p>
-                                <p class="sub-title lighter">1998</p>
+                                <p class="sub-title lighter">{{$data['established']}} </p>
                             </div>
                             <div class="site">
                                 <p class="element-title heavier m-b-10">Website</p>
-                                <p class="sub-title lighter "><a href="http://www.mystical.com" target="_blank" class="link-click">www.mystical.com <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
                             </div>
                         </div>
                         <div class="detail-2 flex-row m-t-25 m-b-25">
                             <div class="operation">
-                                <p class="element-title heavier m-b-20">Hours of operation <span class="text-danger">(Closed now)</span></p>
-                                <p class="sub-title lighter operation__hours">Today 07:30 am - 02:00 pm <span class="dis-block data-show m-t-5">Today 07:30 am - 02:00 pm</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
+                                <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
+                                <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
+                                @foreach($data['hours'] as $day)
+                               <br> {{$day['day']}} {{$day['timing']}} 
+                                @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
                             </div>
                         </div>
                         <div class="detail-3 flex-row m-t-25 m-b-25">
                             <div class="address">
                                 <p class="element-title heavier m-b-20">Address {{$data['title']['name']}}</p>
-                                <p class="sub-title lighter">Shop No 1, Navjeevan Building, Evershine Nagar-Malad West, Mumbai - 400064.</p>
+                                <p class="sub-title lighter">{{$data['address']}}</p>
                             </div>
                         </div>
                         <div class="detail-4 flex-row m-t-25 m-b-25">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
+                        <script type="text/javascript">
+                            function initMap() {
+                                var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
+                                var map = new google.maps.Map(document.getElementById('map'), {
+                                  zoom: 12,
+                                  center: uluru
+                                });
+                                var marker = new google.maps.Marker({
+                                  position: uluru,
+                                  map: map
+                                });
+                              }
+                            window.onload = function() {
+                                $.ajax({
+                                  type: 'post',
+                                  url: '/get-map-key',
+                                  success: function(data) {
+                                    var newScript, src;
+                                    key = data['key'];
+                                    newScript = document.createElement('script');
+                                    newScript.type = 'text/javascript';
+                                    newScript.src = src = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
+                                    newScript.async = true;
+                                    newScript.defer = true;
+                                    document.getElementsByTagName('head')[0].appendChild(newScript);
+                                  }
+                                });
+                              };
+                        </script>
+                            <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0" allowfullscreen></iframe> -->
                         </div>
                         <div class="detail-4 flex-row m-t-25">
                             <div class="payment-mode">
                                 <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
                                 <ul class="credit-card flex-row flex-wrap">
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> Cash
+                                    @foreach($data['payments'] as $mode)
+                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> {{$mode}}
                                     </li>
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> Master Card
-                                    </li>
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> Debit card
-                                    </li>
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> Visa card
-                                    </li>
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> American card
-                                    </li>
+                                    @endforeach
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -510,20 +501,17 @@
                        <div class="core-cat">
                             <h6 class="element-title m-t-0 m-b-15">We specialise in</h6>
                             <ul class="fnb-cat flex-row">
-                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
+                                @foreach($data['cores'] as $core)
+                                <li><a href="" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                @endforeach
                             </ul>
                         </div> 
                         <div class="contact__enquiry text-center mobile-hide">                                
                             <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                             <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                             <div class="approval">
-                                <p class="contact__title lighter">Your listing is submitted for approval</p>
-                                <div class="heavier sub-title"><i class="fa fa-clock-o text-primary" aria-hidden="true"></i> Pending approval</div>
+                                <p class="contact__title lighter">{{$data['status']['text']}}</p>
+                                <div class="heavier sub-title">{{$data['status']['status']}} </div>
                             </div>
                         </div>
                     </div>
@@ -540,41 +528,38 @@
                     <div class="docs p-t-20 p-b-20">
                         <h6 class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</h6>
                         <div class="photo-gallery">
+                            @foreach($data['images'] as $images)
+                            @if($loop->first)
                             <div class="photo-gallery__banner">
-                                <a href="/img/gallery-1.png" class="thumb-click">
-                                  <img src="/img/gallery-1.png" class="img-responsive main-img">
+                                <a href="{{$images['full']}}" class="thumb-click">
+                                  <img src="{{$images['full']}}" class="img-responsive main-img">
                                 </a>
                             </div>
                             <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
+                            @else
+
                                 <li>
-                                    <a href="/img/gallery-1.png" class="thumb-click">
-                                        <img src="/img/gallery-1.png" alt="" class="img-responsive">
+                                    <a href="{{$images['full']}}" class="thumb-click">
+                                        <img src="{{$images['thumb']}}" alt="" class="img-responsive">
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/img/gallery-1.png" class="thumb-click">
-                                        <img src="/img/gallery-1.png" alt="" class="img-responsive">
-                                        <p class="sub-title">+ 2 More</p>
-                                    </a>
-                                </li>
+                                
+                            @endif
+                            @if($loop->last)
                             </ul>
+                            @endif
+                            @endforeach
                         </div>
+                        @foreach($data['files'] as $file)
                         <div class="catalogue flex-row p-t-20 p-b-20">
                             <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                Chicken- Catalogue.pdf
+                                {{$file['name']}}
                             </p>
-                            <a href="">
+                            <a href="{{$file['url']}}">
                                 <span class="fnb-icons download"></span>
                             </a>
                         </div>
-                        <div class="catalogue flex-row p-t-20 p-b-20">
-                            <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                Chicken- Catalogue.pdf
-                            </p>
-                            <a href="">
-                                <span class="fnb-icons download"></span>
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
                     <!-- documents ends -->
                     <!-- enquiry form -->

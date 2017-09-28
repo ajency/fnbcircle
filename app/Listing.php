@@ -9,6 +9,7 @@ use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
 use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
+use Carbon\Carbon;
 use Auth;
 
 class Listing extends Model
@@ -69,7 +70,7 @@ class Listing extends Model
     }
     public function contacts()
     {
-        return $this->belongsToMany('App\UserCommunication')->using('App\ListingCommunication')->withPivot('verified');
+        return $this->morphMany('App\UserCommunication','object');
     }
     public function operationTimings()
     {
@@ -146,6 +147,63 @@ class Listing extends Model
     public function save(array $options = []){
         $this->last_updated_by = Auth::user()->id;
         parent::save();
+    }
+
+    public function getHoursofOperation(){
+        $opHrs = $this->operationTimings()->get();
+        $week = [
+            '0' => ['day' => 'Monday'],
+            '1' => ['day' => 'Tuesday'],
+            '2' => ['day' => 'Wednesday'],
+            '3' => ['day' => 'Thursday'],
+            '4' => ['day' => 'Friday'],
+            '5' => ['day' => 'Saturday'],
+            '6' => ['day' => 'Sunday'],
+        ];
+        foreach($opHrs as $day){
+            $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+            if($day->closed == 1) $week[$day->day_of_week]['timing'] = 'Closed';
+            if($day->open24 == 1) $week[$day->day_of_week]['timing'] = 'Open 24 Hours';
+        }
+        return $week;
+    }
+
+    public function today(){
+        $carbon = new Carbon();
+        $day = $this->operationTimings()->where('day_of_week',$carbon->dayOfWeek)->first();
+        $timing = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+        if($day->closed == 1) { $timing = 'Closed'; $open = false; }
+        elseif($day->open24 == 1) { $timing = 'Open 24 Hours'; $open = true; }
+        else {
+            $from = Carbon::createFromFormat('H:i:s',$day->from);
+            $to = Carbon::createFromFormat('H:i:s',$day->to);
+            if($from < $carbon and $carbon < $to){
+                $open = true;
+            }else{
+                $open = false;
+            }
+        }
+        return ['timing'=>$timing, 'open'=>$open];
+    }
+    public function getPayments(){
+        $payments = [];
+        $modes =json_decode($this->payment_modes);
+        $mode_name=[
+            "visa" => "Visa Cards",
+            "debit" => "Debit Cards",
+            "money_order" => "Money Order",
+            "cheque" => "Cheque",
+            "credit" => "Credit Cards",
+            "travelers" => "Travelers Cheque",
+            "cash" => "Cash",
+            "master" => "Master Cards",
+            "diners" => "Diner's Cards",
+        ];
+        foreach ($modes as $mode => $value) {
+             if($value == '1') $payments[] = $mode_name[$mode];
+         }
+         $payments = array_merge($payments,$this->tagNames('payment-modes'));
+         return $payments;
     }
 
 }

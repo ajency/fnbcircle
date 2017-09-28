@@ -14,4 +14,6 @@ return [
 		'15' => 'EXPORTER',
 		'16' => 'SERVICEPROVIDER',
 	],
+	'listing-photo-thumb' => '200x150',
+	'listing-photo-full' => '400X300',
 ];

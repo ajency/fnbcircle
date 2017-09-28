@@ -23,6 +23,10 @@ function routePermission(){
 	return $configPermission;
 }
 
+function hasAccess($uriPermission){
+	
+}
+
 
 
 

@@ -21,7 +21,10 @@ class FnbPermission
         $router = app()->make('router');
         $uriPath = $router->getCurrentRoute()->uri;
         
-        $configPermission = $routePerrmissions[$uriPath];
+        $uriPermission = $routePerrmissions[$uriPath];
+
+        if(!hasAccess($uriPermission))
+            abort(403);
          
 
         return $next($request);

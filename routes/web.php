@@ -73,6 +73,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
+
 	
 	Route::get('/get-keywords','JobController@getKeywords');
 	Route::get('/get-company','JobController@getCompanies');
@@ -121,6 +122,15 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 		Route::post('add', 'AdminConfigurationController@addNewUser'); // Add new Users - Internal / External
 		Route::post('{username}', 'AdminConfigurationController@editCurrentUser'); // Edit current Users - Internal / External
 	});
+
+	//manage jobs
+	Route::group(['prefix' => 'jobs'], function() {
+		Route::get('manage-jobs','AdminConfigurationController@manageJobs');
+		Route::post('get-jobs','AdminConfigurationController@getJobs');
+		Route::post('update-job-status','AdminConfigurationController@updateJobStatus');
+		Route::post('bulk-update-job-status','AdminConfigurationController@bulkUpdateJobStatus');
+	});
+	
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');

@@ -11,6 +11,7 @@
       contact_group_clone.insertBefore(contact_group);
       return contact_group.prev().find('.contact-mobile-input').intlTelInput({
         initialCountry: 'auto',
+        separateDialCode: true,
         geoIpLookup: function(callback) {
           $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
             var countryCode;
@@ -27,15 +28,17 @@
       if ($(this).closest('.modal').length) {
         $('.under-review').find('.contact-country-code').val(countryData.dialCode);
         $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+" + countryData.dialCode);
+        $('.under-review').find('.contact-mobile-input').val('');
       } else {
         $(this).closest('.contact-container').find('.contact-country-code').val(countryData.dialCode);
       }
     });
-    $('.contact-mobile-input').each(function() {
+    $('.contact-mobile-number').each(function() {
       var country, countryCode, mobileNo;
       mobileNo = $(this).val();
       country = $(this).attr('data-intl-country');
       $(this).intlTelInput({
+        separateDialCode: true,
         geoIpLookup: function(callback) {
           $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
             var countryCode;
@@ -71,7 +74,7 @@
       return verifyContactDetail(true);
     });
     verifyContactDetail = function(showModal) {
-      var contactId, contactType, contactValue, contactValueObj, countryCode, isVisible, objectId, objectType;
+      var contactId, contactType, contactValue, contactValueObj, countryCode, isVisible, objectId, objectType, underreviewDialCode;
       contactValueObj = $('.under-review').find('.contact-input');
       contactValue = contactValueObj.val();
       contactType = $('.under-review').closest('.contact-info').attr('contact-type');
@@ -80,12 +83,16 @@
       objectType = $('input[name="object_type"]').val();
       objectId = $('input[name="object_id"]').val();
       isVisible = $('.under-review').find('.contact-visible').val();
-      contactValueObj.closest('div').find('.dupError').html('');
+      contactValueObj.closest('.contact-container').find('.dupError').html('');
+      $('.validationError').html('');
+      $('.otp-input').val('');
       if (!contactValueObj.parsley().isValid()) {
         contactValueObj.parsley().validate();
       }
       if (contactValue !== '' && contactValueObj.parsley().isValid()) {
         if (showModal) {
+          underreviewDialCode = $('.under-review').find('.contact-country-code').val();
+          $('#' + contactType + '-modal').find('.change-contact-input').intlTelInput("setNumber", "+" + underreviewDialCode);
           $('#' + contactType + '-modal').modal('show');
         }
         $.ajax({
@@ -116,7 +123,7 @@
         return $('.default-state, .verificationFooter').removeClass('hidden');
       } else {
         if (contactValue === '') {
-          contactValueObj.closest('div').find('.dupError').html('Please enter ' + contactType);
+          contactValueObj.closest('.contact-container').find('.dupError').html('Please enter ' + contactType);
         }
         return $('#' + contactType + '-modal').modal('hide');
       }
@@ -126,10 +133,10 @@
       contactObj = $(this);
       contactval = contactObj.val();
       if (!checkDuplicateEntries(contactObj) && contactval !== "") {
-        contactObj.closest('div').find('.dupError').html(contactval + ' already added to list.');
+        contactObj.closest('.contact-container').find('.dupError').html(contactval + ' already added to list.');
         contactObj.val('');
       } else {
-        contactObj.closest('div').find('.dupError').html('');
+        contactObj.closest('.contact-container').find('.dupError').html('');
       }
     });
     checkDuplicateEntries = function(contactObj) {
@@ -162,7 +169,7 @@
       contactType = $(this).closest('.modal').attr('modal-type');
       changedValue = newContactObj.val();
       oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim();
-      if (newContactObj.parsley().validate() === true) {
+      if (newContactObj.val() !== '' && newContactObj.parsley().validate() === true) {
         oldContactObj = $('.under-review').find('.contact-input');
         oldContactObj.val(changedValue);
         changedCountryCodeObj = newContactObj.intlTelInput("getSelectedCountryData");
@@ -173,14 +180,19 @@
           $(this).closest('.contact-verify-steps').find('.customError').text('');
           $(this).closest('.modal').find('.contact-input-value').text(changedValue);
           $('.under-review').find('.contact-country-code').val(changedCountryCodeObj.dialCode);
-          $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+" + changedCountryCodeObj.dialCode).val(changedValue);
+          $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+" + changedCountryCodeObj.dialCode).val('');
+          $('.under-review').find('.contact-mobile-input').val(changedValue);
           $('.default-state').removeClass('hidden');
           $('.add-number').addClass('hidden');
           $('.verificationFooter').removeClass('no-bg');
           return verifyContactDetail(false);
         }
       } else {
-        return $(this).closest('.contact-verify-steps').find('.customError').text('Please enter valid ' + contactType);
+        if (newContactObj.val() === '') {
+          return $(this).closest('.contact-verify-steps').find('.customError').text('Please enter ' + contactType);
+        } else {
+          return $(this).closest('.contact-verify-steps').find('.customError').text('Please enter valid ' + contactType);
+        }
       }
     });
     $('.contact-verification-modal').on('click', '.code-send', function(e) {
@@ -190,6 +202,7 @@
       otpObj.attr('data-parsley-required', 'true');
       otpObj.attr('data-parsley-type', 'digits');
       otpObj.attr('data-parsley-length', '[4,4]');
+      errordiv.html('');
       validator = otpObj.parsley();
       if (validator.isValid() !== true) {
         if (otpObj.val() === '') {

@@ -232,12 +232,47 @@ class Job extends Model
         return $savedLocation;
     }
 
-    public function jobPostedOn(){
-        return (!empty($this->date_of_submission)) ? date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission))): '';
+    public function jobPostedOn($format=1){
+        $date = '';
+
+        if(!empty($this->date_of_submission)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+
+        }
+        return $date;
+      
     }
 
-    public function jobPublishedOn(){
-        return (!empty($this->published_on)) ? date('F j, Y', strtotime(str_replace('-','/', $this->published_on))) : '';
+    public function jobPublishedOn($format=1){
+        $date = '';
+        if(!empty($this->published_on)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->published_on)));
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->published_on)));
+
+        }
+        return $date;
+
+    }
+
+    public function jobUpdatedOn($format=1){
+        $date = '';
+        if(!empty($this->updated_at)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->updated_at)));
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->updated_at)));
+
+        }
+        return $date;
+
     }
 
     public function canEditJob(){
@@ -317,6 +352,25 @@ class Job extends Model
         //, 'status'=>3  
         $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
         return $jobs;
+    }
+
+
+    public function jobAvailabeStatus(){
+        if(isAdmin()){
+            $status[1] = [2]; 
+            $status[2] = [3];
+            $status[3] = [4]; 
+            $status[4] = [3]; 
+        }
+        else{
+            $status[1] = [2,3]; 
+            $status[2] = []; 
+            $status[3] = [4]; 
+            $status[4] = [3]; 
+        }
+ 
+        return $status;
+        
     }
 
     // private function getFilteredJobs($jobs,$filters){

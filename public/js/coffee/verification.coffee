@@ -11,6 +11,7 @@ $(document).ready ()->
      
     contact_group.prev().find('.contact-mobile-input').intlTelInput
       initialCountry: 'auto'
+      separateDialCode: true
       geoIpLookup: (callback) ->
         $.get('https://ipinfo.io', (->
         ), 'jsonp').always (resp) ->
@@ -28,16 +29,18 @@ $(document).ready ()->
     if $(this).closest('.modal').length
       $('.under-review').find('.contact-country-code').val countryData.dialCode
       $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryData.dialCode)
+      $('.under-review').find('.contact-mobile-input').val ''
     else
  
       $(this).closest('.contact-container').find('.contact-country-code').val countryData.dialCode
     return
 
-  $('.contact-mobile-input').each ()->
+  $('.contact-mobile-number').each ()->
     mobileNo  = $(this).val()
     country = $(this).attr('data-intl-country')
     $(this).intlTelInput
       # initialCountry: country
+      separateDialCode: true
       geoIpLookup: (callback) ->
         $.get('https://ipinfo.io', (->
         ), 'jsonp').always (resp) ->
@@ -104,16 +107,20 @@ $(document).ready ()->
     objectType = $('input[name="object_type"]').val()
     objectId = $('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
-    contactValueObj.closest('div').find('.dupError').html ''
+    contactValueObj.closest('.contact-container').find('.dupError').html ''
+    $('.validationError').html ''
+    $('.otp-input').val ''
 
     if(!contactValueObj.parsley().isValid())
       contactValueObj.parsley().validate()
       
     # console.log contactValueObj.parsley().isValid()
+    # console.log contactValue
     if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)
-        # $('#'+contactType+'-modal').find('.contact-input-value').text contactValue
+        underreviewDialCode = $('.under-review').find('.contact-country-code').val()
+        $('#'+contactType+'-modal').find('.change-contact-input').intlTelInput("setNumber", "+"+underreviewDialCode)
         $('#'+contactType+'-modal').modal 'show'
 
         
@@ -146,7 +153,7 @@ $(document).ready ()->
 
     else
       if contactValue == ''
-        contactValueObj.closest('div').find('.dupError').html 'Please enter '+contactType 
+        contactValueObj.closest('.contact-container').find('.dupError').html 'Please enter '+contactType 
       $('#'+contactType+'-modal').modal 'hide'
 
   $('.contact-info').on 'change', '.contact-input', (event) ->
@@ -154,10 +161,10 @@ $(document).ready ()->
     contactval = contactObj.val()
     # console.log contactval
     if !checkDuplicateEntries(contactObj) && contactval!= ""
-      contactObj.closest('div').find('.dupError').html contactval+' already added to list.'
+      contactObj.closest('.contact-container').find('.dupError').html contactval+' already added to list.'
       contactObj.val ''
     else 
-      contactObj.closest('div').find('.dupError').html ''
+      contactObj.closest('.contact-container').find('.dupError').html ''
 
     return
 
@@ -196,7 +203,7 @@ $(document).ready ()->
     changedValue = newContactObj.val()
     oldContactValue = $(this).closest('.modal').find('.contact-input-value').text().trim()
 
-    if newContactObj.parsley().validate() == true
+    if newContactObj.val() != '' && newContactObj.parsley().validate() == true
       # upadte parent conatiner input
 
       oldContactObj = $('.under-review').find('.contact-input')
@@ -213,14 +220,18 @@ $(document).ready ()->
         $(this).closest('.modal').find('.contact-input-value').text(changedValue)
 
         $('.under-review').find('.contact-country-code').val changedCountryCodeObj.dialCode
-        $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+changedCountryCodeObj.dialCode).val changedValue 
+        $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+changedCountryCodeObj.dialCode).val '' 
+        $('.under-review').find('.contact-mobile-input').val changedValue 
 
         $('.default-state').removeClass 'hidden'
         $('.add-number').addClass 'hidden'
         $('.verificationFooter').removeClass 'no-bg'
         verifyContactDetail(false)
     else
-      $(this).closest('.contact-verify-steps').find('.customError').text 'Please enter valid '+contactType
+      if(newContactObj.val() == '')
+        $(this).closest('.contact-verify-steps').find('.customError').text 'Please enter '+contactType
+      else
+        $(this).closest('.contact-verify-steps').find('.customError').text 'Please enter valid '+contactType
 
     
 
@@ -232,6 +243,7 @@ $(document).ready ()->
     otpObj.attr('data-parsley-required','true')
     otpObj.attr('data-parsley-type','digits')
     otpObj.attr('data-parsley-length','[4,4]')
+    errordiv.html ''
     validator=otpObj.parsley()
     if validator.isValid() != true
       # console.log 'gandu'

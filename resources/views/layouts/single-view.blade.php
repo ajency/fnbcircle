@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('content')
 <!-- content -->
   <div class="single-view-head">

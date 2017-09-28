@@ -266,7 +266,11 @@
             console.log(data);
             $("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass("hidden");
             $("#add_newuser_modal").modal("hide");
-            $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new User");
+            if (url_type === "add") {
+              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new User");
+            } else {
+              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("User updated successfully");
+            }
             setTimeout((function() {
               $(".admin_internal_users.right_col").parent().find('div.alert-success').addClass('active');
             }), 1000);

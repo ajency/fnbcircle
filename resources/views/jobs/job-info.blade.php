@@ -71,6 +71,9 @@
               
             </datalist>
             <div id="keyword-ids">
+                @foreach($job['meta_data']['job_keyword'] as $keywordId => $keyword)
+                <input type="hidden" name="keyword_id[{{ $keywordId }}]" value="{{ $keyword }}" label="">
+                @endforeach
             </div>
         </div>
     </div>

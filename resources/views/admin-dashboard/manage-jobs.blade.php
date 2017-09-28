@@ -75,9 +75,19 @@
                       <th width="15%">Job Title</th>
                       <th width="5%">
                          Business Type
+                         <select multiple class="form-control multi-dd jobsearchinput" id="filtercategory" name="job_category">
+                            @foreach ($categories as $categoryId => $category)
+                            <option value="{{ $categoryId }}">{{$category}}</option>
+                          @endforeach
+                          </select>
                       </th>
                       <th width="20%">
                          Keywords
+                         <select multiple class="form-control multi-dd jobsearchinput" id="filterkeywords" name="job_keywords">
+                            @foreach ($keywords as $keywordId => $keyword)
+                            <option value="{{$keywordId}}">{{$keyword}}</option>
+                          @endforeach
+                          </select>
                       </th>
                       <th class="no-sort text-center" data-col="4" width="10%">
                         Company Name
@@ -86,6 +96,7 @@
                       <th class="text-center" width="10%">Date of submission</th>
                       <th width="10%">Published Date</th>
                       <th width="10%">Last Updated on</th>
+                      <th width="10%">Last Updated By</th>
                       <th class="no-sort" data-col="9" width="10%">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd job-status jobsearchinput">

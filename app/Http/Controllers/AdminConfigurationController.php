@@ -677,8 +677,12 @@ class AdminConfigurationController extends Controller
         $jobStatuses = $job->jobStatuses();
         $jobAvailabeStatus = $job->jobAvailabeStatus();
         $cities = City::orderBy('order')->orderBy('name')->get();
+        $categories =  $job->jobCategories();
+        $keywords = $job->jobKeywords();
 
         return view('admin-dashboard.manage-jobs')->with('cities', $cities)
+                                                  ->with('categories', $categories)
+                                                  ->with('keywords', $keywords)
                                                   ->with('jobStatuses', $jobStatuses)
                                                   ->with('jobAvailabeStatus', $jobAvailabeStatus);
     }
@@ -733,6 +737,26 @@ class AdminConfigurationController extends Controller
             $jobQuery->distinct('jobs.id');
         }
 
+        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        {
+            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
+
+            $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
+        {
+            $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
+        }
+
+        $filterKeywords = [];
+        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        {
+            $filterKeywords = $requestData['filters']['keywords'];
+        }
+
 
         $columnName = 'jobs.title';
         $orderBy = 'asc';
@@ -755,6 +779,8 @@ class AdminConfigurationController extends Controller
 
         $jobsData = [];
         foreach ($jobs as $key => $job) {
+         
+
             $cityNames = $job->getJobLocationNames('city');
             $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
 
@@ -778,6 +804,7 @@ class AdminConfigurationController extends Controller
                             'date_of_submission' => $job->jobPostedOn(2),
                             'published_date' => $job->jobPublishedOn(2),
                             'last_updated' => $job->jobUpdatedOn(2),
+                            'last_updated_by' => ($job->job_modifier) ? $job->updatedBy->name :'',
                             'status' => '<span status_value="'.$job->id.'">'.$job->getJobStatus().'</span> '.$statusEditHtml ,
                             ];
             

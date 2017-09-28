@@ -759,7 +759,12 @@ class AdminConfigurationController extends Controller
             $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
 
             $metaData = $job->meta_data;
-            $keyWords = (!empty($metaData['job_keyword'])) ? implode(",", $metaData['job_keyword']) :''; 
+            $keyWords = (!empty($metaData['job_keyword'])) ? $metaData['job_keyword'] : []; 
+
+            $splitKeywords =  splitJobArrayData($keyWords,2); 
+            $jobKeywords = implode(',', $splitKeywords['array']);
+            $moreJobKeywords  = ($splitKeywords['moreArrayCount']) ? '<i title="'.implode(',', $splitKeywords['moreArray']).'">...</i>' :'';
+
             $companyName = (!empty($job->getJobCompany())) ? $job->getJobCompany()->title :''; 
 
             $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
@@ -768,7 +773,7 @@ class AdminConfigurationController extends Controller
                             'city' => $cityNamesStr,
                             'title' => $job->title,
                             'business_type' => $job->getJobCategoryName(),
-                            'keyword' => $keyWords,
+                            'keyword' => $jobKeywords .''. $moreJobKeywords,
                             'company_name' => $companyName,
                             'date_of_submission' => $job->jobPostedOn(2),
                             'published_date' => $job->jobPublishedOn(2),

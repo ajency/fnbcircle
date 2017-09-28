@@ -42,7 +42,7 @@ class Job extends Model
 
     public function jobCategories(){
         // $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
-        $jobCategories = Category::where("type","job")->get();
+        $jobCategories = Category::where("type","job")->where('status',1)->orderBy('name')->get();
 
         $categories = [];
         $others = [];

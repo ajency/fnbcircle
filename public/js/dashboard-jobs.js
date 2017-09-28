@@ -19,6 +19,8 @@
         filters.company_name = $('#company_name').val();
         filters.job_status = $('select[name="job_status"]').val();
         filters.city = $('select[name="job_city"]').val();
+        filters.category = $('select[name="job_category"]').val();
+        filters.keywords = $('select[name="job_keywords"]').val();
         data.filters = filters;
         return data;
       },
@@ -34,18 +36,22 @@
       }, {
         'data': 'title'
       }, {
-        'data': 'business_type'
+        'data': 'business_type',
+        "orderable": false
       }, {
         'data': 'keyword',
         "orderable": false
       }, {
-        'data': 'company_name'
+        'data': 'company_name',
+        "orderable": false
       }, {
         'data': 'date_of_submission'
       }, {
         'data': 'published_date'
       }, {
         'data': 'last_updated'
+      }, {
+        'data': 'last_updated_by'
       }, {
         'data': 'status'
       }

@@ -63,8 +63,8 @@
                 <table id="datatable-jobs" class="table table-striped  nowrap" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort update-checkbox "  style="width: 10px;"><input type='checkbox' class="hidden" name='job_check_all'></th>
-                      <th class="no-sort" data-col="5">
+                      <th class="no-sort update-checkbox " width="2%"><input type='checkbox' class="hidden" name='job_check_all'></th>
+                      <th class="no-sort" data-col="5" width="10%">
                           City
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">
                             @foreach ($cities as $city)
@@ -72,21 +72,21 @@
                           @endforeach
                           </select>
                       </th>
-                      <th>Job Title</th>
-                      <th>
+                      <th width="15%">Job Title</th>
+                      <th width="5%">
                          Business Type
                       </th>
-                      <th>
+                      <th width="20%">
                          Keywords
                       </th>
-                      <th class="no-sort text-center" data-col="4">
+                      <th class="no-sort text-center" data-col="4" width="10%">
                         Company Name
                          
                       </th>                    
-                      <th class="text-center">Date of submission</th>
-                      <th>Published Date</th>
-                      <th>Last Updated on</th>
-                      <th class="no-sort" data-col="9">
+                      <th class="text-center" width="10%">Date of submission</th>
+                      <th width="10%">Published Date</th>
+                      <th width="10%">Last Updated on</th>
+                      <th class="no-sort" data-col="9" width="10%">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd job-status jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)

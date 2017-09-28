@@ -228,7 +228,8 @@
 
   if ($('.comp-logo').length) {
     companyLogo.on('dropify.afterClear', function(event, element) {
-      return $("input[name='delete_logo']").val(1);
+      $("input[name='delete_logo']").val(1);
+      return $("input[type='file']").attr('title', '');
     });
   }
 

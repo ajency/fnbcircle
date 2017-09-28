@@ -260,11 +260,11 @@
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row">
-                        <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="{{Auth::user()->getPrimaryContact()['contact']}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                        <input type="hidden" class="comm-id contact_mobile_id contact-id " readonly  name="contact_IDs">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{Auth::user()->getPrimaryContact()['contact']}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{Auth::user()->getPrimaryContact()['contact_region']}}">
-                        <div class=dupError ></div>
-                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                        <div class="dupError" ></div>
+                        <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -300,10 +300,10 @@
                     <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs" value="{{$mobile->id}}">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif required>
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif required>
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$mobile->country_code}}">
-                        <div class=dupError ></div>
-                         <i class="fa fa-mobile" aria-hidden="true"></i>
+                        <div class="dupError" ></div>
+                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -343,10 +343,10 @@
                     <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
-                        <div class=dupError ></div>
-                         <i class="fa fa-mobile" aria-hidden="true"></i>
+                        <div class="dupError" ></div>
+                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -388,10 +388,10 @@
                 <div class="col-sm-5">
                     <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5  contact-mobile-input" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif required>
+                        <input type="tel" class="form-control fnb-input p-l-5  contact-mobile-input contact-mobile-number" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif required>
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$phone->country_code}}">
                         <div class=dupError ></div>
-                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-phone" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4 mobile-hide">
@@ -420,7 +420,7 @@
                     <div class="input-row">
                         <input type="tel" class="form-control fnb-input p-l-5  contact-mobile-input" value="" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
                         <div class=dupError ></div>
-                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <!-- <i class="fa fa-phone" aria-hidden="true"></i> -->
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4 mobile-hide">

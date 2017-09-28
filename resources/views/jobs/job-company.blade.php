@@ -9,7 +9,7 @@
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/verification.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/verification.js') }}"></script> -->
     <script type="text/javascript" src="{{ asset('node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
   >
 @endsection

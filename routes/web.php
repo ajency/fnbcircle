@@ -68,7 +68,7 @@ Route::post('/all-listing','AdminModerationController@displayListingsDum');
 JOBS/USERS
 *******/
 
-Route::group( ['middleware' => ['auth']], function() { 
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');

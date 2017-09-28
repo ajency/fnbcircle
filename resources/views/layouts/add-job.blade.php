@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', $pageName )
 @section('css')
     <!-- Magnify css -->

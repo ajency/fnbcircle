@@ -607,11 +607,14 @@ class AdminConfigurationController extends Controller
 
         $request = $request->all();
 
-        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "email_signup");
+        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "added_by_internal");
         $user_comm = array("email" => $request["email"], "is_verified" => true);
         
         if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {
             $user_data["password"] = $request["password"];
+        } else if (isset($request["password"]) && $request["password"] !== $request["confirm_password"]) {
+            $status = 406;
+            $response_data = array("message" => "password_and_confirm_not_matching");
         }
 
         if(isset($request["roles"]) && sizeof($request["roles"]) > 0) {
@@ -622,15 +625,18 @@ class AdminConfigurationController extends Controller
             $user_data["status"] = $request["status"];
         }
 
+
         $user_obj_response = $userauth_obj->checkIfUserExists($user_data);
 
-        if(!$user_obj_response) { // If user doesn't exist then create user, else
+        if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
             $output->writeln(json_encode($create_response));
             $status = 201;
         } else {
             $status = 406; ## Not Acceptable
-            $response_data = array("message" => "Email exist");
+            if(sizeof($response_data) <= 0) {
+                $response_data = array("message" => "email_exist");
+            }
         }
 
         return response()->json($response_data, $status);

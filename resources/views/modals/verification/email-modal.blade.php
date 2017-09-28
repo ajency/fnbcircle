@@ -17,7 +17,7 @@
                             <a href="#" class="secondary-link edit-number"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> EDIT</a>
                         </div>
                         <div class="code-submit flex-row space-between">
-                            <input text="text" class="fnb-input text-color" placeholder="Enter code here..."  >
+                            <input text="text" class="fnb-input text-color otp-input" placeholder="Enter code here..."  >
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="button">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                         </div>
                         <div class="validationError text-left"></div>

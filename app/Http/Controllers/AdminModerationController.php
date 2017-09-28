@@ -12,7 +12,7 @@ use App\ListingCategory;
 use App\ListingCommunication;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Symfony\Component\Console\Output\ConsoleOutput;
+// use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
 {
@@ -119,18 +119,18 @@ class AdminModerationController extends Controller
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);
         $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);
-        $output   = new ConsoleOutput;
+        // $output   = new ConsoleOutput;
         // $output->writeln($listings->toSql());
         // $output->writeln($filters['submission_date']['start']);
         // $output->writeln($filters['submission_date']['end']);
         
         $listings = $listings->get();
         // $filtered = count($listings);
-        $output->writeln(json_encode($listings));
+        // $output->writeln(json_encode($listings));
         $response = array();
 
         foreach ($listings as $listing) {
-            $output->writeln($listing->submission);
+            // $output->writeln($listing->submission);
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;

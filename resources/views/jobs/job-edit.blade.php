@@ -1,7 +1,7 @@
 @extends('layouts.add-job')
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/jobs.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
 @endsection
 @section('form-data')
 

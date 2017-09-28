@@ -33,17 +33,24 @@
                                         <div class="number-code flex-row">
                                             <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
                                             <!-- <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality"> -->
-                                            <input type="tel" class="form-control fnb-input number-code__value contact-input" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
-                                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
+                                            <input type="tel" class="form-control fnb-input number-code__value contact-input contact-mobile-input contact-mobile-number" placeholder="xxxxxxxxxx" name="contact" value="{{ Auth::user()->getPrimaryContact()['contact'] }}">
+                                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ Auth::user()->getPrimaryContact()['contact_region'] }}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <div class="verify-container">
-                                        <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
-                                        <div name="" class="under-review">
-                                            <input type="hidden" class="contact-visible" value="0"/>
-                                        </div>
+                                    <div class="verify-container verified flex-row">
+                                        @if(!Auth::user()->getPrimaryContact()['is_verified'])
+                                            <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
+                                            <div name="" class="under-review">
+                                                <input type="hidden" class="contact-visible" value="0"/>
+                                            </div>
+                                        @else
+                                            <div class="verified verifiedMini flex-row">
+                                                <span class="fnb-icons verified-icon"></span>
+                                                <p class="c-title m-b-0">Verified</p>
+                                            </div>
+                                        @endif
                                         <!-- <a href="#" class="secondary-link text-decor verifyPhone x-small" data-toggle="modal" data-target="#mobile-modal">Verify Now</a> -->
                                         <!-- <div class="verified verifiedMini flex-row">
                                             <span class="fnb-icons verified-icon"></span>

@@ -38,7 +38,7 @@
                             </div>
                             <div class="account-exist wrong-password-error hidden">
                                 <h6 class="sub-title">Incorrect Password</h6>
-                                <span>The password you have enter is incorrect. Are you sure this is your account?</span>
+                                <span>The password you have entered is incorrect. Are you sure this is your account?</span>
                             </div>
                         </div>
                         <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>

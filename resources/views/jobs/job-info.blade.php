@@ -1,8 +1,8 @@
 @extends('layouts.add-job')
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/maps.js"></script>
-    <script type="text/javascript" src="/js/jobs.js"></script>
+    <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
     @if($job->id)
      <script type="text/javascript">
     // $(document).ready(function() {
@@ -71,6 +71,11 @@
               
             </datalist>
             <div id="keyword-ids">
+                @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword']))
+                @foreach($job['meta_data']['job_keyword'] as $keywordId => $keyword)
+                <input type="hidden" name="keyword_id[{{ $keywordId }}]" value="{{ $keyword }}" label="">
+                @endforeach
+                @endif
             </div>
         </div>
     </div>

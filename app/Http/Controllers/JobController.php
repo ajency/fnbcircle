@@ -116,7 +116,7 @@ class JobController extends Controller
 
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
-            $metaData['job_keyword'] = $jobKeywords;
+            // $metaData['job_keyword'] = $jobKeywords;
         }
 
         $experienceYearsLower = 0;
@@ -154,7 +154,7 @@ class JobController extends Controller
         $jobId = $job->id;
         
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$keywordIds);
+        $this->addJobKeywords($job,$keywordIds,$jobKeywords);
         Session::flash('success_message','Job details saved successfully.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
 
@@ -177,15 +177,24 @@ class JobController extends Controller
         
     }
 
-    public function addJobKeywords($job,$keywords){
+    public function addJobKeywords($job,$keywords,$jobKeywords){
         $job->hasKeywords()->delete();
-        foreach ($keywords as $key => $keywordId) {
-       
-            $jobKeyword    = new JobKeyword;
-            $jobKeyword->job_id = $job->id;
-            $jobKeyword->keyword_id = $keywordId;
-            $jobKeyword->save();
+        $keywordData = [];
+        foreach ($keywords as $keywordId => $keyword) {
+            
+            if(in_array($keyword, $jobKeywords)){
+                $keywordData[$keywordId] = $keyword;
+                $jobKeyword    = new JobKeyword;
+                $jobKeyword->job_id = $job->id;
+                $jobKeyword->keyword_id = $keywordId;
+                $jobKeyword->save();
+            }
+            
         }
+        $metaData = $job->meta_data;
+        $metaData['job_keyword'] = $keywordData;
+        $job->meta_data = $metaData;
+        $job->save();
 
         return true;
         
@@ -431,10 +440,10 @@ class JobController extends Controller
         else{
             $jobType = 0;
         }
-
+        // dd()
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
-            $metaData['job_keyword'] = $jobKeywords;
+            // $metaData['job_keyword'] = $jobKeywords;
         }
      
         $experienceYearsLower = 0;
@@ -466,7 +475,7 @@ class JobController extends Controller
         $job->interview_location_long = $longitude;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$keywordIds);
+        $this->addJobKeywords($job,$keywordIds,$jobKeywords);
         Session::flash('success_message','Job details saved successfully.');
         $request['next_step'] = 'step-two';
 
@@ -622,6 +631,8 @@ class JobController extends Controller
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
     }
+
+    
 
 
     /**

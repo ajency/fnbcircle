@@ -1,45 +1,45 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', $pageName )
 @section('css')
     <!-- Magnify css -->
-    <link rel="stylesheet" type="text/css" href="/css/magnify.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/magnify.css') }}">
     <!-- Dropify css -->
-    <link rel="stylesheet" type="text/css" href="/css/dropify.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/dropify.css') }}">
     <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
     <!-- multiselect -->
-    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
     <!-- Ckeditor -->
     <!-- <link href="/js/ckeditor/toolbarconfigurator/lib/codemirror/neo.css" rel="stylesheet"> -->
 @endsection
 
 @section('js')
        <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="/js/magnify.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/magnify.min.js') }}"></script>
     <!-- Read more -->
-    <script type="text/javascript" src="/js/readmore.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/readmore.min.js') }}"></script>
     <!-- Dropify -->
-    <script type="text/javascript" src="/js/dropify.js"></script>
+    <script type="text/javascript" src="{{ asset('js/dropify.js') }}"></script>
     <!-- jquery tags -->
-    <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
 
-      <script type="text/javascript" src="/js/underscore-min.js" ></script>
+      <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}" ></script>
     <!-- Custom file input -->
 
     <!-- multiselect -->
-    <script src="/js/bootstrap-multiselect.js"></script>
+    <script src="{{ asset('js/bootstrap-multiselect.js') }}"></script>
 
     <!-- Ckeditor -->
-    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
-    <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.custom-file-input.js') }}"></script>
     <!-- Add listing -->
-    <script type="text/javascript" src="/js/add-listing.js"></script>
+    <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script>
     <!-- custom script -->
-    <script type="text/javascript" src="/js/custom.js"></script>
+    <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
-    <script type="text/javascript" src="/js/handlebars.js"></script>
+    <script type="text/javascript" src="{{ asset('js/handlebars.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 
     @if(Session::has('job_review_pending')) 

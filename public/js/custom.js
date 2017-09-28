@@ -359,7 +359,7 @@ $(function(){
 			}
 
 			if (data.hasOwnProperty('contact') && data["contact"]) { // The count includes +<region code> <contact No>
-				validateContact(data["contact"], parent_path + " #contact-error", true);
+				validateContact(data["contact"], parent_path + " #contact-error", false);
 			} else {
 				$(parent_path + " #contact-error").removeClass("hidden").text("Please enter your contact");
 				flag = false;
@@ -389,40 +389,59 @@ $(function(){
 				$("#register_form input[name='contact']").intlTelInput(); // Initialize
 			}
 
+			if ($("#requirement_form").length && $("#requirement_form input[type='hidden'].contact-country-code").val().length <= 0) { // Load only if #register_form exist in the Page
+				//$("#requirement_form input[name='contact']").intlTelInput(); // Initialize
+				// Assign the country code to the hidden if the hidden tag is empty
+				$("#requirement_form input[type='hidden'].contact-country-code").val($("#requirement_form input[name='contact']").intlTelInput("getSelectedCountryData").dialCode);
+			}
+
 			if($('.image-link').length){
 			  $('.image-link').magnificPopup({type:'image'});
 			}
 
-			if($("#require-modal select[name='city']").val()) {
-				// IF the State (City) value is available then populate the Select options for City (Area)
-				var city, html = '<option value="">City</option>';
-				
-				$('#require-modal select[name="area"]').html(html);
-				city = $("#require-modal select[name='city']").val();
+			if($("#require-modal").length > 0) {
 
-				$.ajax({
-					type: 'post',
-					url: '/get_areas',
-					data: {
-						'city': city
-					},
-					success: function(data) {
-						var key, area = $("#require-modal input[type='hidden'][name='user_area']").val();
-
-						for (key in data) {
-							if(area && area == data[key]["id"]) { // If inpput-hidden value exist & is matching, then "select" that option
-								html += '<option value="' + data[key]["id"] + '" selected="true">' + data[key]["name"] + '</option>';
-							} else {
-								html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
-							}
-						}
-						$('#require-modal select[name="area"]').html(html);
-					},
-					error: function(request, status, error) {
-						throw Error();
+				// If the tel value is empty, then display an error message
+				$("#require-modal #requirement_form a.contact-verify-link").on('click', function() {
+					if($("#require-modal #requirement_form input[type='tel'][name='contact']").val().length <= 0) {
+						$("#require-modal #requirement_form #contact-error").removeClass("hidden").val("Please enter the contact number");
+					} else {
+						$("#require-modal #requirement_form #contact-error").addClass("hidden");
 					}
 				});
+
+				if($("#require-modal select[name='city']").val()) {
+					// IF the State (City) value is available then populate the Select options for City (Area)
+					var city, html = '<option value="">City</option>';
+					
+					$('#require-modal select[name="area"]').html(html);
+					city = $("#require-modal select[name='city']").val();
+
+					$.ajax({
+						type: 'post',
+						url: '/get_areas',
+						data: {
+							'city': city
+						},
+						success: function(data) {
+							var key, area = $("#require-modal input[type='hidden'][name='user_area']").val();
+
+							for (key in data) {
+								if(area && area == data[key]["id"]) { // If inpput-hidden value exist & is matching, then "select" that option
+									html += '<option value="' + data[key]["id"] + '" selected="true">' + data[key]["name"] + '</option>';
+								} else {
+									html += '<option value="' + data[key]["id"] + '">' + data[key]["name"] + '</option>';
+								}
+							}
+							$('#require-modal select[name="area"]').html(html);
+						},
+						error: function(request, status, error) {
+							throw Error();
+						}
+					});
+				}
 			}
+
 			
 			$("#require-modal, #register_form").on('change', "select[name='city']", function() {
 				var city, html, parent = $(this).closest('form').prop('id'); // ger the closest form ID - as Register & Requirement has Form-ID
@@ -451,6 +470,17 @@ $(function(){
 						throw Error();
 					}
 				});
+			});
+
+			$("#require-modal input[type='text'][name='name'], #register_form input[type='text'][name='name']").on('keyup change', function() { // Check Name
+				var id = $(this).closest('form').prop('id');
+
+				if($(this).val().length > 0) {
+					$("#" + id + " #name-error").addClass("hidden");
+				} else {
+					$("#" + id + " #name-error").removeClass("hidden").text("Please enter your name");
+				}
+				
 			});
 
 			$("#require-modal input[type='text'][name='email'], #register_form input[type='email'][name='email'], #login_form_modal input[type='email'][name='email']").on('keyup change', function() { // Check Email
@@ -594,15 +624,24 @@ $(function(){
 
 				var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();
 
+				var redirect_url = window.location.href.split("#")[0];
+
 	            var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact": contact,
+                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
                 	"description" : descr_values,
-                	"next_url": window.location.href
+                	"next_url": redirect_url
                 };
+
+                if($(parent +" .col-sm-3 .verified span.verified-icon").length > 0) {
+                	request_data["is_contact_verified"] = true;
+                } else {
+                	request_data["is_contact_verified"] = false;
+                }
 
 				if(validateUser(request_data, parent)) {
 					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
@@ -612,6 +651,7 @@ $(function(){
 		                data: request_data,
 		                success: function(data){
 		                	$("#requirement_form_btn i.fa-spin").addClass("hidden");
+		                	$("#require-modal").modal("hide");
 		                	console.log(data);
 		                	//window.location.href = "/listing/create";
 		                	if(data.hasOwnProperty("url")) {
@@ -627,13 +667,13 @@ $(function(){
 		                },
 		            });
 		        } else {
-		        	
+		        	console.log("fields not filled");
 		        }
 	        });
 
 	        $("#register_form_btn").click(function() { // On Register form submit btn click
 	        	var parent = "#register_form";
-	        	var contact = $(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
+	        	var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();//$(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
 				var descr_values = [];
 
 	            $.each($(parent + " input[name='description[]']:checked"), function() {
@@ -643,7 +683,8 @@ $(function(){
 				var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact": contact,
+                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
                 	"description" : descr_values
@@ -900,7 +941,7 @@ $(function(){
 		// });
 
 		// Bootstrap multiselect
-		if($('.multi-select,.default-area-select').length){
+		if($('.multi-select,.default-area-select').length > 0){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
 	            numberDisplayed: 1
@@ -915,7 +956,6 @@ $(function(){
 		}
 
 		// Category add
-
   		$('.cat-add-data').on('change:flexdatalist', function () {
 	        value = $(this).val();
 	        // console.log('Changed to: ' + value);
@@ -938,26 +978,28 @@ $(function(){
   			$('.success-stuff').removeClass('hidden');
   		});
 
-  		$('.add-areas').click(function(e){
-  			var area_group, area_group_clone;
-		    e.preventDefault();
-		    area_group = $(this).closest('.areas-select').find('.area-append');
-		    area_group_clone = area_group.clone();
-		    area_group_clone.removeClass('area-append hidden');
-		    area_group_clone.find('.areas-appended').addClass('newly-created');
-		    console.log(area_group_clone);
-		    area_group_clone.find('.selectCity').attr('data-parsley-required','');
-		    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
-		    area_group_clone.find('.newly-created').attr('data-parsley-required','');
-		    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
-		    area_group_clone.find('.newly-created').multiselect({
-		    	includeSelectAllOption: true,
-	            numberDisplayed: 1,
-	            nonSelectedText: 'Select Area(s)'
-		    });
-		    area_group_clone.insertBefore(area_group);
-  		});
-
+  		// ".add-areas" class exist in the HTML, only then access the function
+  		if($(".add-areas").length > 0) {
+	  		$('.add-areas').click(function(e){
+	  			var area_group, area_group_clone;
+			    e.preventDefault();
+			    area_group = $(this).closest('.areas-select').find('.area-append');
+			    area_group_clone = area_group.clone();
+			    area_group_clone.removeClass('area-append hidden');
+			    area_group_clone.find('.areas-appended').addClass('newly-created');
+			    console.log(area_group_clone);
+			    area_group_clone.find('.selectCity').attr('data-parsley-required','');
+			    area_group_clone.find('.selectCity').attr('data-parsley-required-message','Select a city where the job is located.');
+			    area_group_clone.find('.newly-created').attr('data-parsley-required','');
+			    area_group_clone.find('.newly-created').attr('data-parsley-required-message','Select an area where the job is located.');
+			    area_group_clone.find('.newly-created').multiselect({
+			    	includeSelectAllOption: true,
+		            numberDisplayed: 1,
+		            nonSelectedText: 'Select Area(s)'
+			    });
+			    area_group_clone.insertBefore(area_group);
+	  		});
+	  	}
 
 
 

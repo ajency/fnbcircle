@@ -91,8 +91,7 @@
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
-    console.log(set);
-    inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
+    inputTxt = '<input type="hidden" name="keyword_id[' + set.id + ']" value="' + set.label + '" label="">';
     $('#keyword-ids').append(inputTxt);
   });
 
@@ -228,7 +227,8 @@
 
   if ($('.comp-logo').length) {
     companyLogo.on('dropify.afterClear', function(event, element) {
-      return $("input[name='delete_logo']").val(1);
+      $("input[name='delete_logo']").val(1);
+      return $("input[type='file']").attr('title', '');
     });
   }
 
@@ -240,19 +240,19 @@
 
   $('body').on('keyup', '.job-keywords', function(e) {
     if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
-      $('.job-keywords').removeAttr('data-parsley-required');
+      return $('.job-keywords').removeAttr('data-parsley-required');
     } else {
-      $('.job-keywords').attr('data-parsley-required', '');
+      return $('.job-keywords').attr('data-parsley-required', '');
     }
   });
 
   $('body').on('blur', '.job-keywords', function(e) {
     if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
       $('.job-keywords').removeAttr('data-parsley-required');
-      console.log('removed');
+      return console.log('removed');
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
-      console.log('added');
+      return console.log('added');
     }
   });
 

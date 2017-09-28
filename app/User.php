@@ -61,11 +61,11 @@ class User extends Authenticatable
         $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User'], ['is_primary', true]])->whereIn('type', ["telephone", "mobile"])->first();
         if ($comm_obj) {
             //return $comm_obj->value;
-            return array("contact_region" => substr($comm_obj->value, 0, strlen($comm_obj->value) - 10), "contact" => substr($comm_obj->value, strlen($comm_obj->value) - 10));
+            return array("contact_region" => $comm_obj->country_code, "contact" => $comm_obj->value, "is_verified" => $comm_obj->is_verified);
         } else {
             $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User']])->whereIn('type', ["telephone", "mobile"])->first();
             if ($comm_obj) {
-                return array("contact_region" => substr($comm_obj->value, 0, strlen($comm_obj->value) - 10), "contact" => substr($comm_obj->value, strlen($comm_obj->value) - 10));    
+                return array("contact_region" => $comm_obj->country_code, "contact" => $comm_obj->value, "is_verified" => $comm_obj->is_verified);
             } else {
                 return null;
             }

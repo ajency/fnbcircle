@@ -15,6 +15,9 @@ use App\Http\Controllers\CommonController;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use App\Job;
+use App\Company;
+
 class AdminConfigurationController extends Controller
 {
     public function __construct()
@@ -604,7 +607,7 @@ class AdminConfigurationController extends Controller
 
         $request = $request->all();
 
-        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "email_signup");
+        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "added_by_internal");
         $user_comm = array("email" => $request["email"], "is_verified" => true);
         
         if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {
@@ -672,5 +675,202 @@ class AdminConfigurationController extends Controller
         }
 
         return response()->json($response_data, $status);
+    }
+
+
+    public function manageJobs(){
+        $job = new Job;
+        $jobStatuses = $job->jobStatuses();
+        $jobAvailabeStatus = $job->jobAvailabeStatus();
+        $cities = City::orderBy('order')->orderBy('name')->get();
+        $categories =  $job->jobCategories();
+        $keywords = $job->jobKeywords();
+
+        return view('admin-dashboard.manage-jobs')->with('cities', $cities)
+                                                  ->with('categories', $categories)
+                                                  ->with('keywords', $keywords)
+                                                  ->with('jobStatuses', $jobStatuses)
+                                                  ->with('jobAvailabeStatus', $jobAvailabeStatus);
+    }
+
+    public function getJobs(Request $request){
+
+        $requestData = $request->all();  //dd($requestData);
+        $data =[];
+        $startPage = $requestData['start'];
+        $length = $requestData['length'];
+        $orderValue = $requestData['order'][0];
+
+ 
+        $columnOrder = array( 
+                                        '2'=> 'jobs.title',
+                                        '3'=> 'categories.name',
+                                        '5'=> 'jobs.date_of_submission',
+                                        '6'=> 'jobs.published_on',
+                                        '7'=> 'jobs.updated_at'
+                                        );
+
+        
+        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
+
+
+        if($requestData['filters']['job_name']!="")
+        {
+  
+            $jobQuery->where('jobs.title','like','%'.$requestData['filters']['job_name'].'%');
+        }
+
+        if($requestData['filters']['company_name']!="")
+        {
+            $jobIds = Company:: where('title','like','%'.$requestData['filters']['company_name'].'%')
+                      ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
+                      ->pluck('job_companies.job_id')->toArray(); 
+
+            $jobQuery->whereIn('jobs.id',$jobIds);
+        }
+
+        if(isset($requestData['filters']['job_status']) && !empty($requestData['filters']['job_status']))
+        {
+            $jobQuery->whereIn('jobs.status',$requestData['filters']['job_status']);
+        }
+
+        if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
+        {
+            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+
+            $jobQuery->whereIn('job_locations.city_id',$requestData['filters']['city']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        {
+            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
+
+            $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
+        {
+            $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
+        }
+
+        $filterKeywords = [];
+        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        {
+            $filterKeywords = $requestData['filters']['keywords'];
+        }
+
+
+        $columnName = 'jobs.title';
+        $orderBy = 'asc';
+ 
+        if(isset($columnOrder[$orderValue['column']]))
+        {   
+                $columnName = $columnOrder[$orderValue['column']];
+                $orderBy = $orderValue['dir'];
+        }
+
+        $totalJobs = $jobQuery->count();
+        if($length>1)
+        {
+            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->skip($startPage)->take($length)->get();   
+        }
+        else
+        {
+            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();   
+        }
+
+        $jobsData = [];
+        foreach ($jobs as $key => $job) {
+         
+
+            $cityNames = $job->getJobLocationNames('city');
+            $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
+
+            $metaData = $job->meta_data;
+            $keyWords = (!empty($metaData['job_keyword'])) ? $metaData['job_keyword'] : []; 
+
+            $splitKeywords =  splitJobArrayData($keyWords,2); 
+            $jobKeywords = implode(',', $splitKeywords['array']);
+            $moreJobKeywords  = ($splitKeywords['moreArrayCount']) ? '<i title="'.implode(',', $splitKeywords['moreArray']).'">...</i>' :'';
+
+            $companyName = (!empty($job->getJobCompany())) ? $job->getJobCompany()->title :''; 
+
+            $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
+                     
+            $jobsData[] = [ '#' => '<input type="checkbox" class="hidden" name="job_check[]" value="'.$job->id.'" >',
+                            'city' => $cityNamesStr,
+                            'title' => $job->title,
+                            'business_type' => $job->getJobCategoryName(),
+                            'keyword' => $jobKeywords .''. $moreJobKeywords,
+                            'company_name' => $companyName,
+                            'date_of_submission' => $job->jobPostedOn(2),
+                            'published_date' => $job->jobPublishedOn(2),
+                            'last_updated' => $job->jobUpdatedOn(2),
+                            'last_updated_by' => ($job->job_modifier) ? $job->updatedBy->name :'',
+                            'status' => '<span status_value="'.$job->id.'">'.$job->getJobStatus().'</span> '.$statusEditHtml ,
+                            ];
+            
+        }
+
+        $json_data = array(
+                "draw"            => intval( $requestData['draw'] ),
+                "recordsTotal"    => intval( $totalJobs ),
+                "recordsFiltered" => intval( $totalJobs ),
+                "data"            => $jobsData,
+            );
+              
+        return response()->json($json_data);
+
+    }
+
+    public function updateJobStatus(Request $request){
+        $this->validate($request, [
+            'job_id'     => 'required',
+            'job_status' => 'required',
+        ]);
+
+        $requestData = $request->all();  
+        $jobId = $requestData['job_id'];
+        $jobStatus = $requestData['job_status'];
+
+        $job = Job::find($jobId);
+        if(!empty($job)){
+            $job->status = $jobStatus;
+            $job->save();
+            $status = true;
+        }
+        else
+            $status = false;
+ 
+        return response()->json(array("code" => "200","status" =>$status, "msg" => ""));
+    }
+
+    public function bulkUpdateJobStatus(Request $request){
+        $this->validate($request, [
+            'new_status_id' => 'required',
+            'old_status_id' => 'required',
+        ]);
+
+        $requestData = $request->all(); 
+        $newStatusId = (int) $requestData['new_status_id'];
+        $oldStatusId = (int) $requestData['old_status_id'];
+        $jobcheckall = $requestData['jobcheckall'];
+        $jobCheckIds = $requestData['job_check_ids'];
+
+        if($jobcheckall == 1)
+            \DB::table('jobs')->where(['status'=>$oldStatusId])->update(['status' => $newStatusId]);
+        else
+        {
+            $jobIds = explode(',', $jobcheckall);
+            $jobIds = array_filter($jobcheckall);
+            \DB::table('jobs')->whereIn('id',$jobCheckIds)->update(['status' => $newStatusId]);
+        }
+
+        return response()->json(array("code" => "200","status" =>true, "msg" => ""));
+
     }
 }

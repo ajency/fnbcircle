@@ -19,7 +19,7 @@ class Company extends Model
     }
 
     public Function uploadCompanyLogo($file){
-        $id = $this->uploadImage($file);
+        $id = $this->uploadImage($file,false);
         $this->remapImages([$id]);
 
          return $id;

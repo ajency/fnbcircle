@@ -230,6 +230,8 @@ if $(window).width() < 769
 if $('.comp-logo').length
   companyLogo.on 'dropify.afterClear', (event, element) ->
     $("input[name='delete_logo']").val 1
+    $("input[type='file']").attr('title','')
+ 
 
 
 if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')

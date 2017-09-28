@@ -10,9 +10,12 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif >
+                        
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif >
+
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $mobile['country_code']}}">
                         <div class=dupError ></div>
-                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                        <i class="fa fa-mobile" aria-hidden="true"></i> 
                     </div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
@@ -20,7 +23,7 @@
                     @if($mobile['verified'])
                         <span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>
                     @else
-                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                     @endif
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
 
@@ -51,7 +54,8 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits.">
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits.">
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class=dupError ></div>
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -59,7 +63,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
 
-                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
 
                     </div>
@@ -91,7 +95,8 @@
                     <input type="hidden" class="contact-id" readonly  name="contact_mobile_id[]">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class=dupError ></div>
                          <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
@@ -99,7 +104,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
                         <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
-                        <a href="javascript:void(0)" class="dark-link verify-link">Verify now</a>
+                        <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">
@@ -113,7 +118,7 @@
                             </div>
                             <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                         </div>
-                        <i class="fa fa-times removeRow"></i>
+                        <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
                     <div id="toggleError"></div>
                 </div>

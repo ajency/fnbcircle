@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-	$header_type = "trans-header";
+	$header_type = "home-header";
     return view('welcome', compact('header_type'));
 });
 
@@ -124,3 +124,15 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
+
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+});
+
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-view-data', 'ListViewController@getListData');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});

@@ -1,5 +1,9 @@
 @extends('layouts.admin-dashboard')
 
+@section('title')
+Internal Users
+@endsection
+
 @section('css')
     <!-- Datatables -->
     <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
@@ -75,7 +79,7 @@
 
 	        <div class="page-title">
 	          <div class="title_left">
-	            <h5>Manage Categories <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_newuser_modal">+ Add new user</button></h5>
+	            <h5>Internal Users <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_newuser_modal">+ Add new user</button></h5>
 	          </div>
 	        </div>
 
@@ -186,6 +190,7 @@
 	                      <div class="form-group">
 	                        <label>Email  <span class="text-danger">*</span></label>
 	                        <input type="email" class="form-control fnb-input" name="email" placeholder="Email Address" data-parsley-trigger="change" data-required="true" required>
+	                    	<p id="email-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>
 	                  </div>
@@ -227,13 +232,14 @@
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="password" placeholder="Enter a password" parsley-type="password" data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password"data-parsley-trigger="keyup" data-required="true" required>
+	                        <p id="password-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Confirm Password <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="confirm_password" placeholder="Confirm your password" data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="confirm_password" data-parsley-equalto="#password" placeholder="Confirm your password" data-parsley-trigger="keyup" data-required="true" required>
 	                      </div>
 	                    </div>
 	                  </div>

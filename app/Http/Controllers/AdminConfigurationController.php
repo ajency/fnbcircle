@@ -607,7 +607,7 @@ class AdminConfigurationController extends Controller
 
         $request = $request->all();
 
-        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "email_signup");
+        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "added_by_internal");
         $user_comm = array("email" => $request["email"], "is_verified" => true);
         
         if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {

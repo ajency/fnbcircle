@@ -14,13 +14,27 @@ $(document).ready () ->
 			return
 		preferredCountries: [ 'IN' ]
 		americaMode: false
+		autoFormat: false
 		formatOnDisplay:false
 
 	$("#requirement_form .verify-container .contact-verify-link").on 'click', () ->
 		parent = "#requirement_form"
-
+		
 		if(!$(parent + " input[type='tel'][name='contact']").val())
 			$(parent + " #contact-error").removeClass('hidden').text "Please enter a 10 digit contact number"
 		return
-	
+		
+	$('#register_form').on 'countrychange', 'input[name="contact"]', (e, countryData)->
+		### --- Assign the flag code to the hidden input --- ###
+		$("#register_form input[type='hidden'][name='contact_locality']").val countryData.dialCode
+		return
+
+	$('#require-modal #requirement_form').on 'countrychange', 'input[name="contact"]', (e, countryData)->
+		### --- Assign the flag code to the hidden input --- ###
+		#if $("#register_form input[type='hidden'][name='contact_country_code[]']").val().length <= 0
+		### --- If the country code is not defined i.e. if User has not entered his/her contact number, then by default the requirement's Hidden calue has to be the flag value --- ###
+		#	$("#register_form input[type='hidden'][name='contact_locality']").val countryData.dialCode
+		$("#register_form input[type='hidden'][name='contact_locality']").val countryData.dialCode
+		return
+
 	return

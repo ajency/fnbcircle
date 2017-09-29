@@ -110,6 +110,7 @@
                                             <div class="number-code flex-row">
                                               <!-- <input type="text" class="form-control fnb-input number-code__region" value="+91" maxlength="3" name="contact_locality"> -->
                                               <input type="tel" class="form-control fnb-input number-code__value" placeholder="xxxxxxxxxx" id="contact" name="contact">
+                                              <input type="hidden" name="contact_locality" value="">
                                             </div>
                                             <label id="contact-error" class="fnb-errors hidden"></label>
                                             @if ($errors->has('contact'))

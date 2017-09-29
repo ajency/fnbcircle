@@ -32,6 +32,7 @@ function routePermission(){
 
 			 	//ui element
 				'submit_review_element'=>['submit_for_review_job'],
+				'edit_permission'=>['edit_job'],
 			],
 
 		'normal_user_check' =>
@@ -61,7 +62,7 @@ $tableReference - pass table reference key defined in routeModelConfig (only in 
 if permissions not defined hasAccess will return true
 **/
 function hasAccess($uriPath,$objectId,$tableReference){
-	// dd($uriPath);
+	
 	$routePerrmissions = routePermission();
 	
 	$access = false;
@@ -86,20 +87,20 @@ function hasAccess($uriPath,$objectId,$tableReference){
 		else
 			$access = true;
 	}
- 	 
- 
+ 	
+ 	
  	if(!$access && !empty($uriPermission)){    //check for permission
-		 
+
 		if(!hasPermission($uriPermission))
 		 	$access = false;
 		else
 			$access = true;
-
+ 
 	}
 	elseif (empty($uriPermission)) { //if no permission set
 		$access = true;
 	}
-
+	 
 	return $access;
 }
 
@@ -124,7 +125,7 @@ $userReferenceKey : user coloumn name in the table (eg : user_id ,owner_id)
 
 **/
 function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
-	
+	// var_dump('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 	$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 
 	return (!empty($isOwner)) ? true :false;

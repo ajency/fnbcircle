@@ -284,7 +284,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->submitForReview() && hasAccess('submit_review_element',$job->id,'jobs')) 
+                                        @if($job->submitForReview() && hasAccess('submit_review_element',$job->reference_id,'jobs')) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">

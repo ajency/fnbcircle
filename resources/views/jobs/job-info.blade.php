@@ -171,7 +171,7 @@
 
     <!-- map -->
     <div class="m-t-30 c-gap">
-        <label class="label-size">Please provide the google map address for the interview location</label>
+        <label class="label-size">Please provide the google map address for the interview location <span class="text-lighter">(optional)</span></label>
 
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address

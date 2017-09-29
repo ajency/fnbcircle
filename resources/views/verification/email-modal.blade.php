@@ -31,7 +31,7 @@
                             <input text="email" class="fnb-input text-color value-enter change-contact-input" placeholder="Enter new email..." data-parsley-errors-container="#customError" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
-                        <div id="customError" class="customError fnb-errors"></div>
+                        <div id="customError" class="customError fnb-errors text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">

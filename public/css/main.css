@@ -1697,6 +1697,12 @@ input[type="checkbox"].toggle__check {
   color: rgba(0, 0, 0, 0.72);
   font-weight: 500;
 }
+.contact-mobile-input {
+  padding-bottom: 0;
+}
+.number-code .intl-tel-input.separate-dial-code .selected-dial-code {
+  padding-left: 10px;
+}
 .sign-up-row .float-label {
   font-size: 1em;
   font-weight: 500;

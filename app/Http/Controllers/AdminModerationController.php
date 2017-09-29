@@ -131,11 +131,12 @@ class AdminModerationController extends Controller
 
         foreach ($listings as $listing) {
             // $output->writeln($listing->submission);
+            // dd($listing);
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;
-            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['name'];
+            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['type'];
             // if (isset($filters['city']) and !in_array($listing->location['city_id'], $filters['city'])) {
             //     unset($response[$listing->id]);
             //     $filtered--;

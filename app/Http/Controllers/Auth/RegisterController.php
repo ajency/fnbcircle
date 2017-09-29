@@ -160,7 +160,7 @@ class RegisterController extends Controller
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
 
-        if(($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1')) {
+        if($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1'])) {
             $request_data["user_comm"]["is_verified"] = 1;
         } else {
             $request_data["user_comm"]["is_verified"] = 0;

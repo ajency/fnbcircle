@@ -40,7 +40,7 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
 
             <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="replace photo" data-default-file="{{$images[$img]['200x150']}}"/>
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="{{basename($images[$img]['200x150'])}}" data-default-file="{{$images[$img]['200x150']}}"/>
             <div class="image-loader hidden">
                 <div class="site-loader section-loader">
                 <div id="floatingBarsG">
@@ -121,7 +121,7 @@
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
                     <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" />
-                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="{{$file['name']}}">
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif">
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                             <div id="floatingBarsG">

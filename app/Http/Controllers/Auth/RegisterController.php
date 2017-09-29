@@ -153,11 +153,18 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user) ?: redirect($this->redirectPath());*/
 
+
         $request_data = [
             "user" => array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup", "name" => $request->name),
-            "user_comm" => array("email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_verified" => ($request->has('is_contact_verified') ? $request->is_contact_verified : 0), "is_visible" => 0),
+            "user_comm" => array("email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
+
+        if(($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1')) {
+            $request_data["user_comm"]["is_verified"] = 1;
+        } else {
+            $request_data["user_comm"]["is_verified"] = 0;
+        }
 
         if ($request->has("contact")) {
             $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";

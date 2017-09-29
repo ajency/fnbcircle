@@ -314,6 +314,9 @@ $(document).ready () ->
 		row = $(this).closest('tr')
 		modal_object = $("#add_newuser_modal")
 
+		### --- Reset the Parsley error messages --- ###
+		modal_object.find("#add_newuser_modal_form").parsley().reset()
+		
 		### --- Update the Modal Title --- ###
 		modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text "Edit Internal User"
 
@@ -347,6 +350,9 @@ $(document).ready () ->
 		### --- On click of Add New User -> On modal open --- ###
 		modal_object = $("#add_newuser_modal")
 
+		### --- Reset the Parsley error messages --- ###
+		modal_object.find("#add_newuser_modal_form").parsley().reset()
+
 		### --- Update the Modal Title --- ###
 		modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text "Add New Internal User"
 		
@@ -369,13 +375,13 @@ $(document).ready () ->
 		
 		### --- Enable the Password option --- ###
 		modal_object.find("input[type='password'][name='password']").removeAttr("disabled")
-		modal_object.find("input[type='password'][name='password']").attr("required", "true")
-		modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').removeClass('hidden').val('')
+		modal_object.find("input[type='password'][name='password']").attr("required", "true").val('')
+		modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').removeClass('hidden')
 		
 		### --- Enable the Confirm-Password option --- ###
 		modal_object.find("input[type='password'][name='confirm_password']").removeAttr("disabled")
-		modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true")
-		modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden').val('')
+		modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true").val('')
+		modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden')
 
 
 		return

@@ -384,6 +384,10 @@ $(function(){
 
 		$(document).ready(function() {
 
+			if(window.location.hash.length > 0 && window.location.hash.indexOf("_=_") > -1) { // If "_=_" exist in the URL (appears post FB login)
+				hash_array = window.location.hash.split("_=_");
+				window.location.hash = hash_array[0] + hash_array[1]; // Remove the _=_ from the URL
+			}
 
 			if ($("#register_form").length) { // Load only if #register_form exist in the Page
 				$("#register_form input[name='contact']").intlTelInput(); // Initialize

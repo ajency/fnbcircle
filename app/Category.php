@@ -125,14 +125,7 @@ class Category extends Model
                 return "You cannot archive a draft category";
             }
             if ($this->status == '1') {
-                $req      = new Request;
-                // $level    = ["1" => "parent", "2" => "branch", "3" => "node"];
-                $category = '[{"id":"' . $this->id . '","type":"' . $this->level . '"}]';
-                $location = "[]";
-                $req->merge(array("category" => $category, "location" => $location));
-                $adc  = new AdminConfigurationController;
-                $al   = $adc->getAssociatedListings($req);
-                $data = json_decode(json_encode($al), true)['original'];
+                $data = $this->getAssociatedListings();
                 // dd($data);
                 if (count($data['data']['listings']) != 0) {
                     return "This Category has listings associated with it";
@@ -167,5 +160,18 @@ class Category extends Model
             }
         }
     }
+
+    public function getAssociatedListings(){
+        $req      = new Request;
+        $category = '[{"id":"' . $this->id . '","type":"' . $this->level . '"}]';
+        $location = "[]";
+        $req->merge(array("category" => $category, "location" => $location));
+        $adc  = new AdminConfigurationController;
+        $al   = $adc->getAssociatedListings($req);
+        $data = json_decode(json_encode($al), true)['original'];
+        return $data;
+    }
+
+    
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Listing;
 use App\ListingCategory;
+use App\Category;
 use App\Area;
 use App\ListingAreasOfOperation;
 use App\User;
@@ -98,7 +99,7 @@ class ListingViewController extends Controller
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Rejected';
         }
-        
+        $pagedata['browse_categories'] = $this->getPopularParentCategories();
     	// dd($pagedata);
     	return view('single-view.listing')->with('data',$pagedata);
     }
@@ -117,5 +118,20 @@ class ListingViewController extends Controller
     	$title .= ' '.$listing_type. ' | '.$area->name.' '.$area->city['name'].' | FnBCircle';
 
     	return $title;
+    }
+
+    private function getPopularParentCategories(){
+        $parents = Category::where('type','listing')->where('level','1')->where('status',1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();
+        $categories = [];
+        foreach ($parents as $category) {
+            $categories[$category->id] = [
+            'id'=>$category->id,
+            'name'=>$category->name,
+            'slug'=>$category->slug,
+            'image'=>$category->icon_url,
+            'count' =>count($category->getAssociatedListings()['data']['listings']),
+        ];
+        }
+        return $categories;
     }
 }

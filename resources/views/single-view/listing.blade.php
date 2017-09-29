@@ -572,40 +572,19 @@
                     <div class="browse-cat">
                         <h6 class="element-title">Browse Categories</h6>
                         <ul class="browse-cat__list m-t-20">
+                            @foreach($data['browse_categories'] as $category)
                             <li>
                                 <a href="">
                                     <p class="m-b-0 flex-row">
-                                        <span class="fnb-icons cat-icon veg">
-                                            <!-- <img src="img/veg-option.png"> -->
+                                        <span class="fnb-icons cat-icon">
+                                            <img src="{{$category['image']}}">
                                         </span>
-                                        Vegetables <span class="total p-l-5 bolder">(218)</span>
+                                        {{$category['name']}} <span class="total p-l-5 bolder">({{$category['count']}})</span>
                                     </p>
                                 </a>
                             </li>
-                            <li>
-                                <a href="">
-                                    <p class="m-b-0 flex-row">
-                                        <span class="fnb-icons cat-icon drinks"></span>
-                                        Cold Drinks <span class="total p-l-5 bolder">(28)</span>
-                                    </p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <p class="m-b-0 flex-row">
-                                        <span class="fnb-icons cat-icon grocery"></span>
-                                        Grocery <span class="total p-l-5 bolder">(56)</span>
-                                    </p>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <p class="m-b-0 flex-row">
-                                        <span class="fnb-icons cat-icon drinks"></span>
-                                        Cold Drinks <span class="total p-l-5 bolder">(28)</span>
-                                    </p>
-                                </a>
-                            </li>
+                            @endforeach
+                            
                         </ul>
                     </div>
                     <!-- Browse category ends-->

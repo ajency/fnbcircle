@@ -9097,6 +9097,9 @@ input[type='checkbox'].remove-addr {
     margin-left: 0;
   }
 }
+.verifySection.number-code {
+  margin-left: -15px;
+}
 .edit-summary-card {
   margin-bottom: 1em;
   padding: 0;

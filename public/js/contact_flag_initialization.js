@@ -14,6 +14,7 @@
       },
       preferredCountries: ['IN'],
       americaMode: false,
+      autoFormat: false,
       formatOnDisplay: false
     });
     $("#requirement_form .verify-container .contact-verify-link").on('click', function() {
@@ -22,6 +23,11 @@
       if (!$(parent + " input[type='tel'][name='contact']").val()) {
         $(parent + " #contact-error").removeClass('hidden').text("Please enter a 10 digit contact number");
       }
+    });
+    $('#register_form').on('countrychange', 'input[name="contact"]', function(e, countryData) {
+
+      /* --- Assign the flag code to the hidden input --- */
+      $("#register_form input[type='hidden'][name='contact_locality']").val(countryData.dialCode);
     });
   });
 

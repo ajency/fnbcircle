@@ -47,6 +47,7 @@ $('body').on 'click', '.add-uploader', (e)->
   e.preventDefault()
   max = parseInt document.head.querySelector('[property="max-file-upload"]').content
   if(fileuploaders< max)
+    $('#more-file-error').html('')
     console.log fileuploaders+' < '+max
     fileuploaders++
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
@@ -66,12 +67,14 @@ $('body').on 'click', '.add-uploader', (e)->
     $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
   else
     console.log 'max '+max+' allowed'
+    $('#more-file-error').html('Cannot upload more than 20 files')
     #throw error
 
 # Remove file section
 
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
+  $('#more-file-error').html('')
   fileuploaders--
   $(this).parent().remove()
 

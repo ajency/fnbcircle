@@ -47,10 +47,10 @@
 #   return
 
 window.checkDuplicates = ->
-  contacts = document.getElementsByClassName('fnb-input')
+  contacts = document.getElementsByClassName('contact-input')
   index = 0
   while index < contacts.length
-    others = document.getElementsByClassName('fnb-input')
+    others = document.getElementsByClassName('contact-input')
     value = contacts[index].value
     # console.log 'value=' + value
     if value != ''

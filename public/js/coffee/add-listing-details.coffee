@@ -88,7 +88,8 @@ setTimeout (->
   return
 ), 500
 
-
+if $('.payment-modes input[type="checkbox"]').length == $('.payment-modes input[type="checkbox"]:checked').length 
+      $('input#selectall').prop('checked',true)
 
 
 window.validateBusinessDetails = () ->

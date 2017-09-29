@@ -162,6 +162,7 @@
         @endif
             <div class="image-grid__cols addCol">
                 <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
@@ -184,6 +185,7 @@
                 </div>
             </div>
         </div>
+        <div id="more-file-error" class="text-danger"></div>
     </div>
 </div>
 

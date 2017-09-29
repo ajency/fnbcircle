@@ -23,8 +23,11 @@ class FnbPermission
 
         $parmeters = $router->getCurrentRoute()->parameters; 
         $objectId = array_first($parmeters);
+
+        $route = explode('/', $uriPath);
+        $tableReference = $route[0];
         
-        if(!hasAccess($uriPath,$objectId))
+        if(!hasAccess($uriPath,$objectId,$tableReference))
             abort(403);
          
 

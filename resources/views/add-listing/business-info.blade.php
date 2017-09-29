@@ -154,7 +154,7 @@
             <div class="contact-row m-t-5">
                 <div class="row no-m-b">
                     <div class="col-sm-5">
-                        <input type="email" class="form-control fnb-input p-l-5" value="{{$owner->getPrimaryEmail()}}" readonly=""  data-parsley-required>
+                        <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{$owner->getPrimaryEmail()}}" readonly=""  data-parsley-required>
                     </div>
                     <div class="col-sm-3 col-xs-4">
                         <div class="verified flex-row">

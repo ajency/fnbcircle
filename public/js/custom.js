@@ -575,7 +575,7 @@ $(function(){
 				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
 					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
+				} else if (message_key == 'is_email_account' || message_key == 'is_email_signup_account') { // Account exist & linked via Email Login
 					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
 				} else if (message_key == 'account_suspended') {

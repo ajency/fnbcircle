@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="m-t-20 c-gap">
-        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address == null) {{$listing->location['name']}} @else {{$listing->map_address}} @endif">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val blur" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address == null) {{$listing->location['name']}} @else {{$listing->map_address}} @endif">
         <div class="m-t-10" id="map">
 
         </div>

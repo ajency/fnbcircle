@@ -98,7 +98,7 @@
         @if($listing==null)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -141,7 +141,7 @@
             @if(count($files)==0)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -165,7 +165,7 @@
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">

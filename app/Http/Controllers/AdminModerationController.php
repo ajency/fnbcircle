@@ -22,7 +22,7 @@ class AdminModerationController extends Controller
     }
     public function listingApproval(Request $request)
     {
-        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->get();
+        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
         $cities       = City::where('status', '1')->get();
         return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities);
     }

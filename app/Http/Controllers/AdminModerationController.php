@@ -212,7 +212,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -259,7 +259,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -274,7 +274,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else if ($change->status == (string) Listing::PUBLISHED) {

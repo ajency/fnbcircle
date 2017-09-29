@@ -51,6 +51,7 @@
     e.preventDefault();
     max = parseInt(document.head.querySelector('[property="max-file-upload"]').content);
     if (fileuploaders < max) {
+      $('#more-file-error').html('');
       console.log(fileuploaders + ' < ' + max);
       fileuploaders++;
       contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
@@ -68,12 +69,14 @@
       });
       return $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
     } else {
-      return console.log('max ' + max + ' allowed');
+      console.log('max ' + max + ' allowed');
+      return $('#more-file-error').html('Cannot upload more than 20 files');
     }
   });
 
   $('body').on('click', '.removeCol', function(e) {
     e.preventDefault();
+    $('#more-file-error').html('');
     fileuploaders--;
     return $(this).parent().remove();
   });

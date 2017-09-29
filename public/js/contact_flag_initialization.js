@@ -29,6 +29,13 @@
       /* --- Assign the flag code to the hidden input --- */
       $("#register_form input[type='hidden'][name='contact_locality']").val(countryData.dialCode);
     });
+    $('#require-modal #requirement_form').on('countrychange', 'input[name="contact"]', function(e, countryData) {
+
+      /* --- Assign the flag code to the hidden input --- */
+
+      /* --- If the country code is not defined i.e. if User has not entered his/her contact number, then by default the requirement's Hidden calue has to be the flag value --- */
+      $("#register_form input[type='hidden'][name='contact_locality']").val(countryData.dialCode);
+    });
   });
 
 }).call(this);

@@ -1700,7 +1700,7 @@ input[type="checkbox"].toggle__check {
 .contact-mobile-input {
   padding-bottom: 0;
 }
-.number-code .intl-tel-input.separate-dial-code .selected-dial-code {
+.add-number .intl-tel-input.separate-dial-code .selected-dial-code {
   padding-left: 10px;
 }
 .sign-up-row .float-label {

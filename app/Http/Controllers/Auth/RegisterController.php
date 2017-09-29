@@ -111,7 +111,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("contact")) {// && $request->has("contact_locality")) {
-            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;//$request->contact_locality . $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
@@ -173,7 +173,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("contact")) {
-            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }

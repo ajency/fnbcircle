@@ -619,7 +619,9 @@ $(function(){
 				window.history.pushState('', '', url);
 			}
 
-			$('#requirement_form_btn').click(function() { // On click of Requirement Popup "Save" btn
+			$('#requirement_form_btn').click(function(e) { // On click of Requirement Popup "Save" btn
+				e.preventDefault();
+
 	            var descr_values = [], parent = "#requirement_form";
 
 	            $.each($(parent + " input[name='description[]']:checked"), function() {
@@ -633,7 +635,7 @@ $(function(){
 	            var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact_locality" : $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
                 	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
@@ -647,7 +649,7 @@ $(function(){
                 	request_data["is_contact_verified"] = false;
                 }
 
-				if(validateUser(request_data, parent)) {
+                if(validateUser(request_data, parent)) {
 					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
 		            $.ajax({
 		                url: '/api/requirement',
@@ -673,9 +675,13 @@ $(function(){
 		        } else {
 		        	console.log("fields not filled");
 		        }
+
+		        e.stopImmediatePropagation();
 	        });
 
-	        $("#register_form_btn").click(function() { // On Register form submit btn click
+	        $("#register_form_btn").click(function(e) { // On Register form submit btn click
+	        	e.preventDefault();
+
 	        	var parent = "#register_form";
 	        	var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();//$(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
 				var descr_values = [];
@@ -687,7 +693,7 @@ $(function(){
 				var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact_locality" : $(parent + " input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode,
                 	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
@@ -704,6 +710,7 @@ $(function(){
                 	}
                 }
 
+                e.stopImmediatePropagation();
                 return false;
 	        });
 

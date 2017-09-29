@@ -16,14 +16,15 @@ class FnbPermission
      */
     public function handle($request, Closure $next)
     {
-        $routePerrmissions = routePermission();
+       
 
         $router = app()->make('router');
-        $uriPath = $router->getCurrentRoute()->uri;
-        
-        $uriPermission = $routePerrmissions[$uriPath];
+        $uriPath = $router->getCurrentRoute()->uri; 
 
-        if(!hasAccess($uriPermission))
+        $parmeters = $router->getCurrentRoute()->parameters; 
+        $objectId = array_first($parmeters);
+        
+        if(!hasAccess($uriPath,$objectId))
             abort(403);
          
 

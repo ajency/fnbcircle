@@ -322,7 +322,15 @@ $('body').on 'click','button#applyCategFilter', (e)->
   applyCategFilter()
 
 $('body').on 'click','button#resetAll', (e)->
-  filters =
+  $('div#categories.node-list').html ''
+  $('input#draftstatus').prop('checked',false)
+  $('select#status-filter').multiselect('rebuild')
+  $('#submissionDate').val('')
+  $('#listingNameSearch').val('')
+  $('.multi-dd').each ->
+    # console.log this
+    $(this).multiselect('deselectAll',false)
+  window.filters =
     'submission_date':
       'start': ''
       'end': ''
@@ -337,15 +345,6 @@ $('body').on 'click','button#resetAll', (e)->
         'internal'
         'external'
       ]
-  $('div#categories.node-list').html ''
-  $('input#draftstatus').prop('checked',false).change()
-  $('select#status-filter').multiselect('rebuild').change()
-  $('#submissionDate').val('')
-  $('#listingNameSearch').val('')
-  $('.multi-dd').each ->
-    # console.log this
-    $(this).multiselect('deselectAll',false).change()
-  
   sendRequest()
   return
 

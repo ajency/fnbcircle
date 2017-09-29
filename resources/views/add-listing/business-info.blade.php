@@ -343,7 +343,7 @@
                     <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input " value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class="dupError" ></div>
                          <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->

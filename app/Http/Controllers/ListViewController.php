@@ -30,6 +30,9 @@ class ListViewController extends Controller {
     	return view('list-view.business_listing', compact('header_type'));
     }
 
+    /**
+    * This function is general function that is used to get the searchData for the searchBoxes
+    */
     public function searchData($keyword, $model, $search_key='name', $columns_needed = ['id']) {
     	$keywords = explode(" ", $keyword); // Split String to Keywords
     	$output = new ConsoleOutput;
@@ -96,16 +99,13 @@ class ListViewController extends Controller {
 
     	try {
 	    	$filter_mapping = array("published" => "created_at", "rank" => "", "views" => "views_count");
-	    	$output = new ConsoleOutput;
+	    	//$output = new ConsoleOutput;
 
-	    	/*$request = $request);
-	    	$output->writeln($request["city"]);*/
-
-			if($request->has('city') && !($request->city == "all" || $request->city == "")) { // If city filter is added, then
+	    	if($request->has('city') && !($request->city == "all" || $request->city == "")) { // If city filter is added, then
 				$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray(); // Get list of all the Areas under that City
 				$listing_obj = Listing::whereIn('locality_id', $area_list);//->get();
 			} else {
-				$listing_obj = Listing::all();
+				$listing_obj = new Listing;//::all();
 			}
 	    	
 	    	if($request->has('node_category') && $request->node_category) {
@@ -146,7 +146,7 @@ class ListViewController extends Controller {
 	    		}
 
 	    		/*if(isset($request->filters["ratings"]) && sizeof($request->filters["ratings"]) > 0) { // If list of ratings are selected, then
-	    			$listing_obj = $listing_obj->whereIn('rating', $request->filters["business_type"]); // [1 - 5 star]
+	    			$listing_obj = $listing_obj->whereIn('rating', $request->filters["ratings"]); // [1 - 5 star]
 	    		}*/
 	    	}
 
@@ -158,10 +158,26 @@ class ListViewController extends Controller {
 	    	$sort_order = ($request->has('sort_order') && $request->sort_order) ? $request->sort_order : "desc"; // asc / desc
 
 	    	$filtered_count = $listing_obj->distinct('id')->count('id');
-	    	$output->writeln($filtered_count);
+	    	
+	    	$listing_obj = $listing_obj->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_size)->take($page_size)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id']);// , 'rating']);
 
-	    	$listing_obj = $listing_obj->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_size)->take($page_size)->get(['id', 'title', 'status']);
-	    	$output->writeln($listing_obj->count());
+	    	$listing_obj = $listing_obj->each(function($list){
+	    		$list["area"] = $list->location()->get(["id", "name", "slug"])->first(); // Get the Primary area
+	    		$list["city"] = $list['area']->first()->city()->get(["id", "name", "slug"])->first();
+
+	    		// Get list of areas under that Listing
+	    		$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+	    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+	    		$areas_operation = [];
+	    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+	    			array_push($areas_operation, 
+	    				array("city" => City::where("id", $city_id)->first(['id', 'name', 'slug']),
+	    				"areas" => $city_areas
+	    			));
+	    		}
+	    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+	    	});
     	} catch (Exception $e) {
     		$start = 0;
     		$page_size = 0;

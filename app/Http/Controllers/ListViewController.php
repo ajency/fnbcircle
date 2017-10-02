@@ -161,7 +161,7 @@ class ListViewController extends Controller {
 	    	
 	    	$listing_obj = $listing_obj->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_size)->take($page_size)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id']);// , 'rating']);
 
-	    	$listing_obj = $listing_obj->each(function($list){
+	    	$listing_obj = $listing_obj->each(function($list){ // Get following data for each list
 	    		$list["area"] = $list->location()->get(["id", "name", "slug"])->first(); // Get the Primary area
 	    		$list["city"] = $list['area']->first()->city()->get(["id", "name", "slug"])->first();
 
@@ -177,6 +177,11 @@ class ListViewController extends Controller {
 	    			));
 	    		}
 	    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+
+	    		//$list["categories"] = ListingCategory::getCategories($list->id); // Get list of all the categories & it's respective Parent & branch node
+	    		
+	    		// Fetches the list of all the Core categories & it's details
+	    		$list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug']);
 	    	});
     	} catch (Exception $e) {
     		$start = 0;

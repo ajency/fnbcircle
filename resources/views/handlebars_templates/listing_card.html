@@ -62,13 +62,25 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
+                                {{#each cores}}
+                                    {{#ifLogic @index "<" 4 }}
+                                        <li><a href="" class="fnb-cat__title">{{ name }}</a></li>
+                                    {{else}}
+                                        <li class="desk-hide"><a href="" class="fnb-cat__title">{{ name }}</a></li>
+                                    {{/ifLogic}}
+                                    {{#ifLogic @index ">=" 4}}
+                                        <li class="cat-more more-show">
+                                            <a href="" class="text-darker">+ x more...</a>
+                                        </li>
+                                    {{/ifLogic}}
+                                {{/each}}
+                                <!-- <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
                                 <li><a href="" class="fnb-cat__title">Mutton</a></li>
                                 <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
                                 <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
                                 <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
                                 <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
+                                <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li> -->
                             </ul>
                         </div>
                     </div>

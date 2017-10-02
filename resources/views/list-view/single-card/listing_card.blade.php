@@ -42,12 +42,14 @@
                         <div class="stats flex-row m-t-10 p-t-10">
                             <label class="fnb-label wholesaler flex-row">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                {{#if business_type == 11 }}
+                                {{#ifCond business_type == 11 }}
                                     Wholesaler
-                                {{else if business_type == 12 }}
-                                    Retailer
-                                {{else}}
-                                    Manufacturer
+                                {{else}} 
+                                    {{#ifCond business_type == 12 }}
+                                        Retailer
+                                    {{else}}
+                                        Manufacturer
+                                    {{/if}}
                                 {{/if}}
 
                             </label>

@@ -49,31 +49,47 @@ $(document).ready () ->
 	
 	### --- Custom If condition --- ###
 	Handlebars.registerHelper 'ifCond', (v1, v2, options) ->
-	  if v1 == v2
-	    return options.fn(this)
-	  else
-	    return options.inverse(this)
+		if v1 == v2
+			return options.fn(this)
+		else
+			return options.inverse(this)
+		return
+
 
 	Handlebars.registerHelper 'ifLogic', (v1, operator, v2, options) ->
-	  switch operator
-        when '==', '===', 'is'
-            return if v1 is v2 then options.fn this else options.inverse this
-        when '!=', '!=='
-            return if v1 != v2 then options.fn this else options.inverse this
-        when '<'
-            return if v1 < v2 then options.fn this else options.inverse this
-        when '<='
-            return if v1 <= v2 then options.fn this else options.inverse this
-        when '>'
-            return if v1 > v2 then options.fn this else options.inverse this
-        when '>='
-            return if v1 >= v2 then options.fn this else options.inverse this
-        when '&&', 'and'
-            return if v1 and v2 then options.fn this else options.inverse this
-        when '||', 'or'
-            return if v1 or v2 then options.fn this else options.inverse this
-        else
-            return options.inverse this
+		switch operator
+			when '==', '===', 'is'
+				return if v1 is v2 then options.fn this else options.inverse this
+			when '!=', '!=='
+				return if v1 != v2 then options.fn this else options.inverse this
+			when '<'
+				return if v1 < v2 then options.fn this else options.inverse this
+			when '<='
+				return if v1 <= v2 then options.fn this else options.inverse this
+			when '>'
+				return if v1 > v2 then options.fn this else options.inverse this
+			when '>='
+				return if v1 >= v2 then options.fn this else options.inverse this
+			when '&&', 'and'
+				return if v1 and v2 then options.fn this else options.inverse this
+			when '||', 'or'
+				return if v1 or v2 then options.fn this else options.inverse this
+			else
+				return options.inverse this
+		return
 
+	### --- formatDate condition --- ###
+	Handlebars.registerHelper 'formatDate', (datetime, format, options) ->
+		month_list = [
+			"Jan", "Feb", "Mar", "Apr",
+			"May", "Jun", "Jul", "Aug",
+			"Sept", "Oct", "Nov", "Dec"
+		]
+
+		# mmnt = moment(date)
+		# return mmnt.format(format)
+		date_str = new Date(datetime)
+		return date_str.getDate() + " " + month_list[date_str.getMonth()] + " " + date_str.getFullYear()
+	
 	getListContent()
 	return

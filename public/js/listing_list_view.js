@@ -108,6 +108,14 @@
           return options.inverse(this);
       }
     });
+
+    /* --- formatDate condition --- */
+    Handlebars.registerHelper('formatDate', function(datetime, format, options) {
+      var date_str, month_list;
+      month_list = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+      date_str = new Date(datetime);
+      return date_str.getDate() + " " + month_list[date_str.getMonth()] + " " + date_str.getFullYear();
+    });
     getListContent();
   });
 

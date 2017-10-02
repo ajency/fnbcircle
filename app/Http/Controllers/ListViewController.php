@@ -107,6 +107,8 @@ class ListViewController extends Controller {
 			} else {
 				$listing_obj = new Listing;//::all();
 			}
+
+			$listing_obj = $listing_obj->where("status", 1); // [1 -> "published", 2 -> "review", 3 -> "draft"]
 	    	
 	    	if($request->has('node_category') && $request->node_category) {
 	    		$node_category_result = Category::where('id', $request->node_category);

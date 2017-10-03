@@ -472,7 +472,7 @@
                            @if(empty($jobCompany->logo))<i class="fa fa-building-o p-r-5" aria-hidden="true"></i>@endif {{ $jobCompany->title }}</div>
 
                            @if(!empty($jobCompany->website))
-                           <a href="#" class="primary-link x-small ">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           <a href="#" class="primary-link x-small ellipsis-2" title="{{ $jobCompany->website }}">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
                            @endif
 
                            @if(!empty($jobCompany->description))

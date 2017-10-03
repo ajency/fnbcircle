@@ -2440,6 +2440,13 @@ input[type="checkbox"].toggle__check {
   white-space: nowrap;
   overflow: hidden;
 }
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media screen and (max-width: 768px) {
   .link-center {
     display: -webkit-box;
@@ -9620,7 +9627,6 @@ input[type='checkbox'].remove-addr {
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
-  overflow: auto;
 }
 .Company-info .name-row {
   -webkit-box-align: initial;
@@ -9998,10 +10004,10 @@ input[type='checkbox'].remove-addr {
   }
   .role-selection .job-places {
     min-width: initial;
-    width: 100%;
-    -webkit-flex-basis: 100%;
-        -ms-flex-preferred-size: 100%;
-            flex-basis: 100%;
+    -webkit-flex-basis: auto;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+    padding-right: 0.5em;
   }
   .role-selection .job-places .job-location {
     margin-top: 5px;
@@ -10025,7 +10031,7 @@ input[type='checkbox'].remove-addr {
   }
   .role-selection .offered-sal,
   .role-selection .off-salary {
-    padding-right: 1.5em;
+    padding-right: 0;
   }
   .job-points > h6 {
     font-size: 1.05em;

@@ -271,11 +271,11 @@
                               @endif
                            </ul>
                         </div>
- 
+                          @endforeach  
 
                       </div>
   
-                      @endforeach    
+                     
 
  
 
@@ -308,11 +308,12 @@
                      </div>
                      @endif
 
-                  </div>
+                  
 
                   </div>
-              
+             </div> 
             </div>
+            
             <!-- Card info ends -->
             <!-- contact info -->
             <div class="card seller-info sell-re collapse" id="contact-data">
@@ -474,12 +475,12 @@
                   <div class="flex-row name-row">
                     
                      <div class="company-logo">
-                        <img src="{{ $companyLogo }}">
+                        <img src="{{ $companyLogo }}" width="60">
                      </div>
                     @if(!empty($jobCompany->logo))@endif
                      <div class="company-name heavier">
                         <div>
-                           <div class="flex-row heavier @if(empty($companyLogo)) element-title @endif"> {{ $jobCompany->title }}</div>
+                           <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">{{ $jobCompany->title }}</div>
 
                            @if(!empty($jobCompany->website))
                            <a href="{{ $jobCompany->website }}" class="primary-link x-small " target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
@@ -528,8 +529,7 @@
             </div>
             <!-- advertisement ends -->
          </div>
-
-         <!-- Featured Jobs -->
+                  <!-- Featured Jobs -->
         <div class="featured-jobs browse-cat">
            <h6 class="element-title m-t-0">Featured Jobs</h6>
            <hr>
@@ -672,6 +672,8 @@
                </li>
             </ul>
          </div>
+    
+
       </div>
    </div>
    <div class="row m-t-30 m-b-30 why-row">

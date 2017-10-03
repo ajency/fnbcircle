@@ -7995,6 +7995,7 @@ input[type=checkbox].custom-checkbox:before {
   .business-contact .fnb-input {
     padding-right: 0;
     font-size: 0.9em;
+    padding-top: 0;
   }
   .business-email .verified,
   .business-phone .verified {
@@ -9133,6 +9134,21 @@ input[type='checkbox'].remove-addr {
 .verifySection.number-code {
   margin-left: -15px;
 }
+.verifySection .iti-sdc-5 .fnb-input {
+  width: 235px;
+}
+@media screen and (max-width: 320px) {
+  .verifySection .fnb-input {
+    width: 224px;
+  }
+  .verifySection .code-submit .contact-verify-stuff {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+  .verifySection .iti-sdc-5 .fnb-input {
+    width: 222px;
+  }
+}
 .edit-summary-card {
   margin-bottom: 1em;
   padding: 0;
@@ -9527,11 +9543,12 @@ input[type='checkbox'].remove-addr {
     padding: 10px 0;
   }
   .J-company__logo .dropify-wrapper.has-preview {
-    width: auto;
+    width: 100%;
   }
   .J-company__logo .dropify-wrapper.has-preview .dropify-clear {
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding: 2px 4px;
+    text-decoration: underline;
   }
   .J-company__name {
     -webkit-box-flex: 1;

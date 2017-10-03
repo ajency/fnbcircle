@@ -1335,6 +1335,7 @@
 		.fnb-input{
 			padding-right: 0;
 			font-size: 0.9em;
+			padding-top: 0;
 		}
 	}
 	.business-email,.business-phone{
@@ -2487,6 +2488,28 @@ input[type='checkbox'].remove-addr{
 	&.number-code{
 		margin-left: -15px;
 	}
+	.iti-sdc-5{
+		.fnb-input{
+			width: 235px;
+		}
+	}
+}
+
+@media screen and (max-width: 320px){
+	.verifySection{
+		.fnb-input{
+			width: 224px;
+		}
+		.code-submit .contact-verify-stuff{
+			font-size: 0.8em;
+			padding: 0.5em 1em;
+		}
+		.iti-sdc-5{
+			.fnb-input{
+				width: 222px;
+			}
+		}
+	}
 }
 
 
@@ -2932,10 +2955,11 @@ input[type='checkbox'].remove-addr{
     				}
     			}
     			&.has-preview{
-    				width: auto;
+    				width: 100%;
     				.dropify-clear{
-    					font-size: 0.7em;
+    					font-size: 0.8em;
     					padding: 2px 4px;
+    					text-decoration: underline;
     				}
     			}
     		}

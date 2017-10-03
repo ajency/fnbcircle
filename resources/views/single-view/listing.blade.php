@@ -53,12 +53,14 @@
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">
+                @isset($data['publish_date'])
                 <!-- Slide navigation -->
                 <div class="slide-nav flex-row">
                      <p class="m-b-0 published-title">Published on {{$data['publish_date']}}</p>
                     <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>
                 </div>
                 <!-- slide navigation ends -->
+                @endisset
             </div>
         </div>
          <!-- premium benefits -->
@@ -83,7 +85,7 @@
             <div class="col-sm-8"></div>
             <div class="col-sm-4">
                 <div class="edit-listing text-right">
-                    <a class="secondary-link flex-row edit-listing__container" href="">
+                    <a class="secondary-link flex-row edit-listing__container" href="/listing/{{$data['reference']}}/edit">
                         <i class="fa fa-pencil-square-o p-r-5 edit-icon" aria-hidden="true"></i>
                         <p class="section-title m-b-0">Edit business listing</p>
                     </a>
@@ -100,30 +102,36 @@
                         <div class="seller-info__body">
                             <div class="flex-row space-between">
                                 <h3 class="seller-info__title main-heading">{{$data['title']['name']}}</h3>
-                                <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a>
+                                <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a>
                                 <img src="/img/power-seller.png" class="img-responsive mobile-hide" width="130">
                                 <img src="/img/power-icon.png" class="img-responsive desk-hide" width="30">
                             </div>
                             <div class="location flex-row">
                                 <span class="fnb-icons map-icon"></span>
-                                <p class="location__title c-title"> {{$data['city']['name']}}<span class="map-link heavier">(Map)</span></h6>
+                                <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier">(Map)</span>@endisset</h6>
                             </div>
                             <div class="stats flex-row m-t-25">
                                 <div class="rating-view flex-row">
+                                    @isset($data['rating'])
                                     <div class="rating">
                                         <div class="bg"></div>
                                         <div class="value" style="width: {{$data['rating']}}%;"></div>
                                     </div>
+                                    @endisset
+                                    @isset($data['views'])
                                     <div class="views p-l-20 flex-row">
                                         <span class="fnb-icons eye-icon"></span>
                                         <p class="views__title c-title"><span>{{$data['views']}}</span> Views</p>
                                     </div>
+                                    @endisset
+                                    @isset($data['verified'])
                                     @if($data['verified'])
                                     <div class="p-l-20 verified flex-row">
                                         <span class="fnb-icons verified-icon"></span>
                                         <p class="c-title">Verified</p>
                                     </div>
                                     @endif
+                                    @endisset
                                 </div>
                                 <label class="fnb-label wholesaler flex-row">
                                     <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
@@ -140,6 +148,7 @@
                                     <p class="m-b-0 text-color toggle-state">Verified</p>
                                 </div> -->
                             </div>
+                            @isset($data['operationAreas'])
                             <div class="operations p-t-5">
                                 <h6 class="operations__title">Areas of operation of {{$data['title']['name']}}</h6>
                                 @foreach($data['operationAreas'] as $city)
@@ -169,18 +178,19 @@
                                 </div>
                                 @endforeach
                             </div>
+                            @endisset
                         </div>
                         <div class="seller-info__footer p-t-20">
                             <div class="contact flex-row">
                                 <div class="contact__info flex-row">
                                     <!-- If logged in -->
-                                    <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button>
+                                    <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
                                     <!-- If not logged in -->
                                     <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                     <!-- <h1 class="m-b-0">20</h1> -->
-                                    <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p>
+                                    <!-- <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p> -->
                                 </div>
                                 <!-- <div class="contact__date">
                                     <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
@@ -223,8 +233,8 @@
                                     <div class="col-sm-8">
                                         <ul class="nav-info__tabs flex-row">
                                             <!-- <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> -->
-                                            <li class="nav-section"><a href="#listed">Listed In</a></li>
-                                            <li class="nav-section"><a href="#overview">Overview</a></li>
+                                            @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
+                                            @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
                                             <li class="nav-section"><a href="#business">Similar Businesses</a></li>
                                             <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                         </ul>
@@ -239,8 +249,8 @@
                         </div>
                         <ul class="nav-info__tabs flex-row">
                             <!-- <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> -->
-                            <li class="nav-section"><a href="#listed">Listed In</a></li>
-                            <li class="nav-section"><a href="#overview">Overview</a></li>
+                            @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
+                            @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
                             <li class="nav-section"><a href="#business">Similar Businesses</a></li>
                         </ul>
                     </div>
@@ -248,6 +258,7 @@
                     <!-- updates section -->
 
                     <!-- updates section ends -->
+                    @isset($data['categories'])
                     <!-- listed -->
                     <div class="listed p-t-20 p-b-10" id="listed">
                         <h6 class="element-title">Also Listed In</h6>
@@ -271,8 +282,10 @@
                     </div>
                     <hr>
                     <!-- listed ends -->
+                    @endisset
+                    @isset($data['brands'])
                     <!-- brands -->
-                    <div class="brands p-t-20 p-b-20" id="overview">
+                    <div class="brands p-t-20 p-b-20" >
                         <h6 class="element-title m-b-20">{{$data['title']['name']}} Brands</h6>
                         <ul class="brands__list flex-row">
                             @foreach($data['brands'] as $brand)
@@ -285,102 +298,123 @@
                         </ul>
                     </div>
                     <!-- Brands ends -->
-                    <!-- Highlights -->
-                    <div class="highlights p-t-20 p-b-20">
-                        <h6 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h6>
-                        <ul class="highlights__points">
-                            @foreach($data['highlights'] as $highlight)
-                            <li class="flex-row">
-                                <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
-                                <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
-                                <p class="sub-title">{{$highlight}}</p>
-                            </li>
-                            @endforeach
-                           
-                        </ul>
+                    @endisset
+                    @isset($data['overview'])
+                    <div id="overview">
+                        @isset($data['highlights'])
+                        <!-- Highlights -->
+                        <div class="highlights p-t-20 p-b-20">
+                            <h6 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h6>
+                            <ul class="highlights__points">
+                                @foreach($data['highlights'] as $highlight)
+                                <li class="flex-row">
+                                    <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
+                                    <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
+                                    <p class="sub-title">{{$highlight}}</p>
+                                </li>
+                                @endforeach
+                               
+                            </ul>
+                        </div>
+                        <!-- highlights ends -->
+                        @endisset
+                        @isset($data['description'])
+                        <!-- Description -->
+                        <div class="description p-t-20 p-b-20">
+                            <h6 class="element-title m-b-20">{{$data['title']['name']}} Description</h6>
+                            <p class="sub-title description__detail">{{$data['description']}}</p>
+                        </div>
+                        <!-- Description ends -->
+                        @endisset
+                        <!-- more-details -->
+                        <div class="more-details p-t-20 p-b-20">
+                            <!-- <h3 class="main-heading p-b-15">More details of {{$data['title']['name']}}</h3> -->
+                            <div class="detail-1 flex-row m-t-25 m-b-25">
+
+                                @isset($data['established'])
+                                <div class="year">
+                                    <p class="element-title heavier m-b-20">Year of establishment</p>
+                                    <p class="sub-title lighter">{{$data['established']}} </p>
+                                </div>
+                                @endisset
+                                @isset($data['website'])
+                                <div class="site">
+                                    <p class="element-title heavier m-b-10">Website</p>
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                </div>
+                                @endisset
+                            </div>
+                            @if(isset($data['showHours']) and $data['showHours'] == 1)
+                            <div class="detail-2 flex-row m-t-25 m-b-25">
+                                <div class="operation">
+                                    <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
+                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
+                                    @foreach($data['hours'] as $day)
+                                   <br> {{$day['day']}} {{$day['timing']}} 
+                                    @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
+                                </div>
+                            </div>
+                            @endif
+                            @isset($data['address'])
+                            <div class="detail-3 flex-row m-t-25 m-b-25">
+                                <div class="address">
+                                    <p class="element-title heavier m-b-20">Address {{$data['title']['name']}}</p>
+                                    <p class="sub-title lighter">{{$data['address']}}</p>
+                                </div>
+                            </div>
+                            @endisset
+                            @isset($data['location'])
+                            <div class="detail-4 flex-row m-t-25 m-b-25">
+                                <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
+                                <script type="text/javascript">
+                                    function initMap() {
+                                        var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
+                                        var map = new google.maps.Map(document.getElementById('map'), {
+                                          zoom: 12,
+                                          center: uluru
+                                        });
+                                        var marker = new google.maps.Marker({
+                                          position: uluru,
+                                          map: map
+                                        });
+                                      }
+                                    window.onload = function() {
+                                        $.ajax({
+                                          type: 'post',
+                                          url: '/get-map-key',
+                                          success: function(data) {
+                                            var newScript, src;
+                                            key = data['key'];
+                                            newScript = document.createElement('script');
+                                            newScript.type = 'text/javascript';
+                                            newScript.src = src = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
+                                            newScript.async = true;
+                                            newScript.defer = true;
+                                            document.getElementsByTagName('head')[0].appendChild(newScript);
+                                          }
+                                        });
+                                      };
+                                </script>
+                            </div>
+                            @endisset
+                            @isset($data['payments'])
+                            <div class="detail-4 flex-row m-t-25">
+                                <div class="payment-mode">
+                                    <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
+                                    <ul class="credit-card flex-row flex-wrap">
+                                        @foreach($data['payments'] as $mode)
+                                        <li><i class="fa fa-credit-card" aria-hidden="true"></i> {{$mode}}
+                                        </li>
+                                        @endforeach
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            @endisset
+                        </div>
+                        <!-- more details ends -->
                     </div>
-                    <!-- highlights ends -->
-                    <!-- Description -->
-                    <div class="description p-t-20 p-b-20">
-                        <h6 class="element-title m-b-20">{{$data['title']['name']}} Description</h6>
-                        <p class="sub-title description__detail">{{$data['description']}}</p>
-                    </div>
-                    <!-- Description ends -->
-                    <!-- more-details -->
-                    <div class="more-details p-t-20 p-b-20">
-                        <!-- <h3 class="main-heading p-b-15">More details of {{$data['title']['name']}}</h3> -->
-                        <div class="detail-1 flex-row m-t-25 m-b-25">
-                            <div class="year">
-                                <p class="element-title heavier m-b-20">Year of establishment</p>
-                                <p class="sub-title lighter">{{$data['established']}} </p>
-                            </div>
-                            <div class="site">
-                                <p class="element-title heavier m-b-10">Website</p>
-                                <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
-                            </div>
-                        </div>
-                        <div class="detail-2 flex-row m-t-25 m-b-25">
-                            <div class="operation">
-                                <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
-                                <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
-                                @foreach($data['hours'] as $day)
-                               <br> {{$day['day']}} {{$day['timing']}} 
-                                @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
-                            </div>
-                        </div>
-                        <div class="detail-3 flex-row m-t-25 m-b-25">
-                            <div class="address">
-                                <p class="element-title heavier m-b-20">Address {{$data['title']['name']}}</p>
-                                <p class="sub-title lighter">{{$data['address']}}</p>
-                            </div>
-                        </div>
-                        <div class="detail-4 flex-row m-t-25 m-b-25">
-                        <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
-                        <script type="text/javascript">
-                            function initMap() {
-                                var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                  zoom: 12,
-                                  center: uluru
-                                });
-                                var marker = new google.maps.Marker({
-                                  position: uluru,
-                                  map: map
-                                });
-                              }
-                            window.onload = function() {
-                                $.ajax({
-                                  type: 'post',
-                                  url: '/get-map-key',
-                                  success: function(data) {
-                                    var newScript, src;
-                                    key = data['key'];
-                                    newScript = document.createElement('script');
-                                    newScript.type = 'text/javascript';
-                                    newScript.src = src = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
-                                    newScript.async = true;
-                                    newScript.defer = true;
-                                    document.getElementsByTagName('head')[0].appendChild(newScript);
-                                  }
-                                });
-                              };
-                        </script>
-                            <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="600" height="250" frameborder="0" style="border:0" allowfullscreen></iframe> -->
-                        </div>
-                        <div class="detail-4 flex-row m-t-25">
-                            <div class="payment-mode">
-                                <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
-                                <ul class="credit-card flex-row flex-wrap">
-                                    @foreach($data['payments'] as $mode)
-                                    <li><i class="fa fa-credit-card" aria-hidden="true"></i> {{$mode}}
-                                    </li>
-                                    @endforeach
-                                    
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- more details ends -->
+                    @endisset
                     <!-- Similar businesses -->
                     <div class="similar-business p-t-20 p-b-20" id="business">
                         <div class="section-start-head m-b-15 flex-row">
@@ -496,22 +530,25 @@
             </div>
             <div class="col-sm-4">
                 <div class="detach-col-1">
+
                     <!-- core categories -->
                     <div class="equal-col">
                        <div class="core-cat">
+                            @isset($data['cores'])
                             <h6 class="element-title m-t-0 m-b-15">We specialise in</h6>
                             <ul class="fnb-cat flex-row">
                                 @foreach($data['cores'] as $core)
                                 <li><a href="" class="fnb-cat__title">{{$core['name']}}</a></li>
                                 @endforeach
                             </ul>
+                            @endisset
                         </div> 
                         <div class="contact__enquiry text-center mobile-hide">                                
                             <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                             <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                             <div class="approval">
                                 <p class="contact__title lighter">{{$data['status']['text']}}</p>
-                                <div class="heavier sub-title">{{$data['status']['status']}} </div>
+                                <div class="heavier sub-title">{!! $data['status']['status'] !!} </div>
                             </div>
                         </div>
                     </div>
@@ -524,9 +561,11 @@
                         <p class="claim-box__text sub-title">Is this your business? <a href="">Claim it now.</a><br> or <a href="">Report/Delete</a></p>
                     </div>
                     <!-- claim end -->
+                    @if(isset($data['images']) or isset($data['files']))
                     <!-- Photos and documents -->
                     <div class="docs p-t-20 p-b-20">
                         <h6 class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</h6>
+                        @isset($data['images'])
                         <div class="photo-gallery">
                             @foreach($data['images'] as $images)
                             @if($loop->first)
@@ -550,6 +589,8 @@
                             @endif
                             @endforeach
                         </div>
+                        @endisset
+                        @isset($data['files'])
                         @foreach($data['files'] as $file)
                         <div class="catalogue flex-row p-t-20 p-b-20">
                             <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
@@ -560,10 +601,11 @@
                             </a>
                         </div>
                         @endforeach
+                        @endisset
                     </div>
                     <!-- documents ends -->
                     <!-- enquiry form -->
-
+                    @endif
 
 
 

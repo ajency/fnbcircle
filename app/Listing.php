@@ -171,6 +171,7 @@ class Listing extends Model
     public function today(){
         $carbon = new Carbon();
         $day = $this->operationTimings()->where('day_of_week',$carbon->dayOfWeek)->first();
+        if($day == null) return false;
         $timing = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
         if($day->closed == 1) { $timing = 'Closed'; $open = false; }
         elseif($day->open24 == 1) { $timing = 'Open 24 Hours'; $open = true; }
@@ -187,6 +188,7 @@ class Listing extends Model
     }
     public function getPayments(){
         $payments = [];
+        if($this->payment_modes == null) return null;
         $modes =json_decode($this->payment_modes);
         $mode_name=[
             "visa" => "Visa Cards",

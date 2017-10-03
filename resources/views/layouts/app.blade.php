@@ -23,6 +23,15 @@
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "{{env('APP_NAME')}}",
+        "url": "{{env('APP_URL')}}"
+    }
+    </script>
 </head>
 
 <body class="nav-md">

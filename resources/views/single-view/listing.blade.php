@@ -30,33 +30,7 @@
         <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
             <div class="col-sm-8  flex-col">
                 <!-- Breadcrums -->
-                <ul class="fnb-breadcrums flex-row">
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">{{$data['city']['name']}}</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title main-name">{{$data['title']['name']}}</p>
-                        </a>
-                    </li>
-                </ul>
+                
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">

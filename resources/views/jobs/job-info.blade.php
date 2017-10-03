@@ -179,7 +179,7 @@
     </div>
     <div class="m-t-20 c-gap">
         <input id="mapadd" type="text" class="form-control fnb-input location-val" name="interview_location" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="">
-        <div class="m-t-10" id="map" map-title="your interview location" show-address="@if($job->id) yes @endif">
+        <div class="m-t-10" id="map" map-title="your interview location" @if($job->interview_location_lat) show-address="@if($job->id) yes @endif" @endif>
 
         </div>
         <input type="hidden" id=latitude name=latitude value="{{ $job->getInterviewLocationLat() }}">

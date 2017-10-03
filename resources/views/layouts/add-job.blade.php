@@ -308,7 +308,7 @@
                                             <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
-                                        <input type="hidden" name="has_changed" value="0">
+                                        <input type="hidden" name="has_changes" value="0">
                                         </form>
                                     </div>
                                 </div>

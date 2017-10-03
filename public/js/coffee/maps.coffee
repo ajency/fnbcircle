@@ -46,9 +46,9 @@ escapeRegExp = (str) ->
 
 getAddress = ()->
   pos = marker.getPosition()
-  console.log 'lat= ' + pos.lat()
+  # console.log 'lat= ' + pos.lat()
   $('input#latitude').val(pos.lat())
-  console.log 'lng= ' + pos.lng()
+  # console.log 'lng= ' + pos.lng()
   $('input#longitude').val(pos.lng())
   $.ajax
     type: 'GET'
@@ -57,7 +57,7 @@ getAddress = ()->
       'latlng': pos.lat() + ',' + pos.lng()
       'key': key
     success: (data) ->
-      console.log data['results'][0]['formatted_address']
+      # console.log data['results'][0]['formatted_address']
       document.getElementById('mapadd').value = data['results'][0]['formatted_address']
 
       if $(".mapAddress").length
@@ -80,7 +80,11 @@ $('.save-addr').on 'change', ->
   else
     $('.another-address').prop('disabled',false)
 
+$('input[name="interview_location"]').on 'keyup', ->
+  updateAddr()
+  populate(this.value)
 
+ 
 replaceAll = (str, find, replace) ->
   str.replace new RegExp(escapeRegExp(find), 'g'), replace
 
@@ -90,9 +94,9 @@ $('body').on 'blur','input#mapadd	', ->
   return
 
 populate = (inp)->
-  console.log inp
+  # console.log inp
   search = replaceAll(inp, ' ', '+')
-  console.log 'search= ' + search
+  # console.log 'search= ' + search
   $.ajax
     type: 'GET'
     url: 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -108,7 +112,7 @@ populate = (inp)->
 
 initMap = (lat, long) ->
   myLatLng = new (google.maps.LatLng)(lat, long)
-  console.log myLatLng.lat(), myLatLng.lng()
+  # console.log myLatLng.lat(), myLatLng.lng()
   $('input#latitude').val(myLatLng.lat())
   $('input#longitude').val(myLatLng.lng())
   map.setCenter myLatLng

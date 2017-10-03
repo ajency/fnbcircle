@@ -428,6 +428,7 @@ class JobController extends Controller
         $latitude = ($interviewLocation)? $data['latitude'] :'';
         $longitude = ($interviewLocation)? $data['longitude'] :'';
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
+        $hasChanges =  $data['has_changes'];
  
 
         $metaData = [] ;
@@ -475,7 +476,9 @@ class JobController extends Controller
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds,$jobKeywords);
-        Session::flash('success_message','Job details saved successfully.');
+
+        if($hasChanges == 1)
+            Session::flash('success_message','Job details saved successfully.');
         $request['next_step'] = 'step-two';
 
         return $request;
@@ -504,6 +507,7 @@ class JobController extends Controller
         $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
+        $hasChanges =  $data['has_changes'];
 
         if(isset($data['company_logo'])){
             $companyLogo = $data['company_logo'];
@@ -583,7 +587,9 @@ class JobController extends Controller
         $job->job_modifier = $userId;
         $job->save(); 
 
-        Session::flash('success_message','Company details saved successfully.');
+        if($hasChanges == 1)
+            Session::flash('success_message','Company details saved successfully.');
+        
         $request['next_step'] = 'step-three';
 
         return $request;

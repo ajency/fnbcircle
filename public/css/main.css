@@ -9851,9 +9851,10 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-role {
-    -webkit-flex-basis: 18%;
-        -ms-flex-preferred-size: 18%;
-            flex-basis: 18%;
+    -webkit-flex-basis: auto;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+    max-width: 46%;
   }
 }
 .role-selection .job-role .cities li:not(:last-child) .cities__title:after {
@@ -9874,8 +9875,11 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-places {
-    margin: 0 0.8em;
+    margin: 0 0.8em 1em 0.8em;
   }
+}
+.role-selection .job-places .job-location {
+  margin-bottom: 3px;
 }
 .role-selection .job-places .job-location .location {
   min-width: 56px;
@@ -9884,6 +9888,14 @@ input[type='checkbox'].remove-addr {
 .role-selection .role-gap {
   padding-left: 1em;
 }
+.role-selection .year-exp {
+  max-width: inherit;
+}
+@media screen and (min-width: 769px) {
+  .role-selection > .year-exp {
+    margin-left: 0.8em;
+  }
+}
 .applyJob {
   text-align: center;
 }
@@ -9891,9 +9903,6 @@ input[type='checkbox'].remove-addr {
   width: 80%;
   border-color: #ec6d4b;
   margin-bottom: 1em;
-}
-.job-location {
-  margin-top: -3px;
 }
 .job-location .map-icon {
   -webkit-transform: scale(0.6);

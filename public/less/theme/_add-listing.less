@@ -3249,7 +3249,9 @@ input[type='checkbox'].remove-addr{
 		// flex: 2;
 		// width: 45%;
 		@media screen and (min-width: 769px){
-			flex-basis: 18%;
+			// flex-basis: 18%;
+			flex-basis: auto;
+    		max-width: 46%;
 		}
 		.cities{
 			li{
@@ -3278,9 +3280,10 @@ input[type='checkbox'].remove-addr{
 		flex-basis: 7%;
 		min-width: 240px;
 		@media screen and (min-width: 769px){
-			margin: 0 0.8em;
+			margin: 0 0.8em 1em 0.8em;
 		}
 		.job-location{
+			margin-bottom: 3px;
 			.location{
 				min-width: 56px;
     			padding-right: 2px;
@@ -3296,6 +3299,14 @@ input[type='checkbox'].remove-addr{
 	.role-gap{
 		padding-left: 1em;
 	}
+	.year-exp{
+		max-width: inherit;
+	}
+	& > .year-exp{
+		@media screen and (min-width: 769px){
+    		margin-left: 0.8em;
+    	}
+	}
 }
 
 .applyJob{
@@ -3310,7 +3321,7 @@ input[type='checkbox'].remove-addr{
 
 
 .job-location{
-	margin-top: -3px;
+	// margin-top: -3px;
     // margin-left: -5px;
 	.map-icon{
 		transform: scale(0.6);

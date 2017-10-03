@@ -139,15 +139,15 @@
 
                                 <ul class="gs-steps" role="tablist" >
                                     <li class=""> 
-                                        <a href="@if(!$job->id || $step == 'step-one') # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="@if(!$job->id || $step == 'step-one') form-toggle @endif" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if(!$job->id || $step == 'job-details') # @else {{ url('/jobs/'.$job->reference_id.'/job-details') }} @endif" class="@if(!$job->id || $step == 'job-details') form-toggle @endif" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat @if(!$job->id) disable @endif">
-                                        <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="@if(!$job->id || $step == 'step-two') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'company-details') # @else {{ url('/jobs/'.$job->reference_id.'/company-details') }} @endif" class="@if(!$job->id || $step == 'company-details') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                     <li class="@if(!$job->isJobDataComplete()) disable @endif">
-                                        <a href="@if($step == 'step-three') # @else {{ url('/jobs/'.$job->reference_id.'/step-three') }} @endif" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Go Premium<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

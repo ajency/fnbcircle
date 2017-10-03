@@ -162,12 +162,18 @@ function validateListing(event) {
     }
     event.preventDefault();
 }
-$('#info-form').on('keyup keypress', function(e) {
+$('#info-form').on('keypress', function(e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         e.preventDefault();
         temp=document.activeElement;
-         $(temp).blur();
+          if ($(temp).hasClass('blur')) {
+              $(temp).blur();
+            }
+        if ($(temp).hasClass('allow-newline')) {
+              $(temp).val($(temp).val()+'\n');
+              e.preventDefault();
+            }
         return false;
     }
 });

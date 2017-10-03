@@ -40,7 +40,7 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
 
             <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="replace photo" data-default-file="{{$images[$img]['200x150']}}"/>
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="{{basename($images[$img]['200x150'])}}" data-default-file="{{$images[$img]['200x150']}}"/>
             <div class="image-loader hidden">
                 <div class="site-loader section-loader">
                 <div id="floatingBarsG">
@@ -98,7 +98,7 @@
         @if($listing==null)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -120,8 +120,8 @@
             @foreach($files as $file)
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
-                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" />
-                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="{{$file['name']}}">
+                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" title="{{basename($file['url'])}}" />
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif">
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                             <div id="floatingBarsG">
@@ -141,7 +141,7 @@
             @if(count($files)==0)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -162,10 +162,11 @@
         @endif
             <div class="image-grid__cols addCol">
                 <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  title="You cannot upload a file till you write a name"/>
+                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
                 <div class="image-loader hidden">
@@ -184,6 +185,7 @@
                 </div>
             </div>
         </div>
+        <div id="more-file-error" class="text-danger"></div>
     </div>
 </div>
 

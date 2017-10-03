@@ -7520,6 +7520,16 @@ input[type=checkbox].custom-checkbox:before {
 .image-grid .site-loader.section-loader {
   z-index: 9;
 }
+@media screen and (min-width: 1024px) and (max-width: 1400px) {
+  .image-grid.fileUpload .image-grid__cols:first-child .site-loader {
+    height: 100%;
+  }
+}
+@media screen and (min-width: 769px) {
+  .image-grid.fileUpload .image-grid__cols:first-child .site-loader {
+    height: 100%;
+  }
+}
 .dropify-wrapper {
   overflow: inherit;
 }
@@ -7553,11 +7563,13 @@ input[type=checkbox].custom-checkbox:before {
 }
 @media screen and (min-width: 769px) {
   .imageUpload .dropify-wrapper,
-  .J-company .dropify-wrapper {
+  .J-company .dropify-wrapper,
+  .fileUpload .dropify-wrapper {
     overflow: inherit;
   }
   .imageUpload .dropify-wrapper:hover .dropify-clear,
-  .J-company .dropify-wrapper:hover .dropify-clear {
+  .J-company .dropify-wrapper:hover .dropify-clear,
+  .fileUpload .dropify-wrapper:hover .dropify-clear {
     top: -10px;
     right: -8px;
     background-color: #fff;
@@ -7565,7 +7577,8 @@ input[type=checkbox].custom-checkbox:before {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   }
   .imageUpload .dropify-wrapper .dropify-clear,
-  .J-company .dropify-wrapper .dropify-clear {
+  .J-company .dropify-wrapper .dropify-clear,
+  .fileUpload .dropify-wrapper .dropify-clear {
     -webkit-transition: inherit;
             transition: inherit;
   }
@@ -7666,7 +7679,7 @@ input[type=checkbox].custom-checkbox:before {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   font-size: 0.95em;
   position: absolute;
-  z-index: 7;
+  z-index: 6;
   text-align: center;
   cursor: pointer;
 }

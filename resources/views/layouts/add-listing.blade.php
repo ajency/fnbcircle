@@ -22,9 +22,6 @@
       <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <!-- Custom file input -->
     <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
-
-  <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
-
     <!-- Add listing -->
     <script type="text/javascript" src="/js/add-listing.js"></script>
     <!-- custom script -->

@@ -9875,8 +9875,11 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-places {
-    margin: 0 0.8em;
+    margin: 0 0.8em 1em 0.8em;
   }
+}
+.role-selection .job-places .job-location {
+  margin-bottom: 3px;
 }
 .role-selection .job-places .job-location .location {
   min-width: 56px;
@@ -9900,9 +9903,6 @@ input[type='checkbox'].remove-addr {
   width: 80%;
   border-color: #ec6d4b;
   margin-bottom: 1em;
-}
-.job-location {
-  margin-top: -3px;
 }
 .job-location .map-icon {
   -webkit-transform: scale(0.6);

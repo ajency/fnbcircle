@@ -63,7 +63,7 @@ class Job extends Model
     }
 
     public function getJobStatus(){
-        $jobStatus = Defaults::find($this->status);
+        $jobStatus = Defaults::find($this->status); 
         $jobStatus = strtolower($jobStatus->label);
         return ucwords($jobStatus);
     }
@@ -270,6 +270,8 @@ class Job extends Model
         if($value == 3){
             $this->publishJob();
         }
+        
+        $this->attributes['status'] = $value; 
 
     }
 

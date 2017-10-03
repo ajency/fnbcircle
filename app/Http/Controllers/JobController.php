@@ -23,6 +23,12 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function index()
     {
         //
@@ -265,7 +271,7 @@ class JobController extends Controller
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
 
-        $shareLink = url('/jobs/'.$job->getJobSlug());
+        $shareLink = url('/job/'.$job->getJobSlug());
         $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
 
         $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
@@ -589,7 +595,7 @@ class JobController extends Controller
 
         if($hasChanges == 1)
             Session::flash('success_message','Company details saved successfully.');
-        
+
         $request['next_step'] = 'step-three';
 
         return $request;

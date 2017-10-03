@@ -52,10 +52,6 @@
     } else {
       initMap(lat, lng);
     }
-    console.log($("#map").attr('show-address'));
-    if ($("#map").is('[show-address]') && $("#map").attr('show-address') !== "") {
-      getAddress();
-    }
     google.maps.event.addListener(marker, 'dragend', function(ev) {
       return getAddress();
     });

@@ -202,12 +202,12 @@
                     
 
                     <!-- map address -->
-                    @if($job->interview_location_lat!="")
+                    @if($job->interview_location!="")
                     <div class="owner-address flex-row">
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                      <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
-                      <div class="text-color lighter mapAddress scroll-to-location"></div>
+                       
+                      <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>
                      </div>
                     @endif
                     <!-- <div class="owner-address flex-row">
@@ -366,7 +366,7 @@
                   {!! $job->description !!}
                </div>
               
-              @if($job->interview_location_lat!="")
+               @if($job->interview_location!="")
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">

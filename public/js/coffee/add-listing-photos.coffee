@@ -164,6 +164,7 @@ image_dropify.on 'dropify.afterClear', (event, element) ->
 file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
+  $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
   # $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
   console.log "file deleted"
   return

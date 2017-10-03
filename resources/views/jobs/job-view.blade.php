@@ -202,7 +202,7 @@
                     
 
                     <!-- map address -->
-                    @if($job->interview_location_lat)
+                    @if($job->interview_location_lat!="")
                     <div class="owner-address flex-row">
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
@@ -364,7 +364,7 @@
                   {!! $job->description !!}
                </div>
               
-              @if($job->interview_location_lat)
+              @if($job->interview_location_lat!="")
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">

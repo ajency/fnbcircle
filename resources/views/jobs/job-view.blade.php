@@ -243,6 +243,7 @@
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job location</h6>
                         @foreach($locations as $city => $locAreas)
+                          
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <span class="fnb-icons map-icon"></span>
@@ -256,10 +257,21 @@
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
+                              $areaCount = count($areas);
+                              $areaInc = 0;
                               ?>
                               @foreach($areas as $area)
+                                <?php
+                                 $areaInc++;
+                                ?>
                                <li>
-                                   <p class="cities__title">{{ $area }}, </p>
+                                  <p class="cities__title">{{ $area }} 
+                   
+                                  @if($areaInc != $areaCount)
+                                   , 
+                                  @endif
+
+                                  </p>
                                </li>
                               @endforeach  
 

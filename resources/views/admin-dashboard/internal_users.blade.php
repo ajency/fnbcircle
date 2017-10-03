@@ -98,8 +98,8 @@ Internal Users
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>
-	                      <th class="">Name </th>
-	                      <th class="">Email </th>
+	                      <th class="">Name <span class="sort-icon"/></th>
+	                      <th class="">Email <span class="sort-icon"/></th>
 	                      <th class="no-sort ">Roles
 	                        <select multiple class="form-control multi-dd">
 	                          <!-- <option value="yes">Yes</option>

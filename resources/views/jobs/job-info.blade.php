@@ -40,12 +40,12 @@
                 </div>
             </div>
             <div class="col-sm-6 c-gap">
-                <label class="label-size required">Choose Business type:</label>
+                <label class="label-size required">Choose a business type:</label>
                 <!-- <div class="text-lighter">
                     Help text comes here
                 </div> -->
                 <div class="brands-container businessType">
-                     <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                     <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required data-parsley-required-message="Please select a business type">
                         <option value="">Select Category</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ ucwords($category) }}</option>
@@ -62,10 +62,10 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size required">Select Job Role:</label>
+        <label class="label-size required">Select job roles:</label>
         <div class="text-lighter m-b-15 x-small">(Add as many Keywords, Functions &amp; skills to get maximum response).</div>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
+            <input type="text" class="form-control fnb-input job-keywords" data-parsley-required-message="At least one job role should be added" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
             <datalist id="jobKeyword">
               
@@ -171,7 +171,7 @@
 
     <!-- map -->
     <div class="m-t-30 c-gap">
-        <label class="label-size">Please provide the google map address for the interview location</label>
+        <label class="label-size">Please provide the google map address for the interview location <span class="text-lighter">(optional)</span></label>
 
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
@@ -191,8 +191,8 @@
 
     <div class="m-t-40 c-gap">
  
-        <label class="label-size required">Job description:</label>
-        <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
+        <label class="label-size required">Enter the job description:</label>
+        <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required data-parsley-required-message="Please enter the job description">{{ $job['description'] }}</textarea>
          
  
     </div>
@@ -213,7 +213,7 @@
     <!-- Experience -->
 
     <div class="m-t-40 c-gap flex-data-row">
-        <label class="label-size">Required years of experience: <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">Mention the required years of experience: <span class="text-lighter">(optional)</span></label>
  
         <div class="m-t-5 brands-container auto-exp-select catSelect">
 

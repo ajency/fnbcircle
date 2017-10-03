@@ -309,7 +309,7 @@
                   @if(!empty($experience))
                      <div class="year-exp">
                         <h6 class="operations__title sub-title">Years Of Experience</h6>
-                        <div class="flex-row">
+                        <div class="flex-row flex-wrap">
                           @foreach($experience as $exp)
                            <div class="text-color lighter year-exp">{{ $exp }} years</div>
                           @endforeach
@@ -490,14 +490,14 @@
                     @if(!empty($jobCompany->logo))@endif
                      <div class="company-name heavier">
                         <div class="@if(empty($jobCompany->logo)) text-center @endif">
-                           <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
+                           <div class="heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
                             {{ $jobCompany->title }}
                             </div>
 
 
                            @if(!empty($jobCompany->website))
-                           
-                           <a href="{{ $jobCompany->website }}" class="primary-link x-small ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+
+                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
 
                            @endif
 

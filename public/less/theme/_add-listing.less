@@ -3236,7 +3236,9 @@ input[type='checkbox'].remove-addr{
 		// flex: 2;
 		// width: 45%;
 		@media screen and (min-width: 769px){
-			flex-basis: 18%;
+			// flex-basis: 18%;
+			flex-basis: auto;
+    		max-width: 46%;
 		}
 		.cities{
 			li{
@@ -3282,6 +3284,14 @@ input[type='checkbox'].remove-addr{
 	}
 	.role-gap{
 		padding-left: 1em;
+	}
+	.year-exp{
+		max-width: inherit;
+	}
+	& > .year-exp{
+		@media screen and (min-width: 769px){
+    		margin-left: 0.8em;
+    	}
 	}
 }
 

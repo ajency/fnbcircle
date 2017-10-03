@@ -176,7 +176,7 @@ class AdminConfigurationController extends Controller
                 $data[$category->id]['isNode']   = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['parent']   = "";
                 $data[$category->id]['branch']   = "";
-                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle" width="20">';
+                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle m-l-20" width="35">';
             }
             if ($category->level == "2") {
                 $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";

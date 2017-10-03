@@ -97,6 +97,7 @@
     $('#add_category_modal input[type="file"]').val('');
     $('#add_category_modal input[type="file"]').dropify();
     $('#add_category_modal .dropify-clear').click();
+    $('.parent_cat_icon .dropify-clear').html('<span>&#10005;</span>');
   });
 
   $('body').on('change', 'input[type=radio][name=categoryType]', function() {

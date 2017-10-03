@@ -46,7 +46,8 @@
 
   $('input[name="salary_type"]').change(function(e) {
     $('.salary-amt').attr('data-parsley-required', true);
-    if ($('input[name="salary_lower"]').attr('salary_type_checked') === "true") {
+    console.log($('input[name="salary_lower"]').attr('salary_type_checked'));
+    if ($('input[name="salary_lower"]').attr('salary-type-checked') === "true") {
       return $('.salary-amt').val('');
     }
   });
@@ -143,7 +144,7 @@
   $('#salary_lower').on('change', function() {
     var salaryLower, salaryUpper;
     if ($(this).val() !== '') {
-      $(this).attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'));
+      $(this).attr('salary-type-checked', $('input[name="salary_type"]').is(':checked'));
       salaryLower = parseInt($(this).val());
       salaryUpper = parseInt($('#salary_upper').val());
       $('#salary_upper').attr('data-parsley-min', salaryLower);
@@ -164,7 +165,7 @@
 
   $('#salary_upper').on('change', function() {
     if ($(this).val() !== '') {
-      $('#salary_lower').attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'));
+      $('#salary_lower').attr('salary-type-checked', $('input[name="salary_type"]').is(':checked'));
       $('#salary_lower').attr('data-parsley-required', true);
     } else {
       $('#salary_lower').removeAttr('data-parsley-required');

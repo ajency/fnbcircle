@@ -87,7 +87,7 @@
             @endif
 
             @if($job->canEditJob())
-            <a href="{{ url('/jobs/'.$job->reference_id.'/step-one') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
+            <a href="{{ url('/jobs/'.$job->reference_id.'/job-details') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
             @endif                        
          </div>
          <!-- slide navigation ends -->

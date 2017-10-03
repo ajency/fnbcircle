@@ -53,6 +53,9 @@
       initMap(lat, lng);
     }
     console.log($("#map").attr('show-address'));
+    if ($("#map").attr('show-address') !== "") {
+      getAddress();
+    }
     google.maps.event.addListener(marker, 'dragend', function(ev) {
       return getAddress();
     });
@@ -75,6 +78,7 @@
         'key': key
       },
       success: function(data) {
+        console.log(data['results'][0]['formatted_address']);
         document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
         if ($(".mapAddress").length) {
           $(".mapAddress").html(data['results'][0]['formatted_address']);

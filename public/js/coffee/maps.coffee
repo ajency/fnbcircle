@@ -39,8 +39,8 @@ window.init = ->
 
   #show address in textbox whwn page loads 
   console.log $("#map").attr('show-address')
-  # if $("#map").attr('show-address') != ""
-  #   getAddress()
+  if $("#map").attr('show-address') != ""
+    getAddress()
 
 
   google.maps.event.addListener marker, 'dragend', (ev) ->
@@ -62,7 +62,7 @@ getAddress = ()->
       'latlng': pos.lat() + ',' + pos.lng()
       'key': key
     success: (data) ->
-      # console.log data['results'][0]['formatted_address']
+      console.log data['results'][0]['formatted_address']
       document.getElementById('mapadd').value = data['results'][0]['formatted_address']
 
       if $(".mapAddress").length

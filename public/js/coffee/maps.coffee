@@ -39,7 +39,7 @@ window.init = ->
 
   #show address in textbox whwn page loads 
   console.log $("#map").attr('show-address')
-  if $("#map").attr('show-address') != ""
+  if $("#map").is('[show-address]') && $("#map").attr('show-address') != ""
     getAddress()
 
 

@@ -291,7 +291,9 @@
                   
                      <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
-                        @if($job->salary_lower !="" && $job->salary_upper !="" )
+
+                        @if($job->salary_lower >="0" && $job->salary_upper > "0" )
+
                         <div class="text-color lighter">
                           @if($job->salary_lower == $job->salary_upper )
                           <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}

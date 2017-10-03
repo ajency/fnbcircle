@@ -128,7 +128,7 @@
     } else {
       $('.job-keywords').attr('data-parsley-required', '');
     }
-    if ($('input[name="step"]').val() === 'step-one' || $('input[name="step"]').val() === 'step-two') {
+    if ($('input[name="step"]').val() === 'job-details' || $('input[name="step"]').val() === 'company-details') {
       CKEDITOR.instances.editor.updateElement();
       editorStr = CKEDITOR.instances.editor.getData();
       editorStr = editorStr.replace(/&nbsp;/g, '');
@@ -282,6 +282,9 @@
 
   if ($('#editor').length) {
     CKEDITOR.replace('editor');
+    CKEDITOR.instances.editor.on('change', function() {
+      $('input[name="has_changes"]').val(1);
+    });
   }
 
   $("html").easeScroll();

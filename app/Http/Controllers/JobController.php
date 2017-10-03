@@ -396,7 +396,7 @@ class JobController extends Controller
             $response = $this->saveCompanyData($job,$request);
         }
         elseif ($request->step == 'go-premium'){
-            # code...
+            $response['next_step']='go-premium';
         }
         else{
             abort(404);

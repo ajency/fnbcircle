@@ -248,7 +248,8 @@ Internal Users
 	                <div class="modal-footer">
 	                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
 	                  <!-- <button type="submit" class="btn primary-btn fnb-btn border-btn">Save <i class="fa fa-circle-o-notch fa-spin"></i></button> -->
-	                  <button type="button" class="btn primary-btn fnb-btn border-btn" id="add_newuser_modal_btn">Create <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn createSave" id="add_newuser_modal_btn">Create <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn hidden editSave" id="add_newuser_modal_btn">Save <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
 	                </div>
 	              </form>
 	            </div>

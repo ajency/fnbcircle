@@ -344,6 +344,9 @@ $(document).ready () ->
 		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
 		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
 
+		modal_object.find('.createSave').addClass 'hidden'
+		modal_object.find('.editSave').removeClass 'hidden'
+
 		return
 
 	$(document).on "click", "div.admin_internal_users div.page-title button.btn-link", () ->
@@ -382,7 +385,9 @@ $(document).ready () ->
 		modal_object.find("input[type='password'][name='confirm_password']").removeAttr("disabled")
 		modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true").val('')
 		modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden')
-
+		
+		modal_object.find('.createSave').removeClass 'hidden'
+		modal_object.find('.editSave').addClass 'hidden'
 
 		return
 

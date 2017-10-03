@@ -9527,11 +9527,12 @@ input[type='checkbox'].remove-addr {
     padding: 10px 0;
   }
   .J-company__logo .dropify-wrapper.has-preview {
-    width: auto;
+    width: 100%;
   }
   .J-company__logo .dropify-wrapper.has-preview .dropify-clear {
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding: 2px 4px;
+    text-decoration: underline;
   }
   .J-company__name {
     -webkit-box-flex: 1;

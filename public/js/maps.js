@@ -25,17 +25,22 @@
   };
 
   window.init = function() {
-    var inp, lat, lng, mapTextMsg;
+    var inp, is_draggable, lat, lng, mapTextMsg;
     mapTextMsg = 'your business location';
     if ($("#map").attr('map-title') !== "") {
       mapTextMsg = $("#map").attr('map-title');
     }
     document.getElementById('map').style.height = "300px";
+    if ($(".mapAddress").length) {
+      is_draggable = false;
+    } else {
+      is_draggable = true;
+    }
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
     marker = new google.maps.Marker({
-      draggable: true
+      draggable: is_draggable
     }, {
       title: mapTextMsg
     });

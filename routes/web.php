@@ -68,6 +68,9 @@ Route::post('/all-listing','AdminModerationController@displayListingsDum');
 JOBS/USERS
 *******/
 
+//job single view
+Route::get('/jobs/{slug}','JobController@show');
+
 Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );

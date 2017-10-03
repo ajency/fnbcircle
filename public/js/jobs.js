@@ -51,7 +51,7 @@
     }
   });
 
-  $('#job-form').bind('input select textarea', function() {
+  $('#job-form').bind('input select textarea iframe', function() {
     $('input[name="has_changes"]').val(1);
   });
 
@@ -183,6 +183,15 @@
     $('.auto-exp-select').removeClass('hidden');
     $('.custom-exp').addClass('hidden');
     return $('.custom-row:not(:first-child)').remove();
+  });
+
+  $('#job-form').on('keyup keypress', function(e) {
+    var keyCode;
+    keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      return false;
+    }
   });
 
   $('body').on('click', '.add-exp', function(e) {

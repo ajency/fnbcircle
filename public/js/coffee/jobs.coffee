@@ -44,11 +44,7 @@ $('input[name="salary_type"]').change (e) ->
   if($('input[name="salary_lower"]').attr('salary_type_checked') == "true")
     $('.salary-amt').val ''
 
-# $('#job-form :input select textarea').change ->
-#   console.log 1231
-#   return
-
-$('#job-form').bind 'input select textarea', ->
+$('#job-form').bind 'input select textarea iframe', ->
   $('input[name="has_changes"]').val 1
   return
 
@@ -195,6 +191,13 @@ $('body').on 'click', '.auto-select', (e) ->
   $('.auto-exp-select').removeClass('hidden')
   $('.custom-exp').addClass('hidden');
   $('.custom-row:not(:first-child)').remove()
+
+$('#job-form').on 'keyup keypress', (e) ->
+  keyCode = e.keyCode or e.which
+  if keyCode == 13
+    e.preventDefault()
+    return false
+ 
 
 
 $('body').on 'click', '.add-exp', (e) ->

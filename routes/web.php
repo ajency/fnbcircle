@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-	$header_type = "trans-header";
+	$header_type = "home-header";
     return view('welcome', compact('header_type'));
 });
 
@@ -69,7 +69,7 @@ JOBS/USERS
 *******/
 
 //job single view
-Route::get('/jobs/{slug}','JobController@show');
+Route::get('/job/{slug}','JobController@show');
 
 Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
@@ -88,7 +88,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
-// Route::get('/job/{job_slug}/{reference_id}','JobController@show');
+
 
 
 /*************/
@@ -137,3 +137,15 @@ Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'adm
 });
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
+
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+});
+
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-view-data', 'ListViewController@getListData');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});

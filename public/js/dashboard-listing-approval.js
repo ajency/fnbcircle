@@ -367,8 +367,15 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
-    var filters;
-    filters = {
+    $('div#categories.node-list').html('');
+    $('input#draftstatus').prop('checked', false);
+    $('select#status-filter').multiselect('rebuild');
+    $('#submissionDate').val('');
+    $('#listingNameSearch').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false);
+    });
+    window.filters = {
       'submission_date': {
         'start': '',
         'end': ''
@@ -381,14 +388,6 @@
         'user_type': ['internal', 'external']
       }
     };
-    $('div#categories.node-list').html('');
-    $('input#draftstatus').prop('checked', false).change();
-    $('select#status-filter').multiselect('rebuild').change();
-    $('#submissionDate').val('');
-    $('#listingNameSearch').val('');
-    $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
-    });
     sendRequest();
   });
 

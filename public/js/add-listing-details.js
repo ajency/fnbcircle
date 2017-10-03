@@ -110,6 +110,10 @@
     });
   }), 500);
 
+  if ($('.payment-modes input[type="checkbox"]').length === $('.payment-modes input[type="checkbox"]:checked').length) {
+    $('input#selectall').prop('checked', true);
+  }
+
   window.validateBusinessDetails = function() {
     var form, instance, parameters;
     instance = $('#info-form').parsley();

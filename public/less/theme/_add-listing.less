@@ -470,6 +470,12 @@
 }
 
 
+.get-val{
+	.intl-tel-input{
+		display: block;
+	}
+}
+
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
   .business-type,.interested-options{
   	.radio{
@@ -2443,7 +2449,7 @@ input[type='checkbox'].remove-addr{
 }
 
 
-.business-email{
+.business-email,.business-phone{
 	.toggle{
 		overflow: inherit;
 		@media screen and (min-width: 769px){
@@ -2451,6 +2457,13 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 }
+
+.verifySection{
+	&.number-code{
+		margin-left: -15px;
+	}
+}
+
 
 .edit-summary-card{
 	margin-bottom: 1em;

@@ -307,7 +307,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="listings">
-                            <p class="default-size text-center listings__title">The following listings did not get updated.</p>
+                            <p class="default-size text-center listings__title">The following listing(s) did not get updated.</p>
                             <ul class="listings__links flex-row flex-wrap">
                                 <li>
                                     <a href="#" class="primary-link">Lorem ipsum</a>

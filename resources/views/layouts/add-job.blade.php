@@ -60,7 +60,7 @@
             </div> 
             @if($job->isJobVisible())
             <div class="pull-right">
-                <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
             </div>
             @endif
             <div class="clearfix"></div>
@@ -95,7 +95,7 @@
                 </div>
                 @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
                 </div> 
                 @endif
             </div>
@@ -234,14 +234,14 @@
                                         
                                         @if($job->isJobVisible())
                                         <div>
-                                            <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
+                                            <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
                                         </div>
                                         @endif
                                    
                                 </div>
                                 <div class="fly-out__content">
                                     @if($job->isJobVisible())
-                                    <!-- <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link">Preview</a>
+                                    <!-- <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link">Preview</a>
                                     </div> -->
                                     @endif
                                     <p class="note-row__text--status text-medium desk-hide">

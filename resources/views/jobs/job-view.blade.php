@@ -202,7 +202,7 @@
                     
 
                     <!-- map address -->
-                    @if($job->interview_location_lat)
+                    @if($job->interview_location_lat!="")
                     <div class="owner-address flex-row">
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
@@ -364,7 +364,7 @@
                   {!! $job->description !!}
                </div>
               
-              @if($job->interview_location_lat)
+              @if($job->interview_location_lat!="")
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">
@@ -521,7 +521,7 @@
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
-               
+              @if($job->isPublished()) 
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
@@ -535,7 +535,7 @@
                      <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
-               @if($job->isPublished())
+               
               @endif
             </div>
             <!-- Advertisement ends -->

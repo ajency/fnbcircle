@@ -1,10 +1,10 @@
 (function() {
   window.checkDuplicates = function() {
     var contacts, index, index1, others, value;
-    contacts = document.getElementsByClassName('fnb-input');
+    contacts = document.getElementsByClassName('contact-input');
     index = 0;
     while (index < contacts.length) {
-      others = document.getElementsByClassName('fnb-input');
+      others = document.getElementsByClassName('contact-input');
       value = contacts[index].value;
       if (value !== '') {
         index1 = 0;

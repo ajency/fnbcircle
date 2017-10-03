@@ -39,8 +39,8 @@ window.init = ->
 
   #show address in textbox whwn page loads 
   console.log $("#map").attr('show-address')
-  if $("#map").attr('show-address') != ""
-    getAddress()
+  # if $("#map").attr('show-address') != ""
+  #   getAddress()
 
 
   google.maps.event.addListener marker, 'dragend', (ev) ->

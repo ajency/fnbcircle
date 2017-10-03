@@ -104,8 +104,8 @@ class JobController extends Controller
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
         $interviewLocation = $data['interview_location'];
-        $latitude = ($interviewLocation)? $data['latitude'] :'';
-        $longitude = ($interviewLocation)? $data['longitude'] :'';
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
 
         $metaData = [] ;
@@ -151,6 +151,7 @@ class JobController extends Controller
         $job->status = 1;
         $job->job_creator = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
         $job->save();
@@ -431,8 +432,8 @@ class JobController extends Controller
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
         $interviewLocation = $data['interview_location'];
-        $latitude = ($interviewLocation)? $data['latitude'] :'';
-        $longitude = ($interviewLocation)? $data['longitude'] :'';
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
         $hasChanges =  $data['has_changes'];
  
@@ -479,6 +480,7 @@ class JobController extends Controller
         $job->meta_data = $metaData;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
+        $job->interview_location = $interviewLocation;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds,$jobKeywords);

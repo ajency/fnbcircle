@@ -7995,6 +7995,7 @@ input[type=checkbox].custom-checkbox:before {
   .business-contact .fnb-input {
     padding-right: 0;
     font-size: 0.9em;
+    padding-top: 0;
   }
   .business-email .verified,
   .business-phone .verified {
@@ -9132,6 +9133,21 @@ input[type='checkbox'].remove-addr {
 }
 .verifySection.number-code {
   margin-left: -15px;
+}
+.verifySection .iti-sdc-5 .fnb-input {
+  width: 235px;
+}
+@media screen and (max-width: 320px) {
+  .verifySection .fnb-input {
+    width: 224px;
+  }
+  .verifySection .code-submit .contact-verify-stuff {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+  .verifySection .iti-sdc-5 .fnb-input {
+    width: 222px;
+  }
 }
 .edit-summary-card {
   margin-bottom: 1em;

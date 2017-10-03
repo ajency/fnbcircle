@@ -198,15 +198,10 @@ function getCommunicationContactDetail($objectId,$objectType,$type){
 
 function isAdmin()
 {
-    $roleId = App\Role::where('name','superadmin')->first()->id;
-    if(Auth::check() && Auth::user()->role_id==$roleId)
-    {
+    if(Auth::check() && Auth::user()->hasRole('superadmin'))
         return true;
-    }
     else
-    {
         return false;
-    }
 }
  
 

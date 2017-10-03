@@ -139,6 +139,7 @@
   file_dropify.on('dropify.afterClear', function(event, element) {
     $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
     $(this).closest('.image-grid__cols').find('.doc-name').val("");
+    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
     console.log("file deleted");
   });
 

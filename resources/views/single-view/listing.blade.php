@@ -14,11 +14,18 @@
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
 @endsection
 
-@section('opengraph')
+@section('openGraph')
 <!-- SEo section here -->
+    @php
+        $ogtag = singleListingOgTags($data['reference']);
+        $twitterTag = singleListingTwitterTags($data['reference']);
+        $tag = singleListingTags($data['reference']);
+    @endphp
+    @include('single-view.metatags')
 @endsection
 
 @section('single-view-data')
+
      <div class="container">
         <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
             <div class="col-sm-8  flex-col">

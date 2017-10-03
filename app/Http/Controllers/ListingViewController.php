@@ -19,7 +19,7 @@ class ListingViewController extends Controller
     	// dd($listing);
 
     	$pagedata = array();
-    	$pagedata['pagetitle'] = $this->getPageTitle($listing);
+    	$pagedata['pagetitle'] = getSingleListingTitle($listing);
     	$area = Area::with('city')->find($listing->locality_id);
     	$pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'');
     	$pagedata['title'] = ['name'=>$listing->title,'url'=>url()->current(),'alt'=>''];
@@ -131,21 +131,7 @@ class ListingViewController extends Controller
     	return view('single-view.listing')->with('data',$pagedata);
     }
 
-    private function getPageTitle($listing){
-    	$title = $listing->title;
-    	$area = Area::with('city')->find($listing->locality_id);
-    	// dd($area);
-    	$title .= ' |';
-    	$categories = ListingCategory::getCategories($listing->id);
-    	// dd($categories);
-    	foreach($categories as $category){
-    		$title .= ' '.$category['branch'];
-    	}
-    	$listing_type = config('tempconfig.listing-type')[$listing->type];
-    	$title .= ' '.$listing_type. ' | '.$area->name.' '.$area->city['name'].' | FnBCircle';
-
-    	return $title;
-    }
+    
 
     private function getPopularParentCategories(){
         $parents = Category::where('type','listing')->where('level','1')->where('status',1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();

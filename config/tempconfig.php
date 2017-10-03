@@ -17,4 +17,5 @@ return [
 	'listing-photo-thumb' => '200x150',
 	'listing-photo-full' => '400X300',
 	'single-view-category-number' => 4,
+	'twitterHandle' => '@fnbcircle',
 ];

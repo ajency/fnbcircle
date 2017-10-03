@@ -9583,6 +9583,13 @@ input[type='checkbox'].remove-addr {
   border-bottom: 0;
   width: auto;
 }
+.owner-address .mapAddress {
+  cursor: pointer;
+}
+.loc-icon {
+  position: relative;
+  top: 3px;
+}
 .share-job .fa-whatsapp {
   color: #34af23;
 }
@@ -9833,6 +9840,12 @@ input[type='checkbox'].remove-addr {
   content: ',';
   display: inline-block;
 }
+.role-selection .job-role .cities__title a:hover,
+.role-selection .job-role .cities__title a:active,
+.role-selection .job-role .cities__title a:focus {
+  text-decoration: underline;
+  color: #ec6d4b;
+}
 .role-selection .job-places {
   -webkit-flex-basis: 7%;
       -ms-flex-preferred-size: 7%;
@@ -9845,7 +9858,8 @@ input[type='checkbox'].remove-addr {
   }
 }
 .role-selection .job-places .job-location .location {
-  min-width: 68px;
+  min-width: 56px;
+  padding-right: 2px;
 }
 .role-selection .role-gap {
   padding-left: 1em;
@@ -9860,7 +9874,6 @@ input[type='checkbox'].remove-addr {
 }
 .job-location {
   margin-top: -3px;
-  margin-left: -5px;
 }
 .job-location .map-icon {
   -webkit-transform: scale(0.6);
@@ -9903,6 +9916,11 @@ input[type='checkbox'].remove-addr {
   outline: 0;
   font-size: 1.05em;
   opacity: 0.8;
+}
+.main-loc .location__title:hover,
+.main-loc .location__title:active,
+.main-loc .location__title:focus {
+  color: #ec6d4b;
 }
 @media screen and (max-width: 768px) {
   .job-type {
@@ -9994,6 +10012,7 @@ input[type='checkbox'].remove-addr {
         -ms-flex: inherit;
             flex: inherit;
     min-width: auto;
+    margin-top: 0;
   }
   .role-selection .job-places .job-location .cities {
     -webkit-box-flex: 2;

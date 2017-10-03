@@ -470,6 +470,37 @@
 }
 
 
+.business-info{
+	.business-type{
+		align-items: inherit;
+		li{
+			box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
+			&.active{
+				box-shadow: 0px 0px 0px 3px rgba(0, 182, 170, 0.45);
+			}
+			@media screen and (max-width: @mobile){
+				min-height: 142px;
+			}
+		}
+		.option{
+			box-shadow: none;
+		}
+	}
+	.radio{
+		&:checked{
+			& + .option{
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+.get-val{
+	.intl-tel-input{
+		display: block;
+	}
+}
+
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
   .business-type,.interested-options{
   	.radio{
@@ -836,7 +867,7 @@
 }
 
 
-.imageUpload{
+.imageUpload,.J-company{
 	@media screen and (min-width: 769px){
 		.dropify-wrapper{
 			overflow: inherit;
@@ -1304,6 +1335,7 @@
 		.fnb-input{
 			padding-right: 0;
 			font-size: 0.9em;
+			padding-top: 0;
 		}
 	}
 	.business-email,.business-phone{
@@ -2443,7 +2475,7 @@ input[type='checkbox'].remove-addr{
 }
 
 
-.business-email{
+.business-email,.business-phone{
 	.toggle{
 		overflow: inherit;
 		@media screen and (min-width: 769px){
@@ -2451,6 +2483,35 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 }
+
+.verifySection{
+	&.number-code{
+		margin-left: -15px;
+	}
+	.iti-sdc-5{
+		.fnb-input{
+			width: 235px;
+		}
+	}
+}
+
+@media screen and (max-width: 320px){
+	.verifySection{
+		.fnb-input{
+			width: 224px;
+		}
+		.code-submit .contact-verify-stuff{
+			font-size: 0.8em;
+			padding: 0.5em 1em;
+		}
+		.iti-sdc-5{
+			.fnb-input{
+				width: 222px;
+			}
+		}
+	}
+}
+
 
 .edit-summary-card{
 	margin-bottom: 1em;
@@ -2894,10 +2955,11 @@ input[type='checkbox'].remove-addr{
     				}
     			}
     			&.has-preview{
-    				width: auto;
+    				width: 100%;
     				.dropify-clear{
-    					font-size: 0.7em;
+    					font-size: 0.8em;
     					padding: 2px 4px;
+    					text-decoration: underline;
     				}
     			}
     		}
@@ -2990,12 +3052,17 @@ input[type='checkbox'].remove-addr{
     	width: auto;
 	}
 	.mapAddress{
+		cursor: pointer;
 		@media screen and (min-width: 769px){
 			// max-width: 350px;
 		}
 	}
 }
 
+.loc-icon{
+	position: relative;
+	top: 3px;
+}
 
 .share-job{
 	.fa{
@@ -3028,7 +3095,7 @@ input[type='checkbox'].remove-addr{
 
 .Company-info{
 	align-items: flex-start;
-	overflow: auto;
+	// overflow: auto;
 	.name-row{
 		align-items: initial;
 		justify-content: center;
@@ -3231,7 +3298,9 @@ input[type='checkbox'].remove-addr{
 		// flex: 2;
 		// width: 45%;
 		@media screen and (min-width: 769px){
-			flex-basis: 18%;
+			// flex-basis: 18%;
+			flex-basis: auto;
+    		max-width: 46%;
 		}
 		.cities{
 			li{
@@ -3245,18 +3314,28 @@ input[type='checkbox'].remove-addr{
 					}
 				}
 			}
+			&__title{
+				a{
+					&:hover,&:active,&:focus{
+						text-decoration: underline;
+						color: @accent-primary;
+					}
+				}
+			}
 		}
 	}
 	.job-places{
 		// min-width: 42%;
 		flex-basis: 7%;
-		min-width: 220px;
+		min-width: 240px;
 		@media screen and (min-width: 769px){
-			margin: 0 0.8em;
+			margin: 0 0.8em 1em 0.8em;
 		}
 		.job-location{
+			margin-bottom: 3px;
 			.location{
-				min-width: 68px;
+				min-width: 56px;
+    			padding-right: 2px;
 				.c-title{
 					// flex: 1;
 				}
@@ -3268,6 +3347,14 @@ input[type='checkbox'].remove-addr{
 	}
 	.role-gap{
 		padding-left: 1em;
+	}
+	.year-exp{
+		max-width: inherit;
+	}
+	& > .year-exp{
+		@media screen and (min-width: 769px){
+    		margin-left: 0.8em;
+    	}
 	}
 }
 
@@ -3283,8 +3370,8 @@ input[type='checkbox'].remove-addr{
 
 
 .job-location{
-	margin-top: -3px;
-    margin-left: -5px;
+	// margin-top: -3px;
+    // margin-left: -5px;
 	.map-icon{
 		transform: scale(0.6);
 	}
@@ -3336,6 +3423,14 @@ input[type='checkbox'].remove-addr{
 // 		visibility: hidden;
 // 	}
 // }
+
+.main-loc{
+	.location__title{
+		&:hover,&:active,&:focus{
+			color: @accent-primary;
+		}
+	}
+}
 
 @media screen and (max-width: @mobile){
 	.job-type{
@@ -3397,13 +3492,15 @@ input[type='checkbox'].remove-addr{
 		}
 		.job-places{
 			min-width: initial;
-			width: 100%;
-			flex-basis: 100%;
+			// width: 100%;
+			flex-basis: auto;
+			padding-right: 0.5em;
 			.job-location{
 				margin-top: 5px;
 				.location{
 					flex: inherit;
 					min-width: auto;
+					margin-top: 0;
 				}
 				.cities{
 					flex: 2;
@@ -3414,7 +3511,7 @@ input[type='checkbox'].remove-addr{
 			width: inherit;
 		}
 		.offered-sal,.off-salary{
-			padding-right: 1.5em;
+			padding-right: 0;
 		}
 	}
 	.job-points{

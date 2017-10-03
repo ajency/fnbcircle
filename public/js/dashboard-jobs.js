@@ -42,8 +42,7 @@
         'data': 'keyword',
         "orderable": false
       }, {
-        'data': 'company_name',
-        "orderable": false
+        'data': 'company_name'
       }, {
         'data': 'date_of_submission'
       }, {

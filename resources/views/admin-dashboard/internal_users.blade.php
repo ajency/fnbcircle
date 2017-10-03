@@ -1,5 +1,9 @@
 @extends('layouts.admin-dashboard')
 
+@section('title')
+Internal Users
+@endsection
+
 @section('css')
     <!-- Datatables -->
     <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
@@ -75,7 +79,7 @@
 
 	        <div class="page-title">
 	          <div class="title_left">
-	            <h5>Manage Categories <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_newuser_modal">+ Add new user</button></h5>
+	            <h5>Internal Users <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_newuser_modal">+ Add new user</button></h5>
 	          </div>
 	        </div>
 
@@ -94,8 +98,8 @@
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>
-	                      <th class="">Name </th>
-	                      <th class="">Email </th>
+	                      <th class="">Name <span class="sort-icon"/></th>
+	                      <th class="">Email <span class="sort-icon"/></th>
 	                      <th class="no-sort ">Roles
 	                        <select multiple class="form-control multi-dd">
 	                          <!-- <option value="yes">Yes</option>
@@ -186,6 +190,7 @@
 	                      <div class="form-group">
 	                        <label>Email  <span class="text-danger">*</span></label>
 	                        <input type="email" class="form-control fnb-input" name="email" placeholder="Email Address" data-parsley-trigger="change" data-required="true" required>
+	                    	<p id="email-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>
 	                  </div>
@@ -194,11 +199,12 @@
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
-	                        <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true">
+	                        <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
 	                          @foreach(Role::all() as $key_role => $value_role)
 	                          	<option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>
+	                        <div id="role-error" class="fnb-error"></div>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
@@ -226,13 +232,14 @@
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="password" placeholder="Enter a password" parsley-type="password" data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password"data-parsley-trigger="keyup" data-required="true" required>
+	                        <p id="password-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                        <label>Confirm Password <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="confirm_password" placeholder="Confirm your password" data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="confirm_password" data-parsley-equalto="#password" placeholder="Confirm your password" data-parsley-trigger="keyup" data-required="true" required>
 	                      </div>
 	                    </div>
 	                  </div>
@@ -241,7 +248,8 @@
 	                <div class="modal-footer">
 	                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
 	                  <!-- <button type="submit" class="btn primary-btn fnb-btn border-btn">Save <i class="fa fa-circle-o-notch fa-spin"></i></button> -->
-	                  <button type="button" class="btn primary-btn fnb-btn border-btn" id="add_newuser_modal_btn">Save <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn createSave" id="add_newuser_modal_btn">Create <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn hidden editSave" id="add_newuser_modal_btn">Save <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
 	                </div>
 	              </form>
 	            </div>

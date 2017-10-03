@@ -296,7 +296,7 @@ function init_Multiselect() {
             });
             var search = selected.join("|");
             var col = $(this)[0]['$select'].closest('th').data('col')
-            $('#datatable-users,#datatable-categories, #datatable-locations, #datatable-listing_approval').DataTable().column(col).search(search, true, false).draw();
+            $('#datatable-users,#datatable-categories, #datatable-locations').DataTable().column(col).search(search, true, false).draw();
             // Show/hide first column for Listing Approval table
             // if (selected == "Pending Review") {
             //     $(".select-checkbox").css("display", "table-cell");

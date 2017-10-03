@@ -60,7 +60,7 @@
             </div> 
             @if($job->isJobVisible())
             <div class="pull-right">
-                <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
             </div>
             @endif
             <div class="clearfix"></div>
@@ -95,7 +95,7 @@
                 </div>
                 @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
                 </div> 
                 @endif
             </div>
@@ -126,7 +126,9 @@
                                             @endif
 
                                             </div>
-                                            <!-- <a href="#" class="review-submit-link">Submit for Review</a> -->
+                                            @if($job->submitForReview()) 
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -137,15 +139,15 @@
 
                                 <ul class="gs-steps" role="tablist" >
                                     <li class=""> 
-                                        <a href="@if(!$job->id || $step == 'step-one') # @else {{ url('/jobs/'.$job->reference_id.'/step-one') }} @endif" class="@if(!$job->id || $step == 'step-one') form-toggle @endif" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if(!$job->id || $step == 'job-details') # @else {{ url('/jobs/'.$job->reference_id.'/job-details') }} @endif" class="@if(!$job->id || $step == 'job-details') form-toggle @endif" id="job_details">Job Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
                                    <li class="busCat @if(!$job->id) disable @endif">
-                                        <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="@if(!$job->id || $step == 'step-two') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'company-details') # @else {{ url('/jobs/'.$job->reference_id.'/company-details') }} @endif" class="@if(!$job->id || $step == 'company-details') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
-                                    <li class="@if(!$job->id) disable @endif">
-                                        <a href="@if($step == 'step-three') # @else {{ url('/jobs/'.$job->reference_id.'/step-three') }} @endif" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                    <li class="@if(!$job->isJobDataComplete()) disable @endif">
+                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Go Premium<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -232,14 +234,14 @@
                                         
                                         @if($job->isJobVisible())
                                         <div>
-                                            <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
+                                            <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
                                         </div>
                                         @endif
                                    
                                 </div>
                                 <div class="fly-out__content">
                                     @if($job->isJobVisible())
-                                    <!-- <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="{{ url('/jobs/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link">Preview</a>
+                                    <!-- <div class="preview-header text-color desk-hide"> Do you want to see a preview of your job? <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link preview-header__link">Preview</a>
                                     </div> -->
                                     @endif
                                     <p class="note-row__text--status text-medium desk-hide">
@@ -289,7 +291,7 @@
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
                                                     <i class="fa fa-list-alt" aria-hidden="true"></i>
-                                                    <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
+                                                    <p class="review-note__title">If you don't want to further complete/edit the job, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
                                                    <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" class="primary-link sub-title ">Submit for Review</a>
@@ -306,6 +308,7 @@
                                             <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
+                                        <input type="hidden" name="has_changes" value="0">
                                         </form>
                                     </div>
                                 </div>
@@ -346,60 +349,7 @@
                     </div>
                 </div>
 
-                <!-- listing present -->
-                <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="level-one mobile-hide">
-                                    <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                </div>
-                            </div>
-                            <div class="modal-body">
-                                <div class="listing-details text-center">
-                                    <img src="/img/listing-search.png" class="img-responsive center-block">
-                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on F&amp;BCircle.</h5>
-                                    <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
-                                        <br> You can either Claim the listing or Delete it.</p>
-                                </div>
-                                <div class="list-entries">
-                                    <div class="list-row flex-row">
-                                        <div class="left">
-                                            <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color default-size">
-                                                <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
-                                            </p>
-                                        </div>
-                                        <div class="right">
-                                            <div class="capsule-btn flex-row">
-                                                <button class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</button>
-                                                <button class="btn fnb-btn outline full border-btn no-border delete">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="list-row flex-row">
-                                        <div class="left">
-                                            <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color default-size">
-                                                <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
-                                            </p>
-                                        </div>
-                                        <div class="right">
-                                            <div class="capsule-btn flex-row">
-                                                <button class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</button>
-                                                <button class="btn fnb-btn outline full border-btn no-border delete">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close">Skip <i class="fa fa-forward p-l-5" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
         <div class="site-loader full-loader hidden">

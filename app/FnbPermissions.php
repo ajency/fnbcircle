@@ -31,8 +31,8 @@ function routePermission(){
 
 
 			 	//ui element
-				'submit_review_element'=>['submit_for_review_job'],
-				'edit_permission'=>['edit_job'],
+				'submit_review_element'=>['submit_for_review_job','submit_for_review_listing'],
+				'edit_permission'=>['edit_job','edit_listing'],
 			],
 
 		'normal_user_check' =>

@@ -9837,7 +9837,7 @@ input[type='checkbox'].remove-addr {
   -webkit-flex-basis: 7%;
       -ms-flex-preferred-size: 7%;
           flex-basis: 7%;
-  min-width: 220px;
+  min-width: 240px;
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-places {

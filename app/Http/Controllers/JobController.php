@@ -50,10 +50,7 @@ class JobController extends Controller
         $postUrl = url('jobs');
         $pageName = "Add Job" ;
         $breadcrumb = "Add a Job" ;
-        $job->interview_location_lat = "28.7040592";
-        $job->interview_location_long = "77.10249019999992";
-
-
+ 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
                                     ->with('job', $job) 
                                     ->with('cities', $cities) 
@@ -87,7 +84,7 @@ class JobController extends Controller
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();    
+        $data = $request->all();  
 
         $title = $data['job_title'];
         $description = $data['description'];
@@ -100,8 +97,9 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
-        $latitude = $data['latitude'];
-        $longitude = $data['longitude'];
+        $interviewLocation = $data['interview_location'];
+        $latitude = ($interviewLocation)? $data['latitude'] :'';
+        $longitude = ($interviewLocation)? $data['longitude'] :'';
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
 
         $metaData = [] ;
@@ -426,8 +424,9 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
-        $latitude = $data['latitude'];
-        $longitude = $data['longitude'];
+        $interviewLocation = $data['interview_location'];
+        $latitude = ($interviewLocation)? $data['latitude'] :'';
+        $longitude = ($interviewLocation)? $data['longitude'] :'';
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
  
 

@@ -126,7 +126,9 @@
                                             @endif
 
                                             </div>
-                                            <!-- <a href="#" class="review-submit-link">Submit for Review</a> -->
+                                            @if($job->submitForReview()) 
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +146,7 @@
                                         <a href="@if($step == 'step-two') # @else {{ url('/jobs/'.$job->reference_id.'/step-two') }} @endif" class="@if(!$job->id || $step == 'step-two') form-toggle @endif" id="company_details">Company Details <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
 
-                                    <li class="@if(!$job->id) disable @endif">
+                                    <li class="@if(!$job->isJobDataComplete()) disable @endif">
                                         <a href="@if($step == 'step-three') # @else {{ url('/jobs/'.$job->reference_id.'/step-three') }} @endif" class="@if(!$job->id || $step == 'step-three') form-toggle @endif" id="plan_selection">Plan Selection <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
@@ -306,6 +308,7 @@
                                             <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
+                                        <input type="hidden" name="has_changed" value="0">
                                         </form>
                                     </div>
                                 </div>

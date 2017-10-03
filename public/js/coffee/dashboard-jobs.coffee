@@ -29,7 +29,7 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'title' }
     { 'data': 'business_type', "orderable": false}
     { 'data': 'keyword'  , "orderable": false}
-    { 'data': 'company_name',"orderable": false }
+    { 'data': 'company_name' }
     { 'data': 'date_of_submission' }
     { 'data': 'published_date' }
     { 'data': 'last_updated' }

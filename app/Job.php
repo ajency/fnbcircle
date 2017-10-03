@@ -125,12 +125,29 @@ class Job extends Model
         return ucwords($salaryType->label);
     }
 
+    public function getSalaryTypeShortForm(){
+        $salaryType = Defaults::find($this->salary_type);
+        return salarayTypeText($salaryType->label);
+    }
 
-    public function getMetaDataAttribute( $value ) { 
-		$value = unserialize( $value );
+
+    public function getInterviewLocationLat() { 
+		$value = ($this->interview_location_lat) ? $this->interview_location_lat :"28.7040592";
 		 
 		return $value;
 	}
+
+    public function getInterviewLocationLong() { 
+        $value =($this->interview_location_long) ? $this->interview_location_long : "77.10249019999992";
+         
+        return $value;
+    }
+
+    public function getMetaDataAttribute( $value ) { 
+        $value = unserialize( $value );
+         
+        return $value;
+    }
 
 	public function setMetaDataAttribute( $value ) { 
 		$this->attributes['meta_data'] = serialize( $value );
@@ -243,8 +260,17 @@ class Job extends Model
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
 
         }
+
         return $date;
       
+    }
+
+    public function setStatusAttribute( $value ) { 
+
+        if($value == 3){
+            $this->publishJob();
+        }
+
     }
 
     public function jobPublishedOn($format=1){
@@ -363,7 +389,7 @@ class Job extends Model
             $status[4] = [3]; 
         }
         else{
-            $status[1] = [2,3]; 
+            $status[1] = [2]; 
             $status[2] = []; 
             $status[3] = [4]; 
             $status[4] = [3]; 

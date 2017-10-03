@@ -40,9 +40,11 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       return
 
 
-$('input[name="salary_type"]').click (e) ->
-  $('.salary-amt').attr('data-parsley-required',true)
- 
+$('input[name="salary_type"]').change (e) ->
+  $('.salary-amt').attr('data-parsley-required',true).val ''
+
+$("#job-form").on 'change keypress', 'input select textarea', ->
+  console.log 11
 
 $('.clear-salary').on 'click', ->
   $('input[name="salary_type"]').prop('checked',false).removeAttr('data-parsley-required') 
@@ -132,6 +134,16 @@ $('.job-save-btn').click (e) ->
 
   if $('input[name="step"]').val()  == 'step-one' || $('input[name="step"]').val()  == 'step-two'
     CKEDITOR.instances.editor.updateElement()
+
+    editorStr = CKEDITOR.instances.editor.getData()
+    editorStr = editorStr.replace(/&nbsp;/g, '');
+    editorStr = editorStr.replace("<p>", "")
+    editorStr = editorStr.replace("</p>", "")
+    
+    console.log editorStr.length
+    if editorStr == ""
+      console.log 1
+      CKEDITOR.instances.editor.setData('')
 
   $(this).closest('form').submit()
   return
@@ -318,3 +330,24 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
+ 
+
+$('.add-job-areas').click (e) ->
+  area_group = undefined
+  area_group_clone = undefined
+  e.preventDefault()
+  area_group = $(this).closest('.areas-select').find('.area-append')
+  area_group_clone = area_group.clone()
+  area_group_clone.removeClass 'area-append hidden'
+  area_group_clone.find('.areas-appended').addClass 'newly-created'
+  console.log area_group_clone
+  area_group_clone.find('.selectCity').attr 'data-parsley-required', ''
+  area_group_clone.find('.selectCity').attr 'data-parsley-required-message', 'Select a city where the job is located.'
+  area_group_clone.find('.newly-created').attr 'data-parsley-required', ''
+  area_group_clone.find('.newly-created').attr 'data-parsley-required-message', 'Select an area where the job is located.'
+  area_group_clone.find('.newly-created').multiselect
+    includeSelectAllOption: true
+    numberDisplayed: 1
+    nonSelectedText: 'Select Area(s)'
+  area_group_clone.insertBefore area_group
+  return

@@ -203,12 +203,13 @@
                     
 
                     <!-- map address -->
+                    @if($job->interview_location_lat)
                     <div class="owner-address flex-row">
                       <span class="fnb-icons map-icon"></span>
                       <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
                       <div class="text-color lighter mapAddress scroll-to-location"></div>
                      </div>
-
+                    @endif
                     <!-- <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         
@@ -282,7 +283,13 @@
                      <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         @if($job->salary_lower !="" && $job->salary_upper !="" )
-                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
+                        <div class="text-color lighter">
+                          @if($job->salary_lower == $job->salary_upper )
+                          {{ moneyFormatIndia($job->salary_lower) }}
+                          @else
+                          {{ moneyFormatIndia($job->salary_lower) }} - {{ moneyFormatIndia($job->salary_upper) }} 
+                          @endif
+                        {{ $job->getSalaryTypeShortForm()}}</div>
                         @else
                         <div class="text-color lighter">Not disclosed</div>
                         @endif
@@ -345,7 +352,8 @@
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
                </div>
-             
+              
+              @if($job->interview_location_lat)
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">
@@ -357,11 +365,12 @@
                       <input type="hidden" id=longitude name=longitude value="{{ $job->interview_location_long  }}">
                   </div>
                </div>
+              @endif
                @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
-                  {!! $job->description !!}
+                  {!! $jobCompany->description !!}
                </div>
               @endif
                <div class="footer-share flex-row">
@@ -470,10 +479,10 @@
                     @if(!empty($jobCompany->logo))@endif
                      <div class="company-name heavier">
                         <div>
-                           <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @endif"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>
+                           <div class="flex-row heavier @if(empty($companyLogo)) element-title @endif"> {{ $jobCompany->title }}</div>
 
                            @if(!empty($jobCompany->website))
-                           <a href="#" class="primary-link x-small ">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           <a href="{{ $jobCompany->website }}" class="primary-link x-small " target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
                            @endif
 
                            @if(!empty($jobCompany->description))

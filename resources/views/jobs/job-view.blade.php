@@ -496,7 +496,9 @@
 
 
                            @if(!empty($jobCompany->website))
-                           <a href="{{ $jobCompany->website }}" class="primary-link x-small " target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           
+                           <a href="{{ $jobCompany->website }}" class="primary-link x-small ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+
                            @endif
 
                            @if(!empty($jobCompany->description))

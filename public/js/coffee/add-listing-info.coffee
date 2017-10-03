@@ -216,6 +216,13 @@ $('body').on 'click', '.removeRow', ->
 # ), 1500
 
 
+$(document).on 'click', '.business-type .radio', ->
+  if $(this).is(':checked')
+    $(this).parent().addClass 'active'
+    $(this).parent().siblings().removeClass 'active'
+  return
+
+
 $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->
 	if $(this).is(':checked')

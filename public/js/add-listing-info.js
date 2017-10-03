@@ -31,6 +31,13 @@
     return $(this).closest('.get-val').parent().remove();
   });
 
+  $(document).on('click', '.business-type .radio', function() {
+    if ($(this).is(':checked')) {
+      $(this).parent().addClass('active');
+      $(this).parent().siblings().removeClass('active');
+    }
+  });
+
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {
       $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');

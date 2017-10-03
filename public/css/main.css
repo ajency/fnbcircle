@@ -7203,6 +7203,29 @@ input[type=checkbox].custom-checkbox:before {
   font-weight: 500;
   color: #6f6f6f;
 }
+.business-info .business-type {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
+.business-info .business-type li {
+  box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.business-info .business-type li.active {
+  box-shadow: 0px 0px 0px 3px rgba(0, 182, 170, 0.45);
+}
+@media screen and (max-width: 768px) {
+  .business-info .business-type li {
+    min-height: 142px;
+  }
+}
+.business-info .business-type .option {
+  box-shadow: none;
+}
+.business-info .radio:checked + .option {
+  box-shadow: none;
+}
 .get-val .intl-tel-input {
   display: block;
 }

@@ -23,7 +23,6 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       for key of data
         html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
 
-      console.log html
       jobCityObj.closest('.location-select').find('.job-areas').html html
       jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
       jobCityObj.closest('.location-select').find('.job-areas').multiselect
@@ -40,9 +39,14 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
       return
 
 
-$('input[name="salary_type"]').click (e) ->
+$('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
- 
+  if($('input[name="salary_lower"]').attr('salary_type_checked') == "true")
+    $('.salary-amt').val ''
+
+$('#job-form').bind 'input select textarea iframe', ->
+  $('input[name="has_changes"]').val 1
+  return
 
 $('.clear-salary').on 'click', ->
   $('input[name="salary_type"]').prop('checked',false).removeAttr('data-parsley-required') 
@@ -133,12 +137,21 @@ $('.job-save-btn').click (e) ->
   if $('input[name="step"]').val()  == 'step-one' || $('input[name="step"]').val()  == 'step-two'
     CKEDITOR.instances.editor.updateElement()
 
+    editorStr = CKEDITOR.instances.editor.getData()
+    editorStr = editorStr.replace(/&nbsp;/g, '');
+    editorStr = editorStr.replace("<p>", "")
+    editorStr = editorStr.replace("</p>", "")
+    
+    if editorStr == ""
+      CKEDITOR.instances.editor.setData('')
+
   $(this).closest('form').submit()
   return
 
 
 $('#salary_lower').on 'change', ->
   if $(this).val() != ''
+    $(this).attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'))
     salaryLower = parseInt $(this).val() 
     salaryUpper = parseInt $('#salary_upper').val()
     $('#salary_upper').attr('data-parsley-min',salaryLower) 
@@ -158,6 +171,7 @@ $('#salary_lower').on 'change', ->
 
 $('#salary_upper').on 'change', ->
   if $(this).val() != ''
+    $('#salary_lower').attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'))
     $('#salary_lower').attr 'data-parsley-required', true
   else
     $('#salary_lower').removeAttr('data-parsley-required')
@@ -177,6 +191,13 @@ $('body').on 'click', '.auto-select', (e) ->
   $('.auto-exp-select').removeClass('hidden')
   $('.custom-exp').addClass('hidden');
   $('.custom-row:not(:first-child)').remove()
+
+$('#job-form').on 'keyup keypress', (e) ->
+  keyCode = e.keyCode or e.which
+  if keyCode == 13
+    e.preventDefault()
+    return false
+ 
 
 
 $('body').on 'click', '.add-exp', (e) ->
@@ -249,10 +270,8 @@ $('body').on 'blur', '.job-keywords', (e) ->
   if $('.flex-data-row .flexdatalist-multiple li').hasClass('value')
     $('.job-keywords').removeAttr('data-parsley-required')
     
-    console.log('removed')
   else
     $('.job-keywords').attr('data-parsley-required','')  
-    console.log('added')
  
 
 # $('body').on 'click', '.fdl-remove', (e) ->
@@ -287,7 +306,6 @@ $('.check-detail').click ->
   return
 
 $('.scroll-to-location').click ->
-  console.log 12
   $('html, body').animate { scrollTop: $('#map').offset().top - 35 }, 2000
   return
 
@@ -318,3 +336,23 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
+ 
+
+$('.add-job-areas').click (e) ->
+  area_group = undefined
+  area_group_clone = undefined
+  e.preventDefault()
+  area_group = $(this).closest('.areas-select').find('.area-append')
+  area_group_clone = area_group.clone()
+  area_group_clone.removeClass 'area-append hidden'
+  area_group_clone.find('.areas-appended').addClass 'newly-created'
+  area_group_clone.find('.selectCity').attr 'data-parsley-required', ''
+  area_group_clone.find('.selectCity').attr 'data-parsley-required-message', 'Select a city where the job is located.'
+  area_group_clone.find('.newly-created').attr 'data-parsley-required', ''
+  area_group_clone.find('.newly-created').attr 'data-parsley-required-message', 'Select an area where the job is located.'
+  area_group_clone.find('.newly-created').multiselect
+    includeSelectAllOption: true
+    numberDisplayed: 1
+    nonSelectedText: 'Select Area(s)'
+  area_group_clone.insertBefore area_group
+  return

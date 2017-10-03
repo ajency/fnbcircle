@@ -25,17 +25,22 @@
   };
 
   window.init = function() {
-    var inp, lat, lng, mapTextMsg;
+    var inp, is_draggable, lat, lng, mapTextMsg;
     mapTextMsg = 'your business location';
     if ($("#map").attr('map-title') !== "") {
       mapTextMsg = $("#map").attr('map-title');
     }
     document.getElementById('map').style.height = "300px";
+    if ($(".mapAddress").length) {
+      is_draggable = false;
+    } else {
+      is_draggable = true;
+    }
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
     marker = new google.maps.Marker({
-      draggable: true
+      draggable: is_draggable
     }, {
       title: mapTextMsg
     });
@@ -63,9 +68,7 @@
   getAddress = function() {
     var pos;
     pos = marker.getPosition();
-    console.log('lat= ' + pos.lat());
     $('input#latitude').val(pos.lat());
-    console.log('lng= ' + pos.lng());
     $('input#longitude').val(pos.lng());
     $.ajax({
       type: 'GET',
@@ -75,7 +78,6 @@
         'key': key
       },
       success: function(data) {
-        console.log(data['results'][0]['formatted_address']);
         document.getElementById('mapadd').value = data['results'][0]['formatted_address'];
         if ($(".mapAddress").length) {
           $(".mapAddress").html(data['results'][0]['formatted_address']);
@@ -102,6 +104,11 @@
     }
   });
 
+  $('input[name="interview_location"]').on('keyup', function() {
+    updateAddr();
+    return populate(this.value);
+  });
+
   replaceAll = function(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
   };
@@ -113,9 +120,7 @@
 
   populate = function(inp) {
     var search;
-    console.log(inp);
     search = replaceAll(inp, ' ', '+');
-    console.log('search= ' + search);
     $.ajax({
       type: 'GET',
       url: 'https://maps.googleapis.com/maps/api/geocode/json',
@@ -135,7 +140,6 @@
   initMap = function(lat, long) {
     var myLatLng;
     myLatLng = new google.maps.LatLng(lat, long);
-    console.log(myLatLng.lat(), myLatLng.lng());
     $('input#latitude').val(myLatLng.lat());
     $('input#longitude').val(myLatLng.lng());
     map.setCenter(myLatLng);

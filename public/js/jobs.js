@@ -28,7 +28,6 @@
         for (key in data) {
           html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
-        console.log(html);
         jobCityObj.closest('.location-select').find('.job-areas').html(html);
         jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
         jobCityObj.closest('.location-select').find('.job-areas').multiselect({
@@ -45,8 +44,15 @@
     });
   });
 
-  $('input[name="salary_type"]').click(function(e) {
-    return $('.salary-amt').attr('data-parsley-required', true);
+  $('input[name="salary_type"]').change(function(e) {
+    $('.salary-amt').attr('data-parsley-required', true);
+    if ($('input[name="salary_lower"]').attr('salary_type_checked') === "true") {
+      return $('.salary-amt').val('');
+    }
+  });
+
+  $('#job-form').bind('input select textarea iframe', function() {
+    $('input[name="has_changes"]').val(1);
   });
 
   $('.clear-salary').on('click', function() {
@@ -114,6 +120,7 @@
   });
 
   $('.job-save-btn').click(function(e) {
+    var editorStr;
     e.preventDefault();
     if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
       $('.job-keywords').removeAttr('data-parsley-required');
@@ -122,6 +129,13 @@
     }
     if ($('input[name="step"]').val() === 'step-one' || $('input[name="step"]').val() === 'step-two') {
       CKEDITOR.instances.editor.updateElement();
+      editorStr = CKEDITOR.instances.editor.getData();
+      editorStr = editorStr.replace(/&nbsp;/g, '');
+      editorStr = editorStr.replace("<p>", "");
+      editorStr = editorStr.replace("</p>", "");
+      if (editorStr === "") {
+        CKEDITOR.instances.editor.setData('');
+      }
     }
     $(this).closest('form').submit();
   });
@@ -129,6 +143,7 @@
   $('#salary_lower').on('change', function() {
     var salaryLower, salaryUpper;
     if ($(this).val() !== '') {
+      $(this).attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'));
       salaryLower = parseInt($(this).val());
       salaryUpper = parseInt($('#salary_upper').val());
       $('#salary_upper').attr('data-parsley-min', salaryLower);
@@ -149,6 +164,7 @@
 
   $('#salary_upper').on('change', function() {
     if ($(this).val() !== '') {
+      $('#salary_lower').attr('salary_type_checked', $('input[name="salary_type"]').is(':checked'));
       $('#salary_lower').attr('data-parsley-required', true);
     } else {
       $('#salary_lower').removeAttr('data-parsley-required');
@@ -167,6 +183,15 @@
     $('.auto-exp-select').removeClass('hidden');
     $('.custom-exp').addClass('hidden');
     return $('.custom-row:not(:first-child)').remove();
+  });
+
+  $('#job-form').on('keyup keypress', function(e) {
+    var keyCode;
+    keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      return false;
+    }
   });
 
   $('body').on('click', '.add-exp', function(e) {
@@ -248,11 +273,9 @@
 
   $('body').on('blur', '.job-keywords', function(e) {
     if ($('.flex-data-row .flexdatalist-multiple li').hasClass('value')) {
-      $('.job-keywords').removeAttr('data-parsley-required');
-      return console.log('removed');
+      return $('.job-keywords').removeAttr('data-parsley-required');
     } else {
-      $('.job-keywords').attr('data-parsley-required', '');
-      return console.log('added');
+      return $('.job-keywords').attr('data-parsley-required', '');
     }
   });
 
@@ -277,7 +300,6 @@
   });
 
   $('.scroll-to-location').click(function() {
-    console.log(12);
     $('html, body').animate({
       scrollTop: $('#map').offset().top - 35
     }, 2000);
@@ -300,5 +322,26 @@
   }
 
   $('[data-toggle="tooltip"]').tooltip();
+
+  $('.add-job-areas').click(function(e) {
+    var area_group, area_group_clone;
+    area_group = void 0;
+    area_group_clone = void 0;
+    e.preventDefault();
+    area_group = $(this).closest('.areas-select').find('.area-append');
+    area_group_clone = area_group.clone();
+    area_group_clone.removeClass('area-append hidden');
+    area_group_clone.find('.areas-appended').addClass('newly-created');
+    area_group_clone.find('.selectCity').attr('data-parsley-required', '');
+    area_group_clone.find('.selectCity').attr('data-parsley-required-message', 'Select a city where the job is located.');
+    area_group_clone.find('.newly-created').attr('data-parsley-required', '');
+    area_group_clone.find('.newly-created').attr('data-parsley-required-message', 'Select an area where the job is located.');
+    area_group_clone.find('.newly-created').multiselect({
+      includeSelectAllOption: true,
+      numberDisplayed: 1,
+      nonSelectedText: 'Select Area(s)'
+    });
+    area_group_clone.insertBefore(area_group);
+  });
 
 }).call(this);

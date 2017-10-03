@@ -202,13 +202,14 @@
                     
 
                     <!-- map address -->
+                    @if($job->interview_location_lat)
                     <div class="owner-address flex-row">
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
                       <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
                       <div class="text-color lighter mapAddress scroll-to-location"></div>
                      </div>
-
+                    @endif
                     <!-- <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         
@@ -242,6 +243,7 @@
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job Location</h6>
                         @foreach($locations as $city => $locAreas)
+                          
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
                                <!-- <span class="fnb-icons map-icon"></span> -->
@@ -256,10 +258,21 @@
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
+                              $areaCount = count($areas);
+                              $areaInc = 0;
                               ?>
                               @foreach($areas as $area)
+                                <?php
+                                 $areaInc++;
+                                ?>
                                <li>
-                                   <p class="cities__title">{{ $area }}, </p>
+                                  <p class="cities__title">{{ $area }} 
+                   
+                                  @if($areaInc != $areaCount)
+                                   , 
+                                  @endif
+
+                                  </p>
                                </li>
                               @endforeach  
 
@@ -279,7 +292,14 @@
                      <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
                         @if($job->salary_lower !="" && $job->salary_upper !="" )
-                        <div class="text-color lighter"><i class="fa fa-inr text-color" aria-hidden="true"></i> {{ $job->salary_lower }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
+                        <div class="text-color lighter">
+                          @if($job->salary_lower == $job->salary_upper )
+                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
+                          @else
+                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
+                          @endif
+                        {{ $job->getSalaryTypeShortForm()}}</div>
+ 
                         @else
                         <div class="text-color lighter">Not disclosed</div>
                         @endif
@@ -343,7 +363,8 @@
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
                </div>
-             
+              
+              @if($job->interview_location_lat)
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">
@@ -355,11 +376,12 @@
                       <input type="hidden" id=longitude name=longitude value="{{ $job->interview_location_long  }}">
                   </div>
                </div>
+              @endif
                @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
-                  {!! $job->description !!}
+                  {!! $jobCompany->description !!}
                </div>
               @endif
                <div class="footer-share flex-row">
@@ -469,10 +491,14 @@
                      <div class="company-name heavier">
                         <div class="@if(empty($jobCompany->logo)) text-center @endif">
                            <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
-                           @if(empty($jobCompany->logo))<i class="fa fa-building-o p-r-5" aria-hidden="true"></i>@endif {{ $jobCompany->title }}</div>
+                            {{ $jobCompany->title }}
+                            </div>
+
 
                            @if(!empty($jobCompany->website))
-                           <a href="#" class="primary-link x-small ellipsis-2" title="{{ $jobCompany->website }}">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+                           
+                           <a href="{{ $jobCompany->website }}" class="primary-link x-small ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+
                            @endif
 
                            @if(!empty($jobCompany->description))

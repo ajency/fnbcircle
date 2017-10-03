@@ -695,13 +695,14 @@ class AdminConfigurationController extends Controller
         $length = $requestData['length'];
         $orderValue = $requestData['order'][0];
 
- 
+       
         $columnOrder = array( 
                                         '2'=> 'jobs.title',
                                         '3'=> 'categories.name',
-                                        '5'=> 'jobs.date_of_submission',
-                                        '6'=> 'jobs.published_on',
-                                        '7'=> 'jobs.updated_at'
+                                        '5'=> 'companies.title',
+                                        '6'=> 'jobs.date_of_submission',
+                                        '7'=> 'jobs.published_on',
+                                        '8'=> 'jobs.updated_at'
                                         );
 
         
@@ -751,20 +752,21 @@ class AdminConfigurationController extends Controller
             $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
         }
 
-        $filterKeywords = [];
-        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
-        {
-            $filterKeywords = $requestData['filters']['keywords'];
+         
+
+        $columnName = 'jobs.created_at';
+        $orderBy = 'desc';
+        
+        if($orderValue['column'] == 5){ 
+            $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
+            $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
+
         }
-
-
-        $columnName = 'jobs.title';
-        $orderBy = 'asc';
- 
+        
         if(isset($columnOrder[$orderValue['column']]))
         {   
-                $columnName = $columnOrder[$orderValue['column']];
-                $orderBy = $orderValue['dir'];
+            $columnName = $columnOrder[$orderValue['column']];
+            $orderBy = $orderValue['dir'];
         }
 
         $totalJobs = $jobQuery->count();

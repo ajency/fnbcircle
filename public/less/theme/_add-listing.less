@@ -2990,12 +2990,17 @@ input[type='checkbox'].remove-addr{
     	width: auto;
 	}
 	.mapAddress{
+		cursor: pointer;
 		@media screen and (min-width: 769px){
 			// max-width: 350px;
 		}
 	}
 }
 
+.loc-icon{
+	position: relative;
+	top: 3px;
+}
 
 .share-job{
 	.fa{
@@ -3245,6 +3250,14 @@ input[type='checkbox'].remove-addr{
 					}
 				}
 			}
+			&__title{
+				a{
+					&:hover,&:active,&:focus{
+						text-decoration: underline;
+						color: @accent-primary;
+					}
+				}
+			}
 		}
 	}
 	.job-places{
@@ -3256,7 +3269,8 @@ input[type='checkbox'].remove-addr{
 		}
 		.job-location{
 			.location{
-				min-width: 68px;
+				min-width: 56px;
+    			padding-right: 2px;
 				.c-title{
 					// flex: 1;
 				}
@@ -3284,7 +3298,7 @@ input[type='checkbox'].remove-addr{
 
 .job-location{
 	margin-top: -3px;
-    margin-left: -5px;
+    // margin-left: -5px;
 	.map-icon{
 		transform: scale(0.6);
 	}
@@ -3336,6 +3350,14 @@ input[type='checkbox'].remove-addr{
 // 		visibility: hidden;
 // 	}
 // }
+
+.main-loc{
+	.location__title{
+		&:hover,&:active,&:focus{
+			color: @accent-primary;
+		}
+	}
+}
 
 @media screen and (max-width: @mobile){
 	.job-type{
@@ -3404,6 +3426,7 @@ input[type='checkbox'].remove-addr{
 				.location{
 					flex: inherit;
 					min-width: auto;
+					margin-top: 0;
 				}
 				.cities{
 					flex: 2;

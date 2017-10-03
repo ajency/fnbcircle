@@ -291,7 +291,7 @@
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
                                                     <i class="fa fa-list-alt" aria-hidden="true"></i>
-                                                    <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
+                                                    <p class="review-note__title">If you don't want to further complete/edit the job, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
                                                    <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" class="primary-link sub-title ">Submit for Review</a>
@@ -349,60 +349,7 @@
                     </div>
                 </div>
 
-                <!-- listing present -->
-                <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="level-one mobile-hide">
-                                    <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                </div>
-                            </div>
-                            <div class="modal-body">
-                                <div class="listing-details text-center">
-                                    <img src="/img/listing-search.png" class="img-responsive center-block">
-                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on F&amp;BCircle.</h5>
-                                    <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
-                                        <br> You can either Claim the listing or Delete it.</p>
-                                </div>
-                                <div class="list-entries">
-                                    <div class="list-row flex-row">
-                                        <div class="left">
-                                            <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color default-size">
-                                                <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
-                                            </p>
-                                        </div>
-                                        <div class="right">
-                                            <div class="capsule-btn flex-row">
-                                                <button class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</button>
-                                                <button class="btn fnb-btn outline full border-btn no-border delete">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="list-row flex-row">
-                                        <div class="left">
-                                            <h5 class="sub-title text-medium text-capitalise list-title">Mystical the meat and fish store</h5>
-                                            <p class="text-color default-size">
-                                                <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">Matches found Phone Number (<span class="heavier">+91 9876543200</span>)</span>
-                                            </p>
-                                        </div>
-                                        <div class="right">
-                                            <div class="capsule-btn flex-row">
-                                                <button class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</button>
-                                                <button class="btn fnb-btn outline full border-btn no-border delete">Delete</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close">Skip <i class="fa fa-forward p-l-5" aria-hidden="true"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
         <div class="site-loader full-loader hidden">

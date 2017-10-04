@@ -25,12 +25,18 @@
 @endsection
 
 @section('single-view-data')
-
+    @include('single-view.listing_SEO')
      <div class="container">
         <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
             <div class="col-sm-8  flex-col">
                 <!-- Breadcrums -->
-                
+                @php
+                    $breadcrumbs = [];
+                    $breadcrumbs[] = ['url'=>env('APP_URL').'/', 'name'=>"Home", 'image'=>'/img/logo-fnb.png'];
+                    $breadcrumbs[] = ['url'=>$data['city']['url'], 'name'=>$data['city']['name']];
+                    $breadcrumbs[] = ['url'=>$data['title']['url'], 'name'=>$data['title']['name']];
+                @endphp
+                @include('single-view.breadcrumbs')
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">

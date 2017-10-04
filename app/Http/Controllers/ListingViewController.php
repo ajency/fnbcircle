@@ -21,7 +21,7 @@ class ListingViewController extends Controller
     	$pagedata = array();
     	$pagedata['pagetitle'] = getSingleListingTitle($listing);
     	$area = Area::with('city')->find($listing->locality_id);
-    	$pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'');
+    	$pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'', 'area' => $area->name);
     	$pagedata['title'] = ['name'=>$listing->title,'url'=>url()->current(),'alt'=>''];
         if($listing->status == 1){
             $pagedata['publish_date'] = $listing->published_on->format('jS F Y');
@@ -39,17 +39,19 @@ class ListingViewController extends Controller
     	$contacts = $listing->contacts()->get();
     	foreach($contacts as $contact){
     		if($contact->type=='email'){
-    			$pagedata['contact']['email'][] = ['value' => $contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'email'];
+    			if($contact->is_visible == 1)$pagedata['contact']['email'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'email'];
     		}
     		if($contact->type=='mobile'){
-    			$pagedata['contact']['mobile'][] = ['value' => $contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'mobile'];
+    			if($contact->is_visible == 1)$pagedata['contact']['mobile'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'mobile'];
     		}
     		if($contact->type=='landline'){
-    			$pagedata['contact']['landline'][] = ['value' => $contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'landline'];
+    			if($contact->is_visible == 1)$pagedata['contact']['landline'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'landline'];
     		}
     		
     	}
         if(count($pagedata['contact']['landline']) == 0) unset($pagedata['contact']['landline']);
+        if(count($pagedata['contact']['mobile']) == 0) unset($pagedata['contact']['mobile']);
+        if(count($pagedata['contact']['email']) == 0) unset($pagedata['contact']['email']);
     	$pagedata['categories'] = ListingCategory::getCategories($listing->id);
         if(count($pagedata['categories']) != 0){
         	$pagedata['cores'] = [];
@@ -128,6 +130,7 @@ class ListingViewController extends Controller
         $pagedata['browse_categories'] = $this->getPopularParentCategories();
         if(isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) $pagedata['overview'] = true;
     	// dd($pagedata);
+
     	return view('single-view.listing')->with('data',$pagedata);
     }
 

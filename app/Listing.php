@@ -162,6 +162,8 @@ class Listing extends Model
         ];
         foreach($opHrs as $day){
             $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+            $week[$day->day_of_week]['from'] = $day->from;
+            $week[$day->day_of_week]['to'] = $day->to;
             if($day->closed == 1) $week[$day->day_of_week]['timing'] = 'Closed';
             if($day->open24 == 1) $week[$day->day_of_week]['timing'] = 'Open 24 Hours';
         }

@@ -3,7 +3,7 @@
     "@context": "http://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-        @foreach($breadcrums as $position => $item)
+        @foreach($breadcrumbs as $position => $item)
         {
             "@type": "ListItem",
             "position": {{$position+1}},
@@ -19,29 +19,28 @@
 }
 </script>
 <ul class="fnb-breadcrums flex-row">
+    @foreach($breadcrumbs as $position => $item)
+    @if($loop->first)
     <li class="fnb-breadcrums__section">
-        <a href="">
+        <a href="/">
             <i class="fa fa-home home-icon" aria-hidden="true"></i>
         </a>
     </li>
+    @else
     <li class="fnb-breadcrums__section">
-        <a href="">
+        <a href="{{$item['url']}}">
+            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+        </a>
+    </li>
+    @endif
+
+    @if(!$loop->last)
+    <li class="fnb-breadcrums__section">
+        <!-- <a href="#"> -->
             <p class="fnb-breadcrums__title">/</p>
-        </a>
+        <!-- </a> -->
     </li>
-    <li class="fnb-breadcrums__section">
-        <a href="">
-            <p class="fnb-breadcrums__title">{{$data['city']['name']}}</p>
-        </a>
-    </li>
-    <li class="fnb-breadcrums__section">
-        <a href="">
-            <p class="fnb-breadcrums__title">/</p>
-        </a>
-    </li>
-    <li class="fnb-breadcrums__section">
-        <a href="">
-            <p class="fnb-breadcrums__title main-name">{{$data['title']['name']}}</p>
-        </a>
-    </li>
+    @endif
+    @endforeach
+    
 </ul>

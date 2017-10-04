@@ -307,8 +307,8 @@ class JobController extends Controller
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
 
-        if(!$job->canEditJob())
-            abort(403);
+        // if(!$job->canEditJob())
+        //     abort(403);
 
 
         $data = [];

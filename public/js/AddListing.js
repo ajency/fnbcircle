@@ -31,6 +31,7 @@ function listingInformation() {
                 url: '/contact_save',
                 data: {
                     'value': value[i].value,
+                    'country' : $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'],
                     'type': type,
                     'id': contact_IDs[i].value
                 },
@@ -45,6 +46,8 @@ function listingInformation() {
                 async: false
             });
             contact['id'] = contact_IDs[i].value;
+            contact['country'] =  $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'];
+
             // contact['email'] = emails[i].value;
             // contact['verify'] = (contact_verified[i].checked) ? "1" : "0";
             contact['visible'] = (contact_visible[i].checked) ? "1" : "0";
@@ -102,7 +105,14 @@ function validateListing(event) {
         var value = document.getElementsByName("contacts");
         var json = '[';
         for (var i = 0; i < value.length; i++) {
-            if (value[i].value !== "") json += '{\"value\":\"' + value[i].value + '\"},'
+            if ($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 'email'
+            if ($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 'mobile'
+            if ($(value[i]).closest('.business-contact').hasClass('landline')) var type = 'landline'
+            if (value[i].value !== "") {
+                json += '{\"value\":\"' +  value[i].value + '\",'+
+                        '\"country\":\"' +$(value[i]).intlTelInput("getSelectedCountryData")['dialCode'] + '\",'+
+                        '\"type\":\"' +type + '\"'+'},';
+            }
         }
         json = json.slice(0, -1);
         json += ']';
@@ -152,12 +162,18 @@ function validateListing(event) {
     }
     event.preventDefault();
 }
-$('#info-form').on('keyup keypress', function(e) {
+$('#info-form').on('keypress', function(e) {
     var keyCode = e.keyCode || e.which;
     if (keyCode === 13) {
         e.preventDefault();
         temp=document.activeElement;
-         $(temp).blur();
+          if ($(temp).hasClass('blur')) {
+              $(temp).blur();
+            }
+        if ($(temp).hasClass('allow-newline')) {
+              $(temp).val($(temp).val()+'\n');
+              e.preventDefault();
+            }
         return false;
     }
 });

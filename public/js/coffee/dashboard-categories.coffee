@@ -38,6 +38,7 @@ cat_table = $('#datatable-categories').DataTable(
     { 'data': 'parent_id' }
     { 'data': 'branch_id' }
     { 'data': 'name_data' }
+    { 'data': 'image_url'}
   ]
   'order': [ [
     10
@@ -56,6 +57,7 @@ cat_table = $('#datatable-categories').DataTable(
         14
         15
         16
+        17
       ]
       'visible': false
       'searchable': false
@@ -84,13 +86,19 @@ $('#add_category_modal').on 'show.bs.modal', (e) ->
   $('input[name="categoryType"]').prop 'disabled',false
   $('input#parent_cat[name="categoryType"]').change()
   $('#add_category_modal .save-btn').prop('disabled',false)
+  $('#add_category_modal input[type="file"]').val ''
+  $('#add_category_modal input[type="file"]').dropify()
+  $('#add_category_modal .dropify-clear').click();
+  $('.parent_cat_icon .dropify-clear').html('<span>&#10005;</span>')
   return
+
 
 
 $('body').on 'change', 'input[type=radio][name=categoryType]', ->
   if @value == '1'
     $('.select-parent-cat, .select-branch-cat').addClass 'hidden'
     $('.parent_cat_icon').removeClass 'hidden'
+    # $('input[type="file"]').attr('required','required')
     $('.select-parent-cat select').removeAttr('required')
     $('.select-branch-cat select').removeAttr('required')
     $('select[name="status"] option[value="1"]').attr("hidden","hidden")
@@ -174,30 +182,68 @@ $('#add_category_modal').on 'click','.save-btn', (e)->
   slug = $('#add_category_modal input[name="slug"]').val()
   sort_order = $('#add_category_modal input[name="order"]').val()
   status = $('#add_category_modal select[name="status"]').val()
-  image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png"
-  $.ajax
-    type: 'post'
-    url: '/save-category'
-    data: 
-      'level' : level
-      'id' : id
-      'parent_id' : parent_id
-      'name' : name
-      'slug' : slug
-      'sort_order' : sort_order
-      'status' : status
-      'image_url' : image_url
-    success : (data) ->
-      console.log data
+  image = $('#add_category_modal').find('input[type="file"]')[0].files[0]
+  formData = new FormData
+  formData.append 'level', level
+  formData.append 'id', id
+  formData.append 'parent_id', parent_id
+  formData.append 'name', name
+  formData.append 'slug', slug
+  formData.append 'sort_order', sort_order
+  formData.append 'status', status
+  formData.append 'image', image
+  xhr = new XMLHttpRequest
+  xhr.open 'POST', '/save-category'
+  xhr.onreadystatechange = ->
+    if @readyState == 4 and @status == 200
+      # console.log "2000 --- "
+      data = JSON.parse(@responseText)
       if saveCategory(level,data)
+        # console.log "In IF"
         $('.alert-success #message').html "Category added successfully."
         $('#add_category_modal').modal('hide')
-    error: (request, status, error) ->
-      console.log status
-      console.log error
-      $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
-      $('.alert-failure').addClass 'active'
+      else
+        # console.log "In ELSE"
+        console.log status
+        console.log error
+        $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+        $('.alert-failure').addClass 'active'
+        return
       return
+    else
+      setTimeout ( ->
+        if(@readyState != 4 and @readyState != undefined)
+
+          console.log @readyState
+          $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+          $('.alert-failure').addClass 'active'
+        return
+      ),15000
+    return
+  xhr.send formData
+  # $.ajax
+  #   type: 'post'
+  #   url: '/save-category'
+  #   data: 
+  #     'level' : level
+  #     'id' : id
+  #     'parent_id' : parent_id
+  #     'name' : name
+  #     'slug' : slug
+  #     'sort_order' : sort_order
+  #     'status' : status
+  #     'image' : image
+  #   success : (data) ->
+  #     console.log data
+  #     if saveCategory(level,data)
+  #       $('.alert-success #message').html "Category added successfully."
+  #       $('#add_category_modal').modal('hide')
+  #   error: (request, status, error) ->
+  #     console.log status
+  #     console.log error
+  #     $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+  #     $('.alert-failure').addClass 'active'
+  #     return
 
 saveCategory = (level,data) ->
   if(data['status']!="200")
@@ -247,10 +293,15 @@ status = undefined
 
 $('#datatable-categories').on 'click', 'i.fa-pencil', ->
   # console.log 'pitasha'
+
   editrow = $(this).closest('td')
   cat = cat_table.row(editrow).data()
   $('input[name="categoryType"]').prop 'checked',false  
   console.log cat
+  $('#edit_category_modal .parent_cat_icon').find('.dropify-wrapper').remove()
+  $('#edit_category_modal .parent_cat_icon').append('<input type="file">')
+  $('#edit_category_modal input[type="file"]').attr('data-default-file',cat['image_url'])
+  $('#edit_category_modal input[type="file"]').dropify()
   if cat['level']==1
     $('input#parent_cat[name="categoryType"]').prop 'checked',true  
   if cat['level']==2
@@ -294,7 +345,7 @@ $('#datatable-categories').on 'click', 'i.fa-pencil', ->
   $('#edit_category_modal input[name="slug"]').val(cat['slug'])
   $('#edit_category_modal input[name="order"]').val(cat['sort_order'])
   $('#edit_category_modal .save-btn').prop('disabled',false)
-
+  
   $('#edit_category_modal').modal('show')
 
 status = undefined
@@ -359,27 +410,69 @@ $('#edit_category_modal').on 'click','.save-btn', (e)->
   slug = $('#edit_category_modal input[name="slug"]').val()
   sort_order = $('#edit_category_modal input[name="order"]').val()
   status = $('#edit_category_modal select[name="status"]').val()
-  image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png"
-  $.ajax
-    type: 'post'
-    url: '/save-category'
-    data: 
-      'level' : level
-      'id' : id
-      'parent_id' : parent_id
-      'name' : name
-      'slug' : slug
-      'sort_order' : sort_order
-      'status' : status
-      'image_url' : image_url
-    success : (data) ->
-      console.log data
+  image = $('#edit_category_modal').find('input[type="file"]')[0].files[0]
+  formData = new FormData
+  formData.append 'level', level
+  formData.append 'id', id
+  formData.append 'parent_id', parent_id
+  formData.append 'name', name
+  formData.append 'slug', slug
+  formData.append 'sort_order', sort_order
+  formData.append 'status', status
+  formData.append 'image', image
+  xhr = new XMLHttpRequest
+  xhr.open 'POST', '/save-category'
+  xhr.onreadystatechange = ->
+    if @readyState == 4 and @status == 200
+      # console.log "2000 --- "
+      data = JSON.parse(@responseText)
       if saveCategory(level,data)
+        # console.log "In IF"
         $('.alert-success #message').html "Category edited successfully."
         $('#edit_category_modal').modal('hide')
-    error: (request, status, error) ->
-      console.log status
-      console.log error
-      $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
-      $('.alert-failure').addClass 'active'
+      else
+        # console.log "In ELSE"
+        console.log status
+        console.log error
+        $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+        $('.alert-failure').addClass 'active'
+        return
       return
+    else
+      setTimeout ( ->
+        if(@readyState != 4 and @readyState != undefined)
+
+          console.log @readyState
+          $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+          $('.alert-failure').addClass 'active'
+        return
+      ),15000
+    return
+  xhr.send formData
+  # image_url = "https://freeiconshop.com/wp-content/uploads/edd/meat-solid.png"
+  # $.ajax
+  #   type: 'post'
+  #   url: '/save-category'
+  #   data: 
+  #     'level' : level
+  #     'id' : id
+  #     'parent_id' : parent_id
+  #     'name' : name
+  #     'slug' : slug
+  #     'sort_order' : sort_order
+  #     'status' : status
+  #     'image_url' : image_url
+  #   success : (data) ->
+  #     console.log data
+  #     if saveCategory(level,data)
+  #       $('.alert-success #message').html "Category edited successfully."
+  #       $('#edit_category_modal').modal('hide')
+  #   error: (request, status, error) ->
+  #     console.log status
+  #     console.log error
+  #     $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
+  #     $('.alert-failure').addClass 'active'
+  #     return
+
+
+

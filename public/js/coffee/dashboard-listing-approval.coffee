@@ -323,30 +323,24 @@ $('body').on 'click','button#applyCategFilter', (e)->
 
 $('body').on 'click','button#resetAll', (e)->
   $('div#categories.node-list').html ''
-  $('input#draftstatus').prop('checked',false).change()
-  $('select#status-filter').multiselect('rebuild').change()
+  $('input#draftstatus').prop('checked',false)
+  $('select#status-filter').multiselect('rebuild')
   $('#submissionDate').val('')
   $('#listingNameSearch').val('')
   $('.multi-dd').each ->
     # console.log this
-    $(this).multiselect('deselectAll',false).change()
-  filters =
+    $(this).multiselect('deselectAll',false)
+  window.filters =
     'submission_date':
       'start': ''
       'end': ''
-    'category_nodes': [
-
-    ]
+    'category_nodes': []
     'status': [
       "1","2","4","5"
     ]
-    'city': [
-
-    ]
+    'city': []
     'updated_by':
-      'user_id': [
-
-      ]
+      'user_id': []
       'user_type': [
         'internal'
         'external'

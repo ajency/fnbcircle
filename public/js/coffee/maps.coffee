@@ -16,11 +16,19 @@ window.onload = ->
       return
   return
 window.init = ->
+  mapTextMsg = 'your business location'
+  if $("#map").attr('map-title') != ""
+    mapTextMsg = $("#map").attr('map-title')
   document.getElementById('map').style.height="300px"
+
+  if $(".mapAddress").length
+    is_draggable = false
+  else
+    is_draggable = true
   map = new (google.maps.Map)(document.getElementById('map'), zoom: 12)
   marker = new (google.maps.Marker)(
-    draggable: true
-    title: 'your business location')
+    draggable: is_draggable
+  title: mapTextMsg)
   inp=$("input#mapadd").val();
   lat=$('input#latitude').val()
   lng=$('input#longitude').val()
@@ -28,6 +36,13 @@ window.init = ->
     populate(inp)
   else
     initMap(lat,lng)
+
+  #show address in textbox whwn page loads 
+  # console.log $("#map").attr('show-address')
+  # if $("#map").is('[show-address]') && $("#map").attr('show-address') != ""
+  #   getAddress()
+
+
   google.maps.event.addListener marker, 'dragend', (ev) ->
     getAddress()
   return
@@ -36,9 +51,9 @@ escapeRegExp = (str) ->
 
 getAddress = ()->
   pos = marker.getPosition()
-  console.log 'lat= ' + pos.lat()
+  # console.log 'lat= ' + pos.lat()
   $('input#latitude').val(pos.lat())
-  console.log 'lng= ' + pos.lng()
+  # console.log 'lng= ' + pos.lng()
   $('input#longitude').val(pos.lng())
   $.ajax
     type: 'GET'
@@ -49,6 +64,10 @@ getAddress = ()->
     success: (data) ->
       console.log data['results'][0]['formatted_address']
       document.getElementById('mapadd').value = data['results'][0]['formatted_address']
+
+      if $(".mapAddress").length
+        $(".mapAddress").html data['results'][0]['formatted_address']
+
       updateAddr()
       return
   return
@@ -66,7 +85,11 @@ $('.save-addr').on 'change', ->
   else
     $('.another-address').prop('disabled',false)
 
+$('input[name="interview_location"]').on 'keyup', ->
+  updateAddr()
+  populate(this.value)
 
+ 
 replaceAll = (str, find, replace) ->
   str.replace new RegExp(escapeRegExp(find), 'g'), replace
 
@@ -76,9 +99,9 @@ $('body').on 'blur','input#mapadd	', ->
   return
 
 populate = (inp)->
-  console.log inp
+  # console.log inp
   search = replaceAll(inp, ' ', '+')
-  console.log 'search= ' + search
+  # console.log 'search= ' + search
   $.ajax
     type: 'GET'
     url: 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -94,7 +117,7 @@ populate = (inp)->
 
 initMap = (lat, long) ->
   myLatLng = new (google.maps.LatLng)(lat, long)
-  console.log myLatLng.lat(), myLatLng.lng()
+  # console.log myLatLng.lat(), myLatLng.lng()
   $('input#latitude').val(myLatLng.lat())
   $('input#longitude').val(myLatLng.lng())
   map.setCenter myLatLng

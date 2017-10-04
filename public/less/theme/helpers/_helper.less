@@ -118,6 +118,13 @@
   }
 }
 
+.no-decor{
+  text-decoration: none;
+  &:hover,&:active,&:focus{
+    text-decoration: none;
+  }
+}
+
 .text-lighter{
   color: @text-lighter;
 }
@@ -193,6 +200,10 @@
   }
 }
 
+.stable-size{
+  font-size: 1.05em;
+}
+
 .overflow-hidden{
   overflow: hidden;
 }
@@ -235,6 +246,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.ellipsis-2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media screen and (max-width: @mobile){
@@ -317,11 +336,23 @@
   }
 }
 
+.ctm-error{
+    position: absolute;
+    top: 2.5em;
+    left: 0;
+}
 
 .relative{
   position: relative;
 }
 
+
+input[type=checkbox].custom-checkbox{
+  &:before{
+    top: -2px;
+    position: relative;
+  }
+}
 
 .fnb-alert{
   border-radius: 0px;  

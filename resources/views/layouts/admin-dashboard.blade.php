@@ -1,32 +1,32 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', 'Admin-Dashboard')
 @section('css')
     <!-- Datatables -->
-    <link href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <link href="{{ asset('/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
     <!-- Main styles -->
-    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
 @endsection
 
 @section('js')
 <!-- Magnify popup plugin -->
-    <script type="text/javascript" src="/js/magnify.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/magnify.min.js"></script> -->
     <!-- Read more -->
-    <script type="text/javascript" src="/js/readmore.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/readmore.min.js"></script> -->
 
-    <script src="/js/bootstrap-multiselect.js"></script>
+    <script src="{{ asset('/js/bootstrap-multiselect.js') }}"></script>
 
     <!-- Datatables -->
-    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 
     <!-- Autosize textarea -->
-    <script src="/bower_components/autosize/dist/autosize.min.js"></script>
+    <script src="{{ asset('/bower_components/autosize/dist/autosize.min.js') }}"></script>
 
     <!-- custom script -->
-    <script type="text/javascript" src="/js/custom.js"></script>
+    <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 
-    <script type="text/javascript" src="/js/dashboard.js"></script>
+    <script type="text/javascript" src="{{ asset('/js/dashboard.js') }}"></script>
 @endsection
 
 @section('content')
@@ -61,12 +61,18 @@
                 </ul>
               </li>
               <li><a><i class="fa fa-briefcase"></i> Jobs </a>
-                <!-- <ul class="nav child_menu">
-                  <li><a href="form.html">General Form</a></li>
-                  <li><a href="form_advanced.html">Advanced Components</a></li>
-                </ul> -->
+                <ul class="nav child_menu" style="display: block">
+                  <li><a href="{{ url ('admin-dashboard/jobs/manage-jobs') }}">Manage Jobs</a></li>
+                  <!-- <li><a href="form_advanced.html">Advanced Components</a></li> -->
+                </ul>
               </li>
               <li><a><i class="fa fa-user"></i> Users </a>
+                <ul class="nav child_menu" style="display: block">
+                    <li class="sub_menu @if(Request::path() == 'admin-dashboard/users/internal-users')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/users/internal-users')#@else {{action('AdminConfigurationController@internalUserView')}} @endif">Internal Users</a>
+                    </li>
+                    <li class="@if(Request::path() == 'admin-dashboard/users/registered-users')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/users/registered-users')#@else {{action('AdminConfigurationController@registeredUserView')}} @endif">Registered users</a>
+                    </li>
+                  </ul>
               </li>
               <li><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">

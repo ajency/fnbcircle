@@ -389,12 +389,42 @@ a{
 .dataTables_filter{
 	display: none;
 }
+
+.search-enabled{
+	.dataTables_filter{
+		display: block;
+	}
+}
+
+.contentHeavy{
+	overflow: auto;
+}
+
+
+#datatable-registered_wrapper .dt-buttons{
+	text-align: right;
+	@media screen and (max-width: 650px){
+		margin-bottom: -20px;
+    	margin-top: 15px;
+    	.fnb-btn{
+    		font-size: 0.9em;
+    	}
+	}
+}
+
 @media(max-width: 767px){
 	.dataTables_wrapper>.row {
 	    overflow: auto!important;
 	}
 	.dataTable{
 		min-height: 220px;
+	}
+	.filterAction{
+		padding-bottom: 15px;
+		text-align: center;
+		.fnb-btn{
+			font-size: 0.95em;
+		}
 	}
 }
 
@@ -580,7 +610,90 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 
 
+.dashboard-select{
+	padding-left: 0;
+    font-size: 1em;
+    border-bottom: 1px solid #ddd;
+}
+
+.multiSelect{
+	& + .btn-group{
+ 		.multiselect{
+			width: 100%;
+    		border-bottom: 1px solid #ddd;
+		}
+		.multiselect-container{
+			&.dropdown-menu{
+				left: 0;
+			}
+		}
+    	.multiselect-container input[type='checkbox']{
+    		position: relative;
+    		&:before{
+				top: -8px;
+    		}
+    	}
+    	&.open{
+    		.multiselect{
+				border-color: #ddd;
+    		}
+    	}
+	}
+}
 
 
+.dashboard-select{
+	padding-left: 0;
+    font-size: 1em;
+    border-bottom: 1px solid #ddd;
+}
+
+.multiSelect{
+	& + .btn-group{
+ 		.multiselect{
+			width: 100%;
+    		border-bottom: 1px solid #ddd;
+		}
+		.multiselect-container{
+			&.dropdown-menu{
+				left: 0;
+			}
+		}
+    	.multiselect-container input[type='checkbox']{
+    		position: relative;
+    		&:before{
+				top: -8px;
+    		}
+    	}
+    	&.open{
+    		.multiselect{
+				border-color: #ddd;
+    		}
+    	}
+	}
+}
+
+
+
+
+.parent_cat_icon{
+	@media screen and (min-width: 769px){
+		.dropify-wrapper{
+			overflow: inherit;
+			&:hover{
+				.dropify-clear{
+	    			top: -10px;
+	    			right: -8px;
+	    			background-color: #fff;
+	    			color: #000;
+	    			box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+				}
+			}
+			.dropify-clear{
+				transition: inherit;
+			}
+		}
+	}
+}
 
 

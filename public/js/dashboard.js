@@ -296,7 +296,7 @@ function init_Multiselect() {
             });
             var search = selected.join("|");
             var col = $(this)[0]['$select'].closest('th').data('col')
-            $('#datatable-categories, #datatable-locations').DataTable().column(col).search(search, true, false).draw();
+            $('#datatable-users,#datatable-categories, #datatable-locations').DataTable().column(col).search(search, true, false).draw();
             // Show/hide first column for Listing Approval table
             // if (selected == "Pending Review") {
             //     $(".select-checkbox").css("display", "table-cell");
@@ -335,11 +335,71 @@ function init_daterangepicker_submission() {
     if (typeof($.fn.daterangepicker) === 'undefined') {
         return;
     }
-    $('#submissionDate').daterangepicker({
+    $('#submissionDate,#loginDate').daterangepicker({
         autoUpdateInput:false,
         maxDate: moment()
     });
+    $('.clearDate').click(function(){
+        $(this).parent().find('.fnb-input').val('');
+    });
 }
+
+
+function individual_Search(){
+    // $('#datatable-users tfoot th').each( function () {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    // } );
+    $('#datatable-users').DataTable();
+
+    var registered = $('#datatable-registered').DataTable({
+        "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false
+            }
+        ],
+        dom: 'lBrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'Export as CSV',
+                className: 'btn primary-btn border-btn fnb-btn'
+            }
+        ]
+        
+    });
+
+    registered.columns().iterator('column', function(ctx, idx) {
+        $(registered.column(idx).header()).append('<span class="sort-icon"/>');
+    });
+
+    $('.registered-table').closest('.row').addClass('contentHeavy');
+    $('.registered-table').wrap('<div class="contentHeavy"></div>')
+
+    //         "columnDefs": [ {
+    //         "targets": [ 1 ],
+            
+    //       } ]
+    //     });
+    // table.columns().every( function () {
+    //     var that = this;
+ 
+    //     $( 'input', this.footer() ).on( 'keyup change', function () {
+    //         if ( that.search() !== this.value ) {
+    //             that
+    //                 .search( this.value )
+    //                 .draw();
+    //         }
+    //     } );
+    // } );
+    $('.roles-select').multiselect({
+        numberDisplayed: 1,
+        includeSelectAllOption: true,
+        selectAllValue: 'select-all-value'
+    });
+}
+
+
 // Category select modal on mobile
 $myGroup = $('.cat-dataHolder');
 $myGroup.on('show.bs.collapse', '.collapse', function() {
@@ -351,7 +411,29 @@ $(document).ready(function() {
     init_Multiselect();
     init_addEmailType();
     init_daterangepicker_submission();
+    individual_Search();
 });
 slugify = function(string) {
     return string.toString().trim().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
 };
+
+
+$(function(){
+    $('.editUser').on('click',function(){
+        $('#add_newuser_modal .old-password').removeClass('hidden');
+        $('#add_newuser_modal .new-password label').text('New Password');
+        $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter new password");
+        $('#add_newuser_modal .modal-title').text('Edit Internal User');
+    });
+})
+
+$('#add_newuser_modal').on('hidden.bs.modal', function (e) {
+    $('#add_newuser_modal .old-password').addClass('hidden');
+    $('#add_newuser_modal .new-password label').text('Password');
+    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");  
+    $('#add_newuser_modal .modal-title').text('Add New Internal User');  
+})
+
+
+
+

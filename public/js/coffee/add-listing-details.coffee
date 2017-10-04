@@ -80,7 +80,7 @@ setTimeout (->
         $('input#cash').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
       when 'Master Card'
-        $('input#masters').prop 'checked', true
+        $('input#master').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
       when 'Diner\'s Club'
         $('input#diners').prop 'checked', true
@@ -88,7 +88,8 @@ setTimeout (->
   return
 ), 500
 
-
+if $('.payment-modes input[type="checkbox"]').length == $('.payment-modes input[type="checkbox"]:checked').length 
+      $('input#selectall').prop('checked',true)
 
 
 window.validateBusinessDetails = () ->

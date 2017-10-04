@@ -367,16 +367,15 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
-    var filters;
     $('div#categories.node-list').html('');
-    $('input#draftstatus').prop('checked', false).change();
-    $('select#status-filter').multiselect('rebuild').change();
+    $('input#draftstatus').prop('checked', false);
+    $('select#status-filter').multiselect('rebuild');
     $('#submissionDate').val('');
     $('#listingNameSearch').val('');
     $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
+      return $(this).multiselect('deselectAll', false);
     });
-    filters = {
+    window.filters = {
       'submission_date': {
         'start': '',
         'end': ''

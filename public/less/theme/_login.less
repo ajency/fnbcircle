@@ -19,7 +19,7 @@
 	.modal-header{
 		padding: 0;
 	}
-	.close{
+	.close-modal{
 		position: absolute;
 	    top: 15px;
 	    right: 15px;
@@ -89,12 +89,35 @@
 	    transition: all 0.6s cubic-bezier(0.44, -0.25, 0.75, 1);
 	    transform: translate3d(500px, 0, 0);
 	    margin-top: 1em;
+	    .help-text{
+	    	// color: #b5b5b5;
+	    }
 	    &.active{
 	    	transform: translate3d(0, 0, 0); 
 	    }
 	}
 	.login-container{
 		margin-top: 2em;
+		position: relative;
+	}
+	.alert{
+		padding: 0.8em 1.8em;
+		border-radius: 0;
+		.close{
+			top: 4px;
+    		right: 8px;
+    		position: absolute;
+		}
+		&.alert-success{
+			background-color: rgb(119, 215, 154);
+			border-color: rgb(119, 215, 154);
+			color: #fff;
+			text-shadow: 0px 0px 1px #000;
+			.close{
+				opacity: 1;
+				text-shadow: 0px 0px 1px #000;
+			}
+		}
 	}
 }
 
@@ -158,11 +181,13 @@
 
 @media screen and (max-width: 650px){
 	.modal-open .login-modal{
-	    overflow: initial;
+	    // overflow: initial;
     	top: 1.5em;
 	}
 	.login-body{
 		width: auto;
+		margin: -15px auto 0 auto;
+		overflow: inherit;
 	}
 	.login-modal{
 		.login-container{
@@ -173,6 +198,9 @@
 		}
 		.fnb-btn{
 			font-size: 0.9em;
+		}
+		.alert{
+			margin-top: 2em;
 		}
 	}
 	.forgot-actions{
@@ -186,6 +214,7 @@
 	.logo-style{
     	width: 50px;
     	height: 50px;
+    	top: -0.5em;
 	}
 }
 

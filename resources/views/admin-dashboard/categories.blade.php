@@ -1,8 +1,12 @@
 @extends('layouts.admin-dashboard')
-
+@section('css')
+  @parent
+   <link rel="stylesheet" type="text/css" href="/css/dropify.css">
+@endsection
 @section('js')
   @parent
   <script type="text/javascript" src="/js/dashboard-categories.js"></script>
+  <script type="text/javascript" src="/js/dropify.js"></script>
 @endsection
 
 @section('page-data')
@@ -150,7 +154,12 @@
 
                   <div class="form-group parent_cat_icon">
                     <label>Icon  <span class="text-danger">*</span></label>
-                    <input type="file" name="">
+                    <div class="row">
+                      <div class="col-sm-4">
+                          <input type="file" name="">
+                      </div>
+                    </div>
+                    
                   </div>
 
                   <div class="row">
@@ -241,7 +250,7 @@
 
                   <div class="form-group parent_cat_icon">
                     <label>Icon  <span class="text-danger">*</span></label>
-                    <input type="file" name="">
+                    <!-- <input type="file" name=""> -->
                   </div>
 
                   <div class="row">

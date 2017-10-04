@@ -12,7 +12,7 @@ use App\ListingCategory;
 use App\ListingCommunication;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Symfony\Component\Console\Output\ConsoleOutput;
+// use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
 {
@@ -22,7 +22,7 @@ class AdminModerationController extends Controller
     }
     public function listingApproval(Request $request)
     {
-        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->get();
+        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
         $cities       = City::where('status', '1')->get();
         return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities);
     }
@@ -107,7 +107,7 @@ class AdminModerationController extends Controller
         if ($filters['submission_date']['start'] != "") {
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
-        $listings = $listings->where('title','like',$search.'%');
+        $listings = $listings->where('title','like','%'.$search.'%');
         if (isset($filters['city'])) {
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
@@ -119,23 +119,24 @@ class AdminModerationController extends Controller
         $filtered = $listings->count();
         $listings = $listings->skip($start)->take($display_limit);
         $listings = ($sort == "") ? $listings : $listings->orderBy($sort, $order);
-        $output   = new ConsoleOutput;
+        // $output   = new ConsoleOutput;
         // $output->writeln($listings->toSql());
         // $output->writeln($filters['submission_date']['start']);
         // $output->writeln($filters['submission_date']['end']);
         
         $listings = $listings->get();
         // $filtered = count($listings);
-        $output->writeln(json_encode($listings));
+        // $output->writeln(json_encode($listings));
         $response = array();
 
         foreach ($listings as $listing) {
-            $output->writeln($listing->submission);
+            // $output->writeln($listing->submission);
+            // dd($listing);
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;
-            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['name'];
+            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['type'];
             // if (isset($filters['city']) and !in_array($listing->location['city_id'], $filters['city'])) {
             //     unset($response[$listing->id]);
             //     $filtered--;
@@ -176,17 +177,17 @@ class AdminModerationController extends Controller
 
     private function getDuplicateCount($id, $name)
     {
-        $contacts = ListingCommunication::where('listing_id', $id)->get();
+        // $contacts = ListingCommunication::where('listing_id', $id)->get();
         $request  = new Request;
-        $title    = $name;
-        $req      = array();
-        $req[]    = array('value' => Listing::find($id)->owner->email);
-        foreach ($contacts as $contact) {
-            $req[] = array('value' => $contact->value);
-        }
-        $contacts = json_encode($req);
+        // $title    = $name;
+        // $req      = array();
+        // $req[]    = array('value' => Listing::find($id)->owner->email);
+        // foreach ($contacts as $contact) {
+        //     $req[] = array('value' => $contact->value);
+        // }
+        // $contacts = json_encode($req);
         // if ($id=='27') dd($contacts);
-        $request->merge(array('title' => $title, 'contacts' => $contacts));
+        $request->merge(array('id' => $id));
         $lc   = new ListingController;
         $dup  = $lc->findDuplicates($request);
         $data = json_decode(json_encode($dup), true)['original']['matches'];
@@ -212,7 +213,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -259,7 +260,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -274,7 +275,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else if ($change->status == (string) Listing::PUBLISHED) {

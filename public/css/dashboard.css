@@ -62,6 +62,7 @@
   background-color: #000;
   color: #fff;
   border: 1px solid;
+  text-decoration: none;
 }
 .fnb-btn.grey {
   background-color: rgba(173, 167, 167, 0.52);
@@ -112,12 +113,23 @@
   width: 100%;
   margin-bottom: 1em;
   position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
 }
 .social-btn.google {
   background-color: #ec2c2c;
+}
+.social-btn:hover {
+  color: #fff;
+  text-decoration: none;
 }
 .social-btn i {
   position: absolute;
@@ -436,12 +448,37 @@ a:hover {
 .dataTables_filter {
   display: none;
 }
+.search-enabled .dataTables_filter {
+  display: block;
+}
+.contentHeavy {
+  overflow: auto;
+}
+#datatable-registered_wrapper .dt-buttons {
+  text-align: right;
+}
+@media screen and (max-width: 650px) {
+  #datatable-registered_wrapper .dt-buttons {
+    margin-bottom: -20px;
+    margin-top: 15px;
+  }
+  #datatable-registered_wrapper .dt-buttons .fnb-btn {
+    font-size: 0.9em;
+  }
+}
 @media (max-width: 767px) {
   .dataTables_wrapper > .row {
     overflow: auto!important;
   }
   .dataTable {
     min-height: 220px;
+  }
+  .filterAction {
+    padding-bottom: 15px;
+    text-align: center;
+  }
+  .filterAction .fnb-btn {
+    font-size: 0.95em;
   }
 }
 /* Datatable Select Row */
@@ -603,5 +640,63 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .bulk-failure .listings__links li p {
   font-size: 1em;
+}
+.dashboard-select {
+  padding-left: 0;
+  font-size: 1em;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect-container.dropdown-menu {
+  left: 0;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox'] {
+  position: relative;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox']:before {
+  top: -8px;
+}
+.multiSelect + .btn-group.open .multiselect {
+  border-color: #ddd;
+}
+.dashboard-select {
+  padding-left: 0;
+  font-size: 1em;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+.multiSelect + .btn-group .multiselect-container.dropdown-menu {
+  left: 0;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox'] {
+  position: relative;
+}
+.multiSelect + .btn-group .multiselect-container input[type='checkbox']:before {
+  top: -8px;
+}
+.multiSelect + .btn-group.open .multiselect {
+  border-color: #ddd;
+}
+@media screen and (min-width: 769px) {
+  .parent_cat_icon .dropify-wrapper {
+    overflow: inherit;
+  }
+  .parent_cat_icon .dropify-wrapper:hover .dropify-clear {
+    top: -10px;
+    right: -8px;
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+  }
+  .parent_cat_icon .dropify-wrapper .dropify-clear {
+    -webkit-transition: inherit;
+            transition: inherit;
+  }
 }
 /*# sourceMappingURL=dashboard.css.map */

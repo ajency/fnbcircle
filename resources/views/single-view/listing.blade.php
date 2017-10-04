@@ -88,14 +88,14 @@
                         <div class="seller-info__header flex-row"></div>
                         <div class="seller-info__body">
                             <div class="flex-row space-between">
-                                <h3 class="seller-info__title main-heading">{{$data['title']['name']}}</h3>
+                                <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
                                 <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a>
                                 <img src="/img/power-seller.png" class="img-responsive mobile-hide" width="130">
                                 <img src="/img/power-icon.png" class="img-responsive desk-hide" width="30">
                             </div>
                             <div class="location flex-row">
                                 <span class="fnb-icons map-icon"></span>
-                                <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier">(Map)</span>@endisset</h6>
+                                <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier">(Map)</span>@endisset</p>
                             </div>
                             <div class="stats flex-row m-t-25">
                                 <div class="rating-view flex-row">
@@ -137,7 +137,7 @@
                             </div>
                             @isset($data['operationAreas'])
                             <div class="operations p-t-5">
-                                <h6 class="operations__title">Areas of operation of {{$data['title']['name']}}</h6>
+                                <h2 class="operations__title">Areas of operation of {{$data['title']['name']}}</h2>
                                 @foreach($data['operationAreas'] as $city)
                                 <div class="opertaions__container flex-row">
                                     <div class="location flex-row">
@@ -176,7 +176,7 @@
                                     <!-- If not logged in -->
                                     <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
-                                    <!-- <h1 class="m-b-0">20</h1> -->
+                                    <!-- <p class="m-b-0">20</p> -->
                                     <!-- <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p> -->
                                 </div>
                                 <!-- <div class="contact__date">
@@ -193,14 +193,14 @@
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </div>
                             <div class="phone collapse-section m-b-20">
-                                <h6 class="collapse-section__title">Phone no:</h6>
+                                <p class="collapse-section__title">Phone no:</p>
                                 <div class="number flex-row">
                                     <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393, </a>
                                     <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393</a>
                                 </div>
                             </div>
                             <div class="mail-us collapse-section m-t-20 m-b-20">
-                                <h6 class="collapse-section__title">Mail us at:</h6>
+                                <p class="collapse-section__title">Mail us at:</p>
                                 <div class="number flex-row">
                                     <a class="number__real text-secondary" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
                                 </div>
@@ -248,7 +248,7 @@
                     @isset($data['categories'])
                     <!-- listed -->
                     <div class="listed p-t-20 p-b-10" id="listed">
-                        <h6 class="element-title">Also Listed In</h6>
+                        <h3 class="element-title">Also Listed In</h3>
                         @foreach($data['categories'] as $category)
                         <div class="listed__section flex-row">
                             <div class="parent-cat flex-row">
@@ -273,7 +273,7 @@
                     @isset($data['brands'])
                     <!-- brands -->
                     <div class="brands p-t-20 p-b-20" >
-                        <h6 class="element-title m-b-20">{{$data['title']['name']}} Brands</h6>
+                        <p class="element-title m-b-20">{{$data['title']['name']}} Brands</p>
                         <ul class="brands__list flex-row">
                             @foreach($data['brands'] as $brand)
                             <li class="flex-row">
@@ -291,7 +291,7 @@
                         @isset($data['highlights'])
                         <!-- Highlights -->
                         <div class="highlights p-t-20 p-b-20">
-                            <h6 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h6>
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights of {{$data['title']['name']}}</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
                                 <li class="flex-row">
@@ -308,14 +308,14 @@
                         @isset($data['description'])
                         <!-- Description -->
                         <div class="description p-t-20 p-b-20">
-                            <h6 class="element-title m-b-20">{{$data['title']['name']}} Description</h6>
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
                             <p class="sub-title description__detail">{{$data['description']}}</p>
                         </div>
                         <!-- Description ends -->
                         @endisset
                         <!-- more-details -->
                         <div class="more-details p-t-20 p-b-20">
-                            <!-- <h3 class="main-heading p-b-15">More details of {{$data['title']['name']}}</h3> -->
+                            <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
                             <div class="detail-1 flex-row m-t-25 m-b-25">
 
                                 @isset($data['established'])
@@ -345,7 +345,7 @@
                             @isset($data['address'])
                             <div class="detail-3 flex-row m-t-25 m-b-25">
                                 <div class="address">
-                                    <p class="element-title heavier m-b-20">Address {{$data['title']['name']}}</p>
+                                    <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
                                     <p class="sub-title lighter">{{$data['address']}}</p>
                                 </div>
                             </div>
@@ -405,7 +405,7 @@
                     <!-- Similar businesses -->
                     <div class="similar-business p-t-20 p-b-20" id="business">
                         <div class="section-start-head m-b-15 flex-row">
-                            <h6 class="element-title">Similar Businesses</h6>
+                            <p class="element-title">Similar Businesses</p>
                             <a href="" class="secondary-link view-more heavier">View More</a>
                         </div>
                         <div class="similar-business__section flex-row">
@@ -522,7 +522,7 @@
                     <div class="equal-col">
                        <div class="core-cat">
                             @isset($data['cores'])
-                            <h6 class="element-title m-t-0 m-b-15">We specialise in</h6>
+                            <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
                             <ul class="fnb-cat flex-row">
                                 @foreach($data['cores'] as $core)
                                 <li><a href="" class="fnb-cat__title">{{$core['name']}}</a></li>
@@ -551,7 +551,7 @@
                     @if(isset($data['images']) or isset($data['files']))
                     <!-- Photos and documents -->
                     <div class="docs p-t-20 p-b-20">
-                        <h6 class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</h6>
+                        <p class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</p>
                         @isset($data['images'])
                         <div class="photo-gallery">
                             @foreach($data['images'] as $images)
@@ -599,7 +599,7 @@
                     <!-- enquiry form ends-->
                     <!-- browse category -->
                     <div class="browse-cat">
-                        <h6 class="element-title">Browse Categories</h6>
+                        <p class="element-title">Browse Categories</p>
                         <ul class="browse-cat__list m-t-20">
                             @foreach($data['browse_categories'] as $category)
                             <li>
@@ -624,7 +624,7 @@
             <div class="col-sm-12">
                 <!-- why fnb -->
                 <div class="why-fnb text-center m-b-30 p-b-30">
-                    <h3 class="element-title">Why FnB Circle?</h3>
+                    <p class="element-title">Why FnB Circle?</p>
                     <ul class="points m-t-30 flex-row">
                         <li>
                             <!-- <img src="/img/quotes.png" class="img-responsive m-t-20 m-b-20 icons" alt=""> -->
@@ -683,9 +683,9 @@
                 <div class="page-sidebar__body">
                     <div class="update-sec sidebar-article">
                         <div class="update-sec__body update-space">
-                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                            <p class="element-title update-sec__heading m-t-15 bolder">
                                 {{$data['title']['name']}} recent updates
-                            </h6>
+                            </p>
                             <p class="update-sec__caption text-lighter">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                             </p>
@@ -699,9 +699,9 @@
                     </div>
                     <div class="update-sec sidebar-article">
                         <div class="update-sec__body update-space">
-                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                            <p class="element-title update-sec__heading m-t-15 bolder">
                                 {{$data['title']['name']}} recent updates
-                            </h6>
+                            </p>
                             <p class="update-sec__caption text-lighter">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                             </p>
@@ -715,9 +715,9 @@
                     </div>
                     <div class="update-sec sidebar-article">
                         <div class="update-sec__body update-space">
-                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                            <p class="element-title update-sec__heading m-t-15 bolder">
                                 {{$data['title']['name']}} recent updates
-                            </h6>
+                            </p>
                             <p class="update-sec__caption text-lighter">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                             </p>
@@ -731,9 +731,9 @@
                     </div>
                     <div class="update-sec sidebar-article">
                         <div class="update-sec__body update-space">
-                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                            <p class="element-title update-sec__heading m-t-15 bolder">
                                 {{$data['title']['name']}} recent updates
-                            </h6>
+                            </p>
                             <p class="update-sec__caption text-lighter">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                             </p>

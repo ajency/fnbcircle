@@ -17,55 +17,68 @@ class ListingViewController extends Controller
     public function index($city,$listing_slug){
     	$listing = Listing::where('slug',$listing_slug)->firstOrFail();
         $area = Area::with('city')->find($listing->locality_id);
-        if($area->city['slug']!= $city) redirect('/404');
-    	$pagedata = array();
-    	$pagedata['pagetitle'] = getSingleListingTitle($listing);
-    	$pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'', 'area' => $area->name);
-    	$pagedata['title'] = ['name'=>$listing->title,'url'=>url()->current(),'alt'=>''];
+        // if($area->city['slug']!= $city) redirect('/404');
+        $pagedata = $this->getListingData($listing);
+        $pagedata['browse_categories'] = $this->getPopularParentCategories();
+    	// dd($pagedata);
+        $similar = $this->similarBusinesses($listing);
+        // dd($similar);
+    	return view('single-view.listing')->with('data',$pagedata)->with('similar',$similar);
+    }
+
+    private function getListingData($listing){
+        $pagedata = array();
+        $area = Area::with('city')->find($listing->locality_id);
+        $pagedata['pagetitle'] = getSingleListingTitle($listing);
+        $pagedata['premium'] = $listing->isPremium();
+        $pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'', 'area' => $area->name);
+        $pagedata['title'] = ['name'=>$listing->title,'url'=>env('APP_URL').'/'.$area->city['slug'].'/'.$listing->slug,'alt'=>''];
+        $pagedata['update'] = $listing->updated_at->format('jS F');
         if($listing->status == 1){
             $pagedata['publish_date'] = $listing->published_on->format('jS F Y');
             $pagedata['rating'] = '50';
             $pagedata['views'] = $listing->views_count;
             $pagedata['verified'] = ($listing->verified == 1)? true : false;    
         }
-    	
-    	$pagedata['type'] = config('tempconfig.listing-type')[$listing->type];
+        
+        $pagedata['type'] = config('tempconfig.listing-type')[$listing->type];
         $pagedata['reference'] = $listing->reference;
-    	$pagedata['operationAreas'] = ListingAreasOfOperation::city($listing->id);
+        $pagedata['operationAreas'] = ListingAreasOfOperation::city($listing->id);
         if(count($pagedata['operationAreas']) == 0) unset($pagedata['operationAreas']);
-    	$pagedata['contact'] = ['email'=>[],'mobile'=> [],'landline'=>[],'requests'=>$listing->contact_request_count];
-    	if($listing->show_primary_email) $pagedata['contact']['email'][] = ['value'=>User::find($listing->owner_id)->getPrimaryEmail(), 'verified'=> true, 'type'=>'email'];
-    	$contacts = $listing->contacts()->get();
-    	foreach($contacts as $contact){
-    		if($contact->type=='email'){
-    			if($contact->is_visible == 1)$pagedata['contact']['email'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'email'];
-    		}
-    		if($contact->type=='mobile'){
-    			if($contact->is_visible == 1)$pagedata['contact']['mobile'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'mobile'];
-    		}
-    		if($contact->type=='landline'){
-    			if($contact->is_visible == 1)$pagedata['contact']['landline'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'landline'];
-    		}
-    		
-    	}
+        $pagedata['contact'] = ['email'=>[],'mobile'=> [],'landline'=>[],'requests'=>$listing->contact_request_count];
+        if($listing->show_primary_email) $pagedata['contact']['email'][] = ['value'=>User::find($listing->owner_id)->getPrimaryEmail(), 'verified'=> true, 'type'=>'email'];
+        $contacts = $listing->contacts()->get();
+        foreach($contacts as $contact){
+            if($contact->type=='email'){
+                if($contact->is_visible == 1)$pagedata['contact']['email'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'email'];
+            }
+            if($contact->type=='mobile'){
+                if($contact->is_visible == 1)$pagedata['contact']['mobile'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'mobile'];
+            }
+            if($contact->type=='landline'){
+                if($contact->is_visible == 1)$pagedata['contact']['landline'][] = ['value' => '+'.$contact->country_code.$contact->value, 'verified'=> ($contact->is_verified == 1)? true:false, 'type'=>'landline'];
+            }
+            
+        }
         if(count($pagedata['contact']['landline']) == 0) unset($pagedata['contact']['landline']);
         if(count($pagedata['contact']['mobile']) == 0) unset($pagedata['contact']['mobile']);
         if(count($pagedata['contact']['email']) == 0) unset($pagedata['contact']['email']);
-    	$pagedata['categories'] = ListingCategory::getCategories($listing->id);
+        $pagedata['categories'] = ListingCategory::getCategories($listing->id);
         if(count($pagedata['categories']) != 0){
-        	$pagedata['cores'] = [];
-        	foreach($pagedata['categories'] as $category){
-        		foreach ($category['nodes'] as $node) {
-        			if($node['core']=="1") $pagedata['cores'][] = $node;
-        		}
-        	}
-        	$pagedata['brands'] = $listing->tagNames('brands');
+            $pagedata['cores'] = [];
+            foreach($pagedata['categories'] as $category){
+                foreach ($category['nodes'] as $node) {
+                    if($node['core']=="1") $pagedata['cores'][] = $node;
+                }
+            }
+            $pagedata['brands'] = $listing->tagNames('brands');
+            if(count($pagedata['brands'])==0) unset($pagedata['brands']);
         }else{
             unset($pagedata['categories']);
         }
-    	$pagedata['highlights'] = json_decode($listing->highlights);
+        $pagedata['highlights'] = json_decode($listing->highlights);
         if($pagedata['highlights'] == null) unset($pagedata['highlights']);
-    	$pagedata['description'] = $listing->description;
+        $pagedata['description'] = $listing->description;
         if($pagedata['description'] == null) unset($pagedata['description']);
         if($listing->other_details != null){
             $other_details = json_decode($listing->other_details);
@@ -73,18 +86,18 @@ class ListingViewController extends Controller
             if(isset($other_details->website)) $pagedata['website'] = $other_details->website;    
         }
         if($listing->show_hours_of_operation != null){
-        	$pagedata['showHours'] = $listing->show_hours_of_operation;
-        	$pagedata['hours'] = $listing->getHoursofOperation();
-        	$pagedata['today'] = $listing->today();
+            $pagedata['showHours'] = $listing->show_hours_of_operation;
+            $pagedata['hours'] = $listing->getHoursofOperation();
+            $pagedata['today'] = $listing->today();
         }
-    	$pagedata['address'] = $listing->display_address;
+        $pagedata['address'] = $listing->display_address;
         if($pagedata['address'] == null) unset($pagedata['address']);
-    	$pagedata['payments'] = $listing->getPayments();
+        $pagedata['payments'] = $listing->getPayments();
         if($pagedata['payments'] == null) unset($pagedata['payments']);
-    	$pagedata['location'] = [
-    		'lat' =>$listing->latitude,
-    		'lng' =>$listing->longitude,
-    	];
+        $pagedata['location'] = [
+            'lat' =>$listing->latitude,
+            'lng' =>$listing->longitude,
+        ];
         if($pagedata['location']['lat'] == null or $pagedata['location']['lng'] == null) unset($pagedata['location']);
         $pagedata['images']=[];
         $images = $listing->getImages();
@@ -126,14 +139,56 @@ class ListingViewController extends Controller
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Rejected';
         }
-        $pagedata['browse_categories'] = $this->getPopularParentCategories();
         if(isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) $pagedata['overview'] = true;
-    	// dd($pagedata);
-
-    	return view('single-view.listing')->with('data',$pagedata);
+        return $pagedata;
     }
 
-    
+    private function similarBusinesses($listing){
+        
+        $similar_id = [$listing->id];
+        $categories = ListingCategory::where('listing_id',$listing->id)->where('core',1)->pluck('category_id')->toArray();
+        $simCore = array_unique(ListingCategory::whereIn('category_id', $categories)->whereNotIn('listing_id',$similar_id)->pluck('listing_id')->toArray());
+
+        //rule : At least 1 core category matching + type + locality
+        $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->where('type',$listing->type)->where('locality_id',$listing->locality_id)->orderBy('updated_at')->take(2)->get();
+        
+        foreach ($similar as $sim) {
+            $similar_id[] = $sim->id;
+            $url='url1';
+        }
+        if(count($similar_id)<3){
+            //rule : At least 1 core category matching + type
+            $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->where('type',$listing->type)->orderBy('updated_at')->take(2)->get();
+            foreach ($similar as $sim) {
+                $similar_id[] = $sim->id;
+                $url='url2';
+            }
+            if(count($similar_id)<3){
+                //rule : At least 1 core category matching
+                $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->orderBy('updated_at')->take(2)->get();
+                foreach ($similar as $sim) {
+                    $similar_id[] = $sim->id;
+                    $url='url3';
+                }
+                if(count($similar_id)<3){
+                    //rule : At least 1 core category matching
+                    $similar = Listing::whereNotIn('id',$similar_id)->where('status',1)->orderBy('updated_at')->take(2)->get();
+                    foreach ($similar as $sim) {
+                        $similar_id[] = $sim->id;
+                        $url='url4';
+                    }
+                }
+            }
+        }
+        unset($similar_id[0]);
+        $similar=[];
+        foreach ($similar_id as $id) {
+            $similar[] = $this->getListingData(Listing::find($id));
+        }
+        $similar['url'] = $url;
+        return $similar;
+
+    }
 
     private function getPopularParentCategories(){
         $parents = Category::where('type','listing')->where('level','1')->where('status',1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();

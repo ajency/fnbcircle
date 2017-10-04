@@ -406,101 +406,93 @@
                     <div class="similar-business p-t-20 p-b-20" id="business">
                         <div class="section-start-head m-b-15 flex-row">
                             <p class="element-title">Similar Businesses</p>
-                            <a href="" class="secondary-link view-more heavier">View More</a>
+                            <a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>
                         </div>
                         <div class="similar-business__section flex-row">
                             <div class="card business-card article-col">
                                 <div class="business-card__header">
-                                    <img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">
+                                    @if($similar[0]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                     <ul class="fnb-cat flex-row">
-                                        <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                        <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
+                                        @foreach($similar[0]['cores'] as $core)
+                                        <li><a href="/{{$core['slug']}}" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                        @endforeach
                                     </ul>
+                                    @isset($similar[0]['operationAreas'])
                                     <div class="operations m-t-20">
                                         <span class="dis-block lighter">Area of operations</span>
+                                        @foreach($similar[0]['operationAreas'] as $city)
+                                        {{$city['name']}}
                                         <ul class="areas flex-row">
+                                            @foreach($city['areas'] as $area)
                                             <li>
-                                                <p class="default-size areas__title">Thane, </p>
+                                                <p class="default-size areas__title">{{$area['name']}}</p>
                                             </li>
-                                            <li>
-                                                <p class="default-size areas__title">Navi-mumbai, </p>
-                                            </li>
-                                            <li>
-                                                <p class="default-size areas__title">Dadar, </p>
-                                            </li>
-                                            <li>
-                                                <p class="default-size areas__title">Matunga</p>
-                                            </li>
+                                            @endforeach
+                                            
                                         </ul>
+                                        @endforeach
                                     </div>
+                                    @endisset
                                 </div>
                                 <div class="business-card__body">
                                     <div class="flex-row space-between">
                                         <div class="rating">
                                             <div class="bg"></div>
-                                            <div class="value" style="width: 80%;"></div>
+                                            <div class="value" style="width: {{$similar[0]['rating']}}%;"></div>
                                         </div>
                                         <span class="fnb-icons verified-icon"></span>
                                     </div>
                                     <div class="address">
-                                        <p class="sub-title heavier">Kasam quershi sons pvt ltd</p>
-                                        <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i> Andheri Mumbai</p>
+                                        <p class="sub-title heavier">{{$similar[0]['title']['name']}}</p>
+                                        <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
                                     </div>
                                 </div>
                                 <div class="business-card__footer flex-row">
-                                    <p class="sub-title heavier footer-text"><a href="">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-                                    <span class="x-small date lighter">Updated on 20 Dec</span>
+                                    <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                    <span class="x-small date lighter">Updated on {{$similar[0]['update']}}</span>
                                 </div>
                             </div>
                             <div class="card business-card article-col">
                                 <div class="business-card__header">
-                                    <img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">
+                                    @if($similar[1]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                     <ul class="fnb-cat flex-row">
-                                        <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                        <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                        <li><a href="" class="fnb-cat__title">Egg</a></li>
-                                        <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
+                                        @foreach($similar[1]['cores'] as $core)
+                                        <li><a href="/{{$core['slug']}}" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                        @endforeach
                                     </ul>
+                                    @isset($similar[1]['operationAreas'])
                                     <div class="operations m-t-20">
                                         <span class="dis-block lighter">Area of operations</span>
+                                        @foreach($similar[1]['operationAreas'] as $city)
+                                        {{$city['name']}}
                                         <ul class="areas flex-row">
+                                            @foreach($city['areas'] as $area)
                                             <li>
-                                                <p class="default-size areas__title">Thane, </p>
+                                                <p class="default-size areas__title">{{$area['name']}}</p>
                                             </li>
-                                            <li>
-                                                <p class="default-size areas__title">Navi-mumbai, </p>
-                                            </li>
-                                            <li>
-                                                <p class="default-size areas__title">Dadar, </p>
-                                            </li>
-                                            <li>
-                                                <p class="default-size areas__title">Matunga</p>
-                                            </li>
+                                            @endforeach
+                                            
                                         </ul>
+                                        @endforeach
                                     </div>
+                                    @endisset
                                 </div>
                                 <div class="business-card__body">
                                     <div class="flex-row space-between">
                                         <div class="rating">
                                             <div class="bg"></div>
-                                            <div class="value" style="width: 80%;"></div>
+                                            <div class="value" style="width: {{$similar[1]['rating']}}%;"></div>
                                         </div>
                                         <span class="fnb-icons verified-icon"></span>
                                     </div>
                                     <div class="address">
-                                        <p class="sub-title heavier">Kasam quershi sons pvt ltd</p>
-                                        <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i> Andheri Mumbai</p>
+                                        <p class="sub-title heavier">{{$similar[1]['title']['name']}}</p>
+                                        <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>
                                     </div>
                                 </div>
                                 <div class="business-card__footer flex-row">
-                                    <p class="sub-title heavier footer-text"><a href="">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-                                    <span class="x-small date lighter">Updated on 20 Dec</span>
+                                    <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                    <span class="x-small date lighter">Updated on {{$similar[1]['update']}}</span>
                                 </div>
                             </div>
                         </div>

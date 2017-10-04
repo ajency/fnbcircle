@@ -11,6 +11,7 @@ use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
 use Carbon\Carbon;
 use Auth;
+use App\Defaults;
 
 class Listing extends Model
 {
@@ -208,6 +209,14 @@ class Listing extends Model
          }
          $payments = array_merge($payments,$this->tagNames('payment-modes'));
          return $payments;
+    }
+
+    public function isPremium(){
+        $def = Defaults::where('type','listing-premium')->first();
+        if($def!=null and $def['label']=="0")
+            return false;
+        else
+            return true;
     }
 
 }

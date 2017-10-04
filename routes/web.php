@@ -68,6 +68,9 @@ Route::post('/all-listing','AdminModerationController@displayListingsDum');
 JOBS/USERS
 *******/
 
+//job single view
+Route::get('/job/{slug}','JobController@show');
+
 Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
@@ -85,7 +88,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
-// Route::get('/job/{job_slug}/{reference_id}','JobController@show');
+
 
 
 /*************/

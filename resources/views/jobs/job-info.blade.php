@@ -18,13 +18,13 @@
 @if($job->id)
 <input type="hidden" name="_method" value="PUT">
 @endif
-<input type="hidden" name="step" value="step-one">
+<input type="hidden" name="step" value="job-details">
  
 
 <div class="business-info tab-pane fade in active" id="job_details">
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Information</h5>
+    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Details</h5>
 
     <!-- Job title/category -->
     <div class="m-t-40 c-gap">
@@ -40,12 +40,12 @@
                 </div>
             </div>
             <div class="col-sm-6 c-gap">
-                <label class="label-size required">Choose Business type:</label>
+                <label class="label-size required">Choose a business type:</label>
                 <!-- <div class="text-lighter">
                     Help text comes here
                 </div> -->
                 <div class="brands-container businessType">
-                     <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required>
+                     <select class="fnb-select select-variant form-control text-color" name="category" placeholder="Type and hit enter" list="jobCats" id=jobCatsInput value="" data-parsley-required data-parsley-required-message="Please select a business type">
                         <option value="">Select Category</option>
                             @foreach($jobCategories as $categoryId =>$category)
                             <option value="{{ $categoryId }}" @if($job['category_id'] == $categoryId) selected @endif>{{ ucwords($category) }}</option>
@@ -62,10 +62,10 @@
     <!-- Job keywords -->
 
     <div class="m-t-40 c-gap">
-        <label class="label-size required">Select Job Role:</label>
+        <label class="label-size required">Select job roles:</label>
         <div class="text-lighter m-b-15 x-small">(Add as many Keywords, Functions &amp; skills to get maximum response).</div>
         <div class="m-t-5 flex-data-row">
-            <input type="text" class="form-control fnb-input job-keywords" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
+            <input type="text" class="form-control fnb-input job-keywords" data-parsley-required-message="At least one job role should be added" name="job_keyword" placeholder="Type and hit enter" list="jobKeyword" multiple="multiple" id=jobKeywordInput @if(isset($job['meta_data']['job_keyword']) && !empty($job['meta_data']['job_keyword'])) value='{{ implode(",",$job['meta_data']['job_keyword']) }}' @endif  >
 
             <datalist id="jobKeyword">
               
@@ -164,26 +164,26 @@
             </div>
         </div>
         <div class="adder">
-            <a href="#" class="secondary-link text-decor heavier add-areas">+ Add more</a>
+            <a href="#" class="secondary-link text-decor heavier add-job-areas">+ Add more</a>
         </div>
         <div id="areaError" ></div>
     </div>
 
     <!-- map -->
     <div class="m-t-30 c-gap">
-        <label class="label-size">Please provide the google map address for the interview location</label>
+        <label class="label-size">Please provide the google map address for the interview location <span class="text-lighter">(optional)</span></label>
 
         <div class="text-lighter">
             Note: You can drag the pin on the map to point the address
         </div>
     </div>
     <div class="m-t-20 c-gap">
-        <input id="mapadd" type="text" class="form-control fnb-input location-val" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="">
-        <div class="m-t-10" id="map" map-title="your interview location" show-address="@if($job->id) yes @endif">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val" name="interview_location" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="{{ $job->interview_location }}">
+        <div class="m-t-10" id="map" map-title="your interview location" >
 
         </div>
-        <input type="hidden" id=latitude name=latitude value="{{ $job['interview_location_lat'] }}">
-        <input type="hidden" id=longitude name=longitude value="{{ $job['interview_location_long'] }}">
+        <input type="hidden" id=latitude name=latitude value="{{ $job->getInterviewLocationLat() }}">
+        <input type="hidden" id=longitude name=longitude value="{{ $job->getInterviewLocationLong() }}">
 
     </div>
 
@@ -191,8 +191,8 @@
 
     <div class="m-t-40 c-gap">
  
-        <label class="label-size required">Job description:</label>
-        <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required>{{ $job['description'] }}</textarea>
+        <label class="label-size required">Enter the job description:</label>
+        <textarea class="form-control fnb-input" name="description" id="editor" placeholder="Enter a brief summary of the Job" data-parsley-required data-parsley-required-message="Please enter the job description">{{ $job['description'] }}</textarea>
          
  
     </div>
@@ -213,7 +213,7 @@
     <!-- Experience -->
 
     <div class="m-t-40 c-gap flex-data-row">
-        <label class="label-size">Required years of experience: <span class="text-lighter">(optional)</span></label>
+        <label class="label-size">Mention the required years of experience: <span class="text-lighter">(optional)</span></label>
  
         <div class="m-t-5 brands-container auto-exp-select catSelect">
 
@@ -288,7 +288,7 @@
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
      
-                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
+                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif @if($job['salary_type']) salary-type-checked="true"  @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
                
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>

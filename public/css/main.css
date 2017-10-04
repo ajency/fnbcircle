@@ -2446,6 +2446,13 @@ input[type="checkbox"].toggle__check {
   white-space: nowrap;
   overflow: hidden;
 }
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 @media screen and (max-width: 768px) {
   .link-center {
     display: -webkit-box;
@@ -7196,6 +7203,29 @@ input[type=checkbox].custom-checkbox:before {
   font-weight: 500;
   color: #6f6f6f;
 }
+.business-info .business-type {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
+.business-info .business-type li {
+  box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.business-info .business-type li.active {
+  box-shadow: 0px 0px 0px 3px rgba(0, 182, 170, 0.45);
+}
+@media screen and (max-width: 768px) {
+  .business-info .business-type li {
+    min-height: 142px;
+  }
+}
+.business-info .business-type .option {
+  box-shadow: none;
+}
+.business-info .radio:checked + .option {
+  box-shadow: none;
+}
 .get-val .intl-tel-input {
   display: block;
 }
@@ -7490,6 +7520,16 @@ input[type=checkbox].custom-checkbox:before {
 .image-grid .site-loader.section-loader {
   z-index: 9;
 }
+@media screen and (min-width: 1024px) and (max-width: 1400px) {
+  .image-grid.fileUpload .image-grid__cols:first-child .site-loader {
+    height: 100%;
+  }
+}
+@media screen and (min-width: 769px) {
+  .image-grid.fileUpload .image-grid__cols:first-child .site-loader {
+    height: 100%;
+  }
+}
 .dropify-wrapper {
   overflow: inherit;
 }
@@ -7522,17 +7562,23 @@ input[type=checkbox].custom-checkbox:before {
   font-size: 0.9em;
 }
 @media screen and (min-width: 769px) {
-  .imageUpload .dropify-wrapper {
+  .imageUpload .dropify-wrapper,
+  .J-company .dropify-wrapper,
+  .fileUpload .dropify-wrapper {
     overflow: inherit;
   }
-  .imageUpload .dropify-wrapper:hover .dropify-clear {
+  .imageUpload .dropify-wrapper:hover .dropify-clear,
+  .J-company .dropify-wrapper:hover .dropify-clear,
+  .fileUpload .dropify-wrapper:hover .dropify-clear {
     top: -10px;
     right: -8px;
     background-color: #fff;
     color: #000;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   }
-  .imageUpload .dropify-wrapper .dropify-clear {
+  .imageUpload .dropify-wrapper .dropify-clear,
+  .J-company .dropify-wrapper .dropify-clear,
+  .fileUpload .dropify-wrapper .dropify-clear {
     -webkit-transition: inherit;
             transition: inherit;
   }
@@ -7633,7 +7679,7 @@ input[type=checkbox].custom-checkbox:before {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   font-size: 0.95em;
   position: absolute;
-  z-index: 7;
+  z-index: 6;
   text-align: center;
   cursor: pointer;
 }
@@ -7962,6 +8008,7 @@ input[type=checkbox].custom-checkbox:before {
   .business-contact .fnb-input {
     padding-right: 0;
     font-size: 0.9em;
+    padding-top: 0;
   }
   .business-email .verified,
   .business-phone .verified {
@@ -9097,8 +9144,23 @@ input[type='checkbox'].remove-addr {
     margin-left: 0;
   }
 }
-.verifySection.number-code {
-  margin-left: -15px;
+.verifySection .iti-sdc-5 .fnb-input {
+  width: 235px;
+}
+@media screen and (max-width: 320px) {
+  .verifySection.number-code {
+    margin-left: -15px;
+  }
+  .verifySection .fnb-input {
+    width: 224px;
+  }
+  .verifySection .code-submit .contact-verify-stuff {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+  .verifySection .iti-sdc-5 .fnb-input {
+    width: 222px;
+  }
 }
 .edit-summary-card {
   margin-bottom: 1em;
@@ -9494,11 +9556,12 @@ input[type='checkbox'].remove-addr {
     padding: 10px 0;
   }
   .J-company__logo .dropify-wrapper.has-preview {
-    width: auto;
+    width: 150px;
   }
   .J-company__logo .dropify-wrapper.has-preview .dropify-clear {
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding: 2px 4px;
+    text-decoration: underline;
   }
   .J-company__name {
     -webkit-box-flex: 1;
@@ -9594,6 +9657,13 @@ input[type='checkbox'].remove-addr {
   border-bottom: 0;
   width: auto;
 }
+.owner-address .mapAddress {
+  cursor: pointer;
+}
+.loc-icon {
+  position: relative;
+  top: 3px;
+}
 .share-job .fa-whatsapp {
   color: #34af23;
 }
@@ -9624,7 +9694,6 @@ input[type='checkbox'].remove-addr {
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
-  overflow: auto;
 }
 .Company-info .name-row {
   -webkit-box-align: initial;
@@ -9835,31 +9904,50 @@ input[type='checkbox'].remove-addr {
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-role {
-    -webkit-flex-basis: 18%;
-        -ms-flex-preferred-size: 18%;
-            flex-basis: 18%;
+    -webkit-flex-basis: auto;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+    max-width: 46%;
   }
 }
 .role-selection .job-role .cities li:not(:last-child) .cities__title:after {
   content: ',';
   display: inline-block;
 }
+.role-selection .job-role .cities__title a:hover,
+.role-selection .job-role .cities__title a:active,
+.role-selection .job-role .cities__title a:focus {
+  text-decoration: underline;
+  color: #ec6d4b;
+}
 .role-selection .job-places {
   -webkit-flex-basis: 7%;
       -ms-flex-preferred-size: 7%;
           flex-basis: 7%;
-  min-width: 220px;
+  min-width: 240px;
 }
 @media screen and (min-width: 769px) {
   .role-selection .job-places {
-    margin: 0 0.8em;
+    margin: 0 0.8em 1em 0.8em;
   }
 }
+.role-selection .job-places .job-location {
+  margin-bottom: 3px;
+}
 .role-selection .job-places .job-location .location {
-  min-width: 68px;
+  min-width: 56px;
+  padding-right: 2px;
 }
 .role-selection .role-gap {
   padding-left: 1em;
+}
+.role-selection .year-exp {
+  max-width: inherit;
+}
+@media screen and (min-width: 769px) {
+  .role-selection > .year-exp {
+    margin-left: 0.8em;
+  }
 }
 .applyJob {
   text-align: center;
@@ -9868,10 +9956,6 @@ input[type='checkbox'].remove-addr {
   width: 80%;
   border-color: #ec6d4b;
   margin-bottom: 1em;
-}
-.job-location {
-  margin-top: -3px;
-  margin-left: -5px;
 }
 .job-location .map-icon {
   -webkit-transform: scale(0.6);
@@ -9914,6 +9998,11 @@ input[type='checkbox'].remove-addr {
   outline: 0;
   font-size: 1.05em;
   opacity: 0.8;
+}
+.main-loc .location__title:hover,
+.main-loc .location__title:active,
+.main-loc .location__title:focus {
+  color: #ec6d4b;
 }
 @media screen and (max-width: 768px) {
   .job-type {
@@ -9991,10 +10080,10 @@ input[type='checkbox'].remove-addr {
   }
   .role-selection .job-places {
     min-width: initial;
-    width: 100%;
-    -webkit-flex-basis: 100%;
-        -ms-flex-preferred-size: 100%;
-            flex-basis: 100%;
+    -webkit-flex-basis: auto;
+        -ms-flex-preferred-size: auto;
+            flex-basis: auto;
+    padding-right: 0.5em;
   }
   .role-selection .job-places .job-location {
     margin-top: 5px;
@@ -10005,6 +10094,7 @@ input[type='checkbox'].remove-addr {
         -ms-flex: inherit;
             flex: inherit;
     min-width: auto;
+    margin-top: 0;
   }
   .role-selection .job-places .job-location .cities {
     -webkit-box-flex: 2;
@@ -10017,7 +10107,7 @@ input[type='checkbox'].remove-addr {
   }
   .role-selection .offered-sal,
   .role-selection .off-salary {
-    padding-right: 1.5em;
+    padding-right: 0;
   }
   .job-points > h6 {
     font-size: 1.05em;

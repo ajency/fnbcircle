@@ -36,7 +36,7 @@
                         <i class="fa fa-check"></i>
                     </div>
                     <div class="business-label">
-                        Wholesaler
+                        Wholesaler/ Distributor
                     </div>
                 </div>
             </li>

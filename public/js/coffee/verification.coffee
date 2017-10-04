@@ -161,7 +161,8 @@ $(document).ready ()->
     contactval = contactObj.val()
     # console.log contactval
     if !checkDuplicateEntries(contactObj) && contactval!= ""
-      contactObj.closest('.contact-container').find('.dupError').html contactval+' already added to list.'
+      # contactObj.closest('.contact-container').find('.dupError').html contactval+' already added to list.'
+      contactObj.closest('.contact-container').find('.dupError').html 'Same contact detail has been added multiple times.'
       contactObj.val ''
     else 
       contactObj.closest('.contact-container').find('.dupError').html ''
@@ -184,6 +185,8 @@ $(document).ready ()->
 
   $('.contact-verification-modal').on 'click', '.edit-number', (e)->
     $('.value-enter').val('')
+    $('.contact-verify-steps').find('.customError').html ''
+    $(this).closest('.number-code').find('.validationError').html ''
     $('.default-state').addClass 'hidden'
     $('.add-number').removeClass 'hidden'
     $('.verificationFooter').addClass 'no-bg'
@@ -214,7 +217,7 @@ $(document).ready ()->
       if !checkDuplicateEntries(oldContactObj)
    
         oldContactObj.val oldContactValue
-        $(this).closest('.contact-verify-steps').find('.customError').text changedValue+' already added to list.'
+        $(this).closest('.contact-verify-steps').find('.customError').text 'Same contact detail has been added multiple times.'
       else 
         $(this).closest('.contact-verify-steps').find('.customError').text ''
         $(this).closest('.modal').find('.contact-input-value').text(changedValue)
@@ -240,6 +243,7 @@ $(document).ready ()->
     # $('.processing').removeClass 'hidden'
     errordiv=$(this).closest('.number-code').find('.validationError')
     otpObj=$(this).closest('.code-submit').find('.fnb-input')
+    otpObjType=$(this).closest('.modal').attr('modal-type')
     otpObj.attr('data-parsley-required','true')
     otpObj.attr('data-parsley-type','digits')
     otpObj.attr('data-parsley-length','[4,4]')
@@ -248,7 +252,10 @@ $(document).ready ()->
     if validator.isValid() != true
       # console.log 'gandu'
       if otpObj.val()==''
-        errordiv.html 'Please enter OTP sent'
+        if otpObjType == 'email'
+          errordiv.html 'Please enter the OTP sent via email'
+        else
+          errordiv.html 'Please enter the OTP sent via sms'
       else
         errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       otpObj.val('')

@@ -154,7 +154,12 @@
 
                   <div class="form-group parent_cat_icon">
                     <label>Icon  <span class="text-danger">*</span></label>
-                    <input type="file" name="">
+                    <div class="row">
+                      <div class="col-sm-4">
+                          <input type="file" name="">
+                      </div>
+                    </div>
+                    
                   </div>
 
                   <div class="row">

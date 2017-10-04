@@ -37,8 +37,8 @@ function routePermission(){
 
 		'normal_user_check' =>
 			[						
-				'delete_element'=>['delete_job_contact'],					
-				'status_element'=>['change_job_status'],	
+				'delete_element_cls'=>['delete_job_contact'],					
+				'status_element_cls'=>['change_job_status'],	
 			],
 
 		// 'public_access' =>

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Route;
 use Auth;
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class FnbPermission
 {
@@ -32,7 +33,24 @@ class FnbPermission
 
         if(Auth::check()){
             $userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
-            $lastLogin = Auth::user()->last_login;
+            $userDetails = Auth::user()->getUserDetails; 
+            
+            if(!empty($userDetails) &&  $userDetails->has_previously_login == true){
+                //do nothing
+                $lastLogin = $userDetails->has_previously_login;
+            }
+            else{  
+                $lastLogin = (!empty($userDetails)) ? $userDetails->has_previously_login : false;
+
+                $userauth_obj = new UserAuth;
+                $request_data['has_previously_login'] =true;
+                $response = $userauth_obj->updateOrCreateUserDetails(Auth::user(), $request_data, "user_id", Auth::user()->id);
+                $userDetails = $response["data"];
+
+            }
+            
+            
+            
         }
         
 
@@ -44,7 +62,7 @@ class FnbPermission
         }
     
         //check if loggen in user is first time
-        if(empty($lastLogin))
+        if(!$lastLogin)
         {
             if($userType == 'internal')
                 return redirect('/admin-dashboard');

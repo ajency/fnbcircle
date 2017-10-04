@@ -40,23 +40,24 @@
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">
-                @isset($data['publish_date'])
+                @if(isset($data['publish_date']) and $data['status']['id'] == '1')
                 <!-- Slide navigation -->
                 <div class="slide-nav flex-row">
                      <p class="m-b-0 published-title">Published on {{$data['publish_date']}}</p>
                     <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>
                 </div>
                 <!-- slide navigation ends -->
-                @endisset
+                @endif
             </div>
         </div>
          <!-- premium benefits -->
+         @if(false and !$data['premium'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="pre-benefits flex-row">
                     <div class="pre-benefits__intro flex-row">
                         
-                        <img src="../public/img/power-icon.png" class="img-repsonsive" width="50">
+                        <img src="/img/power-icon.png" class="img-repsonsive" width="50">
                         <div class="pre-benefits__content">
                             <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
                             <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version</p>
@@ -66,7 +67,9 @@
                 </div>
             </div>
         </div>
+        @endif
         <!-- premium benefits ends -->
+        @if(false)
         <!-- edit business listing  is this required?????? -->
         <div class="row">
             <div class="col-sm-8"></div>
@@ -80,6 +83,7 @@
             </div>
         </div>
         <!-- business listing ends -->
+        @endif
         <div class="row">
             <div class="col-sm-8">
                 <div class="spacer">
@@ -89,9 +93,13 @@
                         <div class="seller-info__body">
                             <div class="flex-row space-between">
                                 <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
+                                @if(false)
                                 <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a>
+                                @endif
+                                @if($data['premium'] and $data['status']['id']==1)
                                 <img src="/img/power-seller.png" class="img-responsive mobile-hide" width="130">
                                 <img src="/img/power-icon.png" class="img-responsive desk-hide" width="30">
+                                @endif
                             </div>
                             <div class="location flex-row">
                                 <span class="fnb-icons map-icon"></span>
@@ -402,6 +410,7 @@
                         <!-- more details ends -->
                     </div>
                     @endisset
+                    @if(!$data['premium'])
                     <!-- Similar businesses -->
                     <div class="similar-business p-t-20 p-b-20" id="business">
                         <div class="section-start-head m-b-15 flex-row">
@@ -498,6 +507,7 @@
                         </div>
                     </div>
                     <!-- Similar businesses end -->
+                    @endif
                     <!-- Related article section -->
 
 
@@ -522,23 +532,29 @@
                             </ul>
                             @endisset
                         </div> 
+                        
                         <div class="contact__enquiry text-center mobile-hide">                                
                             <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                             <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
+                            @if(false)
                             <div class="approval">
                                 <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                 <div class="heavier sub-title">{!! $data['status']['status'] !!} </div>
                             </div>
+                            @endif
                         </div>
+                        
                     </div>
                     <!-- core categories end -->
                     <!-- Claim -->
+                    @if(!false)
                     <div class="claim-box p-b-10">
                         <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
                         <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
                         <span class="fnb-icons exclamation"></span>
                         <p class="claim-box__text sub-title">Is this your business? <a href="">Claim it now.</a><br> or <a href="">Report/Delete</a></p>
                     </div>
+                    @endif
                     <!-- claim end -->
                     @if(isset($data['images']) or isset($data['files']))
                     <!-- Photos and documents -->

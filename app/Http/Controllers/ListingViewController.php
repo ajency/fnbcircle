@@ -16,11 +16,10 @@ class ListingViewController extends Controller
 {
     public function index($city,$listing_slug){
     	$listing = Listing::where('slug',$listing_slug)->firstOrFail();
-    	// dd($listing);
-
+        $area = Area::with('city')->find($listing->locality_id);
+        if($area->city['slug']!= $city) redirect('/404');
     	$pagedata = array();
     	$pagedata['pagetitle'] = getSingleListingTitle($listing);
-    	$area = Area::with('city')->find($listing->locality_id);
     	$pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'', 'area' => $area->name);
     	$pagedata['title'] = ['name'=>$listing->title,'url'=>url()->current(),'alt'=>''];
         if($listing->status == 1){

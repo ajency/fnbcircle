@@ -9144,13 +9144,13 @@ input[type='checkbox'].remove-addr {
     margin-left: 0;
   }
 }
-.verifySection.number-code {
-  margin-left: -15px;
-}
 .verifySection .iti-sdc-5 .fnb-input {
   width: 235px;
 }
 @media screen and (max-width: 320px) {
+  .verifySection.number-code {
+    margin-left: -15px;
+  }
   .verifySection .fnb-input {
     width: 224px;
   }

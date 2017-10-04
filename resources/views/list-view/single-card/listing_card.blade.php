@@ -1,5 +1,4 @@
-</script>
-<script id="listing_card_template" type="text/x-handlebars-template">                    
+@foreach($listing_data as $list_index => $list_value)
     <div class="filter-data m-b-30">
         <div class="seller-info bg-card filter-cards">
             <!-- <div class="seller-info__header filter-cards__header flex-row">
@@ -23,12 +22,16 @@
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis" title="{{ title }}">{{ title }}</h3>
+                            <h3 class="seller-info__title ellipsis" title="{{ $list_value->title }}">{{ $list_value->title }}</h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-5 flex-row">
                             <span class="fnb-icons map-icon"></span>
-                            <p class="location__title default-size m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
+                            @if($list_value->display_address)
+                                <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>
+                            @else
+                                <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
+                            @endif
                         </div>
                         <div class="flex-row rat-pub">
                             <div class="rating-view flex-row p-r-10">
@@ -37,27 +40,18 @@
                                     <div class="value" style="width: 80%;"></div>
                                 </div>
                             </div>
-                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on 20 Dec 2016</i></p>
+                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('d M Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
                         <div class="stats flex-row m-t-10 p-t-10">
                             <label class="fnb-label wholesaler flex-row">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                {{#ifCond business_type == 11 }}
-                                    Wholesaler
-                                {{else}} 
-                                    {{#ifCond business_type == 12 }}
-                                        Retailer
-                                    {{else}}
-                                        Manufacturer
-                                    {{/if}}
-                                {{/if}}
-
+                                {{ $list_value->business_type }}
                             </label>
                             <div class="verified flex-row p-l-10">
-                                {{#if verified}}
+                                @if ($list_value->verified)
                                     <span class="fnb-icons verified-icon verified-mini"></span>
                                     <p class="c-title">Verified</p>
-                                {{/if}}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -65,13 +59,18 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
-                                <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
+                                @foreach($list_value->cores as $core_index => $core_value)
+                                    @if($core_index <= 3)
+                                        <li><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                    @else
+                                        <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                    @endif
+                                @endforeach
+                                @if (sizeof($list_value->cores) >= 4)
+                                    <li class="cat-more more-show">
+                                        <a href="" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -81,33 +80,51 @@
                         <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
                         <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
                         <div class="operations__container">
-                            <div class="location flex-row">
-                                <p class="m-b-0 text-color heavier default-size">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                </p>
-                            </div>
-                            <ul class="cities flex-row">
-                                <li>
-                                    <p class="cities__title default-size">Bandra, </p>
-                                </li>
-                                <li>
-                                    <p class="cities__title default-size">Andheri, </p>
-                                </li>
-                                <li>
-                                    <p class="cities__title default-size">Juhu, </p>
-                                </li>
-                                <li class="mobile-hide">
-                                    <p class="cities__title default-size">Worli, </p>
-                                </li>
-                                <li class="mobile-hide">
-                                    <p class="cities__title default-size">Powai</p>
-                                </li>
-                                <li class="line">
-                                    <p class="cities__title default-size">|</p>
-                                </li>
-                                <li class="remain more-show">
-                                    <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                </li>
-                            </ul>
+                            @foreach($list_value->areas_operation as $locations_index => $locations_value)
+                                <div class="location flex-row">
+                                    <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
+                                    </p>
+                                </div>
+                                <ul class="cities flex-row">
+                                    @foreach($locations_value["areas"] as $areas_index => $areas_value)
+                                        @if ($areas_index < 3)
+                                            <li>
+                                                <p class="cities__title default-size">{{ $areas_value->name }}, </p>
+                                            </li>
+                                        @else
+                                            <li class="mobile-hide">
+                                                <p class="cities__title default-size"> {{ $areas_value->name }}, </p>
+                                            </li>
+                                        @endif
+                                        @if ($areas_index >= 3)
+                                            <li class="remain more-show">
+                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                    <!-- <li>
+                                        <p class="cities__title default-size">Bandra, </p>
+                                    </li>
+                                    <li>
+                                        <p class="cities__title default-size">Andheri, </p>
+                                    </li>
+                                    <li>
+                                        <p class="cities__title default-size">Juhu, </p>
+                                    </li>
+                                    <li class="mobile-hide">
+                                        <p class="cities__title default-size">Worli, </p>
+                                    </li>
+                                    <li class="mobile-hide">
+                                        <p class="cities__title default-size">Powai</p>
+                                    </li>
+                                    <li class="line">
+                                        <p class="cities__title default-size">|</p>
+                                    </li>
+                                    <li class="remain more-show">
+                                        <a href="" class="cities__title remain__number default-size text-medium">more...</a>
+                                    </li> -->
+                                </ul>
+                            @endforeach
                         </div>
                     </div>
                     <div>
@@ -144,3 +161,4 @@
             </div>
         </div>
     </div>
+@endforeach

@@ -23,6 +23,12 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function index()
     {
         //
@@ -50,10 +56,7 @@ class JobController extends Controller
         $postUrl = url('jobs');
         $pageName = "Add Job" ;
         $breadcrumb = "Add a Job" ;
-        $job->interview_location_lat = "28.7040592";
-        $job->interview_location_long = "77.10249019999992";
-
-
+ 
         return view('jobs.job-info')->with('jobCategories', $jobCategories)
                                     ->with('job', $job) 
                                     ->with('cities', $cities) 
@@ -62,7 +65,7 @@ class JobController extends Controller
                                     ->with('defaultKeywords', $defaultKeywords) 
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
-                                    ->with('step', 'step-one')
+                                    ->with('step', 'job-details')
                                     ->with('pageName', $pageName)
                                     ->with('breadcrumb', $breadcrumb)
                                     ->with('postUrl', $postUrl);
@@ -87,7 +90,7 @@ class JobController extends Controller
             'category' => 'required|integer',
         ]);
 
-        $data = $request->all();    
+        $data = $request->all();  
 
         $title = $data['job_title'];
         $description = $data['description'];
@@ -100,6 +103,7 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
@@ -116,7 +120,7 @@ class JobController extends Controller
 
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
-            $metaData['job_keyword'] = $jobKeywords;
+            // $metaData['job_keyword'] = $jobKeywords;
         }
 
         $experienceYearsLower = 0;
@@ -147,6 +151,7 @@ class JobController extends Controller
         $job->status = 1;
         $job->job_creator = $userId;
         $job->meta_data = $metaData;
+        $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
         $job->save();
@@ -154,9 +159,9 @@ class JobController extends Controller
         $jobId = $job->id;
         
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$keywordIds);
+        $this->addJobKeywords($job,$keywordIds,$jobKeywords);
         Session::flash('success_message','Job details saved successfully.');
-        return redirect(url('/jobs/'.$job->reference_id.'/step-two')); 
+        return redirect(url('/jobs/'.$job->reference_id.'/company-details')); 
 
     }
 
@@ -177,15 +182,24 @@ class JobController extends Controller
         
     }
 
-    public function addJobKeywords($job,$keywords){
+    public function addJobKeywords($job,$keywords,$jobKeywords){
         $job->hasKeywords()->delete();
-        foreach ($keywords as $key => $keywordId) {
-       
-            $jobKeyword    = new JobKeyword;
-            $jobKeyword->job_id = $job->id;
-            $jobKeyword->keyword_id = $keywordId;
-            $jobKeyword->save();
+        $keywordData = [];
+        foreach ($keywords as $keywordId => $keyword) {
+            
+            if(in_array($keyword, $jobKeywords)){
+                $keywordData[$keywordId] = $keyword;
+                $jobKeyword    = new JobKeyword;
+                $jobKeyword->job_id = $job->id;
+                $jobKeyword->keyword_id = $keywordId;
+                $jobKeyword->save();
+            }
+            
         }
+        $metaData = $job->meta_data;
+        $metaData['job_keyword'] = $keywordData;
+        $job->meta_data = $metaData;
+        $job->save();
 
         return true;
         
@@ -258,7 +272,7 @@ class JobController extends Controller
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
 
-        $shareLink = url('/jobs/'.$job->getJobSlug());
+        $shareLink = url('/job/'.$job->getJobSlug());
         $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
 
         $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
@@ -289,7 +303,7 @@ class JobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($reference_id,$step='step-one')
+    public function edit($reference_id,$step='job-details')
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
 
@@ -306,7 +320,7 @@ class JobController extends Controller
         $jobCompany  = $job->getJobCompany();
         $data['jobCompany'] = $jobCompany;
 
-        if($step == 'step-one'){
+        if($step == 'job-details'){
             $jobCategories = $job->jobCategories();
             $defaultExperience  = $job->jobExperience();
             $defaultKeywords  = $job->jobKeywords();
@@ -333,7 +347,7 @@ class JobController extends Controller
             $breadcrumb = $job->title .' / Edit Job' ;
 
         }
-        elseif ($step == 'step-two'){
+        elseif ($step == 'company-details'){
             
             $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
             $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
@@ -341,16 +355,16 @@ class JobController extends Controller
             $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
-            $data['back_url'] = url('jobs/'.$job->reference_id.'/step-one'); 
+            $data['back_url'] = url('jobs/'.$job->reference_id.'/job-details'); 
             $blade = 'jobs.job-company';
             $pageName = $job->title .'- Company Details' ;
             // $breadcrumb = $job->title .'/ Company Details' ;
             $breadcrumb = $job->title .' / Edit Job' ;
         }
-        elseif ($step == 'step-three'){
-            $data['back_url'] = url('jobs/'.$job->reference_id.'/step-two'); 
+        elseif ($step == 'go-premium'){
+            $data['back_url'] = url('jobs/'.$job->reference_id.'/company-details'); 
             $blade = 'jobs.job-plan-selection';
-            $pageName = $job->title .'- Plan-Selection' ;
+            $pageName = $job->title .'- Go Premium' ;
             // $breadcrumb = $job->title .'/ Plan-Selection' ;
             $breadcrumb = $job->title .' / Edit Job' ;
         }
@@ -372,18 +386,18 @@ class JobController extends Controller
      */
     public function update(Request $request, $reference_id)
     {
-       
+         
         $job = Job::where('reference_id',$reference_id)->first(); 
 
-        if($request->step == 'step-one'){
+        if($request->step == 'job-details'){
             $response = $this->saveStepOneData($job,$request);
         }
-        elseif ($request->step == 'step-two'){
+        elseif ($request->step == 'company-details'){
              
             $response = $this->saveCompanyData($job,$request);
         }
-        elseif ($request->step == 'step-three'){
-            # code...
+        elseif ($request->step == 'go-premium'){
+            $response['next_step']='go-premium';
         }
         else{
             abort(404);
@@ -417,9 +431,11 @@ class JobController extends Controller
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
         $salaryLower = $data['salary_lower'];
         $salaryUpper = $data['salary_upper'];
+        $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
+        $hasChanges =  $data['has_changes'];
  
 
         $metaData = [] ;
@@ -431,10 +447,10 @@ class JobController extends Controller
         else{
             $jobType = 0;
         }
-
+        // dd()
         if(!empty($jobKeywords)){
             $jobKeywords = explode(',', $jobKeywords);
-            $metaData['job_keyword'] = $jobKeywords;
+            // $metaData['job_keyword'] = $jobKeywords;
         }
      
         $experienceYearsLower = 0;
@@ -464,11 +480,14 @@ class JobController extends Controller
         $job->meta_data = $metaData;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
+        $job->interview_location = $interviewLocation;
         $job->save(); 
         $this->addJobLocation($job,$jobArea);
-        $this->addJobKeywords($job,$keywordIds);
-        Session::flash('success_message','Job details saved successfully.');
-        $request['next_step'] = 'step-two';
+        $this->addJobKeywords($job,$keywordIds,$jobKeywords);
+
+        if($hasChanges == 1)
+            Session::flash('success_message','Job details saved successfully.');
+        $request['next_step'] = 'company-details';
 
         return $request;
     }
@@ -496,6 +515,7 @@ class JobController extends Controller
         $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
+        $hasChanges =  $data['has_changes'];
 
         if(isset($data['company_logo'])){
             $companyLogo = $data['company_logo'];
@@ -575,8 +595,10 @@ class JobController extends Controller
         $job->job_modifier = $userId;
         $job->save(); 
 
-        Session::flash('success_message','Company details saved successfully.');
-        $request['next_step'] = 'step-three';
+        if($hasChanges == 1)
+            Session::flash('success_message','Company details saved successfully.');
+
+        $request['next_step'] = 'go-premium';
 
         return $request;
     }
@@ -620,7 +642,7 @@ class JobController extends Controller
         $job->save();
 
         Session::flash('job_review_pending','Job details submitted for review.');
-        return redirect(url('/jobs/'.$job->reference_id.'/step-one')); 
+        return redirect(url('/jobs/'.$job->reference_id.'/job-details')); 
     }
 
     

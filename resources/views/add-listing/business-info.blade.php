@@ -36,7 +36,7 @@
                         <i class="fa fa-check"></i>
                     </div>
                     <div class="business-label">
-                        Wholesaler
+                        Wholesaler/ Distributor
                     </div>
                 </div>
             </li>
@@ -154,7 +154,7 @@
             <div class="contact-row m-t-5">
                 <div class="row no-m-b">
                     <div class="col-sm-5">
-                        <input type="email" class="form-control fnb-input p-l-5" value="{{$owner->getPrimaryEmail()}}" readonly=""  data-parsley-required>
+                        <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{$owner->getPrimaryEmail()}}" readonly=""  data-parsley-required>
                     </div>
                     <div class="col-sm-3 col-xs-4">
                         <div class="verified flex-row">
@@ -261,11 +261,12 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="comm-id contact_mobile_id contact-id " readonly  name="contact_IDs">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{Auth::user()->getPrimaryContact()['contact']}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{Auth::user()->getPrimaryContact()['contact']}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required data-parsley-errors-container="#phone-error">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{Auth::user()->getPrimaryContact()['contact_region']}}">
-                        <div class="dupError" ></div>
+                        
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
+                    <div class="dupError" id="phone-error"></div>
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
@@ -343,7 +344,7 @@
                     <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs">
 
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input " value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
                         <div class="dupError" ></div>
                          <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->

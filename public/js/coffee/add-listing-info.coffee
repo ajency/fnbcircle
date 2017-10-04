@@ -47,10 +47,10 @@
 #   return
 
 window.checkDuplicates = ->
-  contacts = document.getElementsByClassName('fnb-input')
+  contacts = document.getElementsByClassName('contact-input')
   index = 0
   while index < contacts.length
-    others = document.getElementsByClassName('fnb-input')
+    others = document.getElementsByClassName('contact-input')
     value = contacts[index].value
     # console.log 'value=' + value
     if value != ''
@@ -214,6 +214,13 @@ $('body').on 'click', '.removeRow', ->
 #   $('.listing-sections').addClass 'active'
 #   return
 # ), 1500
+
+
+$(document).on 'click', '.business-type .radio', ->
+  if $(this).is(':checked')
+    $(this).parent().addClass 'active'
+    $(this).parent().siblings().removeClass 'active'
+  return
 
 
 $(document).on 'change', '.business-contact .toggle__check', ->

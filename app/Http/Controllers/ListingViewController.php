@@ -14,7 +14,7 @@ use Carbon\Carbon;
 
 class ListingViewController extends Controller
 {
-    public function index($city_slug,$listing_slug){
+    public function index($city,$listing_slug){
     	$listing = Listing::where('slug',$listing_slug)->firstOrFail();
     	// dd($listing);
 

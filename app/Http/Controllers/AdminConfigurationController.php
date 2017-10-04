@@ -176,7 +176,7 @@ class AdminConfigurationController extends Controller
                 $data[$category->id]['isNode']   = "-<span class=\"hidden\">no</span>";
                 $data[$category->id]['parent']   = "";
                 $data[$category->id]['branch']   = "";
-                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle" width="20">';
+                $data[$category->id]['name']     = $category->name . '<img src="' . $category->icon_url . '" class="img-circle m-l-20" width="35">';
             }
             if ($category->level == "2") {
                 $data[$category->id]['isParent']  = "-<span class=\"hidden\">no</span>";
@@ -607,11 +607,14 @@ class AdminConfigurationController extends Controller
 
         $request = $request->all();
 
-        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "email_signup");
+        $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "added_by_internal");
         $user_comm = array("email" => $request["email"], "is_verified" => true);
         
         if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {
             $user_data["password"] = $request["password"];
+        } else if (isset($request["password"]) && $request["password"] !== $request["confirm_password"]) {
+            $status = 406;
+            $response_data = array("message" => "password_and_confirm_not_matching");
         }
 
         if(isset($request["roles"]) && sizeof($request["roles"]) > 0) {
@@ -622,15 +625,18 @@ class AdminConfigurationController extends Controller
             $user_data["status"] = $request["status"];
         }
 
+
         $user_obj_response = $userauth_obj->checkIfUserExists($user_data);
 
-        if(!$user_obj_response) { // If user doesn't exist then create user, else
+        if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
             $output->writeln(json_encode($create_response));
             $status = 201;
         } else {
             $status = 406; ## Not Acceptable
-            $response_data = array("message" => "Email exist");
+            if(sizeof($response_data) <= 0) {
+                $response_data = array("message" => "email_exist");
+            }
         }
 
         return response()->json($response_data, $status);
@@ -677,8 +683,12 @@ class AdminConfigurationController extends Controller
         $jobStatuses = $job->jobStatuses();
         $jobAvailabeStatus = $job->jobAvailabeStatus();
         $cities = City::orderBy('order')->orderBy('name')->get();
+        $categories =  $job->jobCategories();
+        $keywords = $job->jobKeywords();
 
         return view('admin-dashboard.manage-jobs')->with('cities', $cities)
+                                                  ->with('categories', $categories)
+                                                  ->with('keywords', $keywords)
                                                   ->with('jobStatuses', $jobStatuses)
                                                   ->with('jobAvailabeStatus', $jobAvailabeStatus);
     }
@@ -691,13 +701,14 @@ class AdminConfigurationController extends Controller
         $length = $requestData['length'];
         $orderValue = $requestData['order'][0];
 
- 
+       
         $columnOrder = array( 
                                         '2'=> 'jobs.title',
                                         '3'=> 'categories.name',
-                                        '5'=> 'jobs.date_of_submission',
-                                        '6'=> 'jobs.published_on',
-                                        '7'=> 'jobs.updated_at'
+                                        '5'=> 'companies.title',
+                                        '6'=> 'jobs.date_of_submission',
+                                        '7'=> 'jobs.published_on',
+                                        '8'=> 'jobs.updated_at'
                                         );
 
         
@@ -733,14 +744,35 @@ class AdminConfigurationController extends Controller
             $jobQuery->distinct('jobs.id');
         }
 
+        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        {
+            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
 
-        $columnName = 'jobs.title';
-        $orderBy = 'asc';
- 
+            $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
+        {
+            $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
+        }
+
+         
+
+        $columnName = 'jobs.created_at';
+        $orderBy = 'desc';
+        
+        if($orderValue['column'] == 5){ 
+            $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
+            $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
+
+        }
+        
         if(isset($columnOrder[$orderValue['column']]))
         {   
-                $columnName = $columnOrder[$orderValue['column']];
-                $orderBy = $orderValue['dir'];
+            $columnName = $columnOrder[$orderValue['column']];
+            $orderBy = $orderValue['dir'];
         }
 
         $totalJobs = $jobQuery->count();
@@ -755,6 +787,8 @@ class AdminConfigurationController extends Controller
 
         $jobsData = [];
         foreach ($jobs as $key => $job) {
+         
+
             $cityNames = $job->getJobLocationNames('city');
             $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
 
@@ -778,6 +812,7 @@ class AdminConfigurationController extends Controller
                             'date_of_submission' => $job->jobPostedOn(2),
                             'published_date' => $job->jobPublishedOn(2),
                             'last_updated' => $job->jobUpdatedOn(2),
+                            'last_updated_by' => ($job->job_modifier) ? $job->updatedBy->name :'',
                             'status' => '<span status_value="'.$job->id.'">'.$job->getJobStatus().'</span> '.$statusEditHtml ,
                             ];
             

@@ -88,9 +88,15 @@ class RegisterController extends Controller
 
         $request_data = [
             "user" => array("username" => $request->email, "email" => $request->email, "name" => $request->name),
-            "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_verified" => 0, "is_visible" => 0),
+            "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
+
+        if($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1'])) {
+            $request_data["user_comm"]["is_verified"] = 1;
+        } else {
+            $request_data["user_comm"]["is_verified"] = 0;
+        }
 
         if($request->has("next_url"))  {
             $next_redirect_url = $request->next_url;
@@ -105,7 +111,7 @@ class RegisterController extends Controller
         }
 
         if ($request->has("contact")) {// && $request->has("contact_locality")) {
-            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;//$request->contact_locality . $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }
@@ -153,14 +159,21 @@ class RegisterController extends Controller
 
         return $this->registered($request, $user) ?: redirect($this->redirectPath());*/
 
+
         $request_data = [
             "user" => array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup", "name" => $request->name),
-            "user_comm" => array("email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_verified" => 0, "is_visible" => 0),
+            "user_comm" => array("email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
 
+        if($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1'])) {
+            $request_data["user_comm"]["is_verified"] = 1;
+        } else {
+            $request_data["user_comm"]["is_verified"] = 0;
+        }
+
         if ($request->has("contact")) {
-            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "+91";
+            $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
         }

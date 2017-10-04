@@ -22,7 +22,7 @@ class AdminModerationController extends Controller
     }
     public function listingApproval(Request $request)
     {
-        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->get();
+        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
         $cities       = City::where('status', '1')->get();
         return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities);
     }
@@ -107,7 +107,7 @@ class AdminModerationController extends Controller
         if ($filters['submission_date']['start'] != "") {
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
-        $listings = $listings->where('title','like',$search.'%');
+        $listings = $listings->where('title','like','%'.$search.'%');
         if (isset($filters['city'])) {
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
@@ -131,11 +131,12 @@ class AdminModerationController extends Controller
 
         foreach ($listings as $listing) {
             // $output->writeln($listing->submission);
+            // dd($listing);
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;
             $response[$listing->id]['reference']       = $listing->reference;
-            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['name'];
+            $response[$listing->id]['last_updated_by'] = $listing->lastUpdatedBy['type'];
             // if (isset($filters['city']) and !in_array($listing->location['city_id'], $filters['city'])) {
             //     unset($response[$listing->id]);
             //     $filtered--;
@@ -212,7 +213,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -260,7 +261,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else {
@@ -275,7 +276,7 @@ class AdminModerationController extends Controller
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
-                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesnt meet Reviewable criteria', 'url' => $link);
+                        $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing doesn\'t meet Reviewable criteria.', 'url' => $link);
                         $response['status']          = 'Error';
                     }
                 } else if ($change->status == (string) Listing::PUBLISHED) {

@@ -36,7 +36,7 @@
 
 <body class="nav-md">
     <!-- header -->
-    <header class="fnb-header {{ !empty($header_type) && $header_type=='trans-header' ? 'trans-header home-header' : '' }}">
+    <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
             <div class="container-fluid nav-gap">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -129,14 +129,14 @@
                                 </a>
                             </li>
                         </ul>
-                       <!--  <ul class="nav navbar-nav navbar-right side-section fixed-section">
+                        <ul class="nav navbar-nav navbar-right side-section fixed-section">
                             <li>
                                 <button class="btn fnb-btn outline full border-btn modify-search"><i class="fa fa-search p-r-5" aria-hidden="true"></i> Modify Search</button>
                             </li>
                             <li>
                                 <button class="btn fnb-btn primary-btn full border-btn send-enq">Send Enquiry</button>
                             </li>
-                        </ul> -->
+                        </ul>
                     </div>
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">

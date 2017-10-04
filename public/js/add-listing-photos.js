@@ -11,7 +11,8 @@
     messages: {
       'default': 'Add photo',
       'replace': 'Replace photo',
-      'remove': '<i class="">&#10005;</i>'
+      'remove': '<i class="">&#10005;</i>',
+      'error': ''
     }
   });
 
@@ -38,6 +39,8 @@
     setTimeout((function() {
       ef = 0;
     }), 2000);
+    $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
+    $(this).closest('.image-grid__cols').find('.doc-name').val("");
   });
 
   fileuploaders = $('.fileUpload input[type="file"]').length;
@@ -51,6 +54,7 @@
     e.preventDefault();
     max = parseInt(document.head.querySelector('[property="max-file-upload"]').content);
     if (fileuploaders < max) {
+      $('#more-file-error').html('');
       console.log(fileuploaders + ' < ' + max);
       fileuploaders++;
       contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
@@ -68,12 +72,14 @@
       });
       return $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
     } else {
-      return console.log('max ' + max + ' allowed');
+      console.log('max ' + max + ' allowed');
+      return $('#more-file-error').html('Cannot upload more than 20 files');
     }
   });
 
   $('body').on('click', '.removeCol', function(e) {
     e.preventDefault();
+    $('#more-file-error').html('');
     fileuploaders--;
     return $(this).parent().remove();
   });
@@ -94,6 +100,7 @@
         formData.append('name', '');
       } else {
         formData.append('name', container.find('input.doc-name').val());
+        container.find('input.doc-name').val('');
       }
       formData.append('listing_id', document.getElementById('listing_id').value);
       xhr = new XMLHttpRequest;
@@ -107,6 +114,12 @@
             container.find(".image-loader").addClass('hidden');
           } else {
             $container.find('input[type="file"]').val('');
+            container.find(".image-loader").addClass('hidden');
+            $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please check your internet connection and retry</div>');
+            $('.alert-failure').addClass('active');
+            setTimeout((function() {
+              $('.alert-failure').removeClass('active');
+            }), 6000);
           }
         } else {
 
@@ -127,6 +140,7 @@
   file_dropify.on('dropify.afterClear', function(event, element) {
     $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
     $(this).closest('.image-grid__cols').find('.doc-name').val("");
+    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
     console.log("file deleted");
   });
 

@@ -90,6 +90,32 @@ get_sort_order = () ->
 
 	return [display_column, display_order]
 
+validatePassword = (password, confirm_password = '', parent_path = '', child_path = "#password_errors") ->
+	# Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
+	expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+	message = ''
+	status = true
+
+	if(expression.test(password))
+		if (confirm_password != '' && confirm_password == password) # Confirm_password isn't empty & is Same
+			status = true
+		else if (confirm_password == '') #Just validate Password
+			status = true
+		else # confirm_password != '' && password != confirm_password
+			message = "Password & Confirm Password are not matching"
+			status = false
+	else # Else password not Satisfied the criteria
+		message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character"
+		status = false
+
+	if(!status && parent_path != '')
+		$(parent_path + " " + child_path).removeClass('hidden').text(message)
+	else if(status && parent_path != '')
+		#$(parent_path + " " + child_path).addClass('hidden')
+		$(parent_path + " " + child_path).addClass('hidden')
+
+	return status
+
 requestData = (table_id) ->
 	# disable error mode for data tables
 	$.fn.dataTable.ext.errMode = 'none'
@@ -161,7 +187,14 @@ requestData = (table_id) ->
 			# $('.bcf_details').popover({trigger:'hover click',container: 'body'})
 				
 			### --- Search box --- ###
-			# $(".admin_internal_users #datatable-internal-users_filter label").html($(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop('outerHTML'))
+			# $("#datatable-internal-users_filter label").html($("#datatable-internal-users_filter label").children())
+			div = $("#datatable-internal-users_filter label")[0]
+			if div.childNodes.length
+			  i = 0
+			  while i < div.childNodes.length
+			    if div.childNodes[i].nodeType == 3
+			      div.removeChild div.childNodes[i]
+			    i++
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").prop "placeholder", "Search by Name"
 			$(".admin_internal_users #datatable-internal-users_filter label input[type='search']").addClass "fnb-input"
 
@@ -177,10 +210,24 @@ $(document).ready () ->
 	#get_filters()
 	table = requestData("datatable-internal-users")
 	
+	$("#add_newuser_modal #add_newuser_modal_form input[type='email'][name='email']").on 'keyup change', () ->
+		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
+		form_obj.find('p#email-error').addClass("hidden").text ""
+	# 	specificField = form_obj.find('label#email-error').parsley()
+	# 	window.ParsleyUI.removeError(specificField, "custom-email-error")
+		return
+
+	$("#add_newuser_modal #add_newuser_modal_form input[type='password'][name='password']").on 'keyup change', () ->
+		validatePassword($(this).val(), '', '#add_newuser_modal #add_newuser_modal_form', '#password-error')
+		return
+
 	$("#add_newuser_modal #add_newuser_modal_btn").on 'click', () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")
 
 		form_status = form_obj.parsley().validate()
+		
+		if !form_obj.find('input[type="password"][name="password"]').prop('disabled')
+			form_status = if validatePassword(form_obj.find('input[type="password"][name="password"]').val()) then form_status else false
 
 		data = 
 			user_type : "internal"
@@ -207,14 +254,55 @@ $(document).ready () ->
 
 					$("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 					$("#add_newuser_modal").modal "hide"
+					if url_type == "add"
+						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new User"
+					else
+						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "User updated successfully"
+
+					setTimeout (->
+						$(".admin_internal_users.right_col").parent().find('div.alert-success').addClass 'active'
+						return
+					), 1000
+					setTimeout (->
+						$(".admin_internal_users.right_col").parent().find('div.alert-success').removeClass 'active'
+						return
+					), 6000
 
 					### --- Reload the DataTable --- ###
 					# table = $("#datatable-internal-users").DataTable()
 					table.ajax.reload()
 
 				error: (request, status, error) ->
-					$(this).find(".fa-circle-o-notch.fa-spin").addClass "hidden"
-					throw Error()
+					if(request.status == 406)
+						form_obj.find('p#email-error').removeClass("hidden").text "This Email ID already exist"
+						#specificField = form_obj.find('label#email-error').parsley()
+						#window.ParsleyUI.addError(specificField, "custom-email-error", "This email ID exist.")
+						error_message = JSON.parse(request.responseText)
+
+						error_message = if error_message.hasOwnProperty("message") then error_message["message"] else ""
+						if(error_message == "email_exist")
+							$(".admin_internal_users.right_col").parent().find('div.alert-failure #message').text "This Email ID already exist"
+						else if error_message == "password_and_confirm_not_matching"
+							$(".admin_internal_users.right_col").parent().find('div.alert-failure #message').text "Password & Confirm password are not matchin"
+						else
+							$(".admin_internal_users.right_col").parent().find('div.alert-failure #message').text "Sorry! Seems like we met with some error"	
+						
+					else
+						$(".admin_internal_users.right_col").parent().find('div.alert-failure #message').text "Sorry! Seems like we met with some error"
+
+					setTimeout (->
+						$(".admin_internal_users.right_col").parent().find('div.alert-failure').addClass 'active'
+						return
+					), 1000
+
+					setTimeout (->
+						$(".admin_internal_users.right_col").parent().find('div.alert-failure').removeClass 'active'
+						return
+					), 6000
+
+
+					form_obj.find("button .fa-circle-o-notch.fa-spin").addClass "hidden"
+					# throw Error()
 		else
 			$(this).find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 			console.log "Not saved"
@@ -226,39 +314,81 @@ $(document).ready () ->
 		row = $(this).closest('tr')
 		modal_object = $("#add_newuser_modal")
 
+		### --- Reset the Parsley error messages --- ###
+		modal_object.find("#add_newuser_modal_form").parsley().reset()
+		
+		### --- Update the Modal Title --- ###
+		modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text "Edit Internal User"
+
 		modal_object.find("input[type='hidden'][name='form_type']").val "edit"
 		modal_object.find("input[type='hidden'][name='user_id']").val $(this).prop('id')
 
 		# modal_object.find("input[type='password'][name='old_password']").parent().parent().removeClass('hidden')
+
+		### --- Password --- ###
 		modal_object.find("input[type='password'][name='password']").attr("disabled", "true")
+		modal_object.find("input[type='password'][name='password']").removeAttr("required")
+		#modal_object.find(".col-sm-6.new-password").addClass("hidden")
+		modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').addClass('hidden')
+
+		### --- Confirm Password --- ###
 		modal_object.find("input[type='password'][name='confirm_password']").attr("disabled", "true")
+		modal_object.find("input[type='password'][name='confirm_password']").removeAttr("required")
+		modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').addClass('hidden')
+
 		#console.log row.find('td:eq(1)').text()
 		modal_object.find("input[type='text'][name='name']").val(row.find('td:eq(1)').text())
-		modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text())
+		modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text()).attr("disabled", "true")
 
 		### --- Select the user's Role --- ###
 		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
 		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+
+		modal_object.find('.createSave').addClass 'hidden'
+		modal_object.find('.editSave').removeClass 'hidden'
 
 		return
 
 	$(document).on "click", "div.admin_internal_users div.page-title button.btn-link", () ->
 		### --- On click of Add New User -> On modal open --- ###
 		modal_object = $("#add_newuser_modal")
+
+		### --- Reset the Parsley error messages --- ###
+		modal_object.find("#add_newuser_modal_form").parsley().reset()
+
+		### --- Update the Modal Title --- ###
+		modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text "Add New Internal User"
 		
 		modal_object.find("input[type='hidden'][name='form_type']").val "add"
 		modal_object.find("input[type='hidden'][name='user_id']").val ""
 
-		# modal_object.find("input[type='password'][name='old_password']").parent().parent().addClass('hidden')
-		modal_object.find("input[type='password'][name='password']").removeAttr("disabled")
-		modal_object.find("input[type='password'][name='confirm_password']").removeAttr("disabled")
+		### --- Clear the Name & Email textbox & enable the Email textbox --- ###
 		modal_object.find("input[type='text'][name='name']").val('')
-		modal_object.find("input[type='email'][name='email']").val('')
+		modal_object.find("input[type='email'][name='email']").val('').removeAttr("disabled")
 
 		### --- Deselect All the options --- ###
 		modal_object.find('select.form-control.multiSelect').multiselect('deselectAll', false)
 		### --- Update the text --- ###
 		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+		
+		### --- Unselect the Status --- ###
+		modal_object.find("select[name='status'] option:selected").prop("selected", false)
+
+		# modal_object.find("input[type='password'][name='old_password']").parent().parent().addClass('hidden')
+		
+		### --- Enable the Password option --- ###
+		modal_object.find("input[type='password'][name='password']").removeAttr("disabled")
+		modal_object.find("input[type='password'][name='password']").attr("required", "true").val('')
+		modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').removeClass('hidden')
+		
+		### --- Enable the Confirm-Password option --- ###
+		modal_object.find("input[type='password'][name='confirm_password']").removeAttr("disabled")
+		modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true").val('')
+		modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden')
+		
+		modal_object.find('.createSave').removeClass 'hidden'
+		modal_object.find('.editSave').addClass 'hidden'
+
 		return
 
 	#table = $("#datatable-internal-users").DataTable()

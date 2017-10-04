@@ -16,7 +16,7 @@ function routePermission(){
 				//jobs permission
 				'jobs/create'=>['add_job'],					
 				'jobs/store'=>['add_job'],
-				'jobs/{reference_id}/{step?}'=>['add_job'], 
+				'jobs/{reference_id}/{step?}'=>['edit_job'], 
 				'jobs/update'=>['edit_job'],
 
 				
@@ -31,8 +31,8 @@ function routePermission(){
 
 
 			 	//ui element
-				'submit_review_element'=>['submit_for_review_job','submit_for_review_listing'],
-				'edit_permission'=>['edit_job','edit_listing'],
+				'submit_review_element_cls'=>['submit_for_review_job','submit_for_review_listing'],
+				'edit_permission_element_cls'=>['edit_job','edit_listing'],
 			],
 
 		'normal_user_check' =>
@@ -61,6 +61,7 @@ $tableReference - pass table reference key defined in routeModelConfig (only in 
 
 if permissions not defined hasAccess will return true
 **/
+
 function hasAccess($uriPath,$objectId,$tableReference){
 	
 	$routePerrmissions = routePermission();

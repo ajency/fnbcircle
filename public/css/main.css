@@ -10189,6 +10189,16 @@ input[type='checkbox'].remove-addr {
     margin-top: 1.5em;
   }
 }
+.al-verify .ver-icon {
+  -webkit-transform: scale(0.75);
+      -ms-transform: scale(0.75);
+          transform: scale(0.75);
+  width: 28px;
+}
+.al-verify .c-title {
+  margin-bottom: 0;
+  font-size: 1em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

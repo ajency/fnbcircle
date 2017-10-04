@@ -244,7 +244,7 @@
             $('.default-state,.add-number,.verificationFooter').addClass('hidden');
             $('.processing').addClass('hidden');
             $('.step-success').removeClass('hidden');
-            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
+            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon ver-icon"></span><p class="c-title">Verified</p>');
             $('.under-review').find('.contact-input').attr('readonly', true);
           } else {
             $('.processing').addClass('hidden');

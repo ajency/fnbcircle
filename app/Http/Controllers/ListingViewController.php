@@ -17,7 +17,7 @@ class ListingViewController extends Controller
     public function index($city,$listing_slug){
     	$listing = Listing::where('slug',$listing_slug)->firstorFail();
         $area = Area::with('city')->find($listing->locality_id);
-        // if($area->city['slug']!= $city) redirect('/404');
+        if($area->city['slug']!= $city) redirect('/404');
         $pagedata = $this->getListingData($listing);
         $pagedata['browse_categories'] = $this->getPopularParentCategories();
     	// dd($pagedata);

@@ -68,7 +68,7 @@
                             <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version</p>
                         </div>
                     </div>
-                    <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button>
+                    <a href="/listing/{{$data['reference']}}/edit/business-premium" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</a>
                 </div>
             </div>
         </div>

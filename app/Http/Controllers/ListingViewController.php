@@ -123,7 +123,11 @@ class ListingViewController extends Controller
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>';
             $pagedata['status']['id']= '3';
-            $pagedata['status']['change'] = '<form action="'.action('ListingController@submitForReview').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Submit for Review</button></form>';
+            if($listing->isReviewable()){
+                $pagedata['status']['change'] = '<form action="'.action('ListingController@submitForReview').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Submit for Review</button></form>';
+            }else{
+                $pagedata['status']['change'] = '';   
+            }
         }
         elseif($listing->status=="2") {
             $pagedata['status']['text'] = "Your listing is submitted for approval";

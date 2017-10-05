@@ -95,7 +95,7 @@ class Listing extends Model
     public function saveInformation($title, $type, $email, $area)
     {
         $slug  = str_slug($title);
-        $count = Listing::where('slug', $slug)->count();
+        $count = Listing::where('slug', $slug)->where('id','!=',$this->id)->count();
         $i     = 1;
         $slug1 = $slug;
         if ($count > 0) {
@@ -108,7 +108,7 @@ class Listing extends Model
 
         $this->title = $title;
         $this->type  = $type;
-        if ($this->status != "1") {
+        if ($this->status == "3" or $this->status == null) {
             $this->slug = $slug1;
         }
 

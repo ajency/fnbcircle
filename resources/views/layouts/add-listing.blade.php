@@ -29,6 +29,11 @@
 
      <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
+   @if(Session::has('statusChange'))
+    <script> 
+       $('#listing-review').modal('show');
+    </script>
+    @endif
 @endsection
 
 @section('content')
@@ -412,7 +417,8 @@
 
 
                 <!-- Modal -->
-@if (isset($_GET['review']))
+
+@if(Session::has('statusChange'))
                 <!-- listing review -->
     <div class="modal fnb-modal listing-review fade modal-center" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -428,7 +434,15 @@
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
-                        <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
+                        <div class="pending text-darker heavier sub-title">
+                        @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
+                        @if(session('statusChange')=='archive')
+                        Archieved
+                        @endif
+                       @if(session('statusChange')=='published')
+                       Published
+                        @endif
+                         <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -437,6 +451,7 @@
             </div>
         </div>
     </div>
+
 @endif
 
                 <!-- listing present -->

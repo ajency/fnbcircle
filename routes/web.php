@@ -25,6 +25,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::resource('/listing', 'ListingController');
 Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
 Route::get('listing/create','ListingController@create');
+Route::post('/listing/review','ListingController@submitForReview');
+Route::post('/listing/archive','ListingController@archive');
+Route::post('/listing/publish','ListingController@publish');
 
 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');

@@ -123,26 +123,31 @@ class ListingViewController extends Controller
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>';
             $pagedata['status']['id']= '3';
+            $pagedata['status']['change'] = '<form action="'.action('ListingController@submitForReview').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Submit for Review</button></form>';
         }
         elseif($listing->status=="2") {
             $pagedata['status']['text'] = "Your listing is submitted for approval";
             $pagedata['status']['status']= '<i class="fa fa-clock-o text-primary" aria-hidden="true"></i>Pending Approval ';
             $pagedata['status']['id']= '2';
+            $pagedata['status']['change'] = '';
         }
         elseif($listing->status=="1") {
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Published';
             $pagedata['status']['id']= '1';
+            $pagedata['status']['change'] = '<form action="'.action('ListingController@archive').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Archive</button></form>';
         }
         elseif($listing->status=="4"){
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Archived';
             $pagedata['status']['id']= '4';
+            $pagedata['status']['change'] = '<form action="'.action('ListingController@publish').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Publish</button></form>';
         }
         elseif($listing->status=="5") {
             $pagedata['status']['text'] = "";
             $pagedata['status']['status']= 'Rejected';
             $pagedata['status']['id']= '5';
+            $pagedata['status']['change'] = '<form action="'.action('ListingController@submitForReview').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button type="submit">Submit for Review</button></form>';
         }
         if(isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) $pagedata['overview'] = true;
         return $pagedata;

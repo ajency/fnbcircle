@@ -12,6 +12,11 @@
       <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
       <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
+       @if(Session::has('statusChange'))
+    <script> 
+       $('#listing-review').modal('show');
+    </script>
+    @endif
 @endsection
 
 @section('openGraph')
@@ -51,7 +56,7 @@
             </div>
         </div>
          <!-- premium benefits -->
-         @if(false and !$data['premium'])
+         @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing') and !$data['premium'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="pre-benefits flex-row">
@@ -69,7 +74,7 @@
         </div>
         @endif
         <!-- premium benefits ends -->
-        @if(false)
+        @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
         <!-- edit business listing  is this required?????? -->
         <div class="row">
             <div class="col-sm-8"></div>
@@ -93,8 +98,8 @@
                         <div class="seller-info__body">
                             <div class="flex-row space-between">
                                 <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
-                                @if(false)
-                                <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a>
+                                @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                                <!-- <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                                 @endif
                                 @if($data['premium'] and $data['status']['id']==1)
                                 <img src="/img/power-seller.png" class="img-responsive mobile-hide" width="130">
@@ -536,10 +541,11 @@
                         <div class="contact__enquiry text-center mobile-hide">                                
                             <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                             <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
-                            @if(false)
+                            @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                             <div class="approval">
                                 <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                 <div class="heavier sub-title">{!! $data['status']['status'] !!} </div>
+                                {!!$data['status']['change']!!}
                             </div>
                             @endif
                         </div>
@@ -547,7 +553,7 @@
                     </div>
                     <!-- core categories end -->
                     <!-- Claim -->
-                    @if(!false)
+                    @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                     <div class="claim-box p-b-10">
                         <!-- <i class="fa fa-commenting claim__icon" aria-hidden="true"></i> -->
                         <!-- <img src="img/exclamation.png" class="img-reponsive"> -->
@@ -664,15 +670,15 @@
         </div>
      </div>
      <div class="pos-fixed fly-out side-toggle">
-        <div class="mobile-back desk-hide mobile-flex">
+        <!-- <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">
                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                 <p class="element-title heavier m-b-0">Back</p>
             </div>
             <div class="right">
             </div>
-        </div>
-        <div class="fly-out__content">
+        </div> -->
+        <!-- <div class="fly-out__content">
             <div class="sidebar-updates page-sidebar">
                 <div class="page-sidebar__header flex-row space-between mobile-hide">
                     <div class="backLink flex-row">
@@ -756,6 +762,43 @@
                 </div>
                 <div class="page-sidebar__footer"></div>
             </div>  
+        </div> -->
+    </div>
+
+@if(Session::has('statusChange'))
+                <!-- listing review -->
+    <div class="modal fnb-modal listing-review fade modal-center" id="listing-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="listing-message">
+                        <i class="fa fa-check-circle check" aria-hidden="true"></i>
+                        <h4 class="element-title heavier">We have sent your listing for review</h4>
+                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
+                    </div>
+                    <div class="listing-status highlight-color">
+                        <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
+                        <div class="pending text-darker heavier sub-title">
+                        @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
+                        @if(session('statusChange')=='archive')
+                        Archieved
+                        @endif
+                       @if(session('statusChange')=='published')
+                       Published
+                        @endif
+                         <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
+
+@endif
+
 @endsection

@@ -14,6 +14,7 @@ use App\ListingOperationTime;
 use App\User;
 use App\UserCommunication;
 use Auth;
+use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -749,9 +750,11 @@ class ListingController extends Controller
 
     public function submitForReview(Request $request)
     {
+
         $this->validate($request, [
             'listing_id' => 'required',
         ]);
+        // dd($request);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
@@ -759,7 +762,9 @@ class ListingController extends Controller
             $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
+            Session::flash('statusChange', 'review');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
         }
@@ -774,7 +779,8 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "1") {
             $listing->status = Listing::ARCHIVED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'archive');
+            return \Redirect::back();
         } else {
             return \Redirect::back()->withErrors(array('archive' => 'Only Published listings can be archived'));
         }
@@ -789,7 +795,9 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "4") {
             $listing->status = Listing::PUBLISHED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'published');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }

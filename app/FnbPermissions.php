@@ -38,7 +38,8 @@ function routePermission(){
 		'normal_user_check' =>
 			[						
 				'delete_element_cls'=>['delete_job_contact'],					
-				'status_element_cls'=>['change_job_status'],	
+				'status_element_cls'=>['change_job_status'],
+				'edit_element_cls'=>['edit_listing'],	
 			],
 
 		// 'public_access' =>
@@ -82,7 +83,7 @@ function hasAccess($uriPath,$objectId,$tableReference){
 		
 		$tableConfig = routeModelConfig();
 		$tableData = $tableConfig[$tableReference];
-		 
+		 // dd(isAdmin());
 		if(!isAdmin() && !isOwner($tableData['table'],$tableData['id'],$tableData['user'],$objectId))
 			$access = false;
 		else
@@ -127,9 +128,15 @@ $userReferenceKey : user coloumn name in the table (eg : user_id ,owner_id)
 **/
 function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
 	// var_dump('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
-	$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
+ 	if(Auth::check()){
+ 		$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 
-	return (!empty($isOwner)) ? true :false;
+ 		$result = (!empty($isOwner)) ? true :false;
+ 	}
+ 	else
+ 		$result = false;
+	
+	return $result;
 }
 
 /***
@@ -157,7 +164,7 @@ function routeModelConfig(){
 
 	$config = [
 				'jobs' => ['table' => 'jobs', 'id' =>'reference_id' ,'user' =>'job_creator'],
-				'listing' => ['table' => 'listings', 'id' =>'reference','user' =>'job_creator'],
+				'listing' => ['table' => 'listings', 'id' =>'reference','user' =>'owner_id'],
 				];
 
 	return $config;

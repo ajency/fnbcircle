@@ -110,6 +110,7 @@ $(document).ready () ->
 		keywordParamName: 'search'
 		resultsProperty: "data"
 		searchIn: ['name']
+		valueProperty: 'slug'
 		# toggleSelected: true
 		minLength: 0
 		cache: false
@@ -139,9 +140,9 @@ $(document).ready () ->
 
 		keywordParamName: "search"
 		resultsProperty: "data"
-		searchIn: ['search_name']
+		searchIn: ['name']
 		valueProperty: 'id'
-		# visibleProperties: ["id","name", "search_name", "slug"] ## Order of display & dropdown contents to display
+		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
 
 		minLength: 0
 		cache: false
@@ -166,7 +167,7 @@ $(document).ready () ->
 		resultsProperty: "data"
 		searchIn: ['title']
 		valueProperty: 'id'
-		# visibleProperties: ["id","title", "slug"] ## Order of display & dropdown contents to display
+		visibleProperties: ["title", "area"] ## Order of display & dropdown contents to display
 		
 		minLength: 1
 		cache: false
@@ -243,7 +244,10 @@ $(document).ready () ->
 						old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
 					i++
 				
-				window.history.pushState("", "", old_url)
+				if old_url.length > 0
+					window.history.pushState("", "", old_url)
+				else
+					window.history.pushState("", "", "?")
 		
 			getListContent()		
 		return
@@ -273,7 +277,10 @@ $(document).ready () ->
 					old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
 				i++
 
-			window.history.pushState("", "", old_url + "&" + pushstate_url)
+			if old_url.length > 0
+				window.history.pushState("", "", old_url + "&" + pushstate_url)
+			else
+				window.history.pushState("", "", "?" + pushstate_url)
 
 		getListContent()
 		

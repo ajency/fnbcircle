@@ -109,6 +109,7 @@
       keywordParamName: 'search',
       resultsProperty: "data",
       searchIn: ['name'],
+      valueProperty: 'slug',
       minLength: 0,
       cache: false,
       searchContain: true,
@@ -127,8 +128,9 @@
       },
       keywordParamName: "search",
       resultsProperty: "data",
-      searchIn: ['search_name'],
+      searchIn: ['name'],
       valueProperty: 'id',
+      visibleProperties: ["name", "search_name"],
       minLength: 0,
       cache: false,
       searchContain: true,
@@ -149,6 +151,7 @@
       resultsProperty: "data",
       searchIn: ['title'],
       valueProperty: 'id',
+      visibleProperties: ["title", "area"],
       minLength: 1,
       cache: false,
       searchContain: true,
@@ -203,7 +206,11 @@
             }
             i++;
           }
-          window.history.pushState("", "", old_url);
+          if (old_url.length > 0) {
+            window.history.pushState("", "", old_url);
+          } else {
+            window.history.pushState("", "", "?");
+          }
         }
         getListContent();
       }
@@ -234,7 +241,11 @@
           }
           i++;
         }
-        window.history.pushState("", "", old_url + "&" + pushstate_url);
+        if (old_url.length > 0) {
+          window.history.pushState("", "", old_url + "&" + pushstate_url);
+        } else {
+          window.history.pushState("", "", "?" + pushstate_url);
+        }
       }
       getListContent();
     });

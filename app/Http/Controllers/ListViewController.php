@@ -104,9 +104,9 @@ class ListViewController extends Controller {
 					$temp = Category::where("id", $temp["parent_id"])->first();
 				}
 
-				$category["search_name"] = $category["name"] . " in <b>" . $temp["name"] . "</b>";
+				$category["search_name"] = " in <b>" . $temp["name"] . "</b>";
 			} else {
-				$category["search_name"] = $category["name"];
+				$category["search_name"] = "";
 			}
 		});
 

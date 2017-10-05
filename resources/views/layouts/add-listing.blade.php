@@ -45,7 +45,7 @@
                 <span class="text-primary">Note:</span> You can add multiple listings on FnB Circle
             </div>
             <div class="pull-right">
-                <a href="{{url('/'.$cityy->slug.'/'.$listing->reference)}}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+                <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-sm-4 flex-col text-right mobile-hide">
                     @if($listing->reference!=null)
-                        <a href="{{url('/'.$cityy->slug.'/'.$listing->reference)}}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+                        <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
                     @endif
                 </div>
             </div>

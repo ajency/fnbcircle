@@ -69,45 +69,26 @@
                     <span>Clear All</span>
                 </a>
             </label>
-            <label class="sub-title flex-row text-color">
-                <input type="checkbox" class="checkbox p-r-10">
-                <span>Adarsh nagar</span>
-            </label>
-            <label class="sub-title flex-row text-color">
-                <input type="checkbox" class="checkbox p-r-10">
-                <span>Babarpur</span>
-            </label>
-            <label class="sub-title flex-row text-color">
-                <input type="checkbox" class="checkbox p-r-10">
-                <span>Badli</span>
-            </label>
-            <label class="sub-title flex-row text-color">
-                <input type="checkbox" class="checkbox p-r-10">
-                <span>Chandichawk</span>
-            </label>
-            <label class="sub-title flex-row text-color">
-                <input type="checkbox" class="checkbox p-r-10">
-                <span>Gandhi nagar</span>
-            </label>
-            <div class="more-section collapse" id="moreDown">
-                <label class="sub-title flex-row text-color">
-                    <input type="checkbox" class="checkbox p-r-10">
-                    <span>Babarpur</span>
-                </label>
-                <label class="sub-title flex-row text-color">
-                    <input type="checkbox" class="checkbox p-r-10">
-                    <span>Badli</span>
-                </label>
-                <label class="sub-title flex-row text-color">
-                    <input type="checkbox" class="checkbox p-r-10">
-                    <span>Chandichawk</span>
-                </label>
-                <label class="sub-title flex-row text-color">
-                    <input type="checkbox" class="checkbox p-r-10">
-                    <span>Gandhi nagar</span>
-                </label>
-            </div>
-            <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+12 more</p>
+            @foreach($filter_data["areas"] as $area_index => $area_value)
+                @if($area_index < 5)
+                    <label class="sub-title flex-row text-color">
+                        <input type="checkbox" class="checkbox p-r-10" value="{{$area_value['slug']}}">
+                        <span>{{ $area_value['name'] }}</span>
+                    </label>
+                @endif
+            @endforeach
+            @if(sizeof($filter_data["areas"]) > 5)
+                <div class="more-section collapse" id="moreDown">
+                    @foreach(array_slice($filter_data["areas"], 5) as $area_index => $area_value)
+                        <label class="sub-title flex-row text-color">
+                            <input type="checkbox" class="checkbox p-r-10" value="{{$area_value['slug']}}">
+                            <span>{{ $area_value['name'] }}</span>
+                        </label>
+                    @endforeach
+                </div>
+
+                <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+{{ sizeof($filter_data["areas"]) - 5 }} more</p>
+            @endif
         </div>
     </div>
 </div>

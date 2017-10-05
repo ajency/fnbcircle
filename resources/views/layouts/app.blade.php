@@ -62,12 +62,11 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
-                            <select class="form-control fnb-select nav-color">
+                            <select class="form-control fnb-select nav-color" onchange="location = this.value;">
                                 <option>--Change city--</option>
-                                <option selected="">Pune</option>
-                                <option>Delhi</option>
-                                <option>Mumbai</option>
-                                <option>Goa</option>
+                                @foreach(App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get() as $city_index => $city_value)
+                                    <option value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                @endforeach
                             </select>
                         </li>
                     </ul>

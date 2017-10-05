@@ -28,7 +28,19 @@ class ListViewController extends Controller {
 	*/
     public function listView(Request $request, $city='all') {
     	$header_type = "trans-header";
-    	return view('list-view.business_listing', compact('header_type'));
+
+    	$filters = [];
+    	if(request()->has('state') && request()->state && City::where('slug', request()->state)->count() > 0) {
+    		$filters["state"] = request()->state;
+    		$city = request()->state;
+    	} else if(City::where('slug', $city)->count() > 0) {
+    		$filters["state"] = $city;
+    	} else {
+    		$filters["state"] = "";
+    	}
+
+    	$filter_view_html = $this->getListFilterData($filters, true);
+    	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city'));
     }
 
     /**
@@ -125,6 +137,37 @@ class ListViewController extends Controller {
     public function searchBusiness(Request $request) {
     	if($request->has("search") && $request->search) { 
     		$business_obj = new Listing;
+
+    		if($request->has("city") && $request->city) {
+    			$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray();
+    			$business_obj = $business_obj->whereIn('locality_id', $area_list);
+    		}
+
+    		// if($request->has("category") && $request->category) {
+    		// 	$node_category_result = Category::where('id', $request->category);
+	    	// 	$node_category_result = $node_category_result->get();
+	    	// 	$array_ids = []; $array_id_list = [];
+
+	    	// 	foreach($node_category_result as $category_index => $category_values) { // Get all the category list
+	    	// 		$array_ids = []; // Clear data
+		    // 		if($category_values->level < 3) { // If the level is not 3, then trace all the Node of the Parent / Branch
+		    // 			$array_ids = [$category_values->id];
+
+		    // 			for($i = $category_values->level; $i < 3; $i++) { // While the level is LESS THAN 3
+		    // 				$array_temp = [];
+		    // 				foreach ($array_ids as $key_id => $value_id) {
+		    // 					$array_temp = array_merge($array_temp, Category::where('parent_id', $value_id)->pluck('id')->toArray());
+		    // 				}
+		    // 				$array_ids = $array_temp; // Transfer the array value to the  new list
+		    // 			}
+
+		    // 			$array_id_list = array_merge($array_id_list, $array_ids); // Merge the Level 3 IDs list to the array
+		    // 		} else {
+		    // 			$array_id_list = array_merge($array_id_list, [$category_values->id]); // Push this Category ID as the category is Level 3
+		    // 		}
+		    // 	}
+    		// }
+
     		$response_data = $this->searchData($request->search, $business_obj, 'title', ['id', 'title', 'slug'], 2);
     	} else {
     		$response_data = null;#Listing::where('status', 1)->get(['id', 'title', 'slug']);
@@ -136,8 +179,19 @@ class ListViewController extends Controller {
     /**
     *
     */
-    public function getListFilterData() {
-    	return;
+    public function getListFilterData($filters=[], $render_html = false) {
+    	
+    	if(isset($filters["state"]) && $filters["state"]) {
+    		$filter_data["areas"] = City::where('slug', $filters["state"])->first()->areas()->get()->toArray();
+    	} else {
+    		$filter_data["areas"] = [];
+    	}
+
+    	if($render_html) {
+    		return $filter_view_html = View::make('list-view.single-card.listing_filter')->with(compact('filter_data'))->render();
+    	} else {
+    		return $filter_data;
+    	}
     }
 
     /**
@@ -288,10 +342,21 @@ class ListViewController extends Controller {
     	}
 
     	$filtered_list_response = $this->getListingSummaryData($city, $filters, $start, $page_size, $sort_by, $sort_order); // Get list of all the data
-
     	$listing_data = $filtered_list_response["data"];
     	$list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data'))->render();
 
-    	return response()->json(array("data" => ["list_view" => $list_view_html], "count" => $filtered_list_response["filtered_count"], "page" => $filtered_list_response["start"], "page_size" => $filtered_list_response["page_limit"]), $status);
+    	$filter_filters = [];
+    	if($request->has('state') && $request->state && City::where('slug', $request->state)->count() > 0) {
+    		$filter_filters["state"] = $request->state;
+    		$city = $request->state;
+    	} else if(City::where('slug', $city)->count() > 0) {
+    		$filter_filters["state"] = $city;
+    	} else {
+    		$filter_filters["state"] = "";
+    	}
+
+    	$filter_view_html = $this->getListFilterData($filter_filters, true);
+
+    	return response()->json(array("data" => ["list_view" => $list_view_html, "filter_view" => $filter_view_html], "count" => $filtered_list_response["filtered_count"], "page" => $filtered_list_response["start"], "page_size" => $filtered_list_response["page_limit"]), $status);
     }
 }

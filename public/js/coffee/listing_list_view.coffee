@@ -58,6 +58,10 @@ getListContent = () ->
 				end = 0
 				$(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"])
 
+			### --- Load the filter template --- ###
+			$("#listing_filter_view").html data["data"]["filter_view"]
+
+			### --- Load the Listing card template --- ###
 			$("#listing_card_view").html data["data"]["list_view"]
 			$("#listing_card_view").css "filter", ""
 
@@ -98,8 +102,6 @@ $(document).ready () ->
 	### --- Load all the popular city on load --- ###
 	getCity({"search": ""}, "states")
 
-	
-	
 	### --- City filter dropdown --- ###
 	## -- Note: flexdatalist appends "flexdatalist-" to the name i.e. name="city" becomes name="flexdatalist-city" -- ##
 	$('input[type="hidden"][name="city"].flexdatalist').flexdatalist
@@ -132,7 +134,6 @@ $(document).ready () ->
 		allowDuplicateValues: false
 		noResultsText: 'Sorry! No results found for "{keyword}"'
 	
-	
 	$('input[type="hidden"][name="category_search"].flexdatalist').flexdatalist
 		url: '/api/search-category'
 		requestType: 'post'
@@ -161,7 +162,11 @@ $(document).ready () ->
 	$('input[type="hidden"][name="business_search"].flexdatalist').flexdatalist
 		url: '/api/search-business'
 		requestType: 'post'
-		params: {"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()}
+		params: {
+			"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
+			"city": $('input[type="hidden"][name="city"].flexdatalist').val()
+			"category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+		}
 
 		keywordParamName: "search"
 		resultsProperty: "data"
@@ -180,16 +185,17 @@ $(document).ready () ->
 
 		searchByWord: false
 		allowDuplicateValues: false
-		noResultsText: 'Sorry! No business names found for "{keyword}"'
+		noResultsText: 'Sorry! No business names found for this search criteria'#'Sorry! No business names found for "{keyword}"'
 
 	### --- Update the filters from the URL if any exist --- ###
 	if window.location.search.length > 0
 		search_box_params =
-			"state" : "city"
+			#"state" : "city"
 			"category_search" : "category_search"
 			"business_search" : "business_search"
 
 		get_params = getUrlSearchParams()
+
 
 		for key of search_box_params
 			i = 0

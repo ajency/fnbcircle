@@ -50,6 +50,11 @@
           end = 0;
           $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
         }
+
+        /* --- Load the filter template --- */
+        $("#listing_filter_view").html(data["data"]["filter_view"]);
+
+        /* --- Load the Listing card template --- */
         $("#listing_card_view").html(data["data"]["list_view"]);
         return $("#listing_card_view").css("filter", "");
 
@@ -145,7 +150,9 @@
       url: '/api/search-business',
       requestType: 'post',
       params: {
-        "search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
+        "search": $('input[type="hidden"][name="business_search"].flexdatalist').val(),
+        "city": $('input[type="hidden"][name="city"].flexdatalist').val(),
+        "category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
@@ -160,13 +167,12 @@
       searchDelay: 200,
       searchByWord: false,
       allowDuplicateValues: false,
-      noResultsText: 'Sorry! No business names found for "{keyword}"'
+      noResultsText: 'Sorry! No business names found for this search criteria'
     });
 
     /* --- Update the filters from the URL if any exist --- */
     if (window.location.search.length > 0) {
       search_box_params = {
-        "state": "city",
         "category_search": "category_search",
         "business_search": "business_search"
       };

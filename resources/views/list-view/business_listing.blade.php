@@ -46,7 +46,7 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 
                                         <datalist id="states">
@@ -142,11 +142,11 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> Delhi</h5>
+                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> {{ ucfirst($city) }}</h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in Delhi</p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in {{ ucfirst($city) }}</p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -187,7 +187,7 @@ List View
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
                             <div id="listing_filter_view">
-                                
+                                {!! $filter_view_html !!}
                             </div>
                             <!-- why fnb -->
                             <div class="filter-group whyFnb no-gap mobile-hide">

@@ -127,9 +127,16 @@ $userReferenceKey : user coloumn name in the table (eg : user_id ,owner_id)
 **/
 function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
 	// var_dump('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
-	$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 
-	return (!empty($isOwner)) ? true :false;
+	if(Auth::check()){
+		$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
+		$result = (!empty($isOwner)) ? true :false;
+	}
+	else
+		$result = false;
+	
+
+	return 
 }
 
 /***

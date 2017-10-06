@@ -28,6 +28,10 @@ class Listing extends Model
     const EXPORTER = 15;
     const SERVICEPROVIDER = 16;
 
+    /* Array containing the Key-Value pair combination for Listing Columns -> STATUS & TYPE */
+    const listing_status = array(1 => "Published", 2 => "Review", 3 => "Draft", 4 => "Archived", 5 => "Rejected");
+    const listing_business_type = array(11 => "Wholesaler", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
+
     use Taggable;
     use FileUpload;
 

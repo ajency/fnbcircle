@@ -63,7 +63,7 @@ $('body').on 'click', '.add-uploader', (e)->
       'default': 'Upload file'
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
-      # 'error': 'Ooops, something wrong happended.'
+      'error': ''
     # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
     # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'    
     $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');

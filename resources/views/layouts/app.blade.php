@@ -19,7 +19,7 @@
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Internationalization CSS -->
-    <link rel="stylesheet" href="{{ asset('/node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
@@ -72,12 +72,11 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
-                            <select class="form-control fnb-select nav-color">
+                            <select class="form-control fnb-select nav-color" onchange="location = this.value;">
                                 <option>--Change city--</option>
-                                <option selected="">Pune</option>
-                                <option>Delhi</option>
-                                <option>Mumbai</option>
-                                <option>Goa</option>
+                                @foreach(App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get() as $city_index => $city_value)
+                                    <option value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                @endforeach
                             </select>
                         </li>
                     </ul>
@@ -203,7 +202,7 @@
     <!-- Parsley text validation -->
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- Internationalization plugin -->
-    <script type="text/javascript" src="{{ asset('/node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>

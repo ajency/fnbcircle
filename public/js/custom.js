@@ -18,18 +18,21 @@ $(function(){
 	});
 
 	$("#login-modal").on('hidden.bs.modal', function() {
-		var url = '/';
+		var url = '?';
 
 		if (window.location.search.indexOf("login=") >= 0) {
 			var url_split = window.location.search.split('?')[1].split('&');
 			for(i = 0; i < url_split.length; i++) {
 				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
-					url += (url == '/' ? '?': '&') + url_split[i];
+					url += (url == '?' ? '?': '&') + url_split[i];
 				}
 			}
 		} else {
 			url = window.location.search;
 		}
+
+		// Some pages are adding "??" on modal close //
+		url = url.replace("??", "?");
 
 		if (window.location.hash) {
 			url += window.location.hash;

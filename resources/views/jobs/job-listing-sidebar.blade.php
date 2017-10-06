@@ -83,44 +83,8 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Adarsh nagar</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Babarpur</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Badli</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Chandichawk</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Gandhi nagar</span>
-                          </label>
-                          <div class="more-section collapse" id="moreDown">
-                              <label class="sub-title flex-row text-color">
-                                  <input type="checkbox" class="checkbox p-r-10">
-                                  <span>Babarpur</span>
-                              </label>
-                              <label class="sub-title flex-row text-color">
-                                  <input type="checkbox" class="checkbox p-r-10">
-                                  <span>Badli</span>
-                              </label>
-                              <label class="sub-title flex-row text-color">
-                                  <input type="checkbox" class="checkbox p-r-10">
-                                  <span>Chandichawk</span>
-                              </label>
-                              <label class="sub-title flex-row text-color">
-                                  <input type="checkbox" class="checkbox p-r-10">
-                                  <span>Gandhi nagar</span>
-                              </label>
-                          </div>
+                           
+                          
                           <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+12 more</p>
                       </div>
                   </div>
@@ -128,7 +92,7 @@
               <!-- Type of business -->
               <div class="filter-group business-type no-gap">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-business" aria-expanded="false" aria-controls="section-business">
-                      <h6 class="sub-title flex-row">Type of Business <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Type of Job <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-business">
@@ -139,25 +103,19 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
+                          @foreach($jobTypes as $jobTypeId => $jobType)
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Wholesaler</span>
+                              <input type="checkbox" name="job_type[]" class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}">
+                              <span>{{ $jobType }}</span>
                           </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Retailer</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Manufacturer</span>
-                          </label>
+                          @endforeach
                       </div>
                   </div>
               </div>
               <!-- listing status -->
               <div class="filter-group list-status no-gap">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-list-status" aria-expanded="false" aria-controls="section-list-status">
-                      <h6 class="sub-title flex-row">Listing Status <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Experience <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-list-status">
@@ -168,14 +126,12 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
+                          @foreach($defaultExperience as $jobTypeId => $experience)
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Premium</span>
+                              <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job" value="{{ $experience }}">
+                              <span>{{ $experience }}</span>
                           </label>
-                          <label class="sub-title flex-row text-color">
-                              <input type="checkbox" class="checkbox p-r-10">
-                              <span>Verified</span>
-                          </label>
+                          @endforeach 
                       </div>
                   </div>
               </div>

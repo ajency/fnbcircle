@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Job;
 use App\JobLocation;
+use App\JobTypes;
+
 use App\Category;
 use App\City;
 use App\Defaults;
@@ -98,7 +100,7 @@ class JobController extends Controller
         $category = $data['category'];
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
-        $jobType = (isset($data['job_type']))?$data['job_type']:[];
+        $jobTypeIds = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
@@ -111,9 +113,9 @@ class JobController extends Controller
 
         $metaData = [] ;
 
-        if(is_array($jobType) && !empty($jobType)){
-            $metaData['job_type'] = $jobType;
-            $jobType = $jobType[0];
+        if(is_array($jobTypeIds) && !empty($jobTypeIds)){
+            $metaData['job_type'] = $jobTypeIds;
+            $jobType = $jobTypeIds[0];
         }
         else{
             $jobType = 0;
@@ -161,6 +163,7 @@ class JobController extends Controller
         
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds,$jobKeywords);
+        $this->addJobTypes($job,$jobTypeIds);
         Session::flash('success_message','Job details saved successfully.');
         return redirect(url('/jobs/'.$job->reference_id.'/company-details')); 
 
@@ -177,6 +180,20 @@ class JobController extends Controller
                 $jobLocation->save();
             }
             
+        }
+
+        return true;
+        
+    }
+
+    public function addJobTypes($job,$types){
+        $job->hasJobTypes()->delete();
+        foreach ($types as  $typeid) {
+                $jobType    = new JobTypes;
+                $jobType->job_id = $job->id;
+                $jobType->type_id = $typeid;
+                $jobType->save();
+    
         }
 
         return true;
@@ -426,7 +443,7 @@ class JobController extends Controller
         $category = $data['category'];
         $jobCity = $data['job_city'];
         $jobArea = $data['job_area'];
-        $jobType = (isset($data['job_type']))?$data['job_type']:[];
+        $jobTypeIds = (isset($data['job_type']))?$data['job_type']:[];
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
@@ -441,9 +458,9 @@ class JobController extends Controller
 
         $metaData = [] ;
 
-        if(is_array($jobType) && !empty($jobType)){
-            $metaData['job_type'] = $jobType;
-            $jobType = $jobType[0];
+        if(is_array($jobTypeIds) && !empty($jobTypeIds)){
+            $metaData['job_type'] = $jobTypeIds;
+            $jobType = $jobTypeIds[0];
         }
         else{
             $jobType = 0;
@@ -483,6 +500,8 @@ class JobController extends Controller
         $job->interview_location_long = $longitude;
         $job->interview_location = $interviewLocation;
         $job->save(); 
+
+        $this->addJobTypes($job,$jobTypeIds);
         $this->addJobLocation($job,$jobArea);
         $this->addJobKeywords($job,$keywordIds,$jobKeywords);
 
@@ -679,6 +698,13 @@ class JobController extends Controller
             $jobQuery->distinct('jobs.id');
         }
 
+        if(isset($filters['area']) && !empty($filters['area']))
+        {   
+            $jobQuery->whereIn('job_locations.area_id',$filters['area']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
         if(isset($filters['keywords']) && !empty($filters['keywords']))
         {
             $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
@@ -691,6 +717,41 @@ class JobController extends Controller
         if(isset($filters['category']) && !empty($filters['category']))
         {
             $jobQuery->whereIn('jobs.category_id',$filters['category']); 
+        }
+
+        if(isset($filters['job_type']) && !empty($filters['job_type']))
+        {
+            $jobQuery->join('job_types', 'jobs.id', '=', 'job_types.job_id'); 
+
+            $jobQuery->whereIn('job_types.type_id',$filters['job_type']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($filters['experience']) && !empty($filters['experience']))
+        {
+            $minMaxExperience = $this->getExperienceLowerAndUpperValue($filters['experience']);
+
+            $jobQuery->where(function($expQuery)use($minMaxExperience)
+            {
+                $expQuery->where(function($query)use($minMaxExperience)
+                {
+                    $minExp = $minMaxExperience['lower'];
+                    $maxExp = $minMaxExperience['upper'];
+                    $query->where('jobs.experience_years_lower','>=',$minExp); 
+                    $query->where('jobs.experience_years_lower','<=',$maxExp); 
+                });
+
+            
+                $expQuery->orWhere(function($query)use($minMaxExperience)
+                {
+                    $minExp = $minMaxExperience['lower'];
+                    $maxExp = $minMaxExperience['upper'];
+                    $query->where('jobs.experience_years_upper','>=',$minExp); 
+                    $query->where('jobs.experience_years_upper','<=',$maxExp); 
+                });
+            });
+            
         }
 
 
@@ -724,7 +785,16 @@ class JobController extends Controller
 
     public function jobListing($serachCity){ 
         $cities  = City::where('status', 1)->orderBy('name')->get();
+        
+        $job    = new Job;
+        $jobTypes  = $job->jobTypes();
+        $salaryTypes  = $job->salaryTypes();
+        $defaultExperience  = $job->jobExperience();
+
         return view('jobs.job-listing')->with('cities', $cities)
+                                       ->with('jobTypes', $jobTypes)
+                                       ->with('salaryTypes', $salaryTypes)
+                                       ->with('defaultExperience', $defaultExperience)
                                        ->with('serachCity', $serachCity);
     }
 
@@ -732,7 +802,7 @@ class JobController extends Controller
 
         $startPage = 0;
         $length = 10;
-        $orderDataBy = [];
+        $orderDataBy = ['created_at'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $city[] =  $filters['city']; 

@@ -22,9 +22,10 @@
                        @endif
                   </div>
                   <div class="stats flex-row m-t-10 p-t-10">
-                      @if(!empty($jobTypes))
+                     
+                      @if(!empty($job->getJobTypes()))
                        
-                      @foreach($jobTypes as $jobType)
+                      @foreach($job->getJobTypes() as $jobType)
                        <label class="fnb-label wholesaler flex-row">
                           <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                           {{ $jobType }}
@@ -37,12 +38,12 @@
                   </div>
               </div>
               @if(!empty($job->meta_data['job_keyword']))
-              <?php
+              @php
               $splitKeywords =  splitJobArrayData($job->meta_data['job_keyword'],5);
               $keywords = $splitKeywords['array'];
               $moreKeywords = $splitKeywords['moreArray'];
               $moreKeywordCount = $splitKeywords['moreArrayCount'];
-              ?>
+              @endphp 
               <div class="m-t-15 p-t-15 cat-holder">
                   <div class="core-cat">
                       <p class="default-size text-lighter m-t-0 m-b-0">Job Roles</p>
@@ -71,18 +72,18 @@
                           </p>
                       </div>
                       <ul class="cities flex-row">
-                        <?php
+                        @php
                               $splitAreas =  splitJobArrayData($locAreas,2);
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
                               $areaCount = count($areas);
                               $areaInc = 0;
-                              ?>
+                        @endphp 
                           @foreach($areas as $area)
-                            <?php
+                            @php
                                  $areaInc++;
-                                ?>
+                            @endphp 
                           <li>
                               <p class="cities__title default-size">{{ $area }}
                                 @if($areaInc != $areaCount)

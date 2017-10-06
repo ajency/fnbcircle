@@ -162,6 +162,10 @@ class Job extends Model
 		return $this->hasMany('App\JobKeyword');
 	}
 
+    public function hasJobTypes(){
+        return $this->hasMany('App\JobTypes');
+    }
+
 	public function jobCompany() {
         return $this->hasOne('App\JobCompany');
     }

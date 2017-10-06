@@ -398,7 +398,7 @@
 
 
 
-                  @if($job->isPublished())
+                  
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
@@ -412,6 +412,7 @@
                         <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
+                  @if($job->isPublished())
                   @endif
                </div>
             </div>

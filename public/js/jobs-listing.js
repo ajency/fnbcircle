@@ -2,17 +2,32 @@
   var displayCityText, filterJobs;
 
   filterJobs = function(append) {
+    var areaValues, experienceValues, jobTypeValues;
     if (append === void 0) {
       append = false;
     }
+    experienceValues = [];
+    $('input[name="experience[]"]:checked').map(function() {
+      return experienceValues.push($(this).val());
+    });
+    jobTypeValues = [];
+    $('input[name="job_type[]"]:checked').map(function() {
+      return jobTypeValues.push($(this).val());
+    });
+    areaValues = [];
+    $('input[name="areas[]"]:checked').map(function() {
+      return areaValues.push($(this).val());
+    });
     return $.ajax({
       type: 'post',
       url: 'jobs/get-listing-jobs',
       data: {
         'job_name': $('#job_name').val(),
         'company_name': '',
-        'job_status': '',
+        'job_type': jobTypeValues,
         'city': $('select[name="job_city"]').val(),
+        'area': areaValues,
+        'experience': experienceValues,
         'category': '',
         'keywords': '',
         'append': append
@@ -32,7 +47,7 @@
     });
   };
 
-  $('.search-job').change(function() {
+  $(document).on('change', '.search-job', function() {
     filterJobs();
   });
 
@@ -61,7 +76,7 @@
         area_html = '';
         for (key in data) {
           area_html += '<label class="sub-title flex-row text-color">';
-          area_html += '<input type="checkbox" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">';
+          area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">';
           area_html += '<span>' + data[key]['name'] + '</span>';
           area_html += '</label>';
         }

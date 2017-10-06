@@ -1,6 +1,19 @@
 filterJobs = (append) ->
   if (append == undefined) 
     append = false
+  
+  experienceValues = []
+  $('input[name="experience[]"]:checked').map ->
+    experienceValues.push $(this).val()
+
+  jobTypeValues = []
+  $('input[name="job_type[]"]:checked').map ->
+    jobTypeValues.push $(this).val()
+
+  areaValues = []
+  $('input[name="areas[]"]:checked').map ->
+    areaValues.push $(this).val()
+    
  
   $.ajax
     type: 'post'
@@ -8,8 +21,10 @@ filterJobs = (append) ->
     data:
       'job_name' : $('#job_name').val()
       'company_name' :''
-      'job_status': ''
+      'job_type': jobTypeValues
       'city' :$('select[name="job_city"]').val()
+      'area' : areaValues
+      'experience' :experienceValues
       'category' :''
       'keywords': ''
       'append': append
@@ -26,7 +41,7 @@ filterJobs = (append) ->
       throwError()
       return
 
-$('.search-job').change ->
+$(document).on 'change', '.search-job', ->
   filterJobs();
   return
 
@@ -54,7 +69,7 @@ displayCityText = (cityObj) ->
       area_html = ''
       for key of data
         area_html += '<label class="sub-title flex-row text-color">'
-        area_html += '<input type="checkbox" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">'
+        area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">'
         area_html += '<span>' + data[key]['name'] + '</span>'
         area_html += '</label>'
 

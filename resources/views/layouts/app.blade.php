@@ -18,7 +18,7 @@
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Internationalization CSS -->
-    <link rel="stylesheet" href="{{ asset('/node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
@@ -192,7 +192,7 @@
     <!-- Parsley text validation -->
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- Internationalization plugin -->
-    <script type="text/javascript" src="{{ asset('/node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>

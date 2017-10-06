@@ -2365,6 +2365,10 @@ input[type="checkbox"].toggle__check {
 .text-decor {
   text-decoration: underline;
 }
+.text-decor:active,
+.text-decor:focus {
+  text-decoration: underline;
+}
 .bat-color {
   color: #000;
 }
@@ -10171,6 +10175,18 @@ input[type='checkbox'].remove-addr {
   }
   .publish-warning .pre-benefits__content .pre-benefits__title {
     line-height: 1.5;
+  }
+  .salary-range {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    margin-bottom: 0;
+  }
+  .salary-range .clear-salary {
+    padding-left: 0;
+    margin-top: 1.5em;
   }
 }
 .al-verify .ver-icon {

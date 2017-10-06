@@ -244,7 +244,7 @@
             $('.default-state,.add-number,.verificationFooter').addClass('hidden');
             $('.processing').addClass('hidden');
             $('.step-success').removeClass('hidden');
-            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
+            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon ver-icon"></span><p class="c-title">Verified</p>');
             $('.under-review').find('.contact-input').attr('readonly', true);
           } else {
             $('.processing').addClass('hidden');
@@ -269,13 +269,22 @@
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.contact-verification-modal').on('click', '.resend-link', function(e) {
+    return $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');
       }), 2500);
     });
-    return $(".contact-info").on('change', '.toggle__check', function() {
+  });
+
+  if ($(window).width() <= 768) {
+    $('.get-val').each(function() {
+      var addRow, removeRow;
+      removeRow = $(this).find('.fnb-input');
+      addRow = $(this).find('.removeRow').detach();
+      return $(removeRow).after(addRow);
+    });
+    $(".contact-info").on('change', '.toggle__check', function() {
       if ($(this).is(':checked')) {
         $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
         $(this).closest('.toggle').find('.contact-visible').val(1);
@@ -284,6 +293,6 @@
         $(this).closest('.toggle').find('.contact-visible').val(0);
       }
     });
-  });
+  }
 
 }).call(this);

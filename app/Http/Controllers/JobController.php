@@ -15,6 +15,7 @@ use App\JobCompany;
 use Auth;
 use Session;
 use App\UserCommunication;
+use View;
 
 class JobController extends Controller
 {
@@ -645,7 +646,118 @@ class JobController extends Controller
         return redirect(url('/jobs/'.$job->reference_id.'/job-details')); 
     }
 
-    
+    public function filterJobs($filters,$startPage,$length,$orderDataBy){
+
+        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
+
+
+        if($filters['job_name']!="")
+        {
+            $jobQuery->where('jobs.title','like','%'.$filters['job_name'].'%');
+        }
+
+        if($filters['company_name']!="")
+        {
+            $jobIds = Company:: where('title','like','%'.$filters['company_name'].'%')
+                      ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
+                      ->pluck('job_companies.job_id')->toArray(); 
+
+            $jobQuery->whereIn('jobs.id',$jobIds);
+        }
+
+        if(isset($filters['job_status']) && !empty($filters['job_status']))
+        {
+            $jobQuery->whereIn('jobs.status',$filters['job_status']);
+        }
+
+        if(isset($filters['city']) && !empty($filters['city']))
+        {   
+            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+
+            $jobQuery->whereIn('job_locations.city_id',$filters['city']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($filters['keywords']) && !empty($filters['keywords']))
+        {
+            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
+
+            $jobQuery->whereIn('job_keywords.keyword_id',$filters['keywords']);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
+        if(isset($filters['category']) && !empty($filters['category']))
+        {
+            $jobQuery->whereIn('jobs.category_id',$filters['category']); 
+        }
+
+
+        if(isset($orderDataBy['companies.title'])){ 
+            $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
+            $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
+
+        }
+
+        
+        $totalJobs = $jobQuery->count(); 
+
+        foreach ($orderDataBy as $columnName => $orderBy) {
+            $jobQuery->orderBy($columnName,$orderBy);
+        }
+
+        if($length>1)
+        {
+            $jobs    = $jobQuery->skip($startPage)->take($length)->get();   
+        }
+        else
+        {
+            $jobs    = $jobQuery->get();   
+        }
+
+        return ['totalJobs' =>$totalJobs,'jobs'=>$jobs ];
+
+    }
+
+
+
+    public function jobListing($serachCity){ 
+        $cities  = City::where('status', 1)->orderBy('name')->get();
+        return view('jobs.job-listing')->with('cities', $cities)
+                                       ->with('serachCity', $serachCity);
+    }
+
+    public function getListingJobs(Request $request){
+
+        $startPage = 0;
+        $length = 10;
+        $orderDataBy = [];
+        $filters = $request->all(); 
+        $append = $filters['append']; 
+        $city[] =  $filters['city']; 
+        $filters['city'] = $city;
+        $filterJobs = $this->filterJobs($filters,$startPage,$length,$orderDataBy);
+
+        $jobs = $filterJobs['jobs'];
+        $totalJobs = $filterJobs['totalJobs'];
+        $filteredJobs = count($jobs);
+
+
+        $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append])->render();
+
+        $response = array(
+            'data' => $jobListingCard,
+            'total_items' => $totalJobs,
+            'filtered_items' => $filteredJobs,
+            'filters' => '',
+            'page'=> '',
+            'perpage'=> '',
+            'jobs' => $jobs
+            );
+
+        return response()->json($response);
+    }
 
 
     /**

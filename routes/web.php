@@ -70,6 +70,7 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+ 
 
 Route::group( ['middleware' => ['auth']], function() { 
 	/**Jobs**/
@@ -142,6 +143,8 @@ Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
 });
 
 Route::group(['prefix' => 'api'], function() {

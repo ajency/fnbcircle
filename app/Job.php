@@ -122,12 +122,12 @@ class Job extends Model
 
     public function getSalaryType(){
         $salaryType = Defaults::find($this->salary_type);
-        return ucwords($salaryType->label);
+        return (!empty($salaryType)) ? ucwords($salaryType->label) : '';
     }
 
     public function getSalaryTypeShortForm(){
         $salaryType = Defaults::find($this->salary_type);
-        return salarayTypeText($salaryType->label);
+        return (!empty($salaryType)) ? salarayTypeText($salaryType->label) : '';
     }
 
 
@@ -170,6 +170,24 @@ class Job extends Model
        if(!empty($this->description)){            
 
         return strip_tags(trim($this->description));
+
+        }else{
+            return '';
+        } 
+    }
+
+    public function getShortDescription(){
+       if(!empty($this->description)){            
+
+        $overflow = true;
+        $array = explode(" ", $this->description);
+        $output = '';
+        for ($i = 0; $i < 30; $i++) {
+
+            if (isset($array[$i])) $output .= $array[$i] . " ";
+            else $overflow = false;
+        }
+            return strip_tags(trim($output)) . ($overflow ? "..." : '');
 
         }else{
             return '';
@@ -365,9 +383,9 @@ class Job extends Model
 
     public function getJobSlug(){
         $titleSlug = str_slug($this->title);
-
+        $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug : '';
         if(empty($this->slug))
-            $slug = $titleSlug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+            $slug = $titleSlug.'-'.$this->category->slug.'-'.$companySlug.'-'.$this->reference_id;
         else
             $slug = $this->slug;
 

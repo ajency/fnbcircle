@@ -62,12 +62,10 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
-                            <select class="form-control fnb-select nav-color">
-                                <option>--Change city--</option>
-                                <option selected="">Pune</option>
-                                <option>Delhi</option>
-                                <option>Mumbai</option>
-                                <option>Goa</option>
+                            <select class="form-control fnb-select nav-color header_city"  >
+                                @foreach(getCities() as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
                             </select>
                         </li>
                     </ul>

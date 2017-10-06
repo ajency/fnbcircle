@@ -3,6 +3,8 @@
 @section('css')
     @parent
     <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials.css" />
+    <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials-theme-minima.css" />
 @endsection
 @section('js')
     @parent
@@ -11,6 +13,8 @@
       <!-- custom script -->
       <script type="text/javascript" src="/js/flex-datalist/jquery.flexdatalist.min.js"></script>
       <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+      <script type="text/javascript" src="/bower_components/jssocials/dist/jssocials.min.js"></script>
+      <script type="text/javascript" src="/js/single-list-view.js"></script>
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
        @if(Session::has('statusChange'))
     <script> 
@@ -50,6 +54,7 @@
                 <div class="slide-nav flex-row">
                      <p class="m-b-0 published-title">Published on {{$data['publish_date']}}</p>
                     <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>
+                    <div id="shareRoundIcons"></div>
                 </div>
                 <!-- slide navigation ends -->
                 @endif

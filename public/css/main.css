@@ -7075,7 +7075,6 @@ input[type=checkbox].custom-checkbox:before {
   .business-phone .removeRow,
   .landline .removeRow {
     right: 8px;
-    top: -25px;
   }
 }
 @media screen and (min-width: 769px) {
@@ -7795,6 +7794,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .business-contact .input-row .fnb-input {
   padding-left: 1.5em;
+  padding-top: 0;
 }
 .landline .input-row .fa:not(.removeRow) {
   -webkit-transform: rotate(45deg);
@@ -10188,6 +10188,16 @@ input[type='checkbox'].remove-addr {
     padding-left: 0;
     margin-top: 1.5em;
   }
+}
+.al-verify .ver-icon {
+  -webkit-transform: scale(0.75);
+      -ms-transform: scale(0.75);
+          transform: scale(0.75);
+  width: 28px;
+}
+.al-verify .c-title {
+  margin-bottom: 0;
+  font-size: 1em;
 }
 .profile-stats {
   color: #fff;

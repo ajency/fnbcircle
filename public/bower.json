@@ -1,0 +1,22 @@
+{
+  "name": "fnbcircle",
+  "description": "bower packages",
+  "main": "",
+  "authors": [
+    "fnbcircle"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ajency/fnbcircle",
+  "dependencies": {
+    "bootstrap-confirmation2": "^2.4.0",
+    "datatables-select": "^1.2.2",
+    "datatables.net-bs": "^2.1.1",
+    "datatables.net-select-dt": "^1.2.2",
+    "autosize": "^4.0.0",
+    "bootstrap-daterangepicker": "^2.1.25",
+    "ekko-lightbox": "^5.2.0",
+    "jquery": "^3.2.1",
+    "handlebars": "^4.0.10",
+    "intl-tel-input": "^12.1.0"
+  }
+}

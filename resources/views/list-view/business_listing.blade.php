@@ -5,11 +5,17 @@ List View
 @endsection
 
 @section('css')
+    <!-- FlexDatalist -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
 @endsection
 
 @section('js')
     <!-- Handle bars  -->
     <script type="text/javascript" src="{{ asset('/node_modules/handlebars/dist/handlebars.min.js') }}"></script>
+    <!-- FlexDatalist -->
+    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
+
+    <!-- Custom js codes -->
     <script type="text/javascript" src="{{ asset('/js/listing_list_view.js') }}"></script>
 @endsection    
 
@@ -40,13 +46,11 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <select class="form-control fnb-select">
-                                            <option>--Change city--</option>
-                                            <option>Pune</option>
-                                            <option selected="">Delhi</option>
-                                            <option>Mumbai</option>
-                                            <option>Goa</option>
-                                        </select>
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
+                                        <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
+
+                                        <datalist id="states">
+                                        </datalist> -->
                                     </div>
 
                                   <!--   <div class="category search-boxes flex-row">
@@ -67,13 +71,13 @@ List View
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" class="form-control fnb-input" placeholder="Start typing to search category...">
+                                                <input type="text" name="category_search" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" class="form-control fnb-input" placeholder="Search for a specific business">
+                                                <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
                                             </div>
                                         </div>
                                       </div>
@@ -138,11 +142,11 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> Delhi</h5>
+                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> {{ ucfirst($city) }}</h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in Delhi</p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in {{ ucfirst($city) }}</p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -182,230 +186,9 @@ List View
                     </div>
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
-                            <!-- Results -->
-                            <div class="results filter-sidebar__section">
-                                <div class="results__header filter-row">
-                                    <h6 class="element-title text-uppercase">Show Results for</h6>
-                                </div>
-                                <div class="results__body filter-row">
-                                    <ul class="contents">
-                                        <li class="branch">
-                                            <p class="default-size"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Meat &amp; Poultry</p>
-                                            <p class="default-size p-l-20">
-                                                <a href="" class="text-inherit bolder">Chicken</a>
-                                            </p>
-                                            <ul class="node">
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Processed Chicken
-                                                            <span class="text-lighter">(95)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Boneless Chicken
-                                                            <span class="text-lighter">(85)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Chicken Wings
-                                                            <span class="text-lighter">(76)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Boiler Chicken
-                                                            <span class="text-lighter">(30)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Chicken Drumstick
-                                                            <span class="text-lighter">(45)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div id="listing_filter_view">
+                                {!! $filter_view_html !!}
                             </div>
-                            <!-- results ends -->
-                            <div class="filter-group area">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
-                                    <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-area">
-                                    <div class="search-area flex-row">
-                                        <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                                        <input type="text" class="form-control fnb-input search-input text-color" placeholder="Search an area">
-                                    </div>
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Adarsh nagar</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Babarpur</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Badli</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Chandichawk</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Gandhi nagar</span>
-                                        </label>
-                                        <div class="more-section collapse" id="moreDown">
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Babarpur</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Badli</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Chandichawk</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Gandhi nagar</span>
-                                            </label>
-                                        </div>
-                                        <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+12 more</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Type of business -->
-                            <div class="filter-group business-type no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-business" aria-expanded="false" aria-controls="section-business">
-                                    <h6 class="sub-title flex-row">Type of Business <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-business">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Wholesaler</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Retailer</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Manufacturer</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- listing status -->
-                            <div class="filter-group list-status no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-list-status" aria-expanded="false" aria-controls="section-list-status">
-                                    <h6 class="sub-title flex-row">Listing Status <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-list-status">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Premium</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Verified</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Ratings -->
-                            <div class="filter-group rating-section no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-rating" aria-expanded="false" aria-controls="section-rating">
-                                    <h6 class="sub-title flex-row">Ratings <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-rating">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (211)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 68%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (23)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 50%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (134)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 28%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (344)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 16%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (23)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ratings ends -->
                             <!-- why fnb -->
                             <div class="filter-group whyFnb no-gap mobile-hide">
                                 <div class="filter-group__header filter-row">
@@ -466,9 +249,9 @@ List View
                 </div>
             </div>
 
-            <script id="listing_card_template" type="text/x-handlebars-template">
-                <?php include resource_path() . '/views/handlebars_templates/listing_card.html'; ?>
-            </script>
+            <!-- <script id="listing_card_template" type="text/x-handlebars-template">
+                <?php //include resource_path() . '/views/handlebars_templates/listing_card.html'; ?>
+            </script> -->
             <div class="col-sm-9 custom-col-9">
                 <div id="listing_card_view">
                     

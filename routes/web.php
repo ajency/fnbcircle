@@ -145,7 +145,8 @@ Route::group(['prefix' => '{city}'], function() {
 });
 
 Route::group(['prefix' => 'api'], function() {
-	Route::post('/get-view-data', 'ListViewController@getListData');
+	Route::post('/get-listview-data', 'ListViewController@getListViewData');
+	Route::post('/search-city', 'ListViewController@searchCity');
 	Route::post('/search-category', 'ListViewController@searchCategory');
 	Route::post('/search-business', 'ListViewController@searchBusiness');
 });

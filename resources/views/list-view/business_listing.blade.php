@@ -5,10 +5,18 @@ List View
 @endsection
 
 @section('css')
+    <!-- FlexDatalist -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
 @endsection
 
 @section('js')
+    <!-- Handle bars  -->
+    <script type="text/javascript" src="{{ asset('/node_modules/handlebars/dist/handlebars.min.js') }}"></script>
+    <!-- FlexDatalist -->
+    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
 
+    <!-- Custom js codes -->
+    <script type="text/javascript" src="{{ asset('/js/listing_list_view.js') }}"></script>
 @endsection    
 
 @section('content')
@@ -38,13 +46,11 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <select class="form-control fnb-select">
-                                            <option>--Change city--</option>
-                                            <option>Pune</option>
-                                            <option selected="">Delhi</option>
-                                            <option>Mumbai</option>
-                                            <option>Goa</option>
-                                        </select>
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
+                                        <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
+
+                                        <datalist id="states">
+                                        </datalist> -->
                                     </div>
 
                                   <!--   <div class="category search-boxes flex-row">
@@ -65,13 +71,13 @@ List View
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" class="form-control fnb-input" placeholder="Start typing to search category...">
+                                                <input type="text" name="category_search" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" class="form-control fnb-input" placeholder="Search for a specific business">
+                                                <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
                                             </div>
                                         </div>
                                       </div>
@@ -136,11 +142,11 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> Delhi</h5>
+                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> {{ ucfirst($city) }}</h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing 455 Chicken in Delhi</p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in {{ ucfirst($city) }}</p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -180,230 +186,9 @@ List View
                     </div>
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
-                            <!-- Results -->
-                            <div class="results filter-sidebar__section">
-                                <div class="results__header filter-row">
-                                    <h6 class="element-title text-uppercase">Show Results for</h6>
-                                </div>
-                                <div class="results__body filter-row">
-                                    <ul class="contents">
-                                        <li class="branch">
-                                            <p class="default-size"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Meat &amp; Poultry</p>
-                                            <p class="default-size p-l-20">
-                                                <a href="" class="text-inherit bolder">Chicken</a>
-                                            </p>
-                                            <ul class="node">
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Processed Chicken
-                                                            <span class="text-lighter">(95)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Boneless Chicken
-                                                            <span class="text-lighter">(85)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Chicken Wings
-                                                            <span class="text-lighter">(76)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Boiler Chicken
-                                                            <span class="text-lighter">(30)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                                <li class="node__child">
-                                                    <a href="" class="text-darker">
-                                                        <p class="default-size flex-row">Chicken Drumstick
-                                                            <span class="text-lighter">(45)</span>
-                                                        </p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <div id="listing_filter_view">
+                                {!! $filter_view_html !!}
                             </div>
-                            <!-- results ends -->
-                            <div class="filter-group area">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
-                                    <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-area">
-                                    <div class="search-area flex-row">
-                                        <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                                        <input type="text" class="form-control fnb-input search-input text-color" placeholder="Search an area">
-                                    </div>
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Adarsh nagar</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Babarpur</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Badli</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Chandichawk</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Gandhi nagar</span>
-                                        </label>
-                                        <div class="more-section collapse" id="moreDown">
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Babarpur</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Badli</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Chandichawk</span>
-                                            </label>
-                                            <label class="sub-title flex-row text-color">
-                                                <input type="checkbox" class="checkbox p-r-10">
-                                                <span>Gandhi nagar</span>
-                                            </label>
-                                        </div>
-                                        <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+12 more</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Type of business -->
-                            <div class="filter-group business-type no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-business" aria-expanded="false" aria-controls="section-business">
-                                    <h6 class="sub-title flex-row">Type of Business <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-business">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Wholesaler</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Retailer</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Manufacturer</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- listing status -->
-                            <div class="filter-group list-status no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-list-status" aria-expanded="false" aria-controls="section-list-status">
-                                    <h6 class="sub-title flex-row">Listing Status <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-list-status">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row clear hidden">
-                                            <a href="" class="text-color">
-                                               <i class="fa fa-times" aria-hidden="true"></i>
-                                                <span>Clear All</span>
-                                            </a>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Premium</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                            <input type="checkbox" class="checkbox p-r-10">
-                                            <span>Verified</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Ratings -->
-                            <div class="filter-group rating-section no-gap">
-                                <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-rating" aria-expanded="false" aria-controls="section-rating">
-                                    <h6 class="sub-title flex-row">Ratings <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
-                                    </h6>
-                                </div>
-                                <div class="filter-group__body filter-row collapse in" id="section-rating">
-                                    <div class="check-section">
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 100%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (211)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 68%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (23)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 50%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (134)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 28%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (344)</span>
-                                        </label>
-                                        <label class="sub-title flex-row text-color">
-                                           <div class="rating-view p-r-10">
-                                                <div class="rating">
-                                                    <div class="bg"></div>
-                                                    <div class="value" style="width: 16%;"></div>
-                                                </div>
-                                            </div>
-                                            <span>&amp; Up (23)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ratings ends -->
                             <!-- why fnb -->
                             <div class="filter-group whyFnb no-gap mobile-hide">
                                 <div class="filter-group__header filter-row">
@@ -463,275 +248,14 @@ List View
                     </div>
                 </div>
             </div>
+
+            <!-- <script id="listing_card_template" type="text/x-handlebars-template">
+                <?php //include resource_path() . '/views/handlebars_templates/listing_card.html'; ?>
+            </script> -->
             <div class="col-sm-9 custom-col-9">
-                <div class="filter-data">
-                    <div class="seller-info bg-card filter-cards">
-                        <!-- <div class="seller-info__header filter-cards__header flex-row">
-                            <div class="flex-row">
-                                <div class="rating-view flex-row p-r-10">
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 80%;"></div>
-                                    </div>
-                                </div>
-                                <p class="m-b-0 text-lighter lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                            </div>
-                            <p class="featured text-secondary m-b-0">
-                                <i class="flex-row">
-                                    <i class="fa fa-flag featured__icon p-r-10" aria-hidden="true"></i>
-                                    Featured
-                                </i>
-                            </p>
-                        </div> -->
-                        <div class="seller-info__body filter-cards__body flex-row white-space">
-                            <div class="body-left flex-cols">
-                                <div>
-                                    <div class="list-title-container">
-                                        <h3 class="seller-info__title ellipsis" title="Mystical the meat and fish store">Mystical the meat and fish store</h3>
-                                        <div class="power-seller-container"></div>
-                                    </div>
-                                    <div class="location p-b-5 flex-row">
-                                        <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title default-size m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
-                                    </div>
-                                    <div class="flex-row rat-pub">
-                                        <div class="rating-view flex-row p-r-10">
-                                            <div class="rating rating-small">
-                                                <div class="bg"></div>
-                                                <div class="value" style="width: 80%;"></div>
-                                            </div>
-                                        </div>
-                                        <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                                    </div>
-                                    <div class="stats flex-row m-t-10 p-t-10">
-                                        <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
-                                        </label>
-                                        <div class="verified flex-row p-l-10">
-                                            <span class="fnb-icons verified-icon verified-mini"></span>
-                                            <p class="c-title">Verified</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-t-15 p-t-15 cat-holder">
-                                    <div class="core-cat">
-                                        <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
-                                        <ul class="fnb-cat flex-row">
-                                            <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                            <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-right flex-cols">
-                                <div class="operations">
-                                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
-                                    <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
-                                    <div class="operations__container">
-                                        <div class="location flex-row">
-                                            <p class="m-b-0 text-color heavier default-size">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                            </p>
-                                        </div>
-                                        <ul class="cities flex-row">
-                                            <li>
-                                                <p class="cities__title default-size">Bandra, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Andheri, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Juhu, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Worli, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Powai</p>
-                                            </li>
-                                            <li class="line">
-                                                <p class="cities__title default-size">|</p>
-                                            </li>
-                                            <li class="remain more-show">
-                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="enquiries flex-row">
-                                        <div class="enquiries__count">
-                                            <p class="default-size heavier text-color m-b-0">50+</p>
-                                            <p class="default-size text-lighter">Enquiries</p>
-                                        </div>
-                                        <div class="enquiries__request">
-                                            <p class="default-size heavier text-color m-b-0">100+</p>
-                                            <p class="default-size text-lighter">Contact Requests</p>
-                                        </div>
-                                        <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="get-details detail-move">
-                                        <button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="seller-info__footer filter-cards__footer white-space">
-                            <div class="recent-updates flex-row">
-                                <div class="recent-updates__text">
-                                    <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
-                                </div>
-                                <div class="recent-updates__content">
-                                    <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,
-                                    <span class="text-lighter p-l-10">Updated few hours ago</span></p>
-                                </div>
-                            </div>
-                            <div class="updates-dropDown">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="filter-data m-t-30 adv-after">
-                    <div class="seller-info bg-card filter-cards">
-                        <!-- <div class="seller-info__header filter-cards__header flex-row">
-                            <div class="flex-row">
-                                <div class="rating-view flex-row p-r-10">
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 80%;"></div>
-                                    </div>
-                                </div>
-                                <p class="m-b-0 text-lighter lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                            </div>
-                            <p class="featured text-secondary m-b-0">
-                                <i class="flex-row">
-                                    <i class="fa fa-flag featured__icon p-r-10" aria-hidden="true"></i>
-                                    Featured
-                                </i>
-                            </p>
-                        </div> -->
-                        <div class="seller-info__body filter-cards__body flex-row white-space">
-                            <div class="body-left flex-cols">
-                                <div>
-                                    <div class="list-title-container">
-                                        <h3 class="seller-info__title ellipsis" title="Empire cold storage &amp; chicken products">Empire cold storage &amp; chicken products</h3>
-                                        <div class="power-seller-container"></div>
-                                    </div>
-                                    <div class="location p-b-5 flex-row">
-                                        <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title default-size m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
-                                    </div>
-                                    <div class="flex-row rat-pub">
-                                        <div class="rating-view flex-row p-r-10">
-                                            <div class="rating rating-small">
-                                                <div class="bg"></div>
-                                                <div class="value" style="width: 80%;"></div>
-                                            </div>
-                                        </div>
-                                        <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                                    </div>
-                                    <div class="stats flex-row m-t-10 p-t-10">
-                                        <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
-                                        </label>
-                                        <div class="verified flex-row p-l-10">
-                                            <span class="fnb-icons verified-icon verified-mini"></span>
-                                            <p class="c-title">Verified</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-t-15 p-t-15 cat-holder">
-                                    <div class="core-cat">
-                                        <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
-                                        <ul class="fnb-cat flex-row">
-                                            <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                            <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-right flex-cols">
-                                <div class="operations">
-                                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
-                                    <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
-                                    <div class="operations__container">
-                                        <div class="location flex-row">
-                                            <p class="m-b-0 text-color heavier default-size">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                            </p>
-                                        </div>
-                                        <ul class="cities flex-row">
-                                            <li>
-                                                <p class="cities__title default-size">Bandra, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Andheri, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Juhu, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Worli, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Powai</p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Powai</p>
-                                            </li>
-                                            <li class="line">
-                                                <p class="cities__title default-size">|</p>
-                                            </li>
-                                            <li class="remain more-show">
-                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="enquiries flex-row">
-                                        <div class="enquiries__count">
-                                            <p class="default-size heavier text-color m-b-0">50+</p>
-                                            <p class="default-size text-lighter">Enquiries</p>
-                                        </div>
-                                        <div class="enquiries__request">
-                                            <p class="default-size heavier text-color m-b-0">100+</p>
-                                            <p class="default-size text-lighter">Contact Requests</p>
-                                        </div>
-                                        <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="get-details detail-move">
-                                        <button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="seller-info__footer filter-cards__footer white-space">
-                            <div class="recent-updates flex-row">
-                                <div class="recent-updates__text">
-                                    <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
-                                </div>
-                                <div class="recent-updates__content">
-                                    <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,
-                                    <span class="text-lighter p-l-10">Updated few hours ago</span></p>
-                                </div>
-                            </div>
-                            <div class="updates-dropDown">
-
-                            </div>
-                        </div>
-                    </div>
+                <div id="listing_card_view">
+                    
+                    
                 </div>
                 <div class="filter-data m-t-30 send-enquiry-section">
                     <div class="bg-card filter-cards add-card flex-row white-space mobile-hide">
@@ -797,268 +321,9 @@ List View
                         </div>
                     </div>
                 </div>
-                 <div class="filter-data m-t-30">
-                    <div class="seller-info bg-card filter-cards">
-                        <!-- <div class="seller-info__header filter-cards__header flex-row">
-                            <div class="flex-row">
-                                <div class="rating-view flex-row p-r-10">
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 80%;"></div>
-                                    </div>
-                                </div>
-                                <p class="m-b-0 text-lighter lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                            </div>
-                            <p class="featured text-secondary m-b-0">
-                                <i class="flex-row">
-                                    <i class="fa fa-flag featured__icon p-r-10" aria-hidden="true"></i>
-                                    Featured
-                                </i>
-                            </p>
-                        </div> -->
-                        <div class="seller-info__body filter-cards__body flex-row white-space">
-                            <div class="body-left flex-cols">
-                                <div>
-                                   <h3 class="seller-info__title ellipsis" title="Mystical the meat and fish store">Mystical the meat and fish store</h3>
-                                    <div class="location p-b-5 flex-row">
-                                        <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title default-size m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
-                                    </div>
-                                    <div class="flex-row">
-                                        <div class="rating-view flex-row p-r-10">
-                                            <div class="rating rating-small">
-                                                <div class="bg"></div>
-                                                <div class="value" style="width: 80%;"></div>
-                                            </div>
-                                        </div>
-                                        <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                                    </div>
-                                    <div class="stats flex-row m-t-10 p-t-10">
-                                        <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
-                                        </label>
-                                        <div class="verified flex-row p-l-10">
-                                            <span class="fnb-icons verified-icon verified-mini"></span>
-                                            <p class="c-title">Verified</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-t-15 p-t-15 cat-holder">
-                                    <div class="core-cat">
-                                        <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
-                                        <ul class="fnb-cat flex-row">
-                                            <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                            <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-right flex-cols">
-                                <div class="operations">
-                                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
-                                    <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
-                                    <div class="operations__container">
-                                        <div class="location flex-row">
-                                            <p class="m-b-0 text-color heavier default-size">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                            </p>
-                                        </div>
-                                        <ul class="cities flex-row">
-                                            <li>
-                                                <p class="cities__title default-size">Bandra, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Andheri, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Juhu, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Worli, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Powai</p>
-                                            </li>
-                                            <li class="line">
-                                                <p class="cities__title default-size">|</p>
-                                            </li>
-                                            <li class="remain more-show">
-                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="enquiries flex-row">
-                                        <div class="enquiries__count">
-                                            <p class="default-size heavier text-color m-b-0">50+</p>
-                                            <p class="default-size text-lighter">Enquiries</p>
-                                        </div>
-                                        <div class="enquiries__request">
-                                            <p class="default-size heavier text-color m-b-0">100+</p>
-                                            <p class="default-size text-lighter">Contact Requests</p>
-                                        </div>
-                                        <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="get-details detail-move">
-                                        <button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="seller-info__footer filter-cards__footer white-space">
-                            <div class="recent-updates flex-row">
-                                <div class="recent-updates__text">
-                                    <p class="m-b-0 default-size heavier"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates</p>
-                                </div>
-                                <div class="recent-updates__content">
-                                    <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,
-                                    <span class="text-lighter p-l-10">Updated few hours ago</span></p>
-                                </div>
-                            </div>
-                            <div class="updates-dropDown">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="filter-data m-t-30 m-b-30">
-                    <div class="seller-info bg-card filter-cards">
-                        <!-- <div class="seller-info__header filter-cards__header flex-row">
-                            <div class="flex-row">
-                                <div class="rating-view flex-row p-r-10">
-                                    <div class="rating">
-                                        <div class="bg"></div>
-                                        <div class="value" style="width: 80%;"></div>
-                                    </div>
-                                </div>
-                                <p class="m-b-0 text-lighter lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                            </div>
-                            <p class="featured text-secondary m-b-0">
-                                <i class="flex-row">
-                                    <i class="fa fa-flag featured__icon p-r-10" aria-hidden="true"></i>
-                                    Featured
-                                </i>
-                            </p>
-                        </div> -->
-                        <div class="seller-info__body filter-cards__body flex-row white-space">
-                            <div class="body-left flex-cols">
-                                <div>
-                                   <h3 class="seller-info__title ellipsis" title="Empire cold storage &amp; chicken products">Empire cold storage &amp; chicken products</h3>
-                                    <div class="location p-b-5 flex-row">
-                                        <span class="fnb-icons map-icon"></span>
-                                        <p class="location__title default-size m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
-                                    </div>
-                                    <div class="flex-row">
-                                        <div class="rating-view flex-row p-r-10">
-                                            <div class="rating rating-small">
-                                                <div class="bg"></div>
-                                                <div class="value" style="width: 80%;"></div>
-                                            </div>
-                                        </div>
-                                        <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on 20 Dec 2016</i></p>
-                                    </div>
-                                    <div class="stats flex-row m-t-10 p-t-10">
-                                        <label class="fnb-label wholesaler flex-row">
-                                            <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                            Wholesaler
-                                        </label>
-                                        <div class="verified flex-row p-l-10">
-                                            <span class="fnb-icons verified-icon verified-mini"></span>
-                                            <p class="c-title">Verified</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-t-15 p-t-15 cat-holder">
-                                    <div class="core-cat">
-                                        <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
-                                        <ul class="fnb-cat flex-row">
-                                            <li><a href="" class="fnb-cat__title">Chicken Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Mutton</a></li>
-                                            <li><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li><a href="" class="fnb-cat__title">Pork Wholesaler</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Egg</a></li>
-                                            <li class="desk-hide"><a href="" class="fnb-cat__title">Meat Retailer</a></li>
-                                            <li class="cat-more more-show"><a href="" class="text-darker">+5 more</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="body-right flex-cols">
-                                <div class="operations">
-                                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
-                                    <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
-                                    <div class="operations__container">
-                                        <div class="location flex-row">
-                                            <p class="m-b-0 text-color heavier default-size">Mumbai <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                            </p>
-                                        </div>
-                                        <ul class="cities flex-row">
-                                            <li>
-                                                <p class="cities__title default-size">Bandra, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Andheri, </p>
-                                            </li>
-                                            <li>
-                                                <p class="cities__title default-size">Juhu, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Worli, </p>
-                                            </li>
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">Powai</p>
-                                            </li>
-                                            <li class="line">
-                                                <p class="cities__title default-size">|</p>
-                                            </li>
-                                            <li class="remain more-show">
-                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="enquiries flex-row">
-                                        <div class="enquiries__count">
-                                            <p class="default-size heavier text-color m-b-0">50+</p>
-                                            <p class="default-size text-lighter">Enquiries</p>
-                                        </div>
-                                        <div class="enquiries__request">
-                                            <p class="default-size heavier text-color m-b-0">100+</p>
-                                            <p class="default-size text-lighter">Contact Requests</p>
-                                        </div>
-                                        <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="get-details detail-move">
-                                        <button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="seller-info__footer filter-cards__footer white-space">
-                            <div class="recent-updates flex-row">
-                                <div class="recent-updates__text">
-                                    <p class="m-b-0 default-size heavier"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates</p>
-                                </div>
-                                <div class="recent-updates__content">
-                                    <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,
-                                    <span class="text-lighter p-l-10">Updated few hours ago</span></p>
-                                </div>
-                            </div>
-                            <div class="updates-dropDown">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+
         <div class="site-overlay"></div>
     </div>
 @endsection

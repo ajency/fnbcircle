@@ -7071,7 +7071,6 @@ input[type=checkbox].custom-checkbox:before {
   .business-phone .removeRow,
   .landline .removeRow {
     right: 8px;
-    top: -25px;
   }
 }
 @media screen and (min-width: 769px) {
@@ -7791,6 +7790,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .business-contact .input-row .fnb-input {
   padding-left: 1.5em;
+  padding-top: 0;
 }
 .landline .input-row .fa:not(.removeRow) {
   -webkit-transform: rotate(45deg);

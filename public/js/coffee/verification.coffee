@@ -319,6 +319,14 @@ $(document).ready ()->
     return
 
 
+if $(window).width() <= 768
+  $('.get-val').each ->
+    removeRow = $(this).find('.fnb-input')
+    addRow = $(this).find('.removeRow').detach()
+    $(removeRow).after addRow
+
+
+
   #$(document).on 'change', '.business-contact .toggle__check', ->
   $(".contact-info").on 'change', '.toggle__check', ->
   # $('.business-contact .toggle__check').change ->

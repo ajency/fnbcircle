@@ -2,7 +2,7 @@
   var displayCityText, filterJobs;
 
   filterJobs = function(append) {
-    var areaValues, experienceValues, jobTypeValues;
+    var areaValues, experienceValues, jobTypeValues, keywords;
     if (append === void 0) {
       append = false;
     }
@@ -18,6 +18,10 @@
     $('input[name="areas[]"]:checked').map(function() {
       return areaValues.push($(this).val());
     });
+    keywords = [];
+    $('input[name="keyword_id[]"]').map(function() {
+      return keywords.push($(this).val());
+    });
     return $.ajax({
       type: 'post',
       url: 'jobs/get-listing-jobs',
@@ -29,7 +33,7 @@
         'area': areaValues,
         'experience': experienceValues,
         'category': '',
-        'keywords': '',
+        'keywords': keywords,
         'append': append
       },
       success: function(response) {
@@ -88,7 +92,30 @@
     });
   };
 
+  $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
+    var inputTxt;
+    inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
+    $('#keyword-ids').append(inputTxt);
+    return filterJobs();
+  });
+
+  $('.job-keywords').on('change:flexdatalist', function(event, set, options) {
+    if (set.length && $('input[label="' + set[0]['text'] + '"]').length) {
+      $('input[label="' + set[0]['text'] + '"]').remove();
+      return filterJobs();
+    }
+  });
+
   $(document).ready(function() {
+    $('.job-keywords').flexdatalist({
+      removeOnBackspace: false,
+      searchByWord: true,
+      searchContain: true,
+      selectionRequired: true,
+      minLength: 1,
+      url: '/get-keywords',
+      searchIn: ["label"]
+    });
     displayCityText($('select[name="job_city"]'));
     return filterJobs();
   });

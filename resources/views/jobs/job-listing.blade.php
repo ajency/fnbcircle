@@ -5,9 +5,11 @@ Job Listing
 @endsection
 
 @section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
 @endsection
 
 @section('js')
+<script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
  <script type="text/javascript" src="{{ asset('js/jobs-listing.js') }}"></script>
 @endsection    
 

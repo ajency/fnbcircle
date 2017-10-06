@@ -13,7 +13,11 @@ filterJobs = (append) ->
   areaValues = []
   $('input[name="areas[]"]:checked').map ->
     areaValues.push $(this).val()
-    
+
+  keywords = []
+  $('input[name="keyword_id[]"]').map ->
+    keywords.push $(this).val()
+
  
   $.ajax
     type: 'post'
@@ -26,7 +30,7 @@ filterJobs = (append) ->
       'area' : areaValues
       'experience' :experienceValues
       'category' :''
-      'keywords': ''
+      'keywords': keywords
       'append': append
     success: (response) ->
       $("#total_count").text response.total_items 
@@ -81,6 +85,30 @@ displayCityText = (cityObj) ->
       throwError()
       return
 
+$('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
+
+  inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
+  $('#keyword-ids').append inputTxt
+  filterJobs() 
+
+$('.job-keywords').on 'change:flexdatalist', (event, set, options) ->
+  if(set.length && $('input[label="'+set[0]['text']+'"]').length)
+    $('input[label="'+set[0]['text']+'"]').remove()
+    filterJobs() 
+
+ 
+    
+
 $(document).ready ()->
+  $('.job-keywords').flexdatalist
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      selectionRequired:true
+      minLength: 1
+      url: '/get-keywords'
+      searchIn: ["label"]
+    
+
   displayCityText($('select[name="job_city"]'))
-  filterJobs();
+  filterJobs()

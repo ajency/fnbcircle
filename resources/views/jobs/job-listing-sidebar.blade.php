@@ -17,54 +17,28 @@
                   <div class="results__header filter-row">
                       <h6 class="element-title text-uppercase">Show Results for</h6>
                   </div>
-                  <div class="results__body filter-row">
-                      <ul class="contents">
-                          <li class="branch">
-                              <p class="default-size"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Meat &amp; Poultry</p>
-                              <p class="default-size p-l-20">
-                                  <a href="" class="text-inherit bolder">Chicken</a>
-                              </p>
-                              <ul class="node">
-                                  <li class="node__child">
-                                      <a href="" class="text-darker">
-                                          <p class="default-size flex-row">Processed Chicken
-                                              <span class="text-lighter">(95)</span>
-                                          </p>
-                                      </a>
-                                  </li>
-                                  <li class="node__child">
-                                      <a href="" class="text-darker">
-                                          <p class="default-size flex-row">Boneless Chicken
-                                              <span class="text-lighter">(85)</span>
-                                          </p>
-                                      </a>
-                                  </li>
-                                  <li class="node__child">
-                                      <a href="" class="text-darker">
-                                          <p class="default-size flex-row">Chicken Wings
-                                              <span class="text-lighter">(76)</span>
-                                          </p>
-                                      </a>
-                                  </li>
-                                  <li class="node__child">
-                                      <a href="" class="text-darker">
-                                          <p class="default-size flex-row">Boiler Chicken
-                                              <span class="text-lighter">(30)</span>
-                                          </p>
-                                      </a>
-                                  </li>
-                                  <li class="node__child">
-                                      <a href="" class="text-darker">
-                                          <p class="default-size flex-row">Chicken Drumstick
-                                              <span class="text-lighter">(45)</span>
-                                          </p>
-                                      </a>
-                                  </li>
-                              </ul>
-                          </li>
-                      </ul>
+      
+              </div>
+              <div class="filter-group keywords">
+                  <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
+                      <h6 class="sub-title flex-row">Search by Keywords <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      </h6>
+                  </div>
+                  <div class="filter-group__body filter-row collapse in" id="section-area">
+                      <div class="search-area flex-row">
+                          <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
+                           <input type="text" class="form-control fnb-input search-input text-color job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  >
+                          
+                      </div>
+                      <div class="check-section ">
+                           <datalist id="jobKeyword">
+              
+                            </datalist>
+                            <div id="keyword-ids"></div>
+                      </div>
                   </div>
               </div>
+
               <!-- results ends -->
               <div class="filter-group area">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">

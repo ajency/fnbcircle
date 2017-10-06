@@ -751,6 +751,13 @@ class JobController extends Controller
                     $query->where('jobs.experience_years_upper','<=',$maxExp); 
                 });
             });
+
+            //for not disclosed exp
+            $jobQuery->orWhere(function($query)use($minMaxExperience)
+            {
+                $query->where('jobs.experience_years_lower',0); 
+                $query->where('jobs.experience_years_upper',0); 
+            });
             
         }
 

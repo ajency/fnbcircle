@@ -126,7 +126,11 @@ class Listing extends Model
 
         if ($this->created_by == null) {
             $this->created_by = Auth::user()->id;
-            $this->owner_id = Auth::user()->id;
+            if(Auth::user()->type == 'external') {
+                $this->owner_id = Auth::user()->id;
+                $this->verified = 1;
+            }
+            else $this->owner_id = null;
         }
 
         $this->save();

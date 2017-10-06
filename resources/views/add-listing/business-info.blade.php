@@ -154,22 +154,24 @@
             <div class="contact-row m-t-5">
                 <div class="row no-m-b">
                     <div class="col-sm-5">
-                        <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{$owner->getPrimaryEmail()}}" readonly=""  data-parsley-required>
+                        <input type="email" class="form-control fnb-input p-l-5 contact-input" value="@if($listing->owner_id != null) {{$owner->getPrimaryEmail()}} @endif" readonly=""  @if($owner->type == 'external')data-parsley-required @endif >
                     </div>
                     <div class="col-sm-3 col-xs-4">
                         <div class="verified flex-row">
+                        @if($listing->owner_id != null and $owner->type != 'external')
                             <span class="fnb-icons verified-icon"></span>
                             <p class="c-title">Verified</p>
+                        @endif
                         </div>
                     </div>
                     <div class="col-sm-4 col-xs-8">
                         <div class="verified-toggle flex-row">
                             <div class="toggle m-l-10 m-r-10">
-                                <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" required  @if($listing->show_primary_email === null or $listing->show_primary_email == "1") checked="true" @endif>
+                                <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
                                 <b class="switch"></b>
                                 <b class="track"></b>
                             </div>
-                            <p class="m-b-0 text-color toggle-state"> @if($listing->show_primary_email === null or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
+                            <p class="m-b-0 text-color toggle-state"> @if(($listing->show_primary_email === null and $owner->type == 'external') or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
                         </div>
                         <div id="toggleError" class="visible-error"></div>
                     </div>
@@ -261,8 +263,8 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="comm-id contact_mobile_id contact-id " readonly  name="contact_IDs">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{Auth::user()->getPrimaryContact()['contact']}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required data-parsley-errors-container="#phone-error">
-                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{Auth::user()->getPrimaryContact()['contact_region']}}">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}} @endif" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($owner->type == 'external')data-parsley-required @endif data-parsley-errors-container="#phone-error">
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$owner->getPrimaryContact()['contact_region']}}">
                         
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>

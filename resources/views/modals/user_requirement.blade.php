@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
-                                    <div class="verify-container verified flex-row">
+                                    <div class="verify-container verified flex-row al-verify">
                                         @if(!Auth::user()->getPrimaryContact()['is_verified'])
                                             <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
                                             <div name="" class="under-review">
@@ -47,7 +47,7 @@
                                             </div>
                                         @else
                                             <div class="verified verifiedMini flex-row">
-                                                <span class="fnb-icons verified-icon"></span>
+                                                <span class="fnb-icons verified-icon load-verify"></span>
                                                 <p class="c-title m-b-0">Verified</p>
                                             </div>
                                         @endif

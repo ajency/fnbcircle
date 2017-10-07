@@ -15,6 +15,55 @@ getUrlSearchParams = () ->
 		return [""]
 	return
 
+getFilters = () ->
+	filters = 
+		"category_search": $('input[type="hidden"][name="category_search"]').val()
+		"business_search": $('input[type="hidden"][name="business_search"]').val()
+		"areas_selected": []
+		"business_types": []
+		"listing_status": []
+
+	filters["categories"] =  $(".results__body ul.contents #current_category").val() #$(".results__body ul.contents a.bolder").attr("value")
+	updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+
+	$("input[type='checkbox'][name='areas[]']:checked").each ->
+		filters["areas_selected"].push $(this).val()
+		return
+	updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
+
+	$("input[type='checkbox'][name='business_type[]']:checked").each ->
+		filters["business_types"].push $(this).val()
+		return
+	updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
+
+	$("input[type='checkbox'][name='listing_status[]']:checked").each ->
+		filters["listing_status"].push $(this).val()
+		return
+	updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
+
+	return filters
+
+capitalize = (string) ->
+	return string.charAt(0).toUpperCase() + string.slice(1)
+
+updateTextLabels = () ->
+	### --- Update the Category labels --- ###
+	if $(".listings-page a.bolder").text().length > 0
+		$(".listings-page .category_label").text($(".listings-page a.bolder").text())
+	else
+		$(".listings-page span.category_label").text("All categories")
+		$(".listings-page p.category_label").text("all")
+
+	### --- Update the State labels --- ###
+	if $('input[type="hidden"][name="city"]').val().length > 0
+		$(".listings-page .state_label").text(capitalize($('input[type="hidden"][name="city"]').val()))
+		$(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[type="hidden"][name="city"]').val())
+	else
+		$(".listings-page span.state_label").text("India")
+		$(".listings-page p.state_label").text("India")
+
+	return
+
 getListContent = () ->
 	# data = 
 	# 	"title" : "sharath"
@@ -22,18 +71,19 @@ getListContent = () ->
 	# 	"verified" : 1
 
 	data = 
-		"page": 1,
-		"page_size": 10,
-		"sort_by": "published",
-		"sort_order": "desc",
-		"city" : $('input[type="hidden"][name="city"]').val(),
-		# "node_category": 1,
+		"page": 1
+		"page_size": 10
+		"sort_by": "published"
+		"sort_order": "desc"
+		"city" : $('input[type="hidden"][name="city"]').val()
 		"filters":
+			getFilters()
 		# 	"areas": [1, 2, 6],
 		# 	"business_type": [11, 12, 13],
 		# 	"listing_status": [],
-			"category_search": $('input[type="hidden"][name="category_search"]').val(),
-			"business_search": $('input[type="hidden"][name="business_search"]').val(),
+		#	"categories": filters["categories"],
+		# 	"category_search": $('input[type="hidden"][name="category_search"]').val(),
+		# 	"business_search": $('input[type="hidden"][name="business_search"]').val(),
 		# 	"rating": []
 
 	$("#listing_card_view").css "filter", "blur(2px)"
@@ -46,11 +96,11 @@ getListContent = () ->
 		success: (data) ->
 			#$("#listing_filter_view").html data["filtered_view"]
 			#console.log data
-			if parseInt(data["count"]) > 0
+			if parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])
 				start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1
-				end = start + parseInt(data["page_size"]) - 1
+				end = start + parseInt(data["page_size"]) - 1 # (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1
 
-				end = if((end % parseInt(data["count"])) < parseInt(data["count"])) then parseInt(data["count"]) else end
+				end = if(end > parseInt(data["count"])) then parseInt(data["count"]) else end
 
 				$(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"])
 			else
@@ -64,6 +114,8 @@ getListContent = () ->
 			### --- Load the Listing card template --- ###
 			$("#listing_card_view").html data["data"]["list_view"]
 			$("#listing_card_view").css "filter", ""
+
+			updateTextLabels()
 
 			### ---- HAndleBar template content load ---- ###
 			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
@@ -97,10 +149,33 @@ updateCityDropdown = (data, populate_id) ->
 	$("#" + populate_id).html html_content
 	return
 
+updateUrlPushstate = (key, pushstate_url) ->
+	if window.location.search.length <= 0 and window.location.search.indexOf(key) <= -1
+		## -- No params in URL & no data -- ##
+		window.history.pushState("", "", "?" + pushstate_url)
+	else if window.location.search.length > 0 and window.location.search.indexOf(key) <= -1
+		window.history.pushState("", "", window.location.search + "&" + pushstate_url)
+	else
+		params = window.location.search.split('?')[1].split("&")
+		old_url = ""
+		i = 0
+		
+		while i < params.length
+			if params[i].indexOf(key) <= -1
+				old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
+			i++
+
+		if old_url.length > 0
+			window.history.pushState("", "", old_url + "&" + pushstate_url)
+		else
+			window.history.pushState("", "", "?" + pushstate_url)
+	return
+
 $(document).ready () ->
 
 	### --- Load all the popular city on load --- ###
 	getCity({"search": ""}, "states")
+	updateTextLabels()
 
 	### --- City filter dropdown --- ###
 	## -- Note: flexdatalist appends "flexdatalist-" to the name i.e. name="city" becomes name="flexdatalist-city" -- ##
@@ -142,7 +217,7 @@ $(document).ready () ->
 		keywordParamName: "search"
 		resultsProperty: "data"
 		searchIn: ['name']
-		valueProperty: 'id'
+		valueProperty: 'node_children'
 		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
 
 		minLength: 0
@@ -157,13 +232,13 @@ $(document).ready () ->
 		searchByWord: false
 		allowDuplicateValues: false
 		noResultsText: 'Sorry! No categories found for "{keyword}"'
-
+	
 
 	$('input[type="hidden"][name="business_search"].flexdatalist').flexdatalist
 		url: '/api/search-business'
 		requestType: 'post'
 		params: {
-			"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
+			#"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
 			"city": $('input[type="hidden"][name="city"].flexdatalist').val()
 			"category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
 		}
@@ -194,14 +269,26 @@ $(document).ready () ->
 			"category_search" : "category_search"
 			"business_search" : "business_search"
 
-		get_params = getUrlSearchParams()
+		filter_listing_params =
+			"categories" : "current_category"
 
+		get_params = getUrlSearchParams()
 
 		for key of search_box_params
 			i = 0
 			while i < get_params.length
 				if get_params[i].indexOf(key + "=") > -1
-					$('input[type="hidden"][name="' + search_box_params[key] + '"].flexdatalist').val(get_params[i].split("=")[1])
+					value_assigned = get_params[i].split("=")[1]
+					$('input[type="hidden"][name="' + search_box_params[key] + '"].flexdatalist').val(value_assigned)
+				i++
+
+		for key of filter_listing_params
+			i = 0
+			while i < get_params.length
+				if get_params[i].indexOf(key + "=") > -1
+					value_assigned = get_params[i].split("=")[1]
+
+					$('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned)
 				i++
 
 	### --- Triggered every time before display of data --- ###
@@ -261,6 +348,10 @@ $(document).ready () ->
 	### -- Triggered every time the user selects an option -- ###
 	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'select:flexdatalist', () ->
 		key = ""
+
+		if $(this).prop("name") == "category_search"
+			$(document).find(".results__body ul.contents #current_category").val($(this).val())
+
 		if $(this).attr("name") == "city"
 			key = "state"
 			pushstate_url = "state=" + $(this).val()
@@ -268,32 +359,28 @@ $(document).ready () ->
 			key = $(this).attr("name")
 			pushstate_url = $(this).attr("name") + "=" + $(this).val()
 
-		if window.location.search.length <= 0 and window.location.search.indexOf(key) <= -1
-			## -- No params in URL & no data -- ##
-			window.history.pushState("", "", "?" + pushstate_url)
-		else if window.location.search.length > 0 and window.location.search.indexOf(key) <= -1
-			window.history.pushState("", "", window.location.search + "&" + pushstate_url)
-		else
-			params = window.location.search.split('?')[1].split("&")
-			old_url = ""
-			i = 0
-			
-			while i < params.length
-				if params[i].indexOf(key) <= -1
-					old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
-				i++
-
-			if old_url.length > 0
-				window.history.pushState("", "", old_url + "&" + pushstate_url)
-			else
-				window.history.pushState("", "", "?" + pushstate_url)
+		updateUrlPushstate(key, pushstate_url)
 
 		getListContent()
-		
 		return
 
+	### --- Detect <a> click --- ###
+	$(document).on "click", ".results__body ul.contents a", (e) ->
+		e.preventDefault()
+		$(".results__body ul.contents #current_category").val($(this).attr("value"))
+		#console.log $(this).attr("value")
 
+		$(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"))
+		
+		getListContent()
+		#console.log $(this).text()
+		return false
 
+	### --- On filter checkbox select --- ###
+	$(document).on "change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", (e) ->
+		getListContent()
+		return
+		
 
 	# ### --- Handle Bar template functions --- ###
 	# ### --- Clear the listing_card_view section --- ###
@@ -344,6 +431,21 @@ $(document).ready () ->
 	# 	return date_str.getDate() + " " + month_list[date_str.getMonth()] + " " + date_str.getFullYear()
 	# ### --- End of Handle Bar template functions --- ###
 	
+	### --- Working of "Back to Top" button --- ###
+	$(window).scroll ->
+		if $(this).scrollTop() > 500
+			$('.listings-page #backToTop').fadeIn()
+		else
+			$('.listings-page #backToTop').fadeOut()
+		return
+
+	$('.listings-page #backToTop').on "click", () ->
+		console.log "asdasd"
+		$('body, html').animate { 
+			scrollTop: 0
+		}, 1000
+		return
+
 	### --- 
 	#	Timeout of 1 sec set as the values in search boxes are initially empty & are load from JS,
 	#	hence a timelag is set so that value is assigned, then function call is made 
@@ -352,5 +454,6 @@ $(document).ready () ->
 		getListContent()
 		return
 	), 1000
+
 
 	return

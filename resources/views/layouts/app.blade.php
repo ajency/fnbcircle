@@ -64,7 +64,7 @@
                         <li>
                             <select class="form-control fnb-select nav-color" onchange="location = this.value;">
                                 <option>--Change city--</option>
-                                @foreach(App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get() as $city_index => $city_value)
+                                @foreach(getPopularCities() as $city_index => $city_value)
                                     <option value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
                                 @endforeach
                             </select>

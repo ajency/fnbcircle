@@ -11,7 +11,7 @@ List View
 
 @section('js')
     <!-- Handle bars  -->
-    <script type="text/javascript" src="{{ asset('/node_modules/handlebars/dist/handlebars.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/handlebars/handlebars.min.js') }}"></script>
     <!-- FlexDatalist -->
     <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
 
@@ -71,7 +71,7 @@ List View
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="category_search" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
+                                                <input type="text" name="category_search" value="" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
@@ -93,7 +93,7 @@ List View
     <!-- banner ends -->
 
     <!-- Container -->
-    <div class="container">
+    <div class="container listings-page">
         <div class="row m-t-30 p-t-30 m-b-30 mobile-flex breadcrums-container mobile-hide">
             <div class="col-sm-8 flex-col">
                 <!-- Breadcrums -->
@@ -110,7 +110,7 @@ List View
                     </li>
                     <li class="fnb-breadcrums__section">
                         <a href="">
-                            <p class="fnb-breadcrums__title">Delhi</p>
+                            <p class="fnb-breadcrums__title state_label"> {{ ucfirst($city) }}</p>
                         </a>
                     </li>
                     <li class="fnb-breadcrums__section">
@@ -119,11 +119,12 @@ List View
                         </a>
                     </li>
                     <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title main-name">Meat &amp; Poultry</p>
-                        </a>
+                        <p class="fnb-breadcrums__title main-name category_label">All categories</p>
+                        <!-- <a href="">
+                            <p class="fnb-breadcrums__title main-name category_label">Meat &amp; Poultry</p>
+                        </a> -->
                     </li>
-                    <li class="fnb-breadcrums__section">
+                    <!-- <li class="fnb-breadcrums__section">
                         <a href="">
                             <p class="fnb-breadcrums__title">/</p>
                         </a>
@@ -132,7 +133,7 @@ List View
                         <a href="">
                             <p class="fnb-breadcrums__title main-name">Chicken</p>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- Breadcrums ends -->
             </div>
@@ -142,11 +143,11 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> {{ ucfirst($city) }}</h5>
+                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> <span class="text-lighter">in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> Chicken in {{ ucfirst($city) }}</p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> in <span class="state_label">{{ ucfirst($city) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -257,72 +258,10 @@ List View
                     
                     
                 </div>
-                <div class="filter-data m-t-30 send-enquiry-section">
-                    <div class="bg-card filter-cards add-card flex-row white-space mobile-hide">
-                        <div class="add-card__content">
-                            <p class="element-title heavier title flex-row">
-                                <img src="{{ asset('/img/business.png') }}" class="img-responsive p-r-10">
-                                Find Suppliers at<br> lowest rate
-                            </p>
-                            <p class="m-b-0 sub-title p-t-10 text-color">
-                                To get best deals, send your enquiry now.
-                            </p>
-                        </div>
-                        <div class="add-card__form">
-                            <form>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group p-t-10 p-b-10">
-                                            <input type="text" class="form-control fnb-input" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group p-t-10 p-b-10">
-                                            <input type="email" class="form-control fnb-input" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group p-t-10 p-b-10">
-                                            <input type="number" class="form-control fnb-input" placeholder="Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group p-t-10 p-b-10">
-                                            <select class="form-control fnb-select select-variant text-lighter">
-                                                <option>What describes you best</option>
-                                                <option>Pune</option>
-                                                <option>Delhi</option>
-                                                <option>Mumbai</option>
-                                                <option>Goa</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group p-t-10 p-b-10">
-                                            <label class="form-label">Message</label>
-                                            <textarea class="form-control fnb-textarea" col="2"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group p-t-10 p-b-0 m-b-0">
-                                            <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send an Enquiry</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="sticky-bottom  mobile-flex desk-hide">
-                        <div class="stick-bottom__text">
-                            <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
-                        </div>
-                        <div class="actions">
-                            <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send an Enquiry</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
+
+        <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button>
 
         <div class="site-overlay"></div>
     </div>

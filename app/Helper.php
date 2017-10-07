@@ -208,6 +208,12 @@ function isAdmin()
         return false;
     }
 }
- 
 
-
+/**
+* This function is used to get Popular city object that will be used in Every page dropdown -> Header page
+* This function will @return
+*	Filtered <City_obj> which has "is_popular_city" applied & ordered by "order"
+*/
+function getPopularCities() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+}

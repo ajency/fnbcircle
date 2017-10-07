@@ -77,7 +77,9 @@
                 </div>
                 <div class="body-right flex-cols">
                     <div class="operations">
-                        <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                        @if($list_value->premium)
+                            <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                        @endif
                         <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
                         <div class="operations__container">
                             @foreach($list_value->areas_operation as $locations_index => $locations_value)
@@ -161,4 +163,7 @@
             </div>
         </div>
     </div>
+    @if(($list_index + 1) % 5 === 0 && ($list_index + 1) < sizeof($listing_data))
+        @include("enquiries.listings_enquiry")
+    @endif
 @endforeach

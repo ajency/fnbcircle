@@ -39,6 +39,43 @@ class ListViewController extends Controller {
     		$filters["state"] = "";
     	}
 
+    	if($request->has("categories") && $request->categories) {
+			/*$category_search_filter = json_decode(explode("|", $request->categories)[1]);// Get the Node_categories list
+
+			if(isset($filters["categories"])) {
+				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
+			} else {
+				$filters["categories"] = is_array($category_search_filter) ? $category_search_filter : [$category_search_filter];
+			}*/
+    		$filters["category"] = array("id" => explode("|", $request->categories)[0]);
+		} else {
+			$filters["category"] = array("id" => 0);
+		}
+
+		if($request->has('listing_status') && $request->listing_status) {
+			$filters["listing_status"] = json_decode($request->listing_status);
+		} else {
+			$filters["listing_status"] = [];
+		}
+
+		if($request->has('business_types') && $request->business_types) {
+			$filters["business_type"] = json_decode($request->business_types);
+		} else {
+			$filters["business_type"] = [];
+		}
+
+    	if($request->has('areas_selected') && json_decode($request->areas_selected) && Area::whereIn('slug', json_decode($request->areas_selected))->count() > 0) {
+    		$category_search_filter = json_decode($request->areas_selected);
+
+			if(isset($filters["areas_selected"])) {
+				$filters["areas_selected"] = array_merge($filters["areas_selected"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
+			} else {
+				$filters["areas_selected"] = is_array($category_search_filter) ? $category_search_filter : [$category_search_filter];
+			}
+			
+			$filter_filters["areas_selected"] = $filters["areas_selected"];
+    	}
+    	
     	$filter_view_html = $this->getListFilterData($filters, true);
     	return view('list-view.business_listing', compact('header_type', 'filter_view_html', 'city'));
     }
@@ -52,7 +89,7 @@ class ListViewController extends Controller {
 
     	foreach ($keywords as $key => $value) {
     		$temp = null;
-    		if(strlen($value) > $min_str_len) {
+    		if(strlen($value) > $min_str_len && $search_key !== "id") {
 	    		$temp = $model->where($search_key, 'like', '%' . $value . '%');
 
 	    		//$output->writeln($temp->count());
@@ -63,6 +100,9 @@ class ListViewController extends Controller {
 	    		}*/ /*else {
 	    			$output->writeln($model->count());
 	    		}*/
+	    	} else if($search_key == "id") {
+	    		$temp = $model->where($search_key,  $value);
+	    		$model = $temp;
 	    	}
     	}
 
@@ -77,12 +117,11 @@ class ListViewController extends Controller {
     * This function is used to search the Keyword in the Area & City table
     */
     public function searchCity(Request $request) {
-		$city_obj = City::where('status', 1);
+		$city_obj = City::where('status', 1)->orderBy('order', 'asc');
 
 		if($request->has("search") && $request->search) { 
     		$response_data = $this->searchData($request->search, $city_obj, 'name', ['id', 'name', 'slug', 'status', 'order'], 0); // Get all the published State
     	} else {
-    		$city_obj = $city_obj->where('order', 1);
     		$response_data = $this->searchData('', $city_obj, 'name', ['id', 'name', 'slug', 'status', 'order'], 0);// Get all the Published state with Order '1' & Status 'published'
     	}
 
@@ -96,10 +135,14 @@ class ListViewController extends Controller {
     	//$is_parent = false;
 		$category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
 
-    	if($request->has("search") && $request->search) { 
-    		$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+		$output = new ConsoleOutput;
+
+		if($request->has("search") && $request->search) {
+			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
     	} else if($request->has("keyword") && $request->keyword) {
     		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+    	} else if ($request->has("load") && $request->load) {
+    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug'], 1, true);
     	} else { // return parent Data
     		//$is_parent = true;
     		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug'], 1, true);
@@ -109,17 +152,28 @@ class ListViewController extends Controller {
 
     	$response_data->each(function($category) {
 			$output = new ConsoleOutput;
+
 			if($category["level"] != 1) {
 				$temp = Category::where("id", $category["id"])->first();
 
-				while($temp["level"] > 1) {
+				while($temp["level"] > 1) { // Get the Parent Category
 					$temp = Category::where("id", $temp["parent_id"])->first();
 				}
 
 				$category["search_name"] = " in <b>" . $temp["name"] . "</b>";
+				//dd($category->path);
 			} else {
 				$category["search_name"] = "";
 			}
+
+			if($category["level"] != 3) {
+				$path_name = Category::where("id", $category["id"])->first()->path();
+				$category["node_children"] = Category::where([["path", 'like', $path_name . '%'], ["level", 3]])->pluck("id")->toArray(); // Get all the Node categories
+			} else {
+				$category["node_children"] = [$category->id];
+			}
+
+			$category["node_children"] = strVal($category["id"]) . "|" . json_encode($category["node_children"]);
 		});
 
     	return response()->json(array("data" => $response_data), 200);
@@ -138,35 +192,42 @@ class ListViewController extends Controller {
     	if($request->has("search") && $request->search) { 
     		$business_obj = new Listing;
 
+    		$output = new ConsoleOutput;
+    		$output->writeln("City");
+    		$output->writeln($request->has("city"));
+
+    		$output->writeln($request->has("search"));
+    		$output->writeln(json_encode($request->all()));
+
     		if($request->has("city") && $request->city) {
     			$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray();
     			$business_obj = $business_obj->whereIn('locality_id', $area_list);
     		}
 
-    		// if($request->has("category") && $request->category) {
-    		// 	$node_category_result = Category::where('id', $request->category);
-	    	// 	$node_category_result = $node_category_result->get();
-	    	// 	$array_ids = []; $array_id_list = [];
+    		if($request->has("category") && $request->category) {
+    			$node_category_result = Category::where('id', $request->category);
+	    		$node_category_result = $node_category_result->get();
+	    		$array_ids = []; $array_id_list = [];
 
-	    	// 	foreach($node_category_result as $category_index => $category_values) { // Get all the category list
-	    	// 		$array_ids = []; // Clear data
-		    // 		if($category_values->level < 3) { // If the level is not 3, then trace all the Node of the Parent / Branch
-		    // 			$array_ids = [$category_values->id];
+	    		foreach($node_category_result as $category_index => $category_values) { // Get all the category list
+	    			$array_ids = []; // Clear data
+		    		if($category_values->level < 3) { // If the level is not 3, then trace all the Node of the Parent / Branch
+		    			$array_ids = [$category_values->id];
 
-		    // 			for($i = $category_values->level; $i < 3; $i++) { // While the level is LESS THAN 3
-		    // 				$array_temp = [];
-		    // 				foreach ($array_ids as $key_id => $value_id) {
-		    // 					$array_temp = array_merge($array_temp, Category::where('parent_id', $value_id)->pluck('id')->toArray());
-		    // 				}
-		    // 				$array_ids = $array_temp; // Transfer the array value to the  new list
-		    // 			}
+		    			for($i = $category_values->level; $i < 3; $i++) { // While the level is LESS THAN 3
+		    				$array_temp = [];
+		    				foreach ($array_ids as $key_id => $value_id) {
+		    					$array_temp = array_merge($array_temp, Category::where('parent_id', $value_id)->pluck('id')->toArray());
+		    				}
+		    				$array_ids = $array_temp; // Transfer the array value to the  new list
+		    			}
 
-		    // 			$array_id_list = array_merge($array_id_list, $array_ids); // Merge the Level 3 IDs list to the array
-		    // 		} else {
-		    // 			$array_id_list = array_merge($array_id_list, [$category_values->id]); // Push this Category ID as the category is Level 3
-		    // 		}
-		    // 	}
-    		// }
+		    			$array_id_list = array_merge($array_id_list, $array_ids); // Merge the Level 3 IDs list to the array
+		    		} else {
+		    			$array_id_list = array_merge($array_id_list, [$category_values->id]); // Push this Category ID as the category is Level 3
+		    		}
+		    	}
+    		}
 
     		$response_data = $this->searchData($request->search, $business_obj, 'title', ['id', 'title', 'slug'], 2);
     	} else {
@@ -177,15 +238,122 @@ class ListViewController extends Controller {
     }
 
     /**
-    *
+    * This function will read the "filters" params & will generate an Array / Json values (with flags for the Checkbox) & if $render_html = "true", then render the blade with the values
+    * This function will @return
+    * 	"filter_data" if $render_html = false
+    *			AND
+    *	"html" if the $render_html = true
     */
     public function getListFilterData($filters=[], $render_html = false) {
+
+		$category_obj = new Category;
+		$path_breaker = array(1 => 0, 2 => 1, 3 => 2); // <level> => no of breaks
+
+		$filter_data["category"] = [];
+
+		/* If the category is defined in the filter param & the value exist, then get that "category's" Parent, Child, Name & Node Categories under that Category */
+    	if(isset($filters["category"]) && $filters["category"] && intVal($filters["category"]["id"]) > 0 ) {
+    		$cat_obj = $category_obj->where('id', $filters["category"]["id"])->get()->first();
+    		// Get the name & node_categories under it
+    		if($cat_obj->level < 3) {
+    			$node_categories = $category_obj->where([["path", 'like', $cat_obj->path() . '%'], ["level", 3]])->pluck("id")->toArray();
+    		} else {
+    			$node_categories = [$cat_obj->id];
+    		}
+    		$filter_data["category"] = array("name" => $cat_obj->name, "node_categories" => strVal($cat_obj->id) . "|" . json_encode($node_categories));
+
+			// Find the parent & Grand-parent
+    		if($cat_obj->level > 1) {
+    			$filter_data["category"]["parent"] = [];
+    			for($i = $cat_obj->level; $i > 1; $i--) {
+    				$filter_data["category"]["parent"] = array_merge($filter_data["category"]["parent"], 
+		    			$category_obj->where("id", intVal(substr($cat_obj->path(), $path_breaker[$i - 1] * 5, 5)))->get()->each(function($parent_cat){
+		    				$temp_cat_obj = new Category;
+
+		    				if($parent_cat->level < 3) {
+				    			$node_categories = $temp_cat_obj->where([["path", 'like', $parent_cat->path() . '%'], ["level", 3]])->pluck("id")->toArray();
+				    		} else {
+				    			$node_categories = [$parent_cat->id];
+				    		}
+		    								
+							$parent_cat["node_categories"] = strVal($parent_cat->id) . "|" . json_encode($node_categories);
+		    			})->toArray()
+		    		);
+		    	}
+		    	$filter_data["category"]["parent"] = array_reverse($filter_data["category"]["parent"], true);
+	    	} else {
+	    		$filter_data["category"]["parent"] = [];
+	    	}
+    		
+    		// Find the children
+    		$filter_data["category"]["children"] = $category_obj->where([["path", "like", $cat_obj->path() . "%"], ["level", $cat_obj->level + 1]])->get()->each(function($child_cat) {
+				$temp_cat_obj = new Category;
+
+				if($child_cat->level < 3) {
+	    			$node_categories = $temp_cat_obj->where([["path", 'like', $child_cat->path() . '%'], ["level", 3]])->pluck("id")->toArray();
+	    		} else {
+	    			$node_categories = [$child_cat->id];
+	    		}
+
+				$child_cat["node_categories"] = strVal($child_cat->id) . "|" . json_encode($node_categories);
+			})->toArray();
+    	} else {
+    		$filter_data["category"] = array("parent" => [], "node_categories" => "0|[]", "name" => "");
+			
+			$filter_data["category"]["children"] = $category_obj->where("level",1)->get()->each(function($category_val) {
+				$temp_cat_obj = new Category;
+
+				if($category_val->level < 3) {
+	    			$node_categories = $temp_cat_obj->where([["path", 'like', $category_val->path() . '%'], ["level", 3]])->pluck("id")->toArray();
+	    		} else {
+	    			$node_categories = [$category_val->id];
+	    		}
+
+				$category_val["node_categories"] = strVal($category_val->id) . "|" . json_encode($node_categories);
+			})->toArray();
+    	}
     	
+    	/* if state filter is passed, then get all the areas to be displayed in the filter */
     	if(isset($filters["state"]) && $filters["state"]) {
     		$filter_data["areas"] = City::where('slug', $filters["state"])->first()->areas()->get()->toArray();
     	} else {
     		$filter_data["areas"] = [];
     	}
+
+    	if(isset($filters["areas_selected"])) {
+    		$filter_data["areas_selected"] = $filters["areas_selected"];
+    	} else {
+    		$filter_data["areas_selected"] = [];
+    	}
+
+    	/* If business_type filter is selected or exist then update the values */
+    	$filter_data["business_type"]["value"] = Listing::listing_business_type;
+    	$filter_data["business_type"]["status"] = [];
+
+		if(isset($filters["business_type"])) {
+    		foreach ($filter_data["business_type"]["value"] as $key => $value) {
+    			if(in_array($key, $filters["business_type"])) {
+    				$filter_data["business_type"]["status"][$key] = "checked";
+    			} else {
+    				$filter_data["business_type"]["status"][$key] = "";
+    			}
+    		}
+    	}    	
+
+    	/* If listing_status filter is selected or exist then update the values */
+    	$filter_data["listing_status"]["value"] = array("premium" => "Premium", "verified" => "Verified");
+    	$filter_data["listing_status"]["status"] = [];
+
+    	if(isset($filters["listing_status"])) {
+    		foreach ($filter_data["listing_status"]["value"] as $key => $value) {
+    			if(in_array($key, $filters["listing_status"])) {
+    				$filter_data["listing_status"]["status"][$key] = "checked";
+    			} else {
+    				$filter_data["listing_status"]["status"][$key] = "";
+    			}
+    		}
+    	}
+    	$filter_data["star_ratings"] = array(5 => 100, 4 => 80, 3 => 60, 2 => 40, 1 => 20);
 
     	if($render_html) {
     		return $filter_view_html = View::make('list-view.single-card.listing_filter')->with(compact('filter_data'))->render();
@@ -212,9 +380,9 @@ class ListViewController extends Controller {
 			}
 
 			$listing_obj = $listing_obj->where("status", 1); // [1 -> "published", 2 -> "review", 3 -> "draft", 4 -> "archived", 5 -> "rejected"]
-	    	
-	    	if(isset($filters['categories']) && $filters['categories']) {
-	    		$node_category_result = Category::whereIn('id', $filters['categories']);
+	    		
+	    	if(isset($filters['categories']) && sizeof($filters['categories']) > 0) {
+	    		/*$node_category_result = Category::whereIn('id', $filters['categories']);
 	    		$node_category_result = $node_category_result->get();
 	    		$array_ids = []; $array_id_list = [];
 
@@ -237,14 +405,15 @@ class ListViewController extends Controller {
 		    		}
 		    	}
 
-		    	$array_id_list = array_unique($array_id_list); // Remove duplicate IDs
+		    	$array_id_list = array_unique($array_id_list); // Remove duplicate IDs*/
 
-	    		$listing_ids = ListingCategory::whereIn('category_id', $array_id_list)->pluck('listing_id')->toArray();
+	    		$listing_ids = ListingCategory::whereIn('category_id', $filters['categories'])->pluck('listing_id')->toArray();
 	    		$listing_obj = $listing_obj->whereIn("id", $listing_ids);
 	    	}
 
 	    	if(isset($filters["areas"]) && sizeof($filters["areas"]) > 0) { // If list of area is selected, then
-    			$listing_obj = $listing_obj->whereIn('locality_id', $filters["areas"]);
+	    		$area_ids = Area::whereIn('slug', $filters["areas"])->pluck("id")->toArray();
+    			$listing_obj = $listing_obj->whereIn('locality_id', $area_ids);
     		}
 
 			if(isset($filters["business_type"]) && sizeof($filters["business_type"]) > 0) { // If list of business_type is selected, then
@@ -256,9 +425,13 @@ class ListViewController extends Controller {
     		}
 
     		if(isset($filters["listing_status"]) && sizeof($filters["listing_status"]) > 0) { // If list of listing_status is selected, then
-    			foreach ($filters["listing_status"] as $key_listing => $value_listing) {
-    				$listing_obj = $listing_obj->orWhere($value_listing, true); // 'verified' => true || 'premium' => 'true'
-    			}
+    			//$listing_obj = $listing_obj->orWhere($value_listing, true); // 'verified' => true || 'premium' => 'true'
+    			$listing_status = $filters["listing_status"];
+				$listing_obj = $listing_obj->where(function($query) use ($listing_status){
+					foreach ($listing_status as $key_listing => $value_listing) {
+						$query->orWhere($value_listing, true);// 'verified' => true || 'premium' => 'true'
+					}
+				});
     		}
 
     		if(isset($filters["ratings"]) && sizeof($filters["ratings"]) > 0) { // If list of ratings are selected, then
@@ -267,7 +440,7 @@ class ListViewController extends Controller {
 
 	    	$filtered_count = $listing_obj->distinct('id')->count('id');
 	    	
-	    	$listing_obj = $listing_obj->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address']);// , 'rating']);
+	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium']);// , 'rating']);
 
 	    	$listing_obj = $listing_obj->each(function($list){ // Get following data for each list
 	    		$list["area"] = $list->location()->get(["id", "name", "slug"])->first(); // Get the Primary area
@@ -307,11 +480,15 @@ class ListViewController extends Controller {
     * array("data" => [], "filters_count" => 78, "total_count" => 100)
     */
     public function getListViewData(Request $request) {
-    	$status = 200;
+    	$status = 200; $filter_filters = [];
     	$filter_mapping = array("published" => "created_at", "rank" => "", "views" => "views_count");
+
+    	$output = new ConsoleOutput;
+    	//$output->writeln(json_encode($request->all()));
 
     	if($request->has("filters")) {
     		$filters = $request->filters;
+    		$filters["categories"] = [];
     	} else {
     		$filters = [];
     	}
@@ -332,12 +509,69 @@ class ListViewController extends Controller {
     			}
     		}
 
+    		// If a Category is selected from the List from the Search box
     		if(isset($request->filters["category_search"])) {
+    			$category_search_filter = json_decode(explode("|", $request->filters["category_search"])[1]);// Get the Node_categories list
     			if(isset($filters["categories"])) {
-    				$filters["categories"] = array_merge($filters["categories"], [$request->filters["category_search"]]);
+    				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
     			} else {
-    				$filters["categories"] = [$request->filters["category_search"]];
+    				$filters["categories"] = is_array($category_search_filter) ? $category_search_filter : [$category_search_filter];
     			}
+
+    			$filter_filters["category"] = array("id" => explode("|", $request->filters["category_search"])[0]);
+    		}
+
+    		// If a Category is selected from the List on the Left-hand side
+    		if(isset($request->filters["categories"])) {
+    			$category_search_filter = json_decode(explode("|", $request->filters["categories"])[1]);// Get the Node_categories list
+
+    			if(isset($filters["categories"])) {
+    				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
+    			} else {
+    				$filters["categories"] = is_array($category_search_filter) ? $category_search_filter : [$category_search_filter];
+    			}
+    			
+    			$filter_filters["category"] = array("id" => explode("|", $request->filters["categories"])[0]);
+    		}
+
+    		if(isset($request->filters["listing_status"]) && $request->filters["listing_status"]) {
+				$filters["listing_status"] = json_decode($request->listing_status);
+			} else {
+				$filters["listing_status"] = [];
+			}
+
+    		// If 1 or more areas are selected then update the list
+    		if(isset($request->filters["areas_selected"])) {
+    			$area_search_filter = $request->filters["areas_selected"];// Get the Node_categories list
+
+    			if(isset($filters["areas"])) {
+    				$filters["areas"] = array_merge($filters["areas"], is_array($area_search_filter) ? $area_search_filter : [$area_search_filter]);
+    			} else {
+    				$filters["areas"] = is_array($area_search_filter) ? $area_search_filter : [$area_search_filter];
+    			}
+    			
+    			$filter_filters["areas_selected"] = $filters["areas_selected"];
+    		}
+
+    		if(isset($request->filters["business_types"]) && $request->filters["business_types"]) {
+    			$filters["business_type"] = $request->filters["business_types"];
+    			$filter_filters["business_type"] = $request->filters["business_types"];
+    		} else {
+    			$filters["business_type"] = [];
+    			$filter_filters["business_type"] = [];
+    		}
+
+    		// If 1 or more listing_statuses are selected then update the list
+    		if(isset($request->filters["listing_status"])) {
+    			$listing_search_filter = $request->filters["listing_status"];// Get the Node_categories list
+
+    			if(isset($filters["listing_status"])) {
+    				$filters["listing_status"] = array_merge($filters["listing_status"], is_array($listing_search_filter) ? $listing_search_filter : [$listing_search_filter]);
+    			} else {
+    				$filters["listing_status"] = is_array($listing_search_filter) ? $listing_search_filter : [$listing_search_filter];
+    			}
+    			
+    			$filter_filters["listing_status"] = $filters["listing_status"];
     		}
     	}
 
@@ -345,7 +579,6 @@ class ListViewController extends Controller {
     	$listing_data = $filtered_list_response["data"];
     	$list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data'))->render();
 
-    	$filter_filters = [];
     	if($request->has('state') && $request->state && City::where('slug', $request->state)->count() > 0) {
     		$filter_filters["state"] = $request->state;
     		$city = $request->state;
@@ -355,6 +588,7 @@ class ListViewController extends Controller {
     		$filter_filters["state"] = "";
     	}
 
+    	//$output->writeln(json_encode($filter_filters));
     	$filter_view_html = $this->getListFilterData($filter_filters, true);
 
     	return response()->json(array("data" => ["list_view" => $list_view_html, "filter_view" => $filter_view_html], "count" => $filtered_list_response["filtered_count"], "page" => $filtered_list_response["start"], "page_size" => $filtered_list_response["page_limit"]), $status);

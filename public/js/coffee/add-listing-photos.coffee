@@ -9,7 +9,7 @@ image_dropify = $('.list-image').dropify messages:
   'default': 'Add photo'
   'replace': 'Replace photo'
   'remove': '<i class="">&#10005;</i>'
-  # 'error': 'Ooops, something wrong happended.'
+  'error': ''
 
 
 
@@ -34,6 +34,8 @@ file_dropify.on 'dropify.errors', (event, element) ->
     ef = 0
     return
   ), 2000
+  $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+  $(this).closest('.image-grid__cols').find('.doc-name').val ""
   return
 
 # ---
@@ -47,6 +49,7 @@ $('body').on 'click', '.add-uploader', (e)->
   e.preventDefault()
   max = parseInt document.head.querySelector('[property="max-file-upload"]').content
   if(fileuploaders< max)
+    $('#more-file-error').html('')
     console.log fileuploaders+' < '+max
     fileuploaders++
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
@@ -60,18 +63,20 @@ $('body').on 'click', '.add-uploader', (e)->
       'default': 'Upload file'
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
-      # 'error': 'Ooops, something wrong happended.'
+      'error': ''
     # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
     # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'    
     $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
   else
     console.log 'max '+max+' allowed'
+    $('#more-file-error').html('Cannot upload more than 20 files')
     #throw error
 
 # Remove file section
 
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
+  $('#more-file-error').html('')
   fileuploaders--
   $(this).parent().remove()
 
@@ -121,6 +126,8 @@ uploadFile = (container,type)->
       formData.append 'name', ''
     else  
       formData.append 'name', container.find('input.doc-name').val()
+      # formData.append 'name', ''
+      container.find('input.doc-name').val('')
     formData.append 'listing_id', document.getElementById('listing_id').value
     xhr = new XMLHttpRequest
     xhr.open 'POST', url
@@ -135,6 +142,13 @@ uploadFile = (container,type)->
         else
           #throw some error
           $container.find('input[type="file"]').val ''
+          container.find(".image-loader").addClass('hidden')
+          $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please check your internet connection and retry</div>'
+          $('.alert-failure').addClass 'active'
+          setTimeout (->
+            $('.alert-failure').removeClass 'active'
+            return
+          ), 6000
       else
         #throw some error
       return
@@ -150,6 +164,7 @@ image_dropify.on 'dropify.afterClear', (event, element) ->
 file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
+  $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
   # $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
   console.log "file deleted"
   return

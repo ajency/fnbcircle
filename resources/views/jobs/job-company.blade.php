@@ -19,7 +19,7 @@
 @include('jobs.notification')
  
 <input type="hidden" name="_method" value="PUT">
-<input type="hidden" name="step" value="step-two">
+<input type="hidden" name="step" value="company-details">
  
  
 

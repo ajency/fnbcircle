@@ -43,7 +43,7 @@ class CreateDefaultsTable extends Migration
              
         // }
 
-        $salaryTypes = ['1'=>'Annualy','2'=>'Monthly','3'=>'Daily','4'=>'Hourly'];
+        $salaryTypes = ['1'=>'Annually','2'=>'Monthly','3'=>'Daily','4'=>'Hourly'];
 
         foreach ($salaryTypes as $key => $salaryType) {
             $default = new Defaults;

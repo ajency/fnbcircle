@@ -387,6 +387,10 @@ $(function(){
 
 		$(document).ready(function() {
 
+			if(window.location.hash.length > 0 && window.location.hash.indexOf("_=_") > -1) { // If "_=_" exist in the URL (appears post FB login)
+				hash_array = window.location.hash.split("_=_");
+				window.location.hash = hash_array[0] + hash_array[1]; // Remove the _=_ from the URL
+			}
 
 			if ($("#register_form").length) { // Load only if #register_form exist in the Page
 				$("#register_form input[name='contact']").intlTelInput(); // Initialize
@@ -574,7 +578,7 @@ $(function(){
 				} else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
 					$(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'is_email_account') { // Account exist & linked via Email Login
+				} else if (message_key == 'is_email_account' || message_key == 'is_email_signup_account') { // Account exist & linked via Email Login
 					$(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
 				} else if (message_key == 'account_suspended') {
@@ -618,7 +622,9 @@ $(function(){
 				window.history.pushState('', '', url);
 			}
 
-			$('#requirement_form_btn').click(function() { // On click of Requirement Popup "Save" btn
+			$('#requirement_form_btn').click(function(e) { // On click of Requirement Popup "Save" btn
+				e.preventDefault();
+
 	            var descr_values = [], parent = "#requirement_form";
 
 	            $.each($(parent + " input[name='description[]']:checked"), function() {
@@ -632,7 +638,7 @@ $(function(){
 	            var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact_locality" : $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
                 	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
@@ -646,7 +652,7 @@ $(function(){
                 	request_data["is_contact_verified"] = false;
                 }
 
-				if(validateUser(request_data, parent)) {
+                if(validateUser(request_data, parent)) {
 					$("#requirement_form_btn i.fa-spin").removeClass("hidden");
 		            $.ajax({
 		                url: '/api/requirement',
@@ -672,9 +678,13 @@ $(function(){
 		        } else {
 		        	console.log("fields not filled");
 		        }
+
+		        e.stopImmediatePropagation();
 	        });
 
-	        $("#register_form_btn").click(function() { // On Register form submit btn click
+	        $("#register_form_btn").click(function(e) { // On Register form submit btn click
+	        	e.preventDefault();
+
 	        	var parent = "#register_form";
 	        	var contact = "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode + $(parent + " input[name='contact']").val();//$(parent + " input[name='contact']").intlTelInput("getNumber");//$(parent + " input[name='contact_locality']").val() + $(parent + " input[name='contact']").val();
 				var descr_values = [];
@@ -686,7 +696,7 @@ $(function(){
 				var request_data = {
                 	"name": $(parent + " input[name='name']").val(),
                 	"email": $(parent + " input[name='email']").val(),
-                	"contact_locality" : "+" + $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
+                	"contact_locality" : $(parent + " input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode,
                 	"contact": $(parent + " input[name='contact']").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
@@ -703,6 +713,7 @@ $(function(){
                 	}
                 }
 
+                e.stopImmediatePropagation();
                 return false;
 	        });
 

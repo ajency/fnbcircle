@@ -89,7 +89,9 @@ $('#add_category_modal').on 'show.bs.modal', (e) ->
   $('#add_category_modal input[type="file"]').val ''
   $('#add_category_modal input[type="file"]').dropify()
   $('#add_category_modal .dropify-clear').click();
+  $('.parent_cat_icon .dropify-clear').html('<span>&#10005;</span>')
   return
+
 
 
 $('body').on 'change', 'input[type=radio][name=categoryType]', ->
@@ -471,3 +473,6 @@ $('#edit_category_modal').on 'click','.save-btn', (e)->
   #     $('.alert-failure #message').html "An unknown error occured.<br>Please reload and try again"
   #     $('.alert-failure').addClass 'active'
   #     return
+
+
+

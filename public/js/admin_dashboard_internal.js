@@ -266,7 +266,11 @@
             console.log(data);
             $("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass("hidden");
             $("#add_newuser_modal").modal("hide");
-            $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new User");
+            if (url_type === "add") {
+              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("Successfully created new User");
+            } else {
+              $(".admin_internal_users.right_col").parent().find('div.alert-success #message').text("User updated successfully");
+            }
             setTimeout((function() {
               $(".admin_internal_users.right_col").parent().find('div.alert-success').addClass('active');
             }), 1000);
@@ -314,6 +318,9 @@
       row = $(this).closest('tr');
       modal_object = $("#add_newuser_modal");
 
+      /* --- Reset the Parsley error messages --- */
+      modal_object.find("#add_newuser_modal_form").parsley().reset();
+
       /* --- Update the Modal Title --- */
       modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text("Edit Internal User");
       modal_object.find("input[type='hidden'][name='form_type']").val("edit");
@@ -334,12 +341,17 @@
       /* --- Select the user's Role --- */
       modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()]);
       modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true);
+      modal_object.find('.createSave').addClass('hidden');
+      modal_object.find('.editSave').removeClass('hidden');
     });
     $(document).on("click", "div.admin_internal_users div.page-title button.btn-link", function() {
 
       /* --- On click of Add New User -> On modal open --- */
       var modal_object;
       modal_object = $("#add_newuser_modal");
+
+      /* --- Reset the Parsley error messages --- */
+      modal_object.find("#add_newuser_modal_form").parsley().reset();
 
       /* --- Update the Modal Title --- */
       modal_object.find("#add_newuser_modal_form .modal-header h6.modal-title").text("Add New Internal User");
@@ -361,13 +373,15 @@
 
       /* --- Enable the Password option --- */
       modal_object.find("input[type='password'][name='password']").removeAttr("disabled");
-      modal_object.find("input[type='password'][name='password']").attr("required", "true");
-      modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').removeClass('hidden').val('');
+      modal_object.find("input[type='password'][name='password']").attr("required", "true").val('');
+      modal_object.find("input[type='password'][name='password']").closest('div.col-sm-6').removeClass('hidden');
 
       /* --- Enable the Confirm-Password option --- */
       modal_object.find("input[type='password'][name='confirm_password']").removeAttr("disabled");
-      modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true");
-      modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden').val('');
+      modal_object.find("input[type='password'][name='confirm_password']").attr("required", "true").val('');
+      modal_object.find("input[type='password'][name='confirm_password']").closest('div.col-sm-6').removeClass('hidden');
+      modal_object.find('.createSave').removeClass('hidden');
+      modal_object.find('.editSave').addClass('hidden');
     });
   });
 

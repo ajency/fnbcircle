@@ -34,7 +34,7 @@
 				),
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "student", "for" => "student", "title" => "Hospitality Student",
-					"content" => "Consultants, Media, Investors, Foodie, etc"
+					"content" => "If you are pursuing your education in hospitality sector currently"
 				),
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "enterpreneur", "for" => "enterpreneur", "title" => "Prospective Entrepreneur",
@@ -42,7 +42,7 @@
 				),
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "others", "for" => "others", "title" => "Others",
-					"content" => "Consultants, Media, Investors, etc"
+					"content" => "Consultants, Media, Investors, Foodie, etc"
 				)
 		]		
 	];

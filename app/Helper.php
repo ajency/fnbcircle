@@ -198,15 +198,90 @@ function getCommunicationContactDetail($objectId,$objectType,$type){
 
 function isAdmin()
 {
-    $roleId = App\Role::where('name','superadmin')->first()->id;
-    if(Auth::check() && Auth::user()->role_id==$roleId)
-    {
+    if(Auth::check() && Auth::user()->hasRole('superadmin'))
         return true;
-    }
     else
-    {
         return false;
+}
+ 
+
+function moneyFormatIndia($amount){
+    $num = floatval($amount);
+    $splitNum = explode('.', $amount);
+    $num = $splitNum[0];
+    $decimalValue = (isset($splitNum[1]))? '.'.$splitNum[1] : '';
+
+
+    $explrestunits = "" ;
+    if(strlen($num)>3){
+        $lastthree = substr($num, strlen($num)-3, strlen($num));
+        $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+        $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+        $expunit = str_split($restunits, 2);
+        for($i=0; $i<sizeof($expunit); $i++){
+            // creates each of the 2's group and adds a comma to the end
+            if($i==0)
+            {
+                $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+            }else{
+                $explrestunits .= $expunit[$i].",";
+            }
+        }
+        $thecash = $explrestunits.$lastthree;
+    } else {
+        $thecash = $num;
     }
+    return $thecash.$decimalValue; // writes the final format where $currency is the currency symbol.
+}
+
+function salarayTypeText($type){
+   $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
+
+   return $salaryTpes[$type];
+}
+
+function pagination($totalRecords,$currentPage,$limit){
+
+	$currentPage = (!$currentPage)? 1 : $currentPage;
+	$totalPages = intVal(ceil($totalRecords/$limit)); 
+	$next = false;
+	$previous = false;
+	$html = '';
+	$endCounterValue = ($currentPage >= 5 )? 5 : 10-$currentPage;
+
+	if($totalPages > 1){
+
+
+		if($currentPage > 4){
+			$previous = true;
+			$startPage = $currentPage-4;
+		}
+		else
+			$startPage = 1;
+
+		 
+		if(($currentPage + $endCounterValue) < $totalPages){
+			$next = true;
+			$endPage = $currentPage+$endCounterValue;
+		}
+		else
+			$endPage = $currentPage+ ($totalPages-$currentPage);
+ 
+		if($previous)
+			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> |';
+
+		for ($i=$startPage; $i <= $endPage; $i++) { 
+			$active = ($i == $currentPage) ? 'active' : '';
+			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a> |';
+		}
+
+		if($next)
+			$html .= ' <a href="javascript:void(0)" class="paginate next" page="'.($endPage+1).'">next</a>';
+
+	}
+
+
+	return $html;
 }
 
 /**

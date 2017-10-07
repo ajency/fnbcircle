@@ -31,7 +31,7 @@
                             <input text="tel" class="fnb-input text-color value-enter change-contact-input" placeholder="Enter new number..." data-parsley-errors-container="#phoneError">
                             <button class="btn fnb-btn primary-btn border-btn verify-stuff" type="button">Verify</button>
                         </div>
-                        <div id="phoneError" class="customError fnb-errors"></div>
+                        <div id="phoneError" class="customError fnb-errors text-left"></div>
                     </div>
                 </div>
                 <div class="verify-steps processing hidden">

@@ -34,10 +34,17 @@ class Job extends Model
     }
 
     public function jobStatuses(){
-    	// $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
-    	$statuses =  getDefaultValues("job_status",2);
-
+ 
+    	// $statuses =  getDefaultValues("job_status",2);
+        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Published','4'=>'Archived','5'=>'Rejected'];
     	return $statuses;
+    }
+
+    public function jobStatusesToChange(){
+ 
+        // $statuses =  getDefaultValues("job_status",2);
+        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Publish','4'=>'Archiv','5'=>'Reject'];
+        return $statuses;
     }
 
     public function jobCategories(){
@@ -63,8 +70,11 @@ class Job extends Model
     }
 
     public function getJobStatus(){
-        $jobStatus = Defaults::find($this->status); 
-        $jobStatus = strtolower($jobStatus->label);
+        // $jobStatus = Defaults::find($this->status); 
+        // $jobStatus = strtolower($jobStatus->label);
+        $jobStatuses = $this->jobStatuses();
+        $jobStatus = $jobStatuses[$this->status]; 
+        
         return ucwords($jobStatus);
     }
 
@@ -401,10 +411,40 @@ class Job extends Model
         
     }
 
-    // private function getFilteredJobs($jobs,$filters){
-     
-    //     return $jobs;
-    // }
+    public function jobChangeStatus(){
+        if(isAdmin()){
+            $status[1] = 2; 
+            $status[2] = 3;
+            $status[3] = 4; 
+            $status[4] = 3; 
+        }
+        else{
+            $status[1] = 2; 
+            $status[3] = 4; 
+            $status[4] = 3; 
+        }
+ 
+        return $status;
+        
+    }
+
+   public function getNextActionButton(){
+        $statusChange = $this->jobChangeStatus();
+        $status = $this->status;
+
+        if(isset($statusChange[$status]) && $status>2){
+            $statusToChangeId = $statusChange[$status];
+            $jobStatusesToChange = $this->jobStatusesToChange();
+            $statusToChange = ucwords($jobStatusesToChange[$statusToChangeId]);
+
+            return ['id'=>$statusToChangeId,'status'=>$statusToChange];
+        }
+        else
+          return false;  
+        
+
+
+   }
 
     
 }

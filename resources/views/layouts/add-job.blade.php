@@ -125,9 +125,18 @@
                                             <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
                                             @endif
 
+
+
                                             </div>
                                             @if($job->submitForReview()) 
-                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                           
+                                            @endif
+
+                                            @if($job->getNextActionButton())
+                                                @php
+                                                $nextActionBtn =$job->getNextActionButton();
+                                                @endphp
+                                             <a href="" >{{ $nextActionBtn['status'] }}</a>
                                             @endif
                                         </div>
                                     </div>

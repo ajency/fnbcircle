@@ -18,6 +18,7 @@ use Auth;
 use Session;
 use App\UserCommunication;
 use View;
+use \Input;
 
 class JobController extends Controller
 {
@@ -623,8 +624,7 @@ class JobController extends Controller
         return $request;
     }
 
-    public function getKeywords(Request $request)
-    { 
+    public function getKeywords(Request $request){ 
         $this->validate($request, [
             'keyword' => 'required',
         ]);
@@ -734,29 +734,71 @@ class JobController extends Controller
 
             $jobQuery->where(function($expQuery)use($minMaxExperience)
             {
-                $expQuery->where(function($query)use($minMaxExperience)
+                $expQuery->where(function($expQuery)use($minMaxExperience)
                 {
-                    $minExp = $minMaxExperience['lower'];
-                    $maxExp = $minMaxExperience['upper'];
-                    $query->where('jobs.experience_years_lower','>=',$minExp); 
-                    $query->where('jobs.experience_years_lower','<=',$maxExp); 
+                    $expQuery->where(function($query)use($minMaxExperience)
+                    {
+                        $minExp = $minMaxExperience['lower'];
+                        $maxExp = $minMaxExperience['upper'];
+                        $query->where('jobs.experience_years_lower','>=',$minExp); 
+                        $query->where('jobs.experience_years_lower','<=',$maxExp); 
+                    });
+
+                
+                    $expQuery->orWhere(function($query)use($minMaxExperience)
+                    {
+                        $minExp = $minMaxExperience['lower'];
+                        $maxExp = $minMaxExperience['upper'];
+                        $query->where('jobs.experience_years_upper','>=',$minExp); 
+                        $query->where('jobs.experience_years_upper','<=',$maxExp); 
+                    });
                 });
 
-            
+                //for not disclosed exp
                 $expQuery->orWhere(function($query)use($minMaxExperience)
                 {
-                    $minExp = $minMaxExperience['lower'];
-                    $maxExp = $minMaxExperience['upper'];
-                    $query->where('jobs.experience_years_upper','>=',$minExp); 
-                    $query->where('jobs.experience_years_upper','<=',$maxExp); 
+                    $query->where('jobs.experience_years_lower',0); 
+                    $query->where('jobs.experience_years_upper',0); 
                 });
             });
+            
+        }
 
-            //for not disclosed exp
-            $jobQuery->orWhere(function($query)use($minMaxExperience)
+        if(isset($filters['salary_type']) && !empty($filters['salary_type']))
+        {
+            $salaryLower = $filters['salary_lower'];
+            $salaryUpper = $filters['salary_upper'];
+            $salaryType = $filters['salary_type'];
+
+            
+
+            $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
-                $query->where('jobs.experience_years_lower',0); 
-                $query->where('jobs.experience_years_upper',0); 
+                $salaryQry->where('jobs.salary_type',$salaryType); 
+                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper)
+                {
+                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                    {
+                        $query->where('jobs.salary_lower','>=',$salaryLower); 
+                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                    });
+
+                
+                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                    {
+     
+                        $query->where('jobs.salary_upper','>=',$salaryLower); 
+                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                    });
+                });
+
+                //for not disclosed salary
+                $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
+                {
+                    $query->where('jobs.salary_lower',0); 
+                    $query->where('jobs.salary_upper',0); 
+                    $query->where('jobs.salary_type',0); 
+                });
             });
             
         }
@@ -790,18 +832,33 @@ class JobController extends Controller
 
 
 
-    public function jobListing($serachCity){ 
+    public function jobListing(Request $request,$serachCity){ 
         $cities  = City::where('status', 1)->orderBy('name')->get();
-        
+        $requestData = $request->all();  
         $job    = new Job;
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();
         $defaultExperience  = $job->jobExperience();
 
+        //get filter values
+        if(isset($requestData['category']) && $requestData['category']!=""){
+            $categoryName = Category::find($requestData['category']);
+            $requestData['category_name'] = (!empty($categoryName)) ? $categoryName->name : '';
+        }
+
+        if(isset($requestData['job_type']) && $requestData['job_type']!=""){
+            $requestData['job_type'] = json_decode($requestData['job_type']);
+        }
+
+        if(isset($requestData['experience']) && $requestData['experience']!=""){
+            $requestData['experience'] = json_decode($requestData['experience']);
+        }
+         
         return view('jobs.job-listing')->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)
                                        ->with('salaryTypes', $salaryTypes)
                                        ->with('defaultExperience', $defaultExperience)
+                                       ->with('urlFilters', $requestData)
                                        ->with('serachCity', $serachCity);
     }
 
@@ -812,8 +869,17 @@ class JobController extends Controller
         $orderDataBy = ['created_at'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
+
+        //convert to array 
         $city[] =  $filters['city']; 
         $filters['city'] = $city;
+
+        if(!empty($filters['category'])){
+            $category[] =  $filters['category']; 
+            $filters['category'] = $category;
+        }
+        
+
         $filterJobs = $this->filterJobs($filters,$startPage,$length,$orderDataBy);
 
         $jobs = $filterJobs['jobs'];

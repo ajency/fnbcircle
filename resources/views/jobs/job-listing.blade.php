@@ -40,9 +40,27 @@ Job Listing
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
+                                    
+   
                                         <select name="job_city" class="form-control fnb-select search-job">
                                         @foreach($cities as $city)
-                                        <option @if($serachCity==$city->name) selected @endif value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @php
+                                            $selectedCity = '';
+
+                    
+                                            if(isset($urlFilters['city'])){
+                                                
+                                                if($urlFilters['city']== $city->id)
+                                                    $selectedCity = 'selected';
+                                            } 
+                                            elseif($serachCity== $city->name){
+                                               $selectedCity = 'selected';
+                                            }
+                                             
+                                                
+                                                                              
+                                        @endphp
+                                        <option {{ $selectedCity }}  value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
                                         </select>
                                     </div>
@@ -56,13 +74,14 @@ Job Listing
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" class="form-control fnb-input search-job" placeholder="Start typing to search category...">
+                                                <input type="text" name="search_category" class="form-control fnb-input job-categories flexdatalist" placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@else '' @endif">
+                                                <input type="hidden" name="category_id" value="@if(isset($urlFilters['category'])){{ $urlFilters['category'] }}@endif">  
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input search-job" placeholder="Search for a specific job">
+                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input search-job" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
                                             </div>
                                         </div>
                                       </div>

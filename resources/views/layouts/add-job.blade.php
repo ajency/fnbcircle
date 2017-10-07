@@ -6,7 +6,7 @@
     <!-- Dropify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dropify.css') }}">
     <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
     <!-- multiselect -->
     <link href="{{ asset('css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
     <!-- Ckeditor -->
@@ -21,7 +21,7 @@
     <!-- Dropify -->
     <script type="text/javascript" src="{{ asset('js/dropify.js') }}"></script>
     <!-- jquery tags -->
-    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
 
       <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}" ></script>
     <!-- Custom file input -->

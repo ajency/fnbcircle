@@ -48,7 +48,7 @@
                   <div class="filter-group__body filter-row collapse in" id="section-area">
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                          <input type="text" class="form-control fnb-input search-input text-color" placeholder="Search an area">
+                          <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an area">
                       </div>
                       <div class="check-section area-list">
                           <label class="sub-title flex-row clear hidden">
@@ -79,7 +79,7 @@
                           </label>
                           @foreach($jobTypes as $jobTypeId => $jobType)
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox" name="job_type[]" class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}">
+                              <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array($jobTypeId,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}">
                               <span>{{ $jobType }}</span>
                           </label>
                           @endforeach
@@ -102,7 +102,7 @@
                           </label>
                           @foreach($defaultExperience as $jobTypeId => $experience)
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job" value="{{ $experience }}">
+                              <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job" @if((isset($urlFilters['experience'])) && (!empty($urlFilters['experience'])) && in_array($experience,$urlFilters['experience'])) checked @endif value="{{ $experience }}">
                               <span>{{ $experience }}</span>
                           </label>
                           @endforeach 
@@ -112,56 +112,19 @@
               <!-- Ratings -->
               <div class="filter-group rating-section no-gap">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-rating" aria-expanded="false" aria-controls="section-rating">
-                      <h6 class="sub-title flex-row">Ratings <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Salary <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-rating">
                       <div class="check-section">
-                          <label class="sub-title flex-row text-color">
-                             <div class="rating-view p-r-10">
-                                  <div class="rating">
-                                      <div class="bg"></div>
-                                      <div class="value" style="width: 100%;"></div>
-                                  </div>
-                              </div>
-                              <span>&amp; Up (211)</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                             <div class="rating-view p-r-10">
-                                  <div class="rating">
-                                      <div class="bg"></div>
-                                      <div class="value" style="width: 68%;"></div>
-                                  </div>
-                              </div>
-                              <span>&amp; Up (23)</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                             <div class="rating-view p-r-10">
-                                  <div class="rating">
-                                      <div class="bg"></div>
-                                      <div class="value" style="width: 50%;"></div>
-                                  </div>
-                              </div>
-                              <span>&amp; Up (134)</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                             <div class="rating-view p-r-10">
-                                  <div class="rating">
-                                      <div class="bg"></div>
-                                      <div class="value" style="width: 28%;"></div>
-                                  </div>
-                              </div>
-                              <span>&amp; Up (344)</span>
-                          </label>
-                          <label class="sub-title flex-row text-color">
-                             <div class="rating-view p-r-10">
-                                  <div class="rating">
-                                      <div class="bg"></div>
-                                      <div class="value" style="width: 16%;"></div>
-                                  </div>
-                              </div>
-                              <span>&amp; Up (23)</span>
-                          </label>
+                           <select name="salary_type" class="search-job">
+                             @foreach($salaryTypes as $salaryTypeId => $salaryType)
+                             <option @if(isset($urlFilters['salary_type']) && $salaryTypeId == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}"> {{ $salaryType }}</option>
+                             @endforeach
+                             
+                           </select>
+
+                           <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@else 0 @endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@else 200000 @endif" class="search-job">
                       </div>
                   </div>
               </div>

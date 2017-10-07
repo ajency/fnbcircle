@@ -2,7 +2,7 @@
   var displayCityText, filterJobs;
 
   filterJobs = function(append) {
-    var areaValues, experienceValues, jobTypeValues, keywords;
+    var areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, salary_lower, salary_type, salary_upper, urlParams;
     if (append === void 0) {
       append = false;
     }
@@ -22,18 +22,59 @@
     $('input[name="keyword_id[]"]').map(function() {
       return keywords.push($(this).val());
     });
+    urlParams = '';
+    job_name = $('#job_name').val();
+    city = $('select[name="job_city"]').val();
+    category_id = $('input[name="category_id"]').val();
+    salary_type = $('select[name="salary_type"]').val();
+    salary_lower = $('input[name="salary_lower"]').val();
+    salary_upper = $('input[name="salary_upper"]').val();
+    if (city !== '') {
+      urlParams += 'city=' + city;
+    }
+    if (salary_type !== '') {
+      urlParams += '&salary_type=' + salary_type;
+    }
+    if (salary_lower !== '') {
+      urlParams += '&salary_lower=' + salary_lower;
+    }
+    if (salary_upper !== '') {
+      urlParams += '&salary_upper=' + salary_upper;
+    }
+    if (job_name.trim() !== '') {
+      urlParams += '&job_name=' + job_name;
+    }
+    if (category_id !== '') {
+      urlParams += '&category=' + category_id;
+    }
+    if (jobTypeValues.length !== 0) {
+      urlParams += '&job_type=' + JSON.stringify(jobTypeValues);
+    }
+    if (areaValues.length !== 0) {
+      urlParams += '&area=' + JSON.stringify(areaValues);
+    }
+    if (experienceValues.length !== 0) {
+      urlParams += '&experience=' + JSON.stringify(experienceValues);
+    }
+    if (keywords.length !== 0) {
+      urlParams += '&keywords=' + JSON.stringify(keywords);
+    }
+    window.history.pushState("", "", "?" + urlParams);
     return $.ajax({
       type: 'post',
       url: 'jobs/get-listing-jobs',
       data: {
-        'job_name': $('#job_name').val(),
+        'job_name': job_name,
         'company_name': '',
         'job_type': jobTypeValues,
-        'city': $('select[name="job_city"]').val(),
+        'city': city,
         'area': areaValues,
         'experience': experienceValues,
-        'category': '',
+        'category': category_id,
         'keywords': keywords,
+        'salary_type': salary_type,
+        'salary_lower': salary_lower,
+        'salary_upper': salary_upper,
         'append': append
       },
       success: function(response) {
@@ -62,18 +103,24 @@
   });
 
   $('select[name="job_city"]').change(function() {
-    displayCityText($(this));
+    displayCityText();
   });
 
-  displayCityText = function(cityObj) {
-    var cityText;
+  $('input[name="area_search"]').change(function() {
+    return displayCityText();
+  });
+
+  displayCityText = function() {
+    var cityObj, cityText;
+    cityObj = $('select[name="job_city"]');
     cityText = $('option:selected', cityObj).text();
     $("#state_name").text(cityText);
     return $.ajax({
       type: 'post',
       url: '/get_areas',
       data: {
-        'city': cityObj.val()
+        'city': cityObj.val(),
+        'area_name': $('input[name="area_search"]').val()
       },
       success: function(data) {
         var area_html, key;
@@ -94,6 +141,7 @@
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
+    console.log(36);
     inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
     return filterJobs();
@@ -116,7 +164,20 @@
       url: '/get-keywords',
       searchIn: ["label"]
     });
-    displayCityText($('select[name="job_city"]'));
+    $('.job-categories').flexdatalist({
+      removeOnBackspace: false,
+      searchByWord: true,
+      searchContain: true,
+      selectionRequired: true,
+      minLength: 1,
+      url: '/job/get-category-types',
+      searchIn: ["name"]
+    });
+    $('.job-categories').on('select:flexdatalist', function(event, set, options) {
+      $('input[name="category_id"]').val(set.id);
+      return filterJobs();
+    });
+    displayCityText();
     return filterJobs();
   });
 

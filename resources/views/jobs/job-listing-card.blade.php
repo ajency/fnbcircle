@@ -1,3 +1,4 @@
+@if($jobs->count())
 @foreach($jobs as $key =>$job)
 <div class="filter-data @if($key==0 && $append == 'false') @else m-t-30 m-b-30 @endif">
   <div class="seller-info bg-card filter-cards">
@@ -22,7 +23,7 @@
                        @endif
                   </div>
                   <div class="stats flex-row m-t-10 p-t-10">
-                     
+
                       @if(!empty($job->getJobTypes()))
                        
                       @foreach($job->getJobTypes() as $jobType)
@@ -159,3 +160,17 @@
   </div>
 </div>
 @endforeach
+@else
+<div class="filter-data ">
+  <div class="seller-info bg-card filter-cards">
+ 
+      <div class="seller-info__body filter-cards__body flex-row white-space">
+          <div class="body-left flex-cols">
+              <div>
+                 <h3 class="seller-info__title ellipsis" title="">No Jobs Found :(</h3>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>  
+@endif

@@ -39,6 +39,7 @@ Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_areas','CommonController@getAreas');
 Route::post('/get_categories','ListingController@getCategories');
+Route::get('/{type}/get-category-types','CommonController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 
 Route::post('/has_listing','AdminConfigurationController@hasListing');

@@ -288,7 +288,7 @@
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
      
-                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif @if($job['salary_type']) salary-type-checked="true"  @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
+                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif  salary-type-checked="@if($job['salary_type']) true @else false  @endif"   value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary." salary_type_checked>
                
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>

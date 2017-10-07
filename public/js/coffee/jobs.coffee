@@ -41,9 +41,11 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
 
 $('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
-  console.log $('input[name="salary_lower"]').attr('salary_type_checked')
+  console.log $('input[name="salary_lower"]').attr('salary-type-checked')
   if($('input[name="salary_lower"]').attr('salary-type-checked') == "true")
     $('.salary-amt').val ''
+
+  $('input[name="salary_lower"]').attr('salary-type-checked',true)
 
 $('#job-form').bind 'input select textarea iframe', ->
   $('input[name="has_changes"]').val 1

@@ -3,7 +3,9 @@
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
+    @if($job->interview_location!="")
     <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
+    @endif
     <script type="text/javascript" src="{{ asset('js/whatsapp-button.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 @endsection

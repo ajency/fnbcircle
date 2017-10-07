@@ -665,7 +665,7 @@ class JobController extends Controller
         return redirect(url('/jobs/'.$job->reference_id.'/job-details')); 
     }
 
-    public function filterJobs($filters,$startPage,$length,$orderDataBy){
+    public function filterJobs($filters,$skip,$length,$orderDataBy){
 
         $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
 
@@ -689,14 +689,14 @@ class JobController extends Controller
             $jobQuery->whereIn('jobs.status',$filters['job_status']);
         }
 
-        // if(isset($filters['city']) && !empty($filters['city']))
-        // {   
-        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+        if(isset($filters['city']) && !empty($filters['city']))
+        {   
+            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
 
-        //     $jobQuery->whereIn('job_locations.city_id',$filters['city']);
+            $jobQuery->whereIn('job_locations.city_id',$filters['city']);
 
-        //     $jobQuery->distinct('jobs.id');
-        // }
+            $jobQuery->distinct('jobs.id');
+        }
 
         if(isset($filters['area']) && !empty($filters['area']))
         {   
@@ -764,44 +764,45 @@ class JobController extends Controller
             
         }
 
-        // if(isset($filters['salary_type']) && !empty($filters['salary_type']))
-        // {
-        //     $salaryLower = $filters['salary_lower'];
-        //     $salaryUpper = $filters['salary_upper'];
-        //     $salaryType = $filters['salary_type'];
+        if(isset($filters['salary_type']) && !empty($filters['salary_type']))
+        {
+            $salaryLower = $filters['salary_lower'];
+            $salaryUpper = $filters['salary_upper'];
+            $salaryType = $filters['salary_type'];
 
             
 
-        //     $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
-        //     {
-        //         $salaryQry->where('jobs.salary_type',$salaryType); 
-        //         $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper)
-        //         {
-        //             $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
-        //             {
-        //                 $query->where('jobs.salary_lower','>=',$salaryLower); 
-        //                 $query->where('jobs.salary_lower','<=',$salaryUpper); 
-        //             });
+            $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
+            {
+                
+                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                {
+                    $salaryQuery->where('jobs.salary_type',$salaryType); 
+                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                    {
+                        $query->where('jobs.salary_lower','>=',$salaryLower); 
+                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                    });
 
                 
-        //             $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
-        //             {
+                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                    {
      
-        //                 $query->where('jobs.salary_upper','>=',$salaryLower); 
-        //                 $query->where('jobs.salary_upper','<=',$salaryUpper); 
-        //             });
-        //         });
+                        $query->where('jobs.salary_upper','>=',$salaryLower); 
+                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                    });
+                });
 
-        //         //for not disclosed salary
-        //         $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
-        //         {
-        //             $query->where('jobs.salary_lower',0); 
-        //             $query->where('jobs.salary_upper',0); 
-        //             $query->where('jobs.salary_type',0); 
-        //         });
-        //     });
+                //for not disclosed salary
+                $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
+                {
+                    $query->where('jobs.salary_lower',0); 
+                    $query->where('jobs.salary_upper',0); 
+                    $query->where('jobs.salary_type',0); 
+                });
+            });
             
-        // }
+        }
 
 
         if(isset($orderDataBy['companies.title'])){ 
@@ -811,19 +812,22 @@ class JobController extends Controller
         }
 
         
-        $totalJobs = $jobQuery->count(); 
+        
 
         foreach ($orderDataBy as $columnName => $orderBy) {
             $jobQuery->orderBy($columnName,$orderBy);
         }
 
         if($length>1)
-        {
-            $jobs    = $jobQuery->skip($startPage)->take($length)->get();   
+        {  
+
+            $totalJobs = $jobQuery->get()->count(); 
+            $jobs    = $jobQuery->skip($skip)->take($length)->get();   
         }
         else
         {
-            $jobs    = $jobQuery->get();   
+            $jobs    = $jobQuery->get();  
+            $totalJobs = $jobs->count();  
         }
 
         return ['totalJobs' =>$totalJobs,'jobs'=>$jobs ];
@@ -870,6 +874,10 @@ class JobController extends Controller
             }
             $requestData['keywords'] = $searchKeywords;
         }
+
+        if(!isset($requestData['page'])){
+            $requestData['page'] = 1;
+        }
         // pagination(100,0,5);
 
         // dd($requestData);
@@ -889,6 +897,7 @@ class JobController extends Controller
         $filters = $request->all(); 
         $append = $filters['append']; 
         $startPage = ($filters['page'] - 1); 
+        $skip = $startPage * $length;
 
         //convert to array 
         $city[] =  $filters['city']; 
@@ -900,7 +909,7 @@ class JobController extends Controller
         }
         
 
-        $filterJobs = $this->filterJobs($filters,$startPage,$length,$orderDataBy);
+        $filterJobs = $this->filterJobs($filters,$skip,$length,$orderDataBy);
 
         $jobs = $filterJobs['jobs'];
         $totalJobs = $filterJobs['totalJobs'];
@@ -918,7 +927,7 @@ class JobController extends Controller
             'filtered_items' => $filteredJobs,
             'filters' => '',
             'page'=> '',
-            'perpage'=> '',
+            'perpage'=> $length,
             'jobs' => $jobs,
             'pagination' => $pagination,
 

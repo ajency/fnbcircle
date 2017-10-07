@@ -1,10 +1,12 @@
 (function() {
   var displayCityText, filterJobs;
 
-  filterJobs = function(append) {
-    var areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, page, salary_lower, salary_type, salary_upper, urlParams;
-    if (append === void 0) {
-      append = false;
+  filterJobs = function(resetPage) {
+    var append, areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, page, salary_lower, salary_type, salary_upper, urlParams;
+    console.log(resetPage);
+    append = false;
+    if (resetPage) {
+      $('input[name="listing_page"]').val(1);
     }
     experienceValues = [];
     $('input[name="experience[]"]:checked').map(function() {
@@ -34,7 +36,7 @@
       urlParams += 'page=' + page;
     }
     if (city !== '') {
-      urlParams += 'city=' + city;
+      urlParams += '&city=' + city;
     }
     if (salary_type !== '') {
       urlParams += '&salary_type=' + salary_type;
@@ -100,19 +102,19 @@
   };
 
   $(document).on('change', '.search-job', function() {
-    filterJobs();
+    filterJobs(true);
   });
 
   $('.clear-checkbox').click(function() {
     $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
-    return filterJobs();
+    return filterJobs(true);
   });
 
   $('.clear-salary').click(function() {
     $('select[name="salary_type"]').prop("selectedIndex", 0);
     $('input[name="salary_lower"]').val('0');
     $('input[name="salary_upper"]').val('200000');
-    return filterJobs();
+    return filterJobs(true);
   });
 
   $('.header_city').change(function() {
@@ -162,20 +164,20 @@
     var page;
     page = $(this).attr('page');
     $('input[name="listing_page"]').val(page);
-    return filterJobs();
+    return filterJobs(false);
   });
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
     inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
-    return filterJobs();
+    return filterJobs(true);
   });
 
   $('.job-keywords').on('change:flexdatalist', function(event, set, options) {
     if (set.length && $('input[label="' + set[0]['text'] + '"]').length) {
       $('input[label="' + set[0]['text'] + '"]').remove();
-      return filterJobs();
+      return filterJobs(true);
     }
   });
 
@@ -200,13 +202,13 @@
     });
     $('.job-categories').on('select:flexdatalist', function(event, set, options) {
       $('input[name="category_id"]').val(set.id);
-      return filterJobs();
+      return filterJobs(true);
     });
     console.log($('.area-list').attr('has-filter'));
     if ($('.area-list').attr('has-filter').trim() === 'no') {
       displayCityText();
     }
-    return filterJobs();
+    return filterJobs(true);
   });
 
 }).call(this);

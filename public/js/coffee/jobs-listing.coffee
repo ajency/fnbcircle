@@ -1,6 +1,8 @@
-filterJobs = (append) ->
-  if (append == undefined) 
-    append = false
+filterJobs = (resetPage) ->
+  console.log resetPage
+  append = false
+  if (resetPage) 
+    $('input[name="listing_page"]').val(1)
   
   experienceValues = []
   $('input[name="experience[]"]:checked').map ->
@@ -31,7 +33,7 @@ filterJobs = (append) ->
     urlParams +='page='+page
 
   if(city!='')
-    urlParams +='city='+city
+    urlParams +='&city='+city
 
   if(salary_type!='')
     urlParams +='&salary_type='+salary_type
@@ -98,7 +100,7 @@ filterJobs = (append) ->
       return
 
 $(document).on 'change', '.search-job', ->
-  filterJobs()
+  filterJobs(true)
   return
 
 
@@ -106,14 +108,14 @@ $(document).on 'change', '.search-job', ->
 
 $('.clear-checkbox').click ->
   $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
-  filterJobs()
+  filterJobs(true)
 
 
 $('.clear-salary').click ->
   $('select[name="salary_type"]').prop("selectedIndex", 0)
   $('input[name="salary_lower"]').val('0')
   $('input[name="salary_upper"]').val('200000')
-  filterJobs()
+  filterJobs(true)
 
 
 $('.header_city').change ->
@@ -160,7 +162,7 @@ displayCityText = () ->
 $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
   $('input[name="listing_page"]').val page
-  filterJobs()
+  filterJobs(false)
 
 
 
@@ -168,12 +170,12 @@ $('.job-pagination').on 'click', '.paginate', ->
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
   inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
-  filterJobs() 
+  filterJobs(true) 
 
 $('.job-keywords').on 'change:flexdatalist', (event, set, options) ->
   if(set.length && $('input[label="'+set[0]['text']+'"]').length)
     $('input[label="'+set[0]['text']+'"]').remove()
-    filterJobs() 
+    filterJobs(true) 
  
 
 $(document).ready ()->
@@ -197,9 +199,9 @@ $(document).ready ()->
 
   $('.job-categories').on 'select:flexdatalist', (event, set, options) ->
     $('input[name="category_id"]').val set.id   
-    filterJobs() 
+    filterJobs(true) 
 
   console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
-  filterJobs()
+  filterJobs(true)

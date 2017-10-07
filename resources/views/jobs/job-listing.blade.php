@@ -183,7 +183,7 @@ Job Listing
                 
             </div>
             <div class="job-pagination"></div>
-            <input type="hidden" name="listing_page" value="@if(isset($urlFilters['page'])){{ $urlFilters['page'] }}@else 1 @endif">
+            <input type="hidden" name="listing_page" value="{{ $urlFilters['page'] }}">
         </div>
         <div class="site-overlay"></div>
     </div>

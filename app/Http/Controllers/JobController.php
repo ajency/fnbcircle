@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Job;
 use App\JobLocation;
 use App\JobTypes;
-
+use App\Area;
 use App\Category;
 use App\City;
 use App\Defaults;
@@ -689,14 +689,14 @@ class JobController extends Controller
             $jobQuery->whereIn('jobs.status',$filters['job_status']);
         }
 
-        if(isset($filters['city']) && !empty($filters['city']))
-        {   
-            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+        // if(isset($filters['city']) && !empty($filters['city']))
+        // {   
+        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
 
-            $jobQuery->whereIn('job_locations.city_id',$filters['city']);
+        //     $jobQuery->whereIn('job_locations.city_id',$filters['city']);
 
-            $jobQuery->distinct('jobs.id');
-        }
+        //     $jobQuery->distinct('jobs.id');
+        // }
 
         if(isset($filters['area']) && !empty($filters['area']))
         {   
@@ -764,44 +764,44 @@ class JobController extends Controller
             
         }
 
-        if(isset($filters['salary_type']) && !empty($filters['salary_type']))
-        {
-            $salaryLower = $filters['salary_lower'];
-            $salaryUpper = $filters['salary_upper'];
-            $salaryType = $filters['salary_type'];
+        // if(isset($filters['salary_type']) && !empty($filters['salary_type']))
+        // {
+        //     $salaryLower = $filters['salary_lower'];
+        //     $salaryUpper = $filters['salary_upper'];
+        //     $salaryType = $filters['salary_type'];
 
             
 
-            $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
-            {
-                $salaryQry->where('jobs.salary_type',$salaryType); 
-                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper)
-                {
-                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
-                    {
-                        $query->where('jobs.salary_lower','>=',$salaryLower); 
-                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
-                    });
+        //     $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
+        //     {
+        //         $salaryQry->where('jobs.salary_type',$salaryType); 
+        //         $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper)
+        //         {
+        //             $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+        //             {
+        //                 $query->where('jobs.salary_lower','>=',$salaryLower); 
+        //                 $query->where('jobs.salary_lower','<=',$salaryUpper); 
+        //             });
 
                 
-                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
-                    {
+        //             $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+        //             {
      
-                        $query->where('jobs.salary_upper','>=',$salaryLower); 
-                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
-                    });
-                });
+        //                 $query->where('jobs.salary_upper','>=',$salaryLower); 
+        //                 $query->where('jobs.salary_upper','<=',$salaryUpper); 
+        //             });
+        //         });
 
-                //for not disclosed salary
-                $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
-                {
-                    $query->where('jobs.salary_lower',0); 
-                    $query->where('jobs.salary_upper',0); 
-                    $query->where('jobs.salary_type',0); 
-                });
-            });
+        //         //for not disclosed salary
+        //         $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
+        //         {
+        //             $query->where('jobs.salary_lower',0); 
+        //             $query->where('jobs.salary_upper',0); 
+        //             $query->where('jobs.salary_type',0); 
+        //         });
+        //     });
             
-        }
+        // }
 
 
         if(isset($orderDataBy['companies.title'])){ 
@@ -853,8 +853,28 @@ class JobController extends Controller
         if(isset($requestData['experience']) && $requestData['experience']!=""){
             $requestData['experience'] = json_decode($requestData['experience']);
         }
-         
-        return view('jobs.job-listing')->with('cities', $cities)
+
+        if(isset($requestData['area']) && $requestData['area']!=""){
+            $city_areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+        
+            $requestData['area'] = json_decode($requestData['area']);
+            $requestData['city_areas'] = $city_areas;
+        }
+
+        if(isset($requestData['keywords']) && $requestData['keywords']!=""){
+            $keywordIds = json_decode($requestData['keywords']);
+            $keywordData = Defaults::whereIn("id",$keywordIds)->get();
+            $searchKeywords = [];
+            foreach ($keywordData as $key => $keyword) {
+                $searchKeywords[$keyword->id] = $keyword->label;
+            }
+            $requestData['keywords'] = $searchKeywords;
+        }
+        // pagination(100,0,5);
+
+        // dd($requestData);
+        $header_type = "trans-header";
+        return view('jobs.job-listing',compact('header_type'))->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)
                                        ->with('salaryTypes', $salaryTypes)
                                        ->with('defaultExperience', $defaultExperience)
@@ -863,12 +883,12 @@ class JobController extends Controller
     }
 
     public function getListingJobs(Request $request){
-
-        $startPage = 0;
-        $length = 10;
+       
+        $length = 5;
         $orderDataBy = ['created_at'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
+        $startPage = ($filters['page'] - 1); 
 
         //convert to array 
         $city[] =  $filters['city']; 
@@ -889,6 +909,9 @@ class JobController extends Controller
 
         $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append])->render();
 
+
+        $pagination = pagination($totalJobs,$startPage,$length);
+
         $response = array(
             'data' => $jobListingCard,
             'total_items' => $totalJobs,
@@ -896,7 +919,9 @@ class JobController extends Controller
             'filters' => '',
             'page'=> '',
             'perpage'=> '',
-            'jobs' => $jobs
+            'jobs' => $jobs,
+            'pagination' => $pagination,
+
             );
 
         return response()->json($response);

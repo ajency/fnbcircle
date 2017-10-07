@@ -25,6 +25,10 @@ filterJobs = (append) ->
   salary_type = $('select[name="salary_type"]').val()
   salary_lower =$('input[name="salary_lower"]').val()
   salary_upper = $('input[name="salary_upper"]').val()
+  page = $('input[name="listing_page"]').val()
+
+  if(page!='')
+    urlParams +='page='+page
 
   if(city!='')
     urlParams +='city='+city
@@ -65,6 +69,7 @@ filterJobs = (append) ->
     type: 'post'
     url: 'jobs/get-listing-jobs'
     data:
+      'page' : page;
       'job_name' : job_name
       'company_name' :''
       'job_type': jobTypeValues
@@ -78,7 +83,9 @@ filterJobs = (append) ->
       'salary_upper': salary_upper
       'append': append
     success: (response) ->
+      $("#filtered_count").text response.filtered_items 
       $("#total_count").text response.total_items 
+      $(".job-pagination").html response.pagination 
       if(append) 
           $('.job-listings').append response.data 
       else 
@@ -91,8 +98,23 @@ filterJobs = (append) ->
       return
 
 $(document).on 'change', '.search-job', ->
-  filterJobs();
+  filterJobs()
   return
+
+
+
+
+$('.clear-checkbox').click ->
+  $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
+  filterJobs()
+
+
+$('.clear-salary').click ->
+  $('select[name="salary_type"]').prop("selectedIndex", 0)
+  $('input[name="salary_lower"]').val('0')
+  $('input[name="salary_upper"]').val('200000')
+  filterJobs()
+
 
 $('.header_city').change ->
   cityText = $('option:selected',this).text();
@@ -135,13 +157,15 @@ displayCityText = () ->
       return
 
 
-
+$('.job-pagination').on 'click', '.paginate', ->
+  page = $(this).attr 'page'
+  $('input[name="listing_page"]').val page
+  filterJobs()
 
 
 
 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
-  console.log 36
   inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
   filterJobs() 
@@ -175,5 +199,7 @@ $(document).ready ()->
     $('input[name="category_id"]').val set.id   
     filterJobs() 
 
-  displayCityText()
+  console.log $('.area-list').attr('has-filter')
+  if $('.area-list').attr('has-filter').trim() == 'no'
+    displayCityText()
   filterJobs()

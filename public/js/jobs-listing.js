@@ -2,7 +2,7 @@
   var displayCityText, filterJobs;
 
   filterJobs = function(append) {
-    var areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, salary_lower, salary_type, salary_upper, urlParams;
+    var areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, page, salary_lower, salary_type, salary_upper, urlParams;
     if (append === void 0) {
       append = false;
     }
@@ -29,6 +29,10 @@
     salary_type = $('select[name="salary_type"]').val();
     salary_lower = $('input[name="salary_lower"]').val();
     salary_upper = $('input[name="salary_upper"]').val();
+    page = $('input[name="listing_page"]').val();
+    if (page !== '') {
+      urlParams += 'page=' + page;
+    }
     if (city !== '') {
       urlParams += 'city=' + city;
     }
@@ -64,6 +68,7 @@
       type: 'post',
       url: 'jobs/get-listing-jobs',
       data: {
+        'page': page,
         'job_name': job_name,
         'company_name': '',
         'job_type': jobTypeValues,
@@ -78,7 +83,9 @@
         'append': append
       },
       success: function(response) {
+        $("#filtered_count").text(response.filtered_items);
         $("#total_count").text(response.total_items);
+        $(".job-pagination").html(response.pagination);
         if (append) {
           return $('.job-listings').append(response.data);
         } else {
@@ -94,6 +101,18 @@
 
   $(document).on('change', '.search-job', function() {
     filterJobs();
+  });
+
+  $('.clear-checkbox').click(function() {
+    $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
+    return filterJobs();
+  });
+
+  $('.clear-salary').click(function() {
+    $('select[name="salary_type"]').prop("selectedIndex", 0);
+    $('input[name="salary_lower"]').val('0');
+    $('input[name="salary_upper"]').val('200000');
+    return filterJobs();
   });
 
   $('.header_city').change(function() {
@@ -139,9 +158,15 @@
     });
   };
 
+  $('.job-pagination').on('click', '.paginate', function() {
+    var page;
+    page = $(this).attr('page');
+    $('input[name="listing_page"]').val(page);
+    return filterJobs();
+  });
+
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
-    console.log(36);
     inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
     return filterJobs();
@@ -177,7 +202,10 @@
       $('input[name="category_id"]').val(set.id);
       return filterJobs();
     });
-    displayCityText();
+    console.log($('.area-list').attr('has-filter'));
+    if ($('.area-list').attr('has-filter').trim() === 'no') {
+      displayCityText();
+    }
     return filterJobs();
   });
 

@@ -74,7 +74,7 @@ Job Listing
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="search_category" class="form-control fnb-input job-categories flexdatalist" placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@else '' @endif">
+                                                <input type="text" name="search_category" class="form-control fnb-input job-categories flexdatalist" placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
                                                 <input type="hidden" name="category_id" value="@if(isset($urlFilters['category'])){{ $urlFilters['category'] }}@endif">  
                                             </div>
                                         </div>
@@ -150,7 +150,7 @@ Job Listing
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <span id="total_count"></span> Jobs in <span id="state_name">Delhi</span></p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span> Jobs in <span id="state_name">Delhi</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -182,6 +182,8 @@ Job Listing
                 
                 
             </div>
+            <div class="job-pagination"></div>
+            <input type="hidden" name="listing_page" value="@if(isset($urlFilters['page'])){{ $urlFilters['page'] }}@else 1 @endif">
         </div>
         <div class="site-overlay"></div>
     </div>

@@ -27,14 +27,21 @@
                   <div class="filter-group__body filter-row collapse in" id="section-area">
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  >
+                           <input type="text" class="form-control fnb-input search-input text-color job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">
                            <datalist id="jobKeyword">
               
                             </datalist>
-                            <div id="keyword-ids"></div>
+                            <div id="keyword-ids">
+                              @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords']))
+                              @foreach($urlFilters['keywords'] as $keywordId => $keyword)
+                              <input type="hidden" name="keyword_id[]" value="{{ $keywordId }}" label="{{ $keyword }}">
+                              @endforeach
+                              @endif
+
+                            </div>
                       </div>
                   </div>
               </div>
@@ -45,21 +52,31 @@
                       <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
-                  <div class="filter-group__body filter-row collapse in" id="section-area">
+                  <div class="filter-group__body filter-row collapse in" id="section-area" >
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
                           <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an area">
                       </div>
-                      <div class="check-section area-list">
-                          <label class="sub-title flex-row clear hidden">
-                              <a href="" class="text-color">
+                      <div class="check-section filter-check">
+                          <label class="sub-title flex-row clear ">
+                              <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
                           </label>
-                           
+                        <span class="area-list" has-filter="@if(isset($urlFilters['area']) && !empty($urlFilters['area'])) yes @else no @endif">
+
+                        @if(isset($urlFilters['area']) && !empty($urlFilters['area']))
+                          @foreach($urlFilters['city_areas'] as $area)
+                             <label class="sub-title flex-row text-color"> 
+                             <input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->id,$urlFilters['area'])) checked @endif> 
+                              <span>{{ $area->name }}</span> 
+                            </label> 
+                          @endforeach
+                        @endif
+                        </span>   
                           
-                          <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+12 more</p>
+                         <!--  <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+more</p> -->
                       </div>
                   </div>
               </div>
@@ -70,9 +87,9 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-business">
-                      <div class="check-section">
-                          <label class="sub-title flex-row clear hidden">
-                              <a href="" class="text-color">
+                      <div class="check-section filter-check">
+                          <label class="sub-title flex-row clear ">
+                              <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -93,9 +110,9 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-list-status">
-                      <div class="check-section">
-                          <label class="sub-title flex-row clear hidden">
-                              <a href="" class="text-color">
+                      <div class="check-section filter-check">
+                          <label class="sub-title flex-row clear ">
+                              <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -117,6 +134,12 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-rating">
                       <div class="check-section">
+                          <label class="sub-title flex-row clear ">
+                              <a href="javascript:void(0)" class="text-color clear-salary">
+                                 <i class="fa fa-times" aria-hidden="true"></i>
+                                  <span>Clear All</span>
+                              </a>
+                          </label>
                            <select name="salary_type" class="search-job">
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              <option @if(isset($urlFilters['salary_type']) && $salaryTypeId == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}"> {{ $salaryType }}</option>

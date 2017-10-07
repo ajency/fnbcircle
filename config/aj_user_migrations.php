@@ -59,6 +59,7 @@ return [
             array("column" => "has_job_listing", "type" => "boolean", "default" => 0),
             array("column" => "has_business_listing", "type" => "boolean", "default" => 0),
             array("column" => "has_restaurant_listing", "type" => "boolean", "default" => 0),
+            array("column" => "has_previously_login", "type" => "boolean", "default" => 0),
         ]
     )
 ];

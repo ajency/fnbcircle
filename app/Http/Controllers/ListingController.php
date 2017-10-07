@@ -14,6 +14,7 @@ use App\ListingOperationTime;
 use App\User;
 use App\UserCommunication;
 use Auth;
+use Session;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -702,8 +703,10 @@ class ListingController extends Controller
     }
     public function edit($reference, $step = 'business-information')
     {
+        $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
+        $cityy = City::find($listing->location['city_id']);
         if ($step == 'business-information') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
+            
             $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
             $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
             // dd($mobiles);
@@ -713,45 +716,42 @@ class ListingController extends Controller
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $user = User::find($listing->owner_id);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user);
+            // dd($cityy);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
         }
         if ($step == 'business-categories') {
-            $listing       = Listing::where('reference', $reference)->firstorFail();
             $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $category_json = ListingCategory::getCategories($listing->id);
-            return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
+            return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information')->with('cityy',$cityy);
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
-            $listing        = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
             $operationAreas = ListingAreasOfOperation::city($listing->id);
-            $city = City::find($listing->location['city_id']);
+            
             $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
-            return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas)->with('city',$city);
+            return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas)->with('cityy',$cityy);
         }
         if ($step == 'business-details') {
             $listing = Listing::where('reference', $reference)->firstorFail();
 
-            return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
+            return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours')->with('cityy',$cityy);
         }
         if ($step == 'business-photos-documents') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
-
-            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
+            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details')->with('cityy',$cityy);
         }
         if ($step == 'business-premium') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
-
-            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents');
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy);
         }
     }
 
     public function submitForReview(Request $request)
     {
+
         $this->validate($request, [
             'listing_id' => 'required',
         ]);
+        // dd($request);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
@@ -759,7 +759,9 @@ class ListingController extends Controller
             $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
+            Session::flash('statusChange', 'review');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
         }
@@ -774,7 +776,8 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "1") {
             $listing->status = Listing::ARCHIVED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'archive');
+            return \Redirect::back();
         } else {
             return \Redirect::back()->withErrors(array('archive' => 'Only Published listings can be archived'));
         }
@@ -789,7 +792,9 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "4") {
             $listing->status = Listing::PUBLISHED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'published');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }

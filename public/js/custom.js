@@ -67,7 +67,7 @@ $(function(){
 	    if($('.sticky-section').length){
 		    $('.sticky-section').toggleClass('fixed',
 		     //add 'ok' class when div position match or exceeds else remove the 'ok' class.
-		      scroll >= $('.update-sec').offset().top - 100
+		      scroll >= $('.listed').offset().top - 100
 		    );
 	    }
 	 //    if($('.sticky-section').hasClass('fixed')){

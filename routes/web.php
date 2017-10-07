@@ -16,37 +16,48 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::resource('/listing', 'ListingController');
-Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+//add listing
 Route::get('listing/create','ListingController@create');
 
+//edit listing
+Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+Route::post('/listing/review','ListingController@submitForReview');
+Route::post('/listing/archive','ListingController@archive');
+Route::post('/listing/publish','ListingController@publish');
+Route::post('/listing','ListingController@store');
+Route::post('/contact_save','ListingController@saveContact');
+Route::post('/create_OTP','ListingController@createOTP');
+Route::post('/validate_OTP','ListingController@validateOTP');
+Route::post('/get_categories','ListingController@getCategories');
+Route::get('/get_brands','ListingController@getBrands');
 
+//manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
 Route::post('/save-category','AdminConfigurationController@saveCategory');
 Route::post('/get-branches','AdminConfigurationController@getBranches');
 Route::post('/check-category-status','AdminConfigurationController@checkCategStatus');
 
+//manage locations
 Route::post('/check-location-status','AdminConfigurationController@checkLocStatus');
 
-Route::post('/listing','ListingController@store');
+//view listings
 Route::post('/duplicates','ListingController@findDuplicates');
-Route::post('/contact_save','ListingController@saveContact');
-Route::post('/create_OTP','ListingController@createOTP');
-Route::post('/validate_OTP','ListingController@validateOTP');
-Route::post('/get_areas','CommonController@getAreas');
-Route::post('/get_categories','ListingController@getCategories');
-Route::get('/get_brands','ListingController@getBrands');
 
-Route::post('/has_listing','AdminConfigurationController@hasListing');
+Route::post('/get_areas','CommonController@getAreas');
+
+
+Route::post('/has_listing','AdminConfigurationController@hasListing');//manage-categories manage-locations
 Route::post('/get-cities','AdminConfigurationController@getCities');
-Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');
-Route::post('/save-location','AdminConfigurationController@saveLocationData');
-Route::post('/view-location','AdminConfigurationController@listLocationConfig');
-Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');
+Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');//manage-categories manage-locations
+Route::post('/save-location','AdminConfigurationController@saveLocationData');// manage-locations
+Route::post('/view-location','AdminConfigurationController@listLocationConfig');//manage-locations
+Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');//mmanage-locations
 
 Route::get('/business-premium', function(){
     return view('premium');
@@ -55,11 +66,9 @@ Route::get('/business-premium', function(){
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
-
+//managelistings
 Route::get('admin-dashboard/moderation/listing-approval','AdminModerationController@listingApproval');
 Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
-
-
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 
@@ -71,7 +80,8 @@ JOBS/USERS
 //job single view
 Route::get('/job/{slug}','JobController@show');
 
-Route::group( ['middleware' => ['auth']], function() { 
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+ 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
@@ -142,6 +152,7 @@ Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/{listing_slug}', 'ListingViewController@index');
 });
 
 Route::group(['prefix' => 'api'], function() {

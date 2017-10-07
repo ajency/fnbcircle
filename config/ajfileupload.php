@@ -4,14 +4,14 @@ return [
 	'disk_name' => 's3',
 	'base_root_path' => '',
 	'default_base_path' => 'other_files',
-	'valid_image_formats' => ['jpg', 'png', ],
+	'valid_image_formats' => ['jpg', 'png', 'jpeg', 'gif'],
 	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf'],
 	'sizes' => [
 		'400X300' => [
 			'width' => 400,
 			'height' => 300,
 			'watermark' => [
-				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'image_path' => public_path().'/img/fnb_watermark.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
@@ -21,7 +21,7 @@ return [
 			'width' => 200,
 			'height' => 150,
 			'watermark' => [
-				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'image_path' => public_path().'/img/fnb_watermark.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
@@ -31,7 +31,7 @@ return [
 			'width' => 65,
 			'height' => 65,
 			'watermark' => [
-				'image_path' => public_path().'/img/ksl_watermark_new.png',
+				'image_path' => public_path().'/img/fnb_watermark.png',
 				'position'=>'bottom-left', 
 				'x'=> 0, 
 				'y'=>0

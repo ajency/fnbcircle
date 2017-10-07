@@ -163,6 +163,9 @@
 
 .text-decor{
   text-decoration: underline;
+  &:active,&:focus{
+    text-decoration: underline;
+  }
 }
 
 .bat-color{
@@ -246,6 +249,14 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.ellipsis-2{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media screen and (max-width: @mobile){

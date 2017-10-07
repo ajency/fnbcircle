@@ -133,7 +133,7 @@
       contactObj = $(this);
       contactval = contactObj.val();
       if (!checkDuplicateEntries(contactObj) && contactval !== "") {
-        contactObj.closest('.contact-container').find('.dupError').html(contactval + ' already added to list.');
+        contactObj.closest('.contact-container').find('.dupError').html('Same contact detail has been added multiple times.');
         contactObj.val('');
       } else {
         contactObj.closest('.contact-container').find('.dupError').html('');
@@ -154,6 +154,8 @@
     };
     $('.contact-verification-modal').on('click', '.edit-number', function(e) {
       $('.value-enter').val('');
+      $('.contact-verify-steps').find('.customError').html('');
+      $(this).closest('.number-code').find('.validationError').html('');
       $('.default-state').addClass('hidden');
       $('.add-number').removeClass('hidden');
       $('.verificationFooter').addClass('no-bg');
@@ -175,7 +177,7 @@
         changedCountryCodeObj = newContactObj.intlTelInput("getSelectedCountryData");
         if (!checkDuplicateEntries(oldContactObj)) {
           oldContactObj.val(oldContactValue);
-          return $(this).closest('.contact-verify-steps').find('.customError').text(changedValue + ' already added to list.');
+          return $(this).closest('.contact-verify-steps').find('.customError').text('Same contact detail has been added multiple times.');
         } else {
           $(this).closest('.contact-verify-steps').find('.customError').text('');
           $(this).closest('.modal').find('.contact-input-value').text(changedValue);
@@ -196,9 +198,10 @@
       }
     });
     $('.contact-verification-modal').on('click', '.code-send', function(e) {
-      var contactId, errordiv, otpObj, otpValue, validator;
+      var contactId, errordiv, otpObj, otpObjType, otpValue, validator;
       errordiv = $(this).closest('.number-code').find('.validationError');
       otpObj = $(this).closest('.code-submit').find('.fnb-input');
+      otpObjType = $(this).closest('.modal').attr('modal-type');
       otpObj.attr('data-parsley-required', 'true');
       otpObj.attr('data-parsley-type', 'digits');
       otpObj.attr('data-parsley-length', '[4,4]');
@@ -206,7 +209,11 @@
       validator = otpObj.parsley();
       if (validator.isValid() !== true) {
         if (otpObj.val() === '') {
-          errordiv.html('Please enter OTP sent');
+          if (otpObjType === 'email') {
+            errordiv.html('Please enter the OTP sent via email');
+          } else {
+            errordiv.html('Please enter the OTP sent via sms');
+          }
         } else {
           errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
         }
@@ -237,7 +244,7 @@
             $('.default-state,.add-number,.verificationFooter').addClass('hidden');
             $('.processing').addClass('hidden');
             $('.step-success').removeClass('hidden');
-            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
+            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon ver-icon"></span><p class="c-title">Verified</p>');
             $('.under-review').find('.contact-input').attr('readonly', true);
           } else {
             $('.processing').addClass('hidden');
@@ -262,13 +269,22 @@
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.contact-verification-modal').on('click', '.resend-link', function(e) {
+    return $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');
       }), 2500);
     });
-    return $(".contact-info").on('change', '.toggle__check', function() {
+  });
+
+  if ($(window).width() <= 768) {
+    $('.get-val').each(function() {
+      var addRow, removeRow;
+      removeRow = $(this).find('.fnb-input');
+      addRow = $(this).find('.removeRow').detach();
+      return $(removeRow).after(addRow);
+    });
+    $(".contact-info").on('change', '.toggle__check', function() {
       if ($(this).is(':checked')) {
         $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
         $(this).closest('.toggle').find('.contact-visible').val(1);
@@ -277,6 +293,6 @@
         $(this).closest('.toggle').find('.contact-visible').val(0);
       }
     });
-  });
+  }
 
 }).call(this);

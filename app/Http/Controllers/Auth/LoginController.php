@@ -66,6 +66,8 @@ class LoginController extends Controller
         $userauth_obj = new UserAuth;
         $fnbauth_obj = new FnbAuthController;
 
+        $login_provider_list = ["email_signup", "added_by_internal"];
+
         $this->validateLogin($request);
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -81,8 +83,17 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }*/
         
-        $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup");
-        $valid_response = $userauth_obj->validateUserLogin($user_data, "email_signup");
+        $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password);//, "provider" => "email_signup");
+
+        $user_object = $userauth_obj->checkIfUserExists($user_data); // Get the UserProvider
+
+        if($user_object && (in_array($user_object->signup_source, $login_provider_list))) {
+            $user_data["provider"] = $user_object->signup_source;
+        } else {
+            $user_data["provider"] = "email_signup";
+        }
+
+        $valid_response = $userauth_obj->validateUserLogin($user_data,  $user_data["provider"]);
 
         if ($valid_response["status"] == "success") {
             if($valid_response["authentic_user"]) {

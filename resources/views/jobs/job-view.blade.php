@@ -83,11 +83,11 @@
                </a>
                </div> -->
             @if($job->jobPostedOn()!="")
-            <p class="m-b-0 published-title job-published-date lighter default-size">Posted on : {{ $job->jobPostedOn() }}</p>
+            <p class="m-b-0 published-title job-published-date lighter default-size">Posted on: {{ $job->jobPostedOn() }}</p>
             @endif
 
             @if($job->canEditJob())
-            <a href="{{ url('/jobs/'.$job->reference_id.'/step-one') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
+            <a href="{{ url('/jobs/'.$job->reference_id.'/job-details') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
             @endif                        
          </div>
          <!-- slide navigation ends -->
@@ -176,10 +176,10 @@
                      <img src="/img/power-icon.png" class="img-responsive" width="30">
                   </div>
                   <div class="m-t-5 flex-row space-between">
-                    <div class="location main-loc flex-row">
+                    <div class="location main-loc flex-row text-primary">
                        <!-- <span class="fnb-icons map-icon"></span> -->
-                       <i class="fa fa-tag p-r-5 x-small p-t-5" aria-hidden="true"></i>
-                       <a href="#" class="location__title c-title text-decor default-size">{{ $job->getJobCategoryName() }}</a>
+                       <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i>
+                       <a href="#" class="location__title text-decor default-size text-primary lighter">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
@@ -200,15 +200,16 @@
                       </div>
                     @endif
                     
-                    
 
                     <!-- map address -->
+                    @if($job->interview_location!="")
                     <div class="owner-address flex-row">
-                      <span class="fnb-icons map-icon"></span>
-                      <input id="mapadd" type="hidden" class="form-control fnb-input location-val text-color lighter default-size" readonly  value="">
-                      <div class="text-color lighter mapAddress scroll-to-location"></div>
+                      <!-- <span class="fnb-icons map-icon"></span> -->
+                      <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
+                       
+                      <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>
                      </div>
-
+                    @endif
                     <!-- <div class="owner-address flex-row">
                         <span class="fnb-icons map-icon"></span>
                         
@@ -218,7 +219,7 @@
                   <div class="operations p-t-10 flex-row flex-wrap role-selection">
                      @if(!empty($keywords))
                        <div class="job-role">
-                          <h6 class="operations__title sub-title">Job role</h6>
+                          <h6 class="operations__title sub-title">Job Role</h6>
                           <ul class="cities flex-row">
 
                             @foreach($keywords as $keyword)
@@ -240,11 +241,13 @@
                     @endif
 
                       <div class="job-places">
-                        <h6 class="operations__title sub-title">Job location</h6>
+                        <h6 class="operations__title sub-title">Job Location</h6>
                         @foreach($locations as $city => $locAreas)
+                          
                         <div class="opertaions__container flex-row job-location">
                            <div class="location flex-row">
-                               <span class="fnb-icons map-icon"></span>
+                               <!-- <span class="fnb-icons map-icon"></span> -->
+                               <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i>
                                <p class="default-size location__title c-title flex-row space-between">{{ $city }} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i></h6>
                            </div>
 
@@ -255,10 +258,21 @@
                               $areas = $splitAreas['array'];
                               $moreAreas = $splitAreas['moreArray'];
                               $moreAreaCount = $splitAreas['moreArrayCount'];
+                              $areaCount = count($areas);
+                              $areaInc = 0;
                               ?>
                               @foreach($areas as $area)
+                                <?php
+                                 $areaInc++;
+                                ?>
                                <li>
-                                   <p class="cities__title">{{ $area }}, </p>
+                                  <p class="cities__title">{{ $area }} 
+                   
+                                  @if($areaInc != $areaCount)
+                                   , 
+                                  @endif
+
+                                  </p>
                                </li>
                               @endforeach  
 
@@ -270,19 +284,24 @@
                               @endif
                            </ul>
                         </div>
- 
+                          @endforeach  
 
                       </div>
   
-                      @endforeach    
-
- 
-
                   
                      <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
-                        @if($job->salary_lower !="" && $job->salary_upper !="" )
-                        <div class="text-color lighter">{{ $job->salary_lower }} - {{ $job->salary_upper }} {{ $job->getSalaryType()}}</div>
+
+                        @if($job->salary_lower >="0" && $job->salary_upper > "0" )
+
+                        <div class="text-color lighter">
+                          @if($job->salary_lower == $job->salary_upper )
+                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
+                          @else
+                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
+                          @endif
+                        {{ $job->getSalaryTypeShortForm()}}</div>
+ 
                         @else
                         <div class="text-color lighter">Not disclosed</div>
                         @endif
@@ -291,8 +310,8 @@
 
                   @if(!empty($experience))
                      <div class="year-exp">
-                        <h6 class="operations__title sub-title">Years of experience</h6>
-                        <div class="flex-row">
+                        <h6 class="operations__title sub-title">Years Of Experience</h6>
+                        <div class="flex-row flex-wrap">
                           @foreach($experience as $exp)
                            <div class="text-color lighter year-exp">{{ $exp }} years</div>
                           @endforeach
@@ -301,11 +320,12 @@
                      </div>
                      @endif
 
-                  </div>
+                  
 
                   </div>
-              
+             </div> 
             </div>
+            
             <!-- Card info ends -->
             <!-- contact info -->
             <div class="card seller-info sell-re collapse" id="contact-data">
@@ -345,7 +365,8 @@
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
                </div>
-             
+              
+               @if($job->interview_location!="")
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Address/Map</h6>
                   <div class="text-color stable-size">
@@ -357,11 +378,12 @@
                       <input type="hidden" id=longitude name=longitude value="{{ $job->interview_location_long  }}">
                   </div>
                </div>
+              @endif
                @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
-                  {!! $job->description !!}
+                  {!! $jobCompany->description !!}
                </div>
               @endif
                <div class="footer-share flex-row">
@@ -465,15 +487,20 @@
                   <div class="flex-row name-row">
                     
                      <div class="company-logo">
-                        <img src="{{ $companyLogo }}">
+                        <img src="{{ $companyLogo }}" width="60">
                      </div>
                     @if(!empty($jobCompany->logo))@endif
                      <div class="company-name heavier">
-                        <div>
-                           <div class="flex-row heavier @if(empty($jobCompany->logo)) element-title @endif"><i class="fa fa-building-o p-r-5" aria-hidden="true"></i> {{ $jobCompany->title }}</div>
+                        <div class="@if(empty($jobCompany->logo)) text-center @endif">
+                           <div class="heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
+                            {{ $jobCompany->title }}
+                            </div>
+
 
                            @if(!empty($jobCompany->website))
-                           <a href="#" class="primary-link x-small ">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+
+                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
+
                            @endif
 
                            @if(!empty($jobCompany->description))
@@ -496,7 +523,7 @@
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
-               
+              @if($job->isPublished()) 
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
@@ -510,7 +537,7 @@
                      <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
-               @if($job->isPublished())
+               
               @endif
             </div>
             <!-- Advertisement ends -->
@@ -519,8 +546,7 @@
             </div>
             <!-- advertisement ends -->
          </div>
-
-         <!-- Featured Jobs -->
+                  <!-- Featured Jobs -->
         <div class="featured-jobs browse-cat">
            <h6 class="element-title m-t-0">Featured Jobs</h6>
            <hr>
@@ -663,6 +689,8 @@
                </li>
             </ul>
          </div>
+    
+
       </div>
    </div>
    <div class="row m-t-30 m-b-30 why-row">

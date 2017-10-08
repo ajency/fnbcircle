@@ -55,7 +55,7 @@
     <div class="filter-group__body filter-row collapse in" id="section-area">
         <div class="search-area flex-row">
             <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-            <input type="text" class="form-control fnb-input search-input text-color" placeholder="Search an area">
+            <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search an area">
         </div>
         <div class="check-section">
             <label class="sub-title flex-row clear hidden">

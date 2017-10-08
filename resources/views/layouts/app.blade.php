@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     @yield('meta') 
+    @yield('openGraph')
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
     <title> @yield('title')</title>
@@ -22,6 +23,15 @@
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "{{env('APP_NAME')}}",
+        "url": "{{env('APP_URL')}}"
+    }
+    </script>
 </head>
 
 <body class="nav-md">

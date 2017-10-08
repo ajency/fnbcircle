@@ -9,7 +9,9 @@ use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
 use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
+use Carbon\Carbon;
 use Auth;
+use App\Defaults;
 
 class Listing extends Model
 {
@@ -73,7 +75,7 @@ class Listing extends Model
     }
     public function contacts()
     {
-        return $this->belongsToMany('App\UserCommunication')->using('App\ListingCommunication')->withPivot('verified');
+        return $this->morphMany('App\UserCommunication','object');
     }
     public function operationTimings()
     {
@@ -97,7 +99,7 @@ class Listing extends Model
     public function saveInformation($title, $type, $email, $area)
     {
         $slug  = str_slug($title);
-        $count = Listing::where('slug', $slug)->count();
+        $count = Listing::where('slug', $slug)->where('id','!=',$this->id)->count();
         $i     = 1;
         $slug1 = $slug;
         if ($count > 0) {
@@ -110,7 +112,7 @@ class Listing extends Model
 
         $this->title = $title;
         $this->type  = $type;
-        if ($this->status != "1") {
+        if ($this->status == "3" or $this->status == null) {
             $this->slug = $slug1;
         }
 
@@ -150,6 +152,75 @@ class Listing extends Model
     public function save(array $options = []){
         $this->last_updated_by = Auth::user()->id;
         parent::save();
+    }
+
+    public function getHoursofOperation(){
+        $opHrs = $this->operationTimings()->get();
+        $week = [
+            '0' => ['day' => 'Monday'],
+            '1' => ['day' => 'Tuesday'],
+            '2' => ['day' => 'Wednesday'],
+            '3' => ['day' => 'Thursday'],
+            '4' => ['day' => 'Friday'],
+            '5' => ['day' => 'Saturday'],
+            '6' => ['day' => 'Sunday'],
+        ];
+        foreach($opHrs as $day){
+            $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+            $week[$day->day_of_week]['from'] = $day->from;
+            $week[$day->day_of_week]['to'] = $day->to;
+            if($day->closed == 1) $week[$day->day_of_week]['timing'] = 'Closed';
+            if($day->open24 == 1) $week[$day->day_of_week]['timing'] = 'Open 24 Hours';
+        }
+        return $week;
+    }
+
+    public function today(){
+        $carbon = new Carbon();
+        $day = $this->operationTimings()->where('day_of_week',$carbon->dayOfWeek)->first();
+        if($day == null) return false;
+        $timing = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+        if($day->closed == 1) { $timing = 'Closed'; $open = false; }
+        elseif($day->open24 == 1) { $timing = 'Open 24 Hours'; $open = true; }
+        else {
+            $from = Carbon::createFromFormat('H:i:s',$day->from);
+            $to = Carbon::createFromFormat('H:i:s',$day->to);
+            if($from < $carbon and $carbon < $to){
+                $open = true;
+            }else{
+                $open = false;
+            }
+        }
+        return ['timing'=>$timing, 'open'=>$open];
+    }
+    public function getPayments(){
+        $payments = [];
+        if($this->payment_modes == null) return null;
+        $modes =json_decode($this->payment_modes);
+        $mode_name=[
+            "visa" => "Visa Cards",
+            "debit" => "Debit Cards",
+            "money_order" => "Money Order",
+            "cheque" => "Cheque",
+            "credit" => "Credit Cards",
+            "travelers" => "Travelers Cheque",
+            "cash" => "Cash",
+            "master" => "Master Cards",
+            "diners" => "Diner's Cards",
+        ];
+        foreach ($modes as $mode => $value) {
+             if($value == '1') $payments[] = $mode_name[$mode];
+         }
+         $payments = array_merge($payments,$this->tagNames('payment-modes'));
+         return $payments;
+    }
+
+    public function isPremium(){
+        $def = Defaults::where('type','listing-premium')->first();
+        if($def!=null and $def['label']=="0")
+            return false;
+        else
+            return true;
     }
 
 }

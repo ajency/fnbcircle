@@ -284,3 +284,22 @@ function pagination($totalRecords,$currentPage,$limit){
 function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
+
+/**
+* This function is used to generate URL from city_name & 1 or more slugs
+* This function will @return
+*	url => /<city>/<slug1>/<slug2>/.......
+*/
+function generateUrl($city, $slug, $slug_extra = []) {
+
+	//str_slug('Laravel 5 Framework', '-');
+
+	$url = "/" . $city . "/" . $slug;
+	if(sizeof($slug_extra) > 0) {
+		foreach ($slug_extra as $slug_key => $slug_value) {
+			$url .= "/" . str_slug($slug_value, '-');
+		}
+	}
+
+	return $url;
+}

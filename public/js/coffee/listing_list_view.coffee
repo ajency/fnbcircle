@@ -15,6 +15,37 @@ getUrlSearchParams = () ->
 		return [""]
 	return
 
+updateUrlPushstate = (key, pushstate_url) ->
+	if window.location.search.length <= 0 and window.location.search.indexOf(key) <= -1 and pushstate_url.length > 0
+		## -- No params in URL & no key & data is passed, then create -- ##
+		window.history.pushState("", "", "?" + pushstate_url)
+	else if window.location.search.length > 0 and window.location.search.indexOf(key) <= -1 and pushstate_url.length > 0
+		## -- params in URL is there & no key & data is passed, then create -- ##
+		window.history.pushState("", "", window.location.search + "&" + pushstate_url)
+	else
+		## -- params in URL & key exist -- ##
+		params = getUrlSearchParams()
+		old_url = ""
+		i = 0
+		if params.length > 0 and window.location.search.indexOf(key) > -1
+			while i < params.length
+				### --- remove the key from the URL --- ###
+				if params[i].indexOf(key) <= -1
+					old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
+				i++
+
+			if pushstate_url.length > 0
+				### --- the key has value, then update the new Value in the URL --- ###
+				if old_url.length > 0
+					window.history.pushState("", "", old_url + "&" + pushstate_url)
+				else
+					window.history.pushState("", "", "?" + pushstate_url)
+			else
+				### --- the key has no value, so update the url with rest of the keys --- ###
+				if old_url.length > 0
+					window.history.pushState("", "", old_url)
+	return
+
 getFilters = () ->
 	filters = 
 		"category_search": $('input[type="hidden"][name="category_search"]').val()
@@ -23,23 +54,48 @@ getFilters = () ->
 		"business_types": []
 		"listing_status": []
 
+	if filters["category_search"].length > 0
+		updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
+	else
+		updateUrlPushstate("category_search", "")
+
+	if filters["business_search"].length > 0
+		updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"])
+	else
+		updateUrlPushstate("business_search", "")
+
 	filters["categories"] =  $(".results__body ul.contents #current_category").val() #$(".results__body ul.contents a.bolder").attr("value")
 	updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
 
+	### --- Get 'area' values & update URL --- ###
 	$("input[type='checkbox'][name='areas[]']:checked").each ->
 		filters["areas_selected"].push $(this).val()
 		return
-	updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
 
+	if filters["areas_selected"].length > 0
+		updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
+	else
+		updateUrlPushstate("areas_selected", "")
+
+	### --- Get 'business_types' values & update URL --- ###
 	$("input[type='checkbox'][name='business_type[]']:checked").each ->
 		filters["business_types"].push $(this).val()
 		return
-	updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
 
+	if filters["business_types"].length > 0
+		updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
+	else
+		updateUrlPushstate("business_types", "")
+
+	### --- Get 'listing_status' values & update URL --- ###
 	$("input[type='checkbox'][name='listing_status[]']:checked").each ->
 		filters["listing_status"].push $(this).val()
 		return
-	updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
+	
+	if filters["listing_status"].length > 0
+		updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
+	else
+		updateUrlPushstate("listing_status", "")
 
 	return filters
 
@@ -147,28 +203,6 @@ updateCityDropdown = (data, populate_id) ->
 		html_content = "<option value=\"\"></option>"
 	
 	$("#" + populate_id).html html_content
-	return
-
-updateUrlPushstate = (key, pushstate_url) ->
-	if window.location.search.length <= 0 and window.location.search.indexOf(key) <= -1
-		## -- No params in URL & no data -- ##
-		window.history.pushState("", "", "?" + pushstate_url)
-	else if window.location.search.length > 0 and window.location.search.indexOf(key) <= -1
-		window.history.pushState("", "", window.location.search + "&" + pushstate_url)
-	else
-		params = window.location.search.split('?')[1].split("&")
-		old_url = ""
-		i = 0
-		
-		while i < params.length
-			if params[i].indexOf(key) <= -1
-				old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
-			i++
-
-		if old_url.length > 0
-			window.history.pushState("", "", old_url + "&" + pushstate_url)
-		else
-			window.history.pushState("", "", "?" + pushstate_url)
 	return
 
 $(document).ready () ->
@@ -320,29 +354,33 @@ $(document).ready () ->
 
 	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
 		### -- make a request if any one the Searchbox is cleared -- ###
-		if $(this).val().length <= 0
-			key = ""
-			if $(this).attr("name") == "city"
-				key = "state"
-			else
-				key = $(this).attr("name")
-			
-			if window.location.search.length > 0 and window.location.search.indexOf(key) > -1
-				params = window.location.search.split('?')[1].split("&")
-				old_url = ""
-				i = 0
-				
-				while i < params.length
-					if params[i].indexOf(key) <= -1
-						old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
-					i++
-				
-				if old_url.length > 0
-					window.history.pushState("", "", old_url)
-				else
-					window.history.pushState("", "", "?")
+		key = ""
 		
-			getListContent()		
+		if $(this).attr("name") == "city"
+			key = "state"
+		else
+			key = $(this).attr("name")
+		
+		if $(this).val().length <= 0
+			updateUrlPushstate(key, "")
+			# if window.location.search.length > 0 and window.location.search.indexOf(key) > -1
+			# 	params = getUrlSearchParams()
+			# 	old_url = ""
+			# 	i = 0
+				
+			# 	while i < params.length
+			# 		if params[i].indexOf(key) <= -1
+			# 			old_url += (if old_url.length <= 0 then "?" else "&") + params[i]
+			# 		i++
+				
+			# 	if old_url.length > 0
+			# 		window.history.pushState("", "", old_url)
+			# 	else
+			# 		window.history.pushState("", "", "?")
+		
+			getListContent()
+		else if key == "category_search"
+			updateUrlPushstate(key, key + "=" + $(this).val())
 		return
 
 	### -- Triggered every time the user selects an option -- ###
@@ -372,6 +410,10 @@ $(document).ready () ->
 
 		$(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"))
 		
+		# setTimeout (->
+		# 	getListContent()
+		# 	return
+		# ), 1000
 		getListContent()
 		#console.log $(this).text()
 		return false
@@ -440,7 +482,6 @@ $(document).ready () ->
 		return
 
 	$('.listings-page #backToTop').on "click", () ->
-		console.log "asdasd"
 		$('body, html').animate { 
 			scrollTop: 0
 		}, 1000

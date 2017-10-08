@@ -422,7 +422,16 @@ $(document).ready () ->
 	$(document).on "change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", (e) ->
 		getListContent()
 		return
-		
+	
+	$(document).on "input change", ".filter-group.area #section-area input[type='text']#area_search", (event) ->
+		$("input[type='checkbox'][name='areas[]']").parent().addClass('hidden')
+
+		search_key = $(this).val()
+		$("input[type='checkbox'][name='areas[]']").each ->
+			if($(this).parent().text().indexOf(search_key) > -1)
+				$(this).parent().removeClass "hidden"
+			return
+		return
 
 	# ### --- Handle Bar template functions --- ###
 	# ### --- Clear the listing_card_view section --- ###

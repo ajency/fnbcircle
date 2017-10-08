@@ -367,6 +367,16 @@
     $(document).on("change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", function(e) {
       getListContent();
     });
+    $(document).on("input change", ".filter-group.area #section-area input[type='text']#area_search", function(event) {
+      var search_key;
+      $("input[type='checkbox'][name='areas[]']").parent().addClass('hidden');
+      search_key = $(this).val();
+      $("input[type='checkbox'][name='areas[]']").each(function() {
+        if ($(this).parent().text().indexOf(search_key) > -1) {
+          $(this).parent().removeClass("hidden");
+        }
+      });
+    });
 
     /* --- Working of "Back to Top" button --- */
     $(window).scroll(function() {

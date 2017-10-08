@@ -276,8 +276,6 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
-
-
 /**
 * This function is used to get Popular city object that will be used in Every page dropdown -> Header page
 * This function will @return

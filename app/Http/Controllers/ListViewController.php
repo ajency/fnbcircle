@@ -248,7 +248,8 @@ class ListViewController extends Controller {
     */
     public function getListFilterData($filters=[], $render_html = false) {
 
-		$category_obj = Category::where('type', 'listing');
+		# $category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
+		$category_obj = new Category;
 		$path_breaker = array(1 => 0, 2 => 1, 3 => 2); // <level> => no of breaks
 
 		$filter_data["category"] = [];
@@ -262,6 +263,7 @@ class ListViewController extends Controller {
     		} else {
     			$node_categories = [$cat_obj->id];
     		}
+    		
     		$filter_data["category"] = array("name" => $cat_obj->name, "node_categories" => strVal($cat_obj->id) . "|" . json_encode($node_categories));
 
 			// Find the parent & Grand-parent
@@ -302,7 +304,7 @@ class ListViewController extends Controller {
     	} else {
     		$filter_data["category"] = array("parent" => [], "node_categories" => "0|[]", "name" => "");
 			
-			$filter_data["category"]["children"] = $category_obj->where("level",1)->get()->each(function($category_val) {
+			$filter_data["category"]["children"] = $category_obj->where([["level", 1], ["type", "listing"]])->get()->each(function($category_val) {
 				$temp_cat_obj = new Category;
 
 				if($category_val->level < 3) {
@@ -409,7 +411,7 @@ class ListViewController extends Controller {
 
 		    	$array_id_list = array_unique($array_id_list); // Remove duplicate IDs*/
 
-	    		$listing_ids = ListingCategory::whereIn('category_id', $filters['categories'])->pluck('listing_id')->toArray();
+		    	$listing_ids = ListingCategory::whereIn('category_id', $filters['categories'])->pluck('listing_id')->toArray();
 	    		$listing_obj = $listing_obj->whereIn("id", $listing_ids);
 	    	}
 
@@ -528,9 +530,9 @@ class ListViewController extends Controller {
     			$filter_filters["category"] = array("id" => explode("|", $request->filters["categories"])[0]);
     			$category_search_filter = json_decode(explode("|", $request->filters["categories"])[1]);// Get the Node_categories list
 
-    			if($filter_filters["category"]["id"] > 0) {
+    			/*if($filter_filters["category"]["id"] > 0 && sizeof($category_search_filter) <= 0) {
     				$category_search_filter = [0];
-    			}
+    			}*/
 
     			if(isset($filters["categories"])) {
     				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);

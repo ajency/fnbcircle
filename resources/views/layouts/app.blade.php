@@ -63,9 +63,9 @@
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
                             <select class="form-control fnb-select nav-color" onchange="location = this.value;">
-                                <option>--Change city--</option>
+                                <option>--Change State--</option>
                                 @foreach(getPopularCities() as $city_index => $city_value)
-                                    <option value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                    <option title="{{ $city_value->slug }}" value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
                                 @endforeach
                             </select>
                         </li>

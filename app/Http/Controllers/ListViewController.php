@@ -120,6 +120,8 @@ class ListViewController extends Controller {
 		$city_obj = City::where('status', 1)->orderBy('order', 'asc');
 
 		if($request->has("search") && $request->search) { 
+			$area_obj = Area::where('status', 1)->orderBy('order', 'asc');
+    		$response_data = $this->searchData($request->search, $area_obj, 'name', ['id', 'name', 'slug', 'status', 'order'], 0); // Get all the published State
     		$response_data = $this->searchData($request->search, $city_obj, 'name', ['id', 'name', 'slug', 'status', 'order'], 0); // Get all the published State
     	} else {
     		$response_data = $this->searchData('', $city_obj, 'name', ['id', 'name', 'slug', 'status', 'order'], 0);// Get all the Published state with Order '1' & Status 'published'
@@ -440,7 +442,7 @@ class ListViewController extends Controller {
 
 	    	$filtered_count = $listing_obj->distinct('id')->count('id');
 	    	
-	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium']);// , 'rating']);
+	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug']);// , 'rating']);
 
 	    	$listing_obj = $listing_obj->each(function($list){ // Get following data for each list
 	    		$list["area"] = $list->location()->get(["id", "name", "slug"])->first(); // Get the Primary area
@@ -523,15 +525,21 @@ class ListViewController extends Controller {
 
     		// If a Category is selected from the List on the Left-hand side
     		if(isset($request->filters["categories"])) {
+    			$filter_filters["category"] = array("id" => explode("|", $request->filters["categories"])[0]);
     			$category_search_filter = json_decode(explode("|", $request->filters["categories"])[1]);// Get the Node_categories list
+
+    			if($filter_filters["category"]["id"] > 0) {
+    				$category_search_filter = [0];
+    			}
 
     			if(isset($filters["categories"])) {
     				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
     			} else {
     				$filters["categories"] = is_array($category_search_filter) ? $category_search_filter : [$category_search_filter];
     			}
-    			
-    			$filter_filters["category"] = array("id" => explode("|", $request->filters["categories"])[0]);
+    		} else {
+    			$filter_filters["category"] = array("id" => 0);
+    			$filters["categories"] = [];
     		}
 
     		if(isset($request->filters["listing_status"]) && $request->filters["listing_status"]) {

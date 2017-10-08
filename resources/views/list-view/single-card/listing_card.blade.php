@@ -68,7 +68,7 @@
                                 @endforeach
                                 @if (sizeof($list_value->cores) >= 4)
                                     <li class="cat-more more-show">
-                                        <a href="" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                     </li>
                                 @endif
                             </ul>
@@ -82,13 +82,13 @@
                         @endif
                         <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
                         <div class="operations__container">
-                            @foreach($list_value->areas_operation as $locations_index => $locations_value)
+                            @foreach(array_slice($list_value->areas_operation, 0, 3) as $locations_index => $locations_value)
                                 <div class="location flex-row">
                                     <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
                                     </p>
                                 </div>
                                 <ul class="cities flex-row">
-                                    @foreach($locations_value["areas"] as $areas_index => $areas_value)
+                                    @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
                                         @if ($areas_index < 3)
                                             <li>
                                                 <p class="cities__title default-size">{{ $areas_value->name }}, </p>
@@ -98,12 +98,12 @@
                                                 <p class="cities__title default-size"> {{ $areas_value->name }}, </p>
                                             </li>
                                         @endif
-                                        @if ($areas_index >= 3)
-                                            <li class="remain more-show">
-                                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                            </li>
-                                        @endif
                                     @endforeach
+                                    @if ($locations_value["areas"]->count() > 5)
+                                        <li class="remain more-show">
+                                            <a href="" class="cities__title remain__number default-size text-medium"> + {{ $locations_value["areas"]->count() - 5 }} more...</a>
+                                        </li>
+                                    @endif
                                     <!-- <li>
                                         <p class="cities__title default-size">Bandra, </p>
                                     </li>
@@ -127,6 +127,15 @@
                                     </li> -->
                                 </ul>
                             @endforeach
+                            @if(sizeof($list_value->areas_operation) > 3)
+                                <div class="location flex-row">
+                                    <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 3 }} more...</a>
+                                    </p>
+                                </div>
+                                <!-- <div class="location remain more-show">
+                                    <p class="m-b-0 text-color heavier default-size"><a href="" class="cities__title remain__number default-size text-medium">more...</a></p>
+                                </div> -->
+                            @endif
                         </div>
                     </div>
                     <div>
@@ -142,7 +151,7 @@
                             <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
                         </div>
                         <div class="get-details detail-move">
-                            <button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button>
+                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>
@@ -167,3 +176,13 @@
         @include("enquiries.listings_enquiry")
     @endif
 @endforeach
+@if($listing_data->count() <= 0)
+    <div class="filter-data m-b-30">
+        <div class="list-title-container">
+            <h3 class="seller-info__title ellipsis">Sorry, no results found!</h3>
+        </div>
+        <div>
+            <p class="m-b-0 default-size heavier flex-row">Please check the spelling or try searching for something else</p>    
+        </div>
+    </div>
+@endif

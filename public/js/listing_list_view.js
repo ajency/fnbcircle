@@ -19,6 +19,44 @@
     }
   };
 
+  updateUrlPushstate = function(key, pushstate_url) {
+    var i, old_url, params;
+    if (window.location.search.length <= 0 && window.location.search.indexOf(key) <= -1 && pushstate_url.length > 0) {
+      window.history.pushState("", "", "?" + pushstate_url);
+    } else if (window.location.search.length > 0 && window.location.search.indexOf(key) <= -1 && pushstate_url.length > 0) {
+      window.history.pushState("", "", window.location.search + "&" + pushstate_url);
+    } else {
+      params = getUrlSearchParams();
+      old_url = "";
+      i = 0;
+      if (params.length > 0 && window.location.search.indexOf(key) > -1) {
+        while (i < params.length) {
+
+          /* --- remove the key from the URL --- */
+          if (params[i].indexOf(key) <= -1) {
+            old_url += (old_url.length <= 0 ? "?" : "&") + params[i];
+          }
+          i++;
+        }
+        if (pushstate_url.length > 0) {
+
+          /* --- the key has value, then update the new Value in the URL --- */
+          if (old_url.length > 0) {
+            window.history.pushState("", "", old_url + "&" + pushstate_url);
+          } else {
+            window.history.pushState("", "", "?" + pushstate_url);
+          }
+        } else {
+
+          /* --- the key has no value, so update the url with rest of the keys --- */
+          if (old_url.length > 0) {
+            window.history.pushState("", "", old_url);
+          }
+        }
+      }
+    }
+  };
+
   getFilters = function() {
     var filters;
     filters = {
@@ -28,20 +66,48 @@
       "business_types": [],
       "listing_status": []
     };
+    if (filters["category_search"].length > 0) {
+      updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"]);
+    } else {
+      updateUrlPushstate("category_search", "");
+    }
+    if (filters["business_search"].length > 0) {
+      updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"]);
+    } else {
+      updateUrlPushstate("business_search", "");
+    }
     filters["categories"] = $(".results__body ul.contents #current_category").val();
     updateUrlPushstate("categories", "categories" + "=" + filters["categories"]);
+
+    /* --- Get 'area' values & update URL --- */
     $("input[type='checkbox'][name='areas[]']:checked").each(function() {
       filters["areas_selected"].push($(this).val());
     });
-    updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]));
+    if (filters["areas_selected"].length > 0) {
+      updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]));
+    } else {
+      updateUrlPushstate("areas_selected", "");
+    }
+
+    /* --- Get 'business_types' values & update URL --- */
     $("input[type='checkbox'][name='business_type[]']:checked").each(function() {
       filters["business_types"].push($(this).val());
     });
-    updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]));
+    if (filters["business_types"].length > 0) {
+      updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]));
+    } else {
+      updateUrlPushstate("business_types", "");
+    }
+
+    /* --- Get 'listing_status' values & update URL --- */
     $("input[type='checkbox'][name='listing_status[]']:checked").each(function() {
       filters["listing_status"].push($(this).val());
     });
-    updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]));
+    if (filters["listing_status"].length > 0) {
+      updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]));
+    } else {
+      updateUrlPushstate("listing_status", "");
+    }
     return filters;
   };
 
@@ -142,30 +208,6 @@
       html_content = "<option value=\"\"></option>";
     }
     $("#" + populate_id).html(html_content);
-  };
-
-  updateUrlPushstate = function(key, pushstate_url) {
-    var i, old_url, params;
-    if (window.location.search.length <= 0 && window.location.search.indexOf(key) <= -1) {
-      window.history.pushState("", "", "?" + pushstate_url);
-    } else if (window.location.search.length > 0 && window.location.search.indexOf(key) <= -1) {
-      window.history.pushState("", "", window.location.search + "&" + pushstate_url);
-    } else {
-      params = window.location.search.split('?')[1].split("&");
-      old_url = "";
-      i = 0;
-      while (i < params.length) {
-        if (params[i].indexOf(key) <= -1) {
-          old_url += (old_url.length <= 0 ? "?" : "&") + params[i];
-        }
-        i++;
-      }
-      if (old_url.length > 0) {
-        window.history.pushState("", "", old_url + "&" + pushstate_url);
-      } else {
-        window.history.pushState("", "", "?" + pushstate_url);
-      }
-    }
   };
 
   $(document).ready(function() {
@@ -280,31 +322,17 @@
     $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('change:flexdatalist', function() {
 
       /* -- make a request if any one the Searchbox is cleared -- */
-      var old_url, params;
+      key = "";
+      if ($(this).attr("name") === "city") {
+        key = "state";
+      } else {
+        key = $(this).attr("name");
+      }
       if ($(this).val().length <= 0) {
-        key = "";
-        if ($(this).attr("name") === "city") {
-          key = "state";
-        } else {
-          key = $(this).attr("name");
-        }
-        if (window.location.search.length > 0 && window.location.search.indexOf(key) > -1) {
-          params = window.location.search.split('?')[1].split("&");
-          old_url = "";
-          i = 0;
-          while (i < params.length) {
-            if (params[i].indexOf(key) <= -1) {
-              old_url += (old_url.length <= 0 ? "?" : "&") + params[i];
-            }
-            i++;
-          }
-          if (old_url.length > 0) {
-            window.history.pushState("", "", old_url);
-          } else {
-            window.history.pushState("", "", "?");
-          }
-        }
+        updateUrlPushstate(key, "");
         getListContent();
+      } else if (key === "category_search") {
+        updateUrlPushstate(key, key + "=" + $(this).val());
       }
     });
 
@@ -349,7 +377,6 @@
       }
     });
     $('.listings-page #backToTop').on("click", function() {
-      console.log("asdasd");
       $('body, html').animate({
         scrollTop: 0
       }, 1000);

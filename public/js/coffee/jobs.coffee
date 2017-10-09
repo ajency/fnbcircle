@@ -77,7 +77,7 @@ $(document).ready ()->
       searchByWord:true
       searchContain:true
       selectionRequired:true
-      minLength: 1
+      minLength: 0
       url: '/get-keywords'
       searchIn: ["label"]
     return

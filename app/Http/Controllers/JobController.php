@@ -606,9 +606,9 @@ class JobController extends Controller
 
     public function getKeywords(Request $request)
     { 
-        $this->validate($request, [
-            'keyword' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'keyword' => 'required',
+        // ]);
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')

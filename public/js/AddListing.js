@@ -147,8 +147,12 @@ function validateListing(event) {
                     for (var j in data['similar'][k]['messages']) {
                         myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data['similar'][k]['messages'][j] + '</span>' + '</p>';
                     }
-                    myvar += '</div>' + '<div class="right">' + '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' + '</div>' + '</div>';
-                    // console.log(myvar);
+                    myvar += '</div>' + '<div class="right">'; 
+                    if(data['type'] == 'external') {
+                        myvar +=  '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' ;
+                    }
+                    myvar += '</div>' + '</div>';
+                    
                 }
                 $('.list-entries').html(myvar);
                 if (myvar != '') {

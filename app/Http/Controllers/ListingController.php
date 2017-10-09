@@ -284,7 +284,7 @@ class ListingController extends Controller
                 // dd($similar);
             }
         }
-        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar));
+        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar, 'type' => Auth::user()->type));
 
     }
     public function getAreas(Request $request)

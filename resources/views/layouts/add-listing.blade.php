@@ -466,9 +466,11 @@
                             <div class="modal-body">
                                 <div class="listing-details text-center">
                                     <img src="/img/listing-search.png" class="img-responsive center-block">
-                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on F&amp;BCircle.</h5>
+                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on FnBCircle.</h5>
+                                    @if(Auth::user()->type == 'external')
                                     <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
                                         <br> You can either Claim the listing or Delete it.</p>
+                                    @endif
                                 </div>
                                 <div class="list-entries">
                                     <div class="list-row flex-row">

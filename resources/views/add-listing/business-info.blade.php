@@ -193,7 +193,7 @@
                             <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="" checked>
                             @else
                             <!-- <a href="#" class="dark-link contact-verify-link verify-link">Verify now</a> -->
-                            <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
+                            @if(Auth::user()->type == 'external') <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a> @endif
                             <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                             @endif
                         </div>
@@ -226,7 +226,7 @@
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
-                        <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
+                        @if(Auth::user()->type == 'external')<a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>@endif
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
 
-                        <a href="#" class="dark-link contact-verify-link">Verify now</a>
+                        @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
 
                     </div>
@@ -316,7 +316,7 @@
                         <p class="c-title">Verified</p>
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="" checked>
                         @else
-                        <a href="#" class="dark-link contact-verify-link">Verify now</a>
+                        @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
                         <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
                         @endif
                     </div>
@@ -355,7 +355,7 @@
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
                         <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
-                        <a href="#" class="dark-link contact-verify-link">Verify now</a>
+                        @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">

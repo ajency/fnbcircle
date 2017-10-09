@@ -165,31 +165,34 @@ class ListingViewController extends Controller
 
         //rule : At least 1 core category matching + type + locality
         $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->where('type',$listing->type)->where('locality_id',$listing->locality_id)->orderBy('updated_at')->take(2)->get();
-        
+        $url='url1';
         foreach ($similar as $sim) {
             $similar_id[] = $sim->id;
-            $url='url1';
+            
         }
         if(count($similar_id)<3){
             //rule : At least 1 core category matching + type
+            $url='url2';
             $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->where('type',$listing->type)->orderBy('updated_at')->take(2)->get();
             foreach ($similar as $sim) {
                 $similar_id[] = $sim->id;
-                $url='url2';
+                
             }
             if(count($similar_id)<3){
                 //rule : At least 1 core category matching
+                $url='url3';
                 $similar = Listing::whereNotIn('id',$similar_id)->whereIn('id',$simCore)->where('status',1)->orderBy('updated_at')->take(2)->get();
                 foreach ($similar as $sim) {
                     $similar_id[] = $sim->id;
-                    $url='url3';
+                    
                 }
                 if(count($similar_id)<3){
                     //rule : At least 1 core category matching
+                    $url='url4';
                     $similar = Listing::whereNotIn('id',$similar_id)->where('status',1)->orderBy('updated_at')->take(2)->get();
                     foreach ($similar as $sim) {
                         $similar_id[] = $sim->id;
-                        $url='url4';
+                        
                     }
                 }
             }

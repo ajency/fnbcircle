@@ -16,6 +16,7 @@ use App\UserCommunication;
 use Auth;
 use Session;
 use Carbon\Carbon;
+use App\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -750,7 +751,9 @@ class ListingController extends Controller
             return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details')->with('cityy',$cityy);
         }
         if ($step == 'business-premium') {
-            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy);
+            $plans = Plan::where('type','listing')->get();
+            
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans);
         }
     }
 

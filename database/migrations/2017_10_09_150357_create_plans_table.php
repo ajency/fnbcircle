@@ -20,6 +20,7 @@ class CreatePlansTable extends Migration
             $table->string('slug')->nullable();
             $table->string('type');
             $table->integer('amount');
+            $table->integer('order')->nullable();
             $table->integer('duration')->comment('in days');
             $table->text('meta_data')->nullable();
         });

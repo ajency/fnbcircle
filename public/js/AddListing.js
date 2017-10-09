@@ -103,19 +103,34 @@ function validateListing(event) {
         // console.log(true);
         var title = document.getElementsByName("listing_title")[0].value;
         var value = document.getElementsByName("contacts");
-        var json = '[';
-        for (var i = 0; i < value.length; i++) {
-            if ($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 'email'
-            if ($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 'mobile'
-            if ($(value[i]).closest('.business-contact').hasClass('landline')) var type = 'landline'
-            if (value[i].value !== "") {
-                json += '{\"value\":\"' +  value[i].value + '\",'+
-                        '\"country\":\"' +$(value[i]).intlTelInput("getSelectedCountryData")['dialCode'] + '\",'+
-                        '\"type\":\"' +type + '\"'+'},';
+        var cont = [];
+        var i = 0;
+        while (i < value.length) {
+          var type;
+          if (value[i].value === '') {
+            i++;
+            continue;
+          }
+          if ($(value[i]).closest('.business-contact').hasClass('business-email')) {
+            type = 'email';
+          }
+          if ($(value[i]).closest('.business-contact').hasClass('business-phone')) {
+            type = 'mobile';
+          }
+          if ($(value[i]).closest('.business-contact').hasClass('landline')) {
+            type = 'landline';
+          }
+
+          cont.push([
+            {
+              'value': value[i].value,
+              'country': $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'],
+              'type': type
             }
+          ]);
+          i++;
         }
-        json = json.slice(0, -1);
-        json += ']';
+          json = JSON.stringify(cont);
         // console.log(json);
         $.ajax({
             type: 'post',
@@ -132,8 +147,12 @@ function validateListing(event) {
                     for (var j in data['similar'][k]['messages']) {
                         myvar += '<p class="m-b-0 text-color text-left default-size">' + '<i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">' + data['similar'][k]['messages'][j] + '</span>' + '</p>';
                     }
-                    myvar += '</div>' + '<div class="right">' + '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' + '</div>' + '</div>';
-                    // console.log(myvar);
+                    myvar += '</div>' + '<div class="right">'; 
+                    if(data['type'] == 'external') {
+                        myvar +=  '<div class="capsule-btn flex-row">' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</a>' + '<a href="claim/" class="btn fnb-btn outline full border-btn no-border delete">Delete</a>' + '</div>' ;
+                    }
+                    myvar += '</div>' + '</div>';
+                    
                 }
                 $('.list-entries').html(myvar);
                 if (myvar != '') {

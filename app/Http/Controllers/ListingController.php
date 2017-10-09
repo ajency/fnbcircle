@@ -49,6 +49,7 @@ class ListingController extends Controller
 
     public function listingInformation($data)
     {
+        
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,16',
@@ -192,7 +193,7 @@ class ListingController extends Controller
             $listing           = new Listing;
             $listing->title    = $request->title;
             $contacts          = json_decode($request->contacts, true);
-            $listing->owner_id = Auth::user()->id;
+            if(Auth::user()->type == 'external') $listing->owner_id = Auth::user()->id;
         }
         $alltitles = Listing::where('status', "1")->where('id', '!=', $listing->id)->pluck('title', 'reference')->toArray();
         $similar   = array();
@@ -207,12 +208,19 @@ class ListingController extends Controller
                 $titles[$key]  = array('id' => $key, 'title' => $value);
             }
         }
+
+        $check_emails = [];
+        foreach ($contacts as $value) {
+            if($value['type'] == 'email') $check_emails[] = $value['value'];
+        }
+
         // dd($output);
         $owner = User::find($listing->owner_id);
         $query = UserCommunication::where('object_type', 'App\\Listing')->whereNotNull('object_id')->where('object_id','!=',$listing->id);
         $query = $query->where(function ($query) use ($contacts, $owner) {
             $query->where(function ($query) use ($owner) {
-                $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                else $query->whereNull('value');
             });
             foreach ($contacts as $value) {
                 $query->orWhere(function ($query) use ($value) {
@@ -225,10 +233,7 @@ class ListingController extends Controller
         $dup_com = $query->get();
         // dd($dup_com);
 
-        $check_emails = [];
-        foreach ($contacts as $value) {
-            if($value['type'] == 'email') $check_emails[] = $value['value'];
-        }
+        
         $userauth_obj = new UserAuth;
         //create an array of only emails
         $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_emails,'email',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
@@ -279,7 +284,7 @@ class ListingController extends Controller
                 // dd($similar);
             }
         }
-        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar));
+        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar, 'type' => Auth::user()->type));
 
     }
     public function getAreas(Request $request)
@@ -305,6 +310,7 @@ class ListingController extends Controller
             $category->listing_id  = $listing_id;
             $category->category_id = $id;
             $category->core        = $core;
+            $category->category_slug = Category::find($id)->slug;
             $category->save();
         }
     }
@@ -715,7 +721,10 @@ class ListingController extends Controller
             $areas  = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
-            $user = User::find($listing->owner_id);
+            if($listing->owner_id != null)
+                $user = User::find($listing->owner_id);
+            else
+                $user = Auth::user();
             // dd($cityy);
             return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
         }

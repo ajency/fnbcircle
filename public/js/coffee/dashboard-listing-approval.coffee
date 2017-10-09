@@ -49,6 +49,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "submission_date"}
     {"data": "updated_on"}
     {"data": "last_updated_by"}
+    {"data": "type"}
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
@@ -69,7 +70,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     }
     {
       'targets': [
-        10
+        11
       ]
       'visible': false
       'searchable': false
@@ -458,6 +459,10 @@ $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
 
 $('body').on 'change','select#updateUser', ->
   filters['updated_by']['user_type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#listingType', ->
+  filters['type'] = $(this).val()
   sendRequest()
 
 $('body').on 'change','select#citySelect', ->

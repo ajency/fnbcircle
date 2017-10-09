@@ -53,6 +53,8 @@
       }, {
         "data": "last_updated_by"
       }, {
+        "data": "type"
+      }, {
         "data": "duplicates"
       }, {
         "data": "premium"
@@ -75,7 +77,7 @@
         'className': 'select-checkbox',
         'targets': 0
       }, {
-        'targets': [10],
+        'targets': [11],
         'visible': false,
         'searchable': false
       }
@@ -513,6 +515,11 @@
 
   $('body').on('change', 'select#updateUser', function() {
     filters['updated_by']['user_type'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#listingType', function() {
+    filters['type'] = $(this).val();
     return sendRequest();
   });
 

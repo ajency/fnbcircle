@@ -420,7 +420,7 @@
                         <!-- more details ends -->
                     </div>
                     @endisset
-                    @if(!$data['premium'])
+                    @if(!$data['premium'] and isset($similar[0]))
                     <!-- Similar businesses -->
                     <div class="similar-business p-t-20 p-b-20" id="business">
                         <div class="section-start-head m-b-15 flex-row">
@@ -471,6 +471,7 @@
                                     <span class="x-small date lighter">Updated on {{$similar[0]['update']}}</span>
                                 </div>
                             </div>
+                            @if(isset($similar[1]))
                             <div class="card business-card article-col">
                                 <div class="business-card__header">
                                     @if($similar[1]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
@@ -514,6 +515,7 @@
                                     <span class="x-small date lighter">Updated on {{$similar[1]['update']}}</span>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!-- Similar businesses end -->

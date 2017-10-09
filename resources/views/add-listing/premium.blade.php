@@ -69,7 +69,7 @@
         </div>
     </div>
 </div>
-<h6 class="m-t-30 m-b-30">Our Plans <span id="pending-request"></span></h6>
+<h6 class="m-t-30 m-b-30">Our Plans <span id="pending-request">@if($pending != null) (Request pending) @endif</span></h6>
 <!-- pricing grids -->
 <div class="pricing-table plans flex-row">
     <div class="pricing-table__cards free-plan active">
@@ -119,7 +119,7 @@
     
 </div>
 <div class="text-right m-t-30 m-b-30 subscribe-plan">
-    <button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
+    @if($pending == null)<button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button> @endif
 </div>
 </div>
 

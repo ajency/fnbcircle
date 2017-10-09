@@ -910,6 +910,7 @@ class JobController extends Controller
             $filters['category'] = $category;
         }
         
+        $filters['job_status'] = [3];
 
         $filterJobs = $this->filterJobs($filters,$skip,$length,$orderDataBy);
 

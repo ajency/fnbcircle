@@ -10178,15 +10178,19 @@ input[type='checkbox'].remove-addr {
   }
   .salary-range {
     -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
     margin-bottom: 0;
   }
   .salary-range .clear-salary {
     padding-left: 0;
-    margin-top: 1.5em;
+    margin-bottom: 1em;
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
+    margin-top: -1em;
   }
 }
 .al-verify .ver-icon {

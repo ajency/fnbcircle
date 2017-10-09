@@ -32,7 +32,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval <button class="btn btn-link btn-sm">+ Add Listing</button><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
+            <h5>Listing Approval <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
           </div>
         </div>
 
@@ -139,15 +139,22 @@
                           <option value="internal" >Internal User</option>
                         </select>
                       </th>
+                      <th class="no-sort" data-col="7" style="min-width: 10%;">
+                        Listing Type
+                        <select multiple class="form-control multi-dd" id="listingType">
+                          <option value="orphan" >Orphan</option>
+                          <option value="verified" >Verified</option>
+                        </select>
+                      </th>
                       <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
-                      <th class="no-sort" data-col="8" style="min-width: 10%;">
+                      <th class="no-sort" data-col="9" style="min-width: 10%;">
                         Premium Request
                         <select multiple class="form-control multi-dd">
                           <option value="Yes">Yes</option>
                           <option value="No">No</option>
                         </select>
                       </th>
-                      <th class="no-sort" data-col="9" style="min-width: 10%;">
+                      <th class="no-sort" data-col="10" style="min-width: 10%;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
                           <option value="1" >Published</option>

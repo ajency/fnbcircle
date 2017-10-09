@@ -12,6 +12,7 @@ use App\ListingCategory;
 use App\ListingCommunication;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\User;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -60,6 +61,7 @@ class AdminModerationController extends Controller
             $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
             $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
             $listing['#']          = "";
+
             // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
             $i    = 0;
@@ -111,6 +113,19 @@ class AdminModerationController extends Controller
         if (isset($filters['city'])) {
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
+        }
+        if(isset($filters["updated_by"])){
+            $users  = User::whereIn('type',$filters["updated_by"]['user_type'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('last_updated_by',$users);
+        }
+        if(isset($filters['type'])){
+            $listings = $listings->where(function ($listings) use ($filters){
+                foreach($filters['type'] as $type ){
+                    $listings->whereNull('id');
+                    if($type == 'orphan') $listings->orWhereNull('owner_id');
+                    if($type == 'verified') $listings->orWhereNotNull('owner_id');
+                }
+            });
         }
         if (isset($filters['category_nodes'])) {
             $category = ListingCategory::whereIn('category_id',$filters['category_nodes'])->select('listing_id')->distinct()->pluck('listing_id')->toArray();
@@ -164,6 +179,8 @@ class AdminModerationController extends Controller
             $response[$listing->id]['duplicates'] = $dup['phone'] . ',' . $dup['email'] . ',' . $dup['title'];
             $response[$listing->id]['premium']    = 'No';
             $response[$listing->id]['categories'] = ListingCategory::getCategories($listing->id);
+            if($listing->owner == null) $response[$listing->id]['type'] = 'orphan';
+            else $response[$listing->id]['type'] = 'verified';
         }
         $response1 = array();
         foreach ($response as $resp) {

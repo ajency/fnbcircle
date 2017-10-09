@@ -1026,11 +1026,7 @@ $(function(){
   		});
 
 
-		$('input[type=radio][name=plan-select]').change(function() {
-		  if ($(this).is(':checked')) {
-		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-		  }
-		});
+		
 
 		$('.sub-row .fnb-btn').click(function() {
 		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');	    

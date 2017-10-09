@@ -19,5 +19,8 @@ class PlanAssociation extends Model
     {
         return $this->morphTo();
     }
+    const PENDING    = 0;
+    const ACTIVE       = 1;
+    const CANCEL       = 2;
 
 }

@@ -8,7 +8,6 @@ $(document).ready ()->
     input = contact_group_clone.find('.fnb-input')
     # input.attr('data-parsley-required',true)
     contact_group_clone.insertBefore(contact_group)
-     
     contact_group.prev().find('.contact-mobile-input').intlTelInput
       initialCountry: 'auto'
       separateDialCode: true
@@ -317,6 +316,14 @@ $(document).ready ()->
       return
     ), 2500
     return
+
+
+if $(window).width() <= 768
+  $('.get-val').each ->
+    removeRow = $(this).find('.fnb-input')
+    addRow = $(this).find('.removeRow').detach()
+    $(removeRow).after addRow
+
 
 
   #$(document).on 'change', '.business-contact .toggle__check', ->

@@ -2365,6 +2365,10 @@ input[type="checkbox"].toggle__check {
 .text-decor {
   text-decoration: underline;
 }
+.text-decor:active,
+.text-decor:focus {
+  text-decoration: underline;
+}
 .bat-color {
   color: #000;
 }
@@ -7071,7 +7075,6 @@ input[type=checkbox].custom-checkbox:before {
   .business-phone .removeRow,
   .landline .removeRow {
     right: 8px;
-    top: -25px;
   }
 }
 @media screen and (min-width: 769px) {
@@ -7791,6 +7794,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .business-contact .input-row .fnb-input {
   padding-left: 1.5em;
+  padding-top: 0;
 }
 .landline .input-row .fa:not(.removeRow) {
   -webkit-transform: rotate(45deg);
@@ -10172,6 +10176,22 @@ input[type='checkbox'].remove-addr {
   .publish-warning .pre-benefits__content .pre-benefits__title {
     line-height: 1.5;
   }
+  .salary-range {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: column-reverse;
+        -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+    margin-bottom: 0;
+  }
+  .salary-range .clear-salary {
+    padding-left: 0;
+    margin-bottom: 1em;
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
+    margin-top: -1em;
+  }
 }
 .al-verify .ver-icon {
   -webkit-transform: scale(0.75);
@@ -10182,6 +10202,16 @@ input[type='checkbox'].remove-addr {
 .al-verify .c-title {
   margin-bottom: 0;
   font-size: 1em;
+}
+.confirm-box .modal-header {
+  padding: 0.5em;
+  border-bottom: 1px solid #eee;
+}
+.confirm-box .listing-message h4 {
+  line-height: 1.5;
+}
+.confirm-box .confirm-actions .fnb-btn {
+  outline: 0;
 }
 .profile-stats {
   color: #fff;

@@ -21,6 +21,10 @@
         filters.city = $('select[name="job_city"]').val();
         filters.category = $('select[name="job_category"]').val();
         filters.keywords = $('select[name="job_keywords"]').val();
+        filters.published_date_from = $('select[name="date_pub_from"]').val();
+        filters.published_date_to = $('select[name="date_pub_to"]').val();
+        filters.submission_date_from = $('select[name="date_sub_from"]').val();
+        filters.submission_date_to = $('select[name="date_sub_to"]').val();
         data.filters = filters;
         return data;
       },
@@ -34,7 +38,8 @@
         'data': 'city',
         "orderable": false
       }, {
-        'data': 'title'
+        'data': 'title',
+        "orderable": false
       }, {
         'data': 'business_type',
         "orderable": false
@@ -42,7 +47,8 @@
         'data': 'keyword',
         "orderable": false
       }, {
-        'data': 'company_name'
+        'data': 'company_name',
+        "orderable": false
       }, {
         'data': 'date_of_submission'
       }, {
@@ -57,7 +63,7 @@
     ]
   });
 
-  $('.jobsearchinput').change(function() {
+  $('.jobsearchinput').keyup(function() {
     jobsTable.ajax.reload();
   });
 
@@ -164,7 +170,6 @@
             setTimeout((function() {
               $('.alert-success').removeClass('active');
             }), 2000);
-            $('.bulk-status-update').addClass('hidden');
             return jobsTable.ajax.reload();
           } else {
             $('.alert-failure #message').html("Failed to updated job status.");
@@ -184,13 +189,11 @@
     if (serachStatus.length === 1) {
       $('input[name="job_check[]"]').removeClass('hidden').prop('checked', false);
       $('input[name="job_check_all"]').removeClass('hidden').prop('checked', false);
-      $(".bulk-status-update").removeClass('hidden');
       status_id = parseInt(serachStatus[0]);
       return updateStatusValues(status_id, 'bulk-update-job-status');
     } else {
       $('input[name="job_check[]"]').addClass('hidden').prop('checked', false);
-      $('input[name="job_check_all"]').addClass('hidden').prop('checked', false);
-      return $(".bulk-status-update").addClass('hidden');
+      return $('input[name="job_check_all"]').addClass('hidden').prop('checked', false);
     }
   };
 
@@ -233,6 +236,13 @@
         }
       });
     }
+  });
+
+  $('.date_range_picker').on('apply.daterangepicker', function(ev, picker) {
+    $(this).closest('date-range-picker').find('.date_from').val(picker.startDate.format('YYYY-MM-DD'));
+    $(this).closest('date-range-picker').find('.date_to').val(picker.endDate.format('YYYY-MM-DD'));
+    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+    return jobsTable.ajax.reload();
   });
 
 }).call(this);

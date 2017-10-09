@@ -154,6 +154,7 @@ class JobController extends Controller
         $job->salary_upper = $salaryUpper;
         $job->status = 1;
         $job->job_creator = $userId;
+        $job->job_modifier = $userId;
         $job->meta_data = $metaData;
         $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
@@ -261,7 +262,7 @@ class JobController extends Controller
 
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
-
+  
         if(empty($job))
             abort(404);
 
@@ -654,17 +655,18 @@ class JobController extends Controller
         return response()->json(['results' => $companies]);
     }
 
-    public function submitForReview($reference_id){
+    public function submitForReview($referenceId){
         $date = date('Y-m-d H:i:s');    
-        $job = Job::where('reference_id',$reference_id)->first();
+        $job = Job::where('reference_id',$referenceId)->first();
         $job->status = 2; 
         $job->date_of_submission = $date; 
         $job->save();
 
         Session::flash('job_review_pending','Job details submitted for review.');
-        return redirect(url('/jobs/'.$job->reference_id.'/job-details')); 
+        return redirect()->back();
     }
 
+ 
     public function filterJobs($filters,$skip,$length,$orderDataBy){
 
         $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
@@ -935,6 +937,31 @@ class JobController extends Controller
 
         return response()->json($response);
     }
+ 
+    public function changeJobStatus($referenceId,$status){
+
+        $date = date('Y-m-d H:i:s');    
+        $job = Job::where('reference_id',$referenceId)->first();
+
+        $configStatuses = $job->jobStatusesToChange();
+
+        foreach ($configStatuses as $statusId => $configStatus) {
+            if(str_slug($configStatus) == $status){
+               break;
+            }
+        }
+
+  
+        $job->status = $statusId; 
+        $job->save();
+
+
+        $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
+ 
+        Session::flash('job_review_pending',$successMessage[$statusId]);
+        return redirect()->back();
+    }
+ 
 
 
     /**

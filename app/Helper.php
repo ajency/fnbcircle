@@ -240,12 +240,13 @@ function salarayTypeText($type){
    return $salaryTpes[$type];
 }
 
+ 
 function getCities(){
 	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
 	return $cities;
 }
-
+ 
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage)? 1 : $currentPage;

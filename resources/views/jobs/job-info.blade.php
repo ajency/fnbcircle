@@ -272,7 +272,7 @@
     <!-- Offered salary -->
 
     <div class="m-t-40 c-gap salary-row mobile-flex flex-wrap">
-        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span> <span class="text-lighter"><a href="javascript:void(0)" class="dark-link clear-salary">Clear</a></span></label>
+        <label class="label-size">What is the salary for this job? <span class="text-lighter">(optional)</span> </label>
         <div class="form-group m-t-5">
         @foreach($salaryTypes as $salaryTypeId => $salaryType)
           <label class="radio-inline">
@@ -282,13 +282,13 @@
         <div id="salary-type-errors" class="fnb-errors"></div>
         </div>
         
-        <div class="salary-range">
+        <div class="salary-range flex-row">
             <div class="flex-row">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
  
      
-                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif @if($job['salary_type']) salary-type-checked="true"  @endif  value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary.">
+                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($job['salary_type']) data-parsley-required @endif  salary-type-checked="@if($job['salary_type']) true @else false  @endif"   value="{{ $job['salary_lower'] }}" data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary." salary_type_checked>
                
                    <div id="errors" class="ctm-error fnb-errors"></div>
                 </div>
@@ -300,7 +300,9 @@
  
                    <div id="error" class="ctm-error fnb-errors"></div>
                 </div>
+                
             </div>
+            <a href="javascript:void(0)" class="p-l-20 clear-salary secondary-link text-decor dis-block">Clear</a>
 
         </div>
 

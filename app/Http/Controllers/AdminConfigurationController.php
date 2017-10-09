@@ -682,7 +682,7 @@ class AdminConfigurationController extends Controller
         $job = new Job;
         $jobStatuses = $job->jobStatuses();
         $jobAvailabeStatus = $job->jobAvailabeStatus();
-        $cities = City::orderBy('order')->orderBy('name')->get();
+        $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
         $categories =  $job->jobCategories();
         $keywords = $job->jobKeywords();
 

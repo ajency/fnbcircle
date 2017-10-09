@@ -129,14 +129,14 @@
 
                                             </div>
                                             @if($job->submitForReview()) 
-                                           
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
                                             @endif
 
                                             @if($job->getNextActionButton())
                                                 @php
                                                 $nextActionBtn =$job->getNextActionButton();
                                                 @endphp
-                                             <a href="" >{{ $nextActionBtn['status'] }}</a>
+                                             <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}" >{{ $nextActionBtn['status'] }}</a>
                                             @endif
                                         </div>
                                     </div>

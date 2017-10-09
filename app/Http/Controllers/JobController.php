@@ -634,18 +634,42 @@ class JobController extends Controller
         return response()->json(['results' => $companies]);
     }
 
-    public function submitForReview($reference_id){
+    public function submitForReview($referenceId){
         $date = date('Y-m-d H:i:s');    
-        $job = Job::where('reference_id',$reference_id)->first();
+        $job = Job::where('reference_id',$referenceId)->first();
         $job->status = 2; 
         $job->date_of_submission = $date; 
         $job->save();
 
         Session::flash('job_review_pending','Job details submitted for review.');
-        return redirect(url('/jobs/'.$job->reference_id.'/job-details')); 
+        return redirect()->back();
     }
 
-    
+    public function changeJobStatus($referenceId,$status){
+
+        $date = date('Y-m-d H:i:s');    
+        $job = Job::where('reference_id',$referenceId)->first();
+
+        $defaultStatus = $job->jobStatusesToChange();
+        $statusId = array_where($defaultStatus, function ($value, $key)use($status) {
+
+            // if(str_slug($value) == $status){
+            //     $p = $key;
+            // }
+            return str_slug($value);
+        });
+        dd($statusId);
+  
+        $job->status = $statusId; 
+        $job->save();
+
+
+        $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
+ 
+        Session::flash('job_review_pending',$successMessage[]);
+        return redirect()->back();
+    }
+  
 
 
     /**

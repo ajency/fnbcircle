@@ -42,8 +42,8 @@ class Job extends Model
 
     public function jobStatusesToChange(){
  
-        // $statuses =  getDefaultValues("job_status",2);
-        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Publish','4'=>'Archiv','5'=>'Reject'];
+
+        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Publish','4'=>'Archiv','5'=>'Reject'];
         return $statuses;
     }
 
@@ -422,6 +422,7 @@ class Job extends Model
             $status[1] = 2; 
             $status[3] = 4; 
             $status[4] = 3; 
+            $status[5] = 2; 
         }
  
         return $status;

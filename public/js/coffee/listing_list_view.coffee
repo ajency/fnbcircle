@@ -224,6 +224,8 @@ $(document).ready () ->
 		resultsProperty: "data"
 		searchIn: ['name']
 		valueProperty: 'slug'
+		visibleProperties: ["name", "city"]
+
 		# toggleSelected: true
 		minLength: 0
 		cache: false
@@ -255,6 +257,7 @@ $(document).ready () ->
 		searchIn: ['name']
 		valueProperty: 'node_children'
 		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
+		valuesSeparator: ','
 
 		minLength: 0
 		cache: false

@@ -369,11 +369,37 @@
                 @endif
 
      
-                <div id="confirmBox">
+   <!--              <div id="confirmBox">
                     <div class="message">Are you sure?</div>
                     <span class="yes">Yes</span>
                     <span class="no">No</span>
+                </div> -->
+
+
+                <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="text-medium">Confirm</h5>
+                            </div>
+                            <div class="modal-body text-center">
+                                <div class="listing-message">
+                                    <h4 class="element-title text-medium text-left text-color">Are you sure you want to continue?</h4>
+                                </div>  
+                                <div class="confirm-actions text-right">
+                                     <button class="btn fnb-btn text-primary border-btn no-border" >Ok</button>
+                                      <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                            </div> -->
+                        </div>
+                    </div>
                 </div>
+
+
+
               
             </div>
         </div>

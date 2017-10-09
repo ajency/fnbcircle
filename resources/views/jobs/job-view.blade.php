@@ -92,7 +92,7 @@
                </a>
                </div> -->
             @if($job->jobPostedOn()!="")
-            <p class="m-b-0 published-title job-published-date lighter default-size">Posted on: {{ $job->jobPostedOn() }}</p>
+            <p class="m-b-0 published-title job-published-date lighter default-size">Published On: {{ $job->jobPostedOn() }}</p>
             @endif
 
             @if($job->canEditJob())

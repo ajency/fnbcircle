@@ -5,7 +5,11 @@
     </div>
     <div class="results__body filter-row">
         <ul class="contents">
-            <input type="hidden" id="current_category" name="" value="0|[]">
+            @if(strlen($filter_data['category']['node_categories']) > 0)
+                <input type="hidden" id="current_category" name="" value="{{ $filter_data['category']['node_categories'] }}">
+            @else
+                <input type="hidden" id="current_category" name="" value="0|[]">
+            @endif
             <li class="branch">
                 @if(strlen($filter_data["category"]["name"]) > 0)
                     <p class="default-size"><a href="" class="text-darker" value="0|[]"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Reset categories </a></p>

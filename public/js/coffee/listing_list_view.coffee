@@ -330,33 +330,7 @@ $(document).ready () ->
 					$('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned)
 				i++
 
-	### --- Triggered every time before display of data --- ###
-	# $('input[type="text"][name="city"].flexdatalist').on 'before:flexdatalist.search', (e) ->
-	# 	# if $(this).val().length <= 0
-	# 	# 	$(this).attr('list', "imp-states")
-	# 	# else
-	# 	# 	$(this).attr('list', "states")
-	# 	data = 
-	# 		"search" : $(this).val()
-	# 	getCity(data, "states")
-
-	# 	#e.stopPropagation()
-	# 	return
-
 	### --- Triggered every time the value in input changes --- ###
-	# $('input[type="hidden"][name="city"].flexdatalist').on 'change:flexdatalist', () ->
-	# 	data = 
-	# 		"search" : $(this).val()
-	# 	getCity(data, "states")
-
-	# 	### -- make a request if the Searchbox is cleared -- ###
-	# 	if $(this).val().length <= 0
-	# 		key = "state"
-	# 		pushstate_url = "state=" + $(this).val()
-
-	# 		getListContent()
-	# 	return
-
 	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
 		### -- make a request if any one the Searchbox is cleared -- ###
 		key = ""

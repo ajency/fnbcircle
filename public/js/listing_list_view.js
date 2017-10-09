@@ -319,8 +319,6 @@
       }
     }
 
-    /* --- Triggered every time before display of data --- */
-
     /* --- Triggered every time the value in input changes --- */
     $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('change:flexdatalist', function() {
 

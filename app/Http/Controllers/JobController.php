@@ -650,15 +650,14 @@ class JobController extends Controller
         $date = date('Y-m-d H:i:s');    
         $job = Job::where('reference_id',$referenceId)->first();
 
-        $defaultStatus = $job->jobStatusesToChange();
-        $statusId = array_where($defaultStatus, function ($value, $key)use($status) {
+        $configStatuses = $job->jobStatusesToChange();
 
-            // if(str_slug($value) == $status){
-            //     $p = $key;
-            // }
-            return str_slug($value);
-        });
-        dd($statusId);
+        foreach ($configStatuses as $statusId => $configStatus) {
+            if(str_slug($configStatus) == $status){
+               break;
+            }
+        }
+
   
         $job->status = $statusId; 
         $job->save();
@@ -666,7 +665,7 @@ class JobController extends Controller
 
         $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
  
-        Session::flash('job_review_pending',$successMessage[]);
+        Session::flash('job_review_pending',$successMessage[$statusId]);
         return redirect()->back();
     }
   

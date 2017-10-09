@@ -310,6 +310,7 @@ class ListingController extends Controller
             $category->listing_id  = $listing_id;
             $category->category_id = $id;
             $category->core        = $core;
+            $category->category_slug = Category::find($id)->slug;
             $category->save();
         }
     }

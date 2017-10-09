@@ -8,7 +8,6 @@ $(document).ready ()->
     input = contact_group_clone.find('.fnb-input')
     # input.attr('data-parsley-required',true)
     contact_group_clone.insertBefore(contact_group)
-     
     contact_group.prev().find('.contact-mobile-input').intlTelInput
       initialCountry: 'auto'
       separateDialCode: true

@@ -17,6 +17,10 @@ jobsTable = $('#datatable-jobs').DataTable(
       filters.city = $('select[name="job_city"]').val()
       filters.category = $('select[name="job_category"]').val()
       filters.keywords = $('select[name="job_keywords"]').val()
+      filters.published_date_from = $('select[name="date_pub_from"]').val()
+      filters.published_date_to = $('select[name="date_pub_to"]').val()
+      filters.submission_date_from = $('select[name="date_sub_from"]').val()
+      filters.submission_date_to = $('select[name="date_sub_to"]').val()
       data.filters = filters
       data
     
@@ -26,10 +30,10 @@ jobsTable = $('#datatable-jobs').DataTable(
   'columns': [
     { 'data': '#' , "orderable": false}
     { 'data': 'city'  , "orderable": false}
-    { 'data': 'title' }
+    { 'data': 'title' , "orderable": false}
     { 'data': 'business_type', "orderable": false}
     { 'data': 'keyword'  , "orderable": false}
-    { 'data': 'company_name' }
+    { 'data': 'company_name' , "orderable": false}
     { 'data': 'date_of_submission' }
     { 'data': 'published_date' }
     { 'data': 'last_updated' }
@@ -37,7 +41,7 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'status' }
   ])
 
-$('.jobsearchinput').change ->
+$('.jobsearchinput').keyup ->
   jobsTable.ajax.reload()
   return
 
@@ -144,7 +148,7 @@ $('body').on 'click', '#bulkupdate', ->
             $('.alert-success').removeClass 'active'
             return
           ), 2000
-          $('.bulk-status-update').addClass('hidden')
+          # $('.bulk-status-update').addClass('hidden')
 
           jobsTable.ajax.reload()
 
@@ -162,13 +166,13 @@ displayCheckbox = () ->
   if serachStatus.length == 1
     $('input[name="job_check[]"]').removeClass('hidden').prop('checked',false)
     $('input[name="job_check_all"]').removeClass('hidden').prop('checked',false)
-    $(".bulk-status-update").removeClass('hidden')
+    # $(".bulk-status-update").removeClass('hidden')
     status_id = parseInt serachStatus[0]
     updateStatusValues(status_id ,'bulk-update-job-status')
   else
     $('input[name="job_check[]"]').addClass('hidden').prop('checked',false)
     $('input[name="job_check_all"]').addClass('hidden').prop('checked',false)
-    $(".bulk-status-update").addClass('hidden')
+    # $(".bulk-status-update").addClass('hidden')
 
 
 $('#updateStatusModal').on 'click', '#change_status', ->
@@ -209,3 +213,16 @@ $('#updateStatusModal').on 'click', '#change_status', ->
       error: (request, status, error) ->
         throwError()
         return
+
+
+$('.date_range_picker').on 'apply.daterangepicker', (ev, picker) ->
+  $(this).closest('date-range-picker').find('.date_from').val picker.startDate.format('YYYY-MM-DD')
+  $(this).closest('date-range-picker').find('.date_to').val picker.endDate.format('YYYY-MM-DD')
+  $(this).val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
+  jobsTable.ajax.reload()
+
+# $('#publishDate').on 'apply.daterangepicker', (ev, picker) ->
+#   $('input[name="date_pub_from"]').val picker.startDate.format('YYYY-MM-DD')
+#   $('input[name="date_pub_to"]').val picker.endDate.format('YYYY-MM-DD')
+#   $('#publishDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
+#   jobsTable.ajax.reload()

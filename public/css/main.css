@@ -9629,11 +9629,9 @@ input[type='checkbox'].remove-addr {
 .job-info .contact__info .fnb-btn {
   width: 35%;
 }
-.owner-address {
-  padding-left: 1em;
-}
 @media screen and (min-width: 769px) {
   .owner-address {
+    padding-left: 1em;
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
@@ -9674,6 +9672,19 @@ input[type='checkbox'].remove-addr {
 }
 .job-data .jobdesc {
   width: 250px;
+}
+@media screen and (max-width: 768px) {
+  .job-data .jobdesc {
+    width: 140px;
+  }
+  .job-data .jobdesc span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .job-data .jobdesc span a {
+    display: block;
+  }
 }
 .share-job .fa-whatsapp {
   color: #34af23;
@@ -10223,6 +10234,39 @@ input[type='checkbox'].remove-addr {
   background-color: #fff4b8;
   margin-bottom: 0.8em;
   font-size: 1.1em;
+}
+.contact-stuff {
+  border-top: 1px solid #e6e6e6;
+  margin-top: 0.8em;
+  padding-top: 0.8em;
+}
+.contact-stuff .sell-re {
+  width: 100%;
+  margin-top: 1em;
+  box-shadow: none;
+}
+.contact-stuff .sell-re .contact-info {
+  background-color: #f3f3f3;
+  padding: 1.5em 1em;
+}
+.contact-stuff .sell-re .close-contact {
+  font-size: 1em;
+  color: #848484;
+}
+.contact-stuff .sell-re .number__real {
+  font-size: 1em;
+  padding-right: 0;
+}
+.contact-stuff .sell-re .number__real:not(:last-child):after {
+  content: ',';
+  color: #949494;
+  font-size: 1.05em;
+  padding: 0 0.2em;
+}
+@media screen and (max-width: 768px) {
+  .contact-stuff .fnb-btn {
+    margin: 0 auto;
+  }
 }
 .profile-stats {
   color: #fff;

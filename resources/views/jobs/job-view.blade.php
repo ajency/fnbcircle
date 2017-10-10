@@ -232,7 +232,7 @@
                     
                 </div>
 
-                <div class="operations p-t-10 flex-row flex-wrap role-selection">
+                <div class="operations p-t-10 flex-row flex-wrap role-selection detachsection">
 
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job Location</h6>
@@ -299,6 +299,45 @@
 
                     
                 </div>
+
+                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                    <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
+                    <!-- contact info -->
+                    <div class="card seller-info sell-re collapse" id="contact-data">
+                       <div class="contact-info flex-row flex-wrap">
+                          <div class="close-contact" data-toggle="collapse" href="#contact-data">
+                             &#10005;
+                          </div>
+                          <div class="mail-us collapse-section m-r-15 m-b-15">
+                             <h6 class="sub-title m-t-0">Email:</h6>
+                             <div class="number flex-row">
+                                <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a> <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
+                             </div>
+                          </div>
+                          <div class="phone collapse-section m-r-15 m-b-15">
+                             <h6 class="sub-title m-t-0">Mobile No:</h6>
+                             <div class="number flex-row">
+                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                             </div>
+                          </div>
+                          <div class="mail-us collapse-section">
+                             <h6 class="sub-title m-t-0">Landline No:</h6>
+                            <div class="number flex-row">
+                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                             </div>
+                          </div>
+                          
+                          
+                         <!--  <div class="message flex-row">
+                             <span class="fnb-icons exclamation"></span>
+                             <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
+                          </div> -->
+                       </div>
+                    </div>
+                </div>
+                
 
 
                   <!-- job type -->
@@ -383,34 +422,12 @@
 
                   </div> -->
              </div> 
+
+
             </div>
             
             <!-- Card info ends -->
-            <!-- contact info -->
-            <div class="card seller-info sell-re collapse" id="contact-data">
-               <div class="contact-info">
-                  <div class="close-contact" data-toggle="collapse" href="#contact-data">
-                     <i class="fa fa-times" aria-hidden="true"></i>
-                  </div>
-                  <div class="phone collapse-section m-b-20">
-                     <h6 class="collapse-section__title">Phone no:</h6>
-                     <div class="number flex-row">
-                        <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393, </a>
-                        <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393</a>
-                     </div>
-                  </div>
-                  <div class="mail-us collapse-section m-t-20 m-b-20">
-                     <h6 class="collapse-section__title">Mail us at:</h6>
-                     <div class="number flex-row">
-                        <a class="number__real text-secondary" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
-                     </div>
-                  </div>
-                  <div class="message flex-row">
-                     <span class="fnb-icons exclamation"></span>
-                     <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
-                  </div>
-               </div>
-            </div>
+
             <!-- contact info ends -->
             <!-- updates section -->
             <div class="update-sec m-t-30" id="updates">
@@ -438,13 +455,13 @@
                   </div>
                </div>
               @endif
-               @if(!empty($jobCompany->description))
+               <!-- @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
                   {!! $jobCompany->description !!}
                </div>
-              @endif
+              @endif -->
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
@@ -612,7 +629,7 @@
                   @if(!empty($jobTypes))
                       <div class="job-type">
                       @foreach($jobTypes as $jobType)
-                       <div class="text-color lighter year-exp">{{ $jobType }}</div>
+                       <div class="text-color year-exp">{{ $jobType }}</div>
                       @endforeach
                       </div>
                     @endif
@@ -620,7 +637,7 @@
                <h6 class="m-t-0 company-section__title">Offered Salary</h6>
                <div class="featured-jobs__row flex-row">
                    @if($job->salary_lower >="0" && $job->salary_upper > "0" )
-                    <div class="text-color lighter">
+                    <div class="text-color">
                       @if($job->salary_lower == $job->salary_upper )
                       <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
                       @else
@@ -639,7 +656,7 @@
                    <div class="year-exp">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
-                         <div class="text-color lighter year-exp">{{ $exp }} years</div>
+                         <div class="text-color year-exp">{{ $exp }} years</div>
                         @endforeach
                       </div>
                    </div>
@@ -669,7 +686,7 @@
                   <h6 class="m-t-0 company-section__title">About Company</h6>
                   <div class="featured-jobs__row flex-row">
                      <div>
-                        <span class="x-small text-color lighter">
+                        <span class="x-small text-color">
                           {!! $jobCompany->description !!}
                         </span>
                      </div>

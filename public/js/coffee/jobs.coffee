@@ -325,9 +325,9 @@ $('.more-show').click (event) ->
 
 if $(window).width() <= 768
   coreCat = $('.detach-col-1').detach()
-  $('.sell-re').after coreCat
+  $('.job-info').after coreCat
   Applybtn = $('.applyJob').detach()
-  $('.role-selection').after Applybtn
+  $('.detachsection').after Applybtn
   Articles = $('.related-article').detach()
   $('.list-of-business').after Articles
 

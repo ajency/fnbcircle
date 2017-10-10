@@ -10267,6 +10267,13 @@ input[type='checkbox'].remove-addr {
   .contact-stuff .fnb-btn {
     margin: 0 auto;
   }
+  .contact-stuff .sell-re {
+    width: auto;
+  }
+  .contact-stuff .sell-re .close-contact {
+    top: 10px;
+    right: 10px;
+  }
 }
 .profile-stats {
   color: #fff;

@@ -310,20 +310,20 @@
                           </div>
                           <div class="mail-us collapse-section m-r-15 m-b-15">
                              <h6 class="sub-title m-t-0">Email:</h6>
-                             <div class="number flex-row">
+                             <div class="number flex-row flex-wrap">
                                 <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a> <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
                              </div>
                           </div>
                           <div class="phone collapse-section m-r-15 m-b-15">
                              <h6 class="sub-title m-t-0">Mobile No:</h6>
-                             <div class="number flex-row">
+                             <div class="number flex-row flex-wrap">
                                 <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
                                 <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
                              </div>
                           </div>
                           <div class="mail-us collapse-section">
                              <h6 class="sub-title m-t-0">Landline No:</h6>
-                            <div class="number flex-row">
+                            <div class="number flex-row flex-wrap">
                                 <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
                                 <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
                              </div>

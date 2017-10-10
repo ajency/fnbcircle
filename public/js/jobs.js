@@ -34,7 +34,7 @@
           includeSelectAllOption: true,
           numberDisplayed: 2,
           delimiterText: ',',
-          nonSelectedText: 'Select Area(s)'
+          nonSelectedText: 'Select City'
         });
         jobCityObj.closest('.location-select').find('.job-areas').attr('name', 'job_area[' + city + '][]');
       },
@@ -319,9 +319,9 @@
 
   if ($(window).width() <= 768) {
     coreCat = $('.detach-col-1').detach();
-    $('.sell-re').after(coreCat);
+    $('.job-info').after(coreCat);
     Applybtn = $('.applyJob').detach();
-    $('.role-selection').after(Applybtn);
+    $('.detachsection').after(Applybtn);
     Articles = $('.related-article').detach();
     $('.list-of-business').after(Articles);
   }
@@ -344,7 +344,7 @@
     area_group_clone.find('.newly-created').multiselect({
       includeSelectAllOption: true,
       numberDisplayed: 1,
-      nonSelectedText: 'Select Area(s)'
+      nonSelectedText: 'Select City'
     });
     area_group_clone.insertBefore(area_group);
   });

@@ -92,7 +92,7 @@
         <div class="location-select cityArea flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
-                    <option value="">Select City</option>
+                    <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option @if($cityId == $city->id) selected @endif  value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach
@@ -121,7 +121,7 @@
         <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
-                    <option value="">Select City</option>
+                    <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach
@@ -145,7 +145,7 @@
  
                 <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
  
-                    <option value="">Select City</option>
+                    <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                     @endforeach

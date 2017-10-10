@@ -121,7 +121,7 @@
    @if($job->canEditJob())
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview()) pending-no-action  alert alert-dismissible fade in @endif">
+         <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
@@ -131,7 +131,7 @@
                   </h5>
                </div>
             </div>
-            @if(!$job->submitForReview())
+            @if(!$job->submitForReview() && !$job->getNextActionButton())
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
             @endif
 
@@ -219,12 +219,12 @@
                              </li>
                              @endforeach
 
-                             @if($moreKeywordCount)
+                             <!-- @if($moreKeywordCount) -->
                              <!-- <li class="remain more-show">
                                 <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
                              </li> -->
-                             <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                             @endif
+                            <!--  <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                             @endif -->
                             
                           </ul>
                        </div>
@@ -274,8 +274,8 @@
                                <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
-                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i>
-                               <!-- <span class="x-small text-secondary cursor-pointer"></span> -->
+                            <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
+                               <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                               @endif
                            </ul>
                         </div>
@@ -300,7 +300,7 @@
 
                     
                 </div>
-
+                @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                 <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
                     <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
                     <!-- contact info -->
@@ -309,26 +309,47 @@
                           <div class="close-contact" data-toggle="collapse" href="#contact-data">
                              &#10005;
                           </div>
+                          @if(!empty($contactEmail))
                           <div class="mail-us collapse-section m-r-15 m-b-15">
                              <h6 class="sub-title m-t-0">Email:</h6>
-                             <div class="number flex-row flex-wrap">
-                                <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a> <a class="number__real secondary-link" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
-                             </div>
+                               <div class="number flex-row flex-wrap">
+                                @foreach($contactEmail as $email)
+                                  @if($email['visible'])
+                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                  @endif
+                                @endforeach
+                                    
+                               </div>
+                             
                           </div>
+                          @endif
+
+                           @if(!empty($contactMobile))
                           <div class="phone collapse-section m-r-15 m-b-15">
                              <h6 class="sub-title m-t-0">Mobile No:</h6>
                              <div class="number flex-row flex-wrap">
-                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
-                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                             @foreach($contactMobile as $mobile)
+                              @if($mobile['visible'])
+                                <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                              @endif
+                            @endforeach  
                              </div>
+                             
                           </div>
+                          @endif
+
+                          @if(!empty($contactLandline))
                           <div class="mail-us collapse-section">
                              <h6 class="sub-title m-t-0">Landline No:</h6>
                             <div class="number flex-row flex-wrap">
-                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
-                                <a class="number__real secondary-link" href="callto:+919293939393">+91 9293939393</a>
+                                @foreach($contactLandline as $landline)
+                                @if($landline['visible'])
+                                  <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                @endif
+                              @endforeach  
                              </div>
                           </div>
+                          @endif
                           
                           
                          <!--  <div class="message flex-row">
@@ -338,7 +359,7 @@
                        </div>
                     </div>
                 </div>
-                
+                @endif
 
 
                   <!-- job type -->

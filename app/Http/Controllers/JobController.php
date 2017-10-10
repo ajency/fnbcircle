@@ -260,9 +260,10 @@ class JobController extends Controller
       
         $data = ['job' => $job]; 
         $data['jobTypes'] = $jobTypes;
-        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[]; 
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+        $data['keywords'] = $jobKeywords; 
         $splitKeywords =  splitJobArrayData($jobKeywords,4);
-        $data['keywords'] = $splitKeywords['array'];
+        // $data['keywords'] = $splitKeywords['array'];
         $data['moreKeywords'] = $splitKeywords['moreArray'];
         $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
 
@@ -294,6 +295,13 @@ class JobController extends Controller
         $data['googleShare'] = $googleShare;
         $data['linkedInShare'] = $linkedInShare;
         $data['watsappShare'] = $watsappShare;
+
+        $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email','view');
+        $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile','view');  
+        $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline','view');  
+        $data['contactEmail'] = $contactEmail;
+        $data['contactMobile'] = $contactMobile;
+        $data['contactLandline'] = $contactLandline;
         
          return view('jobs.job-view')->with($data);
     }

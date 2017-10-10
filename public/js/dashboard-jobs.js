@@ -58,7 +58,8 @@
       }, {
         'data': 'last_updated_by'
       }, {
-        'data': 'status'
+        'data': 'status',
+        "orderable": false
       }
     ],
     "columnDefs": [
@@ -103,7 +104,11 @@
     $(jobsTable.column(idx).header()).append('<span class="sort-icon"/>');
   });
 
-  $('.jobsearchinput').keyup(function() {
+  $('.jobsearchinput').change(function() {
+    jobsTable.ajax.reload();
+  });
+
+  $('.jobstrsearchinput').keyup(function() {
     jobsTable.ajax.reload();
   });
 

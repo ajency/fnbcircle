@@ -68,11 +68,14 @@
                 </div>
                 <br> -->
                  
-                <input type="text" name="job_name" placeholder="Search by Job Title" id="job_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput manage-search-box">
+ 
+                <input type="text" name="job_name" placeholder="Search by Job Title" id="job_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
 
-                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput manage-search-box">
+                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
                 
+
                 <table id="datatable-jobs" class="table table-striped jobs-table" cellspacing="0" width="100%">
+
                   <thead>
                     <tr>
                       <th class="no-sort update-checkbox"> </th>

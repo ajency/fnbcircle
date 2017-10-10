@@ -41,7 +41,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_landline_contact[]" value="{{ $landline['visible'] }}">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">@if($landline['visible']) Visible on the applicant @else Not visible on the applicant @endif  </p>
+                            <p class="m-b-0 text-color toggle-state">@if($landline['visible']) Visible to the applicant @else Not visible to the applicant @endif  </p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -80,7 +80,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_landline_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the applicant</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible to the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -119,7 +119,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_landline_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the applicant</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible to the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>

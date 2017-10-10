@@ -136,7 +136,8 @@
                                                 @php
                                                 $nextActionBtn =$job->getNextActionButton();
                                                 @endphp
-                                             <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}" @if($job->status != 5) onclick="return confirm('Are you sure?')" @endif >{{ $nextActionBtn['status'] }}</a>
+                                                
+                                             <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >{{ $nextActionBtn['status'] }}</a>
                                             @endif
                                         </div>
                                     </div>
@@ -387,7 +388,11 @@
                     <span class="no">No</span>
                 </div> -->
 
-
+                @if($job->getNextActionButton())
+                    @php
+                    $nextActionBtn =$job->getNextActionButton();
+                    @endphp
+                                                         
                 <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
@@ -396,10 +401,10 @@
                             </div>
                             <div class="modal-body text-center">
                                 <div class="listing-message">
-                                    <h4 class="element-title text-medium text-left text-color">Are you sure you want to continue?</h4>
+                                    <h4 class="element-title text-medium text-left text-color">Are you sure you want to {{ $nextActionBtn['status'] }} job?</h4>
                                 </div>  
                                 <div class="confirm-actions text-right">
-                                     <button class="btn fnb-btn text-primary border-btn no-border" >Ok</button>
+                                    <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}" > <button class="btn fnb-btn text-primary border-btn no-border" >Ok</button></a>
                                       <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -409,6 +414,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
 
 

@@ -705,6 +705,7 @@ class ListingController extends Controller
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
         $user    = Auth::user();
+        if($user->type == 'external') $listing->owner_id = $user->id;
         return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user);
     }
     public function edit($reference, $step = 'business-information')

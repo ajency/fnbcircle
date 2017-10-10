@@ -275,6 +275,7 @@
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
                                <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i>
+                               <!-- <span class="x-small text-secondary cursor-pointer"></span> -->
                               @endif
                            </ul>
                         </div>
@@ -624,16 +625,16 @@
             </div>
             <!-- Advertisement ends -->
             <div class="featured-jobs browse-cat company-section">
+              @if(!empty($jobTypes))
                <h6 class="m-t-0 company-section__title">Job Type</h6>
                <div class="featured-jobs__row flex-row">
-                  @if(!empty($jobTypes))
-                      <div class="job-type">
-                      @foreach($jobTypes as $jobType)
-                       <div class="text-color year-exp">{{ $jobType }}</div>
-                      @endforeach
-                      </div>
-                    @endif
+                    <div class="job-type">
+                    @foreach($jobTypes as $jobType)
+                     <div class="text-color year-exp">{{ $jobType }}</div>
+                    @endforeach
+                    </div>
                </div>
+               @endif
                <h6 class="m-t-0 company-section__title">Offered Salary</h6>
                <div class="featured-jobs__row flex-row">
                    @if($job->salary_lower >="0" && $job->salary_upper > "0" )
@@ -641,7 +642,7 @@
                       @if($job->salary_lower == $job->salary_upper )
                       <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
                       @else
-                      <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
+                      <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
                       @endif
                     {{ $job->getSalaryTypeShortForm()}}
                     </div>
@@ -650,9 +651,9 @@
                     <div class="text-color lighter">Not disclosed</div>
                     @endif
                </div>
+               @if(!empty($experience))
                <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
                <div class="featured-jobs__row flex-row">
-                 @if(!empty($experience))
                    <div class="year-exp">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
@@ -660,8 +661,8 @@
                         @endforeach
                       </div>
                    </div>
-                   @endif
                </div>
+               @endif
                <h6 class="m-t-0 company-section__title">Company Info</h6>
                <div class="featured-jobs__row job-data">
                   <div class="flex-row">

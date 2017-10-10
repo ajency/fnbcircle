@@ -2514,6 +2514,9 @@ input[type="checkbox"].toggle__check {
   vertical-align: middle;
   margin-top: -1px;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .parsley-errors-list li,
 .dupError,
 .validationError,
@@ -10262,6 +10265,9 @@ input[type='checkbox'].remove-addr {
   color: #949494;
   font-size: 1.05em;
   padding: 0 0.2em;
+}
+.cke_path {
+  display: none;
 }
 @media screen and (max-width: 768px) {
   .contact-stuff .fnb-btn {

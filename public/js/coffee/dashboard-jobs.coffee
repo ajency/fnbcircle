@@ -39,7 +39,23 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'last_updated' }
     { 'data': 'last_updated_by' }
     { 'data': 'status' , "orderable": false}
+  ]
+  "columnDefs": [
+    { "width": "100px", "targets": 0 }    
+    { "width": "150px", "targets": 1 }  
+    { "width": "150px", "targets": 2 }  
+    { "width": "300px", "targets": 3 }
+    { "width": "150px", "targets": 4 }
+    { "width": "150px", "targets": 5 }
+    { "width": "150px", "targets": 6 }
+    { "width": "150px", "targets": 7 }
+    { "width": "150px", "targets": 8 }
+    { "width": "120px", "targets": 9 }
   ])
+
+jobsTable.columns().iterator 'column', (ctx, idx) ->
+  $(jobsTable.column(idx).header()).append '<span class="sort-icon"/>'
+  return
 
 $('.jobsearchinput').change ->
   jobsTable.ajax.reload()

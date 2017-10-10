@@ -808,7 +808,7 @@ class AdminConfigurationController extends Controller
             $keyWords = (!empty($metaData['job_keyword'])) ? $metaData['job_keyword'] : []; 
 
             $splitKeywords =  splitJobArrayData($keyWords,2); 
-            $jobKeywords = implode(',', $splitKeywords['array']);
+            $jobKeywords = implode(',', $keyWords);
             $moreJobKeywords  = ($splitKeywords['moreArrayCount']) ? '<i title="'.implode(',', $splitKeywords['moreArray']).'">...</i>' :'';
 
             $companyName = (!empty($job->getJobCompany())) ? $job->getJobCompany()->title :''; 
@@ -822,7 +822,7 @@ class AdminConfigurationController extends Controller
                             'city' => $cityNamesStr,
                             'title' => $editJob,
                             'business_type' => $job->getJobCategoryName(),
-                            'keyword' => $jobKeywords .''. $moreJobKeywords,
+                            'keyword' => $jobKeywords,
                             'company_name' => $companyName,
                             'date_of_submission' => $job->jobPostedOn(2),
                             'published_date' => $job->jobPublishedOn(2),

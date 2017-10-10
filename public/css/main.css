@@ -10296,6 +10296,10 @@ input[type='checkbox'].remove-addr {
     right: 10px;
   }
 }
+.jobs-table {
+  table-layout: fixed;
+  word-wrap: break-word;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

@@ -91,8 +91,8 @@
                    <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                </a>
                </div> -->
-            @if($job->jobPostedOn()!="")
-            <p class="m-b-0 published-title job-published-date lighter default-size">Published On: {{ $job->jobPostedOn() }}</p>
+            @if($job->jobPublishedOn()!="")
+            <p class="m-b-0 published-title job-published-date lighter default-size">Published On: {{ $job->jobPublishedOn() }}</p>
             @endif
 
             @if($job->canEditJob())

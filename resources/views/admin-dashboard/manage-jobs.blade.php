@@ -1,10 +1,21 @@
 @extends('layouts.admin-dashboard')
 
+@section('css')
+  <!-- bootstrap-daterangepicker -->
+    <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="/bower_components/datatables.net-select-dt/css/select.dataTables.css" rel="stylesheet">
+  @parent
+@endsection
+
 @section('js')
   @parent
   <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/dashboard-jobs.js') }}"></script>
  
+   <!-- bootstrap-daterangepicker -->
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
   <script type="text/javascript">
     
       var avail_status = [<?php echo json_encode($jobAvailabeStatus);?>];
@@ -31,7 +42,7 @@
             <div class="x_panel">
               <div class="x_content">
 
-                <div class="bulk-status-update m-t-10 hidden">
+                <!-- <div class="bulk-status-update m-t-10 hidden">
                   <hr>
                   <form id="bulkupdateform">
                   <label>Bulk Status Update</label>
@@ -55,15 +66,17 @@
                   </div>
                   </form>
                 </div>
-                <br>
-
+                <br> -->
+                 
                 <input type="text" name="job_name" placeholder="Search by Job Name" id="job_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
+
                 <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
 
                 <table id="datatable-jobs" class="table table-striped  nowrap" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort update-checkbox " width="2%"><input type='checkbox' class="hidden" name='job_check_all'></th>
+                      <th class="no-sort update-checkbox " width="2%"> 
+                      <!-- <input type='checkbox' class="hidden" name='job_check_all'></th> -->
                       <th class="no-sort" data-col="5" width="10%">
                           City
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">

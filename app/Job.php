@@ -314,7 +314,7 @@ class Job extends Model
     }
 
     public function canEditJob(){
-        if(Auth::check() && $this->job_creator == Auth::user()->id)
+        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id))
             return true;
         else
             return false;
@@ -396,9 +396,10 @@ class Job extends Model
     public function jobAvailabeStatus(){
         if(isAdmin()){
             $status[1] = [2]; 
-            $status[2] = [3];
+            $status[2] = [3,5];
             $status[3] = [4]; 
             $status[4] = [3]; 
+            $status[5] = [2]; 
         }
         else{
             $status[1] = [2]; 
@@ -417,6 +418,7 @@ class Job extends Model
             $status[2] = 3;
             $status[3] = 4; 
             $status[4] = 3; 
+            $status[5] = 2; 
         }
         else{
             $status[1] = 2; 

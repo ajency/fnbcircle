@@ -682,7 +682,7 @@ class AdminConfigurationController extends Controller
         $job = new Job;
         $jobStatuses = $job->jobStatuses();
         $jobAvailabeStatus = $job->jobAvailabeStatus();
-        $cities = City::orderBy('order')->orderBy('name')->get();
+        $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
         $categories =  $job->jobCategories();
         $keywords = $job->jobKeywords();
 
@@ -756,6 +756,18 @@ class AdminConfigurationController extends Controller
         if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
         {
             $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
+        }
+
+        if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
+        { exit;
+            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from']); 
+            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to']);
+        }
+
+        if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
+        {
+            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from']); 
+            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to']);
         }
 
          

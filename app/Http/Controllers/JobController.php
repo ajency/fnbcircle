@@ -150,6 +150,7 @@ class JobController extends Controller
         $job->salary_upper = $salaryUpper;
         $job->status = 1;
         $job->job_creator = $userId;
+        $job->job_modifier = $userId;
         $job->meta_data = $metaData;
         $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
@@ -605,9 +606,9 @@ class JobController extends Controller
 
     public function getKeywords(Request $request)
     { 
-        $this->validate($request, [
-            'keyword' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'keyword' => 'required',
+        // ]);
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')

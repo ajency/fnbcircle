@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Listing;
+use App\Update;
+use Auth;
 use Illuminate\Http\Request;
 
 /*
@@ -45,11 +48,23 @@ class UpdatesController extends Controller
 
         if ($request->type == 'listing') {
         	$config = config('tempconfig.table-details.listing');
+        	$object = Listing::where($config['id'], $request->id)->firstOrFail();
         }else{
         	return response()->json(['status' => '400', 'message' => 'Invalid type']);
         }
 
         
+        $update =  new Update;
+        $update->posted_by = Auth::user()->id;
+        $update->last_updated_by = Auth::user()->id;
+        $update->title = $request->title;
+        $update->contents = $request->description;
+        $update->photos = ($request->photos == '')? null:$request->photos;
+        $update->status = 1;
+
+        $object->updates()->save($update);
+
+        return response()->json(['status' => '200', 'message' => '']);
     }
 
 }

@@ -126,7 +126,7 @@
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
                   @if($job->status == 1)
-                  <i class="fa fa-info-circle" aria-hidden="true" title="Job will remain in draft status till submitted for review."></i>
+                  <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
                   @endif
                   </h5>
                </div>

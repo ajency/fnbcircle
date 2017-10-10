@@ -258,3 +258,12 @@ $('.date_range_picker').on 'apply.daterangepicker', (ev, picker) ->
 $('.jobs-table').closest('.row').addClass 'overflow-table'
 
 
+
+$('.admin-job-role-search').multiselect
+  buttonContainer: '<span></span>'
+  buttonClass: ''
+  maxHeight: 200
+  templates: button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+  enableFiltering: true
+  enableCaseInsensitiveFiltering:false
+

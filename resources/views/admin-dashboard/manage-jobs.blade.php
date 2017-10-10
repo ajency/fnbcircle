@@ -99,7 +99,7 @@
                       </th>
                       <th width="20%">
                          Job Role(s)
-                         <select multiple class="form-control multi-dd jobsearchinput" id="filterkeywords" name="job_keywords">
+                         <select multiple class="form-control jobsearchinput admin-job-role-search" id="filterkeywords" name="job_keywords">
                             @foreach ($keywords as $keywordId => $keyword)
                             <option value="{{$keywordId}}">{{$keyword}}</option>
                           @endforeach

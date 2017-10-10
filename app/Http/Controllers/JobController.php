@@ -210,7 +210,7 @@ class JobController extends Controller
     public function getExperienceLowerAndUpperValue($jobExperience){
  
         $lower = $upper =[];
-        $min = $max = 0;
+        $min = $max = 0; 
         if(!empty($jobExperience)){
 
 
@@ -220,16 +220,18 @@ class JobController extends Controller
                 else
                     $experienceValues = explode('+', $experience);
 
+
                 if(!empty($experienceValues)){
                     $lower[] = trim($experienceValues[0]);
                     $upper[] = trim($experienceValues[1]);
                 }
 
             } 
+             
             $min = min($lower);
-            $max = max($upper);
+            $max = (max($upper) == '') ? 10 :max($upper);
         }
-
+        
         return ['lower'=> $min, 'upper'=>$max];
     }
 

@@ -215,19 +215,31 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Premium jobs get more applicants as compared to non premium.
+                                        Get 10 X times more response.
                                     </div>
-                                    <div class="first tips-row__col flex-row">
+                                    <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             2
                                         </span>
-                                        Premium jobs are displayed on top in the search results.
+                                        Get premium tag which makes your requirement stand out from rest.
                                     </div>
-                                    <div class="first tips-row__col flex-row">
+                                    <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             3
                                         </span>
-                                        Premium jobs will be indicated with a premium label!
+                                        Your job gets displayed on top of other non premium jobs and gets top priority.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            4
+                                        </span>
+                                        20 extra days of visibility.
+                                    </div>
+                                    <div class="first tips-row__col flex-row align-top">
+                                        <span class="number">
+                                            5
+                                        </span>
+                                        Your job is displayed to candidates while searching for similar other jobs of other employers.
                                     </div>
                                 </div>
                             </div>

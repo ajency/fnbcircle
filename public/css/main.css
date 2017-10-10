@@ -2514,6 +2514,9 @@ input[type="checkbox"].toggle__check {
   vertical-align: middle;
   margin-top: -1px;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .parsley-errors-list li,
 .dupError,
 .validationError,

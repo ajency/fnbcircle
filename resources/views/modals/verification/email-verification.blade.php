@@ -3,6 +3,9 @@
         <label class="label-size">Enter your email address </label>
         <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
     </div>
+    @php
+    $key = 0;
+    @endphp
     @if($contactEmail)
     @foreach($contactEmail as $email)
     <div class="contact-row m-t-5 contact-container">
@@ -10,8 +13,8 @@
             <div class="col-sm-5">
                 <input type="hidden" class="contact_email_id contact-id" readonly value="{{ $email['id'] }}"  name="contact_email_id[]">
 
-                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email"  @if($email['verified']) readonly @endif>
-                <div class=dupError ></div>
+                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{ $email['email'] }}" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email"  @if($email['verified']) readonly @endif data-parsley-errors-container="#emailError{{ $key }}">
+                <div class=dupError id="emailError{{ $key }}" ></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -47,8 +50,8 @@
         <div class="row no-m-b get-val ">
             <div class="col-sm-5">
                 <input type="hidden" class="contact_email_id contact-id" readonly value=""  name="contact_email_id[]">
-                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" >
-                <div class=dupError ></div>
+                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-errors-container="#emailError{{ $key }}">
+                <div class=dupError id="emailError{{ $key }}" ></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">
@@ -80,8 +83,8 @@
         <div class="row no-m-b get-val ">
             <div class="col-sm-5">
                 <input type="hidden" class="contact_email_id contact-id" readonly value=""  name="contact_email_id[]">
-                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" >
-                <div class=dupError ></div>
+                <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contact_email[]" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-errors-container="#emailError{{ ($key+1) }}" >
+                <div class=dupError id="emailError{{ ($key+1) }}"></div>
             </div>
             <div class="col-sm-3 col-xs-4">
                 <div class="verified flex-row">

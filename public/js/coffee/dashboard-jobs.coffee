@@ -38,10 +38,14 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'published_date' }
     { 'data': 'last_updated' }
     { 'data': 'last_updated_by' }
-    { 'data': 'status' }
+    { 'data': 'status' , "orderable": false}
   ])
 
-$('.jobsearchinput').keyup ->
+$('.jobsearchinput').change ->
+  jobsTable.ajax.reload()
+  return
+
+$('.jobstrsearchinput').keyup ->
   jobsTable.ajax.reload()
   return
 
@@ -198,6 +202,7 @@ $('#updateStatusModal').on 'click', '#change_status', ->
           $('.alert-success').addClass 'active'
           setTimeout (->
             $('.alert-success').removeClass 'active'
+            # jobsTable.ajax.reload()
             return
           ), 2000
         else

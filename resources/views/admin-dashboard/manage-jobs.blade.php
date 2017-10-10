@@ -68,9 +68,9 @@
                 </div>
                 <br> -->
                  
-                <input type="text" name="job_name" placeholder="Search by Job Name" id="job_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
+                <input type="text" name="job_name" placeholder="Search by Job Name" id="job_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput">
 
-                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
+                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput">
 
                 <table id="datatable-jobs" class="table table-striped  nowrap" cellspacing="0" width="100%">
                   <thead>

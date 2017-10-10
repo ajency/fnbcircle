@@ -58,12 +58,17 @@
       }, {
         'data': 'last_updated_by'
       }, {
-        'data': 'status'
+        'data': 'status',
+        "orderable": false
       }
     ]
   });
 
-  $('.jobsearchinput').keyup(function() {
+  $('.jobsearchinput').change(function() {
+    jobsTable.ajax.reload();
+  });
+
+  $('.jobstrsearchinput').keyup(function() {
     jobsTable.ajax.reload();
   });
 

@@ -298,10 +298,10 @@
 
   $(".contact-info").on('change', '.toggle__check', function() {
     if ($(this).is(':checked')) {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the applicant');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible to the applicant');
       $(this).closest('.toggle').find('.contact-visible').val(1);
     } else {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the applicant');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible to the applicant');
       $(this).closest('.toggle').find('.contact-visible').val(0);
     }
   });

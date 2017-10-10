@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, coreCat;
+  var Applybtn, Articles, companyLogo;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -318,8 +318,11 @@
   });
 
   if ($(window).width() <= 768) {
-    coreCat = $('.detach-col-1').detach();
-    $('.job-info').after(coreCat);
+    setTimeout((function() {
+      var coreCat;
+      coreCat = $('.detach-col-1').detach();
+      $('.job-info').after(coreCat);
+    }), 500);
     Applybtn = $('.applyJob').detach();
     $('.detachsection').after(Applybtn);
     Articles = $('.related-article').detach();

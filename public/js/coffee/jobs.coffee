@@ -324,8 +324,11 @@ $('.more-show').click (event) ->
   return
 
 if $(window).width() <= 768
-  coreCat = $('.detach-col-1').detach()
-  $('.job-info').after coreCat
+  setTimeout (->
+    coreCat = $('.detach-col-1').detach()
+    $('.job-info').after coreCat
+    return
+  ), 500
   Applybtn = $('.applyJob').detach()
   $('.detachsection').after Applybtn
   Articles = $('.related-article').detach()

@@ -60,7 +60,7 @@
   getFilters = function() {
     var filters;
     filters = {
-      "category_search": $('input[type="hidden"][name="category_search"]').val(),
+      "category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val(),
       "business_search": $('input[type="hidden"][name="business_search"]').val(),
       "areas_selected": [],
       "business_types": [],
@@ -77,7 +77,11 @@
       updateUrlPushstate("business_search", "");
     }
     filters["categories"] = $(".results__body ul.contents #current_category").val();
-    updateUrlPushstate("categories", "categories" + "=" + filters["categories"]);
+    if ($(".results__body ul.contents #current_category").val().length > 0 && $(".results__body ul.contents #current_category").val().indexOf("|[]") < 0) {
+      updateUrlPushstate("categories", "categories" + "=" + filters["categories"]);
+    } else {
+      updateUrlPushstate("categories", "");
+    }
 
     /* --- Get 'area' values & update URL --- */
     $("input[type='checkbox'][name='areas[]']:checked").each(function() {
@@ -137,10 +141,12 @@
   };
 
   getListContent = function() {
-    var data;
+    var data, limit, page;
+    page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 1;
     data = {
-      "page": 1,
-      "page_size": 10,
+      "page": page,
+      "page_size": limit,
       "sort_by": "published",
       "sort_order": "desc",
       "city": $('input[type="hidden"][name="city"]').val(),
@@ -148,6 +154,7 @@
       "filters": getFilters()
     };
     $("#listing_card_view").css("filter", "blur(2px)");
+    console.log(getFilters());
     $.ajax({
       type: 'post',
       url: '/api/get-listview-data',
@@ -172,11 +179,16 @@
         /* --- Load the Listing card template --- */
         $("#listing_card_view").html(data["data"]["list_view"]);
         $("#listing_card_view").css("filter", "");
+
+        /* --- Add the pagination to the HTML --- */
+        console.log(data["data"]["paginate"]);
+        $(".listings-page #pagination").html(data["data"]["paginate"]);
         updateTextLabels();
 
         /* --- Note: the function below is called again to update the URL post AJAX --- */
         getFilters();
-        return $("input[type='hidden'][name='area_hidden']").val("");
+        $("input[type='hidden'][name='area_hidden']").val("");
+        return $(document).find(".results__body ul.contents #current_category").val("");
 
         /* ---- HAndleBar template content load ---- */
       },
@@ -223,9 +235,6 @@
     old_values = {};
 
     /* --- Load all the popular city on load --- */
-    getCity({
-      "search": ""
-    }, "states");
     updateTextLabels();
 
     /* --- City filter dropdown --- */
@@ -302,6 +311,8 @@
         "categories": "current_category"
       };
       get_params = getUrlSearchParams();
+
+      /* --- Update SearchBox values --- */
       for (key in search_box_params) {
         i = 0;
         while (i < get_params.length) {
@@ -312,16 +323,8 @@
           i++;
         }
       }
-      for (key in filter_listing_params) {
-        i = 0;
-        while (i < get_params.length) {
-          if (get_params[i].indexOf(key + "=") > -1) {
-            value_assigned = get_params[i].split("=")[1];
-            $('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned);
-          }
-          i++;
-        }
-      }
+
+      /* --- Update Filter values --- */
     }
 
     /* --- Triggered every time the value in input changes --- */
@@ -336,13 +339,16 @@
       }
       if ($(this).val().length <= 0) {
         updateUrlPushstate(key, "");
+        if ($(this).prop("name") === "category_search") {
+
+          /* --- update the value to null on change --- */
+          $(document).find(".results__body ul.contents #current_category").val($(this).val());
+        }
         if (key !== "state") {
           getListContent();
         } else {
           '';
         }
-      } else if (key === "category_search") {
-        updateUrlPushstate(key, key + "=" + $(this).val());
       }
     });
 
@@ -378,18 +384,28 @@
       updateUrlPushstate(key, pushstate_url);
       setTimeout((function() {
         return getListContent();
-      }), 1000);
+      }), 500);
     });
 
     /* --- Detect <a> click --- */
     $(document).on("click", ".results__body ul.contents a", function(e) {
-      e.preventDefault();
-      $(".results__body ul.contents #current_category").val($(this).attr("value"));
+      console.log("clicking Category");
+      $(document).find(".results__body ul.contents #current_category").val($(this).attr("value"));
+      updateUrlPushstate("categories", "categories=" + JSON.stringify($(this).attr("value")));
       $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"));
-      getListContent();
+      setTimeout((function() {
+        getListContent();
+      }), 100);
+      e.stopImmediatePropagation();
       return false;
     });
-    $(document).on("focusin", 'input[type="text" ][name="flexdatalist-city"]', function(event) {
+
+    /* --- On click of Pagination, load that page --- */
+    $(document).on("click", "#pagination a.paginate.page", function(e) {
+      updateUrlPushstate("page", "page=" + $(this).attr("page"));
+      getListContent();
+    });
+    $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
       old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val();
     });
     $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {

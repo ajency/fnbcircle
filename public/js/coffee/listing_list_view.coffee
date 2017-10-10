@@ -8,6 +8,58 @@ getTemplateHTML = (templateToRender, data) ->
 	htmlToRender = theTemplate(list)
 	return htmlToRender
 
+# initHandleBars = () ->
+# 	### --- Handle Bar template functions --- ###
+# 	### --- Clear the listing_card_view section --- ###
+# 	$('#listing_card_view').empty()
+	
+# 	### --- Custom If condition --- ###
+# 	Handlebars.registerHelper 'ifCond', (v1, v2, options) ->
+# 		if v1 == v2
+# 			return options.fn(this)
+# 		else
+# 			return options.inverse(this)
+# 		return
+
+
+# 	Handlebars.registerHelper 'ifLogic', (v1, operator, v2, options) ->
+# 		switch operator
+# 			when '==', '===', 'is'
+# 				return if v1 is v2 then options.fn this else options.inverse this
+# 			when '!=', '!=='
+# 				return if v1 != v2 then options.fn this else options.inverse this
+# 			when '<'
+# 				return if v1 < v2 then options.fn this else options.inverse this
+# 			when '<='
+# 				return if v1 <= v2 then options.fn this else options.inverse this
+# 			when '>'
+# 				return if v1 > v2 then options.fn this else options.inverse this
+# 			when '>='
+# 				return if v1 >= v2 then options.fn this else options.inverse this
+# 			when '&&', 'and'
+# 				return if v1 and v2 then options.fn this else options.inverse this
+# 			when '||', 'or'
+# 				return if v1 or v2 then options.fn this else options.inverse this
+# 			else
+# 				return options.inverse this
+# 		return
+
+# 	### --- formatDate condition --- ###
+# 	Handlebars.registerHelper 'formatDate', (datetime, format, options) ->
+# 		month_list = [
+# 			"Jan", "Feb", "Mar", "Apr",
+# 			"May", "Jun", "Jul", "Aug",
+# 			"Sept", "Oct", "Nov", "Dec"
+# 		]
+
+# 		# mmnt = moment(date)
+# 		# return mmnt.format(format)
+# 		date_str = new Date(datetime)
+# 		return date_str.getDate() + " " + month_list[date_str.getMonth()] + " " + date_str.getFullYear()
+
+# 	return
+# 	### --- End of Handle Bar template functions --- ###
+
 getUrlSearchParams = () ->
 	if window.location.search.split("?").length > 1
 		return window.location.search.split("?")[1].split("&")
@@ -48,7 +100,7 @@ updateUrlPushstate = (key, pushstate_url) ->
 
 getFilters = () ->
 	filters = 
-		"category_search": $('input[type="hidden"][name="category_search"]').val()
+		"category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val()#$('input[type="hidden"][name="category_search"]').val()
 		"business_search": $('input[type="hidden"][name="business_search"]').val()
 		"areas_selected": []
 		"business_types": []
@@ -65,7 +117,11 @@ getFilters = () ->
 		updateUrlPushstate("business_search", "")
 
 	filters["categories"] =  $(".results__body ul.contents #current_category").val() #$(".results__body ul.contents a.bolder").attr("value")
-	updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+	#updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+	if $(".results__body ul.contents #current_category").val().length > 0 and $(".results__body ul.contents #current_category").val().indexOf("|[]") < 0
+		updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+	else
+		updateUrlPushstate("categories", "")
 
 	### --- Get 'area' values & update URL --- ###
 	$("input[type='checkbox'][name='areas[]']:checked").each ->
@@ -126,25 +182,21 @@ getListContent = () ->
 	# 	"title" : "sharath"
 	# 	"business_type" : 11
 	# 	"verified" : 1
-
+	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
+	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 1
 	data = 
-		"page": 1
-		"page_size": 10
+		"page": page
+		"page_size": limit
 		"sort_by": "published"
 		"sort_order": "desc"
 		"city" : $('input[type="hidden"][name="city"]').val()
 		"area" : $("input[type='hidden'][name='area_hidden']").val()
 		"filters":
 			getFilters()
-		# 	"areas": [1, 2, 6],
-		# 	"business_type": [11, 12, 13],
-		# 	"listing_status": [],
-		#	"categories": filters["categories"],
-		# 	"category_search": $('input[type="hidden"][name="category_search"]').val(),
-		# 	"business_search": $('input[type="hidden"][name="business_search"]').val(),
-		# 	"rating": []
 
 	$("#listing_card_view").css "filter", "blur(2px)"
+
+	console.log getFilters()
 
 	$.ajax
 		type: 'post'
@@ -173,10 +225,15 @@ getListContent = () ->
 			$("#listing_card_view").html data["data"]["list_view"]
 			$("#listing_card_view").css "filter", ""
 
+			### --- Add the pagination to the HTML --- ###
+			console.log data["data"]["paginate"]
+			$(".listings-page #pagination").html data["data"]["paginate"]
+
 			updateTextLabels()
 			### --- Note: the function below is called again to update the URL post AJAX --- ###
 			getFilters()
 			$("input[type='hidden'][name='area_hidden']").val("")
+			$(document).find(".results__body ul.contents #current_category").val("")
 
 			### ---- HAndleBar template content load ---- ###
 			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
@@ -215,7 +272,7 @@ $(document).ready () ->
 	old_values = {}
 
 	### --- Load all the popular city on load --- ###
-	getCity({"search": ""}, "states")
+	# getCity({"search": ""}, "states")
 	updateTextLabels()
 
 	### --- City filter dropdown --- ###
@@ -323,6 +380,7 @@ $(document).ready () ->
 
 		get_params = getUrlSearchParams()
 
+		### --- Update SearchBox values --- ###
 		for key of search_box_params
 			i = 0
 			while i < get_params.length
@@ -331,14 +389,15 @@ $(document).ready () ->
 					$('input[type="hidden"][name="' + search_box_params[key] + '"].flexdatalist').val(value_assigned)
 				i++
 
-		for key of filter_listing_params
-			i = 0
-			while i < get_params.length
-				if get_params[i].indexOf(key + "=") > -1
-					value_assigned = get_params[i].split("=")[1]
+		### --- Update Filter values --- ###
+		# for key of filter_listing_params
+		# 	i = 0
+		# 	while i < get_params.length
+		# 		if get_params[i].indexOf(key + "=") > -1
+		# 			value_assigned = get_params[i].split("=")[1]
 
-					$('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned)
-				i++
+		# 			$('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned)
+		# 		i++
 
 	### --- Triggered every time the value in input changes --- ###
 	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
@@ -353,9 +412,14 @@ $(document).ready () ->
 		if $(this).val().length <= 0
 			updateUrlPushstate(key, "")
 
+			if $(this).prop("name") == "category_search"
+				### --- update the value to null on change --- ###
+				$(document).find(".results__body ul.contents #current_category").val($(this).val())
+
+			## -- Do not make AJAX request if state is empty -- ##
 			if key != "state" then getListContent() else ''
-		else if key == "category_search"
-			updateUrlPushstate(key, key + "=" + $(this).val())
+		# else if key == "category_search" and $(this).val().length <= 0
+		# 	updateUrlPushstate(key, "")
 		return
 
 	### -- Triggered every time the user selects an option -- ###
@@ -394,26 +458,37 @@ $(document).ready () ->
 
 		setTimeout (->
 			getListContent()
-		), 1000
+		), 500
 		return
 
 	### --- Detect <a> click --- ###
 	$(document).on "click", ".results__body ul.contents a", (e) ->
-		e.preventDefault()
-		$(".results__body ul.contents #current_category").val($(this).attr("value"))
+		console.log "clicking Category"
+		$(document).find(".results__body ul.contents #current_category").val($(this).attr("value"))
 		#console.log $(this).attr("value")
-
+		updateUrlPushstate("categories", "categories=" + JSON.stringify($(this).attr("value")))
 		$(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"))
 		
-		# setTimeout (->
-		# 	getListContent()
-		# 	return
-		# ), 1000
-		getListContent()
+		#getListContent()
+		
+		setTimeout (->
+			getListContent()
+			return
+		), 100
+		
+		#console.log $(this).attr("value")
 		#console.log $(this).text()
+		# e.preventDefault()
+		e.stopImmediatePropagation()
 		return false
 
-	$(document).on "focusin", 'input[type="text" ][name="flexdatalist-city"]', (event) ->
+	### --- On click of Pagination, load that page --- ###
+	$(document).on "click", "#pagination a.paginate.page", (e) ->
+		updateUrlPushstate("page", "page=" + $(this).attr("page"))
+		getListContent()
+		return
+
+	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
 		old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val()
 		return
 
@@ -441,56 +516,9 @@ $(document).ready () ->
 		else
 			$("input[type='checkbox'][name='areas[]']").parent().removeClass('hidden')
 		return
-
-	# ### --- Handle Bar template functions --- ###
-	# ### --- Clear the listing_card_view section --- ###
-	# $('#listing_card_view').empty()
 	
-	# ### --- Custom If condition --- ###
-	# Handlebars.registerHelper 'ifCond', (v1, v2, options) ->
-	# 	if v1 == v2
-	# 		return options.fn(this)
-	# 	else
-	# 		return options.inverse(this)
-	# 	return
+	# initHandleBars()
 
-
-	# Handlebars.registerHelper 'ifLogic', (v1, operator, v2, options) ->
-	# 	switch operator
-	# 		when '==', '===', 'is'
-	# 			return if v1 is v2 then options.fn this else options.inverse this
-	# 		when '!=', '!=='
-	# 			return if v1 != v2 then options.fn this else options.inverse this
-	# 		when '<'
-	# 			return if v1 < v2 then options.fn this else options.inverse this
-	# 		when '<='
-	# 			return if v1 <= v2 then options.fn this else options.inverse this
-	# 		when '>'
-	# 			return if v1 > v2 then options.fn this else options.inverse this
-	# 		when '>='
-	# 			return if v1 >= v2 then options.fn this else options.inverse this
-	# 		when '&&', 'and'
-	# 			return if v1 and v2 then options.fn this else options.inverse this
-	# 		when '||', 'or'
-	# 			return if v1 or v2 then options.fn this else options.inverse this
-	# 		else
-	# 			return options.inverse this
-	# 	return
-
-	# ### --- formatDate condition --- ###
-	# Handlebars.registerHelper 'formatDate', (datetime, format, options) ->
-	# 	month_list = [
-	# 		"Jan", "Feb", "Mar", "Apr",
-	# 		"May", "Jun", "Jul", "Aug",
-	# 		"Sept", "Oct", "Nov", "Dec"
-	# 	]
-
-	# 	# mmnt = moment(date)
-	# 	# return mmnt.format(format)
-	# 	date_str = new Date(datetime)
-	# 	return date_str.getDate() + " " + month_list[date_str.getMonth()] + " " + date_str.getFullYear()
-	# ### --- End of Handle Bar template functions --- ###
-	
 	### --- Working of "Back to Top" button --- ###
 	$(window).scroll ->
 		if $(this).scrollTop() > 500

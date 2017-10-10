@@ -263,7 +263,7 @@
                 <div class="col-sm-5">
                     <div class="input-row">
                         <input type="hidden" class="comm-id contact_mobile_id contact-id " readonly  name="contact_IDs">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}} @endif" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($owner->type == 'external')data-parsley-required @endif data-parsley-errors-container="#phone-error">
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}} @endif" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($owner->type == 'external')data-parsley-required @endif >
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$owner->getPrimaryContact()['contact_region']}}">
                         
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->

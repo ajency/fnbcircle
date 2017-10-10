@@ -231,3 +231,8 @@ $('.date_range_picker').on 'apply.daterangepicker', (ev, picker) ->
 #   $('input[name="date_pub_to"]').val picker.endDate.format('YYYY-MM-DD')
 #   $('#publishDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
 #   jobsTable.ajax.reload()
+
+
+$('.jobs-table').closest('.row').addClass 'overflow-table'
+
+

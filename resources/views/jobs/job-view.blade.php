@@ -275,7 +275,7 @@
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
                                <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i>
-                               <!-- <span class="x-small text-secondary cursor-pointer"></span> -->
+                               <!-- <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+4 more</span> -->
                               @endif
                            </ul>
                         </div>

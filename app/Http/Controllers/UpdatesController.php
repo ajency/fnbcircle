@@ -45,7 +45,7 @@ class UpdatesController extends Controller
             'id'          => 'required|string',
             'title'       => 'required|string',
             'description' => 'required|string',
-            'photos'      => 'nullable|json',
+            'photos'      => 'nullable',
         ]);
 
         if ($request->type == 'listing') {
@@ -54,17 +54,24 @@ class UpdatesController extends Controller
         }else{
         	return response()->json(['status' => '400', 'message' => 'Invalid type']);
         }
-
-        
+        // dd($request->photos);
+        // if (isset($request->photos)) {
+        //     $images = explode(',', $request->photos);
+        // } else {
+        //     $images = [];
+        // }
+        // dd($images);
         $update =  new Update;
         $update->posted_by = Auth::user()->id;
         $update->last_updated_by = Auth::user()->id;
         $update->title = $request->title;
         $update->contents = $request->description;
-        $update->photos = ($request->photos == '')? null:$request->photos;
+        $update->photos = ($request->photos == '')? null:json_encode($request->photos);
         $update->status = 1;
-        
+        $update->save();
+        // dd($update->id);
         $object->updates()->save($update);
+        $update->remapImages($request->photos);
 
         return response()->json(['status' => '200', 'message' => '']);
     }

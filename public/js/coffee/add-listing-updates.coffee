@@ -39,8 +39,6 @@ uploadFile = (container) ->
 				if(data['status'] == "200")
 					container.find('input[type="hidden"]').val data['data']['id']
 					container.find(".image-loader").addClass('hidden')
-				  # if type == 1
-				  #   container.find('.doc-name').prop('disabled',true)
 				else
 				  #throw some error
 					$container.find('input[type="file"]').val ''
@@ -75,3 +73,28 @@ $('body').on 'change','.imageUpload input[type="file"]', (e) ->
   ), 250
 
 $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
+
+$('body').on 'click', '#post-update-button', ->
+  instance = $('#info-form').parsley()
+  if !instance.validate()
+    return false
+  title = $('input[type="text"][name="title"]').val()
+  description = $('textarea[name="description"]').val()
+  images = []
+  $('.imageUpload input[type="hidden"]').each ->
+    if $(this).val() != ''
+      return images.push($(this).val())
+    return
+  console.log title, description, images
+  url = document.head.querySelector('[property="post-upload-url"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data: 
+      'photos' : images
+      'title': title
+      'description': description
+      'type':'listing'
+      'id': document.getElementById('listing_id').value
+    success: () ->
+      console.log "success"

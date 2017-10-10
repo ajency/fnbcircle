@@ -83,4 +83,36 @@
 
   $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 
+  $('body').on('click', '#post-update-button', function() {
+    var description, images, instance, title, url;
+    instance = $('#info-form').parsley();
+    if (!instance.validate()) {
+      return false;
+    }
+    title = $('input[type="text"][name="title"]').val();
+    description = $('textarea[name="description"]').val();
+    images = [];
+    $('.imageUpload input[type="hidden"]').each(function() {
+      if ($(this).val() !== '') {
+        return images.push($(this).val());
+      }
+    });
+    console.log(title, description, images);
+    url = document.head.querySelector('[property="post-upload-url"]').content;
+    return $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        'photos': images,
+        'title': title,
+        'description': description,
+        'type': 'listing',
+        'id': document.getElementById('listing_id').value
+      },
+      success: function() {
+        return console.log("success");
+      }
+    });
+  });
+
 }).call(this);

@@ -16,8 +16,8 @@ class CreateUpdatesTable extends Migration
         Schema::create('updates', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('object_type');
-            $table->integer('object_id');
+            $table->string('object_type')->nullable();
+            $table->integer('object_id')->nullable();
             $table->integer('posted_by');
             $table->integer('last_updated_by');
             $table->string('title');

@@ -665,7 +665,7 @@
                @endif
                <h6 class="m-t-0 company-section__title">Company Info</h6>
                <div class="featured-jobs__row job-data">
-                  <div class="flex-row">
+                  <div class="flex-row align-top">
                     <div class="joblogo">
                       @if(($jobCompany->logo))
                        <img src="{{ $companyLogo }}" width="60">

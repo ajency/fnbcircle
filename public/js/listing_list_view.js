@@ -418,6 +418,17 @@
     $(document).on("change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", function(e) {
       getListContent();
     });
+    $(document).on("click", "div#section-area div.check-section label.sub-title.clear, div#section-business div.check-section label.sub-title.clear, div#section-list-status div.check-section label.sub-title.clear", function(e) {
+      var checkbox_name_linking;
+      e.preventDefault();
+      checkbox_name_linking = {
+        "section-area": "areas[]",
+        "section-business": "business_type[]",
+        "section-list-status": "listing_status[]"
+      };
+      $("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "");
+      getListContent();
+    });
     $(document).on("input change", ".filter-group.area #section-area input[type='text']#area_search", function(event) {
       var search_key;
       search_key = $(this).val();

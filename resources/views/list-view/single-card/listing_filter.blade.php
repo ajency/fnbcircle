@@ -62,7 +62,7 @@
             <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search an area">
         </div>
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
+            <label class="sub-title flex-row clear {{ sizeof($filter_data['areas_selected']) > 0 ? '' : 'hidden' }}">
                 <a href="" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
@@ -99,8 +99,8 @@
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-business">
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
-                <a href="" class="text-color">
+            <label class="sub-title flex-row clear {{ $filter_data['business_type']['check_count'] > 0 ? '' : 'hidden' }}">
+                <a href="#" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
                 </a>
@@ -122,7 +122,7 @@
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-list-status">
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
+            <label class="sub-title flex-row clear {{ $filter_data['listing_status']['check_count'] > 0 ? '' : 'hidden' }}">
                 <a href="" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>

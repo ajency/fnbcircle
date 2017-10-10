@@ -503,6 +503,20 @@ $(document).ready () ->
 		getListContent()
 		return
 	
+	$(document).on "click", "div#section-area div.check-section label.sub-title.clear, div#section-business div.check-section label.sub-title.clear, div#section-list-status div.check-section label.sub-title.clear", (e) ->
+		e.preventDefault()
+
+		checkbox_name_linking = 
+			"section-area": "areas[]"
+			"section-business": "business_type[]"
+			"section-list-status": "listing_status[]"
+
+		$("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "")
+
+		getListContent()
+		return
+
+
 	$(document).on "input change", ".filter-group.area #section-area input[type='text']#area_search", (event) ->
 		search_key = $(this).val()
 		

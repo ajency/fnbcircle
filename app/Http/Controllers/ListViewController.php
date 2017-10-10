@@ -378,11 +378,13 @@ class ListViewController extends Controller {
 
     	$filter_data["business_type"]["value"] = $listing_business_type;
     	$filter_data["business_type"]["status"] = [];
+    	$filter_data["business_type"]["check_count"] = 0;
 
 		if(isset($filters["business_type"])) {
     		foreach ($filter_data["business_type"]["value"] as $key => $value) {
     			if(in_array($key, $filters["business_type"])) {
     				$filter_data["business_type"]["status"][$key] = "checked";
+    				$filter_data["business_type"]["check_count"]++;
     			} else {
     				$filter_data["business_type"]["status"][$key] = "";
     			}
@@ -392,11 +394,13 @@ class ListViewController extends Controller {
     	/* If listing_status filter is selected or exist then update the values */
     	$filter_data["listing_status"]["value"] = array("premium" => "Premium", "verified" => "Verified");
     	$filter_data["listing_status"]["status"] = [];
+    	$filter_data["listing_status"]["check_count"] = 0;
 
     	if(isset($filters["listing_status"])) {
     		foreach ($filter_data["listing_status"]["value"] as $key => $value) {
     			if(in_array($key, $filters["listing_status"])) {
     				$filter_data["listing_status"]["status"][$key] = "checked";
+    				$filter_data["listing_status"]["check_count"]++;
     			} else {
     				$filter_data["listing_status"]["status"][$key] = "";
     			}

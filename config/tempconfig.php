@@ -18,4 +18,10 @@ return [
 	'listing-photo-full' => '400X300',
 	'single-view-category-number' => 4,
 	'twitterHandle' => '@fnbcircle',
+	'table-details' => [
+		'listing'=> [
+			'id' => 'reference',
+			'update' => 'last-updated-by',
+		],
+	],
 ];

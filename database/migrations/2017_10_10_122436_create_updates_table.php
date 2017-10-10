@@ -23,6 +23,7 @@ class CreateUpdatesTable extends Migration
             $table->string('title');
             $table->text('contents');
             $table->string('photos');
+            $table->integer('status')->comment('0= draft, 1=published');
             $table->softDeletes();
 
         });

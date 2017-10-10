@@ -37,6 +37,7 @@ Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
+Route::post('/post-update', 'UpdatesController@postUpdate');
 
 //manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');

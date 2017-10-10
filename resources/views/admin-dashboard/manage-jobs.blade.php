@@ -72,12 +72,12 @@
 
                 <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput manage-search-box">
                 
-                <table id="datatable-jobs" class="table table-striped  nowrap jobs-table" cellspacing="0" width="100%">
+                <table id="datatable-jobs" class="table table-striped jobs-table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="no-sort update-checkbox " width="2%"> 
+                      <th class="no-sort update-checkbox"> </th>
                       <!-- <input type='checkbox' class="hidden" name='job_check_all'></th> -->
-                      <th class="no-sort" data-col="5" width="10%">
+                      <th class="no-sort" data-col="5">
                           City
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">
                             @foreach ($cities as $city)
@@ -85,8 +85,8 @@
                           @endforeach
                           </select>
                       </th>
-                      <th width="15%">Job Title</th>
-                      <th width="5%">
+                      <th>Job Title</th>
+                      <th>
                          Business Type
                          <select multiple class="form-control multi-dd jobsearchinput" id="filtercategory" name="job_category">
                             @foreach ($categories as $categoryId => $category)
@@ -94,7 +94,7 @@
                           @endforeach
                           </select>
                       </th>
-                      <th width="20%">
+                      <th>
                          Keywords
                          <select multiple class="form-control multi-dd jobsearchinput" id="filterkeywords" name="job_keywords">
                             @foreach ($keywords as $keywordId => $keyword)
@@ -102,15 +102,15 @@
                           @endforeach
                           </select>
                       </th>
-                      <th class="no-sort text-center" data-col="4" width="10%">
+                      <th class="no-sort" data-col="4" style="min-width: 10%;">
                         Company Name
                          
                       </th>                    
-                      <th class="text-center" width="10%">Date of submission</th>
-                      <th width="10%">Published Date</th>
-                      <th width="10%">Last Updated on</th>
-                      <th width="10%">Last Updated By</th>
-                      <th class="no-sort" data-col="9" width="10%">
+                      <th class="" style="min-width: 10%;">Date of submission</th>
+                      <th>Published Date</th>
+                      <th>Last Updated on</th>
+                      <th>Last Updated By</th>
+                      <th class="no-sort" data-col="9">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd job-status jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)

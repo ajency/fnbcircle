@@ -60,7 +60,47 @@
       }, {
         'data': 'status'
       }
+    ],
+    "columnDefs": [
+      {
+        "width": "20px",
+        "targets": 0
+      }, {
+        "width": "100px",
+        "targets": 1
+      }, {
+        "width": "150px",
+        "targets": 2
+      }, {
+        "width": "150px",
+        "targets": 3
+      }, {
+        "width": "300px",
+        "targets": 4
+      }, {
+        "width": "150px",
+        "targets": 5
+      }, {
+        "width": "150px",
+        "targets": 6
+      }, {
+        "width": "150px",
+        "targets": 7
+      }, {
+        "width": "150px",
+        "targets": 8
+      }, {
+        "width": "150px",
+        "targets": 9
+      }, {
+        "width": "100px",
+        "targets": 10
+      }
     ]
+  });
+
+  jobsTable.columns().iterator('column', function(ctx, idx) {
+    $(jobsTable.column(idx).header()).append('<span class="sort-icon"/>');
   });
 
   $('.jobsearchinput').keyup(function() {

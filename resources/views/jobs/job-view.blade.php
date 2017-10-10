@@ -126,7 +126,7 @@
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
                   @if($job->status == 1)
-                  <i class="fa fa-info-circle" aria-hidden="true" title="Job will remain in draft status till submitted for review."></i>
+                  <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
                   @endif
                   </h5>
                </div>
@@ -274,8 +274,10 @@
                                <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
+ 
                             <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
                                <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+ 
                               @endif
                            </ul>
                         </div>
@@ -686,7 +688,7 @@
                @endif
                <h6 class="m-t-0 company-section__title">Company Info</h6>
                <div class="featured-jobs__row job-data">
-                  <div class="flex-row">
+                  <div class="flex-row align-top">
                     <div class="joblogo">
                       @if(($jobCompany->logo))
                        <img src="{{ $companyLogo }}" width="60">

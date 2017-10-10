@@ -34,11 +34,11 @@
 
     <script type="text/javascript" src="{{ asset('js/jquery.custom-file-input.js') }}"></script>
     <!-- Add listing -->
-    <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script> -->
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
 
-     <script src="{{ asset('js/AddListing.js') }}"></script>
+     <!-- <script src="{{ asset('js/AddListing.js') }}"></script> -->
     <script type="text/javascript" src="{{ asset('js/handlebars.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 

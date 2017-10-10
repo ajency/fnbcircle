@@ -186,9 +186,10 @@ class JobController extends Controller
     public function addJobKeywords($job,$keywords,$jobKeywords){
         $job->hasKeywords()->delete();
         $keywordData = [];
+
         foreach ($keywords as $keywordId => $keyword) {
-            
-            if(in_array($keyword, $jobKeywords)){
+             
+            if(!empty($jobKeywords) && in_array($keyword, $jobKeywords)){
                 $keywordData[$keywordId] = $keyword;
                 $jobKeyword    = new JobKeyword;
                 $jobKeyword->job_id = $job->id;
@@ -617,6 +618,7 @@ class JobController extends Controller
         }
    
         $job->job_modifier = $userId;
+        $job->updated_at = date('Y-m-d H:i:s');
         $job->save(); 
 
         if($hasChanges == 1)

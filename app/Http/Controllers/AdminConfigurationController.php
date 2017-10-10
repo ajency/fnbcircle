@@ -813,11 +813,14 @@ class AdminConfigurationController extends Controller
 
             $companyName = (!empty($job->getJobCompany())) ? $job->getJobCompany()->title :''; 
 
-            $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
-                     
-            $jobsData[] = [ '#' => '<input type="checkbox" class="hidden" name="job_check[]" value="'.$job->id.'" >',
+            $editLink = url('jobs/'.$job->reference_id.'/job-details'); 
+            $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'" job-link="'.$editLink.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
+            //'#' => '<input type="checkbox" class="hidden" name="job_check[]" value="'.$job->id.'" >',   
+            
+            $editJob =  '<a  href="'.$editLink.'"  target="_blank" >'.$job->title.'</a>';
+            $jobsData[] = [ 
                             'city' => $cityNamesStr,
-                            'title' => $job->title,
+                            'title' => $editJob,
                             'business_type' => $job->getJobCategoryName(),
                             'keyword' => $jobKeywords .''. $moreJobKeywords,
                             'company_name' => $companyName,
@@ -851,16 +854,21 @@ class AdminConfigurationController extends Controller
         $jobId = $requestData['job_id'];
         $jobStatus = $requestData['job_status'];
 
+
         $job = Job::find($jobId);
-        if(!empty($job)){
+        if(!empty($job) && $job->isJobDataComplete()){
             $job->status = $jobStatus;
+
+            if($job->status == '2' && empty($job->date_of_submission))
+                $job->date_of_submission = date('Y-m-d H:i:s');
             $job->save();
             $status = true;
         }
         else
             $status = false;
- 
-        return response()->json(array("code" => "200","status" =>$status, "msg" => ""));
+        
+        $editLink = url('jobs/'.$job->reference_id.'/job-details');
+        return response()->json(array("code" => "200","status" =>$status, "name" => $job->title,"link" => $editLink));
     }
 
     public function bulkUpdateJobStatus(Request $request){

@@ -28,7 +28,7 @@ jobsTable = $('#datatable-jobs').DataTable(
 
       return
   'columns': [
-    { 'data': '#' , "orderable": false}
+    # { 'data': '#' , "orderable": false}
     { 'data': 'city'  , "orderable": false}
     { 'data': 'title' , "orderable": false}
     { 'data': 'business_type', "orderable": false}
@@ -53,9 +53,10 @@ $('#datatable-jobs').on 'click', '.update_status', ->
   id = $(this).attr('job-id')
   status_id = $(this).attr('job-status')
   job_name = $(this).attr('job-name')
+  job_link = $(this).attr('job-link')
   # $(".job-status").val(status_id)
   $("#job_id").val id
-  $("span[id='job-title']").text job_name
+  $("span[id='job-title']").html '<a  href="'+job_link+'"  target="_blank" >'+job_name+'</a>'
   $(".update-error").text ''
   $(".job-status").val('')
 
@@ -200,9 +201,10 @@ $('#updateStatusModal').on 'click', '#change_status', ->
           $('a[job-id="'+jobId+'"]').attr 'job-status',jobstatus
           $('.alert-success #message').html "Job status updated successfully."
           $('.alert-success').addClass 'active'
+          jobsTable.ajax.reload()
           setTimeout (->
             $('.alert-success').removeClass 'active'
-            # jobsTable.ajax.reload()
+            
             return
           ), 2000
         else
@@ -212,6 +214,10 @@ $('#updateStatusModal').on 'click', '#change_status', ->
             $('.alert-failure').removeClass 'active'
             return
           ), 2000
+          $("#status-failure").modal('show')
+          $("#status-failure").find('.job-title').attr('href',data.link)
+          $("#status-failure").find('.job-title').html(data.name)
+           
           
         $('#updateStatusModal').modal 'hide'
         return

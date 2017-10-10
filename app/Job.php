@@ -346,11 +346,16 @@ class Job extends Model
         $this->status = 3;
         if($this->slug =="")
             $this->slug = $this->getJobSlug();
+            $this->published_on = date('Y-m-d H:i:');
+            $this->published_by = Auth::user()->id;
         $this->save();
 
-        $company = $this->getJobCompany();
-        $company->status = 2;
-        $company->save();
+        if(!empty($this->getJobCompany())){
+            $company = $this->getJobCompany();
+            $company->status = 2;
+            $company->save();
+        }
+        
 
         return true;
 
@@ -375,9 +380,10 @@ class Job extends Model
 
     public function getJobSlug(){
         $titleSlug = str_slug($this->title);
+        $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug :'';
 
         if(empty($this->slug))
-            $slug = $titleSlug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+            $slug = $titleSlug.'-'.$this->category->slug.'-'.$companySlug.'-'.$this->reference_id;
         else
             $slug = $this->slug;
 

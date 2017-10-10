@@ -226,5 +226,8 @@ class Listing extends Model
         else
             return true;
     }
+    public function premium(){
+        return $this->morphMany( 'App\PlanAssociation', 'premium');
+    }
 
 }

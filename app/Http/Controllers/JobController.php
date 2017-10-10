@@ -283,7 +283,7 @@ class JobController extends Controller
         $data['keywords'] = $jobKeywords; 
         $splitKeywords =  splitJobArrayData($jobKeywords,4);
         // $data['keywords'] = $splitKeywords['array'];
-        $data['moreKeywords'] = $spliFtKeywords['moreArray'];
+        $data['moreKeywords'] = $splitKeywords['moreArray'];
         $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
 
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];

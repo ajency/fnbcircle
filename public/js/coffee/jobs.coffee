@@ -87,7 +87,7 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      selectionRequired:true
+      # selectionRequired:true
       minLength: 1
       url: '/get-company'
       searchIn: ["title"]

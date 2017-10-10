@@ -26,6 +26,10 @@
             <i class="fa fa-home home-icon" aria-hidden="true"></i>
         </a>
     </li>
+    @elseif($loop->last)
+    <li class="fnb-breadcrums__section">
+            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+    </li>
     @else
     <li class="fnb-breadcrums__section">
         <a href="{{$item['url']}}">

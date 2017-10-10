@@ -2514,6 +2514,9 @@ input[type="checkbox"].toggle__check {
   vertical-align: middle;
   margin-top: -1px;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .parsley-errors-list li,
 .dupError,
 .validationError,
@@ -9436,7 +9439,7 @@ input[type='checkbox'].remove-addr {
   margin-top: 1.5em;
   font-weight: 400;
   font-size: 0.9em;
-  padding-right: 5px;
+  padding-right: 10px;
 }
 .tips-row .number {
   width: 30px;
@@ -9629,11 +9632,9 @@ input[type='checkbox'].remove-addr {
 .job-info .contact__info .fnb-btn {
   width: 35%;
 }
-.owner-address {
-  padding-left: 1em;
-}
 @media screen and (min-width: 769px) {
   .owner-address {
+    padding-left: 1em;
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
@@ -9642,6 +9643,10 @@ input[type='checkbox'].remove-addr {
     -webkit-justify-content: flex-end;
         -ms-flex-pack: end;
             justify-content: flex-end;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
   }
 }
 .owner-address .map-icon {
@@ -9668,6 +9673,22 @@ input[type='checkbox'].remove-addr {
   position: relative;
   top: 3px;
 }
+.job-data .jobdesc {
+  width: 250px;
+}
+@media screen and (max-width: 768px) {
+  .job-data .jobdesc {
+    width: 140px;
+  }
+  .job-data .jobdesc span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .job-data .jobdesc span a {
+    display: block;
+  }
+}
 .share-job .fa-whatsapp {
   color: #34af23;
 }
@@ -9692,6 +9713,11 @@ input[type='checkbox'].remove-addr {
 .share-job .options li {
   font-size: 1.7em;
   padding-right: 0.8em;
+}
+.company-section__title {
+  padding-bottom: 0.8em;
+  margin-bottom: 0;
+  font-size: 1.15em;
 }
 .Company-info {
   -webkit-box-align: start;
@@ -9892,47 +9918,29 @@ input[type='checkbox'].remove-addr {
           align-items: initial;
 }
 .role-selection > div {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1 0 28%;
-      -ms-flex: 1 0 28%;
-          flex: 1 0 28%;
   margin-bottom: 1em;
 }
 .role-selection > div:last-child {
   margin-bottom: 0;
 }
-@media screen and (min-width: 769px) {
-  .role-selection > div {
-    max-width: 28%;
-  }
+.role-selection .job-role .j-role {
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
 }
-@media screen and (min-width: 769px) {
-  .role-selection .job-role {
-    -webkit-flex-basis: auto;
-        -ms-flex-preferred-size: auto;
-            flex-basis: auto;
-    max-width: 46%;
-  }
-}
-.role-selection .job-role .cities li:not(:last-child) .cities__title:after {
+.role-selection .job-role .j-role li:not(:last-child) .cities__title:after {
   content: ',';
   display: inline-block;
 }
-.role-selection .job-role .cities__title a:hover,
-.role-selection .job-role .cities__title a:active,
-.role-selection .job-role .cities__title a:focus {
+.role-selection .job-role .j-role__title a:hover,
+.role-selection .job-role .j-role__title a:active,
+.role-selection .job-role .j-role__title a:focus {
   text-decoration: underline;
   color: #ec6d4b;
 }
-.role-selection .job-places {
-  -webkit-flex-basis: 7%;
-      -ms-flex-preferred-size: 7%;
-          flex-basis: 7%;
-  min-width: 240px;
-}
 @media screen and (min-width: 769px) {
   .role-selection .job-places {
-    margin: 0 0.8em 1em 0.8em;
+    margin: 0;
   }
 }
 .role-selection .job-places .job-location {
@@ -9952,6 +9960,10 @@ input[type='checkbox'].remove-addr {
   .role-selection > .year-exp {
     margin-left: 0.8em;
   }
+}
+.new-roles {
+  border-top: 1px solid #e6e6e6;
+  margin-top: 0.5em;
 }
 .applyJob {
   text-align: center;
@@ -10006,7 +10018,12 @@ input[type='checkbox'].remove-addr {
 .main-loc .location__title:hover,
 .main-loc .location__title:active,
 .main-loc .location__title:focus {
-  color: #ec6d4b;
+  background-color: #27b7b0;
+  color: #fff;
+}
+.jobs-head-title .main-heading {
+  line-height: 1.3;
+  white-space: inherit;
 }
 @media screen and (max-width: 768px) {
   .job-type {
@@ -10212,6 +10229,61 @@ input[type='checkbox'].remove-addr {
 }
 .confirm-box .confirm-actions .fnb-btn {
   outline: 0;
+}
+.no-published {
+  line-height: 1.5;
+  font-weight: 400;
+  padding: 0.5em 1em;
+  background-color: #fff4b8;
+  margin-bottom: 0.8em;
+}
+@media screen and (min-width: 769px) {
+  .no-published {
+    font-size: 1.1em;
+  }
+}
+.contact-stuff {
+  border-top: 1px solid #e6e6e6;
+  margin-top: 0.8em;
+  padding-top: 0.8em;
+}
+.contact-stuff .sell-re {
+  width: 100%;
+  margin-top: 1em;
+  box-shadow: none;
+}
+.contact-stuff .sell-re .contact-info {
+  background-color: #f3f3f3;
+  padding: 1.5em 1em;
+}
+.contact-stuff .sell-re .close-contact {
+  font-size: 1em;
+  color: #848484;
+}
+.contact-stuff .sell-re .number__real {
+  font-size: 1em;
+  padding-right: 0;
+}
+.contact-stuff .sell-re .number__real:not(:last-child):after {
+  content: ',';
+  color: #949494;
+  font-size: 1.05em;
+  padding: 0 0.2em;
+}
+.cke_path {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .contact-stuff .fnb-btn {
+    margin: 0 auto;
+  }
+  .contact-stuff .sell-re {
+    width: auto;
+  }
+  .contact-stuff .sell-re .close-contact {
+    top: 10px;
+    right: 10px;
+  }
 }
 .profile-stats {
   color: #fff;

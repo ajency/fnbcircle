@@ -121,17 +121,17 @@
    @if($job->canEditJob())
    <div class="row">
       <div class="col-sm-12">
-         <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview()) pending-no-action  alert alert-dismissible fade in @endif">
+         <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
                <div class="pre-benefits__content">
                   <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
                   @if($job->status == 1)
-                  <i class="fa fa-info-circle" aria-hidden="true" title="Job will remain in draft status till submitted for review."></i>
+                  <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
                   @endif
                   </h5>
                </div>
             </div>
-            @if(!$job->submitForReview())
+            @if(!$job->submitForReview() && !$job->getNextActionButton())
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
             @endif
 
@@ -152,7 +152,7 @@
    </div>
   @endif
 
-   @if($job->status != 3 && $job->status != 4)
+<!--    @if($job->status != 3 && $job->status != 4)
    <div class="row">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row publish-warning alert alert-dismissible fade in" role="alert">
@@ -165,7 +165,7 @@
          </div>
       </div>
    </div>
-   @endif
+   @endif -->
    <!-- premium benefits ends -->
    <!-- edit business listing -->
    <!--                 <div class="row">
@@ -189,57 +189,28 @@
                </div>
                <div class="seller-info__body">
                   <div class="flex-row space-between">
-                     <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
-                     <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
-                     <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
-                     <img src="/img/power-icon.png" class="img-responsive" width="30">
-                  </div>
-                  <div class="m-t-5 flex-row space-between">
-                    <div class="location main-loc flex-row text-primary">
+                    <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
-                       <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i>
-                       <a href="#" class="location__title text-decor default-size text-primary lighter">{{ $job->getJobCategoryName() }}</a>
+                       <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
+                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
                     <div class="pusblished-date text-color lighter text-right x-small">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
                     @endif
                   </div>
-
-                  <div class="stats flex-row m-t-15 owner-info">
-
-                    
-                    @if(!empty($jobTypes))
-                      <div class="job-type">
-                      @foreach($jobTypes as $jobType)
-                       <label class="fnb-label wholesaler flex-row">
-                          {{ $jobType }}
-                       </label>
-                      @endforeach
-                      </div>
-                    @endif
-                    
-
-                    <!-- map address -->
-                    @if($job->interview_location!="")
-                    <div class="owner-address flex-row">
-                      <!-- <span class="fnb-icons map-icon"></span> -->
-                      <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                       
-                      <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>
-                     </div>
-                    @endif
-                    <!-- <div class="owner-address flex-row">
-                        <span class="fnb-icons map-icon"></span>
-                        
-                     </div> -->
-
+                  <div class="flex-row space-between jobs-head-title">
+                     <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
+                     <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
+                     <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
+                     <img src="/img/power-icon.png" class="img-responsive" width="30">
                   </div>
-                  <div class="operations p-t-10 flex-row flex-wrap role-selection">
+
+                  <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
                      @if(!empty($keywords))
                        <div class="job-role">
-                          <h6 class="operations__title sub-title">Job Role</h6>
-                          <ul class="cities flex-row">
+                          <h6 class="operations__title sub-title m-t-5">Job Role</h6>
+                          <ul class="j-role flex-row">
 
                             @foreach($keywords as $keyword)
                              <li>
@@ -248,16 +219,20 @@
                              </li>
                              @endforeach
 
-                             @if($moreKeywordCount)
+                             <!-- @if($moreKeywordCount) -->
                              <!-- <li class="remain more-show">
                                 <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
                              </li> -->
-                             <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                             @endif
+                            <!--  <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                             @endif -->
                             
                           </ul>
                        </div>
                     @endif
+                    
+                </div>
+
+                <div class="operations p-t-10 flex-row flex-wrap role-selection detachsection">
 
                       <div class="job-places">
                         <h6 class="operations__title sub-title">Job Location</h6>
@@ -299,16 +274,144 @@
                                <!-- <li class="remain more-show">
                                    <a href="" class="secondary-link remain__number">+10</a>
                                </li> -->
-                               <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i>
+ 
+                            <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
+                               <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+ 
                               @endif
                            </ul>
                         </div>
                           @endforeach  
 
                       </div>
+
+
+                      <!-- map address -->
+                    @if($job->interview_location!="")
+                    <div class="owner-address">
+                      <h6 class="operations__title sub-title">Interview Address</h6>
+                      <!-- <span class="fnb-icons map-icon"></span> -->
+                      <div class="flex-row align-top">
+                        <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
+                        <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
+                      </div>
+                      
+                     </div>
+                    @endif
+
+
+                    
+                </div>
+                @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
+                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                    <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
+                    <!-- contact info -->
+                    <div class="card seller-info sell-re collapse" id="contact-data">
+                       <div class="contact-info flex-row flex-wrap">
+                          <div class="close-contact" data-toggle="collapse" href="#contact-data">
+                             &#10005;
+                          </div>
+                          @if(!empty($contactEmail))
+                          <div class="mail-us collapse-section m-r-15 m-b-15">
+                             <h6 class="sub-title m-t-0">Email:</h6>
+                               <div class="number flex-row flex-wrap">
+                                @foreach($contactEmail as $email)
+                                  @if($email['visible'])
+                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                  @endif
+                                @endforeach
+                                    
+                               </div>
+                             
+                          </div>
+                          @endif
+
+                           @if(!empty($contactMobile))
+                          <div class="phone collapse-section m-r-15 m-b-15">
+                             <h6 class="sub-title m-t-0">Mobile No:</h6>
+                             <div class="number flex-row flex-wrap">
+                             @foreach($contactMobile as $mobile)
+                              @if($mobile['visible'])
+                                <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                              @endif
+                            @endforeach  
+                             </div>
+                             
+                          </div>
+                          @endif
+
+                          @if(!empty($contactLandline))
+                          <div class="mail-us collapse-section">
+                             <h6 class="sub-title m-t-0">Landline No:</h6>
+                            <div class="number flex-row flex-wrap">
+                                @foreach($contactLandline as $landline)
+                                @if($landline['visible'])
+                                  <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                @endif
+                              @endforeach  
+                             </div>
+                          </div>
+                          @endif
+                          
+                          
+                         <!--  <div class="message flex-row">
+                             <span class="fnb-icons exclamation"></span>
+                             <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
+                          </div> -->
+                       </div>
+                    </div>
+                </div>
+                @endif
+
+
+                  <!-- job type -->
+
+                  <!-- <div class="stats flex-row m-t-15 owner-info">
+
+                    
+                    @if(!empty($jobTypes))
+                      <div class="job-type">
+                      @foreach($jobTypes as $jobType)
+                       <label class="fnb-label wholesaler flex-row">
+                          {{ $jobType }}
+                       </label>
+                      @endforeach
+                      </div>
+                    @endif
+                    
+
+
+                  </div> -->
+
+<!-- 
+                  <div class="operations p-t-10 flex-row flex-wrap role-selection">
+                     @if(!empty($keywords))
+                       <div class="job-role">
+                          <h6 class="operations__title sub-title">Job Role</h6>
+                          <ul class="cities flex-row">
+
+                            @foreach($keywords as $keyword)
+                             <li>
+                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
+
+                             </li>
+                             @endforeach
+
+                             @if($moreKeywordCount) -->
+                             <!-- <li class="remain more-show">
+                                <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
+                             </li> -->
+                             <!-- <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
+                             @endif
+                            
+                          </ul>
+                       </div>
+                    @endif -->
+
+
   
                   
-                     <div class="off-salary">
+                   <!--   <div class="off-salary">
                         <h6 class="operations__title sub-title">Offered Salary</h6>
 
                         @if($job->salary_lower >="0" && $job->salary_upper > "0" )
@@ -324,10 +427,10 @@
                         @else
                         <div class="text-color lighter">Not disclosed</div>
                         @endif
-                     </div>
+                     </div> -->
                     
 
-                  @if(!empty($experience))
+                 <!--  @if(!empty($experience))
                      <div class="year-exp">
                         <h6 class="operations__title sub-title">Years Of Experience</h6>
                         <div class="flex-row flex-wrap">
@@ -341,36 +444,14 @@
 
                   
 
-                  </div>
+                  </div> -->
              </div> 
+
+
             </div>
             
             <!-- Card info ends -->
-            <!-- contact info -->
-            <div class="card seller-info sell-re collapse" id="contact-data">
-               <div class="contact-info">
-                  <div class="close-contact" data-toggle="collapse" href="#contact-data">
-                     <i class="fa fa-times" aria-hidden="true"></i>
-                  </div>
-                  <div class="phone collapse-section m-b-20">
-                     <h6 class="collapse-section__title">Phone no:</h6>
-                     <div class="number flex-row">
-                        <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393, </a>
-                        <a class="number__real text-secondary" href="callto:+919293939393">+91 9293939393</a>
-                     </div>
-                  </div>
-                  <div class="mail-us collapse-section m-t-20 m-b-20">
-                     <h6 class="collapse-section__title">Mail us at:</h6>
-                     <div class="number flex-row">
-                        <a class="number__real text-secondary" href="mailto:mysticalinfo@gmail.com">mysticalinfo@gmail.com</a>
-                     </div>
-                  </div>
-                  <div class="message flex-row">
-                     <span class="fnb-icons exclamation"></span>
-                     <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
-                  </div>
-               </div>
-            </div>
+
             <!-- contact info ends -->
             <!-- updates section -->
             <div class="update-sec m-t-30" id="updates">
@@ -398,13 +479,13 @@
                   </div>
                </div>
               @endif
-               @if(!empty($jobCompany->description))
+               <!-- @if(!empty($jobCompany->description))
               <h5 class="jobDesc m-t-15" id="about-company">About Company</h5>
                <hr>
                <div class="job-desc text-color stable-size">
                   {!! $jobCompany->description !!}
                </div>
-              @endif
+              @endif -->
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
@@ -503,7 +584,7 @@
       <div class="col-sm-4">
          <div class="detach-col-1">
             <div class="equal-col">
-               <div class="Company-info">
+               <!-- <div class="Company-info">
                   <div class="flex-row name-row">
                     
                      <div class="company-logo">
@@ -530,11 +611,17 @@
                      </div>
                   </div>
 
-               </div>
+               </div> -->
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->
-                   @if($job->canEditJob())
+                  @if($job->status != 3 && $job->status != 4)
+                   
+                  <h5 class="sub-title pre-benefits__title m-b-0 no-published">You're viewing the job which is not yet published.</h5>
+                               
+                   @endif
+
+                  @if($job->canEditJob())
                      <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
@@ -548,7 +635,7 @@
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
                      <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
@@ -561,6 +648,76 @@
               @endif
             </div>
             <!-- Advertisement ends -->
+            <div class="featured-jobs browse-cat company-section">
+              @if(!empty($jobTypes))
+               <h6 class="m-t-0 company-section__title">Job Type</h6>
+               <div class="featured-jobs__row flex-row">
+                    <div class="job-type">
+                    @foreach($jobTypes as $jobType)
+                     <div class="text-color year-exp">{{ $jobType }}</div>
+                    @endforeach
+                    </div>
+               </div>
+               @endif
+               <h6 class="m-t-0 company-section__title">Offered Salary</h6>
+               <div class="featured-jobs__row flex-row">
+                   @if($job->salary_lower >="0" && $job->salary_upper > "0" )
+                    <div class="text-color">
+                      @if($job->salary_lower == $job->salary_upper )
+                      <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
+                      @else
+                      <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
+                      @endif
+                    {{ $job->getSalaryTypeShortForm()}}
+                    </div>
+
+                    @else
+                    <div class="text-color lighter">Not disclosed</div>
+                    @endif
+               </div>
+               @if(!empty($experience))
+               <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
+               <div class="featured-jobs__row flex-row">
+                   <div class="year-exp">
+                      <div class="flex-row flex-wrap">
+                        @foreach($experience as $exp)
+                         <div class="text-color year-exp">{{ $exp }} years</div>
+                        @endforeach
+                      </div>
+                   </div>
+               </div>
+               @endif
+               <h6 class="m-t-0 company-section__title">Company Info</h6>
+               <div class="featured-jobs__row job-data">
+                  <div class="flex-row align-top">
+                    <div class="joblogo">
+                      @if(($jobCompany->logo))
+                       <img src="{{ $companyLogo }}" width="60">
+                      @else
+                      <img src="/img/company-placeholder.jpg" width="60">
+                      @endif
+                    </div>
+                    <div class="jobdesc">
+                        <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                        <span class="x-small text-color">
+                        @if(!empty($jobCompany->website))
+                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
+                           @endif
+                        </span>
+                     </div>
+                  </div>
+               </div>
+                @if(!empty($jobCompany->description))
+                  <h6 class="m-t-0 company-section__title">About Company</h6>
+                  <div class="featured-jobs__row flex-row">
+                     <div>
+                        <span class="x-small text-color">
+                          {!! $jobCompany->description !!}
+                        </span>
+                     </div>
+                  </div>
+                  @endif
+            </div>
             <div class="advertisement flex-row m-t-40">
                <h6 class="element-title">Advertisement</h6>
             </div>

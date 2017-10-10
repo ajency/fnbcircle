@@ -279,10 +279,11 @@ class JobController extends Controller
       
         $data = ['job' => $job]; 
         $data['jobTypes'] = $jobTypes;
-        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[]; 
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+        $data['keywords'] = $jobKeywords; 
         $splitKeywords =  splitJobArrayData($jobKeywords,4);
-        $data['keywords'] = $splitKeywords['array'];
-        $data['moreKeywords'] = $splitKeywords['moreArray'];
+        // $data['keywords'] = $splitKeywords['array'];
+        $data['moreKeywords'] = $spliFtKeywords['moreArray'];
         $data['moreKeywordCount'] = $splitKeywords['moreArrayCount'];
 
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
@@ -313,6 +314,13 @@ class JobController extends Controller
         $data['googleShare'] = $googleShare;
         $data['linkedInShare'] = $linkedInShare;
         $data['watsappShare'] = $watsappShare;
+
+        $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email','view');
+        $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile','view');  
+        $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline','view');  
+        $data['contactEmail'] = $contactEmail;
+        $data['contactMobile'] = $contactMobile;
+        $data['contactLandline'] = $contactLandline;
         
          return view('jobs.job-view')->with($data);
     }
@@ -371,10 +379,12 @@ class JobController extends Controller
             
             $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
             $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
+            $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline');  
             $companyLogo = (!empty($jobCompany)) ? $jobCompany->getCompanyLogo('company_logo') : ''; 
             $data['companyLogo'] = $companyLogo;
             $data['contactEmail'] = $contactEmail;
             $data['contactMobile'] = $contactMobile;
+            $data['contactLandline'] = $contactLandline;
             $data['back_url'] = url('jobs/'.$job->reference_id.'/job-details'); 
             $blade = 'jobs.job-company';
             $pageName = $job->title .'- Company Details' ;
@@ -531,12 +541,16 @@ class JobController extends Controller
         $website = $data['company_website'];
         $contactEmail = $data['contact_email'];
         $contactMobile = $data['contact_mobile'];
+        $contactLandline = $data['contact_landline'];
         $contactEmailId = $data['contact_email_id'];
         $contactMobileId = $data['contact_mobile_id'];
+        $contactLandlineId = $data['contact_landline_id'];
         $contactMobileCode = $data['contact_country_code'];
+        $contactLandlineCode = $data['contact_ll_country_code'];
         $deleteLogo =  $data['delete_logo'];
         $visibleEmailContact = (isset($data['visible_email_contact']))?$data['visible_email_contact']:[];
         $visibleMobileContact = (isset($data['visible_mobile_contact']))?$data['visible_mobile_contact']:[];  
+        $visibleLandlineContact = (isset($data['visible_landline_contact']))?$data['visible_landline_contact']:[];  
         $hasChanges =  $data['has_changes'];
 
         if(isset($data['company_logo'])){
@@ -613,7 +627,16 @@ class JobController extends Controller
 
         }
 
+        foreach ($contactLandline as $key => $landline) {
+            $isVisible = $visibleLandlineContact[$key];
+            $conactDetails = ['id' => $contactLandlineId[$key],'object_type' => 'App\Job','object_id' => $job->id,'contact_value'=>$landline,'country_code'=>$contactLandlineCode[$key],'contact_type'=>'landline','is_visible'=>$isVisible] ;
+
+          
+            $userCom = $user->saveContactDetails($conactDetails,'job');
         
+
+        }
+   
         $job->job_modifier = $userId;
         $job->save(); 
 
@@ -625,7 +648,9 @@ class JobController extends Controller
         return $request;
     }
 
+
     public function getKeywords(Request $request){ 
+
         // $this->validate($request, [
         //     'keyword' => 'required',
         // ]);

@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, coreCat;
+  var Applybtn, Articles, companyLogo;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -34,7 +34,7 @@
           includeSelectAllOption: true,
           numberDisplayed: 2,
           delimiterText: ',',
-          nonSelectedText: 'Select Area(s)'
+          nonSelectedText: 'Select City'
         });
         jobCityObj.closest('.location-select').find('.job-areas').attr('name', 'job_area[' + city + '][]');
       },
@@ -318,10 +318,13 @@
   });
 
   if ($(window).width() <= 768) {
-    coreCat = $('.detach-col-1').detach();
-    $('.sell-re').after(coreCat);
+    setTimeout((function() {
+      var coreCat;
+      coreCat = $('.detach-col-1').detach();
+      $('.job-info').after(coreCat);
+    }), 500);
     Applybtn = $('.applyJob').detach();
-    $('.role-selection').after(Applybtn);
+    $('.detachsection').after(Applybtn);
     Articles = $('.related-article').detach();
     $('.list-of-business').after(Articles);
   }
@@ -344,7 +347,7 @@
     area_group_clone.find('.newly-created').multiselect({
       includeSelectAllOption: true,
       numberDisplayed: 1,
-      nonSelectedText: 'Select Area(s)'
+      nonSelectedText: 'Select City'
     });
     area_group_clone.insertBefore(area_group);
   });

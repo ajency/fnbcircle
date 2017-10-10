@@ -84,6 +84,9 @@
     
     <!-- phone number -->
     @include('modals.verification.mobile-verification')
+
+    <!-- phone number -->
+    @include('modals.verification.landline-verification')
     <!-- /contact verification HTML -->
 
     </div>

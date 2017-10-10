@@ -12,7 +12,7 @@
             @endif
             <li class="branch">
                 @if(strlen($filter_data["category"]["name"]) > 0)
-                    <p class="default-size"><a href="" class="text-darker" value="0|[]"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Reset categories </a></p>
+                    <p class="default-size"><a href="" class="text-darker" value="0|[]"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> All categories </a></p>
                 @endif
                 @foreach($filter_data["category"]["parent"] as $cat_parent_index => $cat_parent_value)
                     <p class="default-size"><a href="" class="text-darker" value="{{ $cat_parent_value['node_categories'] }}"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> {{ $cat_parent_value["name"] }} </a></p>

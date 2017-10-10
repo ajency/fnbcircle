@@ -76,7 +76,6 @@
     } else {
       updateUrlPushstate("business_search", "");
     }
-    console.log($(".results__body ul.contents #current_category").val());
     filters["categories"] = $(".results__body ul.contents #current_category").val();
     updateUrlPushstate("categories", "categories" + "=" + filters["categories"]);
 
@@ -88,6 +87,7 @@
       updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]));
     } else {
       updateUrlPushstate("areas_selected", "");
+      updateUrlPushstate("location", "");
     }
 
     /* --- Get 'business_types' values & update URL --- */
@@ -144,6 +144,7 @@
       "sort_by": "published",
       "sort_order": "desc",
       "city": $('input[type="hidden"][name="city"]').val(),
+      "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters()
     };
     $("#listing_card_view").css("filter", "blur(2px)");
@@ -171,7 +172,11 @@
         /* --- Load the Listing card template --- */
         $("#listing_card_view").html(data["data"]["list_view"]);
         $("#listing_card_view").css("filter", "");
-        return updateTextLabels();
+        updateTextLabels();
+
+        /* --- Note: the function below is called again to update the URL post AJAX --- */
+        getFilters();
+        return $("input[type='hidden'][name='area_hidden']").val("");
 
         /* ---- HAndleBar template content load ---- */
       },
@@ -213,8 +218,11 @@
 
   $(document).ready(function() {
 
+    /* --- This object is used to store old values -> Mainly for search-boxes --- */
+    var filter_listing_params, get_params, i, key, old_values, search_box_params, value_assigned;
+    old_values = {};
+
     /* --- Load all the popular city on load --- */
-    var filter_listing_params, get_params, i, key, search_box_params, value_assigned;
     getCity({
       "search": ""
     }, "states");
@@ -223,23 +231,21 @@
     /* --- City filter dropdown --- */
     $('input[type="hidden"][name="city"].flexdatalist').flexdatalist({
       url: '/api/search-city',
-      params: {
-        "search": $('input[type="hidden"][name="city"].flexdatalist').val()
-      },
       requestType: 'post',
-      keywordParamName: 'search',
-      resultsProperty: "data",
-      searchIn: ['name'],
-      valueProperty: 'slug',
-      visibleProperties: ["name", "city"],
+      focusFirstResult: true,
       minLength: 0,
       cache: false,
+      selectionRequired: false,
+      keywordParamName: 'search',
+      resultsProperty: "data",
+      searchIn: ['search_text'],
+      valueProperty: 'search_value',
+      visibleProperties: ["search_text"],
       searchContain: true,
-      searchEqual: false,
-      searchDisabled: false,
       searchDelay: 200,
-      searchByWord: false,
+      searchByWord: true,
       allowDuplicateValues: false,
+      debug: false,
       noResultsText: 'Sorry! No results found for "{keyword}"'
     });
     $('input[type="hidden"][name="category_search"].flexdatalist').flexdatalist({
@@ -253,7 +259,6 @@
       searchIn: ['name'],
       valueProperty: 'node_children',
       visibleProperties: ["name", "search_name"],
-      valuesSeparator: ',',
       minLength: 0,
       cache: false,
       searchContain: true,
@@ -331,7 +336,11 @@
       }
       if ($(this).val().length <= 0) {
         updateUrlPushstate(key, "");
-        getListContent();
+        if (key !== "state") {
+          getListContent();
+        } else {
+          '';
+        }
       } else if (key === "category_search") {
         updateUrlPushstate(key, key + "=" + $(this).val());
       }
@@ -339,20 +348,37 @@
 
     /* -- Triggered every time the user selects an option -- */
     $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('select:flexdatalist', function() {
-      var pushstate_url;
+      var areas, location, pushstate_url;
       key = "";
       if ($(this).prop("name") === "category_search") {
         $(document).find(".results__body ul.contents #current_category").val($(this).val());
       }
       if ($(this).attr("name") === "city") {
         key = "state";
-        pushstate_url = "state=" + $(this).val();
+        location = $(this).val().split(',').length <= 1 ? $(this).val() : $(this).val().split(',')[1];
+        areas = $(this).val().split(',').length > 1 ? $(this).val().split(',')[0] : '';
+        $(this).flexdatalist('value', location);
+        pushstate_url = key + "=" + location;
+        old_values["state"] = location;
+
+        /* --- Clear the Area selection section --- */
+        $("input[type='checkbox'][name='areas[]']").prop("checked", "");
+        if (areas.length > 0) {
+          $("input[name='area_hidden']").val(areas);
+          updateUrlPushstate("location", "location=" + areas);
+          updateUrlPushstate("areas_selected", "areas_selected=" + JSON.stringify([areas]));
+        } else {
+          $("input[name='area_hidden']").val("");
+          updateUrlPushstate("location", "");
+        }
       } else {
         key = $(this).attr("name");
         pushstate_url = $(this).attr("name") + "=" + $(this).val();
       }
       updateUrlPushstate(key, pushstate_url);
-      getListContent();
+      setTimeout((function() {
+        return getListContent();
+      }), 1000);
     });
 
     /* --- Detect <a> click --- */
@@ -362,6 +388,14 @@
       $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"));
       getListContent();
       return false;
+    });
+    $(document).on("focusin", 'input[type="text" ][name="flexdatalist-city"]', function(event) {
+      old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val();
+    });
+    $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
+      if ($('input[type="hidden"][name="city"].flexdatalist').val().length <= 0) {
+        $('input[type="hidden"][name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
+      }
     });
 
     /* --- On filter checkbox select --- */

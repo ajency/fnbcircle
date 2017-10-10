@@ -46,6 +46,7 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
+                                        <input type="hidden" value="" class="form-control fnb-select flexdatalist" name="area_hidden" id="area"/>
                                         <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 

@@ -9118,6 +9118,9 @@ input[type='checkbox'].remove-addr {
   }
 }
 @media screen and (max-width: 768px) {
+  .verification-step-modal .number-code {
+    width: auto;
+  }
   .verification-step-modal .modal-body {
     padding: 0;
   }
@@ -9161,6 +9164,7 @@ input[type='checkbox'].remove-addr {
 @media screen and (max-width: 320px) {
   .verifySection.number-code {
     margin-left: -15px;
+    margin-right: -15px;
   }
   .verifySection .fnb-input {
     width: 224px;

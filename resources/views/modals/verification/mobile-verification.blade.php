@@ -1,6 +1,6 @@
 <div class="m-t-40 m-b-40 business-phone business-contact contact-info contact-info-mobile" contact-type="mobile">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business mobile number</label>
+            <label class="label-size">Enter your mobile number</label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
         @if(!empty($contactMobile))
@@ -38,7 +38,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="{{ $mobile['visible'] }}">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">@if($mobile['visible']) Visible on the listing @else Not visible on the listing @endif  </p>
+                            <p class="m-b-0 text-color toggle-state">@if($mobile['visible']) Visible on the applicant @else Not visible on the applicant @endif  </p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -77,7 +77,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible on the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -116,7 +116,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible on the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>

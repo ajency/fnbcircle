@@ -326,13 +326,13 @@ if $(window).width() <= 768
 
 
 
-  #$(document).on 'change', '.business-contact .toggle__check', ->
-  $(".contact-info").on 'change', '.toggle__check', ->
-  # $('.business-contact .toggle__check').change ->
-    if $(this).is(':checked')
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
-      $(this).closest('.toggle').find('.contact-visible').val 1
-    else
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
-      $(this).closest('.toggle').find('.contact-visible').val 0
-    return
+#$(document).on 'change', '.business-contact .toggle__check', ->
+$(".contact-info").on 'change', '.toggle__check', ->
+# $('.business-contact .toggle__check').change ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the applicant')
+    $(this).closest('.toggle').find('.contact-visible').val 1
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the applicant')
+    $(this).closest('.toggle').find('.contact-visible').val 0
+  return

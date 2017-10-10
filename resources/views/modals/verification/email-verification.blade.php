@@ -1,6 +1,6 @@
 <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
     <div class="flex-row space-between mobile-sp-row">
-        <label class="label-size">Enter your business email address </label>
+        <label class="label-size">Enter your email address </label>
         <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
     </div>
     @if($contactEmail)
@@ -33,7 +33,7 @@
 
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="{{ $email['visible'] }}">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">@if($email['visible']) Visible on the listing @else Not visible on the listing @endif</p>
+                        <p class="m-b-0 text-color toggle-state">@if($email['visible']) Visible on the applicant @else Not visible on the applicant @endif</p>
                     </div>
                      <i class="fa fa-times removeRow delete-contact"></i>
                 </div>
@@ -65,7 +65,7 @@
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">  Not visible on the listing </p>
+                        <p class="m-b-0 text-color toggle-state">  Not visible on the applicant </p>
                     </div>
                      <i class="fa fa-times removeRow delete-contact"></i>
                 </div>
@@ -98,7 +98,7 @@
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                        <p class="m-b-0 text-color toggle-state">Not visible on the applicant</p>
                     </div>
                     <i class="fa fa-times removeRow delete-contact"></i>
                 </div>

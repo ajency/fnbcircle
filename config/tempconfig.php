@@ -24,4 +24,6 @@ return [
 			'update' => 'last-updated-by',
 		],
 	],
+	'add-listing-updates-max-photos' => 5,
+	
 ];

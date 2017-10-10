@@ -38,6 +38,7 @@ Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
 Route::post('/post-update', 'UpdatesController@postUpdate');
+Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 
 //manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');

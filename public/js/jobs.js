@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, getID;
+  var Applybtn, Articles, companyLogo;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -89,7 +89,6 @@
         removeOnBackspace: false,
         searchByWord: true,
         searchContain: true,
-        selectionRequired: true,
         minLength: 1,
         url: '/get-company',
         searchIn: ["title"]
@@ -330,15 +329,6 @@
   }
 
   $('[data-toggle="tooltip"]').tooltip();
-
-  if ($(window).width() > 769) {
-    getID = $('.gs-form .tab-pane').attr('id');
-    $('.gs-steps .form-toggle').each(function() {
-      if ($(this).attr('id') === getID) {
-        $(this).parent().addClass('active');
-      }
-    });
-  }
 
   $('.add-job-areas').click(function(e) {
     var area_group, area_group_clone;

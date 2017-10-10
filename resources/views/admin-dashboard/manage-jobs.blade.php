@@ -9,12 +9,14 @@
 
 @section('js')
   @parent
-  <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
-  <script type="text/javascript" src="{{ asset('js/dashboard-jobs.js') }}"></script>
- 
    <!-- bootstrap-daterangepicker -->
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+  <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/dashboard-jobs.js') }}"></script>
+ 
+  
 
   <script type="text/javascript">
     
@@ -67,8 +69,30 @@
                   </form>
                 </div>
                 <br> -->
-                 
- 
+              <div class="row">  
+               <div class="col-sm-3">
+                    <label>Date of Submission</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="submission_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="submission_from" class="date-from">
+                      <input type="hidden" name="submission_to" class="date-to">
+                    </div>
+                  </div>  
+
+                <div class="col-sm-3">
+                    <label>Publish Date</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="publish_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="published_from" class="date-from">
+                      <input type="hidden" name="published_to" class="date-to">
+                    </div>
+                  </div>  
+              </div>
+
                 <input type="text" name="job_name" placeholder="Search by Job Title" id="job_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
 
                 <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
@@ -101,7 +125,7 @@
                          Job Role(s)
                          <select multiple class="form-control jobsearchinput admin-job-role-search" id="filterkeywords" name="job_keywords">
                             @foreach ($keywords as $keywordId => $keyword)
-                            <option value="{{$keywordId}}">{{$keyword}}</option>
+                            <option value="{{$keywordId}}"  >{{$keyword}}</option>
                           @endforeach
                           </select>
                       </th>

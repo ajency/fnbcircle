@@ -87,7 +87,7 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      selectionRequired:true
+      # selectionRequired:true
       minLength: 1
       url: '/get-company'
       searchIn: ["title"]
@@ -345,13 +345,6 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
- 
-if $(window).width() > 769
-  getID = $('.gs-form .tab-pane').attr('id')
-  $('.gs-steps .form-toggle').each ->
-    if $(this).attr('id') == getID
-      $(this).parent().addClass 'active'
-    return
  
 
 $('.add-job-areas').click (e) ->

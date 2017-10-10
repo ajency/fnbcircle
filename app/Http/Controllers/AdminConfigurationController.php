@@ -759,15 +759,15 @@ class AdminConfigurationController extends Controller
         }
 
         if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
-        { exit;
-            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from']); 
-            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to']);
+        { 
+            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
         }
 
         if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
         {
-            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from']); 
-            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to']);
+            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
         }
 
          

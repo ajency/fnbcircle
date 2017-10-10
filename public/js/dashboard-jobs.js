@@ -21,10 +21,10 @@
         filters.city = $('select[name="job_city"]').val();
         filters.category = $('select[name="job_category"]').val();
         filters.keywords = $('select[name="job_keywords"]').val();
-        filters.published_date_from = $('select[name="date_pub_from"]').val();
-        filters.published_date_to = $('select[name="date_pub_to"]').val();
-        filters.submission_date_from = $('select[name="date_sub_from"]').val();
-        filters.submission_date_to = $('select[name="date_sub_to"]').val();
+        filters.published_date_from = $('input[name="published_from"]').val();
+        filters.published_date_to = $('input[name="published_to"]').val();
+        filters.submission_date_from = $('input[name="submission_from"]').val();
+        filters.submission_date_to = $('input[name="submission_to"]').val();
         data.filters = filters;
         return data;
       },
@@ -298,8 +298,26 @@
     templates: {
       button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
     },
-    enableFiltering: true,
     enableCaseInsensitiveFiltering: false
+  });
+
+  $('.date-range').daterangepicker({
+    autoUpdateInput: false,
+    maxDate: moment()
+  });
+
+  $('.date-range').on('apply.daterangepicker', function(ev, picker) {
+    $(this).closest('.date-range-picker').find('.date-from').val(picker.startDate.format('YYYY-MM-DD'));
+    $(this).closest('.date-range-picker').find('.date-to').val(picker.endDate.format('YYYY-MM-DD'));
+    $(this).val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+    return jobsTable.ajax.reload();
+  });
+
+  $('body').on('click', '.clear-date', function() {
+    $(this).closest('div').find('.date-from').val('');
+    $(this).closest('div').find('.date-to').val('');
+    $(this).closest('div').find('.date-range').val('');
+    return jobsTable.ajax.reload();
   });
 
 }).call(this);

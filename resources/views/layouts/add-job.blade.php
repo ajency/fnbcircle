@@ -116,7 +116,7 @@
                             <div class="dsk-separator edit-summary-card">
 
                                 <div class="summary-info">
-                                    <h5>{{ $job->title }}</h5>
+                                    <h5 class="word-break">{{ $job->title }}</h5>
                                     <div class="listing-status">
                                         <div class="label">STATUS</div>
                                         <div class="flex-row space-between">

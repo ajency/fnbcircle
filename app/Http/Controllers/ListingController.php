@@ -768,10 +768,12 @@ class ListingController extends Controller
             $pending = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->where('status',0)->first();
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
-
-        if ($step == 'business-updates'){
-            return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy);
+        if($listing->status == 1){
+            if ($step == 'business-updates'){
+                return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy);
+            }
         }
+        abort(404);
     }
 
     public function submitForReview(Request $request)

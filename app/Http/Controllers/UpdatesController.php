@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Listing;
 use App\Update;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /*
@@ -28,7 +29,8 @@ class UpdatesController extends Controller
         ]);
         $image  = $request->file('file');
         $update = new Update;
-        $id     = $update->uploadImage($request->file('file'));
+        $update->id = Carbon::now()->timestamp;
+        $id     = $update->uploadImage($request->file('file'),false);
         if ($id != false) {
             return response()->json(['status' => '200', 'message' => 'Image Uploaded successfully', 'data' => ['id' => $id]]);
         } else {
@@ -61,7 +63,7 @@ class UpdatesController extends Controller
         $update->contents = $request->description;
         $update->photos = ($request->photos == '')? null:$request->photos;
         $update->status = 1;
-
+        
         $object->updates()->save($update);
 
         return response()->json(['status' => '200', 'message' => '']);

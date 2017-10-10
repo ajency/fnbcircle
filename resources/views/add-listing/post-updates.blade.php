@@ -2,7 +2,7 @@
 
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/listing-updates.js"></script>
+    <script type="text/javascript" src="/js/add-listing-updates.js"></script>
 @endsection
 
 @section('meta')
@@ -20,8 +20,9 @@
 	<label>description</label>
 	<textarea name="title"></textarea>
 </div>
-<div>
-	<input type="file" name="photo">
+<div class="imageUpload">
+<div class="image-grid__cols" >
+	 <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" />
 </div>
-
+</div>
 @endsection

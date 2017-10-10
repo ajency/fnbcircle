@@ -71,8 +71,8 @@
                 <input type="text" name="job_name" placeholder="Search by Job Name" id="job_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
 
                 <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
-
-                <table id="datatable-jobs" class="table table-striped  nowrap" cellspacing="0" width="100%">
+                
+                <table id="datatable-jobs" class="table table-striped  nowrap jobs-table" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th class="no-sort update-checkbox " width="2%"> 

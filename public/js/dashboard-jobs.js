@@ -245,4 +245,6 @@
     return jobsTable.ajax.reload();
   });
 
+  $('.jobs-table').closest('.row').addClass('overflow-table');
+
 }).call(this);

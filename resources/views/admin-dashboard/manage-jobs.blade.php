@@ -78,9 +78,9 @@
 
                   <thead>
                     <tr>
-                      <th class="no-sort update-checkbox"> </th>
+                      <!-- <th class="no-sort update-checkbox"> </th> -->
                       <!-- <input type='checkbox' class="hidden" name='job_check_all'></th> -->
-                      <th class="no-sort" data-col="5">
+                      <th class="no-sort city-select" data-col="5">
                           City
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">
                             @foreach ($cities as $city)

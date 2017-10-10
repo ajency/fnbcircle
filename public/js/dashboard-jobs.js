@@ -32,9 +32,6 @@
     },
     'columns': [
       {
-        'data': '#',
-        "orderable": false
-      }, {
         'data': 'city',
         "orderable": false
       }, {
@@ -64,19 +61,19 @@
     ],
     "columnDefs": [
       {
-        "width": "20px",
+        "width": "100px",
         "targets": 0
       }, {
-        "width": "100px",
+        "width": "150px",
         "targets": 1
       }, {
         "width": "150px",
         "targets": 2
       }, {
-        "width": "150px",
+        "width": "300px",
         "targets": 3
       }, {
-        "width": "300px",
+        "width": "150px",
         "targets": 4
       }, {
         "width": "150px",
@@ -91,11 +88,8 @@
         "width": "150px",
         "targets": 8
       }, {
-        "width": "150px",
+        "width": "120px",
         "targets": 9
-      }, {
-        "width": "100px",
-        "targets": 10
       }
     ]
   });

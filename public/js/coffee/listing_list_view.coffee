@@ -106,7 +106,7 @@ getFilters = () ->
 		"business_types": []
 		"listing_status": []
 
-	if filters["category_search"].length > 0
+	if filters["category_search"].length > 0 and filters["category_search"].indexOf("|[]") < 0
 		updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
 	else
 		updateUrlPushstate("category_search", "")

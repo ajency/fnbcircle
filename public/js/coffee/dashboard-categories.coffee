@@ -118,6 +118,7 @@ $('body').on 'change', 'input[type=radio][name=categoryType]', ->
     $('.select-parent-cat, .select-branch-cat').removeClass 'hidden'
     $('.parent_cat_icon').addClass 'hidden'
     $('.select-branch-cat select').attr('required','required')
+    $('.select-branch-cat select').html('<option value="">Select Branch</option>')
     $('.select-parent-cat select').attr('required','required')
     $('select[name="status"] option[value="1"]').prop('hidden', false)
     $('select[name="status"] option[value="2"]').attr("hidden","hidden")
@@ -301,6 +302,7 @@ $('#datatable-categories').on 'click', 'i.fa-pencil', ->
   $('#edit_category_modal .parent_cat_icon').find('.dropify-wrapper').remove()
   $('#edit_category_modal .parent_cat_icon').append('<input type="file">')
   $('#edit_category_modal input[type="file"]').attr('data-default-file',cat['image_url'])
+  $('#edit_category_modal input[type="file"]').attr('title',cat['image_url'])
   $('#edit_category_modal input[type="file"]').dropify()
   if cat['level']==1
     $('input#parent_cat[name="categoryType"]').prop 'checked',true  

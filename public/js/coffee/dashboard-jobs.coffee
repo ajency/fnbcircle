@@ -103,6 +103,10 @@ $('body').on 'click', '.reset-filters', ->
   $('select[name="job_status"]').val('')
   $('select[name="job_city"]').val('')
 
+  $('.date-from').val ''
+  $('.date-to').val ''
+  $('.date-range').val ''
+
   $('.multi-dd').each ->
     $(this).multiselect('deselectAll',false).change()
   jobsTable.ajax.reload()

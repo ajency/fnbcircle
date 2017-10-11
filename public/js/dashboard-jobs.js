@@ -143,6 +143,9 @@
     $('#company_name').val('');
     $('select[name="job_status"]').val('');
     $('select[name="job_city"]').val('');
+    $('.date-from').val('');
+    $('.date-to').val('');
+    $('.date-range').val('');
     $('.multi-dd').each(function() {
       return $(this).multiselect('deselectAll', false).change();
     });

@@ -198,7 +198,7 @@
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
-                    <div class="pusblished-date text-color lighter text-right x-small">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
+                    <div class="pusblished-date text-color lighter text-right x-small hidden ">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
                     @endif
                   </div>
                   <div class="flex-row space-between jobs-head-title">

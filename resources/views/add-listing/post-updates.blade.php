@@ -29,4 +29,11 @@
 </div>
 </div>
 <button type="button" id="post-update-button">Post Update</button>
+
+<pre>
+@php $updates = $listing->updates()->orderBy('updated_at',"desc")->get();
+echo json_encode($updates);
+ @endphp
+</pre>
+
 @endsection

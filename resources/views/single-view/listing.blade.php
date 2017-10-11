@@ -261,7 +261,31 @@
                     </div>
                     <!-- tabs structure ends -->
                     <!-- updates section -->
-
+                    <div class="update-sec m-t-30" id="updates">
+                        <!-- <div class="update-sec__header flex-row update-space">
+                            <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
+                            <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
+                        </div> -->
+                        <div class="update-sec__body update-space">
+    
+                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                {{$data['title']['name']}} recent updates
+                            </h6>
+                            <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
+                            <p class="update-sec__caption text-lighter">
+                                {{$data['updates']->contents}}
+                            </p>
+                            <ul class="flex-row update-img">
+                            @php $photos = $data['updates']->getImages(); @endphp
+                                @foreach($photos as $photo)
+                                <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
+                                @endforeach
+                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                            </ul>
+                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a></p>
+                        </div>
+                    </div>
                     <!-- updates section ends -->
                     @isset($data['categories'])
                     <!-- listed -->

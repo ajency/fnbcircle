@@ -34,6 +34,8 @@ class ListingViewController extends Controller
         $pagedata['city'] = array('name'=>$area->city['name'],'url'=>'', 'alt'=>'', 'area' => $area->name);
         $pagedata['title'] = ['name'=>$listing->title,'url'=>env('APP_URL').'/'.$area->city['slug'].'/'.$listing->slug,'alt'=>''];
         $pagedata['update'] = $listing->updated_at->format('jS F');
+        $pagedata['updates']=$listing->updates()->orderBy('updated_at','desc')->first();
+        // dd($pagedata['updates']->getImages());
         if($listing->status == 1){
             $pagedata['publish_date'] = $listing->published_on->format('jS F Y');
             $pagedata['rating'] = '50';

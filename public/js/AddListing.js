@@ -121,13 +121,13 @@ function validateListing(event) {
             type = 'landline';
           }
 
-          cont.push([
+          cont.push(
             {
               'value': value[i].value,
               'country': $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'],
               'type': type
             }
-          ]);
+          );
           i++;
         }
           json = JSON.stringify(cont);

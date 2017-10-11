@@ -1,5 +1,15 @@
 @extends('layouts.add-listing')
 
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/add-listing-premium.js"></script>
+@endsection
+
+@section('meta')
+  @parent
+  <meta property="premium-url" content="{{action('CommonController@premium')}}">
+@endsection
+
 @section('form-data')
 
 
@@ -40,7 +50,7 @@
     </div>
     <div class="col-sm-6 c-gap">
         <div class="premium-plan">
-            <img src="img/premium_listing.png" class="img-responsive">
+            <img src="/img/premium_listing.png" class="img-responsive">
            <!--  <label>Premium 1</label>
             <div class="row duration-choose">
                 <div class="col-sm-6 dur-col col-text">
@@ -59,7 +69,7 @@
         </div>
     </div>
 </div>
-<h6 class="m-t-30 m-b-30">Our Plans</h6>
+<h6 class="m-t-30 m-b-30">Our Plans <span id="pending-request">@if($pending != null) (Request pending) @endif</span></h6>
 <!-- pricing grids -->
 <div class="pricing-table plans flex-row">
     <div class="pricing-table__cards free-plan active">
@@ -72,64 +82,44 @@
         </div>
         <div class="plans__footer">
             <div class="selection">
-                <input type="radio" class="fnb-radio" name="plan-select" checked=""></input>
+                <input type="radio" class="fnb-radio" name="plan-select" @if($current['id'] == 0) checked="" @endif></input>
                 <label class="radio-check"></label>
                 <span class="dis-block lighter text-lighter">Your current plan</span>
             </div>
         </div>
     </div>
+    @foreach($plans as $plan)
     <div class="pricing-table__cards plan-1">
         <div class="plans__header">
             <div class="validity">
-                <span class="validity__text"><h6 class="number">6</h6>Months</span>
+                <span class="validity__text"><h6 class="number">{{(int)$plan->duration/30}}</h6>Months</span>
             </div>
-            <img src="img/power-icon.png" class="img-responsive power-icon" width="50">
-            <h6 class="sub-title text-uppercase plans__title text-color">Plan 1</h6>
+            <img src="/img/power-icon.png" class="img-responsive power-icon" width="50">
+            <h6 class="sub-title text-uppercase plans__title text-color">{{$plan->title}}</h6>
             <div class="plans__fee">
-                <h5><i class="fa fa-inr" aria-hidden="true"></i> 5,000</h5>
+                <h5><i class="fa fa-inr" aria-hidden="true"></i>{{$plan->amount}}</h5>
             </div>
             <ul class="points">
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet.</li>
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit elit.</li>
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet</li>
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+            @php $highlights = json_decode($plan->meta_data); @endphp
+                @foreach($highlights as $highlight)
+                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>{{$highlight}}</li>
+                @endforeach
+                
             </ul>
         </div>
         <div class="plans__footer">
             <div class="selection">
-                <input type="radio" class="fnb-radio" name="plan-select"></input>
+                <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif></input>
                 <label class="radio-check"></label>
-                <span class="dis-block lighter text-lighter">Your current plan</span>
+                <span class="dis-block lighter text-lighter">@if($pending != null and $pending->plan_id == $plan->id) Your request for this plan is under process @else Your current plan @endif</span>
             </div>
         </div>
     </div>
-    <div class="pricing-table__cards plan-2">
-        <div class="plans__header">
-            <div class="validity">
-                <span class="validity__text"><h6 class="number">3</h6>Months</span>
-            </div>
-            <img src="img/power-icon.png" class="img-responsive power-icon" width="50">
-           <h6 class="sub-title text-uppercase plans__title text-color">Plan 2</h6>
-            <div class="plans__fee">
-                <h5><i class="fa fa-inr" aria-hidden="true"></i> 5,000</h5>
-            </div>
-            <ul class="points">
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet.</li>
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit elit.</li>
-                <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet</li>
-            </ul>
-        </div>
-        <div class="plans__footer">
-            <div class="selection">
-                <input type="radio" class="fnb-radio" name="plan-select"></input>
-                <label class="radio-check"></label>
-                <span class="dis-block lighter text-lighter">Your current plan</span>
-            </div>
-        </div>
-    </div>
+    @endforeach
+    
 </div>
 <div class="text-right m-t-30 m-b-30 subscribe-plan">
-    <button class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
+    @if($pending == null)<button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button> @endif
 </div>
 </div>
 

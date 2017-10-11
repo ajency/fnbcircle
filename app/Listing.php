@@ -221,11 +221,11 @@ class Listing extends Model
     }
 
     public function isPremium(){
-        $def = Defaults::where('type','listing-premium')->first();
-        if($def!=null and $def['label']=="0")
-            return false;
-        else
-            return true;
+        if($this->premium == 1) return true;
+        else return false;
+    }
+    public function premium(){
+        return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
 
 }

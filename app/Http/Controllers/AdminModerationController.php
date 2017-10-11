@@ -227,6 +227,7 @@ class AdminModerationController extends Controller
                 if ($change->status == (string) Listing::REVIEW) {
                     if ($listing->isReviewable()) {
                         $listing->status = Listing::REVIEW;
+                        $listing->submission_date = Carbon::now();
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {

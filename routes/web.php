@@ -36,6 +36,7 @@ Route::post('/create_OTP','ListingController@createOTP');
 Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
+Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
 
 //manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');
@@ -58,10 +59,6 @@ Route::post('/associated_listing','AdminConfigurationController@getAssociatedLis
 Route::post('/save-location','AdminConfigurationController@saveLocationData');// manage-locations
 Route::post('/view-location','AdminConfigurationController@listLocationConfig');//manage-locations
 Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');//mmanage-locations
-
-Route::get('/business-premium', function(){
-    return view('premium');
-});
 
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');

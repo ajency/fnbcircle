@@ -16,6 +16,8 @@ use App\UserCommunication;
 use Auth;
 use Session;
 use Carbon\Carbon;
+use App\Plan;
+use App\PlanAssociation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -705,7 +707,11 @@ class ListingController extends Controller
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
         $user    = Auth::user();
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user);
+        $details = $user->getUserDetails()->first();
+        $areas  = Area::where('city_id', $details->city)->get();
+        $listing->locality_id = $details->area;
+        if($user->type == 'external') $listing->owner_id = $user->id;
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
     }
     public function edit($reference, $step = 'business-information')
     {
@@ -750,7 +756,17 @@ class ListingController extends Controller
             return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details')->with('cityy',$cityy);
         }
         if ($step == 'business-premium') {
-            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy);
+            $plans = Plan::where('type','listing')->get();
+            $requests = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->orderBy('created_at','desc')->get();
+            $now = Carbon::now();
+            $active = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->whereNotNull('approval_date')->where('billing_start', '<', $now->toDateTimeString())->where('billing_end', '>', $now->toDateTimeString())->where('status',1)->first();
+            if($active == null) {
+                $current = ['id'=>0];
+            } else {
+                $current = ['id'=>$active->plan_id];
+            }
+            $pending = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->where('status',0)->first();
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
     }
 

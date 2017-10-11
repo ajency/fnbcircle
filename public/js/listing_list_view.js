@@ -143,7 +143,7 @@
   getListContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 1;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
     data = {
       "page": page,
       "page_size": limit,
@@ -399,6 +399,11 @@
     /* --- On click of Pagination, load that page --- */
     $(document).on("click", "#pagination a.paginate.page", function(e) {
       updateUrlPushstate("page", "page=" + $(this).attr("page"));
+      if (window.location.search.indexOf("limit") < 0) {
+        updateUrlPushstate("limit", "limit=10");
+      } else {
+        '';
+      }
       getListContent();
     });
 

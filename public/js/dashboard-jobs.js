@@ -53,7 +53,8 @@
       }, {
         'data': 'last_updated'
       }, {
-        'data': 'last_updated_by'
+        'data': 'last_updated_by',
+        "orderable": false
       }, {
         'data': 'status',
         "orderable": false
@@ -298,6 +299,7 @@
     templates: {
       button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
     },
+    enableFiltering: true,
     enableCaseInsensitiveFiltering: false
   });
 

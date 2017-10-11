@@ -143,7 +143,8 @@
                 @php
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
-          <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}" @if($job->status != 5) onclick="return confirm('Are you sure?')" @endif ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+          <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+          <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -906,39 +907,5 @@
 
 </div>
 
-<!-- Modal -->
-                <!-- listing review -->
-                @if($job->id)
-                <div class="modal fnb-modal listing-review job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <div class="listing-message">
-                                    @if($job->status == 2 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">We have sent your job for review</h4>
-                                    <p class="default-size text-color lighter list-caption">Our team will review your job and you will be notified if your job is published.</p>
-                                    @elseif($job->status == 3 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">Your job is now published</h4>
-                                    @elseif($job->status == 4 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">Your job is now archived</h4>
-                                    @endif
-                                </div>
-                                <div class="listing-status highlight-color">
-                                    <p class="m-b-0 text-darker heavier">The current status of your job is</p>
-                                    <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> {{ $job->getJobStatus()}}  <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                    <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
+@include('jobs.job-status-modal')
 @endsection

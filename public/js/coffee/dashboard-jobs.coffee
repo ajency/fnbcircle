@@ -37,7 +37,7 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'date_of_submission' }
     { 'data': 'published_date' }
     { 'data': 'last_updated' }
-    { 'data': 'last_updated_by' }
+    { 'data': 'last_updated_by' , "orderable": false}
     { 'data': 'status' , "orderable": false}
   ]
   "columnDefs": [
@@ -264,7 +264,7 @@ $('.admin-job-role-search').multiselect
   buttonClass: ''
   maxHeight: 200
   templates: button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
-  # enableFiltering: true
+  enableFiltering: true
   enableCaseInsensitiveFiltering:false
 
 $('.date-range').daterangepicker

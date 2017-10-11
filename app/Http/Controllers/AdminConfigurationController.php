@@ -697,18 +697,18 @@ class AdminConfigurationController extends Controller
 
         $requestData = $request->all();  //dd($requestData);
         $data =[];
-        $startPage = $requestData['start'];
+        $skip = $requestData['start'];
         $length = $requestData['length'];
         $orderValue = $requestData['order'][0];
-
+      
        
         $columnOrder = array( 
-                                        '2'=> 'jobs.title',
-                                        '3'=> 'categories.name',
-                                        '5'=> 'companies.title',
-                                        '6'=> 'jobs.date_of_submission',
-                                        '7'=> 'jobs.published_on',
-                                        '8'=> 'jobs.updated_at'
+                                        '1'=> 'jobs.title',
+                                        '2'=> 'categories.name',
+                                        '4'=> 'companies.title',
+                                        '5'=> 'jobs.date_of_submission',
+                                        '6'=> 'jobs.published_on',
+                                        '7'=> 'jobs.updated_at'
                                         );
 
         
@@ -787,15 +787,18 @@ class AdminConfigurationController extends Controller
             $orderBy = $orderValue['dir'];
         }
 
-        $totalJobs = $jobQuery->count();
+
         if($length>1)
-        {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->skip($startPage)->take($length)->get();   
+        {  
+            $totalJobs = $jobQuery->get()->count(); 
+            $jobs = $jobQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
         }
         else
         {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();   
+            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();  
+            $totalJobs = $jobs->count();  
         }
+
 
         $jobsData = [];
         foreach ($jobs as $key => $job) {

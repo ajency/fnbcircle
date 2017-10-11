@@ -399,6 +399,11 @@
     /* --- On click of Pagination, load that page --- */
     $(document).on("click", "#pagination a.paginate.page", function(e) {
       updateUrlPushstate("page", "page=" + $(this).attr("page"));
+      if (window.location.search.indexOf("limit") < 0) {
+        updateUrlPushstate("limit", "limit=10");
+      } else {
+        '';
+      }
       getListContent();
     });
 

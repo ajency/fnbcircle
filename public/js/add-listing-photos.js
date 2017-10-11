@@ -113,6 +113,9 @@
           if (data['status'] === "200") {
             container.find('input[type="hidden"]').val(data['data']['id']);
             container.find(".image-loader").addClass('hidden');
+            if (type === 1) {
+              container.find('.doc-name').attr('required', 'required');
+            }
           } else {
             $container.find('input[type="file"]').val('');
             container.find(".image-loader").addClass('hidden');
@@ -142,6 +145,7 @@
     $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
     $(this).closest('.image-grid__cols').find('.doc-name').val("");
     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+    $(this).closest('.image-grid__cols').find('.doc-name').removeAttr("required");
     console.log("file deleted");
   });
 
@@ -168,7 +172,11 @@
   $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 
   window.validatePhotosDocuments = function() {
-    var files, form, images, main, parameters;
+    var files, form, images, instance, main, parameters;
+    instance = $('#info-form').parsley();
+    if (!instance.validate()) {
+      return false;
+    }
     $('.section-loader').removeClass('hidden');
     images = [];
     files = {};

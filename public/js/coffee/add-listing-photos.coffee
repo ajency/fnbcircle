@@ -137,8 +137,8 @@ uploadFile = (container,type)->
         if(data['status'] == "200")
           container.find('input[type="hidden"]').val data['data']['id']
           container.find(".image-loader").addClass('hidden')
-          # if type == 1
-          #   container.find('.doc-name').prop('disabled',true)
+          if type == 1
+            container.find('.doc-name').attr('required','required')
         else
           #throw some error
           $container.find('input[type="file"]').val ''
@@ -165,7 +165,7 @@ file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
   $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
-  # $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
+  $(this).closest('.image-grid__cols').find('.doc-name').removeAttr "required"
   console.log "file deleted"
   return
 
@@ -206,6 +206,9 @@ $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 #     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
 
 window.validatePhotosDocuments = () ->
+  instance = $('#info-form').parsley()
+  if !instance.validate()
+    return false;
   $('.section-loader').removeClass('hidden');
   images = []
   files = {}

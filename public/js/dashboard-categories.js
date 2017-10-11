@@ -91,6 +91,8 @@
 
   $('#add_category_modal').on('show.bs.modal', function(e) {
     $('input#parent_cat[name="categoryType"]').prop('checked', true);
+    $('.select-parent-cat select').prop('disabled', false);
+    $('.select-branch-cat select').prop('disabled', false);
     $('input[name="categoryType"]').prop('disabled', false);
     $('input#parent_cat[name="categoryType"]').change();
     $('#add_category_modal .save-btn').prop('disabled', false);

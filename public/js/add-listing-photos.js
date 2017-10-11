@@ -117,6 +117,7 @@
             if (type === 1) {
               container.find('.doc-name').attr('required', 'required');
               container.find('.doc-name').val(name);
+              container.find('input[type="hidden"]').attr('title', name);
             }
           } else {
             $container.find('input[type="file"]').val('');

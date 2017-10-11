@@ -21,7 +21,7 @@
 <!-- Open Graph -->
 <meta property="og:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
 <meta property="og:url" content="{{ url('jobs/'.$job->slug) }}" />
-
+<meta property="og:image" content="{{ $job->getSeoImage() }}" />
 <meta property="og:description" content="{{ $job->getMetaDescription() }}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="fnbcircle" />
@@ -33,13 +33,14 @@
 <meta name="twitter:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
 <meta name="twitter:url" content="{{ url('jobs/'.$job->slug) }}" />
 <meta name="twitter:description" content="{{ $job->getMetaDescription() }}" />
- 
+<meta name="twitter:image" content="{{ $job->getSeoImage() }}" />
 
 <!-- google+ -->
 <meta itemprop="name" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
 <meta itemprop="url" content="{{ url('jobs/'.$job->slug) }}" />
 <meta itemprop="description" content="{{ $job->getMetaDescription() }}" />
- 
+<meta itemprop="image" content="{{ $job->getSeoImage() }}" />
+
 @endsection
 
 @section('single-view-data')

@@ -186,6 +186,21 @@ class Job extends Model
         } 
     }
 
+    public function getSeoImage(){
+        $jobCompany = $this->jobCompany()->first();
+        $company = null;
+        $seoImage = url('img/logo-fnb.png');
+        if(!empty($jobCompany)){
+            if(($jobCompany->logo))
+                $seoImage = $jobCompany->getCompanyLogo('company_logo');
+              
+        } 
+
+        return $seoImage;
+    }
+
+    
+
     public function getJobCompany(){
         $jobCompany = $this->jobCompany()->first();
         $company = null;

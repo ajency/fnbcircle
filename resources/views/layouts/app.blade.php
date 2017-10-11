@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
     <title> @yield('title')</title>
-
+    @yield('openGraph')
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->

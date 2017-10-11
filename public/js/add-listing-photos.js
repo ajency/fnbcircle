@@ -86,7 +86,7 @@
   });
 
   uploadFile = function(container, type) {
-    var file, formData, url, xhr;
+    var file, formData, name, url, xhr;
     if (type === 0) {
       url = document.head.querySelector('[property="photo-upload-url"]').content;
     } else {
@@ -96,6 +96,7 @@
     if (file[0].files.length > 0) {
       formData = new FormData;
       container.find(".image-loader").removeClass('hidden');
+      name = file[0].value.split('\\').reverse()[0];
       formData.append('file', file[0].files[0]);
       if (type === 0) {
         formData.append('name', '');
@@ -115,6 +116,7 @@
             container.find(".image-loader").addClass('hidden');
             if (type === 1) {
               container.find('.doc-name').attr('required', 'required');
+              container.find('.doc-name').val(name);
             }
           } else {
             $container.find('input[type="file"]').val('');

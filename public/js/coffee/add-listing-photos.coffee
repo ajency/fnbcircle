@@ -114,13 +114,14 @@ uploadFile = (container,type)->
   # e.preventDefault()
   # container = $(element).closest('.image-grid__cols') 
   file = container.find('input[type="file"]')
-  # console.log element
+  # console.log file
   if file[0].files.length > 0
     # if container.find('input[type="hidden"]').val() != ""
     #   console.log "File already uploaded"
     #   return
     formData = new FormData
     container.find(".image-loader").removeClass('hidden')
+    name = file[0].value.split('\\').reverse()[0]
     formData.append 'file', file[0].files[0]
     if type == 0
       formData.append 'name', ''
@@ -139,6 +140,7 @@ uploadFile = (container,type)->
           container.find(".image-loader").addClass('hidden')
           if type == 1
             container.find('.doc-name').attr('required','required')
+            container.find('.doc-name').val(name)
         else
           #throw some error
           $container.find('input[type="file"]').val ''

@@ -114,13 +114,14 @@ uploadFile = (container,type)->
   # e.preventDefault()
   # container = $(element).closest('.image-grid__cols') 
   file = container.find('input[type="file"]')
-  # console.log element
+  # console.log file
   if file[0].files.length > 0
     # if container.find('input[type="hidden"]').val() != ""
     #   console.log "File already uploaded"
     #   return
     formData = new FormData
     container.find(".image-loader").removeClass('hidden')
+    name = file[0].value.split('\\').reverse()[0]
     formData.append 'file', file[0].files[0]
     if type == 0
       formData.append 'name', ''
@@ -137,8 +138,10 @@ uploadFile = (container,type)->
         if(data['status'] == "200")
           container.find('input[type="hidden"]').val data['data']['id']
           container.find(".image-loader").addClass('hidden')
-          # if type == 1
-          #   container.find('.doc-name').prop('disabled',true)
+          if type == 1
+            container.find('.doc-name').attr('required','required')
+            container.find('.doc-name').val(name)
+            container.find('input[type="hidden"]').attr 'title',name
         else
           #throw some error
           $container.find('input[type="file"]').val ''
@@ -165,7 +168,7 @@ file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
   $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
-  # $(this).closest('.image-grid__cols').find('.doc-name').prop "disabled",false
+  $(this).closest('.image-grid__cols').find('.doc-name').removeAttr "required"
   console.log "file deleted"
   return
 
@@ -206,6 +209,9 @@ $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 #     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title')
 
 window.validatePhotosDocuments = () ->
+  instance = $('#info-form').parsley()
+  if !instance.validate()
+    return false;
   $('.section-loader').removeClass('hidden');
   images = []
   files = {}

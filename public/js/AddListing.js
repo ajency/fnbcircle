@@ -9,6 +9,9 @@ $('body').on('change', 'input', function() {
 $('body').on('change', 'select', function() {
     change = 1;
 });
+$('body').on('change', 'textarea', function() {
+    change = 1;
+});
 
 function listingInformation() {
     var form = $('<form></form>');

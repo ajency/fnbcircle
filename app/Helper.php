@@ -232,6 +232,14 @@ function salarayTypeText($type){
    return $salaryTpes[$type];
 }
 
+/**
+* This function will return DOM for the pagination
+* This function will @return
+* 	$html = < page 1 > | < page 2 > | ....... | < page n >
+*
+* Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
+*		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
+*/
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage)? 1 : $currentPage;
@@ -243,14 +251,12 @@ function pagination($totalRecords,$currentPage,$limit){
 
 	if($totalPages > 1){
 
-
 		if($currentPage > 4){
 			$previous = true;
 			$startPage = $currentPage-4;
 		}
 		else
 			$startPage = 1;
-
 		 
 		if(($currentPage + $endCounterValue) < $totalPages){
 			$next = true;
@@ -260,18 +266,20 @@ function pagination($totalRecords,$currentPage,$limit){
 			$endPage = $currentPage+ ($totalPages-$currentPage);
  
 		if($previous)
-			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> |';
+			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
 		for ($i=$startPage; $i <= $endPage; $i++) { 
 			$active = ($i == $currentPage) ? 'active' : '';
-			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a> |';
+			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a>';
+
+			if($i !== $endPage) {
+				$html .= ' | ';
+			}
 		}
 
 		if($next)
-			$html .= ' <a href="javascript:void(0)" class="paginate next" page="'.($endPage+1).'">next</a>';
-
+			$html .= '| <a href="javascript:void(0)" class="paginate next" page="' . ($endPage + 1) . '">next</a>';
 	}
-
 
 	return $html;
 }

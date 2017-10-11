@@ -205,7 +205,7 @@
                      <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
-                     <img src="/img/power-icon.png" class="img-responsive" width="30">
+                     <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
                   </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">

@@ -775,7 +775,7 @@ class AdminConfigurationController extends Controller
         $columnName = 'jobs.created_at';
         $orderBy = 'desc';
         
-        if($orderValue['column'] == 5){ 
+        if($orderValue['column'] == 4){ 
             $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
             $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
 

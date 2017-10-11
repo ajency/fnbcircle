@@ -725,7 +725,7 @@
             <!-- advertisement ends -->
          </div>
                   <!-- Featured Jobs -->
-        <div class="featured-jobs browse-cat">
+        <div class="featured-jobs browse-cat hidden ">
            <h6 class="element-title m-t-0">Featured Jobs</h6>
            <hr>
            <div class="featured-jobs__row flex-row">
@@ -802,7 +802,7 @@
               </div>
               <div class="jobdesc">
                  <div>
-                    <p class="default-size heavier m-b-0">{{ $similarjob->title }}</p>
+                    <p class="default-size heavier m-b-0"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">{{ $similarjob->title }}</a></p>
                     <span class="x-small text-color">{{ $similarjob->getJobCategoryName() }}</span>
                  </div>
                  <div class="location flex-row">
@@ -822,7 +822,7 @@
            <!-- <span class="fnb-icons exclamation"></span> -->
            <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
            <div class="contact__enquiry text-center m-t-15">    
-              <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
+              <a href="{{ url('jobs/create') }}"><button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
            </div>
         </div>
 

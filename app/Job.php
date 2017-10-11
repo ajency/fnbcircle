@@ -409,7 +409,7 @@ class Job extends Model
     public function getSimilarJobs(){
 
         //, 'status'=>3  
-        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
+        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->where('status', 3)->orderBy('published_on','desc')->get()->take(4);
         return $jobs;
     }
 

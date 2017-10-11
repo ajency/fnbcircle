@@ -227,7 +227,7 @@ class JobController extends Controller
                 }
 
             } 
-             
+
             $min = min($lower);
             $max = (max($upper) == '') ? 10 :max($upper);
         }
@@ -280,7 +280,7 @@ class JobController extends Controller
         $shareLink = url('/job/'.$job->getJobSlug());
         $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
 
-        $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
+        $facebookShare = "https://www.facebook.com/dialog/share?app_id=".env('FACEBOOK_ID')."&display=page&href=".$shareLink;
 
         $twitterShare = "http://www.twitter.com/share?url=".$shareLink;
         

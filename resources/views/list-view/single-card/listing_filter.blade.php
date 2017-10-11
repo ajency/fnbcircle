@@ -5,10 +5,10 @@
     </div>
     <div class="results__body filter-row">
         <ul class="contents">
-            @if(strlen($filter_data['category']['node_categories']) > 0)
+            @if(isset($filter_data['category']['node_categories']))
                 <input type="hidden" id="current_category" name="" value="{{ $filter_data['category']['node_categories'] }}">
             @else
-                <input type="hidden" id="current_category" name="" value="">
+                <input type="hidden" id="current_category" name="" value="|[]">
             @endif
             <li class="branch">
                 @if(strlen($filter_data["category"]["name"]) > 0)

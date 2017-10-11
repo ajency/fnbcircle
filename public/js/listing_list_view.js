@@ -154,7 +154,6 @@
       "filters": getFilters()
     };
     $("#listing_card_view").css("filter", "blur(2px)");
-    console.log(getFilters());
     $.ajax({
       type: 'post',
       url: '/api/get-listview-data',
@@ -181,14 +180,12 @@
         $("#listing_card_view").css("filter", "");
 
         /* --- Add the pagination to the HTML --- */
-        console.log(data["data"]["paginate"]);
         $(".listings-page #pagination").html(data["data"]["paginate"]);
         updateTextLabels();
 
         /* --- Note: the function below is called again to update the URL post AJAX --- */
         getFilters();
-        $("input[type='hidden'][name='area_hidden']").val("");
-        return $(document).find(".results__body ul.contents #current_category").val("");
+        return $("input[type='hidden'][name='area_hidden']").val("");
 
         /* ---- HAndleBar template content load ---- */
       },
@@ -389,14 +386,13 @@
 
     /* --- Detect <a> click --- */
     $(document).on("click", ".results__body ul.contents a", function(e) {
-      console.log("clicking Category");
       $(document).find(".results__body ul.contents #current_category").val($(this).attr("value"));
-      updateUrlPushstate("categories", "categories=" + JSON.stringify($(this).attr("value")));
-      $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val($(this).attr("value"));
+      updateUrlPushstate("categories", "categories=" + $(this).attr("value"));
+      $('#category input[type="hidden"][name="category_search"].flexdatalist').prop('value', $(this).attr("value"));
+      $('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('');
       setTimeout((function() {
         getListContent();
       }), 100);
-      e.stopImmediatePropagation();
       return false;
     });
 
@@ -405,9 +401,13 @@
       updateUrlPushstate("page", "page=" + $(this).attr("page"));
       getListContent();
     });
+
+    /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
     $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
       old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val();
     });
+
+    /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
     $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
       if ($('input[type="hidden"][name="city"].flexdatalist').val().length <= 0) {
         $('input[type="hidden"][name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
@@ -418,6 +418,8 @@
     $(document).on("change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", function(e) {
       getListContent();
     });
+
+    /* --- Clear the Filter Area, Business-Type, Listing-Status checkbox --- */
     $(document).on("click", "div#section-area div.check-section label.sub-title.clear, div#section-business div.check-section label.sub-title.clear, div#section-list-status div.check-section label.sub-title.clear", function(e) {
       var checkbox_name_linking;
       e.preventDefault();
@@ -429,6 +431,8 @@
       $("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "");
       getListContent();
     });
+
+    /* --- On Input / Change of area-search in Left filterbox, search the name --- */
     $(document).on("input change", ".filter-group.area #section-area input[type='text']#area_search", function(event) {
       var search_key;
       search_key = $(this).val();

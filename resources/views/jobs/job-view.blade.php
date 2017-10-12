@@ -404,7 +404,7 @@
               @endif -->
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
-                    <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
@@ -502,7 +502,7 @@
       </div>
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
-            <div class="equal-col">
+            <div class="equal-col job-equal-col">
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->
@@ -513,7 +513,7 @@
                    @endif
 
                   @if($job->canEditJob())
-                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   

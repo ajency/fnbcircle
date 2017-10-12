@@ -600,10 +600,11 @@
                </div>
                 @if(!empty($jobCompany->description))
                   <h6 class="m-t-0 company-section__title">About Company</h6>
-                  <div class="featured-jobs__row flex-row">
-                     <div>
+                  <div class="featured-jobs__row">
+                     <div class="readMore">
                         <span class="x-small text-color">
-                          {!! $jobCompany->description !!}
+                          <!-- {!! $jobCompany->description !!} -->
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat.
                         </span>
                      </div>
                   </div>

@@ -360,4 +360,12 @@
     area_group_clone.insertBefore(area_group);
   });
 
+  if ($('.readMore').length) {
+    $('.readMore').readmore({
+      speed: 75,
+      collapsedHeight: 40,
+      lessLink: '<a href="#">Read less</a>'
+    });
+  }
+
 }).call(this);

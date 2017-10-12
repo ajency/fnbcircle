@@ -33,6 +33,11 @@
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('js/jquery.custom-file-input.js') }}"></script>
+
+    <!-- Read More -->
+    <script type="text/javascript" src="{{ asset('js/readmore.min.js') }}"></script>
+
+
     <!-- Add listing -->
     <!-- <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script> -->
     <!-- custom script -->

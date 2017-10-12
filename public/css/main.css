@@ -10304,6 +10304,13 @@ input[type='checkbox'].remove-addr {
   padding: 0.3em 0.5em;
   font-size: 0.9em;
 }
+.readMore span {
+  font-size: 1em;
+}
+.readMore + a {
+  font-size: 0.9em;
+  color: #27b7b0;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

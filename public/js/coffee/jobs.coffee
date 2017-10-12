@@ -375,3 +375,15 @@ $('.add-job-areas').click (e) ->
     nonSelectedText: 'Select City'
   area_group_clone.insertBefore area_group
   return
+
+
+
+if $('.readMore').length
+  $('.readMore').readmore
+    speed: 75
+    collapsedHeight: 40
+    lessLink: '<a href="#">Read less</a>'
+
+
+
+

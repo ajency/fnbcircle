@@ -309,7 +309,7 @@
                         @isset($data['highlights'])
                         <!-- Highlights -->
                         <div class="highlights p-t-20 p-b-20">
-                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights of {{$data['title']['name']}}</h3>
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
                                 <li class="flex-row">

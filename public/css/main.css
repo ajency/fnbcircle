@@ -10243,6 +10243,15 @@ input[type='checkbox'].remove-addr {
 .sidebar-updates.postUpdates .update-sec__body {
   padding: 1em 0;
 }
+.fileUpload.post-uploads {
+  margin-bottom: 0;
+}
+.fileUpload.post-uploads .image-grid__cols {
+  margin-bottom: 0.5em;
+}
+.fileUpload.post-uploads .addCol {
+  margin-bottom: 0;
+}
 @media screen and (max-width: 768px) {
   .post-caption {
     font-size: 0.8em;

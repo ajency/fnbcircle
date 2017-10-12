@@ -43,11 +43,46 @@
 	             <textarea type="text" rows="2" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
     		</div>
     		<div class="col-sm-12">
-    			<div class="imageUpload">
+    			<div class="image-grid imageUpload fileUpload post-uploads">
 					<div class="image-grid__cols post-img-col" >
 						 <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" />
 						 <input type="hidden" name="image-id" value="">
+						 <div class="image-loader hidden">
+		                    <div class="site-loader section-loader">
+	                            <div id="floatingBarsG">
+	                                <div class="blockG" id="rotateG_01"></div>
+	                                <div class="blockG" id="rotateG_02"></div>
+	                                <div class="blockG" id="rotateG_03"></div>
+	                                <div class="blockG" id="rotateG_04"></div>
+	                                <div class="blockG" id="rotateG_05"></div>
+	                                <div class="blockG" id="rotateG_06"></div>
+	                                <div class="blockG" id="rotateG_07"></div>
+	                                <div class="blockG" id="rotateG_08"></div>
+	                            </div>
+	                        </div>
+		                </div>
 					</div>
+					<div class="image-grid__cols addCol">
+		                <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+		            </div>
+		            <div class="image-grid__cols uppend-uploader hidden">
+		                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
+		                <div type="button" class="removeCol"><i class="">✕</i></div>
+		                <div class="image-loader hidden">
+		                    <div class="site-loader section-loader">
+	                            <div id="floatingBarsG">
+	                                <div class="blockG" id="rotateG_01"></div>
+	                                <div class="blockG" id="rotateG_02"></div>
+	                                <div class="blockG" id="rotateG_03"></div>
+	                                <div class="blockG" id="rotateG_04"></div>
+	                                <div class="blockG" id="rotateG_05"></div>
+	                                <div class="blockG" id="rotateG_06"></div>
+	                                <div class="blockG" id="rotateG_07"></div>
+	                                <div class="blockG" id="rotateG_08"></div>
+	                            </div>
+	                        </div>
+		                </div>
+		            </div>
 				</div>
     		</div>
     		<div class="col-sm-12">

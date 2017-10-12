@@ -115,4 +115,28 @@
     });
   });
 
+  $('body').on('click', '.add-uploader', function(e) {
+    var contact_group, contact_group_clone, getTarget;
+    e.preventDefault();
+    contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
+    contact_group_clone = contact_group.clone();
+    contact_group_clone.removeClass('uppend-uploader hidden');
+    getTarget = $(this).closest('.fileUpload').find('.addCol');
+    contact_group_clone.insertBefore(getTarget);
+    console.log(contact_group_clone);
+    return contact_group_clone.find('.doc-uploadd').dropify({
+      messages: {
+        'default': 'Add photo',
+        'replace': 'Replace photo',
+        'remove': '<i class="">&#10005;</i>',
+        'error': ''
+      }
+    });
+  });
+
+  $('body').on('click', '.removeCol', function(e) {
+    e.preventDefault();
+    return $(this).parent().remove();
+  });
+
 }).call(this);

@@ -98,3 +98,24 @@ $('body').on 'click', '#post-update-button', ->
       'id': document.getElementById('listing_id').value
     success: () ->
       console.log "success"
+
+
+
+$('body').on 'click', '.add-uploader', (e)->
+  e.preventDefault()
+  contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
+  contact_group_clone = contact_group.clone()
+  contact_group_clone.removeClass 'uppend-uploader hidden'
+  getTarget = $(this).closest('.fileUpload').find('.addCol')
+  # getTarget.insertBefore(contact_group_clone)
+  contact_group_clone.insertBefore(getTarget)
+  console.log(contact_group_clone)
+  contact_group_clone.find('.doc-uploadd').dropify messages:
+    'default': 'Add photo'
+    'replace': 'Replace photo'
+    'remove': '<i class="">&#10005;</i>'
+    'error': ''
+
+$('body').on 'click', '.removeCol', (e)->
+  e.preventDefault()
+  $(this).parent().remove()

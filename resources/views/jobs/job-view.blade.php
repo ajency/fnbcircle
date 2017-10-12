@@ -164,7 +164,7 @@ $additionalData = ['job'=>$job];
                     @endif -->
                   </div>
                   <div class="flex-row space-between jobs-head-title">
-                     <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
+                     <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
@@ -173,7 +173,7 @@ $additionalData = ['job'=>$job];
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
                      @if(!empty($keywords))
                        <div class="job-role">
-                          <h6 class="operations__title sub-title m-t-5">Job Role</h6>
+                          <h2 class="operations__title sub-title m-t-5">Job Role</h2>
                           <ul class="j-role flex-row">
 
                             @foreach($keywords as $keyword)
@@ -199,7 +199,7 @@ $additionalData = ['job'=>$job];
                 <div class="operations p-t-10 flex-row flex-wrap role-selection detachsection">
 
                       <div class="job-places">
-                        <h6 class="operations__title sub-title">Job Location</h6>
+                        <h2 class="operations__title sub-title">Job Location</h2>
                         @foreach($locations as $city => $locAreas)
                           
                         <div class="opertaions__container flex-row job-location">
@@ -257,7 +257,7 @@ $additionalData = ['job'=>$job];
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <div class="flex-row align-top">
                         <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                        <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
+                        <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
                       </div>
                       
                      </div>
@@ -483,7 +483,7 @@ $additionalData = ['job'=>$job];
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
               @if($job->isPublished()) 

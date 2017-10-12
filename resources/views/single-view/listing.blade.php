@@ -363,14 +363,14 @@
                                 </div>
                             </div>
                             @endif
-                            @isset($data['address'])
+                            @if(isset($data['address']) or isset($data['location']))
                             <div class="detail-3 flex-row m-t-25 m-b-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
-                                    <p class="sub-title lighter">{{$data['address']}}</p>
+                                    @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>
-                            @endisset
+                            @endif
                             @isset($data['location'])
                             <div class="detail-4 flex-row m-t-25 m-b-25">
                                 <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>

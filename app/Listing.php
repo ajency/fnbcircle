@@ -118,7 +118,13 @@ class Listing extends Model
         }
 
         $this->show_primary_email = $email;
-        $this->locality_id        = $area;
+        if($this->locality_id != $area){
+            $this->locality_id        = $area;
+            $this->latitude = null;
+            $this->longitude = null;
+            $this->map_address = null;
+            $this->display_address = null;
+        }
         if ($this->status == null) {
             $this->status = self::DRAFT;
         }

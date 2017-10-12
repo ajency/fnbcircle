@@ -451,7 +451,7 @@
                       </div>
                     </div>
                     <div class="address">
-                        <p class="sub-title heavier">{{ $similarjob->title }}</p>
+                        <p class="sub-title heavier ellipsis-2">{{ $similarjob->title }}</p>
                         <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
 
                         @if(!empty($similarjob->getJobExperience()))

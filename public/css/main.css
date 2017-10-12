@@ -10329,6 +10329,33 @@ input[type='checkbox'].remove-addr {
   font-size: 0.9em;
   color: #27b7b0;
 }
+.job-pending-review {
+  background-color: transparent;
+  margin-bottom: 0;
+  padding: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.job-pending-review .pre-benefits__content {
+  padding-left: 0;
+}
+.job-pending-review .pre-benefits__intro {
+  text-align: center;
+}
+.job-pending-review .pre-benefits__title {
+  color: #6b6b6b;
+  line-height: 1.5;
+}
+.job-pending-review .upgrade {
+  border-color: transparent;
+  font-size: 0.85em;
+  margin-top: 0.6em;
+  border-radius: 0;
+  padding: 0.5em 1em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

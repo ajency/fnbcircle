@@ -198,14 +198,6 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
 
     return $contactInfo;
 }
-
-function isAdmin()
-{
-    if(Auth::check() && Auth::user()->hasRole('superadmin'))
-        return true;
-    else
-        return false;
-}
  
 
 function moneyFormatIndia($amount){

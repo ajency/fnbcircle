@@ -56,8 +56,7 @@ class JobSingleView extends Model
 
     	$cities = $this->job->getJobLocationNames('city');
     	$jobCompany = $this->job->getJobCompany();
-        $metaData = $this->job->meta_data;
-        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $jobExperience =  $this->job->getJobExperience();
 
         $experienceStr = (!empty($jobExperience)) ? ' | '. implode(', ', $jobExperience) .' years of experience':''; 
     	return $this->job->title .' | '.implode(', ', $cities).' | '. $jobCompany ->name.' | '. $this->job->getJobCategoryName().$experienceStr.'| Fnb Circle ';
@@ -107,5 +106,54 @@ class JobSingleView extends Model
         $breadcrumbs[] = ['url'=>'', 'name'=> $this->job->title];
 
         return $breadcrumbs;
+    }
+
+    /**
+	will return array of ld-json data required on page
+    */
+    public function getLdJson(){
+    	$ldJson['job_posting'] = $this->jobPostingLdJson();
+
+    	return $ldJson;
+    }
+
+ 
+    public function jobPostingLdJson(){
+    	$jobExperience =  $this->job->getJobExperience();
+    	$cities = $this->job->getJobLocationNames('city');
+    	$jobCompany = $this->job->getJobCompany();
+
+
+    	$organizationData['@type'] = "Organization";
+    	if(!empty($jobCompany->website)){
+    		$organizationData['url'] = $jobCompany->website;
+    	}
+    	$organizationData['@type'] = $jobCompany->name;
+
+
+    	$data['@context'] = 'http://schema.org';
+    	$data['@type'] = 'JobPosting';
+    	$data['datePosted'] = $this->job->jobPublishedOn(1);
+    	$data['description'] = $this->job->getMetaDescription();
+
+    	if(!empty($jobExperience)){
+    		$experienceStr = implode(', ', $jobExperience);
+    		$data['experienceRequirements'] = $experienceStr;
+    	}
+
+    	$data['industry'] = $this->job->getJobCategoryName();
+    	$data['jobLocation'] = ['@type' => "Place",
+    							'address' => ['@type'=> "PostalAddress",
+    										  'addressLocality'=> implode(', ', $cities),
+    										  'addressRegion'=> 'IN',
+    										  'addressCountry'=> 'IN',
+    										]
+    							];
+    	$data['hiringOrganization'] = $organizationData;
+    	$data['occupationalCategory'] = $this->job->getJobCategoryName();
+    	$data['skills'] = $this->job->getAllJobKeywords();
+    	$data['title'] = $this->job->title;
+
+    	return $data;
     }
 }

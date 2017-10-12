@@ -1,5 +1,13 @@
 @extends('layouts.single-view')
 @section('title', $pageName )
+
+@php
+$additionalData = ['job'=>$job];
+@endphp
+
+@section('openGraph')
+{!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
+@endsection
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
@@ -15,15 +23,11 @@
     });
     </script> 
     @endif 
+
+    {!! getPageLdJson('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 
-@section('openGraph')
-@php
-$additionalData = ['job'=>$job];
-@endphp
-{!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 
-@endsection
 
 @section('single-view-data')
 <div class="container">
@@ -31,7 +35,7 @@ $additionalData = ['job'=>$job];
       <div class="col-sm-8  flex-col">
          <!-- Breadcrums -->
           
-         {!! getLdJson('App\Seo\JobSingleView',$additionalData) !!}
+         {!! getPageBreadcrum('App\Seo\JobSingleView',$additionalData) !!}
 
          <!-- Breadcrums ends -->
       </div>

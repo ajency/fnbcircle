@@ -112,10 +112,10 @@ class Job extends Model
     	return $experience;
     }
 
-    public function getJobExperience($id){
-    	$experienceData = $this->jobExperience();
-    	$experience = $experienceData[$id];
-    	return $experience;
+    public function getJobExperience(){
+    	$metaData = $this->meta_data;
+        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+    	return $jobExperience;
     }
 
     public function salaryTypes(){
@@ -189,11 +189,7 @@ class Job extends Model
         $jobCompany = $this->getJobCompany();
         $jobRoles = $this->getAllJobKeywords();
         $jobTypes = $this->getJobTypes();
-
-
-
-        $metaData = $this->meta_data;
-        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $jobExperience =  $this->getJobExperience();
 
         $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
         $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->name;

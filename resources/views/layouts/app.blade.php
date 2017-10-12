@@ -34,7 +34,8 @@
     </script>
 </head>
 
-<body class="nav-md">
+<body class="overflow-hidden nav-md">
+    <div class="page-shifter animate-row">
     <!-- header -->
     <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
@@ -166,6 +167,7 @@
     <!-- content -->
     @yield('content')
 
+    </div>
     <!-- Modals -->
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())

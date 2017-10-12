@@ -1,4 +1,4 @@
-@extends('layouts.single-view')
+@extends('layouts.app')
 @section('title', $data['pagetitle'] )
 @section('css')
     @parent
@@ -33,9 +33,9 @@
     @include('single-view.metatags')
 @endsection
 
-@section('single-view-data')
+@section('content')
     @include('single-view.listing_SEO')
-    <div class="page-shifter animate-row">
+    <!-- <div class="page-shifter animate-row"> -->
         <div class="single-view-head">
          <div class="container">
             <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
@@ -798,7 +798,7 @@
                 </div>  
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 
 @if(Session::has('statusChange'))
                 <!-- listing review -->

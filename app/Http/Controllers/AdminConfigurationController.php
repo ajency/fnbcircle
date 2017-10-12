@@ -805,7 +805,7 @@ class AdminConfigurationController extends Controller
          
 
             $cityNames = $job->getJobLocationNames('city');
-            $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
+            $cityNamesStr = (!empty($cityNames)) ? implode("<br>", $cityNames) :'';
 
             $metaData = $job->meta_data;
             $keyWords = (!empty($metaData['job_keyword'])) ? $metaData['job_keyword'] : []; 

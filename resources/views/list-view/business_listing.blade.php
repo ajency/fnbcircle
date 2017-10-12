@@ -46,6 +46,7 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
+                                        <input type="hidden" value="" class="form-control fnb-select flexdatalist" name="area_hidden" id="area"/>
                                         <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 
@@ -261,9 +262,13 @@ List View
             </div>
         </div>
 
+        <div id="pagination">
+            {!! $paginate !!}
+        </div>
         <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button>
 
         <div class="site-overlay"></div>
     </div>
+
 @endsection
 <!-- </body> -->

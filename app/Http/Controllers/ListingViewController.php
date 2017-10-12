@@ -37,7 +37,7 @@ class ListingViewController extends Controller
         $pagedata['updates']=$listing->updates()->orderBy('updated_at','desc')->first();
         // dd($pagedata['updates']->getImages());
         if($listing->status == 1){
-            $pagedata['publish_date'] = $listing->published_on->format('jS F Y');
+            $pagedata['publish_date'] = $listing->published_on->format('F j, Y');
             $pagedata['rating'] = '50';
             $pagedata['views'] = $listing->views_count;
             $pagedata['verified'] = ($listing->verified == 1)? true : false;    

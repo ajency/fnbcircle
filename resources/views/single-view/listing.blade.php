@@ -139,21 +139,12 @@
                                         </div>
                                         @endif
                                         @endisset
-                                    </div>
+                                     </div>
                                     <label class="fnb-label wholesaler flex-row">
+                                        <a href="#">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                        {{$data['type']}}
+                                        {{$data['type']}}</a>
                                     </label>
-                                    
-                                    <!-- <div class="verified-toggle flex-row">
-                                        <p class="m-b-0 text-color mobile-hide">Un-Verified</p>
-                                        <div class="toggle m-l-10 m-r-10">
-                                          <input type="checkbox" class="toggle__check">
-                                          <b class="switch"></b>
-                                          <b class="track"></b>
-                                        </div>
-                                        <p class="m-b-0 text-color toggle-state">Verified</p>
-                                    </div> -->
                                 </div>
                                 @isset($data['operationAreas'])
                                 <div class="operations p-t-5">
@@ -261,46 +252,52 @@
                                 <li class="nav-section"><a href="#business">Similar Businesses</a></li>
                             </ul>
                         </div>
-                        <!-- tabs structure ends -->
-                        <!-- updates section -->
-                        <div class="update-sec m-t-30" id="updates">
-                            <!-- <div class="update-sec__header flex-row update-space">
-                                <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
-                                <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
-                            </div> -->
-                            <div class="update-sec__body update-space">
-        
-                                <h6 class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </h6>
-                                <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
-                                <p class="update-sec__caption text-lighter">
-                                    {{$data['updates']->contents}}
-                                </p>
-                                <ul class="flex-row update-img">
-                                @php $photos = $data['updates']->getImages(); @endphp
-                                    @foreach($photos as $photo)
-                                    <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
-                                    @endforeach
-                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a></p>
-                            </div>
+
+                    <!-- tabs structure ends -->
+                    <!-- updates section -->
+                     <div class="update-sec m-t-30" id="updates">
+                        <!-- <div class="update-sec__header flex-row update-space">
+                            <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
+                            <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
+                        </div> -->
+                        <div class="update-sec__body update-space">
+    
+                            <h6 class="element-title update-sec__heading m-t-15 bolder">
+                                {{$data['title']['name']}} recent updates
+                            </h6>
+                            <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
+                            <p class="update-sec__caption text-lighter">
+                                {{$data['updates']->contents}}
+                            </p>
+                            <ul class="flex-row update-img">
+                            @php $photos = $data['updates']->getImages(); @endphp
+                                @foreach($photos as $photo)
+                                <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
+                                @endforeach
+                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                            </ul>
+                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a></p>
                         </div>
-                        <!-- updates section ends -->
-                        @isset($data['categories'])
-                        <!-- listed -->
-                        <div class="listed p-t-20 p-b-10" id="listed">
-                            <h3 class="element-title">Also Listed In</h3>
-                            @foreach($data['categories'] as $category)
-                            <div class="listed__section flex-row">
-                                <div class="parent-cat flex-row">
-                                    <span class="fnb-icons cat-icon meat m-r-15"></span>
-                                    <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
-                                </div>
-                                <div class="child-cat">
-                                    <p class="child-cat__title cat-size">{{$category['branch']}}</p>
+                    </div>
+                    <!-- updates section ends -->
+                    @isset($data['categories'])
+                    <!-- listed -->
+                    <div class="listed p-t-20 p-b-10" id="listed">
+                        <h3 class="element-title">Also Listed In</h3>
+                        @foreach($data['categories'] as $category)
+                        <div class="listed__section flex-row">
+                            <div class="parent-cat flex-row">
+                                <span class="fnb-icons cat-icon">
+                                    <img src="{{$category['image-url']}}">
+                                </span>
+                                <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
+                            </div>
+                            <div class="child-cat">
+                                <p class="child-cat__title cat-size">{{$category['branch']}}</p>
+
+                            
+                        
                                 </div>
                                 <ul class="fnb-cat flex-row">
                                     @foreach($category['nodes'] as $node)
@@ -319,8 +316,7 @@
                         <div class="brands p-t-20 p-b-20" >
                             <p class="element-title m-b-20">{{$data['title']['name']}} Brands</p>
                             <ul class="brands__list flex-row">
-                                @foreach($data['brands'] as $brand)
-                                <li class="flex-row">
+                                @foreach($data['brands'] as $brand)<li class="flex-row">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
                                     <span class="fnb-icons tags"></span>
                                     <p class="sub-title">{{$brand}}</p>
@@ -329,15 +325,15 @@
                             </ul>
                         </div>
                         <!-- Brands ends -->
-                        @endisset
-                        @isset($data['overview'])
-                        <div id="overview">
-                            @isset($data['highlights'])
-                            <!-- Highlights -->
-                            <div class="highlights p-t-20 p-b-20">
-                                <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights of {{$data['title']['name']}}</h3>
-                                <ul class="highlights__points">
-                                    @foreach($data['highlights'] as $highlight)
+                    @endisset
+                    @isset($data['overview'])
+                    <div id="overview">
+                        @isset($data['highlights'])
+                        <!-- Highlights -->
+                        <div class="highlights p-t-20 p-b-20">
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h3>
+                            <ul class="highlights__points">
+                                @foreach($data['highlights'] as $highlight)
                                     <li class="flex-row">
                                         <!-- <img src="img/check.png" alt="" class="img-responsive check p-r-10"> -->
                                         <i class="element-title fa fa-check text-lighter p-r-10" aria-hidden="true"></i>
@@ -349,83 +345,85 @@
                             </div>
                             <!-- highlights ends -->
                             @endisset
-                            @isset($data['description'])
-                            <!-- Description -->
-                            <div class="description p-t-20 p-b-20">
-                                <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
-                                <p class="sub-title description__detail">{{$data['description']}}</p>
-                            </div>
-                            <!-- Description ends -->
-                            @endisset
-                            <!-- more-details -->
-                            <div class="more-details p-t-20 p-b-20">
-                                <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
-                                <div class="detail-1 flex-row m-t-25 m-b-25">
+                           
+                        @isset($data['description'])
+                        <!-- Description -->
+                        <div class="description p-t-20 p-b-20">
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
+                            <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
+                        </div>
+                        <!-- Description ends -->
+                        @endisset
+                        <!-- more-details -->
+                        <div class="more-details p-t-20 p-b-20">
+                            <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
+                            <div class="detail-1 flex-row m-t-25 m-b-25">
 
-                                    @isset($data['established'])
-                                    <div class="year">
-                                        <p class="element-title heavier m-b-20">Year of establishment</p>
-                                        <p class="sub-title lighter">{{$data['established']}} </p>
-                                    </div>
-                                    @endisset
-                                    @isset($data['website'])
-                                    <div class="site">
-                                        <p class="element-title heavier m-b-10">Website</p>
-                                        <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
-                                    </div>
-                                    @endisset
-                                </div>
-                                @if(isset($data['showHours']) and $data['showHours'] == 1)
-                                <div class="detail-2 flex-row m-t-25 m-b-25">
-                                    <div class="operation">
-                                        <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
-                                        <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
-                                        @foreach($data['hours'] as $day)
-                                       <br> {{$day['day']}} {{$day['timing']}} 
-                                        @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
-                                    </div>
-                                </div>
-                                @endif
-                                @isset($data['address'])
-                                <div class="detail-3 flex-row m-t-25 m-b-25">
-                                    <div class="address">
-                                        <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
-                                        <p class="sub-title lighter">{{$data['address']}}</p>
-                                    </div>
+                                @isset($data['established'])
+                                <div class="year">
+                                    <p class="element-title heavier m-b-20">Year of establishment</p>
+                                    <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset
-                                @isset($data['location'])
-                                <div class="detail-4 flex-row m-t-25 m-b-25">
-                                    <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
-                                    <script type="text/javascript">
-                                        function initMap() {
-                                            var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
-                                            var map = new google.maps.Map(document.getElementById('map'), {
-                                              zoom: 12,
-                                              center: uluru
-                                            });
-                                            var marker = new google.maps.Marker({
-                                              position: uluru,
-                                              map: map
-                                            });
+                                @isset($data['website'])
+                                <div class="site">
+                                    <p class="element-title heavier m-b-10">Website</p>
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                </div>
+                                @endisset
+                            </div>
+                            @if(isset($data['showHours']) and $data['showHours'] == 1)
+                            <div class="detail-2 flex-row m-t-25 m-b-25">
+                                <div class="operation">
+                                    <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
+                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
+                                    @foreach($data['hours'] as $day)
+                                   <br> {{$day['day']}} {{$day['timing']}} 
+                                    @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
+                                </div>
+                            </div>
+                            @endif
+                            @if(isset($data['address']) or isset($data['location']))
+                            <div class="detail-3 flex-row m-t-25 m-b-25">
+                                <div class="address">
+                                    <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
+                                    @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
+                                </div>
+                            </div>
+                            @endif
+                            @isset($data['location'])
+                            <div class="detail-4 flex-row m-t-25 m-b-25">
+                                <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
+                                <script type="text/javascript">
+                                    function initMap() {
+                                        var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
+                                        var map = new google.maps.Map(document.getElementById('map'), {
+                                          zoom: 17,
+                                          center: uluru
+                                        });
+                                        var marker = new google.maps.Marker({
+                                          position: uluru,
+                                          map: map
+                                        });
+                                      }
+                                    window.onload = function() {
+                                        $.ajax({
+                                          type: 'post',
+                                          url: '/get-map-key',
+                                          success: function(data) {
+                                            var newScript, src;
+                                            key = data['key'];
+                                            newScript = document.createElement('script');
+                                            newScript.type = 'text/javascript';
+                                            newScript.src = src = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
+                                            newScript.async = true;
+                                            newScript.defer = true;
+                                            document.getElementsByTagName('head')[0].appendChild(newScript);
                                           }
-                                        window.onload = function() {
-                                            $.ajax({
-                                              type: 'post',
-                                              url: '/get-map-key',
-                                              success: function(data) {
-                                                var newScript, src;
-                                                key = data['key'];
-                                                newScript = document.createElement('script');
-                                                newScript.type = 'text/javascript';
-                                                newScript.src = src = 'https://maps.googleapis.com/maps/api/js?key=' + key + '&callback=initMap';
-                                                newScript.async = true;
-                                                newScript.defer = true;
-                                                document.getElementsByTagName('head')[0].appendChild(newScript);
-                                              }
-                                            });
-                                          };
-                                    </script>
+                                        });
+                                      };
+                                </script>
+
                                 </div>
                                 @endisset
                                 @isset($data['payments'])

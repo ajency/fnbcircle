@@ -560,6 +560,9 @@ table.dataTable tr th.selected.select-checkbox:after {
 .city-select .sort-icon {
   display: none;
 }
+.man-status-col .multiselect-container.dropdown-menu {
+  left: -108px;
+}
 .multiselect.multiselect {
   border: 0;
   width: auto;

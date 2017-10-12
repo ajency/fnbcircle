@@ -381,10 +381,12 @@ class Job extends Model
     public function publishJob(){
         
         $this->status = 3;
-        if($this->slug =="")
+        if($this->slug ==""){
             $this->slug = $this->getJobSlug();
-            $this->published_on = date('Y-m-d H:i:');
+            $this->published_on = date('Y-m-d H:i:s');
             $this->published_by = Auth::user()->id;
+        }
+            
         $this->save();
 
         if(!empty($this->getJobCompany())){

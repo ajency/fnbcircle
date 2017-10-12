@@ -270,7 +270,9 @@
                         @foreach($data['categories'] as $category)
                         <div class="listed__section flex-row">
                             <div class="parent-cat flex-row">
-                                <span class="fnb-icons cat-icon meat m-r-15"></span>
+                                <span class="fnb-icons cat-icon">
+                                    <img src="{{$category['image-url']}}">
+                                </span>
                                 <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
                             </div>
                             <div class="child-cat">

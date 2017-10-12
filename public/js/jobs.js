@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo;
+  var Applybtn, Articles, companyLogo, getID;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -329,6 +329,15 @@
   }
 
   $('[data-toggle="tooltip"]').tooltip();
+
+  if ($(window).width() > 769) {
+    getID = $('.gs-form .tab-pane').attr('id');
+    $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+  }
 
   $('.add-job-areas').click(function(e) {
     var area_group, area_group_clone;

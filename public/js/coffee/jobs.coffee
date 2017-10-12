@@ -345,7 +345,17 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
- 
+
+# Get id add active
+
+if $(window).width() > 769
+  getID = $('.gs-form .tab-pane').attr('id')
+  $('.gs-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return 
+
+
 
 $('.add-job-areas').click (e) ->
   area_group = undefined

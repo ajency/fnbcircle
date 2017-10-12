@@ -796,7 +796,7 @@
                             </div>
                         </div> -->
                     </div>
-                    <div class="page-sidebar__footer">abcd</div>
+                    <div class="page-sidebar__footer"></div>
                 </div>  
             </div>
         </div>

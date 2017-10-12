@@ -22,7 +22,7 @@ class CreatePlanAssociationTable extends Migration
             $table->timestamp('approval_date')->nullable();
             $table->timestamp('billing_start')->nullable();
             $table->timestamp('billing_end')->nullable();
-            $table->int('status')->default(0);
+            $table->integer('status')->default(0);
 
         });
        

@@ -384,7 +384,7 @@
               
                @if($job->interview_location!="")
                <div class="job-summary job-points">
-                  <h6 class="sub-title m-b-15">Address/Map</h6>
+                  <h6 class="sub-title m-b-15">Map address of Interview Location</h6>
                   <div class="text-color stable-size">
                       
                       <div class="m-t-10" id="map" map-title="your interview location" show-address="yes">

@@ -9781,9 +9781,8 @@ input[type='checkbox'].remove-addr {
 }
 .job-points {
   margin-top: 1em;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eee
   /* border-bottom: 1px solid #eee; */
-  padding: 1em;
 }
 .job-points .stable-size {
   line-height: 1.5;

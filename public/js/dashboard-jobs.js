@@ -303,7 +303,7 @@
       button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
     },
     enableFiltering: true,
-    enableCaseInsensitiveFiltering: false
+    enableCaseInsensitiveFiltering: true
   });
 
   $('.date-range').daterangepicker({

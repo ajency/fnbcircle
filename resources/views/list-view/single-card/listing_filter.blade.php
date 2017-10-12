@@ -5,14 +5,14 @@
     </div>
     <div class="results__body filter-row">
         <ul class="contents">
-            @if(strlen($filter_data['category']['node_categories']) > 0)
+            @if(isset($filter_data['category']['node_categories']))
                 <input type="hidden" id="current_category" name="" value="{{ $filter_data['category']['node_categories'] }}">
             @else
-                <input type="hidden" id="current_category" name="" value="0|[]">
+                <input type="hidden" id="current_category" name="" value="|[]">
             @endif
             <li class="branch">
                 @if(strlen($filter_data["category"]["name"]) > 0)
-                    <p class="default-size"><a href="" class="text-darker" value="0|[]"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> Reset categories </a></p>
+                    <p class="default-size"><a href="" class="text-darker" value="|[]"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> All categories </a></p>
                 @endif
                 @foreach($filter_data["category"]["parent"] as $cat_parent_index => $cat_parent_value)
                     <p class="default-size"><a href="" class="text-darker" value="{{ $cat_parent_value['node_categories'] }}"><i class="fa fa-angle-left p-r-5 arrow" aria-hidden="true"></i> {{ $cat_parent_value["name"] }} </a></p>
@@ -62,7 +62,7 @@
             <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search an area">
         </div>
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
+            <label class="sub-title flex-row clear {{ sizeof($filter_data['areas_selected']) > 0 ? '' : 'hidden' }}">
                 <a href="" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
@@ -99,8 +99,8 @@
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-business">
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
-                <a href="" class="text-color">
+            <label class="sub-title flex-row clear {{ $filter_data['business_type']['check_count'] > 0 ? '' : 'hidden' }}">
+                <a href="#" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
                 </a>
@@ -122,7 +122,7 @@
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-list-status">
         <div class="check-section">
-            <label class="sub-title flex-row clear hidden">
+            <label class="sub-title flex-row clear {{ $filter_data['listing_status']['check_count'] > 0 ? '' : 'hidden' }}">
                 <a href="" class="text-color">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>

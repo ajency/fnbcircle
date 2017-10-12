@@ -105,43 +105,43 @@
     <div class="m-t-20 c-gap hours-list @if($listing->show_hours_of_operation != '1') disable-hours @endif ">
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Monday</span>
-                <select class="fnb-select border-bottom form-control text-lighter monday" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[0]->closed == "1" ) disabled="disabled" @endif >
-                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[0])}} @else {{getOperationTime()}} @endif
+                <span class="hours_day heavier">Sunday</span>
+                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[0]->closed == "1" ) disabled="disabled" @endif >
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[0])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter monday" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[0]->closed == "1" or $listing->operationTimings[0]->open24 == "1" )) disabled="disabled" @endif >
-                    @if(isset($listing->operationTimings[0])){{getOperationTime($listing->operationTimings[0],"to")}} @else {{getOperationTime(null,"to")}} @endif
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[0]->closed == "1" or $listing->operationTimings[0]->open24 == "1" )) disabled="disabled" @endif >
+                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[0],"to")}} @else {{getOperationTime(null,"to")}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
-                    <input type="checkbox" class="checkbox monday" id="closed" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[0]->closed == "1" ) checked="checked" @endif > Closed
+                    <input type="checkbox" class="checkbox" id="closed" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[0]->closed == "1" ) checked="checked" @endif > Closed
+                </label>
+            </div>
+        </div>
+        <div class="flex-row c-gap m-t-10 day-hours">
+            <div class="flex-row hours-section open-1">
+                <span class="hours_day heavier">Monday</span>
+                <select class="fnb-select border-bottom form-control text-lighter monday" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[1]->closed == "1" ) disabled="disabled" @endif >
+                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1])}} @else {{getOperationTime()}} @endif
+                </select>
+            </div>
+            <span class="p-r-30 no-padding">To</span>
+            <div class="flex-row hours-section open-2">
+                <select class="fnb-select border-bottom form-control text-lighter monday" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[1]->closed == "1" or $listing->operationTimings[1]->open24 == "1" )) disabled="disabled" @endif >
+                    @if(isset($listing->operationTimings[0])){{getOperationTime($listing->operationTimings[1],"to")}} @else {{getOperationTime(null,"to")}} @endif
+                </select>
+                <label class="flex-row text-medium p-r-15 closed-label m-b-0">
+                    <input type="checkbox" class="checkbox monday" id="closed" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[1]->closed == "1" ) checked="checked" @endif > Closed
                 </label>
             </div>
         </div>
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
                 <span class="hours_day heavier">Tuesday</span>
-                <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[1]->closed == "1" ) disabled="disabled" @endif >
-                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1])}} @else {{getOperationTime()}} @endif
-                </select>
-            </div>
-            <span class="p-r-30 no-padding">To</span>
-            <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[1]->closed == "1" or $listing->operationTimings[1]->open24 == "1" )) disabled="disabled" @endif >
-                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[1],"to")}} @else {{getOperationTime(null,"to")}} @endif
-                </select>
-                <label class="flex-row text-medium p-r-15 closed-label m-b-0">
-                    <input type="checkbox" class="checkbox" id="closed" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[1]->closed == "1" ) checked="checked" @endif > Closed
-                </label>
-            </div>
-        </div>
-        <div class="flex-row c-gap m-t-10 day-hours">
-            <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Wednesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[2]->closed == "1" ) disabled="disabled" @endif >
-                  @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[2])}} @else {{getOperationTime()}} @endif
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[2])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
@@ -156,9 +156,9 @@
         </div>
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Thursday</span>
+                <span class="hours_day heavier">Wednesday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[3]->closed == "1" ) disabled="disabled" @endif >
-                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[3])}} @else {{getOperationTime()}} @endif
+                  @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[3])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
@@ -173,14 +173,14 @@
         </div>
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Friday</span>
+                <span class="hours_day heavier">Thursday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[4]->closed == "1" ) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[4])}} @else {{getOperationTime()}} @endif
                 </select>
             </div>
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
-                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[4]->closed == "1" or $listing->operationTimings[4]->open24 == "1" )) disabled="disabled" @endif >
+                <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[3]->closed == "1" or $listing->operationTimings[4]->open24 == "1" )) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[4],"to")}} @else {{getOperationTime(null,"to")}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
@@ -188,10 +188,9 @@
                 </label>
             </div>
         </div>
-
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Saturday</span>
+                <span class="hours_day heavier">Friday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[5]->closed == "1" ) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[5])}} @else {{getOperationTime()}} @endif
                 </select>
@@ -209,7 +208,7 @@
 
         <div class="flex-row c-gap m-t-10 day-hours">
             <div class="flex-row hours-section open-1">
-                <span class="hours_day heavier">Sunday</span>
+                <span class="hours_day heavier">Saturday</span>
                 <select class="fnb-select border-bottom form-control text-lighter" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[6]->closed == "1" ) disabled="disabled" @endif >
                     @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6])}} @else {{getOperationTime()}} @endif
                 </select>
@@ -217,13 +216,15 @@
             <span class="p-r-30 no-padding">To</span>
             <div class="flex-row hours-section open-2">
                 <select class="fnb-select border-bottom form-control text-lighter" @if(!isset($listing->operationTimings[0]) or ($listing->operationTimings[6]->closed == "1" or $listing->operationTimings[6]->open24 == "1" )) disabled="disabled" @endif >
-                   @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6],"to")}} @else {{getOperationTime(null,"to")}} @endif
+                    @if(isset($listing->operationTimings[0])) {{getOperationTime($listing->operationTimings[6],"to")}} @else {{getOperationTime(null,"to")}} @endif
                 </select>
                 <label class="flex-row text-medium p-r-15 closed-label m-b-0">
                     <input type="checkbox" class="checkbox" id="closed" @if(isset($listing->operationTimings[0]) and $listing->operationTimings[6]->closed == "1" ) checked="checked" @endif > Closed
                 </label>
             </div>
         </div>
+
+        
     </div>
     <div class="m-t-20 m-b-20 c-gap">
         <div>

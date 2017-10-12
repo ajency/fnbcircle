@@ -518,7 +518,14 @@
                   @if($job->canEditJob())
                      <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
-                  <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+
+                    @if(Auth::check())
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                    @else
+                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                    <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                    </a>
+                    @endif
                   
                   <!-- <h1 class="m-b-0">20</h1> -->
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>

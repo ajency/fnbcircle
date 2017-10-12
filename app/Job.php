@@ -281,6 +281,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
 
@@ -306,6 +312,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->published_on)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->published_on)));
 
@@ -320,6 +332,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->updated_at)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->updated_at)));
 

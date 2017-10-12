@@ -147,7 +147,10 @@
     $('.date-to').val('');
     $('.date-range').val('');
     $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
+      $(this).multiselect('deselectAll', false).change();
+      return $('.admin-job-role-search').each(function() {
+        return $(this).multiselect('deselectAll', false).change();
+      });
     });
     jobsTable.ajax.reload();
   });

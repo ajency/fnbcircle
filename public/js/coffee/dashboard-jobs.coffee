@@ -109,6 +109,10 @@ $('body').on 'click', '.reset-filters', ->
 
   $('.multi-dd').each ->
     $(this).multiselect('deselectAll',false).change()
+
+    $('.admin-job-role-search').each ->
+      $(this).multiselect('deselectAll',false).change()
+ 
   jobsTable.ajax.reload()
   return
   

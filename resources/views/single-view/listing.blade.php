@@ -327,7 +327,7 @@
                         <!-- Description -->
                         <div class="description p-t-20 p-b-20">
                             <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
-                            <p class="sub-title description__detail">{{$data['description']}}</p>
+                            <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
                         </div>
                         <!-- Description ends -->
                         @endisset

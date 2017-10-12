@@ -139,8 +139,9 @@
                                     @endisset
                                 </div>
                                 <label class="fnb-label wholesaler flex-row">
+                                    <a href="#">
                                     <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                    {{$data['type']}}
+                                    {{$data['type']}}</a>
                                 </label>
                                 
                                 <!-- <div class="verified-toggle flex-row">

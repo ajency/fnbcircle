@@ -197,9 +197,9 @@
                        <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
-                    @if($job->jobPublishedOn()!='')
+                    <!-- @if($job->jobPublishedOn()!='')
                     <div class="pusblished-date text-color lighter text-right x-small hidden ">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
-                    @endif
+                    @endif -->
                   </div>
                   <div class="flex-row space-between jobs-head-title">
                      <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>

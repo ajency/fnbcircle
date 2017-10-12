@@ -354,7 +354,7 @@ class Job extends Model
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->published_on)));
             elseif($format==2){
-                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->published_on)));
                 $splitDate = explode('~*~', $dateFormat);
                 $date = $splitDate[0].'<br>'.$splitDate[1];
 
@@ -378,7 +378,7 @@ class Job extends Model
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->updated_at)));
             elseif($format==2){
-                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->updated_at)));
                 $splitDate = explode('~*~', $dateFormat);
                 $date = $splitDate[0].'<br>'.$splitDate[1];
 
@@ -422,10 +422,12 @@ class Job extends Model
     public function publishJob(){
         
         $this->status = 3;
-        if($this->slug =="")
+        if($this->slug ==""){
             $this->slug = $this->getJobSlug();
-            $this->published_on = date('Y-m-d H:i:');
+            $this->published_on = date('Y-m-d H:i:s');
             $this->published_by = Auth::user()->id;
+        }
+            
         $this->save();
 
         if(!empty($this->getJobCompany())){

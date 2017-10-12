@@ -417,7 +417,7 @@ $additionalData = ['job'=>$job];
                         <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
 
                         @if(!empty($similarjob->getJobExperience()))
-                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">{{ implode(',',$similarjob->getJobExperience()) }} years</span></p>
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">{{ implode(' years ,',$similarjob->getJobExperience()) }} years</span></p>
                         @endif
                     </div>
                   </div>

@@ -331,7 +331,7 @@ if $(window).width() <= 768
   ), 500
   Applybtn = $('.applyJob').detach()
   $('.detachsection').after Applybtn
-  Articles = $('.related-article').detach()
+  Articles = $('.related-article,.similar-business').detach()
   $('.list-of-business').after Articles
 
 $('[data-toggle="tooltip"]').tooltip()
@@ -345,7 +345,17 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
- 
+
+# Get id add active
+
+if $(window).width() > 769
+  getID = $('.gs-form .tab-pane').attr('id')
+  $('.gs-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return 
+
+
 
 $('.add-job-areas').click (e) ->
   area_group = undefined
@@ -365,3 +375,15 @@ $('.add-job-areas').click (e) ->
     nonSelectedText: 'Select City'
   area_group_clone.insertBefore area_group
   return
+
+
+
+if $('.readMore').length
+  $('.readMore').readmore
+    speed: 75
+    collapsedHeight: 40
+    lessLink: '<a href="#">Read less</a>'
+
+
+
+

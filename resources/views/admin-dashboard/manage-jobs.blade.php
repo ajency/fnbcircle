@@ -104,7 +104,7 @@
                     <tr>
                       <!--<th class="no-sort update-checkbox " width="2%"> 
                        <input type='checkbox' class="hidden" name='job_check_all'></th> -->
-                      <th class="no-sort" data-col="5" width="10%">
+                      <th class="no-sort city-select" data-col="5" width="10%">
                           State
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">
                             @foreach ($cities as $city)
@@ -137,7 +137,7 @@
                       <th>Published Date</th>
                       <th>Last Updated on</th>
                       <th>Last Updated By</th>
-                      <th class="no-sort" data-col="9">
+                      <th class="no-sort man-status-col" data-col="9">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd  jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)

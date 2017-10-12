@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo;
+  var Applybtn, Articles, companyLogo, getID;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -324,11 +324,20 @@
     }), 500);
     Applybtn = $('.applyJob').detach();
     $('.detachsection').after(Applybtn);
-    Articles = $('.related-article').detach();
+    Articles = $('.related-article,.similar-business').detach();
     $('.list-of-business').after(Articles);
   }
 
   $('[data-toggle="tooltip"]').tooltip();
+
+  if ($(window).width() > 769) {
+    getID = $('.gs-form .tab-pane').attr('id');
+    $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+  }
 
   $('.add-job-areas').click(function(e) {
     var area_group, area_group_clone;
@@ -350,5 +359,13 @@
     });
     area_group_clone.insertBefore(area_group);
   });
+
+  if ($('.readMore').length) {
+    $('.readMore').readmore({
+      speed: 75,
+      collapsedHeight: 40,
+      lessLink: '<a href="#">Read less</a>'
+    });
+  }
 
 }).call(this);

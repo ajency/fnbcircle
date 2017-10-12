@@ -41,16 +41,16 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'status' , "orderable": false}
   ]
   "columnDefs": [
-    { "width": "100px", "targets": 0 }    
-    { "width": "150px", "targets": 1 }  
-    { "width": "150px", "targets": 2 }  
-    { "width": "300px", "targets": 3 }
-    { "width": "150px", "targets": 4 }
-    { "width": "150px", "targets": 5 }
-    { "width": "150px", "targets": 6 }
-    { "width": "150px", "targets": 7 }
-    { "width": "150px", "targets": 8 }
-    { "width": "120px", "targets": 9 }
+    { "width": "60px", "targets": 0 }    
+    { "width": "90px", "targets": 1 }  
+    { "width": "120px", "targets": 2 }  
+    { "width": "140px", "targets": 3 }
+    { "width": "120px", "targets": 4 }
+    { "width": "100px", "targets": 5 }
+    { "width": "100px", "targets": 6 }
+    { "width": "100px", "targets": 7 }
+    { "width": "100px", "targets": 8 }
+    { "width": "70px", "targets": 9 }
   ])
 
 jobsTable.columns().iterator 'column', (ctx, idx) ->
@@ -109,6 +109,10 @@ $('body').on 'click', '.reset-filters', ->
 
   $('.multi-dd').each ->
     $(this).multiselect('deselectAll',false).change()
+
+    $('.admin-job-role-search').each ->
+      $(this).multiselect('deselectAll',false).change()
+ 
   jobsTable.ajax.reload()
   return
   
@@ -269,7 +273,7 @@ $('.admin-job-role-search').multiselect
   maxHeight: 200
   templates: button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
   enableFiltering: true
-  enableCaseInsensitiveFiltering:false
+  enableCaseInsensitiveFiltering: true
 
 $('.date-range').daterangepicker
   autoUpdateInput: false

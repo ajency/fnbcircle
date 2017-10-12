@@ -44,7 +44,7 @@
       <div class="modal-dialog modal-sm" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="text-medium">Confirm</h5>
+                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
               </div>
               <div class="modal-body text-center">
                   <div class="listing-message">

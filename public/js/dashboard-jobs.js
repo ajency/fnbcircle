@@ -62,34 +62,34 @@
     ],
     "columnDefs": [
       {
-        "width": "100px",
+        "width": "60px",
         "targets": 0
       }, {
-        "width": "150px",
+        "width": "90px",
         "targets": 1
       }, {
-        "width": "150px",
+        "width": "120px",
         "targets": 2
       }, {
-        "width": "300px",
+        "width": "140px",
         "targets": 3
       }, {
-        "width": "150px",
+        "width": "120px",
         "targets": 4
       }, {
-        "width": "150px",
+        "width": "100px",
         "targets": 5
       }, {
-        "width": "150px",
+        "width": "100px",
         "targets": 6
       }, {
-        "width": "150px",
+        "width": "100px",
         "targets": 7
       }, {
-        "width": "150px",
+        "width": "100px",
         "targets": 8
       }, {
-        "width": "120px",
+        "width": "70px",
         "targets": 9
       }
     ]
@@ -147,7 +147,10 @@
     $('.date-to').val('');
     $('.date-range').val('');
     $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
+      $(this).multiselect('deselectAll', false).change();
+      return $('.admin-job-role-search').each(function() {
+        return $(this).multiselect('deselectAll', false).change();
+      });
     });
     jobsTable.ajax.reload();
   });
@@ -303,7 +306,7 @@
       button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
     },
     enableFiltering: true,
-    enableCaseInsensitiveFiltering: false
+    enableCaseInsensitiveFiltering: true
   });
 
   $('.date-range').daterangepicker({

@@ -3183,7 +3183,7 @@ input[type='checkbox'].remove-addr{
 	margin-top: 1em;
     border-top: 1px solid #eee;
     /* border-bottom: 1px solid #eee; */
-    padding: 1em;
+    // padding: 1em;
 	.stable-size{
 		line-height: 1.5;
 		font-weight: 300;
@@ -3679,6 +3679,9 @@ input[type='checkbox'].remove-addr{
 		padding: 0.5em;
     	border-bottom: 1px solid #eee;
 	}
+	.modal-body{
+		padding-bottom: 0;
+	}
 	.listing-message{
 		h4{
 			    line-height: 1.5;
@@ -3763,3 +3766,23 @@ input[type='checkbox'].remove-addr{
 	table-layout: fixed;
     word-wrap: break-word;
 }
+
+
+.similar-cat{
+	.fnb-label{
+		padding: 0.3em 0.5em;
+		font-size: 0.9em;
+	}
+}
+
+
+.readMore{
+	span{
+		font-size: 1em
+	}
+	& + a{
+		font-size: 0.9em;
+		color: @accent-secondary;
+	}
+}
+

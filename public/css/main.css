@@ -968,7 +968,7 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .site-loader.section-loader {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
 }
 @media screen and (max-width: 650px) {
   .site-loader.section-loader {
@@ -9781,9 +9781,8 @@ input[type='checkbox'].remove-addr {
 }
 .job-points {
   margin-top: 1em;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #eee
   /* border-bottom: 1px solid #eee; */
-  padding: 1em;
 }
 .job-points .stable-size {
   line-height: 1.5;
@@ -10232,6 +10231,9 @@ input[type='checkbox'].remove-addr {
   padding: 0.5em;
   border-bottom: 1px solid #eee;
 }
+.confirm-box .modal-body {
+  padding-bottom: 0;
+}
 .confirm-box .listing-message h4 {
   line-height: 1.5;
 }
@@ -10299,6 +10301,17 @@ input[type='checkbox'].remove-addr {
 .jobs-table {
   table-layout: fixed;
   word-wrap: break-word;
+}
+.similar-cat .fnb-label {
+  padding: 0.3em 0.5em;
+  font-size: 0.9em;
+}
+.readMore span {
+  font-size: 1em;
+}
+.readMore + a {
+  font-size: 0.9em;
+  color: #27b7b0;
 }
 .profile-stats {
   color: #fff;

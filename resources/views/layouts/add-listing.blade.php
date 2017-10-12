@@ -56,7 +56,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif post-mode ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -107,7 +107,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif ">
+            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif post-mode-shifter">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
                     <h3 class="main-heading m-b-0 m-t-0 white">@if($listing->reference==null)Let's get started! @endif</h3>
                     <!-- <div class="flex-row">

@@ -713,7 +713,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 @media screen and (min-width: 769px) {
   .form-inline .manage-search-box {
-    width: 30%;
+    width: 38%;
     margin-left: 1em;
   }
 }

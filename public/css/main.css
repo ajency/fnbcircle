@@ -9640,6 +9640,11 @@ input[type='checkbox'].remove-addr {
 .job-info .contact__info .fnb-btn {
   width: 35%;
 }
+.job-equal-col {
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+}
 @media screen and (min-width: 769px) {
   .owner-address {
     padding-left: 1em;

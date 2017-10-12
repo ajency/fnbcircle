@@ -366,7 +366,7 @@ $additionalData = ['job'=>$job];
               @endif -->
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
-                    <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
@@ -401,7 +401,7 @@ $additionalData = ['job'=>$job];
             <div class="similar-business p-t-20 p-b-20" id="business">
               <div class="section-start-head m-b-15 flex-row">
                 <h6 class="element-title">Similar Jobs</h6>
-                <a href="" class="secondary-link view-more heavier">View More</a>
+                <a href="#" class="secondary-link view-more heavier">View More</a>
               </div>
               <div class="similar-business__section flex-row">
               @foreach($similarjobs as $similarjob)
@@ -415,12 +415,15 @@ $additionalData = ['job'=>$job];
                     <div class="address">
                         <p class="sub-title heavier">{{ $similarjob->title }}</p>
                         <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
-                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">1 - 4 years</span></p>
+
+                        @if(!empty($similarjob->getJobExperience()))
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">{{ implode(',',$similarjob->getJobExperience()) }} years</span></p>
+                        @endif
                     </div>
                   </div>
                   <div class="business-card__footer flex-row">
                     <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-                    <span class="x-small date lighter">Published on 20 Dec</span>
+                    <span class="x-small date lighter">Published on {{ $similarjob->jobPublishedOn(3) }}</span>
                   </div>
                 </div>
               @endforeach
@@ -464,7 +467,7 @@ $additionalData = ['job'=>$job];
       </div>
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
-            <div class="equal-col">
+            <div class="equal-col job-equal-col">
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->
@@ -475,7 +478,7 @@ $additionalData = ['job'=>$job];
                    @endif
 
                   @if($job->canEditJob())
-                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   

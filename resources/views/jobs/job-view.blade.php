@@ -305,7 +305,7 @@
                     
                 </div>
                 @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
-                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff hidden">
                     <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
                     <!-- contact info -->
                     <div class="card seller-info sell-re collapse" id="contact-data">
@@ -436,7 +436,7 @@
 
 
         @if($similarjobs->count())
-            <div class="similar-business p-t-20 p-b-20" id="business">
+            <div class="similar-business job-similar-business p-t-20 p-b-20" id="business">
               <div class="section-start-head m-b-15 flex-row">
                 <h6 class="element-title">Similar Jobs</h6>
                 <a href="#" class="secondary-link view-more heavier">View More</a>

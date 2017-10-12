@@ -10311,6 +10311,17 @@ input[type='checkbox'].remove-addr {
   padding: 0.3em 0.5em;
   font-size: 0.9em;
 }
+.similar-business.job-similar-business .business-card {
+  margin-bottom: 2em;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 calc(50% - 2em);
+      -ms-flex: 1 0 calc(50% - 2em);
+          flex: 1 0 calc(50% - 2em);
+  max-width: calc(53% - 2em);
+}
+.similar-business.job-similar-business .business-card:nth-child(odd) {
+  margin-right: 2em;
+}
 .readMore span {
   font-size: 1em;
 }

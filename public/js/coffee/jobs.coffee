@@ -331,7 +331,7 @@ if $(window).width() <= 768
   ), 500
   Applybtn = $('.applyJob').detach()
   $('.detachsection').after Applybtn
-  Articles = $('.related-article').detach()
+  Articles = $('.related-article,.similar-business').detach()
   $('.list-of-business').after Articles
 
 $('[data-toggle="tooltip"]').tooltip()

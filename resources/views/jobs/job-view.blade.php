@@ -355,98 +355,12 @@
                           </div>
                           @endif
                           
-                          
-                         <!--  <div class="message flex-row">
-                             <span class="fnb-icons exclamation"></span>
-                             <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
-                          </div> -->
                        </div>
                     </div>
                 </div>
                 @endif
 
 
-                  <!-- job type -->
-
-                  <!-- <div class="stats flex-row m-t-15 owner-info">
-
-                    
-                    @if(!empty($jobTypes))
-                      <div class="job-type">
-                      @foreach($jobTypes as $jobType)
-                       <label class="fnb-label wholesaler flex-row">
-                          {{ $jobType }}
-                       </label>
-                      @endforeach
-                      </div>
-                    @endif
-                    
-
-
-                  </div> -->
-
-<!-- 
-                  <div class="operations p-t-10 flex-row flex-wrap role-selection">
-                     @if(!empty($keywords))
-                       <div class="job-role">
-                          <h6 class="operations__title sub-title">Job Role</h6>
-                          <ul class="cities flex-row">
-
-                            @foreach($keywords as $keyword)
-                             <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
-
-                             </li>
-                             @endforeach
-
-                             @if($moreKeywordCount) -->
-                             <!-- <li class="remain more-show">
-                                <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                             </li> -->
-                             <!-- <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                             @endif
-                            
-                          </ul>
-                       </div>
-                    @endif -->
-
-
-  
-                  
-                   <!--   <div class="off-salary">
-                        <h6 class="operations__title sub-title">Offered Salary</h6>
-
-                        @if($job->salary_lower >="0" && $job->salary_upper > "0" )
-
-                        <div class="text-color lighter">
-                          @if($job->salary_lower == $job->salary_upper )
-                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
-                          @else
-                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
-                          @endif
-                        {{ $job->getSalaryTypeShortForm()}}</div>
- 
-                        @else
-                        <div class="text-color lighter">Not disclosed</div>
-                        @endif
-                     </div> -->
-                    
-
-                 <!--  @if(!empty($experience))
-                     <div class="year-exp">
-                        <h6 class="operations__title sub-title">Years Of Experience</h6>
-                        <div class="flex-row flex-wrap">
-                          @foreach($experience as $exp)
-                           <div class="text-color lighter year-exp">{{ $exp }} years</div>
-                          @endforeach
-                        </div>
-                        
-                     </div>
-                     @endif
-
-                  
-
-                  </div> -->
              </div> 
 
 
@@ -519,100 +433,76 @@
             </div>
             <hr>
             <!-- listed ends -->
-            <!-- Related article section -->
-            <div class="related-article p-b-20" id="article">
-               <div class="section-start-head m-b-15 flex-row">
-                  <h6 class="element-title">Featured News Articles</h6>
-                  <!-- <a href="" class="secondary-link view-more heavier">View More</a> -->
-               </div>
-               <div class="related-article__section equalCol flex-row">
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
+
+
+        @if($similarjobs->count())
+            <div class="similar-business p-t-20 p-b-20" id="business">
+              <div class="section-start-head m-b-15 flex-row">
+                <h6 class="element-title">Similar Jobs</h6>
+                <a href="" class="secondary-link view-more heavier">View More</a>
+              </div>
+              <div class="similar-business__section flex-row">
+              @foreach($similarjobs as $similarjob)
+                <div class="card business-card article-col">
+                  <div class="business-card__body">
+                    <div class="flex-row space-between">
+                      <div class="location main-loc flex-row text-primary m-b-5 similar-cat">
+                         <a href="#" class="location__title x-small fnb-label wholesaler lighter no-decor">{{ $similarjob->getJobCategoryName() }}</a>
+                      </div>
+                    </div>
+                    <div class="address">
+                        <p class="sub-title heavier">{{ $similarjob->title }}</p>
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">1 - 4 years</span></p>
+                    </div>
                   </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner banner-2"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
+                  <div class="business-card__footer flex-row">
+                    <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                    <span class="x-small date lighter">Published on 20 Dec</span>
                   </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
-                  </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner banner-2"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
-                  </div>
-               </div>
+                </div>
+              @endforeach
+              </div>
+            </div>
+            <!-- similar business ends -->
+          @endif
+
+
+        <!-- Related article section -->
+       
+          <div class="related-article p-b-20" id="article">
+              <div class="section-start-head m-b-15 flex-row">
+                <h6 class="element-title">Related News Articles</h6>
+                <a href="" class="secondary-link view-more heavier">View More</a>
+              </div>
+              <div class="related-article__section flex-row align-top">
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                    </div>
+                  </a>
+                </div>
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner banner-2"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
          </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 tes">
          <div class="detach-col-1">
             <div class="equal-col">
-               <!-- <div class="Company-info">
-                  <div class="flex-row name-row">
-                    
-                     <div class="company-logo">
-                        <img src="{{ $companyLogo }}" width="60">
-                     </div>
-                    @if(!empty($jobCompany->logo))@endif
-                     <div class="company-name heavier">
-                        <div class="@if(empty($jobCompany->logo)) text-center @endif">
-                           <div class="heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
-                            {{ $jobCompany->title }}
-                            </div>
-
-
-                           @if(!empty($jobCompany->website))
-
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
-
-                           @endif
-
-                           @if(!empty($jobCompany->description))
-                           <a href="#" class="secondary-link dis-block x-small m-t-5 check-detail @if(empty($jobCompany->website) && empty($jobCompany->logo)) text-center @endif">View details</a>
-                           @endif
-                        </div>
-                     </div>
-                  </div>
-
-               </div> -->
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->
@@ -791,29 +681,7 @@
         </div>
         <!-- End featured jobs -->
         <!-- Similar Jobs -->
-        @if($similarjobs->count())
-        <div class="featured-jobs browse-cat">
-           <h6 class="element-title m-t-0">Similar Jobs</h6>
-           <hr>
-           @foreach($similarjobs as $similarjob)
-           <div class="featured-jobs__row flex-row">
-              <div class="joblogo">
-                 <img src="http://via.placeholder.com/60x60">
-              </div>
-              <div class="jobdesc">
-                 <div>
-                    <p class="default-size heavier m-b-0"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">{{ $similarjob->title }}</a></p>
-                    <span class="x-small text-color">{{ $similarjob->getJobCategoryName() }}</span>
-                 </div>
-                 <div class="location flex-row">
-                    <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">{{ implode(', ',$similarjob->getJobLocationNames('city'))}}</span>
-                 </div>
-              </div>
-           </div>
-          @endforeach
-        </div>
-        @endif
+      
         <!-- Similar jobs -->
         <!-- Claim -->
         <div class="claim-box p-b-10 job-post">

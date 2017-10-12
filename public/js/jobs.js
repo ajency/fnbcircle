@@ -324,7 +324,7 @@
     }), 500);
     Applybtn = $('.applyJob').detach();
     $('.detachsection').after(Applybtn);
-    Articles = $('.related-article').detach();
+    Articles = $('.related-article,.similar-business').detach();
     $('.list-of-business').after(Articles);
   }
 

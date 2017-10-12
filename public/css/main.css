@@ -10300,6 +10300,10 @@ input[type='checkbox'].remove-addr {
   table-layout: fixed;
   word-wrap: break-word;
 }
+.similar-cat .fnb-label {
+  padding: 0.3em 0.5em;
+  font-size: 0.9em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

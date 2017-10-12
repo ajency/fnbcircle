@@ -182,8 +182,11 @@ function getDefaultValues($type, $arrayType=1){
 }
 
 
-function getCommunicationContactDetail($objectId,$objectType,$type){
-    $commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
+	if($mode == 'edit')
+    	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+   	else
+   		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
     
     $contactInfo = [];
     if(!empty($commObjs)){
@@ -230,6 +233,50 @@ function salarayTypeText($type){
    $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
 
    return $salaryTpes[$type];
+}
+
+function pagination($totalRecords,$currentPage,$limit){
+
+	$currentPage = (!$currentPage)? 1 : $currentPage;
+	$totalPages = intVal(ceil($totalRecords/$limit)); 
+	$next = false;
+	$previous = false;
+	$html = '';
+	$endCounterValue = ($currentPage >= 5 )? 5 : 10-$currentPage;
+
+	if($totalPages > 1){
+
+
+		if($currentPage > 4){
+			$previous = true;
+			$startPage = $currentPage-4;
+		}
+		else
+			$startPage = 1;
+
+		 
+		if(($currentPage + $endCounterValue) < $totalPages){
+			$next = true;
+			$endPage = $currentPage+$endCounterValue;
+		}
+		else
+			$endPage = $currentPage+ ($totalPages-$currentPage);
+ 
+		if($previous)
+			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> |';
+
+		for ($i=$startPage; $i <= $endPage; $i++) { 
+			$active = ($i == $currentPage) ? 'active' : '';
+			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a> |';
+		}
+
+		if($next)
+			$html .= ' <a href="javascript:void(0)" class="paginate next" page="'.($endPage+1).'">next</a>';
+
+	}
+
+
+	return $html;
 }
 
 

@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, coreCat;
+  var Applybtn, Articles, companyLogo, getID;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -34,7 +34,7 @@
           includeSelectAllOption: true,
           numberDisplayed: 2,
           delimiterText: ',',
-          nonSelectedText: 'Select Area(s)'
+          nonSelectedText: 'Select City'
         });
         jobCityObj.closest('.location-select').find('.job-areas').attr('name', 'job_area[' + city + '][]');
       },
@@ -46,10 +46,11 @@
 
   $('input[name="salary_type"]').change(function(e) {
     $('.salary-amt').attr('data-parsley-required', true);
-    console.log($('input[name="salary_lower"]').attr('salary_type_checked'));
+    console.log($('input[name="salary_lower"]').attr('salary-type-checked'));
     if ($('input[name="salary_lower"]').attr('salary-type-checked') === "true") {
-      return $('.salary-amt').val('');
+      $('.salary-amt').val('');
     }
+    return $('input[name="salary_lower"]').attr('salary-type-checked', true);
   });
 
   $('#job-form').bind('input select textarea iframe', function() {
@@ -77,7 +78,7 @@
         searchByWord: true,
         searchContain: true,
         selectionRequired: true,
-        minLength: 1,
+        minLength: 0,
         url: '/get-keywords',
         searchIn: ["label"]
       });
@@ -88,7 +89,6 @@
         removeOnBackspace: false,
         searchByWord: true,
         searchContain: true,
-        selectionRequired: true,
         minLength: 1,
         url: '/get-company',
         searchIn: ["title"]
@@ -317,15 +317,27 @@
   });
 
   if ($(window).width() <= 768) {
-    coreCat = $('.detach-col-1').detach();
-    $('.sell-re').after(coreCat);
+    setTimeout((function() {
+      var coreCat;
+      coreCat = $('.detach-col-1').detach();
+      $('.job-info').after(coreCat);
+    }), 500);
     Applybtn = $('.applyJob').detach();
-    $('.role-selection').after(Applybtn);
-    Articles = $('.related-article').detach();
+    $('.detachsection').after(Applybtn);
+    Articles = $('.related-article,.similar-business').detach();
     $('.list-of-business').after(Articles);
   }
 
   $('[data-toggle="tooltip"]').tooltip();
+
+  if ($(window).width() > 769) {
+    getID = $('.gs-form .tab-pane').attr('id');
+    $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+  }
 
   $('.add-job-areas').click(function(e) {
     var area_group, area_group_clone;
@@ -343,9 +355,17 @@
     area_group_clone.find('.newly-created').multiselect({
       includeSelectAllOption: true,
       numberDisplayed: 1,
-      nonSelectedText: 'Select Area(s)'
+      nonSelectedText: 'Select City'
     });
     area_group_clone.insertBefore(area_group);
   });
+
+  if ($('.readMore').length) {
+    $('.readMore').readmore({
+      speed: 75,
+      collapsedHeight: 40,
+      lessLink: '<a href="#">Read less</a>'
+    });
+  }
 
 }).call(this);

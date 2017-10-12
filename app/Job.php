@@ -34,10 +34,17 @@ class Job extends Model
     }
 
     public function jobStatuses(){
-    	// $status = ['1'=>'Draft','2'=>'In review','3'=>'Published','4'=>'Archived'];
-    	$statuses =  getDefaultValues("job_status",2);
-
+ 
+    	// $statuses =  getDefaultValues("job_status",2);
+        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Published','4'=>'Archived','5'=>'Rejected'];
     	return $statuses;
+    }
+
+    public function jobStatusesToChange(){
+ 
+
+        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Publish','4'=>'Archive','5'=>'Reject'];
+        return $statuses;
     }
 
     public function jobCategories(){
@@ -63,8 +70,11 @@ class Job extends Model
     }
 
     public function getJobStatus(){
-        $jobStatus = Defaults::find($this->status); 
-        $jobStatus = strtolower($jobStatus->label);
+        // $jobStatus = Defaults::find($this->status); 
+        // $jobStatus = strtolower($jobStatus->label);
+        $jobStatuses = $this->jobStatuses();
+        $jobStatus = $jobStatuses[$this->status]; 
+        
         return ucwords($jobStatus);
     }
 
@@ -101,10 +111,10 @@ class Job extends Model
     	return $experience;
     }
 
-    public function getJobExperience($id){
-    	$experienceData = $this->jobExperience();
-    	$experience = $experienceData[$id];
-    	return $experience;
+    public function getJobExperience(){
+        $metaData = $this->meta_data;
+        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        return $jobExperience;
     }
 
     public function salaryTypes(){
@@ -175,6 +185,21 @@ class Job extends Model
             return '';
         } 
     }
+
+    public function getSeoImage(){
+        $jobCompany = $this->jobCompany()->first();
+        $company = null;
+        $seoImage = url('img/logo-fnb.png');
+        if(!empty($jobCompany)){
+            if(($jobCompany->logo))
+                $seoImage = $jobCompany->getCompanyLogo('company_logo');
+              
+        } 
+
+        return $seoImage;
+    }
+
+    
 
     public function getJobCompany(){
         $jobCompany = $this->jobCompany()->first();
@@ -256,6 +281,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
 
@@ -281,6 +312,16 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->published_on)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->published_on)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
+            elseif($format==3){
+                $date = date('jS F', strtotime(str_replace('-','/', $this->published_on)));
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->published_on)));
 
@@ -295,6 +336,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->updated_at)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->updated_at)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->updated_at)));
 
@@ -304,7 +351,7 @@ class Job extends Model
     }
 
     public function canEditJob(){
-        if(Auth::check() && $this->job_creator == Auth::user()->id)
+        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id))
             return true;
         else
             return false;
@@ -334,13 +381,20 @@ class Job extends Model
     public function publishJob(){
         
         $this->status = 3;
-        if($this->slug =="")
+        if($this->slug ==""){
             $this->slug = $this->getJobSlug();
+            $this->published_on = date('Y-m-d H:i:s');
+            $this->published_by = Auth::user()->id;
+        }
+            
         $this->save();
 
-        $company = $this->getJobCompany();
-        $company->status = 2;
-        $company->save();
+        if(!empty($this->getJobCompany())){
+            $company = $this->getJobCompany();
+            $company->status = 2;
+            $company->save();
+        }
+        
 
         return true;
 
@@ -365,9 +419,10 @@ class Job extends Model
 
     public function getJobSlug(){
         $titleSlug = str_slug($this->title);
+        $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug :'';
 
         if(empty($this->slug))
-            $slug = $titleSlug.'-'.$this->category->slug.'-'.$this->getJobCompany()->slug.'-'.$this->reference_id;
+            $slug = $titleSlug.'-'.$this->category->slug.'-'.$companySlug.'-'.$this->reference_id;
         else
             $slug = $this->slug;
 
@@ -378,7 +433,7 @@ class Job extends Model
     public function getSimilarJobs(){
 
         //, 'status'=>3  
-        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
+        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->where('status', 3)->orderBy('published_on','desc')->get()->take(4);
         return $jobs;
     }
 
@@ -386,9 +441,10 @@ class Job extends Model
     public function jobAvailabeStatus(){
         if(isAdmin()){
             $status[1] = [2]; 
-            $status[2] = [3];
+            $status[2] = [3,5];
             $status[3] = [4]; 
             $status[4] = [3]; 
+            $status[5] = [2]; 
         }
         else{
             $status[1] = [2]; 
@@ -401,10 +457,42 @@ class Job extends Model
         
     }
 
-    // private function getFilteredJobs($jobs,$filters){
-     
-    //     return $jobs;
-    // }
+    public function jobChangeStatus(){
+        if(isAdmin()){
+            $status[1] = 2; 
+            $status[2] = 3;
+            $status[3] = 4; 
+            $status[4] = 3; 
+            $status[5] = 2; 
+        }
+        else{
+            $status[1] = 2; 
+            $status[3] = 4; 
+            $status[4] = 3; 
+            $status[5] = 2; 
+        }
+ 
+        return $status;
+        
+    }
+
+   public function getNextActionButton(){
+        $statusChange = $this->jobChangeStatus();
+        $status = $this->status;
+
+        if(isset($statusChange[$status]) && $status>2){
+            $statusToChangeId = $statusChange[$status];
+            $jobStatusesToChange = $this->jobStatusesToChange();
+            $statusToChange = ucwords($jobStatusesToChange[$statusToChangeId]);
+
+            return ['id'=>$statusToChangeId,'status'=>$statusToChange];
+        }
+        else
+          return false;  
+        
+
+
+   }
 
     
 }

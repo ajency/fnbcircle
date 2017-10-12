@@ -9,15 +9,14 @@
     "datatables": ">=1.10.8"
   },
   "homepage": "https://github.com/DataTables/Select",
-  "version": "1.2.2",
-  "_release": "1.2.2",
+  "version": "1.2.3",
+  "_release": "1.2.3",
   "_resolution": {
     "type": "version",
-    "tag": "1.2.2",
-    "commit": "513cd5ab09f8743aaac3c5caa04e1d2733dd5b69"
+    "tag": "1.2.3",
+    "commit": "68051b12fa725befe580b300aa49e3282752c643"
   },
   "_source": "https://github.com/DataTables/Select.git",
   "_target": "^1.2.2",
-  "_originalSource": "datatables-select",
-  "_direct": true
+  "_originalSource": "datatables-select"
 }

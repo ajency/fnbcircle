@@ -3,14 +3,14 @@
 
 @section('css')
     @parent
-    <link rel="stylesheet" href="{{ asset('node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
 @endsection
 
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
     <!-- <script type="text/javascript" src="{{ asset('js/verification.js') }}"></script> -->
-    <script type="text/javascript" src="{{ asset('node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>  
   >
 @endsection
 @section('form-data')
@@ -84,6 +84,9 @@
     
     <!-- phone number -->
     @include('modals.verification.mobile-verification')
+
+    <!-- phone number -->
+    @include('modals.verification.landline-verification')
     <!-- /contact verification HTML -->
 
     </div>

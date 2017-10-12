@@ -67,7 +67,8 @@
         messages: {
           'default': 'Upload file',
           'replace': 'Replace file',
-          'remove': '<i class="">&#10005;</i>'
+          'remove': '<i class="">&#10005;</i>',
+          'error': ''
         }
       });
       return $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');

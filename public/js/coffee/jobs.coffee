@@ -29,7 +29,7 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
         includeSelectAllOption: true
         numberDisplayed: 2
         delimiterText:','
-        nonSelectedText: 'Select Area(s)'
+        nonSelectedText: 'Select City'
 
       jobCityObj.closest('.location-select').find('.job-areas').attr('name','job_area['+city+'][]')
 
@@ -41,9 +41,11 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
 
 $('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
-  console.log $('input[name="salary_lower"]').attr('salary_type_checked')
+  console.log $('input[name="salary_lower"]').attr('salary-type-checked')
   if($('input[name="salary_lower"]').attr('salary-type-checked') == "true")
     $('.salary-amt').val ''
+
+  $('input[name="salary_lower"]').attr('salary-type-checked',true)
 
 $('#job-form').bind 'input select textarea iframe', ->
   $('input[name="has_changes"]').val 1
@@ -75,7 +77,7 @@ $(document).ready ()->
       searchByWord:true
       searchContain:true
       selectionRequired:true
-      minLength: 1
+      minLength: 0
       url: '/get-keywords'
       searchIn: ["label"]
     return
@@ -85,7 +87,7 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      selectionRequired:true
+      # selectionRequired:true
       minLength: 1
       url: '/get-company'
       searchIn: ["title"]
@@ -322,11 +324,14 @@ $('.more-show').click (event) ->
   return
 
 if $(window).width() <= 768
-  coreCat = $('.detach-col-1').detach()
-  $('.sell-re').after coreCat
+  setTimeout (->
+    coreCat = $('.detach-col-1').detach()
+    $('.job-info').after coreCat
+    return
+  ), 500
   Applybtn = $('.applyJob').detach()
-  $('.role-selection').after Applybtn
-  Articles = $('.related-article').detach()
+  $('.detachsection').after Applybtn
+  Articles = $('.related-article,.similar-business').detach()
   $('.list-of-business').after Articles
 
 $('[data-toggle="tooltip"]').tooltip()
@@ -340,7 +345,17 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
- 
+
+# Get id add active
+
+if $(window).width() > 769
+  getID = $('.gs-form .tab-pane').attr('id')
+  $('.gs-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return 
+
+
 
 $('.add-job-areas').click (e) ->
   area_group = undefined
@@ -357,6 +372,18 @@ $('.add-job-areas').click (e) ->
   area_group_clone.find('.newly-created').multiselect
     includeSelectAllOption: true
     numberDisplayed: 1
-    nonSelectedText: 'Select Area(s)'
+    nonSelectedText: 'Select City'
   area_group_clone.insertBefore area_group
   return
+
+
+
+if $('.readMore').length
+  $('.readMore').readmore
+    speed: 75
+    collapsedHeight: 40
+    lessLink: '<a href="#">Read less</a>'
+
+
+
+

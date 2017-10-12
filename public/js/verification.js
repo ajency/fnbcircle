@@ -2,12 +2,15 @@
   $(document).ready(function() {
     var checkDuplicateEntries, verifyContactDetail;
     $('.contact-info').on('click', '.add-another', function(e) {
-      var contact_group, contact_group_clone, input;
+      var contact_group, contact_group_clone, errorLenCount, input;
       e.preventDefault();
       contact_group = $(this).closest('.business-contact').find('.contact-group');
       contact_group_clone = contact_group.clone();
       contact_group_clone.removeClass('contact-group hidden');
       input = contact_group_clone.find('.fnb-input');
+      errorLenCount = $(this).closest('.business-contact').find('.contact-container').length;
+      contact_group.find('.contact-input').attr('data-parsley-errors-container', '#landlineError' + errorLenCount);
+      contact_group.find('.dupError').attr('id', 'landlineError' + errorLenCount);
       contact_group_clone.insertBefore(contact_group);
       return contact_group.prev().find('.contact-mobile-input').intlTelInput({
         initialCountry: 'auto',
@@ -89,6 +92,8 @@
       if (!contactValueObj.parsley().isValid()) {
         contactValueObj.parsley().validate();
       }
+      console.log(contactValueObj.parsley().isValid());
+      console.log(contactValue);
       if (contactValue !== '' && contactValueObj.parsley().isValid()) {
         if (showModal) {
           underreviewDialCode = $('.under-review').find('.contact-country-code').val();
@@ -124,19 +129,24 @@
       } else {
         if (contactValue === '') {
           contactValueObj.closest('.contact-container').find('.dupError').html('Please enter ' + contactType);
+        } else {
+          contactValueObj.closest('.contact-container').find('.dupError').html('Please enter valid ' + contactType);
         }
         return $('#' + contactType + '-modal').modal('hide');
       }
     };
     $('.contact-info').on('change', '.contact-input', function(event) {
-      var contactObj, contactval;
+      var contactObj, contactType, contactval;
       contactObj = $(this);
       contactval = contactObj.val();
+      console.log(contactObj.parsley().isValid());
+      contactType = contactObj.closest('.contact-info').attr('contact-type');
+      contactObj.closest('.contact-container').find('.dupError').html('');
       if (!checkDuplicateEntries(contactObj) && contactval !== "") {
         contactObj.closest('.contact-container').find('.dupError').html('Same contact detail has been added multiple times.');
-        contactObj.val('');
-      } else {
-        contactObj.closest('.contact-container').find('.dupError').html('');
+        return contactObj.val('');
+      } else if (!contactObj.parsley().isValid()) {
+        return contactObj.closest('.contact-container').find('.dupError').html('Please enter valid ' + contactType);
       }
     });
     checkDuplicateEntries = function(contactObj) {
@@ -244,7 +254,7 @@
             $('.default-state,.add-number,.verificationFooter').addClass('hidden');
             $('.processing').addClass('hidden');
             $('.step-success').removeClass('hidden');
-            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>');
+            $('.under-review').find('.verified').html('<span class="fnb-icons verified-icon ver-icon"></span><p class="c-title">Verified</p>');
             $('.under-review').find('.contact-input').attr('readonly', true);
           } else {
             $('.processing').addClass('hidden');
@@ -269,21 +279,31 @@
       $('.default-state,.verificationFooter').removeClass('hidden');
       $('.default-state .fnb-input').val('');
     });
-    $('.contact-verification-modal').on('click', '.resend-link', function(e) {
+    return $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
       setTimeout((function() {
         $('.resend-link').removeClass('sending');
       }), 2500);
     });
-    return $(".contact-info").on('change', '.toggle__check', function() {
-      if ($(this).is(':checked')) {
-        $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
-        $(this).closest('.toggle').find('.contact-visible').val(1);
-      } else {
-        $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
-        $(this).closest('.toggle').find('.contact-visible').val(0);
-      }
+  });
+
+  if ($(window).width() <= 768) {
+    $('.get-val').each(function() {
+      var addRow, removeRow;
+      removeRow = $(this).find('.fnb-input');
+      addRow = $(this).find('.removeRow').detach();
+      return $(removeRow).after(addRow);
     });
+  }
+
+  $(".contact-info").on('change', '.toggle__check', function() {
+    if ($(this).is(':checked')) {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible to the applicant');
+      $(this).closest('.toggle').find('.contact-visible').val(1);
+    } else {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible to the applicant');
+      $(this).closest('.toggle').find('.contact-visible').val(0);
+    }
   });
 
 }).call(this);

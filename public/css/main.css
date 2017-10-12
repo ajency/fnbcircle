@@ -10231,6 +10231,9 @@ input[type='checkbox'].remove-addr {
   padding: 0.5em;
   border-bottom: 1px solid #eee;
 }
+.confirm-box .modal-body {
+  padding-bottom: 0;
+}
 .confirm-box .listing-message h4 {
   line-height: 1.5;
 }

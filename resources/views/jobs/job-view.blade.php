@@ -439,7 +439,7 @@
             <div class="similar-business p-t-20 p-b-20" id="business">
               <div class="section-start-head m-b-15 flex-row">
                 <h6 class="element-title">Similar Jobs</h6>
-                <a href="" class="secondary-link view-more heavier">View More</a>
+                <a href="#" class="secondary-link view-more heavier">View More</a>
               </div>
               <div class="similar-business__section flex-row">
               @foreach($similarjobs as $similarjob)

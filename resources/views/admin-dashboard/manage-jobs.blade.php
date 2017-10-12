@@ -137,7 +137,7 @@
                       <th>Published Date</th>
                       <th>Last Updated on</th>
                       <th>Last Updated By</th>
-                      <th class="no-sort" data-col="9">
+                      <th class="no-sort man-status-col" data-col="9">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd  jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)

@@ -79,4 +79,34 @@ class UpdatesController extends Controller
         return response()->json(['status' => '200', 'message' => '']);
     }
 
+    public function getUpdates(Request $request){
+        $this->validate($request, [
+            "type"=>'required',
+            "id"=>'required',
+            "order"=>'nullable|boolean',
+            "offset" => 'required|integer',
+        ]);
+        if ($request->type == 'listing') {
+            $config = config('tempconfig.table-details.listing');
+            $object = Listing::where($config['id'], $request->id)->firstOrFail();
+        }else{
+            return response()->json(['status' => '400', 'message' => 'Invalid type']);
+        }
+        if($request->order == '1') $order = 'asc';
+        else $order = 'desc';
+        $updates = $object->updates()->orderBy('updated_at',$order)->skip($request->offset)->take(config('tempconfig.default-updates-number'))->get();
+        $update_json = [];
+        foreach ($updates as $update) {
+            $update_json[] = [
+                'title' => $update->title,
+                'contents' => $update->contents,
+                'images'=> $update->getImages(),
+                'updated'=>$update->updated_at->format('F j, Y'),
+            ];           
+        }
+        return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json]]);
+    }
+
+
+
 }

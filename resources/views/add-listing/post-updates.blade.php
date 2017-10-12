@@ -40,7 +40,7 @@
     		</div>
     		<div class="col-sm-12 form-group c-gap">
 	    		<label class="required">Give us some more details about your listing</label>
-	             <textarea type="text" rows="2" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
+	             <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
     		</div>
     		<div class="col-sm-12">
     			<div class="image-grid imageUpload fileUpload post-uploads">

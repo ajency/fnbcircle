@@ -203,15 +203,15 @@ class Listing extends Model
         if($this->payment_modes == null) return null;
         $modes =json_decode($this->payment_modes);
         $mode_name=[
-            "visa" => "Visa Cards",
-            "debit" => "Debit Cards",
+            "visa" => "Visa Card",
+            "debit" => "Debit Card",
             "money_order" => "Money Order",
             "cheque" => "Cheque",
-            "credit" => "Credit Cards",
+            "credit" => "Credit Card",
             "travelers" => "Travelers Cheque",
             "cash" => "Cash",
-            "master" => "Master Cards",
-            "diners" => "Diner's Cards",
+            "master" => "Master Card",
+            "diners" => "Diners Club Card",
         ];
         foreach ($modes as $mode => $value) {
              if($value == '1') $payments[] = $mode_name[$mode];

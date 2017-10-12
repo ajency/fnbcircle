@@ -453,12 +453,15 @@
                     <div class="address">
                         <p class="sub-title heavier">{{ $similarjob->title }}</p>
                         <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
-                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">1 - 4 years</span></p>
+
+                        @if(!empty($similarjob->getJobExperience()))
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">{{ implode(',',$similarjob->getJobExperience()) }} years</span></p>
+                        @endif
                     </div>
                   </div>
                   <div class="business-card__footer flex-row">
                     <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
-                    <span class="x-small date lighter">Published on 20 Dec</span>
+                    <span class="x-small date lighter">Published on {{ $similarjob->jobPublishedOn(3) }}</span>
                   </div>
                 </div>
               @endforeach

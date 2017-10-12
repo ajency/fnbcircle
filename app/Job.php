@@ -111,10 +111,10 @@ class Job extends Model
     	return $experience;
     }
 
-    public function getJobExperience($id){
-    	$experienceData = $this->jobExperience();
-    	$experience = $experienceData[$id];
-    	return $experience;
+    public function getJobExperience(){
+        $metaData = $this->meta_data;
+        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        return $jobExperience;
     }
 
     public function salaryTypes(){
@@ -316,6 +316,10 @@ class Job extends Model
                 $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
                 $splitDate = explode('~*~', $dateFormat);
                 $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
+            elseif($format==3){
+                $date = date('jS F', strtotime(str_replace('-','/', $this->published_on)));
 
             }
             else

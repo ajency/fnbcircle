@@ -8,6 +8,7 @@ use App\Area;
 use App\Company;
 use App\Category;
 use App\UserCommunication;
+use App\JobLocation;
 use Auth;
 
 class Job extends Model
@@ -29,7 +30,7 @@ class Job extends Model
     }
 
     public function getTitleAttribute( $value ) { 
-        $value = ucwords( $value );      
+        $value = title_case( $value );      
         return $value;
     }
 
@@ -177,13 +178,43 @@ class Job extends Model
     }
 
     public function getMetaDescription(){
-       if(!empty($this->description)){            
+       // if(!empty($this->description)){            
 
-        return strip_tags(trim($this->description));
+       //  return strip_tags(trim($this->description));
 
-        }else{
-            return '';
-        } 
+       //  }else{
+       //      return '';
+       //  }
+        $cities = $this->getJobLocationNames('city');
+        $jobCompany = $this->getJobCompany();
+        $jobRoles = $this->getAllJobKeywords();
+        $jobTypes = $this->getJobTypes();
+
+
+
+        $metaData = $this->meta_data;
+        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+
+        $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
+        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->name;
+
+        $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
+   
+        if(!empty($jobTypes)){
+            $description .= ' Job Type:'.implode(', ', $jobTypes).'.' ;
+        }
+
+        if(!empty($this->interview_location)){
+            $description .= ' Interview Location:'.$this->interview_location.'.' ;
+        }
+
+
+        $description .= ' Apply Now!' ;
+        
+
+        return $description;
+        
+
     }
 
     public function getSeoImage(){
@@ -197,6 +228,13 @@ class Job extends Model
         } 
 
         return $seoImage;
+    }
+
+    public function getAllJobKeywords(){
+        $metaData = $this->meta_data;
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+
+        return implode(',', $jobKeywords);
     }
 
     
@@ -228,6 +266,12 @@ class Job extends Model
     	}
 
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
+    }
+
+    public function getJobSingleState(){
+        $jobLoction = $this->hasLocations()->first();
+        $city = City::find($jobLoction['city_id'])->name;
+        return $city;
     }
 
     public function  getJobLocationNames($getData='all'){

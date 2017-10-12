@@ -18,28 +18,10 @@
 @endsection
 
 @section('openGraph')
-<!-- Open Graph -->
-<meta property="og:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta property="og:url" content="{{ url('jobs/'.$job->slug) }}" />
-<meta property="og:image" content="{{ $job->getSeoImage() }}" />
-<meta property="og:description" content="{{ $job->getMetaDescription() }}" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="fnbcircle" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@fnbcircle">
-<meta name="twitter:creator" content="@fnbcircle">
-<meta name="twitter:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta name="twitter:url" content="{{ url('jobs/'.$job->slug) }}" />
-<meta name="twitter:description" content="{{ $job->getMetaDescription() }}" />
-<meta name="twitter:image" content="{{ $job->getSeoImage() }}" />
-
-<!-- google+ -->
-<meta itemprop="name" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta itemprop="url" content="{{ url('jobs/'.$job->slug) }}" />
-<meta itemprop="description" content="{{ $job->getMetaDescription() }}" />
-<meta itemprop="image" content="{{ $job->getSeoImage() }}" />
+@php
+$additionalData = ['job'=>$job];
+@endphp
+{!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 
 @endsection
 
@@ -48,33 +30,9 @@
    <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
       <div class="col-sm-8  flex-col">
          <!-- Breadcrums -->
-         <ul class="fnb-breadcrums flex-row">
-            <li class="fnb-breadcrums__section">
-               <a href="">
-               <i class="fa fa-home home-icon" aria-hidden="true"></i>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title">/</p>
-               </a>
-            </li>
-               <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title main-name">{{ breadCrumbText($job->getJobCategoryName()) }} Jobs</p>
-               </a>
-            </li>
-            
+          
+         {!! getLdJson('App\Seo\JobSingleView',$additionalData) !!}
 
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title">/</p>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                  <p class="fnb-breadcrums__title main-name">{{ $job->title }}</p>
-            </li>
-         </ul>
          <!-- Breadcrums ends -->
       </div>
       <div class="col-sm-4 flex-col">
@@ -194,7 +152,7 @@
                     <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
-                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
+                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     @if($job->jobPublishedOn()!='')
@@ -216,7 +174,7 @@
 
                             @foreach($keywords as $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href="#" class="primary-link" title="Find all jobs matching {{ $keyword }}"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach
@@ -319,7 +277,7 @@
                                <div class="number flex-row flex-wrap">
                                 @foreach($contactEmail as $email)
                                   @if($email['visible'])
-                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}" title="{{ $email['email'] }}">{{ $email['email'] }}</a>
                                   @endif
                                 @endforeach
                                     
@@ -334,7 +292,7 @@
                              <div class="number flex-row flex-wrap">
                              @foreach($contactMobile as $mobile)
                               @if($mobile['visible'])
-                                <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                                <a class="number__real secondary-link" href="tel:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}" title="+{{ $mobile['country_code']}} {{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
                               @endif
                             @endforeach  
                              </div>
@@ -348,7 +306,7 @@
                             <div class="number flex-row flex-wrap">
                                 @foreach($contactLandline as $landline)
                                 @if($landline['visible'])
-                                  <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                  <a class="number__real secondary-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}" title="+{{ $landline['country_code']}} {{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
                                 @endif
                               @endforeach  
                              </div>
@@ -504,14 +462,14 @@
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
-                        <li class="desk-hide whats-app-row" ><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                        <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                        <li class="desk-hide whats-app-row" ><a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                         
-                        <li><a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $facebookShare }}" target="_blank" title="Share Job on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
                         
                         </li>
-                        <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $twitterShare }}" target="_blank" title="Share Job on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $googleShare }}" target="_blank" title="Share Job on Google+"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
                   @endif
@@ -637,12 +595,12 @@
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
                      <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
-                     <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                     <a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
-                     <a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                     <a href="{{ $facebookShare }}" target="_blank" title="Share Job on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $twitterShare }}" target="_blank" title="Share Job on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $googleShare }}" target="_blank" title="Share Job on Google+"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
                
@@ -702,7 +660,7 @@
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
                         <span class="x-small text-color">
                         @if(!empty($jobCompany->website))
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
+                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
                            @endif
                         </span>
                      </div>

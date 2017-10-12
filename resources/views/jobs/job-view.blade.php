@@ -338,7 +338,7 @@ $additionalData = ['job'=>$job];
             <!-- update section ends -->
             <!-- listed -->
             <div class="listed p-t-5 p-b-10" id="listed">
-               <h5 class="jobDesc">Job Description</h5>
+               <h3 class="jobDesc">Job Description</h3>
                <hr>
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
@@ -543,7 +543,7 @@ $additionalData = ['job'=>$job];
                    </div>
                </div>
                @endif
-               <h6 class="m-t-0 company-section__title">Company Info</h6>
+               <h3 class="m-t-0 company-section__title">Company Info</h3>
                <div class="featured-jobs__row job-data">
                   <div class="flex-row align-top">
                     <div class="joblogo">

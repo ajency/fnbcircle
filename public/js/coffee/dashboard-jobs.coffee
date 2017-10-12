@@ -45,11 +45,11 @@ jobsTable = $('#datatable-jobs').DataTable(
     { "width": "90px", "targets": 1 }  
     { "width": "120px", "targets": 2 }  
     { "width": "140px", "targets": 3 }
-    { "width": "120px", "targets": 4 }
+    { "width": "100px", "targets": 4 }
     { "width": "100px", "targets": 5 }
-    { "width": "100px", "targets": 6 }
+    { "width": "80px", "targets": 6 }
     { "width": "100px", "targets": 7 }
-    { "width": "100px", "targets": 8 }
+    { "width": "80px", "targets": 8 }
     { "width": "70px", "targets": 9 }
   ])
 

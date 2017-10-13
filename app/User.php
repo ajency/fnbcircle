@@ -7,10 +7,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\ListingCommunication;
 use App\UserCommunication;
 use Spatie\Permission\Traits\HasRoles;
+use Ajency\FileUpload\FileUpload;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, FileUpload;
 
     /**
      * The attributes that are mass assignable.
@@ -119,5 +120,23 @@ class User extends Authenticatable
         }
 
         return $object;
+    }
+
+
+    public Function uploadUserResume($file){
+        $id = $this->uploadFile($file);
+        $this->remapImages([$id]);
+
+         return $id;
+    }
+
+
+    public Function getUserResume($type){
+        $companyLogoUrl  ='';
+        $companyLogo = $this->getFiles();
+        foreach ($companyLogo as $key => $logo) {
+            $companyLogoUrl = (isset($logo[$type])) ? $logo[$type] : '';
+        }
+        return $companyLogoUrl;
     }
 }

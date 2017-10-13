@@ -15,6 +15,7 @@ use App\JobCompany;
 use Auth;
 use Session;
 use App\UserCommunication;
+use App\JobApplicant;
 
 class JobController extends Controller
 {
@@ -695,6 +696,47 @@ class JobController extends Controller
  
         Session::flash('job_review_pending',$successMessage[$statusId]);
         return redirect()->back();
+    }
+
+    public function applyJob(Request $request,$referenceId){
+
+        $this->validate($request, [
+            'applicant_name' => 'required',
+            'applicant_email' => 'required',
+            'applicant_phone' => 'required',
+            'applicant_city' => 'required',
+        ]);
+
+        $job = Job::where('reference_id',$referenceId)->first();
+        $user =  Auth::user();
+        $data = $request->all(); 
+        $applicantName = $data['applicant_name'];
+        $applicantEmail = $data['applicant_email'];
+        $applicantPhone = $data['applicant_phone'];
+        $applicantCity = $data['applicant_city'];
+        $resume = $data['resume'];
+
+        $jobApplicant = new JobApplicant;
+        $jobApplicant->job_id = $job->id;
+        $jobApplicant->user_id = $user->id;
+        $jobApplicant->name = $applicantName;
+        $jobApplicant->email = $applicantEmail;
+        $jobApplicant->phone = $applicantPhone;
+        $jobApplicant->city = $applicantCity;
+        
+        $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
+
+        if(!empty($resume)){
+            $resumeId = $user->uploadUserResume($resume);
+            $jobApplicant->resume_id = $resumeId;
+             
+        }
+
+        $jobApplicant->save();
+        dd($jobApplicant);
+        Session::flash('success_message','Successfully applied for job');
+        return redirect()->back();
+
     }
   
 

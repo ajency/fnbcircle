@@ -42,7 +42,7 @@
 <meta itemprop="image" content="{{ $job->getSeoImage() }}" />
 
 @endsection
-
+@include('jobs.notification')
 @section('single-view-data')
 <div class="container">
    <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
@@ -827,6 +827,157 @@
    </div>
 
 </div>
+
+
+<div class="modal fnb-modal  fade" id="apply-jobs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="default-state">
+               
+                    <h6 class="sub-title">You are applying for following job</h6>
+                    <p class="text-lighter x-small">
+                      <div class="flex-row align-top">
+                    <div class="joblogo">
+                      @if(($jobCompany->logo))
+                       <img src="{{ $companyLogo }}" width="60">
+                      @else
+                      <img src="/img/company-placeholder.jpg" width="60">
+                      @endif
+                    </div>
+                    <div class="jobdesc">
+                        <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                        <span class="x-small text-color">
+                        {{ $job->getJobCategoryName() }}
+                        </span>
+                     </div>
+                  </div>
+                    @if(!empty($jobTypes))
+                     <h6 class="m-t-0 company-section__title">Job Type</h6>
+                     <div class="featured-jobs__row flex-row">
+                          <div class="job-type">
+                          @foreach($jobTypes as $jobType)
+                           <div class="text-color year-exp">{{ $jobType }}</div>
+                          @endforeach
+                          </div>
+                     </div>
+                     @endif
+                    </p>
+                    <div class=" ">
+                    <form id="job-form" method="post" action="{{url('/jobs/'.$job->reference_id.'/applyjob')}}" data-parsley-validate enctype="multipart/form-data">
+
+                        <div class="  flex-row space-between">
+                            <h6 class="m-t-0 company-section__title">Your details as follows</h6> 
+                        </div>
+                        <div class="code-submit flex-row space-between">
+                           Name : <input text="text" class="fnb-input text-color otp-input" name="applicant_name" placeholder="Enter name"  >
+                        </div>
+                         <div class="code-submit flex-row space-between">
+                         Email : <input text="text" class="fnb-input text-color otp-input" name="applicant_email" placeholder="Enter email"  >
+                             
+                            </div>
+                         <div class="code-submit flex-row space-between">
+                            Phone number : <input text="text" class="fnb-input text-color otp-input" name="applicant_phone" placeholder="Enter phone"  >
+                            </div>
+                          <div class="code-submit flex-row space-between">
+                            City : <input text="text" class="fnb-input text-color otp-input" name="applicant_city" placeholder="Enter state"  >
+                            </div>
+
+                            <p class="default-size heavier m-b-0">We have attached your resume from your profile, with this application.</p>
+                            Resume last updated on:
+
+                            <input type="file" name="resume"> upload new resume
+                            <button class="btn fnb-btn primary-btn border-btn code-send" type="submit">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                        </form>
+                        </div>
+                        <div class="validationError text-left"></div>
+                    </div>
+                </div>
+                <div class="contact-verify-steps add-number hidden">
+                    <img src="/img/email-add.png" class="img-responsive center-block" width="60">
+                    <h6 class="sub-title">Your application has been sent</h6>
+                    <div class="">
+                        <div class="jobdesc">
+                        <h4>following are the contact details of the employer</h4>
+                        <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                        <span class="x-small text-color">
+                        You can now contact the employer directly
+                        </span>
+                        @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
+                        <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                            <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
+                            <!-- contact info -->
+                            <div class="card seller-info sell-re collapse" id="contact-data">
+                               <div class="contact-info flex-row flex-wrap">
+                                  <div class="close-contact" data-toggle="collapse" href="#contact-data">
+                                     &#10005;
+                                  </div>
+                                  @if(!empty($contactEmail))
+                                  <div class="mail-us collapse-section m-r-15 m-b-15">
+                                     <h6 class="sub-title m-t-0">Email:</h6>
+                                       <div class="number flex-row flex-wrap">
+                                        @foreach($contactEmail as $email)
+                                          @if($email['visible'])
+                                          <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                          @endif
+                                        @endforeach
+                                            
+                                       </div>
+                                     
+                                  </div>
+                                  @endif
+
+                                   @if(!empty($contactMobile))
+                                  <div class="phone collapse-section m-r-15 m-b-15">
+                                     <h6 class="sub-title m-t-0">Mobile No:</h6>
+                                     <div class="number flex-row flex-wrap">
+                                     @foreach($contactMobile as $mobile)
+                                      @if($mobile['visible'])
+                                        <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                                      @endif
+                                    @endforeach  
+                                     </div>
+                                     
+                                  </div>
+                                  @endif
+
+                                  @if(!empty($contactLandline))
+                                  <div class="mail-us collapse-section">
+                                     <h6 class="sub-title m-t-0">Landline No:</h6>
+                                    <div class="number flex-row flex-wrap">
+                                        @foreach($contactLandline as $landline)
+                                        @if($landline['visible'])
+                                          <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                        @endif
+                                      @endforeach  
+                                     </div>
+                                  </div>
+                                  @endif
+                                  
+                               </div>
+                            </div>
+                        </div>
+                        @endif
+                     </div>
+                         
+                    </div>
+                </div>
+             
+               
+            </div>
+            <div class="modal-footer verificationFooter">
+                <div class="resend-code sub-title text-color">
+                     
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @include('jobs.job-status-modal')
 @endsection

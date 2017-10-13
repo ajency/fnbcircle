@@ -375,7 +375,7 @@
             </div>
             <!-- update section ends -->
             <!-- listed -->
-            <div class="listed p-t-5 p-b-10" id="listed">
+            <div class="listed" id="listed">
                <h5 class="jobDesc">Job Description</h5>
                <hr>
                <div class="job-desc text-color stable-size">

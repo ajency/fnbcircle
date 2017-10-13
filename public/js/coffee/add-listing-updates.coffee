@@ -144,9 +144,9 @@ loadUpdates = () ->
                             <p class="element-title update-sec__heading m-t-15 bolder">
                                 '+element.title+'
                             </p>
-                              <div class="update-actions">
-                                <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" edit="Edit"></i>
-                                <i class="fa fa-trash-o deleteUpdates text-danger" aria-hidden="true" title="Delete"></i>
+                              <div class="update-actions flex-row">
+                                <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit"></i>
+                                <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete"></i>
                               </div>
                           </div>
                          

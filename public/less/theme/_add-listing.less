@@ -3683,6 +3683,13 @@ input[type='checkbox'].remove-addr{
 	.addCol{
 		margin-bottom: 0;
 	}
+	&.modal-uploads{
+		@media screen and (min-width: 769px){
+			.image-grid__cols{
+				width: 33.33%;
+			}
+		}
+	}
 }
 
 .view-more-updates{
@@ -3707,6 +3714,8 @@ input[type='checkbox'].remove-addr{
 	//     left: 0;
 	// }
 }
+
+
 
 @media screen and (max-width: @mobile){
 	.post-card{
@@ -3751,6 +3760,12 @@ input[type='checkbox'].remove-addr{
 	.post-uploads{
 		margin: 0 -10px;
 	}
+
+	.modal-open{
+		.edit-updates{
+			box-shadow: rgba(0, 0, 0, 0.52) 0 0 0 500px inset;
+		}
+	}
 }
 
 .update-actions{
@@ -3759,6 +3774,10 @@ input[type='checkbox'].remove-addr{
     	font-size: 1.15em;
     	cursor: pointer;
 	}
+}
+
+.delete-post{
+	color: #ff122e;
 }
 
 .edit-updates{
@@ -3775,6 +3794,9 @@ input[type='checkbox'].remove-addr{
 		    font-size: 1em;
 		    opacity: 0.6;
 	    }
+	}
+	.post-card{
+		padding-bottom: 0;
 	}
 }
 

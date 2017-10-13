@@ -155,7 +155,7 @@
             offset += data['data']['updates'].length;
             html = '';
             $.each(data['data']['updates'], function(i, element) {
-              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <div class="flex-row space-between"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <div class="update-actions"> <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" edit="Edit"></i> <i class="fa fa-trash-o deleteUpdates text-danger" aria-hidden="true" title="Delete"></i> </div> </div> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img">';
+              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <div class="flex-row space-between"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <div class="update-actions flex-row"> <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit"></i> <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete"></i> </div> </div> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img">';
               $.each(element.images, function(j, item) {
                 html += '<li><img src="' + item['200x150'] + '" alt="" width="80"></li>';
               });

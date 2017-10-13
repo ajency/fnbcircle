@@ -770,8 +770,9 @@ class ListingController extends Controller
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
         if($listing->status == 1){
+            $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
             if ($step == 'business-updates'){
-                return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy);
+                return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
             }
         }
         abort(404);

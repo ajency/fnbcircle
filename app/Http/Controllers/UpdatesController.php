@@ -46,6 +46,7 @@ class UpdatesController extends Controller
             'title'       => 'required|string',
             'description' => 'required|string',
             'photos'      => 'nullable',
+            'postID'      => 'nullable|integer'
         ]);
 
         if ($request->type == 'listing') {
@@ -61,8 +62,12 @@ class UpdatesController extends Controller
         //     $images = [];
         // }
         // dd($images);
-        $update =  new Update;
-        $update->posted_by = Auth::user()->id;
+        if(isset($request->postID)){
+            $update =  Update::find($request->postID);
+        }else {
+            $update =  new Update;
+            $update->posted_by = Auth::user()->id;
+        }
         $update->last_updated_by = Auth::user()->id;
         $update->title = $request->title;
         $update->contents = $request->description;

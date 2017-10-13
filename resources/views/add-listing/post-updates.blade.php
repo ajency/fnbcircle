@@ -25,7 +25,7 @@
 	
 	<div class="m-t-50 flex-row imp-update">
 		<i class="fa fa-info-circle p-r-10" aria-hidden="true"></i>
-        <p class="m-b-0 text-color">Your last update was on 10th July 2017. Recently updated listings usually get more leads, so go ahead and post an update.</p>
+        <p class="m-b-0 text-color"> @if(!empty($post)) Your last update was on {{$post->updated_at->format('F j, Y')}}. @endif Recently updated listings usually get more leads, so go ahead and post an update.</p>
     </div>
 
     <div class="m-t-30 card post-card update-card">

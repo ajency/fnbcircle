@@ -46,29 +46,29 @@
 #     $('#phone-modal').modal 'hide'
 #   return
 
-window.checkDuplicates = ->
-  contacts = document.getElementsByClassName('contact-input')
-  index = 0
-  while index < contacts.length
-    others = document.getElementsByClassName('contact-input')
-    value = contacts[index].value
-    # console.log 'value=' + value
-    if value != ''
-      index1 = 0
-      while index1 < others.length
-        if value == others[index1].value and index != index1
-          # console.log 'DupValue=' + others[index1].value
-          # console.log 'duplicate found'
-          $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail has been added multiple times.'
-          return true
-        else
-          $(others[index1]).closest('.get-val').find('.dupError').html ''
-        ++index1
-    ++index
-  return
+# window.checkDuplicates = ->
+#   contacts = document.getElementsByClassName('contact-input')
+#   index = 0
+#   while index < contacts.length
+#     others = document.getElementsByClassName('contact-input')
+#     value = contacts[index].value
+#     # console.log 'value=' + value
+#     if value != ''
+#       index1 = 0
+#       while index1 < others.length
+#         if value == others[index1].value and index != index1
+#           # console.log 'DupValue=' + others[index1].value
+#           # console.log 'duplicate found'
+#           $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail has been added multiple times.'
+#           return true
+#         else
+#           $(others[index1]).closest('.get-val').find('.dupError').html ''
+#         ++index1
+#     ++index
+#   return
 
 $(document).on 'blur', '.fnb-input', ->
-  checkDuplicates()
+  # checkDuplicates()
   $('#info-form').parsley()
   return
 

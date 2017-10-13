@@ -94,7 +94,7 @@ function listingInformation() {
 
 function validateListing(event) {
     var instance = $('#info-form').parsley();
-    if (checkDuplicates()) return false;
+    // if (checkDuplicates()) return false;
     console.log(true);
     if (!instance.validate()) return false;
     $('.section-loader').removeClass('hidden');

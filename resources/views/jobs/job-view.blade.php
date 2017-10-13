@@ -82,7 +82,7 @@ $additionalData = ['job'=>$job];
    </div>
    <!-- pending review -->
    @if($job->canEditJob())
-   <div class="row">
+   <div class="row desk-hide">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -267,7 +267,7 @@ $additionalData = ['job'=>$job];
                     
                 </div>
                 @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
-                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff hidden">
                     <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
                     <!-- contact info -->
                     <div class="card seller-info sell-re collapse" id="contact-data">
@@ -398,7 +398,7 @@ $additionalData = ['job'=>$job];
 
 
         @if($similarjobs->count())
-            <div class="similar-business p-t-20 p-b-20" id="business">
+            <div class="similar-business job-similar-business p-t-20 p-b-20" id="business">
               <div class="section-start-head m-b-15 flex-row">
                 <h6 class="element-title">Similar Jobs</h6>
                 <a href="#" class="secondary-link view-more heavier">View More</a>
@@ -413,7 +413,7 @@ $additionalData = ['job'=>$job];
                       </div>
                     </div>
                     <div class="address">
-                        <p class="sub-title heavier">{{ $similarjob->title }}</p>
+                        <p class="sub-title heavier ellipsis-2">{{ $similarjob->title }}</p>
                         <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
 
                         @if(!empty($similarjob->getJobExperience()))
@@ -468,6 +468,40 @@ $additionalData = ['job'=>$job];
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
             <div class="equal-col job-equal-col">
+               @if($job->canEditJob())
+                 <div class="row mobile-hide">
+                    <div class="col-sm-12">
+                       <div class="pre-benefits job-pending-review pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
+                          <div class="pre-benefits__intro flex-row">
+                             <div class="pre-benefits__content">
+                                <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
+                                @if($job->status == 1)
+                                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
+                                @endif
+                                </h5>
+                             </div>
+                          </div>
+                          @if(!$job->submitForReview() && !$job->getNextActionButton())
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+                          @endif
+
+                          @if($job->submitForReview()) 
+                           <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button></a>
+                          @endif
+
+                          @if($job->getNextActionButton())
+                              @php
+                              $nextActionBtn =$job->getNextActionButton();
+                              @endphp
+                        <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+                        <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                          
+                           
+                          @endif
+                       </div>
+                    </div>
+                 </div>
+                @endif
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->

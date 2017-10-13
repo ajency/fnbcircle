@@ -27,7 +27,7 @@
         <p class="m-b-0 text-color">Your last update was on 10th July 2017. Recently updated listings usually get more leads, so go ahead and post an update.</p>
     </div>
 
-    <div class="m-t-30 card">
+    <div class="m-t-30 card post-card">
     	<div class="row">
     		<div class="col-sm-12 form-group">
 	    		<div class="flex-row space-between title-flex-row">
@@ -114,10 +114,11 @@
         <div class="page-sidebar__body">
             <div class="update-sec sidebar-article">
                 <div class="update-sec__body update-space">
-                    <h6 class="element-title update-sec__heading m-t-15 bolder">
+                    <h6 class="element-title update-sec__heading m-t-15 bolder flex-row space-between edit-section">
                         Mystical the meat and fish store recent updates
+                        <!-- <i class="fa fa-pencil edit-updates" aria-hidden="true"></i> -->
                     </h6>
-                    <p class="update-sec__caption text-lighter">
+                    <p class="update-sec__caption text-lighter edit-section">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
                     </p>
                     <ul class="flex-row update-img">
@@ -164,6 +165,9 @@
         <div class="page-sidebar__footer"></div>
     </div>
 
+	<div class="m-t-10 text-center view-more-updates">
+		<a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
+	</div>
 
 </div>
 

@@ -120,7 +120,7 @@
    </div>
    <!-- pending review -->
    @if($job->canEditJob())
-   <div class="row desk-hide">
+   <div class="row">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -506,7 +506,7 @@
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
             <div class="equal-col job-equal-col">
-               @if($job->canEditJob())
+              <!--  @if($job->canEditJob())
                  <div class="row mobile-hide">
                     <div class="col-sm-12">
                        <div class="pre-benefits job-pending-review pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
@@ -539,7 +539,7 @@
                        </div>
                     </div>
                  </div>
-                @endif
+                @endif -->
                <div class="contact__info applyJob">
                   <!-- If logged in -->
                   <!-- If not logged in -->

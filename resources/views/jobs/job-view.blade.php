@@ -120,7 +120,7 @@
    </div>
    <!-- pending review -->
    @if($job->canEditJob())
-   <div class="row">
+   <div class="row desk-hide">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -506,7 +506,7 @@
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
             <div class="equal-col job-equal-col">
-              <!--  @if($job->canEditJob())
+               @if($job->canEditJob())
                  <div class="row mobile-hide">
                     <div class="col-sm-12">
                        <div class="pre-benefits job-pending-review pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
@@ -520,7 +520,7 @@
                              </div>
                           </div>
                           @if(!$job->submitForReview() && !$job->getNextActionButton())
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+                          <button type="button" class="close desk-hide" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
                           @endif
 
                           @if($job->submitForReview()) 
@@ -539,15 +539,18 @@
                        </div>
                     </div>
                  </div>
-                @endif -->
-               <div class="contact__info applyJob">
-                  <!-- If logged in -->
-                  <!-- If not logged in -->
-                  @if($job->status != 3 && $job->status != 4)
+                @endif
+
+                @if($job->status != 3 && $job->status != 4)
                    
                   <h5 class="sub-title pre-benefits__title m-b-0 no-published">You're viewing the job which is not yet published.</h5>
                                
-                   @endif
+                @endif
+
+               <div class="contact__info applyJob">
+                  <!-- If logged in -->
+                  <!-- If not logged in -->
+                  
 
                   @if($job->canEditJob())
                      <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>

@@ -199,7 +199,7 @@ $additionalData = ['job'=>$job];
                 <div class="operations p-t-10 flex-row flex-wrap role-selection detachsection">
 
                       <div class="job-places">
-                        <h2 class="operations__title sub-title">Job Location</h2>
+                        <h2 class="operations__title sub-title m-t-10">Job Location</h2>
                         @foreach($locations as $city => $locAreas)
                           
                         <div class="opertaions__container flex-row job-location">

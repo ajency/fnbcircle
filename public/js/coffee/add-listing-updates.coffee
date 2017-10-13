@@ -119,3 +119,8 @@ $('body').on 'click', '.add-uploader', (e)->
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
   $(this).parent().remove()
+
+
+$('body').on 'click', '.edit-updates', (e)->
+  e.preventDefault()
+  $(this).closest('.update-space').find('.edit-section').attr('contenteditable','true').addClass('editable')

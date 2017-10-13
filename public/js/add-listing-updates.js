@@ -139,4 +139,9 @@
     return $(this).parent().remove();
   });
 
+  $('body').on('click', '.edit-updates', function(e) {
+    e.preventDefault();
+    return $(this).closest('.update-space').find('.edit-section').attr('contenteditable', 'true').addClass('editable');
+  });
+
 }).call(this);

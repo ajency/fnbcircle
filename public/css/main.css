@@ -10311,12 +10311,50 @@ input[type='checkbox'].remove-addr {
   padding: 0.3em 0.5em;
   font-size: 0.9em;
 }
+.similar-business.job-similar-business .business-card {
+  margin-bottom: 2em;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 calc(50% - 2em);
+      -ms-flex: 1 0 calc(50% - 2em);
+          flex: 1 0 calc(50% - 2em);
+  max-width: calc(53% - 2em);
+}
+.similar-business.job-similar-business .business-card:nth-child(odd) {
+  margin-right: 2em;
+}
 .readMore span {
   font-size: 1em;
 }
 .readMore + a {
   font-size: 0.9em;
   color: #27b7b0;
+}
+.job-pending-review {
+  background-color: transparent;
+  margin-bottom: 0;
+  padding: 0;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.job-pending-review .pre-benefits__content {
+  padding-left: 0;
+}
+.job-pending-review .pre-benefits__intro {
+  text-align: center;
+}
+.job-pending-review .pre-benefits__title {
+  color: #6b6b6b;
+  line-height: 1.5;
+}
+.job-pending-review .upgrade {
+  border-color: transparent;
+  font-size: 0.85em;
+  margin-top: 0.6em;
+  border-radius: 0;
+  padding: 0.5em 1em;
 }
 .profile-stats {
   color: #fff;

@@ -23,6 +23,6 @@
 		"roles_permissions" => [
             ["role" => 0, "permissions" => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
             ["role" => 1, "permissions" => [3, 4, 7]],
-            ["role" => 2, "permissions" => [3, 4, 8, 9]]
+            ["role" => 2, "permissions" => []]
         ]
 	];

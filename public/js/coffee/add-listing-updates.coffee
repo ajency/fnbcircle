@@ -91,11 +91,24 @@ $('body').on 'click', '.add-uploader', (e)->
   # getTarget.insertBefore(contact_group_clone)
   contact_group_clone.insertBefore(getTarget)
   console.log(contact_group_clone)
-  contact_group_clone.find('.doc-uploadd').dropify messages:
+  newimg = contact_group_clone.find('.doc-upload').dropify messages:
     'default': 'Add photo'
     'replace': 'Replace photo'
     'remove': '<i class="">&#10005;</i>'
     'error': ''
+  newimg.on 'dropify.errors', (event, element) ->
+    ef = 1
+    setTimeout (->
+      ef = 0
+      return
+    ), 2000
+    return
+  newimg.on 'dropify.afterClear', (event, element) ->
+    $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+    console.log "file deleted"
+    return
+
 
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
@@ -182,7 +195,7 @@ newPost = () ->
         <div class="col-sm-12">
           <div class="image-grid imageUpload fileUpload post-uploads">
           <div class="image-grid__cols post-img-col" >
-             <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
+             <input type="file" class="list-image img-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
              <input type="hidden" name="image-id" value="">
              <div class="image-loader hidden">
                         <div class="site-loader section-loader">
@@ -203,7 +216,7 @@ newPost = () ->
                     <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
                 </div>
                 <div class="image-grid__cols uppend-uploader hidden">
-                    <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
+                    <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
                         <input type="hidden" name="image-id" value="">
                     <div type="button" class="removeCol"><i class="">✕</i></div>
                     <div class="image-loader hidden">
@@ -225,13 +238,13 @@ newPost = () ->
         </div>
         <div class="col-sm-12">
           <div class="text-right mobile-center post-action">
-            <button class="btn fnb-btn primary-btn full border-btn enquiry-btn post-btn" id="post-update-button" type="button">Post</button>
+            <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Post</button>
           </div>
         </div>
       </div>'
   $('.update-card').html html
   $('.dropify').dropify messages: 'default': 'Add Photo'
-  image_dropify = $('.list-image').dropify messages:
+  image_dropify = $('.img-upload').dropify messages:
     'default': 'Add photo'
     'replace': 'Replace photo'
     'remove': '<i class="">&#10005;</i>'

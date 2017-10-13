@@ -98,7 +98,7 @@
   });
 
   $('body').on('click', '.add-uploader', function(e) {
-    var contact_group, contact_group_clone, getTarget;
+    var contact_group, contact_group_clone, getTarget, newimg;
     e.preventDefault();
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
     contact_group_clone = contact_group.clone();
@@ -106,13 +106,24 @@
     getTarget = $(this).closest('.fileUpload').find('.addCol');
     contact_group_clone.insertBefore(getTarget);
     console.log(contact_group_clone);
-    return contact_group_clone.find('.doc-uploadd').dropify({
+    newimg = contact_group_clone.find('.doc-upload').dropify({
       messages: {
         'default': 'Add photo',
         'replace': 'Replace photo',
         'remove': '<i class="">&#10005;</i>',
         'error': ''
       }
+    });
+    newimg.on('dropify.errors', function(event, element) {
+      ef = 1;
+      setTimeout((function() {
+        ef = 0;
+      }), 2000);
+    });
+    return newimg.on('dropify.afterClear', function(event, element) {
+      $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
+      $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+      console.log("file deleted");
     });
   });
 
@@ -177,14 +188,14 @@
 
   newPost = function() {
     var html;
-    html = '<div class="row"> <div class="col-sm-12 form-group"> <div class="flex-row space-between title-flex-row"> <div class="title-icon"> <label class="required">Title</label> <input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required> </div> <img src="/img/post-title-icon.png" class="img-responsive"> </div> </div> <div class="col-sm-12 form-group c-gap"> <label class="required">Give us some more details about your listing</label> <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea> </div> <div class="col-sm-12"> <div class="image-grid imageUpload fileUpload post-uploads"> <div class="image-grid__cols post-img-col" > <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> <div class="image-grid__cols addCol"> <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a> </div> <div class="image-grid__cols uppend-uploader hidden"> <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div type="button" class="removeCol"><i class="">✕</i></div> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> </div> </div> <div class="col-sm-12"> <div class="text-right mobile-center post-action"> <button class="btn fnb-btn primary-btn full border-btn enquiry-btn post-btn" id="post-update-button" type="button">Post</button> </div> </div> </div>';
+    html = '<div class="row"> <div class="col-sm-12 form-group"> <div class="flex-row space-between title-flex-row"> <div class="title-icon"> <label class="required">Title</label> <input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required> </div> <img src="/img/post-title-icon.png" class="img-responsive"> </div> </div> <div class="col-sm-12 form-group c-gap"> <label class="required">Give us some more details about your listing</label> <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea> </div> <div class="col-sm-12"> <div class="image-grid imageUpload fileUpload post-uploads"> <div class="image-grid__cols post-img-col" > <input type="file" class="list-image img-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> <div class="image-grid__cols addCol"> <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a> </div> <div class="image-grid__cols uppend-uploader hidden"> <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div type="button" class="removeCol"><i class="">✕</i></div> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> </div> </div> <div class="col-sm-12"> <div class="text-right mobile-center post-action"> <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Post</button> </div> </div> </div>';
     $('.update-card').html(html);
     $('.dropify').dropify({
       messages: {
         'default': 'Add Photo'
       }
     });
-    image_dropify = $('.list-image').dropify({
+    image_dropify = $('.img-upload').dropify({
       messages: {
         'default': 'Add photo',
         'replace': 'Replace photo',

@@ -22,7 +22,7 @@ class CreateUpdatesTable extends Migration
             $table->integer('last_updated_by');
             $table->string('title');
             $table->text('contents');
-            $table->string('photos');
+            $table->string('photos')->nullable();
             $table->integer('status')->comment('0= draft, 1=published');
             $table->softDeletes();
 

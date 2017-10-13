@@ -235,7 +235,7 @@
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <ul class="nav-info__tabs flex-row">
-                                                <!-- <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> -->
+                                                @if(isset($data['updates']) and !empty($data['updates']))<li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> @endif
                                                 @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
                                                 @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
                                                 <li class="nav-section"><a href="#business">Similar Businesses</a></li>
@@ -280,8 +280,6 @@
                                 @foreach($photos as $photo)
                                 <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
                                 @endforeach
-                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                <li><img src="/img/gallery-1.png" alt="" width="80"></li>
                             </ul>
                             <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates">View More</a></p>
                         </div>

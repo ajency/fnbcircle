@@ -733,8 +733,9 @@ class JobController extends Controller
         }
 
         $jobApplicant->save();
-        dd($jobApplicant);
+    
         Session::flash('success_message','Successfully applied for job');
+        Session::flash('success_apply_job','Job apply');
         return redirect()->back();
 
     }

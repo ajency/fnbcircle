@@ -15,6 +15,18 @@
     });
     </script> 
     @endif 
+
+    @if(Session::has('success_apply_job')) 
+     <script type="text/javascript">
+    $(document).ready(function() {
+      
+      $('.apply-job-form').addClass('show');
+      $('.success-apply').removeClass('show');
+
+        $('#apply-jobs').modal('show');
+    });
+    </script> 
+    @endif 
 @endsection
 
 @section('openGraph')
@@ -836,7 +848,7 @@
                 <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
-                <div class="default-state">
+                <div class="apply-job-form">
                
                     <h6 class="sub-title">You are applying for following job</h6>
                     <p class="text-lighter x-small">
@@ -896,7 +908,7 @@
                         <div class="validationError text-left"></div>
                     </div>
                 </div>
-                <div class="contact-verify-steps add-number hidden">
+                <div class="success-apply hidden">
                     <img src="/img/email-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Your application has been sent</h6>
                     <div class="">

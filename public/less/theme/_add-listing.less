@@ -3777,6 +3777,19 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.similar-business{
+	&.job-similar-business{
+		.business-card{
+			&:nth-child(odd){
+				margin-right: 2em;
+			}
+			margin-bottom: 2em;
+			flex: 1 0 calc(~'50% - 2em');
+    		max-width: calc(~'53% - 2em');
+		}
+	}
+}
+
 
 .readMore{
 	span{
@@ -3787,4 +3800,30 @@ input[type='checkbox'].remove-addr{
 		color: @accent-secondary;
 	}
 }
+
+
+.job-pending-review{
+	background-color: transparent;
+    margin-bottom: 0;
+    padding: 0;
+    flex-direction: column;
+    .pre-benefits__content{
+		padding-left: 0;
+    }
+    .pre-benefits__intro{
+    	text-align: center;
+    }
+    .pre-benefits__title{
+    	color: #6b6b6b;
+    	line-height: 1.5;
+    }
+    .upgrade{
+    	border-color: transparent;
+	    font-size: 0.85em;
+	    margin-top: 0.6em;
+    	border-radius: 0;
+    	padding: 0.5em 1em;
+    }
+}
+
 

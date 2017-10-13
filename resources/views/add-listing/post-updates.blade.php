@@ -9,6 +9,7 @@
   <meta property="photo-upload-url" content="{{action('UpdatesController@uploadPhotos')}}">
   <meta property="post-upload-url" content="{{action('UpdatesController@postUpdate')}}">
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-updates-max-photos')}}">
+  <meta property="get-posts-url" content="{{action('UpdatesController@getUpdates')}}">
 
 @endsection
 
@@ -27,73 +28,8 @@
         <p class="m-b-0 text-color">Your last update was on 10th July 2017. Recently updated listings usually get more leads, so go ahead and post an update.</p>
     </div>
 
-    <div class="m-t-30 card post-card">
-    	<div class="row">
-    		<div class="col-sm-12 form-group">
-	    		<div class="flex-row space-between title-flex-row">
-	    			<div class="title-icon">
-	    				<label class="required">Title</label>
-	                	<input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required>
-	                </div>
-	                <img src="/img/post-title-icon.png" class="img-responsive">
-	    		</div>
-    		</div>
-    		<div class="col-sm-12 form-group c-gap">
-	    		<label class="required">Give us some more details about your listing</label>
-	             <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
-    		</div>
-    		<div class="col-sm-12">
-    			<div class="image-grid imageUpload fileUpload post-uploads">
-					<div class="image-grid__cols post-img-col" >
-						 <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" />
-						 <input type="hidden" name="image-id" value="">
-						 <div class="image-loader hidden">
-		                    <div class="site-loader section-loader">
-	                            <div id="floatingBarsG">
-	                                <div class="blockG" id="rotateG_01"></div>
-	                                <div class="blockG" id="rotateG_02"></div>
-	                                <div class="blockG" id="rotateG_03"></div>
-	                                <div class="blockG" id="rotateG_04"></div>
-	                                <div class="blockG" id="rotateG_05"></div>
-	                                <div class="blockG" id="rotateG_06"></div>
-	                                <div class="blockG" id="rotateG_07"></div>
-	                                <div class="blockG" id="rotateG_08"></div>
-	                            </div>
-	                        </div>
-		                </div>
-					</div>
-					<div class="image-grid__cols addCol">
-		                <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
-		            </div>
-		            <div class="image-grid__cols uppend-uploader hidden">
-		                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
-		                <div type="button" class="removeCol"><i class="">✕</i></div>
-		                <div class="image-loader hidden">
-		                    <div class="site-loader section-loader">
-	                            <div id="floatingBarsG">
-	                                <div class="blockG" id="rotateG_01"></div>
-	                                <div class="blockG" id="rotateG_02"></div>
-	                                <div class="blockG" id="rotateG_03"></div>
-	                                <div class="blockG" id="rotateG_04"></div>
-	                                <div class="blockG" id="rotateG_05"></div>
-	                                <div class="blockG" id="rotateG_06"></div>
-	                                <div class="blockG" id="rotateG_07"></div>
-	                                <div class="blockG" id="rotateG_08"></div>
-	                            </div>
-	                        </div>
-		                </div>
-		            </div>
-				</div>
-    		</div>
-    		<div class="col-sm-12">
-    			<div class="text-right mobile-center post-action">
-    				<button class="btn fnb-btn primary-btn full border-btn enquiry-btn post-btn" id="post-update-button" type="button">Post</button>
-    			</div>
-    		</div>
-
-
-
-    	</div>
+    <div class="m-t-30 card post-card update-card">
+    	
     </div>
 
 	<div class="sidebar-updates page-sidebar postUpdates">
@@ -104,70 +40,19 @@
             </div>
            <div class="sort flex-row">
                <p class="m-b-0 text-lighter default-size">Sort</p>
-               <select name="" id="" class="fnb-select">
-                   <option>Recent</option>
-                   <option>Newer</option>
-                   <option>Older</option>
+               <select name="update-sort" id="" class="fnb-select">
+                   <option value="0">Recent</option>
+                   <option value="1">Older</option>
                </select>
            </div>
         </div>
-        <div class="page-sidebar__body">
-            <div class="update-sec sidebar-article">
-                <div class="update-sec__body update-space">
-                    <h6 class="element-title update-sec__heading m-t-15 bolder flex-row space-between edit-section">
-                        Mystical the meat and fish store recent updates
-                        <!-- <i class="fa fa-pencil edit-updates" aria-hidden="true"></i> -->
-                    </h6>
-                    <p class="update-sec__caption text-lighter edit-section">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                    </p>
-                    <ul class="flex-row update-img">
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                    </ul>
-                    <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                </div>
-            </div>
-            <div class="update-sec sidebar-article">
-                <div class="update-sec__body update-space">
-                    <h6 class="element-title update-sec__heading m-t-15 bolder">
-                        Mystical the meat and fish store recent updates
-                    </h6>
-                    <p class="update-sec__caption text-lighter">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                    </p>
-                    <ul class="flex-row update-img">
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                    </ul>
-                    <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                </div>
-            </div>
-			<div class="update-sec sidebar-article">
-                <div class="update-sec__body update-space">
-                    <h6 class="element-title update-sec__heading m-t-15 bolder">
-                        Mystical the meat and fish store recent updates
-                    </h6>
-                    <p class="update-sec__caption text-lighter">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                    </p>
-                    <ul class="flex-row update-img">
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                        <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                    </ul>
-                    <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                </div>
-            </div>
+        <div class="page-sidebar__body update-display-section">
+            
         </div>
         <div class="page-sidebar__footer"></div>
     </div>
 
-	<div class="m-t-10 text-center view-more-updates">
-		<a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
-	</div>
+	
 
 </div>
 

@@ -1,5 +1,5 @@
 (function() {
-  var offset, order;
+  var loadUpdates, offset, order;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -11,7 +11,7 @@
 
   order = 0;
 
-  window.loadUpdates = function() {
+  loadUpdates = function() {
     return $.ajax({
       url: document.head.querySelector('[property="get-posts-url"]').content,
       type: 'get',
@@ -22,8 +22,9 @@
         'order': order
       },
       success: function(data) {
-        var html;
+        var button, html;
         if (data['status'] === '200') {
+          $('.update-display-section').find('.view-more-updates').remove();
           if (data['data']['updates'].length !== 0) {
             offset += data['data']['updates'].length;
             html = '';
@@ -34,7 +35,11 @@
               });
               return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on ' + element.updated + '</p> </div> </div>';
             });
-            return $('.update-display-section').append(html);
+            $('.update-display-section').append(html);
+            if (data['data']['updates'].length === 5) {
+              button = '<div class="m-t-10 text-center view-more-updates"> <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a> </div>';
+              return $('.update-display-section').append(button);
+            }
           }
         }
       }
@@ -53,6 +58,10 @@
     order = this.value;
     offset = 0;
     $('.update-display-section').html('');
+    return loadUpdates();
+  });
+
+  $('body').on('click', '.view-more-updates a', function() {
     return loadUpdates();
   });
 

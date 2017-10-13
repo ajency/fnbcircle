@@ -98,8 +98,8 @@ class UpdatesController extends Controller
         $update_json = [];
         foreach ($updates as $update) {
             $update_json[] = [
-                'title' => $update->title,
-                'contents' => $update->contents,
+                'title' => e($update->title),
+                'contents' => nl2br(e($update->contents)),
                 'images'=> $update->getImages(),
                 'updated'=>$update->updated_at->format('F j, Y'),
             ];           

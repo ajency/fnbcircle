@@ -15,7 +15,7 @@ $('#shareRoundIcons').jsSocials
 offset = 0
 order = 0
 
-window.loadUpdates = () ->
+loadUpdates = () ->
   $.ajax
     url :  document.head.querySelector('[property="get-posts-url"]').content
     type : 'get'
@@ -26,6 +26,7 @@ window.loadUpdates = () ->
       'order': order
     success: (data) ->
       if data['status'] == '200'
+        $('.update-display-section').find('.view-more-updates').remove()
         if data['data']['updates'].length != 0 
           offset+=data['data']['updates'].length
           html = ''
@@ -49,6 +50,11 @@ window.loadUpdates = () ->
                       </div>
                   </div>'
           $('.update-display-section').append(html)
+          if data['data']['updates'].length == 5 
+            button = '<div class="m-t-10 text-center view-more-updates">
+                            <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
+                        </div>'
+            $('.update-display-section').append(button)
 
   
 
@@ -65,3 +71,5 @@ $('body').on 'change','select[name="update-sort"]',()->
   $('.update-display-section').html ''
   loadUpdates()
 
+$('body').on 'click', '.view-more-updates a', () ->
+  loadUpdates()

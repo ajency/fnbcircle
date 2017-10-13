@@ -251,7 +251,7 @@
                                 </div>
                             </div>
                             <ul class="nav-info__tabs flex-row">
-                                <!-- <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> -->
+                               @if(isset($data['updates']) and !empty($data['updates'])) <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li>@endif
                                 @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
                                 @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
                                 <li class="nav-section"><a href="#business">Similar Businesses</a></li>
@@ -259,6 +259,7 @@
                         </div>
 
                     <!-- tabs structure ends -->
+                    @if(isset($data['updates']) and !empty($data['updates']))
                     <!-- updates section -->
                      <div class="update-sec m-t-30" id="updates">
                         <!-- <div class="update-sec__header flex-row update-space">
@@ -272,7 +273,7 @@
                             </h6>
                             <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
                             <p class="update-sec__caption text-lighter">
-                                {{$data['updates']->contents}}
+                                {!! nl2br(e($data['updates']->contents)) !!}
                             </p>
                             <ul class="flex-row update-img">
                             @php $photos = $data['updates']->getImages(); @endphp
@@ -286,6 +287,7 @@
                         </div>
                     </div>
                     <!-- updates section ends -->
+                    @endif
                     @isset($data['categories'])
                     <!-- listed -->
                     <div class="listed p-t-20 p-b-10" id="listed">
@@ -731,70 +733,7 @@
                        </div>
                     </div>
                     <div class="page-sidebar__body update-display-section">
-                        <div class="update-sec sidebar-article">
-                            <div class="update-sec__body update-space">
-                                <p class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </p>
-                                <p class="update-sec__caption text-lighter">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                                </p>
-                                <ul class="flex-row update-img">
-                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                            </div>
-                        </div>
-                        <!-- <div class="update-sec sidebar-article">
-                            <div class="update-sec__body update-space">
-                                <p class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </p>
-                                <p class="update-sec__caption text-lighter">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                                </p>
-                                <ul class="flex-row update-img">
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                            </div>
-                        </div>
-                        <div class="update-sec sidebar-article">
-                            <div class="update-sec__body update-space">
-                                <p class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </p>
-                                <p class="update-sec__caption text-lighter">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                                </p>
-                                <ul class="flex-row update-img">
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                            </div>
-                        </div>
-                        <div class="update-sec sidebar-article">
-                            <div class="update-sec__body update-space">
-                                <p class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </p>
-                                <p class="update-sec__caption text-lighter">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                                </p>
-                                <ul class="flex-row update-img">
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                            </div>
-                        </div> -->
+
                     </div>
                     <div class="page-sidebar__footer"></div>
                 </div>  

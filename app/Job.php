@@ -351,7 +351,7 @@ class Job extends Model
     }
 
     public function canEditJob(){
-        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id))
+        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id) )
             return true;
         else
             return false;
@@ -360,7 +360,7 @@ class Job extends Model
 
     public function isJobVisible(){
         
-        if(hasAccess('edit_permission',$this->reference_id,'jobs') && $this->isJobDataComplete())
+        if(hasAccess('edit_permission_element_cls',$this->reference_id,'jobs') && $this->isJobDataComplete())
             return true;
         elseif($this->status == 3 || $this->status == 4)
             return true;
@@ -402,7 +402,7 @@ class Job extends Model
 
     public function submitForReview(){
      
-        if($this->status == 1 && $this->isJobDataComplete())
+        if($this->status == 1 && $this->isJobDataComplete() && hasAccess('submit_review_element_cls',$this->reference_id,'jobs'))
             return true;
         else
             return false;

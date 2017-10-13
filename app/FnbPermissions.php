@@ -33,6 +33,7 @@ function routePermission(){
 			 	//ui element
 				'submit_review_element_cls'=>['submit_for_review_job','submit_for_review_listing'],
 				'edit_permission_element_cls'=>['edit_job','edit_listing'],
+				'change_status_element_cls'=>['job_status'],
 			],
 
 		'normal_user_check' =>

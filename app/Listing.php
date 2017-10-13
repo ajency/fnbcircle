@@ -118,7 +118,13 @@ class Listing extends Model
         }
 
         $this->show_primary_email = $email;
-        $this->locality_id        = $area;
+        if($this->locality_id != $area){
+            $this->locality_id        = $area;
+            $this->latitude = null;
+            $this->longitude = null;
+            $this->map_address = null;
+            $this->display_address = null;
+        }
         if ($this->status == null) {
             $this->status = self::DRAFT;
         }
@@ -162,13 +168,13 @@ class Listing extends Model
     public function getHoursofOperation(){
         $opHrs = $this->operationTimings()->get();
         $week = [
-            '0' => ['day' => 'Monday'],
-            '1' => ['day' => 'Tuesday'],
-            '2' => ['day' => 'Wednesday'],
-            '3' => ['day' => 'Thursday'],
-            '4' => ['day' => 'Friday'],
-            '5' => ['day' => 'Saturday'],
-            '6' => ['day' => 'Sunday'],
+            '0' => ['day' => 'Sunday'],
+            '1' => ['day' => 'Monday'],
+            '2' => ['day' => 'Tuesday'],
+            '3' => ['day' => 'Wednesday'],
+            '4' => ['day' => 'Thursday'],
+            '5' => ['day' => 'Friday'],
+            '6' => ['day' => 'Saturday'],
         ];
         foreach($opHrs as $day){
             $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
@@ -203,15 +209,15 @@ class Listing extends Model
         if($this->payment_modes == null) return null;
         $modes =json_decode($this->payment_modes);
         $mode_name=[
-            "visa" => "Visa Cards",
-            "debit" => "Debit Cards",
+            "visa" => "Visa Card",
+            "debit" => "Debit Card",
             "money_order" => "Money Order",
             "cheque" => "Cheque",
-            "credit" => "Credit Cards",
+            "credit" => "Credit Card",
             "travelers" => "Travelers Cheque",
             "cash" => "Cash",
-            "master" => "Master Cards",
-            "diners" => "Diner's Cards",
+            "master" => "Master Card",
+            "diners" => "Diners Club Card",
         ];
         foreach ($modes as $mode => $value) {
              if($value == '1') $payments[] = $mode_name[$mode];

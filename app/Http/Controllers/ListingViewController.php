@@ -35,7 +35,7 @@ class ListingViewController extends Controller
         $pagedata['title'] = ['name'=>$listing->title,'url'=>env('APP_URL').'/'.$area->city['slug'].'/'.$listing->slug,'alt'=>''];
         $pagedata['update'] = $listing->updated_at->format('jS F');
         if($listing->status == 1){
-            $pagedata['publish_date'] = $listing->published_on->format('jS F Y');
+            $pagedata['publish_date'] = $listing->published_on->format('F j, Y');
             $pagedata['rating'] = '50';
             $pagedata['views'] = $listing->views_count;
             $pagedata['verified'] = ($listing->verified == 1)? true : false;    
@@ -120,7 +120,7 @@ class ListingViewController extends Controller
         
         $pagedata['status']= [];
         if($listing->status=="3") {
-            $pagedata['status']['text'] = "";
+            $pagedata['status']['text'] = "The current status of your listing is ";
             $pagedata['status']['status']= 'Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>';
             $pagedata['status']['id']= '3';
             if($listing->isReviewable()){
@@ -136,19 +136,19 @@ class ListingViewController extends Controller
             $pagedata['status']['change'] = '';
         }
         elseif($listing->status=="1") {
-            $pagedata['status']['text'] = "";
+            $pagedata['status']['text'] = "The current status of your listing is ";
             $pagedata['status']['status']= 'Published';
             $pagedata['status']['id']= '1';
             $pagedata['status']['change'] = '<form action="'.action('ListingController@archive').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Archive</button></form>';
         }
         elseif($listing->status=="4"){
-            $pagedata['status']['text'] = "";
+            $pagedata['status']['text'] = "The current status of your listing is ";
             $pagedata['status']['status']= 'Archived';
             $pagedata['status']['id']= '4';
             $pagedata['status']['change'] = '<form action="'.action('ListingController@publish').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Publish</button></form>';
         }
         elseif($listing->status=="5") {
-            $pagedata['status']['text'] = "";
+            $pagedata['status']['text'] = "The current status of your listing is ";
             $pagedata['status']['status']= 'Rejected';
             $pagedata['status']['id']= '5';
             $pagedata['status']['change'] = '<form action="'.action('ListingController@submitForReview').'" method="post"><input type="hidden" name="listing_id" value="'.$listing->reference.'"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Submit for Review</button></form>';

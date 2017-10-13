@@ -139,8 +139,9 @@
                                     @endisset
                                 </div>
                                 <label class="fnb-label wholesaler flex-row">
+                                    <a href="#">
                                     <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                    {{$data['type']}}
+                                    {{$data['type']}}</a>
                                 </label>
                                 
                                 <!-- <div class="verified-toggle flex-row">
@@ -270,7 +271,9 @@
                         @foreach($data['categories'] as $category)
                         <div class="listed__section flex-row">
                             <div class="parent-cat flex-row">
-                                <span class="fnb-icons cat-icon meat m-r-15"></span>
+                                <span class="fnb-icons cat-icon">
+                                    <img src="{{$category['image-url']}}">
+                                </span>
                                 <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
                             </div>
                             <div class="child-cat">
@@ -309,7 +312,7 @@
                         @isset($data['highlights'])
                         <!-- Highlights -->
                         <div class="highlights p-t-20 p-b-20">
-                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights of {{$data['title']['name']}}</h3>
+                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
                                 <li class="flex-row">
@@ -327,7 +330,7 @@
                         <!-- Description -->
                         <div class="description p-t-20 p-b-20">
                             <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
-                            <p class="sub-title description__detail">{{$data['description']}}</p>
+                            <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
                         </div>
                         <!-- Description ends -->
                         @endisset
@@ -360,14 +363,14 @@
                                 </div>
                             </div>
                             @endif
-                            @isset($data['address'])
+                            @if(isset($data['address']) or isset($data['location']))
                             <div class="detail-3 flex-row m-t-25 m-b-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
-                                    <p class="sub-title lighter">{{$data['address']}}</p>
+                                    @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>
-                            @endisset
+                            @endif
                             @isset($data['location'])
                             <div class="detail-4 flex-row m-t-25 m-b-25">
                                 <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
@@ -375,7 +378,7 @@
                                     function initMap() {
                                         var uluru = {lat: {{$data['location']['lat']}}, lng: {{$data['location']['lng']}} };
                                         var map = new google.maps.Map(document.getElementById('map'), {
-                                          zoom: 12,
+                                          zoom: 17,
                                           center: uluru
                                         });
                                         var marker = new google.maps.Marker({

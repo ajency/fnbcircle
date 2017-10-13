@@ -145,8 +145,8 @@ loadUpdates = () ->
                                 '+element.title+'
                             </p>
                               <div class="update-actions">
-                                <i class="fa fa-pencil editUpdates" aria-hidden="true" data-toggle="modal" data-target="#edit-updates"></i>
-                                <i class="fa fa-trash-o deleteUpdates" aria-hidden="true"></i>
+                                <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" edit="Edit"></i>
+                                <i class="fa fa-trash-o deleteUpdates text-danger" aria-hidden="true" title="Delete"></i>
                               </div>
                           </div>
                          

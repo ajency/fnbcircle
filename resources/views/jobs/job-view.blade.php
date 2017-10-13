@@ -482,7 +482,7 @@ $additionalData = ['job'=>$job];
                              </div>
                           </div>
                           @if(!$job->submitForReview() && !$job->getNextActionButton())
-                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+                          <button type="button" class="close desk-hide" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
                           @endif
 
                           @if($job->submitForReview()) 
@@ -502,14 +502,17 @@ $additionalData = ['job'=>$job];
                     </div>
                  </div>
                 @endif
-               <div class="contact__info applyJob">
-                  <!-- If logged in -->
-                  <!-- If not logged in -->
-                  @if($job->status != 3 && $job->status != 4)
+
+                @if($job->status != 3 && $job->status != 4)
                    
                   <h5 class="sub-title pre-benefits__title m-b-0 no-published">You're viewing the job which is not yet published.</h5>
                                
-                   @endif
+                @endif
+
+               <div class="contact__info applyJob">
+                  <!-- If logged in -->
+                  <!-- If not logged in -->
+                  
 
                   @if($job->canEditJob())
                      <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>

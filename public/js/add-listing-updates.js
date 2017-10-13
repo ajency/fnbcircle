@@ -100,6 +100,7 @@
   $('body').on('click', '.add-uploader', function(e) {
     var contact_group, contact_group_clone, getTarget, newimg;
     e.preventDefault();
+    console.log('bxbvbbz');
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
     contact_group_clone = contact_group.clone();
     contact_group_clone.removeClass('uppend-uploader hidden');
@@ -155,7 +156,7 @@
             offset += data['data']['updates'].length;
             html = '';
             $.each(data['data']['updates'], function(i, element) {
-              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <div class="flex-row space-between"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <div class="update-actions flex-row"> <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit"></i> <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete"></i> </div> </div> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img">';
+              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <div class="flex-row space-between"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <div class="update-actions flex-row"> <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit" data-update-id="' + element.id + '"></i> <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete"></i> </div> </div> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img">';
               $.each(element.images, function(j, item) {
                 html += '<li><img src="' + item['200x150'] + '" alt="" width="80"></li>';
               });
@@ -217,5 +218,57 @@
   };
 
   newPost();
+
+  $('#edit-updates').on('show.bs.modal', function(e) {
+    var id;
+    id = $(e.relatedTarget).attr('data-update-id');
+    $.ajax({
+      url: document.head.querySelector('[property="get-single-post-url"]').content,
+      type: 'get',
+      data: {
+        'type': 'listing',
+        'id': document.getElementById('listing_id').value,
+        'postID': id
+      },
+      success: function(data) {
+        var html, i, newmodalimg, post;
+        console.log(data['data']);
+        if (data['status'] === '200') {
+          post = data['data'];
+          html = '<div class="row"> <div class="col-sm-12 form-group"> <div class="flex-row space-between title-flex-row"> <div class="title-icon"> <label class="">Title</label> <input type="text" class="form-control fnb-input" placeholder="" name="title" data-parsley-required> </div> </div> </div> <div class="col-sm-12 form-group c-gap"> <label class="">Listing description</label> <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="" data-parsley-required></textarea> </div> <div class="col-sm-12"> <div class="image-grid imageUpload fileUpload post-uploads modal-uploads">';
+          if (Object.keys(post['images']).length > 0) {
+            for (i in post['images']) {
+              html += '<div class="image-grid__cols post-img-col" > <input type="file" class="list-image img-modal-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" data-default-file="' + post['images'][i]['200x150'] + '" /> <input type="hidden" name="image-id" value=""> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div>';
+            }
+          } else {
+            html += '<div class="image-grid__cols post-img-col" > <input type="file" class="list-image img-modal-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg"  /> <input type="hidden" name="image-id" value=""> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div>';
+          }
+          html += '<div class="image-grid__cols addCol"> <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a> </div> <div class="image-grid__cols uppend-uploader hidden"> <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div type="button" class="removeCol"><i class="">✕</i></div> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> </div> </div> <div class="col-sm-12"> <div class="text-right mobile-center post-action"> <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Post</button> </div> </div> </div>';
+          $('#edit-updates .update-edit-modal').html(html);
+          $('#edit-updates').find('input[name="title"]').val(post['title']);
+          $('#edit-updates').find('textarea[name="description"]').val(post['content']);
+          newmodalimg = $('#edit-updates .img-modal-upload').dropify({
+            messages: {
+              'default': 'Add photo',
+              'replace': 'Replace photo',
+              'remove': '<i class="">&#10005;</i>',
+              'error': ''
+            }
+          });
+          newmodalimg.on('dropify.errors', function(event, element) {
+            ef = 1;
+            setTimeout((function() {
+              ef = 0;
+            }), 2000);
+          });
+          return newmodalimg.on('dropify.afterClear', function(event, element) {
+            $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
+            $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+            console.log("file deleted");
+          });
+        }
+      }
+    });
+  });
 
 }).call(this);

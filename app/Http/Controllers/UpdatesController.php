@@ -103,6 +103,7 @@ class UpdatesController extends Controller
         $update_json = [];
         foreach ($updates as $update) {
             $update_json[] = [
+                'id' => $update->id,
                 'title' => e($update->title),
                 'contents' => nl2br(e($update->contents)),
                 'images'=> $update->getImages(),
@@ -112,6 +113,25 @@ class UpdatesController extends Controller
         return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json]]);
     }
 
-
+    public function getPost(Request $request){
+        $this->validate($request, [
+            "type"=>'required',
+            "id"=>'required',
+            'postID' => 'required|integer',
+        ]);
+        if ($request->type == 'listing') {
+            $config = config('tempconfig.table-details.listing');
+            $object = Listing::where($config['id'], $request->id)->firstOrFail();
+        }else{
+            return response()->json(['status' => '400', 'message' => 'Invalid type']);
+        }
+        $post = $object->updates()->where('id',$request->postID)->firstOrFail();
+        return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>[
+            'id'=>$post->id,
+            'title' => $post->title,
+            'content' => $post->contents,
+            'images'=> $post->getImages(),
+        ]]);
+    }
 
 }

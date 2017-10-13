@@ -23,6 +23,10 @@
     @endif
 @endsection
 
+@section('meta')
+     <meta property="get-posts-url" content="{{action('UpdatesController@getUpdates')}}">
+@endsection
+
 @section('openGraph')
 <!-- SEo section here -->
     @php
@@ -72,7 +76,7 @@
                             <img src="/img/power-icon.png" class="img-repsonsive" width="50">
                             <div class="pre-benefits__content">
                                 <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                                <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version</p>
+                                <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnBCircle to upgrade to the premium version</p>
                             </div>
                         </div>
                         <a href="/listing/{{$data['reference']}}/edit/business-premium" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</a>
@@ -105,6 +109,7 @@
                             <div class="seller-info__body">
                                 <div class="flex-row space-between">
                                     <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
+                                    <input readonly id='listing_id' value="{{$data['reference']}}" type="hidden">
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                     <!-- <a href="/listing/{{$data['reference']}}/edit" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                                     @endif
@@ -277,7 +282,7 @@
                                 <li><img src="/img/gallery-1.png" alt="" width="80"></li>
                                 <li><img src="/img/gallery-1.png" alt="" width="80"></li>
                             </ul>
-                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a></p>
+                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates">View More</a></p>
                         </div>
                     </div>
                     <!-- updates section ends -->
@@ -719,15 +724,30 @@
                         </div>
                        <div class="sort flex-row">
                            <p class="m-b-0 text-lighter default-size">Sort</p>
-                           <select name="" id="" class="fnb-select">
-                               <option>Recent</option>
-                               <option>Newer</option>
-                               <option>Older</option>
+                           <select name="update-sort" id="" class="fnb-select">
+                               <option value="0">Recent</option>
+                               <option value="1">Older</option>
                            </select>
                        </div>
                     </div>
-                    <div class="page-sidebar__body">
+                    <div class="page-sidebar__body update-display-section">
                         <div class="update-sec sidebar-article">
+                            <div class="update-sec__body update-space">
+                                <p class="element-title update-sec__heading m-t-15 bolder">
+                                    {{$data['title']['name']}} recent updates
+                                </p>
+                                <p class="update-sec__caption text-lighter">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
+                                </p>
+                                <ul class="flex-row update-img">
+                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                                    <li><img src="/img/gallery-1.png" alt="" width="80"></li>
+                                </ul>
+                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
+                            </div>
+                        </div>
+                        <!-- <div class="update-sec sidebar-article">
                             <div class="update-sec__body update-space">
                                 <p class="element-title update-sec__heading m-t-15 bolder">
                                     {{$data['title']['name']}} recent updates
@@ -774,25 +794,9 @@
                                 </ul>
                                 <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
                             </div>
-                        </div>
-                        <div class="update-sec sidebar-article">
-                            <div class="update-sec__body update-space">
-                                <p class="element-title update-sec__heading m-t-15 bolder">
-                                    {{$data['title']['name']}} recent updates
-                                </p>
-                                <p class="update-sec__caption text-lighter">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem obcaecati voluptate debitis, quaerat eum expedita quia veritatis repellendus quod aliquid!
-                                </p>
-                                <ul class="flex-row update-img">
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                    <li><img src="../public/img/gallery-1.png" alt="" width="80"></li>
-                                </ul>
-                                <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted 1 day ago</p>
-                            </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="page-sidebar__footer"></div>
+                    <div class="page-sidebar__footer">abcd</div>
                 </div>  
             </div>
         </div>

@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/get-updates','UpdatesController@getUpdates');
+
 //add listing
 Route::get('listing/create','ListingController@create');
 

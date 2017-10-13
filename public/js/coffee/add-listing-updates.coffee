@@ -140,9 +140,16 @@ loadUpdates = () ->
           $.each data['data']['updates'], (i, element) ->
             html += '<div class="update-sec sidebar-article">
                       <div class="update-sec__body update-space">
-                          <p class="element-title update-sec__heading m-t-15 bolder">
-                              '+element.title+'
-                          </p>
+                        <div class="flex-row space-between">
+                            <p class="element-title update-sec__heading m-t-15 bolder">
+                                '+element.title+'
+                            </p>
+                              <div class="update-actions">
+                                <i class="fa fa-pencil editUpdates" aria-hidden="true" data-toggle="modal" data-target="#edit-updates"></i>
+                                <i class="fa fa-trash-o deleteUpdates" aria-hidden="true"></i>
+                              </div>
+                          </div>
+                         
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>

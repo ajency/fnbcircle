@@ -121,13 +121,10 @@
       </div>
    </div>
    <!-- pending review -->
-<<<<<<< Updated upstream
-   @if($job->canEditJob())
-   <div class="row desk-hide">
-=======
+ 
    @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
    <div class="row">
->>>>>>> Stashed changes
+ 
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">

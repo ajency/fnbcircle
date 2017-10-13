@@ -66,7 +66,7 @@ class UpdatesController extends Controller
         $update->last_updated_by = Auth::user()->id;
         $update->title = $request->title;
         $update->contents = $request->description;
-        $update->photos = ($request->photos == '')? null:json_encode($request->photos);
+        $update->photos = ($request->photos == '')? '[]':json_encode($request->photos);
         $update->status = 1;
         $update->save();
         // dd($update->id);
@@ -74,7 +74,7 @@ class UpdatesController extends Controller
         $object->updated_at = Carbon::now();
         $object->last_updated_by = Auth::user()->id;
         $object->save();
-        $update->remapImages($request->photos);
+        $update->remapImages(json_decode($update->photos));
 
         return response()->json(['status' => '200', 'message' => '']);
     }

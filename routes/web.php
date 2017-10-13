@@ -42,6 +42,7 @@ Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
 Route::post('/post-update', 'UpdatesController@postUpdate');
 Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 Route::get('/get-single-post','UpdatesController@getPost');
+Route::post('/delete-post','UpdatesController@deletePost');
 
 //manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');

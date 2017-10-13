@@ -134,4 +134,20 @@ class UpdatesController extends Controller
         ]]);
     }
 
+    public function deletePost(Request $request){
+        $this->validate($request, [
+            "type"=>'required',
+            "id"=>'required',
+            'postID' => 'required|integer',
+        ]);
+        if ($request->type == 'listing') {
+            $config = config('tempconfig.table-details.listing');
+            $object = Listing::where($config['id'], $request->id)->firstOrFail();
+        }else{
+            return response()->json(['status' => '400', 'message' => 'Invalid type']);
+        }
+        $post = $object->updates()->where('id',$request->postID)->delete();
+        return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>[]]);
+    }
+
 }

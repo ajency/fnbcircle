@@ -147,7 +147,7 @@ loadUpdates = () ->
                             </p>
                               <div class="update-actions flex-row">
                                 <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit" data-update-id="'+element.id+'"></i>
-                                <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete"></i>
+                                <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete" data-delete-id="'+element.id+'"></i>
                               </div>
                           </div>
                          
@@ -286,18 +286,19 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
       if data['status'] == '200'
         post = data['data']
         html =  '
-          <div class="row">
+          <div class="row ">
+                    <input type="hidden" name="postID" value="'+post['id']+'">
                     <div class="col-sm-12 form-group">
                       <div class="flex-row space-between title-flex-row">
                         <div class="title-icon">
                           <label class="">Title</label>
-                           <input type="text" class="form-control fnb-input" placeholder="" name="title" data-parsley-required>
+                           <input type="text" class="form-control fnb-input form-update-data1" placeholder="" name="title" data-parsley-required>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-12 form-group c-gap">
                       <label class="">Listing description</label>
-                        <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
+                        <textarea type="text" rows="2" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
                     </div>
                     <div class="col-sm-12">
                       <div class="image-grid imageUpload fileUpload post-uploads modal-uploads">'
@@ -306,7 +307,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
           for i of post['images']
             html+=      '<div class="image-grid__cols post-img-col" >
                          <input type="file" class="list-image img-modal-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" data-default-file="'+post['images'][i]['200x150']+'" />
-                         <input type="hidden" name="image-id" value="">
+                         <input type="hidden" name="image-id" value="'+i+'">
                          <div class="image-loader hidden">
                             <div class="site-loader section-loader">
                                   <div id="floatingBarsG">
@@ -367,9 +368,10 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                     </div>
                     <div class="col-sm-12">
                       <div class="text-center post-action m-t-20">
-                        <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Update</button>
+                        <button class="btn fnb-btn primary-btn full border-btn post-btn" id="edit-update-button" type="button">Update</button>
                       </div>
                     </div>
+                    
                   </div>
         '
         $('#edit-updates .update-edit-modal').html html
@@ -395,3 +397,55 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
           return
 
   return
+
+$('#edit-updates').on 'click','#edit-update-button',()->
+  instance1 = $('#edit-updates .form-update-data1').parsley()
+  instance = $('#edit-updates .form-update-data').parsley()
+  if !instance1.validate()
+    return false
+  if !instance.validate()
+    return false
+  title = $('#edit-updates .form-update-data1').val()
+  description = $('#edit-updates .form-update-data').val()
+  id = $('#edit-updates input[type="hidden"]').val()
+  images = []
+  $('#edit-updates .imageUpload input[type="hidden"]').each ->
+    if $(this).val() != ''
+      return images.push($(this).val())
+    return
+  console.log title, description, images
+  url = document.head.querySelector('[property="post-upload-url"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data: 
+      'photos' : images
+      'title': title
+      'description': description
+      'type':'listing'
+      'id': document.getElementById('listing_id').value
+      'postID' : id
+    success: () ->
+      order = 0
+      offset = 0;
+      $('#edit-updates').modal('hide')
+      $('#edit-updates .update-edit-modal').html ''
+      $('.update-display-section').html ''
+      loadUpdates()
+      newPost()
+
+$('body').on 'click','.delete-post', () ->
+  console.log "lllal"
+  id = $(this).attr('data-delete-id')
+  url = document.head.querySelector('[property="delete-post-url"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data: 
+      'type':'listing'
+      'id': document.getElementById('listing_id').value
+      'postID' : id
+    success: () ->
+      offset = 0
+      $('.update-display-section').html ''
+      loadUpdates()

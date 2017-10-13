@@ -11,6 +11,7 @@
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-updates-max-photos')}}">
   <meta property="get-posts-url" content="{{action('UpdatesController@getUpdates')}}">
   <meta property="get-single-post-url" content="{{action('UpdatesController@getPost')}}">
+  <meta property="delete-post-url" content="{{action('UpdatesController@deletePost')}}">
 
 @endsection
 

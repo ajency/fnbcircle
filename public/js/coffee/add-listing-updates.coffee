@@ -116,9 +116,9 @@ $('body').on 'click', '.removeCol', (e)->
   $(this).parent().remove()
 
 
-$('body').on 'click', '.edit-updates', (e)->
-  e.preventDefault()
-  $(this).closest('.update-space').find('.edit-section').attr('contenteditable','true').addClass('editable')
+# $('body').on 'click', '.edit-updates', (e)->
+#   e.preventDefault()
+#   $(this).closest('.update-space').find('.edit-section').attr('contenteditable','true').addClass('editable')
 
 
 
@@ -366,8 +366,8 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                     </div>
                     </div>
                     <div class="col-sm-12">
-                      <div class="text-right mobile-center post-action">
-                        <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Post</button>
+                      <div class="text-center post-action m-t-20">
+                        <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Update</button>
                       </div>
                     </div>
                   </div>

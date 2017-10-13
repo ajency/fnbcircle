@@ -133,11 +133,6 @@
     return $(this).parent().remove();
   });
 
-  $('body').on('click', '.edit-updates', function(e) {
-    e.preventDefault();
-    return $(this).closest('.update-space').find('.edit-section').attr('contenteditable', 'true').addClass('editable');
-  });
-
   loadUpdates = function() {
     return $.ajax({
       url: document.head.querySelector('[property="get-posts-url"]').content,
@@ -243,7 +238,7 @@
           } else {
             html += '<div class="image-grid__cols post-img-col" > <input type="file" class="list-image img-modal-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg"  /> <input type="hidden" name="image-id" value=""> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div>';
           }
-          html += '<div class="image-grid__cols addCol"> <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a> </div> <div class="image-grid__cols uppend-uploader hidden"> <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div type="button" class="removeCol"><i class="">✕</i></div> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> </div> </div> <div class="col-sm-12"> <div class="text-right mobile-center post-action"> <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Post</button> </div> </div> </div>';
+          html += '<div class="image-grid__cols addCol"> <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a> </div> <div class="image-grid__cols uppend-uploader hidden"> <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" /> <input type="hidden" name="image-id" value=""> <div type="button" class="removeCol"><i class="">✕</i></div> <div class="image-loader hidden"> <div class="site-loader section-loader"> <div id="floatingBarsG"> <div class="blockG" id="rotateG_01"></div> <div class="blockG" id="rotateG_02"></div> <div class="blockG" id="rotateG_03"></div> <div class="blockG" id="rotateG_04"></div> <div class="blockG" id="rotateG_05"></div> <div class="blockG" id="rotateG_06"></div> <div class="blockG" id="rotateG_07"></div> <div class="blockG" id="rotateG_08"></div> </div> </div> </div> </div> </div> </div> <div class="col-sm-12"> <div class="text-center post-action m-t-20"> <button class="btn fnb-btn primary-btn full border-btn post-btn" id="post-update-button" type="button">Update</button> </div> </div> </div>';
           $('#edit-updates .update-edit-modal').html(html);
           $('#edit-updates').find('input[name="title"]').val(post['title']);
           $('#edit-updates').find('textarea[name="description"]').val(post['content']);

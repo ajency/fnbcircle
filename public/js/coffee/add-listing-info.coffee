@@ -68,7 +68,7 @@
 #   return
 
 $(document).on 'blur', '.fnb-input', ->
-  checkDuplicates()
+  # checkDuplicates()
   $('#info-form').parsley()
   return
 

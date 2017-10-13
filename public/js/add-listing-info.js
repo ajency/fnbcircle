@@ -1,6 +1,5 @@
 (function() {
   $(document).on('blur', '.fnb-input', function() {
-    checkDuplicates();
     $('#info-form').parsley();
   });
 

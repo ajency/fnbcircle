@@ -97,7 +97,7 @@
             @endif
 
  
-            @if(hasAccess('edit_permission',$job->reference_id,'jobs'))
+            @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
              <a href="{{ url('/jobs/'.$job->reference_id.'/job-details') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
 
             @endif                        
@@ -121,8 +121,9 @@
       </div>
    </div>
    <!-- pending review -->
-   @if($job->canEditJob())
-   <div class="row desk-hide">
+   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
+   <div class="row">
+
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -405,7 +406,7 @@
                </div>
               @endif -->
                <div class="footer-share flex-row">
-                  @if($job->canEditJob())
+                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
@@ -551,17 +552,10 @@
                                
                    @endif
 
-                  @if($job->canEditJob())
+                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
                      <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
-
-                    @if(Auth::check())
-                      <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                    @else
-                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                    </a>
-                    @endif
+                  <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   
                   <!-- <h1 class="m-b-0">20</h1> -->
                   <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>

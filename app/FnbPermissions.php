@@ -136,7 +136,7 @@ function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
 		$result = false;
 	
 
-	return 
+	return $result;
 }
 
 /***

@@ -18,6 +18,7 @@ class ListingViewController extends Controller
     	$listing = Listing::where('slug',$listing_slug)->firstorFail();
         $area = Area::with('city')->find($listing->locality_id);
         if($area->city['slug']!= $city) {abort(404); die();}
+        if($listing->status!=1 and $listing->status!=4 and !hasAccess('edit_permission_element_cls',$listing->reference,'listing')) {abort(404); die();}
         $pagedata = $this->getListingData($listing);
         $pagedata['browse_categories'] = $this->getPopularParentCategories();
     	// dd($pagedata);

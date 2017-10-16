@@ -168,13 +168,13 @@ class Listing extends Model
     public function getHoursofOperation(){
         $opHrs = $this->operationTimings()->get();
         $week = [
-            '0' => ['day' => 'Sunday'],
-            '1' => ['day' => 'Monday'],
-            '2' => ['day' => 'Tuesday'],
-            '3' => ['day' => 'Wednesday'],
-            '4' => ['day' => 'Thursday'],
-            '5' => ['day' => 'Friday'],
-            '6' => ['day' => 'Saturday'],
+            '0' => ['day' => 'Monday'],
+            '1' => ['day' => 'Tuesday'],
+            '2' => ['day' => 'Wednesday'],
+            '3' => ['day' => 'Thursday'],
+            '4' => ['day' => 'Friday'],
+            '5' => ['day' => 'Saturday'],
+            '6' => ['day' => 'Sunday'],
         ];
         foreach($opHrs as $day){
             $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
@@ -188,7 +188,8 @@ class Listing extends Model
 
     public function today(){
         $carbon = new Carbon();
-        $day = $this->operationTimings()->where('day_of_week',$carbon->dayOfWeek)->first();
+        $today = ($carbon->dayOfWeek -1)%7;
+        $day = $this->operationTimings()->where('day_of_week',$today)->first();
         if($day == null) return false;
         $timing = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
         if($day->closed == 1) { $timing = 'Closed'; $open = false; }

@@ -10387,6 +10387,7 @@ input[type='checkbox'].remove-addr {
 }
 .apply-jobs-modal .mapAddress {
   cursor: inherit;
+  font-size: 0.9em;
 }
 .apply-jobs-modal .jobDetail__row {
   -webkit-box-pack: start;

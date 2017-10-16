@@ -857,7 +857,7 @@
                 <div class="apply-job-form">
                     <!-- <p class="text-lighter x-small"> -->
                     <div class="jobDetail">
-                      <div class="flex-row jobDetail__row">
+                      <div class="flex-row jobDetail__row align-top">
                         <div class="joblogo">
                           @if(($jobCompany->logo))
                             <img src="{{ $companyLogo }}" width="60">
@@ -870,35 +870,37 @@
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
                           </span> -->
-                          <span class="x-small text-color">
+                          <span class="x-small text-color dis-block m-t-5 m-b-5">
                           @if(!empty($jobCompany->website))
                              <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
                              @endif
                           </span>
-                          <div class="flex-row jobDetail__row">
-                           @if(!empty($jobTypes))
-                           <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
-                           <div class="featured-jobs__row flex-row">
-                                <div class="job-type m-t-5">
-                                @foreach($jobTypes as $jobType)
-                                 <div class="text-color year-exp no-comma fnb-label">{{ $jobType }}</div>
-                                @endforeach
-                                </div>
-                           </div>
-                           @endif
-                        </div>
                           <!-- interview address -->
-                        @if($job->interview_location!="")
-                        <div class="owner-address">
-                          <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
-                          <!-- <span class="fnb-icons map-icon"></span> -->
-                          <div class="flex-row align-top">
-                            <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                            <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
-                          </div>
+                          @if($job->interview_location!="")
+                          <div class="owner-address m-b-5">
+                            <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
+                            <!-- <span class="fnb-icons map-icon"></span> -->
+                            <div class="flex-row align-top">
+                              <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
+                              <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
+                            </div>
+                            
+                           </div>
+                          @endif
                           
-                         </div>
-                        @endif
+                          @if(!empty($jobTypes))
+                          <div class="flex-row jobDetail__row">
+                             <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
+                             <div class="featured-jobs__row flex-row">
+                                  <div class="job-type m-t-5">
+                                  @foreach($jobTypes as $jobType)
+                                   <div class="text-color year-exp no-comma fnb-label">{{ $jobType }}</div>
+                                  @endforeach
+                                  </div>
+                             </div>
+                          </div>
+                          @endif
+
                         </div>
                       </div>
                     </div>

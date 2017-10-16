@@ -98,7 +98,7 @@
         </div>
     </div>
     <div class="m-t-40 c-gap">
-        <label class="label-size">List some brands that you deal with</label>
+        <label class="label-size">List some brands that you deal with <span class="text-lighter">(optional)</span></label>
         <!-- <div class="text-lighter m-t-5">
             Ex: Albertsons, America's Choice, Bashas
         </div> -->

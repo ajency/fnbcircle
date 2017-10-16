@@ -1123,10 +1123,10 @@
 
 
                           
-                          @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
+                      <!--     @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                           <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
                               <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
-                              <!-- contact info -->
+                              
                               <div class="card seller-info sell-re collapse" id="contact-data">
                                  <div class="contact-info flex-row flex-wrap">
                                     <div class="close-contact" data-toggle="collapse" href="#contact-data">
@@ -1177,7 +1177,7 @@
                                  </div>
                               </div>
                           </div>
-                          @endif
+                          @endif -->
                      </div>
                          
                     </div>

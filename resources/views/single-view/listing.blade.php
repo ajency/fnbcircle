@@ -786,15 +786,19 @@
                 <div class="modal-body text-center">
                     <div class="listing-message">
                         <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                        <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
+                        <h4 class="element-title heavier">
+                            @if(session('statusChange')=='review') We have sent your listing for review @endif
+                            @if(session('statusChange')=='archive') Your listing is now archived @endif
+                            @if(session('statusChange')=='published') Your listing is now published @endif
+                        </h4>
+                        @if(session('statusChange')=='review') <p class="default-size text-color lighter list-caption"> Our team will review your listing and you will be notified if your listing is published.</p> @endif
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
                         <div class="pending text-darker heavier sub-title">
                         @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
                         @if(session('statusChange')=='archive')
-                        Archieved
+                        Archived
                         @endif
                        @if(session('statusChange')=='published')
                        Published

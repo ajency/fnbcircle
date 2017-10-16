@@ -422,7 +422,7 @@ class ListViewController extends Controller {
     */
     public function getListingSummaryData($city, $filters=[], $start = 1, $page_limit = 10, $sort_by = "published_on", $sort_order = "desc") {
     	try {
-	    	$filter_mapping = array("published" => "created_at", "rank" => "", "views" => "views_count");
+	    	$filter_mapping = array("published" => "updated_at", "rank" => "", "views" => "views_count");
 	    	//$output = new ConsoleOutput;
 
 	    	if(isset($city) && !($city == "all" || $city == "")) { // If city filter is added, then
@@ -504,7 +504,7 @@ class ListViewController extends Controller {
 
 	    	$filtered_count = $listing_obj->distinct('id')->count('id');
 	    	
-	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug']);// , 'rating']);
+	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at']);// , 'rating']);
 
 	    	$listing_obj = $listing_obj->each(function($list){ // Get following data for each list
 	    		$list["area"] = $list->location()->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
@@ -545,7 +545,7 @@ class ListViewController extends Controller {
     */
     public function getListViewData(Request $request) {
     	$status = 200; $filter_filters = [];
-    	$filter_mapping = array("published" => "created_at", "rank" => "", "views" => "views_count");
+    	$filter_mapping = array("published" => "updated_at", "rank" => "", "views" => "views_count");
 
     	$output = new ConsoleOutput;
     	//$output->writeln(json_encode($request->all()));

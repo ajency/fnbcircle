@@ -488,7 +488,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
+                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip to Continue <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
                             </div>
                         </div>
                     </div>

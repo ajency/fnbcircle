@@ -709,8 +709,16 @@ class ListingController extends Controller
         $user    = Auth::user();
         $details = $user->getUserDetails()->first();
         if($user->type == 'internal') $areas = [];
-        else    {$areas  = Area::where('city_id', $details->city)->get();
-            $listing->locality_id = $details->area;}
+        else    {
+            if($details==null){
+                $areas = [];
+                $listing->locality_id = null;
+            }
+            else{
+                $areas  = Area::where('city_id', $details->city)->get();
+                $listing->locality_id = $details->area;
+            }
+        }
         if($user->type == 'external') $listing->owner_id = $user->id;
         return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
     }

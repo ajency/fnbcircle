@@ -10008,7 +10008,7 @@ input[type='checkbox'].remove-addr {
   margin-right: 5px;
   font-size: 0.85em;
 }
-.year-exp:not(:last-child):after {
+.year-exp:not(.no-comma):not(:last-child):after {
   content: ',';
   display: inline-block;
   padding: 0 3px;
@@ -10355,6 +10355,44 @@ input[type='checkbox'].remove-addr {
   margin-top: 0.6em;
   border-radius: 0;
   padding: 0.5em 1em;
+}
+.apply-jobs-modal .modal-header,
+.apply-jobs-modal .modal-body {
+  padding: 0;
+}
+.apply-jobs-modal .apply-info i {
+  font-size: 3.5em;
+}
+.apply-jobs-modal .jobDetail {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 1em;
+  background-color: #eeeeee;
+  margin: 1.5em 0;
+}
+.apply-jobs-modal .jobDetail__row {
+  width: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.apply-jobs-modal .joblogo {
+  padding-right: 1em;
+}
+.apply-jobs-modal .owner-address {
+  padding-left: 0;
+}
+.apply-jobs-modal .mapAddress {
+  cursor: inherit;
+}
+.apply-jobs-modal .jobDetail__row {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 .profile-stats {
   color: #fff;

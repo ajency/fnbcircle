@@ -570,19 +570,21 @@
                                
                    @endif
 
-                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
+                  <!-- @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
                      <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                     @if(Auth::check())
                       <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
                     @else
                       <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                    @endif
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                    @endif -->
+                     <!-- <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs"> -->
+                     <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                     </a>
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
-                  @endif
+                  <!-- <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  @endif -->
                </div>
               @if($job->isPublished()) 
                <div class="share-job flex-row justify-center">
@@ -841,43 +843,67 @@
 </div>
 
 
-<div class="modal fnb-modal  fade" id="apply-jobs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+<div class="modal fnb-modal center-modal apply-jobs-modal fade" id="apply-jobs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
             </div>
             <div class="modal-body">
+                <div class="apply-info text-center">
+                  <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
+                  <h6>You are applying for the following job.</h6>
+                </div>
                 <div class="apply-job-form">
-               
-                    <h6 class="sub-title">You are applying for following job</h6>
-                    <p class="text-lighter x-small">
-                      <div class="flex-row align-top">
-                    <div class="joblogo">
-                      @if(($jobCompany->logo))
-                       <img src="{{ $companyLogo }}" width="60">
-                      @else
-                      <img src="/img/company-placeholder.jpg" width="60">
-                      @endif
-                    </div>
-                    <div class="jobdesc">
-                        <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                        <span class="x-small text-color">
-                        {{ $job->getJobCategoryName() }}
-                        </span>
-                     </div>
-                  </div>
-                    @if(!empty($jobTypes))
-                     <h6 class="m-t-0 company-section__title">Job Type</h6>
-                     <div class="featured-jobs__row flex-row">
-                          <div class="job-type">
-                          @foreach($jobTypes as $jobType)
-                           <div class="text-color year-exp">{{ $jobType }}</div>
-                          @endforeach
+                    <!-- <p class="text-lighter x-small"> -->
+                    <div class="jobDetail">
+                      <div class="flex-row jobDetail__row">
+                        <div class="joblogo">
+                          @if(($jobCompany->logo))
+                            <img src="{{ $companyLogo }}" width="60">
+                          @else
+                            <img src="/img/company-placeholder.jpg" width="60">
+                          @endif
+                        </div>
+                        <div class="jobdesc">
+                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                         <!--  <span class="x-small text-color fnb-label">
+                          {{ $job->getJobCategoryName() }}
+                          </span> -->
+                          <span class="x-small text-color">
+                          @if(!empty($jobCompany->website))
+                             <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
+                             @endif
+                          </span>
+                          <div class="flex-row jobDetail__row">
+                           @if(!empty($jobTypes))
+                           <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
+                           <div class="featured-jobs__row flex-row">
+                                <div class="job-type m-t-5">
+                                @foreach($jobTypes as $jobType)
+                                 <div class="text-color year-exp no-comma fnb-label">{{ $jobType }}</div>
+                                @endforeach
+                                </div>
+                           </div>
+                           @endif
+                        </div>
+                          <!-- interview address -->
+                        @if($job->interview_location!="")
+                        <div class="owner-address">
+                          <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
+                          <!-- <span class="fnb-icons map-icon"></span> -->
+                          <div class="flex-row align-top">
+                            <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
+                            <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
                           </div>
-                     </div>
-                     @endif
-                    </p>
+                          
+                         </div>
+                        @endif
+                        </div>
+                      </div>
+                    </div>
+
+                      <!-- </p> -->
                     <div class=" ">
                     <form id="job-form" method="post" action="{{url('/jobs/'.$job->reference_id.'/applyjob')}}" data-parsley-validate enctype="multipart/form-data">
 

@@ -3450,7 +3450,7 @@ input[type='checkbox'].remove-addr{
     }
 }
 
-.year-exp{
+.year-exp:not(.no-comma){
 	&:not(:last-child){
 		&:after{
 			content: ',';
@@ -3824,6 +3824,47 @@ input[type='checkbox'].remove-addr{
     	border-radius: 0;
     	padding: 0.5em 1em;
     }
+}
+
+
+
+
+
+// ---------------------------
+// APPLY FOR JOB  -----------
+// ---------------------------
+
+.apply-jobs-modal{
+	.modal-header,.modal-body{
+		padding: 0;
+	}
+	.apply-info{
+		i{
+			font-size: 3.5em;
+		}
+	}
+	.jobDetail{
+		justify-content: center;
+	    padding: 1em;
+	    background-color: #eeeeee;
+	    margin: 1.5em 0;
+	    &__row{
+	    	width: 100%;
+    		justify-content: center;
+	    }
+	}
+	.joblogo{
+		padding-right: 1em;
+	}
+	.owner-address{
+		padding-left: 0;
+	}
+	.mapAddress{
+		cursor: inherit;
+	}
+	.jobDetail__row{
+		justify-content: flex-start;
+	}
 }
 
 

@@ -22,6 +22,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/get-updates','UpdatesController@getUpdates');
+
 //add listing
 Route::get('listing/create','ListingController@create');
 
@@ -37,6 +39,10 @@ Route::post('/validate_OTP','ListingController@validateOTP');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
+Route::post('/post-update', 'UpdatesController@postUpdate');
+Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
+Route::get('/get-single-post','UpdatesController@getPost');
+Route::post('/delete-post','UpdatesController@deletePost');
 
 //manage categories 
 Route::post('/list-categories','AdminConfigurationController@categConfigList');

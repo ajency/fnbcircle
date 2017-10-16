@@ -56,7 +56,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif post-mode ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -107,7 +107,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif ">
+            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif post-mode-shifter">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
                     <h3 class="main-heading m-b-0 m-t-0 white">@if($listing->reference==null)Let's get started! @endif</h3>
                     <!-- <div class="flex-row">
@@ -210,7 +210,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if($listing->isReviewable())
+                                    @if($listing->isReviewable() and !$listing->isPremium())
                                     <div class="premium-info">
                                         <p>
                                             Premium listings usually get more leads than non premium.
@@ -246,7 +246,7 @@
                                             @if($listing->status!="1")
                                             <div class="links inactive">
                                             @else
-                                            <a href="#" class="links enabled">
+                                            <a href="@if($listing->reference!=null and $step != 'business-updates') /listing/{{$listing->reference}}/edit/business-updates?step=true @else # @endif" class="links enabled">
                                             @endif
                                                 <div>
                                                     Post an Update
@@ -300,7 +300,7 @@
                                         <a href="@if($listing->reference!=null and $step != 'business-photos-documents') /listing/{{$listing->reference}}/edit/business-photos-documents?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-photos-documents') form-toggle @endif" id="business_photos">Photos &amp; Documents <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                     <li class="@if($listing->isReviewable())  @else disable @endif">
-                                        <a href="@if($listing->reference!=null and $step != 'business-plans') /listing/{{$listing->reference}}/edit/business-premium?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-plans') form-toggle @endif" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($listing->reference!=null and $step != 'business-premium') /listing/{{$listing->reference}}/edit/business-premium?step=true @else # @endif" class="@if($listing->reference == null or $step == 'business-premium') form-toggle @endif" id="business_premium">Go Premium <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

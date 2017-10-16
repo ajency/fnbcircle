@@ -50,6 +50,15 @@
   color: #ec6d4b;
   border: 2px solid;
 }
+.fnb-btn.secondary-btn {
+  background-color: #27b7b0;
+  color: #fff;
+}
+.fnb-btn.secondary-btn:hover {
+  background-color: #fff;
+  color: #27b7b0;
+  border: 2px solid;
+}
 .fnb-btn.full {
   padding: 0.85em 1.8em;
 }

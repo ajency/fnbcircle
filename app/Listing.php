@@ -64,7 +64,7 @@ class Listing extends Model
     }
     public function updates()
     {
-        return $this->hasMany('App\Update', 'listing_id');
+        return $this->morphMany('App\Update', 'object');
     }
     public function categories()
     {

@@ -1,7 +1,14 @@
 @extends('layouts.single-view')
 @section('title', $pageName )
+
+@section('css')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/dropify.css') }}">
+@endsection
+
 @section('js')
     @parent
+    <!-- Dropify -->
+    <script type="text/javascript" src="{{ asset('js/dropify.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
     @if($job->interview_location!="")
     <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
@@ -908,29 +915,41 @@
                       <!-- </p> -->
                     <div class=" ">
                     <form id="job-form" method="post" action="{{url('/jobs/'.$job->reference_id.'/applyjob')}}" data-parsley-validate enctype="multipart/form-data">
-
                         <div class="  flex-row space-between">
-                            <h6 class="m-t-0 company-section__title">Your details as follows</h6> 
+                            <h6 class="m-b-20">Your details as follows:</h6> 
                         </div>
-                        <div class="code-submit flex-row space-between">
-                           Name : <input text="text" class="fnb-input text-color otp-input" name="applicant_name" placeholder="Enter name"  >
+                        <div class="row m-b-10">
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Name: </label>
+                                <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name">
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Email: </label>
+                                <input text="email" class="form-control fnb-input" name="applicant_email" placeholder="Enter email"  >
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Phone number: </label>
+                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  >
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">City: </label>
+                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter state"  >
+                            </div>
                         </div>
-                         <div class="code-submit flex-row space-between">
-                         Email : <input text="text" class="fnb-input text-color otp-input" name="applicant_email" placeholder="Enter email"  >
-                             
-                            </div>
-                         <div class="code-submit flex-row space-between">
-                            Phone number : <input text="text" class="fnb-input text-color otp-input" name="applicant_phone" placeholder="Enter phone"  >
-                            </div>
-                          <div class="code-submit flex-row space-between">
-                            City : <input text="text" class="fnb-input text-color otp-input" name="applicant_city" placeholder="Enter state"  >
-                            </div>
+                        
+                          <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
+                          <span class="text-lighter">Resume last updated on:</span>
 
-                            <p class="default-size heavier m-b-0">We have attached your resume from your profile, with this application.</p>
-                            Resume last updated on:
+                          <div class="row m-t-15 m-b-15 c-gap">
+                            <div class="col-sm-4 fileUpload">
+                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png pdf doc"/> 
+                            </div>
+                          </div>
+                            
 
-                            <input type="file" name="resume"> upload new resume
-                            <button class="btn fnb-btn primary-btn border-btn code-send" type="submit">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                          <button class="btn fnb-btn primary-btn border-btn code-send full center-block" type="submit">Send Application <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+
+
                         </form>
                         </div>
                         <div class="validationError text-left"></div>

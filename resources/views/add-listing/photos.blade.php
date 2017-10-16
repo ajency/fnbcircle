@@ -22,7 +22,7 @@
 <div class="photos tab-pane fade active in" id="business_photos">
     <h5 class="no-m-t main-heading white m-t-0 margin-btm">Photos &amp; Documents</h5>
     <div class="m-t-30 add-container c-gap">
-        <label class="label-size">Add some images for your listing (optional)</label>
+        <label class="label-size">Add some images for your listing <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Tip: Photos are the most important feature of your listing. Listing with images in general get 5x more responses.
         </div>
@@ -85,7 +85,7 @@
         </div>
     </div>
     <div class="m-t-10 upload-container c-gap">
-        <label class="label-size">Do you have some files which you would like to upload for the listing?</label>
+        <label class="label-size">Do you have some files which you would like to upload for the listing? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx &amp; .png with a maximum size of 1mb is allowed
         </div>

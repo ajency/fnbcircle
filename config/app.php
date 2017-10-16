@@ -170,6 +170,7 @@ return [
         Conner\Tagging\Providers\TaggingServiceProvider::class,
         Ajency\FileUpload\FileUploadServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Ajency\Comm\CommServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -238,6 +239,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
         'Role' => Spatie\Permission\Models\Role::class,
+        'AjComm' => Ajency\Comm\CommServiceProvider::class,
     ],
 
 ];

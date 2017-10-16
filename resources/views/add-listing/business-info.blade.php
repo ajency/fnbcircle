@@ -148,7 +148,7 @@
 
     <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business email address <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business email address @if($owner->type == 'external') <span class="text-primary">*</span> @endif </label>
             <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
         </div>
             <div class="contact-row m-t-5">
@@ -254,10 +254,10 @@
 
     <div class="m-t-40 business-phone business-contact contact-info contact-info-phone"  contact-type="mobile">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business mobile number <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business mobile number @if($owner->type == 'external') <span class="text-primary">*</span> @endif </label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
-        @if($listing->reference===null)
+        @if($listing->reference===null and $owner->type == 'external')
         <div class="contact-row m-t-5  contact-container">
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">

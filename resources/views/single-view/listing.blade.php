@@ -70,7 +70,7 @@
                         <img src="/img/power-icon.png" class="img-repsonsive" width="50">
                         <div class="pre-benefits__content">
                             <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                            <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version</p>
+                            <p class="sub-title pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of FnB Circle to upgrade to the premium version</p>
                         </div>
                     </div>
                     <a href="/listing/{{$data['reference']}}/edit/business-premium" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</a>
@@ -786,15 +786,19 @@
                 <div class="modal-body text-center">
                     <div class="listing-message">
                         <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                        <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
+                        <h4 class="element-title heavier">
+                            @if(session('statusChange')=='review') We have sent your listing for review @endif
+                            @if(session('statusChange')=='archive') Your listing is now archived @endif
+                            @if(session('statusChange')=='published') Your listing is now published @endif
+                        </h4>
+                        @if(session('statusChange')=='review') <p class="default-size text-color lighter list-caption"> Our team will review your listing and you will be notified if your listing is published.</p> @endif
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
                         <div class="pending text-darker heavier sub-title">
                         @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
                         @if(session('statusChange')=='archive')
-                        Archieved
+                        Archived
                         @endif
                        @if(session('statusChange')=='published')
                        Published

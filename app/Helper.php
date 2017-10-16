@@ -74,7 +74,7 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
 * 
 * Note: If a new content is to be generated, please refer config/helper_generate_html_config.php
 */
-function generateHTML($reference) {
+function generateHTML($reference, $values = []) {
 	$config_content = config("helper_generate_html_config." . $reference);
 	$response_html = [];
 	
@@ -87,10 +87,20 @@ function generateHTML($reference) {
 				$userDetailsObj = null;
 			}
 
+			/* Parsley field */
+			$parsley = "";
+			if(isset($value["parsley"]) && sizeof($value["parsley"]) > 0) {
+				foreach ($value["parsley"] as $parsley_key => $parsley_value) {
+					$parsley .= $parsley_key . '="' . $parsley_value . '" ';
+				}
+			}
+
 			if(!auth()->guest() && $userDetailsObj && $userDetailsObj->subtype && in_array($value["value"], unserialize($userDetailsObj->subtype))) { // If logged in & has userDetails & has atleast 1 option in array
-				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\"/>";
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
+			} else if(in_array($value["value"], $values)) { // If the value is passed in the Array, then ENABLE that Checkbox
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			} else {
-				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\"/>";
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			}
 		}
 

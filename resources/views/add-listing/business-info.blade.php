@@ -109,16 +109,16 @@
         <label class="label-size">Where is the business located? <span class="text-primary">*</span></label>
         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="city" required data-parsley-required-message="Select a city where the business is located.">
-                    <option value="">Select City</option>
+                <select class="fnb-select select-variant form-control text-lighter" name="city" required data-parsley-required-message="Select a state where the business is located.">
+                    <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option value="{{$city->id}}"@if(isset($areas) and $areas[0]->city_id == $city->id) selected @endif>{{$city->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="select-col area">
-                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select an area where the business is located.">
-                    <option value="">Select Area</option>
+                <select class="fnb-select select-variant form-control text-lighter" required data-parsley-required-message="Select an city where the business is located.">
+                    <option value="">Select City</option>
                     @if(isset($areas))
                     @foreach($areas as $area)
                         <option value="{{$area->id}}"@if($area->id == $listing->locality_id) selected @endif>{{$area->name}}</option>

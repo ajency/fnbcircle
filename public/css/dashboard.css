@@ -112,6 +112,83 @@
   color: #fff;
   background-color: transparent;
 }
+div.tagsinput {
+  border: 1px solid #d8d8d8;
+  background: #FFF;
+  padding: 5px;
+  width: 300px;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow-y: auto;
+}
+div.tagsinput span.tag {
+  border: 1px solid #ec6d4b;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  display: block;
+  float: left;
+  padding: 2px 5px;
+  text-decoration: none;
+  background: #ec6d4b;
+  color: #fff;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+div.tagsinput span.tag a {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+  display: inline-block;
+  position: relative;
+  width: 10px;
+}
+div.tagsinput span.tag a:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "\f00d";
+  font-family: FontAwesome;
+  background: #ec6d4b;
+  width: 10px;
+  text-align: center;
+}
+div.tagsinput input {
+  width: 80px;
+  margin: 0px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  padding: 2px 5px;
+  background: transparent;
+  outline: 0px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+div.tagsinput div {
+  display: block;
+  float: left;
+}
+div.tagsinput.no-edit {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+div.tagsinput.no-edit span.tag a {
+  display: none;
+}
+div.tagsinput.no-edit input {
+  display: none;
+}
+.tags_clear {
+  clear: both;
+  width: 100%;
+  height: 0px;
+}
+.not_valid {
+  color: #fff !important;
+  color: #d0021b !important;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;

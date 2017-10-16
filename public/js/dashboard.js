@@ -310,24 +310,35 @@ function init_Multiselect() {
 };
 // Multiselect filter on Datatables End
 // Email Notifications - Edit Emails
-function init_addEmailType() {
-    if (typeof autosize !== 'undefined') {
-        autosize($('textarea'));
-    }
-    $('.edit_email_type').on('click', function() {
-        $(this).closest('tr').find('textarea').removeClass('no-edit');
-        $(this).closest('td').find('.edit-actions').removeClass('hidden');
-        $('.edit_email_type').addClass('hidden');
-        if (typeof autosize !== 'undefined') {
-            var ta = $('textarea');
-            autosize.update(ta);
-        }
-    });
-    $('.save_email_type, .cancel_email_type').on('click', function() {
-        $(this).closest('tr').find('textarea').addClass('no-edit');
-        $(this).closest('td').find('.edit-actions').addClass('hidden');
-        $('.edit_email_type').removeClass('hidden');
-    });
+function init_addEmailType(){
+	var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;// Email address
+	if (typeof $.fn.tagsInput !== 'undefined') {
+		$('.recipients').tagsInput({
+			width: 'auto',
+			pattern: emailRegex // default: false
+		});
+	}
+
+	// if (typeof autosize !== 'undefined') {
+	// 	autosize($('textarea'));
+	// }
+
+	$('.tagsinput').addClass('no-edit');
+
+	$('.edit_email_type').on('click', function() {
+		$(this).closest('tr').find('textarea').removeClass('no-edit');
+		$(this).closest('td').find('.edit-actions').removeClass('hidden');
+		$('.edit_email_type').addClass('hidden');
+		if (typeof autosize !== 'undefined') {
+			var ta = $('textarea');
+			autosize.update(ta);
+		}
+	});
+	$('.save_email_type, .cancel_email_type').on('click', function() {
+		$(this).closest('tr').find('textarea').addClass('no-edit');
+		$(this).closest('td').find('.edit-actions').addClass('hidden');
+		$('.edit_email_type').removeClass('hidden');
+	});
 }
 // Email Notifications - Edit Emails End
 function init_daterangepicker_submission() {

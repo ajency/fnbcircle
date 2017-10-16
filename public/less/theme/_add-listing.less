@@ -3869,3 +3869,130 @@ input[type='checkbox'].remove-addr{
 }
 
 
+.app-sent{
+	justify-content: center;
+	margin-bottom: 1.5em;
+    font-size: 1.4em;
+	i{
+		font-size: 1.5em;
+	}
+}
+
+.J-name{
+	// border-bottom: 1px solid #eee;
+    padding-bottom: 1em;
+}
+
+.open-details{
+	margin-top: 1em;
+}
+
+.j-container{
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+}
+
+.jobInfo{
+	margin: 1.5em -20px;
+	padding: 0.5em 0;
+    background-color: #f7f7f7;
+    .contactD{
+    	margin: 0.5em 0;
+    	padding: 0.8em;
+    	flex: 1;
+    	i{
+    		font-size: 2em;
+    	}
+    	a{
+    		font-size: 0.95em;
+    		margin-top: 0.5em;
+    		display: block;
+    		text-decoration: none;
+    		&:hover{
+    			text-decoration: underline;
+    		}
+    	}
+    	&.phone{
+    		border-left: 1px solid #ddd;
+    		a{
+    			&:not(:last-child){
+					&:after{
+						content: ',';
+						padding: 0 0.2em;
+						display: inline-block;
+						color: @text-color;
+					}
+    			}
+    		}
+    	}
+    }
+}
+
+.job-alert{
+	margin: 1em 0;
+	.alert-icon{
+		font-size: 2em;
+	}
+}
+
+.edit-criteria{
+	background-color: #f7f8f7;
+    padding: 1.5em 5px;
+    margin: 0 -20px -20px -20px;
+	.j-role{
+		li{
+			&:not(:last-child){
+				p{
+					&:after{
+						content: ',';
+						padding: 0 0.2em;
+						display: inline-block;
+						color: @text-color;
+					}
+				}
+			}
+		}
+	}
+}
+
+.jobdata-action{
+	margin-top: 1em;
+	.fnb-btn{
+    	padding: 0.6em 1.8em;
+    	&:first-child{
+    		padding: 0.65em 1.8em;
+    		margin-right: 1em;
+    	}
+	}
+}
+
+
+@media screen and (max-width: @mobile){
+	.apply-jobs-modal{
+		.jobDetail__row{
+			flex-direction: column;
+    		justify-content: center;
+    		align-items: center;
+		}
+	} 
+	.app-sent{
+		font-size: 1.25em;
+		i{
+			font-size: 1.3em;
+		}
+	}
+	.J-name,.job-alert{
+		font-size: 0.9em;
+	}
+	.jobInfo{
+		flex-direction: column;
+		.contactD{
+			&.phone{
+				border-left: 0;
+    			border-top: 1px solid #ddd;
+			}
+		}
+	}
+}
+
+

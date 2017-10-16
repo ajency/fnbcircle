@@ -857,11 +857,12 @@
                 <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
             </div>
             <div class="modal-body">
-                <div class="apply-info text-center">
-                  <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
-                  <h6>You are applying for the following job.</h6>
-                </div>
+                
                 <div class="apply-job-form">
+                  <div class="apply-info text-center">
+                    <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
+                    <h6>You are applying for the following job.</h6>
+                  </div>
                     <!-- <p class="text-lighter x-small"> -->
                     <div class="jobDetail">
                       <div class="flex-row jobDetail__row align-top">
@@ -873,14 +874,12 @@
                           @endif
                         </div>
                         <div class="jobdesc">
-                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                          <p class="default-size bolder m-b-0">{{ $job->title }}</p>
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
                           </span> -->
-                          <span class="x-small text-color dis-block m-t-5 m-b-5">
-                          @if(!empty($jobCompany->website))
-                             <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
-                             @endif
+                          <span class="x-small text-color dis-block m-t-5 m-b-5 bolder">
+                            {{ $jobCompany->title }}
                           </span>
                           <!-- interview address -->
                           @if($job->interview_location!="")
@@ -933,7 +932,7 @@
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">City: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter state"  >
+                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  >
                             </div>
                         </div>
                         
@@ -954,76 +953,237 @@
                         </div>
                         <div class="validationError text-left"></div>
                     </div>
-                </div>
-                <div class="success-apply hidden">
-                    <img src="/img/email-add.png" class="img-responsive center-block" width="60">
-                    <h6 class="sub-title">Your application has been sent</h6>
-                    <div class="">
+                   <div class="success-apply hidden">
+                    <!-- <img src="/img/email-add.png" class="img-responsive center-block" width="60"> -->
+                    <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i> Your application has been sent</h6>
+                    <div class="open-details">
                         <div class="jobdesc">
-                        <h4>following are the contact details of the employer</h4>
-                        <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                        <span class="x-small text-color">
-                        You can now contact the employer directly
-                        </span>
-                        @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
-                        <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
-                            <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
-                            <!-- contact info -->
-                            <div class="card seller-info sell-re collapse" id="contact-data">
-                               <div class="contact-info flex-row flex-wrap">
-                                  <div class="close-contact" data-toggle="collapse" href="#contact-data">
-                                     &#10005;
-                                  </div>
-                                  @if(!empty($contactEmail))
-                                  <div class="mail-us collapse-section m-r-15 m-b-15">
-                                     <h6 class="sub-title m-t-0">Email:</h6>
-                                       <div class="number flex-row flex-wrap">
-                                        @foreach($contactEmail as $email)
-                                          @if($email['visible'])
-                                          <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
-                                          @endif
+                          
+                          <div class="text-center J-name">
+                            <h6 class="text-medium">Following are the contact details of the employer</h6>
+                            <p class="default-size heavier bolder">{{ $jobCompany->title }}</p>
+                            <p class="text-lighter">You can now contact the employer directly</p>  
+                          </div>
+                          
+                          <div class="j-container">
+                            <div class="jobInfo text-center flex-row">
+                              <div class="contactD email">
+                                <i class="fa fa-envelope-o text-primary dis-block" aria-hidden="true"></i>
+                                <a href="mailto:intcohgroup@gmail.com" class="dark-link">intcohgroup@gmail.com</a>
+                              </div>
+                              <div class="contactD phone">
+                                <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
+                                <div class="flex-row flex-wrap">
+                                  <a href="tel:+918987363738" class="dark-link">(+91) 8987363738</a>
+                                  <a href="tel:+918987363738" class="dark-link">(85412) 8987363738</a>  
+                                </div>
+                              </div>
+                            </div>  
+                          </div>
+                          
+                          
+                          <div class="job-alert text-center">
+                              <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
+                              <h6 class="text-medium m-b-15 m-t-15">Your job alert for <b>'Food &amp; beverage manager'</b> has been created</h6>
+                              <p>You will receive the job alert in your email <b>'abhayrajput@gmail.com'</b> as per the below criteria</p>
+                              <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
+                          </div>
+  
+
+                          <hr>
+
+                          <div class="row flex-row flex-wrap align-top edit-criteria">
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Job type: </label>
+                                @if(!empty($jobTypes))
+                                <div class="flex-row jobDetail__row">
+                                   <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
+                                   <div class="featured-jobs__row flex-row">
+                                        <div class="job-type">
+                                        @foreach($jobTypes as $jobType)
+                                         <div class="text-color year-exp">{{ $jobType }}</div>
                                         @endforeach
-                                            
-                                       </div>
-                                     
+                                        </div>
+                                   </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Experience: </label>
+                                @if(!empty($experience))
+                                 <div class="featured-jobs__row flex-row">
+                                     <div class="year-exp">
+                                        <div class="flex-row flex-wrap">
+                                          @foreach($experience as $exp)
+                                           <div class="text-color year-exp">{{ $exp }} years</div>
+                                          @endforeach
+                                        </div>
+                                     </div>
+                                 </div>
+                                 @endif
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Salary: </label>
+                                <div class="featured-jobs__row flex-row">
+                                 @if($job->salary_lower >="0" && $job->salary_upper > "0" )
+                                  <div class="text-color">
+                                    @if($job->salary_lower == $job->salary_upper )
+                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
+                                    @else
+                                    <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
+                                    @endif
+                                  {{ $job->getSalaryTypeShortForm()}}
                                   </div>
-                                  @endif
 
-                                   @if(!empty($contactMobile))
-                                  <div class="phone collapse-section m-r-15 m-b-15">
-                                     <h6 class="sub-title m-t-0">Mobile No:</h6>
-                                     <div class="number flex-row flex-wrap">
-                                     @foreach($contactMobile as $mobile)
-                                      @if($mobile['visible'])
-                                        <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
-                                      @endif
+                                  @else
+                                  <div class="text-color lighter">Not disclosed</div>
+                                  @endif
+                             </div>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size dis-block">Job category: </label>
+                                 <span class="location__title default-size">{{ $job->getJobCategoryName() }}</span>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Role: </label>
+                                <ul class="j-role flex-row flex-wrap">
+                                  @foreach($keywords as $keyword)
+                                   <li>
+                                      <p class="default-size cities__title m-b-0"> {{ $keyword }} </p>
+                                   </li>
+                                   @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <div class="flex-row flex-wrap">
+                                  <div class="p-r-20">
+                                    <label class="label-size">City: </label>
+                                    @foreach($locations as $city => $locAreas)
+                                      <div class="opertaions__container flex-row job-location">
+                                         <div class="location flex-row">
+                                             <!-- <span class="fnb-icons map-icon"></span> -->
+                                             <!-- <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i> -->
+                                             <p class="default-size location__title c-title flex-row space-between">{{ $city }}</h6>
+                                         </div>
+                                      </div>
                                     @endforeach  
-                                     </div>
-                                     
-                                  </div>
-                                  @endif
+                                    </div>
+                                  <div class="">
+                                    <label class="label-size">Areas: </label>
+                                    @foreach($locations as $city => $locAreas)
+                                      <div class="opertaions__container flex-row job-location">
+                                         <ul class="cities flex-row">
 
-                                  @if(!empty($contactLandline))
-                                  <div class="mail-us collapse-section">
-                                     <h6 class="sub-title m-t-0">Landline No:</h6>
-                                    <div class="number flex-row flex-wrap">
-                                        @foreach($contactLandline as $landline)
-                                        @if($landline['visible'])
-                                          <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
-                                        @endif
-                                      @endforeach  
-                                     </div>
+                                            <?php
+                                            $splitAreas =  splitJobArrayData($locAreas,2);
+                                            $areas = $splitAreas['array'];
+                                            $moreAreas = $splitAreas['moreArray'];
+                                            $moreAreaCount = $splitAreas['moreArrayCount'];
+                                            $areaCount = count($areas);
+                                            $areaInc = 0;
+                                            ?>
+                                            @foreach($areas as $area)
+                                              <?php
+                                               $areaInc++;
+                                              ?>
+                                             <li>
+                                                <p class="cities__title">{{ $area }} 
+                                 
+                                                @if($areaInc != $areaCount)
+                                                 , 
+                                                @endif
+
+                                                </p>
+                                             </li>
+                                            @endforeach  
+
+                                             @if($moreAreaCount) 
+                                             <!-- <li class="remain more-show">
+                                                 <a href="" class="secondary-link remain__number">+10</a>
+                                             </li> -->
+               
+                                          <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
+                                             <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+               
+                                            @endif
+                                         </ul>
+                                      </div>
+                                    @endforeach  
                                   </div>
-                                  @endif
-                                  
-                               </div>
+                                  </div>
+                            </div>
+                            <div class="col-sm-12">
+                              <div class="text-center jobdata-action">
+                                  <button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button>
+                                  <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button> 
+                              </div>
+                               
                             </div>
                         </div>
-                        @endif
+
+
+                          
+                          @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
+                          <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                              <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
+                              <!-- contact info -->
+                              <div class="card seller-info sell-re collapse" id="contact-data">
+                                 <div class="contact-info flex-row flex-wrap">
+                                    <div class="close-contact" data-toggle="collapse" href="#contact-data">
+                                       &#10005;
+                                    </div>
+                                    @if(!empty($contactEmail))
+                                    <div class="mail-us collapse-section m-r-15 m-b-15">
+                                       <h6 class="sub-title m-t-0">Email:</h6>
+                                         <div class="number flex-row flex-wrap">
+                                          @foreach($contactEmail as $email)
+                                            @if($email['visible'])
+                                            <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                            @endif
+                                          @endforeach
+                                              
+                                         </div>
+                                       
+                                    </div>
+                                    @endif
+
+                                     @if(!empty($contactMobile))
+                                    <div class="phone collapse-section m-r-15 m-b-15">
+                                       <h6 class="sub-title m-t-0">Mobile No:</h6>
+                                       <div class="number flex-row flex-wrap">
+                                       @foreach($contactMobile as $mobile)
+                                        @if($mobile['visible'])
+                                          <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                                        @endif
+                                      @endforeach  
+                                       </div>
+                                       
+                                    </div>
+                                    @endif
+
+                                    @if(!empty($contactLandline))
+                                    <div class="mail-us collapse-section">
+                                       <h6 class="sub-title m-t-0">Landline No:</h6>
+                                      <div class="number flex-row flex-wrap">
+                                          @foreach($contactLandline as $landline)
+                                          @if($landline['visible'])
+                                            <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                          @endif
+                                        @endforeach  
+                                       </div>
+                                    </div>
+                                    @endif
+                                    
+                                 </div>
+                              </div>
+                          </div>
+                          @endif
                      </div>
                          
                     </div>
                 </div>
+                </div>
+
              
                
             </div>

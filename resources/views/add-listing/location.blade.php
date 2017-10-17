@@ -15,9 +15,9 @@
 @endif
 
 <div class="location-hours tab-pane fade active in" id="business_location">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation <span class="text-lighter">(optional)</span></h5>
+    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation</h5>
     <div class="m-t-30 c-gap">
-        <label class="label-size">Please provide the google map address for your business</label>
+        <label class="label-size">Please provide the google map address for your business <span class="text-lighter">(optional)</span></label>
 <!--         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter">

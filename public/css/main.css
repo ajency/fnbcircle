@@ -6167,6 +6167,10 @@ input[type=checkbox].custom-checkbox:before {
     border: 0;
     margin-top: 0.35em;
     background-color: #f7f7f7;
+    position: relative;
+  }
+  .filter-sidebar .listing_filter_view {
+    margin-bottom: 3.5em;
   }
   .filter-sidebar .results__header {
     display: none;
@@ -6178,6 +6182,11 @@ input[type=checkbox].custom-checkbox:before {
   }
   .filter-sidebar .filter-group .check-section .rating {
     width: 104px;
+  }
+  .filter-sidebar .apply-btn {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
   .filter-sidebar .apply-btn .fnb-btn {
     width: 100%;

@@ -188,7 +188,7 @@ List View
                     </div>
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
-                            <div id="listing_filter_view">
+                            <div id="listing_filter_view" class="listing_filter_view">
                                 {!! $filter_view_html !!}
                             </div>
                             <!-- why fnb -->

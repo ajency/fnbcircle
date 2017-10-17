@@ -312,4 +312,9 @@ class AdminModerationController extends Controller
         return response()->json($response);
 
     }
+
+
+    public function emailNotification(Request $request){
+        return view('admin-dashboard.email_notifications');
+    }
 }

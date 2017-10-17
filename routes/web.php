@@ -74,7 +74,7 @@ Route::get('admin-dashboard/moderation/listing-approval','AdminModerationControl
 Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
-
+Route::get('admin-dashboard/email-notification', 'AdminModerationController@emailNotification');
  
 /******
 JOBS/USERS

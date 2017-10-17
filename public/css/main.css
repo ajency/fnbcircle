@@ -6542,6 +6542,9 @@ input[type=checkbox].custom-checkbox:before {
     padding-left: 0.8em;
   }
 }
+.loader-section {
+  padding: 4em 0;
+}
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
   .filter-cards__body {
     display: initial;

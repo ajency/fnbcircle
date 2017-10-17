@@ -256,8 +256,20 @@ List View
             </script> -->
             <div class="col-sm-9 custom-col-9">
                 <div id="listing_card_view">
-                    
-                    
+                   <div class="loader-section">
+                        <div class="site-loader section-loader">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

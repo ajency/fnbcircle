@@ -29,4 +29,12 @@
     return $('.edit_email_type').removeClass('hidden');
   });
 
+  $('body').on('click', '.save-email-btn', function() {
+    var email_field, emails, type;
+    email_field = $(this).closest('.email-input-container').find('input.email-input-field');
+    emails = email_field.val();
+    type = email_field.attr('name');
+    return console.log(emails, type);
+  });
+
 }).call(this);

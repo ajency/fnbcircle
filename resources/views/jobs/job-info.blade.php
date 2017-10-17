@@ -24,7 +24,9 @@
 <div class="business-info tab-pane fade in active" id="job_details">
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="nno-m-t main-heading  white m-t-0">Job Details</h5>
+    </div>
 
     <!-- Job title/category -->
     <div class="m-t-40 c-gap">

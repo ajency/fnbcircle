@@ -10,7 +10,9 @@
 
 <div class="business-info tab-pane fade in active" id="add_listing">
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="no-m-t fly-out-heading-size main-heading ">Job Information</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t fly-out-heading-size main-heading ">Job Information</h5>
+    </div>
     <div class="m-t-30 c-gap">
         <label class="label-size">What is the job title? <span class="text-primary">*</span></label>
         <input type="text" name="job_title" class="form-control fnb-input" placeholder=""  data-parsley-required-message="Please enter the job title." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Job name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Job name cannot be less than 2 characters." value="{{ $job['title'] }}">

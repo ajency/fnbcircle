@@ -20,7 +20,9 @@
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-files-maxnumber')}}">
 @endsection
 <div class="photos tab-pane fade active in" id="business_photos">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Photos &amp; Documents</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Photos &amp; Documents</h5>
+    </div>
     <div class="m-t-30 add-container c-gap">
         <label class="label-size">Add some images for your listing <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">

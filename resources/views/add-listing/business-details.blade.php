@@ -12,7 +12,9 @@
 @endif
 
 <div class="business-details tab-pane fade in active" id="business_details">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Business Details</h5>
+    </div>    
     <div class="m-t-30 c-gap">
         <label class="label-size">Give us some more details about your listing <span class="text-lighter">(optional)</span></label>
         <textarea type="text" rows="4" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe your business here">{{$listing->description}}</textarea>

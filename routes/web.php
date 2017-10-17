@@ -75,7 +75,9 @@ Route::post('admin/moderation/set-bulk-status','AdminModerationController@setSta
 Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
 Route::get('admin-dashboard/email-notification', 'AdminModerationController@emailNotification');
- 
+Route::post('/change-notification-recipients','AdminModerationController@setNotificationDefault');
+
+
 /******
 JOBS/USERS
 *******/

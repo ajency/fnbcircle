@@ -6,6 +6,10 @@
           <script type="text/javascript" src="/js/dashboard-email-notifications.js"></script>
  @endsection
 
+ @section('meta')
+  <meta property="notification-change-url" content="{{action('AdminModerationController@setNotificationDefault')}}">
+ @endsection
+
  @section('page-data')
   <div class="right_col" role="main">
       <div class="">
@@ -35,10 +39,12 @@
                   </thead>
 
                   <tbody>
+                    @foreach($rows as $row)
+                    @php $data = json_decode($row->meta_data,true); @endphp
                     <tr class="email-input-container">
-                      <td>New User Registration</td>
+                      <td>{{$data['title']}}</td>
                       <td>
-                        <input type="text" class="recipients email-input-field" name="notification-new-user" value="test@xxx.com, abc@xxx.com">
+                        <input type="text" class="recipients email-input-field" name="{{$data['name']}}" value="{{implode(',',$data['value'])}}">
                         <!-- <textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com</textarea> -->
                       </td>
                       <td class="row-actions">
@@ -49,76 +55,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr class="email-input-container">
-                      <td>Business Listing for Approval</td>
-                      <td>
-                        <input type="text" class="recipients email-input-field" name="notification-listing-approval" value="test@xxx.com, abc@xxx.com">
-                        <!-- <textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com</textarea> -->
-                      </td>
-                      <td class="row-actions">
-                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
-                        <div class="edit-actions hidden">
-                          <a href="#" title="Save" class="save_email_type save-email-btn"><i class="fa fa-check text-success"></i></a>
-                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="email-input-container">
-                      <td>Advertise with us</td>
-                      <td>
-                        <input type="text" class="recipients email-input-field" name="notification-advertise" value="test@xxx.com, abc@xxx.com, a1@xxx.com">
-                        <!-- <textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com, a1@xxx.com</textarea> -->
-                      </td>
-                      <td class="row-actions">
-                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
-                        <div class="edit-actions hidden">
-                          <a href="#" title="Save" class="save_email_type save-email-btn"><i class="fa fa-check text-success"></i></a>
-                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="email-input-container">
-                      <td>Get Featured</td>
-                      <td>
-                        <input type="text" class="recipients email-input-field" name="notification-get-featured" value="test@xxx.com, abc@xxx.com, a1@xxx.com">
-                        <!-- <textarea class="form-control no-edit" name="" tabindex="-1">test@xxx.com, abc@xxx.com, a1@xxx.com</textarea> -->
-                      </td>
-                      <td class="row-actions">
-                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
-                        <div class="edit-actions hidden">
-                          <a href="#" title="Save" class="save_email_type save-email-btn"><i class="fa fa-check text-success"></i></a>
-                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="email-input-container">
-                      <td>Job Listings Posted</td>
-                      <td>
-                        <input type="text" class="recipients email-input-field" name="notification-job-posted" value="job@xxx.com, j2@xxx.com">
-                        <!-- <textarea class="form-control no-edit" name="" tabindex="-1">job@xxx.com, j2@xxx.com</textarea> -->
-                      </td>
-                      <td class="row-actions">
-                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
-                        <div class="edit-actions hidden">
-                          <a href="#" title="Save" class="save_email_type save-email-btn"><i class="fa fa-check text-success"></i></a>
-                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr class="email-input-container">
-                      <td>Contact Us</td>
-                      <td>
-                        <input type="text" class="recipients email-input-field" name="notification-contact-us" value="job@xxx.com, j2@xxx.com">
-                        <!-- <textarea class="form-control no-edit" name="" tabindex="-1">job@xxx.com, j2@xxx.com</textarea> -->
-                      </td>
-                      <td class="row-actions">
-                        <a href="#" title="Edit" class="edit_email_type"><i class="fa fa-pencil"></i></a>
-                        <div class="edit-actions hidden">
-                          <a href="#" title="Save" class="save_email_type save-email-btn"><i class="fa fa-check text-success"></i></a>
-                          <a href="#" title="Cancel" class="cancel_email_type"><i class="fa fa-times text-danger"></i></a>
-                        </div>
-                      </td>
-                    </tr>
+                    @endforeach
                   </tbody>
                 </table>
 

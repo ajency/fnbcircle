@@ -311,34 +311,34 @@ function init_Multiselect() {
 // Multiselect filter on Datatables End
 // Email Notifications - Edit Emails
 function init_addEmailType(){
-	var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;// Email address
-	if (typeof $.fn.tagsInput !== 'undefined') {
-		$('.recipients').tagsInput({
-			width: 'auto',
-			pattern: emailRegex // default: false
-		});
-	}
-
-	// if (typeof autosize !== 'undefined') {
-	// 	autosize($('textarea'));
+	// var emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;// Email address
+	// if (typeof $.fn.tagsInput !== 'undefined') {
+	// 	$('.recipients').tagsInput({
+	// 		width: 'auto',
+	// 		pattern: emailRegex // default: false
+	// 	});
 	// }
 
-	$('.tagsinput').addClass('no-edit');
+	// // if (typeof autosize !== 'undefined') {
+	// // 	autosize($('textarea'));
+	// // }
 
-	$('.edit_email_type').on('click', function() {
-		$(this).closest('tr').find('textarea').removeClass('no-edit');
-		$(this).closest('td').find('.edit-actions').removeClass('hidden');
-		$('.edit_email_type').addClass('hidden');
-		if (typeof autosize !== 'undefined') {
-			var ta = $('textarea');
-			autosize.update(ta);
-		}
-	});
-	$('.save_email_type, .cancel_email_type').on('click', function() {
-		$(this).closest('tr').find('textarea').addClass('no-edit');
-		$(this).closest('td').find('.edit-actions').addClass('hidden');
-		$('.edit_email_type').removeClass('hidden');
-	});
+	// $('.tagsinput').addClass('no-edit');
+
+	// $('.edit_email_type').on('click', function() {
+	// 	$(this).closest('tr').find('textarea').removeClass('no-edit');
+	// 	$(this).closest('td').find('.edit-actions').removeClass('hidden');
+	// 	$('.edit_email_type').addClass('hidden');
+	// 	if (typeof autosize !== 'undefined') {
+	// 		var ta = $('textarea');
+	// 		autosize.update(ta);
+	// 	}
+	// });
+	// $('.save_email_type, .cancel_email_type').on('click', function() {
+	// 	$(this).closest('tr').find('textarea').addClass('no-edit');
+	// 	$(this).closest('td').find('.edit-actions').addClass('hidden');
+	// 	$('.edit_email_type').removeClass('hidden');
+	// });
 }
 // Email Notifications - Edit Emails End
 function init_daterangepicker_submission() {
@@ -377,7 +377,7 @@ function individual_Search(){
                 className: 'btn primary-btn border-btn fnb-btn'
             }
         ]
-        
+
     });
 
     registered.columns().iterator('column', function(ctx, idx) {
@@ -389,12 +389,12 @@ function individual_Search(){
 
     //         "columnDefs": [ {
     //         "targets": [ 1 ],
-            
+
     //       } ]
     //     });
     // table.columns().every( function () {
     //     var that = this;
- 
+
     //     $( 'input', this.footer() ).on( 'keyup change', function () {
     //         if ( that.search() !== this.value ) {
     //             that
@@ -420,7 +420,7 @@ $(document).ready(function() {
     init_DataTables();
     init_sidebar();
     init_Multiselect();
-    init_addEmailType();
+    // init_addEmailType();
     init_daterangepicker_submission();
     individual_Search();
 });
@@ -441,8 +441,8 @@ $(function(){
 $('#add_newuser_modal').on('hidden.bs.modal', function (e) {
     $('#add_newuser_modal .old-password').addClass('hidden');
     $('#add_newuser_modal .new-password label').text('Password');
-    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");  
-    $('#add_newuser_modal .modal-title').text('Add New Internal User');  
+    $('#add_newuser_modal .new-password .fnb-input').attr("placeholder", "Enter a password");
+    $('#add_newuser_modal .modal-title').text('Add New Internal User');
 })
 
 

@@ -153,7 +153,6 @@
       "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters()
     };
-    $("#listing_card_view").css("filter", "blur(2px)");
     $.ajax({
       type: 'post',
       url: '/api/get-listview-data',

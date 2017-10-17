@@ -195,7 +195,7 @@ getListContent = () ->
 		"filters":
 			getFilters()
 
-	$("#listing_card_view").css "filter", "blur(2px)"
+	# $("#listing_card_view").css "filter", "blur(2px)"
 
 	# console.log getFilters()
 

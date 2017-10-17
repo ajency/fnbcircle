@@ -13,18 +13,13 @@
   $('.tagsinput').addClass('no-edit');
 
   $('.edit_email_type').on('click', function() {
-    var ta;
-    $(this).closest('tr').find('textarea').removeClass('no-edit');
+    $(this).closest('tr').find('.tagsinput').removeClass('no-edit');
     $(this).closest('td').find('.edit-actions').removeClass('hidden');
-    $('.edit_email_type').addClass('hidden');
-    if (typeof autosize !== 'undefined') {
-      ta = $('textarea');
-      return autosize.update(ta);
-    }
+    return $('.edit_email_type').addClass('hidden');
   });
 
   $('.save_email_type, .cancel_email_type').on('click', function() {
-    $(this).closest('tr').find('textarea').addClass('no-edit');
+    $(this).closest('tr').find('.tagsinput').addClass('no-edit');
     $(this).closest('td').find('.edit-actions').addClass('hidden');
     return $('.edit_email_type').removeClass('hidden');
   });

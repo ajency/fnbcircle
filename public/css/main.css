@@ -6541,6 +6541,13 @@ input[type=checkbox].custom-checkbox:before {
     display: initial;
   }
 }
+.no-results {
+  text-align: center;
+  margin-top: 1em;
+}
+.no-results .nf-text {
+  margin: 1.5em 0;
+}
 .home-text {
   position: relative;
   top: 3em;

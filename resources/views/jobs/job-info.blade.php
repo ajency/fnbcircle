@@ -24,7 +24,9 @@
 <div class="business-info tab-pane fade in active" id="job_details">
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="nno-m-t main-heading  white m-t-0 margin-btm">Job Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="nno-m-t main-heading  white m-t-0">Job Details</h5>
+    </div>
 
     <!-- Job title/category -->
     <div class="m-t-40 c-gap">
@@ -91,7 +93,7 @@
  
         <div class="location-select cityArea flex-row flex-wrap clone-row">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a state where the job is located.">
                     <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option @if($cityId == $city->id) selected @endif  value="{{ $city->id }}">{{ $city->name }}</option>
@@ -101,7 +103,7 @@
             </div> 
             <div class="select-col area">
  
-                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[{{ $cityId }}][]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[{{ $cityId }}][]" data-parsley-required data-parsley-required-message="Select an city where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
                     @foreach($savedAreas[$cityId] as $area)
                         <option @if(!empty($jobLocation) && in_array($area['id'],$jobLocation)) selected @endif value="{{ $area['id'] }}">{{ $area['name'] }}</option>
                     @endforeach
@@ -120,7 +122,7 @@
         @else
         <div class="location-select flex-row flex-wrap clone-row">
             <div class="select-col city">
-                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a city where the job is located.">
+                <select class="fnb-select select-variant form-control text-lighter" name="job_city[]" data-parsley-required data-parsley-required-message="Select a state where the job is located.">
                     <option value="">Select State</option>
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}">{{ $city->name }}</option>
@@ -130,7 +132,7 @@
             </div> 
             <div class="select-col area">
  
-                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[][]" data-parsley-required data-parsley-required-message="Select an area where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
+                <select class="fnb-select select-variant form-control text-lighter default-area-select job-areas" name="job_area[][]" data-parsley-required data-parsley-required-message="Select an city where the job is located." multiple="multiple" data-parsley-errors-container="#fnb-errors">
                     
                 </select>
                 <div id="fnb-errors" class="fnb-errors"></div>

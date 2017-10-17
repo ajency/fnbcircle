@@ -10358,6 +10358,10 @@ input[type='checkbox'].remove-addr {
 .job-pending-review.pending-no-action {
   padding: 0;
 }
+.detach-preview {
+  position: relative;
+  top: -0.5em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

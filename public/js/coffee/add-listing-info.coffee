@@ -232,7 +232,7 @@ $(document).on 'change', '.business-contact .toggle__check', ->
 	return
 
 $(document).on 'change', '.city select', ->
-  html='<option value="" selected>Select Area </option>'
+  html='<option value="" selected>Select City </option>'
   $('.area select').html html
   city = $(this).val()
   if city == ''

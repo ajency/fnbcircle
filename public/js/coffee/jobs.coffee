@@ -377,6 +377,9 @@ $('.add-job-areas').click (e) ->
   return
 
 
+previewL = $('.detach-preview').detach()
+$('.preview-detach').append previewL
+
 
 if $('.readMore').length
   $('.readMore').readmore

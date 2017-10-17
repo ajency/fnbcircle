@@ -24,7 +24,7 @@
 
   $(document).on('change', '.city select', function() {
     var city, html;
-    html = '<option value="" selected>Select Area </option>';
+    html = '<option value="" selected>Select City </option>';
     $('.area select').html(html);
     city = $(this).val();
     if (city === '') {

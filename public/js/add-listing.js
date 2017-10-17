@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, getID, submitForm;
+  var $_GET, getID, previewL, submitForm;
 
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
@@ -120,6 +120,10 @@
     $('.draft-status').attr('data-original-title', 'Listing is under process');
     return $(this).addClass('hidden');
   });
+
+  previewL = $('.detach-preview').detach();
+
+  $('.preview-detach').append(previewL);
 
   window.throwError = function() {
     $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please <a href="/login" class="secondary-link">login</a> or refresh your page</div>');

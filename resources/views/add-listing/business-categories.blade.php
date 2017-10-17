@@ -16,7 +16,9 @@
 @endif
 
 <div class="business-cats tab-pane fade in active" id="business_categories">
-    <h5 class="no-m-t main-heading @if($listing->reference!=null) white m-t-0 margin-btm @endif ">Business Categories</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading @if($listing->reference!=null) white m-t-0 @endif ">Business Categories</h5>
+    </div>
 
     <div class="m-t-30 add-container c-gap @if($listing->isReviewable()) hidden @endif" id="no-categ-select">
         <label class="label-size">Select categories your listing belongs to <span class="text-primary">*</span></label>

@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, getID;
+  var Applybtn, Articles, companyLogo, getID, previewL;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -359,6 +359,10 @@
     });
     area_group_clone.insertBefore(area_group);
   });
+
+  previewL = $('.detach-preview').detach();
+
+  $('.preview-detach').append(previewL);
 
   if ($('.readMore').length) {
     $('.readMore').readmore({

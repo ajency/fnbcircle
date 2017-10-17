@@ -14,7 +14,9 @@
 
 
 <div class="business-info tab-pane fade in active" id="add_listing">
-    <h5 class="no-m-t fly-out-heading-size main-heading @if($listing->reference!=null) white m-t-0 margin-btm @endif ">Business Information</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t fly-out-heading-size main-heading @if($listing->reference!=null) white m-t-0 @endif ">Business Information</h5>
+    </div>
     <div class="m-t-30 c-gap">
         <label class="label-size">Tell us the name of your business <span class="text-primary">*</span></label>
         <input type="text" name="listing_title" class="form-control fnb-input" placeholder="" value="{{ old('title', $listing->title)}}" data-parsley-required-message="Please enter the name of your business." data-parsley-required data-parsley-maxlength=255 data-parsley-maxlength-message="Business name cannot be more than 255 characters." data-parsley-required data-parsley-minlength=2 data-parsley-minlength-message="Business name cannot be less than 2 characters.">
@@ -380,7 +382,7 @@
 
     <div class="m-t-40 business-phone landline business-contact contact-info contact-info-landline">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business landline number <span class="text-primary">*</span></label>
+            <label class="label-size">Enter your business landline number</label>
             <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
         </div>
         @foreach($phones as $phone)

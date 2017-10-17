@@ -1233,6 +1233,7 @@ input[type=radio].fnb-radio.disabled:before {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 0.5em 0;
 }
 .fnb-header.trans-header.change .fixed-show .navbar-right {
   float: none !important;

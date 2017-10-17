@@ -49,7 +49,7 @@
             </div>
             <div class="select-col area">
                 <select class="fnb-select select-variant form-control text-lighter" name="job_area[]" data-parsley-required data-parsley-required-message="Select an area where the job is located.">
-                    <option value="">Select Area</option>
+                    <option value="">Select City</option>
                 </select>
             </div>
         </div>

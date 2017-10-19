@@ -21,7 +21,7 @@
 
 <div class="premium tab-pane fade active in" id="business_premium">
 <div class="flex-row space-between preview-detach">
-    <h5 class="no-m-t">Go Premium</h5>
+    <h5 class="no-m-t main-heading white m-t-0">Go Premium</h5>
 </div>
 <h6 class="m-t-30 m-b-30">Benefits of going premium</h6>
 <div class="row">

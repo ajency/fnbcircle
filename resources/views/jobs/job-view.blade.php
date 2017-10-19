@@ -156,11 +156,9 @@ $additionalData = ['job'=>$job];
                     <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
-<<<<<<< HEAD
-                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
-=======
-                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
->>>>>>> e95134c4b4c8e300695f1a755a22082de5b7892b
+ 
+                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
+ 
                     </div>
                     <!-- publish date -->
                     <!-- @if($job->jobPublishedOn()!='')

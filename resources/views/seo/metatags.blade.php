@@ -13,17 +13,17 @@
 @isset($tags['keywords']) <meta name="keywords" content="{{$tags['keywords']}}" /> @endisset
 
 <!-- Open Graph -->
-@isset($ogtag['site_name'])<meta property="og:site_name" content="{{$ogtag['site_name']}}">@endisset
+@isset($ogtag['title'])<meta property="og:title" content="{!!$ogtag['title']!!}">@endisset
 
 @isset($ogtag['url'])<meta property="og:url" content="{{$ogtag['url']}}">@endisset
 
-@isset($ogtag['title'])<meta property="og:title" content="{!!$ogtag['title']!!}">@endisset
+@isset($ogtag['description'])<meta property="og:description" content="{!!$ogtag['description']!!}">@endisset
 
 @isset($ogtag['image'])<meta property="og:image" content="{{$ogtag['image']}}">@endisset
 
-@isset($ogtag['description'])<meta property="og:description" content="{!!$ogtag['description']!!}">@endisset
-
 @isset($ogtag['type'])<meta property="og:type" content="{{$ogtag['type']}}">@endisset
+
+@isset($ogtag['site_name'])<meta property="og:site_name" content="{{$ogtag['site_name']}}">@endisset
 
 <!-- Twitter -->
 @isset($twitterTag['card'])<meta property="twitter:card" content="{{$twitterTag['card']}}">@endisset
@@ -32,9 +32,12 @@
 
 @isset($twitterTag['creator'])<meta property="twitter:creator" content="{{$twitterTag['creator']}}">@endisset
 
+@isset($twitterTag['title'])<meta property="twitter:title" content="{!!$twitterTag['title']!!}">@endisset
+
 @isset($twitterTag['description'])<meta property="twitter:description" content="{!!$twitterTag['description']!!}">@endisset
 
-@isset($twitterTag['title'])<meta property="twitter:title" content="{!!$twitterTag['title']!!}">@endisset
+@isset($twitterTag['url'])<meta property="twitter:url" content="{!!$twitterTag['url']!!}">@endisset
+
 
 @isset($twitterTag['image'])<meta property="twitter:image" content="{{$twitterTag['image']}}">@endisset
 

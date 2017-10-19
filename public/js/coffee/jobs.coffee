@@ -379,7 +379,7 @@ $('.add-job-areas').click (e) ->
   area_group_clone.find('.state-errors').attr 'id', 'state-errors'+addLocationLen
   area_group_clone.find('.selectCity').attr 'data-parsley-required-message', 'Select a state where the job is located.'
   area_group_clone.find('.job-areas').attr 'data-parsley-required', ''
-  area_group_clone.find('.job-areas').attr 'data-parsley-required-message', 'Select an city where the job is located.'
+  area_group_clone.find('.job-areas').attr 'data-parsley-required-message', 'Select city where the job is located.'
   area_group_clone.find('.job-areas').attr 'data-parsley-errors-container', '#city-errors'+addLocationLen
   area_group_clone.find('.city-errors').attr 'id', 'city-errors'+addLocationLen
   area_group_clone.find('.newly-created').multiselect

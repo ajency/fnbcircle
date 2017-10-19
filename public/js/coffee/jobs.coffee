@@ -333,6 +333,10 @@ if $(window).width() <= 768
   $('.detachsection').after Applybtn
   Articles = $('.related-article,.similar-business').detach()
   $('.list-of-business').after Articles
+  adv = $('.advertisement').detach()
+  $('.list-of-business').after adv
+  company = $('.company-info').detach()
+  $('.desc-start').after company
 
 $('[data-toggle="tooltip"]').tooltip()
 

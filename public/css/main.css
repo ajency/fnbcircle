@@ -6565,6 +6565,31 @@ input[type=checkbox].custom-checkbox:before {
   border-bottom: 0;
   padding: 10px 15px;
 }
+.list-navigation li a {
+  color: #ec6d4b;
+  border: 1px solid #ec6d4b;
+  font-size: 1.05em;
+  border-radius: 0;
+  -webkit-transition: all .5s ease;
+          transition: all .5s ease;
+  padding: 0.5em 1em;
+}
+.list-navigation li a:first-child,
+.list-navigation li a:last-child {
+  border-radius: 0;
+}
+.list-navigation li a:hover,
+.list-navigation li a:active,
+.list-navigation li a:focus {
+  color: #fff;
+  background-color: #ec6d4b;
+  border-color: #ec6d4b;
+}
+.list-navigation li a.active {
+  color: #fff;
+  background-color: #ec6d4b;
+  border-color: #ec6d4b;
+}
 .home-text {
   position: relative;
   top: 3em;

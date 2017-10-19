@@ -235,8 +235,8 @@ List View
                                 <div class="advertisement flex-row m-t-20">
                                     <h6 class="element-title">Advertisement</h6>
                                 </div>
-                                <div class="flex-row boost-row">
-                                    <div class="heavier text-color boost-row__title">
+                                <div class="boost-row text-center">
+                                    <div class="heavier text-color boost-row__title m-b-5">
                                         Give your marketing a boost!
                                     </div>
                                     <button class="btn fnb-btn s-outline full border-btn default-size"><i class="fa fa-rocket fa-rotate-180" aria-hidden="true"></i> Advertise with us</button>
@@ -283,11 +283,29 @@ List View
                         <div class="blockG" id="rotateG_08"></div>
                     </div>
                 </div>
+                <nav aria-label="Page navigation" class="text-center list-navigation hidden">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>   
             </div>
         </div>
 
         <div id="pagination">
             {!! $paginate !!}
+
         </div>
        <!--  <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button> -->
 

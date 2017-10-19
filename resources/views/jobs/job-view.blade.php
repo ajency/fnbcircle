@@ -378,12 +378,12 @@
 
             <!-- contact info ends -->
             <!-- updates section -->
-            <div class="update-sec m-t-30" id="updates">
+           <!--  <div class="update-sec m-t-30" id="updates">
 
-            </div>
+            </div> -->
             <!-- update section ends -->
             <!-- listed -->
-            <div class="listed" id="listed">
+            <div class="listed desc-start" id="listed">
                <h5 class="jobDesc">Job Description</h5>
                <hr>
                <div class="job-desc text-color stable-size">

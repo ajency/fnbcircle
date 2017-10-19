@@ -142,17 +142,26 @@ class User extends Authenticatable
         $userAuth = new UserAuth;
         $user = $this;
         // $userDetails = $userAuth->getUserData($this);
-
+       
+        $user['email'] = '';
+        $user['city'] = '';
+        $user['phone'] = '';
      
         if((!empty($this->getUserDetails()->first())) && !empty($this->getUserDetails()->first()->city)){
             $city = $this->getUserDetails()->first()->city;
             $user['city'] = City::find($city)->name;
         }
-        if((!empty($this->first()->getUserCommunications()->first())) && !$this->first()->getUserCommunications()->where('type','mobile')->first()->value){
-            $phone = $this->first()->getUserCommunications()->where('type','mobile')->first()->value;
-            $user['phone'] = $phone;
+
+        if((!empty($this->getUserCommunications()->where('type','mobile')->first()->value))){
+            $mobile = $this->getUserCommunications()->where('type','mobile')->first()->value;
+            $user['phone'] = $mobile;
         }
-        dd($user);
+
+        if((!empty($this->getUserCommunications()->where('type','email')->first()->value))){
+            $email = $this->getUserCommunications()->where('type','email')->first()->value;
+            $user['email'] = $email;
+        }
+      
         return $user;
     }
 

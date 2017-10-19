@@ -309,8 +309,10 @@ class JobController extends Controller
 
         //if logged in user
         $userApplication = false;
-        $user = false;
+        $userProfile = false;
 
+        $userResume = [];
+ 
         if(Auth::check()){
             $user = Auth::user();
             $userResume = $user->getUserJobLastApplication();
@@ -318,9 +320,9 @@ class JobController extends Controller
 
         }
         
-        $data['user'] = $user;
         $data['userResume'] = $userResume;
-
+        $data['userProfile'] = $userProfile;
+ 
          return view('jobs.job-view')->with($data);
     }
 
@@ -748,7 +750,7 @@ class JobController extends Controller
 
         $jobApplicant->save();
     
-        Session::flash('success_message','Successfully applied for job');
+        // Session::flash('success_message','Successfully applied for job');
         Session::flash('success_apply_job','Job apply');
         return redirect()->back();
 

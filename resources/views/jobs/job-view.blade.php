@@ -939,7 +939,7 @@
                             @if($userResume)
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume->dateOfSubmission()}}</span>
-   
+                            <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
                             @else
                             <p class="default-size heavier m-b-0">WYou do not have resume uploaded on your profile</p>
                             Please upload your resume
@@ -952,7 +952,7 @@
  
                             </div>
                           </div>
-                          
+
                              <button class="btn fnb-btn primary-btn border-btn code-send full center-block" type="submit">Send Application <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
  
                         </form>
@@ -988,17 +988,17 @@
                           </div>
                           
                           
-                          <div class="job-alert text-center">
+                          <!-- <div class="job-alert text-center">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
                               <h6 class="text-medium m-b-15 m-t-15">Your job alert for <b>'Food &amp; beverage manager'</b> has been created</h6>
                               <p>You will receive the job alert in your email <b>'abhayrajput@gmail.com'</b> as per the below criteria</p>
                               <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
-                          </div>
+                          </div> -->
   
 
-                          <hr>
+                          <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria">
+                          <div class="row flex-row flex-wrap align-top edit-criteria hidden ">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))

@@ -24,7 +24,7 @@ $additionalData = ['job'=>$job];
     </script> 
     @endif 
 
-
+    {!! getPageLdJson('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 
 

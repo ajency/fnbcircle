@@ -7,7 +7,7 @@
     @yield('meta') 
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
-     
+  
     @yield('openGraph')
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">

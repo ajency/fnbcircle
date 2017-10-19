@@ -7385,6 +7385,9 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex: 0 0 30%;
             flex: 0 0 30%;
   }
+  .similar-business.job-similar-business .business-card {
+    max-width: calc(52% - 2em);
+  }
 }
 .hours_day {
   min-width: 100px;

@@ -32,8 +32,7 @@
     },
     'columns': [
       {
-        'data': 'id',
-        "orderable": false
+        'data': 'id'
       }, {
         'data': 'city',
         "orderable": false
@@ -65,7 +64,7 @@
     ],
     "columnDefs": [
       {
-        "width": "30px",
+        "width": "35px",
         "targets": 0
       }, {
         "width": "60px",

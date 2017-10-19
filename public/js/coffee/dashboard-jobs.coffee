@@ -29,7 +29,7 @@ jobsTable = $('#datatable-jobs').DataTable(
       return
   'columns': [
     # { 'data': '#' , "orderable": false}
-    { 'data': 'id' , "orderable": false}
+    { 'data': 'id' }
     { 'data': 'city'  , "orderable": false}
     { 'data': 'title' , "orderable": false}
     { 'data': 'business_type', "orderable": false}
@@ -42,7 +42,7 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'status' , "orderable": false}
   ]
   "columnDefs": [
-    { "width": "30px", "targets": 0 }    
+    { "width": "35px", "targets": 0 }    
     { "width": "60px", "targets": 1 }    
     { "width": "90px", "targets": 2 }  
     { "width": "120px", "targets": 3 }  

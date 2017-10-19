@@ -703,6 +703,7 @@ class AdminConfigurationController extends Controller
       
        
         $columnOrder = array( 
+                                        '0'=> 'jobs.id',
                                         '2'=> 'jobs.title',
                                         '3'=> 'categories.name',
                                         '5'=> 'companies.title',

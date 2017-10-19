@@ -54,15 +54,26 @@
                     @include('single-view.breadcrumbs')
                     <!-- Breadcrums ends -->
                 </div>
-                <div class="col-sm-4 flex-col">
+                <div class="col-sm-4 flex-col listingActions">
                     @if(isset($data['publish_date']) and $data['status']['id'] == '1')
                     <!-- Slide navigation -->
-                    <div class="slide-nav flex-row">
-                         <p class="m-b-0 published-title">Published on {{$data['publish_date']}}</p>
-                        <button type="button" class="share-btn flex-row"><span class="fnb-icons share"></span> Share</button>
+                    <div class="slide-nav flex-row m-b-10">
+                         <p class="m-b-0 published-title default-size">Published on {{$data['publish_date']}}</p>
+                        <button type="button" class="share-btn flex-row"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share</button>
                         <div id="shareRoundIcons"></div>
                     </div>
                     <!-- slide navigation ends -->
+                    @endif
+
+                    @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                    <!-- edit business listing  is this required?????? -->
+                    <div class="slide-nav flex-row">
+                        <a class="no-decor share-btn edit-job edit-listing flex-row" href="/listing/{{$data['reference']}}/edit">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            Edit business listing
+                        </a>
+                    </div>
+                    <!-- business listing ends -->
                     @endif
                 </div>
             </div>
@@ -86,9 +97,9 @@
                 </div>
             </div>
             @endif
-            <!-- premium benefits ends -->
-            @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-            <!-- edit business listing  is this required?????? -->
+          
+     <!--        @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+            
             <div class="row">
                 <div class="col-sm-8"></div>
                 <div class="col-sm-4">
@@ -100,8 +111,9 @@
                     </div>
                 </div>
             </div>
-            <!-- business listing ends -->
-            @endif
+      
+            @endif -->
+
             <div class="row">
                 <div class="col-sm-8">
                     <div class="spacer">
@@ -148,29 +160,29 @@
                                         @endisset
                                      </div>
                                     <label class="fnb-label wholesaler flex-row">
-                                        <a href="#">
+                                        <a href="#" class="secondary-link">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                         {{$data['type']}}</a>
                                     </label>
                                 </div>
                                 @isset($data['operationAreas'])
                                 <div class="operations p-t-5">
-                                    <h2 class="operations__title">Areas of operation of {{$data['title']['name']}}</h2>
+                                    <h2 class="operations__title sub-title">Areas of operation of {{$data['title']['name']}}</h2>
                                     @foreach($data['operationAreas'] as $city)
                                     <div class="opertaions__container flex-row">
                                         <div class="location flex-row">
                                             <span class="fnb-icons map-icon"></span>
-                                            <p class="location__title c-title">{{$city['name']}} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
+                                            <p class="location__title c-title default-size">{{$city['name']}} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                                         </div>
                                         <ul class="cities flex-row p-l-10">
                                             @foreach($city['areas'] as $area)
                                             @if($loop->last)
                                             <li>
-                                                <p class="cities__title">{{$area['name']}} </p>
+                                                <p class="cities__title default-size">{{$area['name']}} </p>
                                             </li>
                                             @else
                                             <li>
-                                                <p class="cities__title">{{$area['name']}}, </p>
+                                                <p class="cities__title default-size">{{$area['name']}}, </p>
                                             </li>
                                             @endif
                                             @endforeach

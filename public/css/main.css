@@ -2685,10 +2685,6 @@ input[type=checkbox].custom-checkbox:before {
 .slide-nav__link:hover {
   text-decoration: none;
 }
-.slide-nav .fa {
-  font-size: 1.05em;
-  color: #9b9ea0;
-}
 .slide-nav__title {
   font-size: 1em;
 }
@@ -2792,13 +2788,13 @@ input[type=checkbox].custom-checkbox:before {
 }
 .share-btn {
   border: 2px solid #fff;
-  font-size: 1.1em;
+  font-size: 1em;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-color: transparent;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   border-radius: 4px;
   padding: 0.2em 0.8em;
   margin-left: 0.8em;
@@ -5319,7 +5315,7 @@ input[type=checkbox].custom-checkbox:before {
   background-color: rgba(0, 0, 0, 0.5);
 }
 .published-title {
-  color: rgba(6, 6, 6, 0.41);
+  color: #fff;
 }
 .design-2-card {
   margin-right: -5em;
@@ -9979,8 +9975,19 @@ input[type='checkbox'].remove-addr {
   color: #fff;
   padding-right: 0.5em;
 }
+.edit-job.edit-listing {
+  color: #fff;
+}
+.edit-job.edit-listing:hover,
+.edit-job.edit-listing:active,
+.edit-job.edit-listing:focus {
+  color: #fff;
+}
 .job-post {
   margin-top: 2em;
+}
+.listingActions .slide-nav {
+  margin-top: 0;
 }
 .pending-review {
   border: 0;

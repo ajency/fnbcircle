@@ -202,13 +202,13 @@
                                                 @endif
                                                 </div>
                                                 @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
-                                                    <a href="#" class="review-submit-link">Submit for Review</a>
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
-                                                    <a href="#" class="archive-submit-link">Archive</a>
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "4"))
-                                                    <a href="#" class="publish-submit-link">Publish</a>
+                                                   <a href="#" data-toggle="modal" data-target="#confirmBox">Publish</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -513,6 +513,75 @@
                         </div>
                     </div>
                 </div>
+                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to send your listing for review?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="review-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Send for Review</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
+                @if($listing->isReviewable() and ($listing->status == "1"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to archive your listing?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="archive-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Archive</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
+                @if($listing->isReviewable() and ($listing->status == "4"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to publish your listing ?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="publish-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Publish</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
             </div>
         </div>
         <div class="site-loader full-loader hidden">

@@ -187,7 +187,8 @@ class ListingViewController extends Controller
             $pagedata['status']['status'] = 'Draft <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i>';
             $pagedata['status']['id']     = '3';
             if ($listing->isReviewable()) {
-                $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button type="submit">Submit for Review</button></form>';
+                $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button type="submit" class="btn fnb-btn text-primary border-btn no-border">Submit for Review</button></form>';
+                $pagedata['status']['next'] = 'Submit for Review';
             } else {
                 $pagedata['status']['change'] = '';
             }
@@ -200,17 +201,20 @@ class ListingViewController extends Controller
             $pagedata['status']['text']   = "The current status of your listing is ";
             $pagedata['status']['status'] = 'Published';
             $pagedata['status']['id']     = '1';
-            $pagedata['status']['change'] = '<form action="' . action('ListingController@archive') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Archive</button></form>';
+            $pagedata['status']['change'] = '<form action="' . action('ListingController@archive') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Archive</button></form>';
+            $pagedata['status']['next'] = 'Archive';
         } elseif ($listing->status == "4") {
             $pagedata['status']['text']   = "The current status of your listing is ";
             $pagedata['status']['status'] = 'Archived';
             $pagedata['status']['id']     = '4';
-            $pagedata['status']['change'] = '<form action="' . action('ListingController@publish') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Publish</button></form>';
+            $pagedata['status']['change'] = '<form action="' . action('ListingController@publish') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Publish</button></form>';
+            $pagedata['status']['next'] = 'Publish';
         } elseif ($listing->status == "5") {
             $pagedata['status']['text']   = "The current status of your listing is ";
             $pagedata['status']['status'] = 'Rejected';
             $pagedata['status']['id']     = '5';
-            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn primary-btn full border-btn" type="submit">Submit for Review</button></form>';
+            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Submit for Review</button></form>';
+            $pagedata['status']['next'] = 'Submit for Review';
         }
         if (isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) {
             $pagedata['overview'] = true;

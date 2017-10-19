@@ -15,6 +15,8 @@ class CreateEnquiryCategoriesTable extends Migration
     {
         Schema::create('enquiry_categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('enquiry_id')->nullable();
+            $table->integer('category_id')->comment("Node Category ID")->nullable();
             $table->timestamps();
         });
     }

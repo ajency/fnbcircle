@@ -15,6 +15,14 @@ class CreateEnquiriesTable extends Migration
     {
         Schema::create('enquiries', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_object_id')->comment("lead_id / user_id")->nullable();
+            $table->string('user_object_type')->comment("App\Lead / App\User")->nullable();
+            $table->string('enquiry_device')->comment("desktop / mobile")->nullable();
+            $table->string('enquiry_browser')->nullable();
+            $table->string('enquiry_type')->comment("direct / shared")->nullable();
+            $table->integer('enquiry_to_id')->comment("listing_id / job_id")->nullable();
+            $table->string('enquiry_to_type')->comment("App\Listing / App\Job")->nullable();
+            $table->text('enquiry_message')->nullable();
             $table->timestamps();
         });
     }

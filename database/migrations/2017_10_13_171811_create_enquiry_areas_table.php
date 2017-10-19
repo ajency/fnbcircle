@@ -15,6 +15,9 @@ class CreateEnquiryAreasTable extends Migration
     {
         Schema::create('enquiry_areas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('enquiry_id')->nullable();
+            $table->integer('area_id')->nullable();
+            $table->integer('city_id')->nullable();
             $table->timestamps();
         });
     }

@@ -3247,6 +3247,30 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.company-top-info{
+	&.featured-jobs__row{
+		&:not(:last-child){
+			margin-bottom: 0;
+    		border-bottom: 0;
+    		padding-bottom: 0;
+		}
+	}
+	&.job-data{
+		.jobdesc{
+			width: inherit;
+			@media screen and (max-width: @mobile){
+				p{
+					margin: 5px 0;
+    				font-size: 0.9em;	
+				}
+			}
+		}
+	}
+}
+
+.cat-label{
+	padding: 0.3em 0.5em;
+}
 
 .jobDesc{
 	font-size: 1.3em;
@@ -3777,6 +3801,13 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+.jobs-related-article{
+	@media screen and (max-width: @mobile){
+		display: flex;
+		flex-wrap: inherit;
+	}
+}
+
 .similar-business{
 	&.job-similar-business{
 		.business-card{
@@ -3786,6 +3817,17 @@ input[type='checkbox'].remove-addr{
 			margin-bottom: 2em;
 			flex: 1 0 calc(~'50% - 2em');
     		max-width: calc(~'53% - 2em');
+		}
+		@media screen and (max-width: @mobile){
+			.business-card{
+				&:first-child{
+					margin-right: 0.3em;
+				}
+				margin-bottom: 2em;
+				flex: inherit;
+	    		max-width: inherit;
+	    		width: 300px;
+			}
 		}
 	}
 }

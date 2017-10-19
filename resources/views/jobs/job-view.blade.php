@@ -194,7 +194,7 @@
                     <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
-                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
+                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
                     </div>
                     <!-- publish date -->
                     <!-- @if($job->jobPublishedOn()!='')
@@ -206,6 +206,14 @@
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                  </div>
+
+                  <div class="featured-jobs__row job-data company-top-info">
+                    <div class="flex-row">
+                      <div class="jobdesc">
+                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                       </div>
+                    </div>
                   </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
@@ -478,7 +486,7 @@
                 <h6 class="element-title">Related News Articles</h6>
                 <a href="" class="secondary-link view-more heavier">View More</a>
               </div>
-              <div class="related-article__section flex-row align-top">
+              <div class="related-article__section jobs-related-article flex-row align-top">
                 <div class="related-article__col article-col fnb-article">
                   <a href="" class="article-link">
                     <div class="fnb-article__banner"></div>

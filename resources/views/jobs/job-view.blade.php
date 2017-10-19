@@ -621,8 +621,8 @@ $additionalData = ['job'=>$job];
                   <div class="featured-jobs__row">
                      <div class="readMore">
                         <span class="x-small text-color">
-                          <!-- {!! $jobCompany->description !!} -->
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat.
+                          {!! $jobCompany->description !!}
+                         <!--  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat. -->
                         </span>
                      </div>
                   </div>

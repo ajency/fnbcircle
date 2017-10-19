@@ -9938,6 +9938,11 @@ input[type='checkbox'].remove-addr {
 .job-post {
   margin-top: 2em;
 }
+@media screen and (min-width: 769px) {
+  .desc-start {
+    margin-top: 1.8em;
+  }
+}
 .pending-review {
   border: 0;
   padding: 0.5em;

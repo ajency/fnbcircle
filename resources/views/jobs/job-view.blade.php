@@ -350,7 +350,7 @@ $additionalData = ['job'=>$job];
  
             <div class="listed desc-start" id="listed">
  
-               <h5 class="jobDesc">Job Description</h5>
+               <h3 class="jobDesc">Job Description</h3>
  
                <hr>
                <div class="job-desc text-color stable-size">

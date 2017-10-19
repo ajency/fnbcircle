@@ -7247,7 +7247,7 @@ input[type=checkbox].custom-checkbox:before {
   .interested-options .radio {
     opacity: 0;
   }
-  .job-areas.job-areas {
+  .default-area-select.default-area-select {
     height: 34px;
   }
   .ms-container {

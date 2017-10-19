@@ -1,7 +1,7 @@
 {
     "name": "FnB Circle",
     "short_name": "FnBcircle",
-    "start_url": "index.html",
+    "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
     "icons": [

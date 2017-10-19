@@ -541,7 +541,7 @@ $additionalData = ['job'=>$job];
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+                    
                      <a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>

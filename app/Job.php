@@ -186,7 +186,7 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
-        return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany ->name.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+        return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany->title.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
     }
 
     public function getMetaDescription(){
@@ -204,7 +204,7 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
-        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->name;
+        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->title;
 
         $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
    

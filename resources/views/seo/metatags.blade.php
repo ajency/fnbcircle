@@ -1,9 +1,13 @@
 <title> {!!$page['title']!!}</title>
 
- <meta http-equiv="content-type" content="text/html; charset=UTF-8">
- <meta charset="utf-8">
- 
- @isset($tags['title']) <meta name="title" content="{!!$tags['title']!!}" /> @endisset
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="robots" content="index, follow"/>
+
+
+@isset($tags['title']) <meta name="title" content="{!!$tags['title']!!}" /> @endisset
 
 @isset($tags['description']) <meta name="description" content="{!!$tags['description']!!}" /> @endisset
 

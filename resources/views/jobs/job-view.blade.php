@@ -609,7 +609,8 @@ $additionalData = ['job'=>$job];
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
                         <span class="x-small text-color break-all">
                         @if(!empty($jobCompany->website))
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
+                           
+                           <a href="{{ $jobCompany->website() }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
                            @endif
                         </span>
                      </div>

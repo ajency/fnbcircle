@@ -102,7 +102,7 @@
                 <img src="/img/power-icon.png" class="img-responsive power-icon" width="50">
                 <h6 class="sub-title text-uppercase plans__title text-color">{{$plan->title}}</h6>
                 <div class="plans__fee">
-                    <h5><i class="fa fa-inr" aria-hidden="true"></i>{{$plan->amount}}</h5>
+                    <h5><i class="fa fa-inr" aria-hidden="true"></i> {{$plan->amount}}</h5>
                 </div>
                 <ul class="points">
                 @php $highlights = json_decode($plan->meta_data); @endphp

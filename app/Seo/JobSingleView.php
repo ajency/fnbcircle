@@ -126,7 +126,7 @@ class JobSingleView extends Model
     	if(!empty($jobCompany->website)){
     		$organizationData['url'] = $jobCompany->website;
     	}
-    	$organizationData['@type'] = $jobCompany->name;
+    	$organizationData['name'] = $jobCompany->name;
 
 
     	$data['@context'] = 'http://schema.org';

@@ -260,18 +260,7 @@ $additionalData = ['job'=>$job];
                       </div>
 
 
-                      <!-- map address -->
-                    @if($job->interview_location!="")
-                    <div class="owner-address">
-                      <h6 class="operations__title sub-title">Interview Address</h6>
-                      <!-- <span class="fnb-icons map-icon"></span> -->
-                      <div class="flex-row align-top">
-                        <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                        <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
-                      </div>
-                      
-                     </div>
-                    @endif
+                     
 
 
                     
@@ -356,12 +345,14 @@ $additionalData = ['job'=>$job];
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
                </div>
-              
+                
+ 
+
                @if($job->interview_location!="")
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Map address of Interview Location</h6>
                   <div class="text-color stable-size">
-                      
+                        <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
                       <div class="m-t-10" id="map" map-title="your interview location" show-address="yes">
 
                       </div>

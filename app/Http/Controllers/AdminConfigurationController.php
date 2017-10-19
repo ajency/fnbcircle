@@ -703,12 +703,12 @@ class AdminConfigurationController extends Controller
       
        
         $columnOrder = array( 
-                                        '1'=> 'jobs.title',
-                                        '2'=> 'categories.name',
-                                        '4'=> 'companies.title',
-                                        '5'=> 'jobs.date_of_submission',
-                                        '6'=> 'jobs.published_on',
-                                        '7'=> 'jobs.updated_at'
+                                        '2'=> 'jobs.title',
+                                        '3'=> 'categories.name',
+                                        '5'=> 'companies.title',
+                                        '6'=> 'jobs.date_of_submission',
+                                        '7'=> 'jobs.published_on',
+                                        '8'=> 'jobs.updated_at'
                                         );
 
         
@@ -775,7 +775,7 @@ class AdminConfigurationController extends Controller
         $columnName = 'jobs.created_at';
         $orderBy = 'desc';
         
-        if($orderValue['column'] == 4){ 
+        if($orderValue['column'] == 5){ 
             $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
             $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
 
@@ -822,6 +822,7 @@ class AdminConfigurationController extends Controller
             
             $editJob =  '<a  href="'.$editLink.'"  target="_blank" >'.$job->title.'</a>';
             $jobsData[] = [ 
+                            'id' => $job->id,
                             'city' => $cityNamesStr,
                             'title' => $editJob,
                             'business_type' => $job->getJobCategoryName(),

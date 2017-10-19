@@ -32,6 +32,9 @@
     },
     'columns': [
       {
+        'data': 'id',
+        "orderable": false
+      }, {
         'data': 'city',
         "orderable": false
       }, {
@@ -62,35 +65,38 @@
     ],
     "columnDefs": [
       {
-        "width": "60px",
+        "width": "30px",
         "targets": 0
       }, {
-        "width": "90px",
+        "width": "60px",
         "targets": 1
       }, {
-        "width": "120px",
+        "width": "90px",
         "targets": 2
       }, {
-        "width": "140px",
+        "width": "120px",
         "targets": 3
       }, {
-        "width": "100px",
+        "width": "140px",
         "targets": 4
       }, {
         "width": "100px",
         "targets": 5
       }, {
-        "width": "80px",
+        "width": "100px",
         "targets": 6
       }, {
-        "width": "100px",
+        "width": "80px",
         "targets": 7
       }, {
-        "width": "80px",
+        "width": "100px",
         "targets": 8
       }, {
-        "width": "70px",
+        "width": "80px",
         "targets": 9
+      }, {
+        "width": "70px",
+        "targets": 10
       }
     ]
   });

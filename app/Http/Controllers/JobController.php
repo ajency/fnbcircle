@@ -246,7 +246,10 @@ class JobController extends Controller
 
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
-  
+        
+        if(!empty($job) && $job->slug!="" && $job->slug!=$jobSlug)
+            abort(404);
+
         if(empty($job))
             abort(404);
 

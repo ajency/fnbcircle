@@ -43,6 +43,7 @@ class JobSingleView extends Model
     	$itemPropTag['url'] =  $this->getPageUrl();
 
     	$tags = [];
+        $tags['title'] =  $this->getTitle();
     	$tags['keywords'] =  $this->getKeywords();
     	$tags['description'] =  $this->getDescription();
 
@@ -58,7 +59,7 @@ class JobSingleView extends Model
     	$jobCompany = $this->job->getJobCompany();
         $jobExperience =  $this->job->getJobExperience();
 
-        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(', ', $jobExperience) .' years of experience':''; 
+        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
     	return $this->job->title .' | '.implode(', ', $cities).' | '. $jobCompany ->name.' | '. $this->job->getJobCategoryName().$experienceStr.'| Fnb Circle ';
     } 
 
@@ -137,7 +138,7 @@ class JobSingleView extends Model
     	$data['description'] = $this->job->getMetaDescription();
 
     	if(!empty($jobExperience)){
-    		$experienceStr = implode(', ', $jobExperience);
+    		$experienceStr = implode('years, ', $jobExperience);
     		$data['experienceRequirements'] = $experienceStr;
     	}
 

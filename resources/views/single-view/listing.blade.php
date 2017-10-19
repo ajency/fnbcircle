@@ -657,7 +657,7 @@
                                 <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
                                     {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
                                 </p>
-                                <a href="{{$file['url']}}">
+                                <a href="{{$file['url']}}" target="_blank" download>
                                     <span class="fnb-icons download"></span>
                                 </a>
                             </div>

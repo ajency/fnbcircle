@@ -347,8 +347,9 @@ $additionalData = ['job'=>$job];
             </div> -->
             <!-- update section ends -->
             <!-- listed -->
-
+ 
             <div class="listed desc-start" id="listed">
+ 
                <h5 class="jobDesc">Job Description</h5>
  
                <hr>

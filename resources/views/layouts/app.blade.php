@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     @yield('meta') 
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
+    <link rel="manifest" href="manifest.json">
     <!-- <title>Homepage</title> -->
     <title> @yield('title')</title>
 
@@ -211,6 +212,7 @@
     @endif
 
     @yield('js')
+    <script src="init-service-worker.js"></script>
 </body>
 
 </html>

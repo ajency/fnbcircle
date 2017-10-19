@@ -1,0 +1,42 @@
+{
+    "name": "FnB Circle",
+    "short_name": "FnBcircle",
+    "start_url": "index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "icons": [
+        {
+        "src": "/img/logo-fnb128.png",
+          "sizes": "128x128",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/logo-fnb144.png",
+          "sizes": "144x144",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/logo-fnb152.png",
+          "sizes": "152x152",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/logo-fnb192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/logo-fnb256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        },
+        {
+          "src": "/img/logo-fnb512.png",
+          "sizes": "512x512",
+          "type": "image/png"
+        }
+      ],
+    "background_color": "#fff",
+    "theme_color": "#ec6d4b"
+  }
+  

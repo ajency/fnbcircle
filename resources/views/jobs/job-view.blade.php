@@ -20,8 +20,8 @@
      <script type="text/javascript">
     $(document).ready(function() {
       
-      $('.apply-job-form').addClass('show');
-      $('.success-apply').removeClass('show');
+      $('.apply-job-form').addClass('hidden');
+      $('.success-apply').removeClass('hidden');
 
         $('#apply-jobs').modal('show');
     });
@@ -885,23 +885,28 @@
                             <h6 class="m-t-0 company-section__title">Your details as follows</h6> 
                         </div>
                         <div class="code-submit flex-row space-between">
-                           Name : <input text="text" class="fnb-input text-color otp-input" name="applicant_name" placeholder="Enter name"  >
+                           Name : <input text="text" class="fnb-input text-color otp-input" name="applicant_name" placeholder="Enter name"  value="{{ $user->name}}" >
                         </div>
                          <div class="code-submit flex-row space-between">
-                         Email : <input text="text" class="fnb-input text-color otp-input" name="applicant_email" placeholder="Enter email"  >
+                         Email : <input text="text" class="fnb-input text-color otp-input" name="applicant_email" placeholder="Enter email"  value="{{ $user->email}}" >
                              
                             </div>
                          <div class="code-submit flex-row space-between">
-                            Phone number : <input text="text" class="fnb-input text-color otp-input" name="applicant_phone" placeholder="Enter phone"  >
+                            Phone number : <input text="text" class="fnb-input text-color otp-input" name="applicant_phone" placeholder="Enter phone"  value=" " >
                             </div>
                           <div class="code-submit flex-row space-between">
-                            City : <input text="text" class="fnb-input text-color otp-input" name="applicant_city" placeholder="Enter state"  >
+                            City : <input text="text" class="fnb-input text-color otp-input" name="applicant_city" placeholder="Enter state"  value="">
                             </div>
 
+                            @if($userResume)
                             <p class="default-size heavier m-b-0">We have attached your resume from your profile, with this application.</p>
-                            Resume last updated on:
-
+                            Resume last updated on: {{ $userResume->dateOfSubmission()}}
                             <input type="file" name="resume"> upload new resume
+                            @else
+                            <p class="default-size heavier m-b-0">WYou do not have resume uploaded on your profile</p>
+                            Please upload your resume
+                            <input type="file" name="resume"> upload my resume
+                            @endif
                             <button class="btn fnb-btn primary-btn border-btn code-send" type="submit">Submit <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                         </form>
                         </div>

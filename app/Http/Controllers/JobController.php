@@ -306,7 +306,21 @@ class JobController extends Controller
         $data['contactEmail'] = $contactEmail;
         $data['contactMobile'] = $contactMobile;
         $data['contactLandline'] = $contactLandline;
+
+        //if logged in user
+        $userApplication = false;
+        $user = false;
+
+        if(Auth::check()){
+            $user = Auth::user();
+            $userResume = $user->getUserJobLastApplication();
+            $userProfile = $user->getUserProfileDetails();
+
+        }
         
+        $data['user'] = $user;
+        $data['userResume'] = $userResume;
+
          return view('jobs.job-view')->with($data);
     }
 
@@ -739,7 +753,9 @@ class JobController extends Controller
         return redirect()->back();
 
     }
-  
+
+    
+
 
 
     /**

@@ -70,6 +70,7 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+Route::get('/user/download-resume','UserController@downloadResume');
 
 Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
  

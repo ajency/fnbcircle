@@ -6,8 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\ListingCommunication;
 use App\UserCommunication;
+use App\City;
 use Spatie\Permission\Traits\HasRoles;
 use Ajency\FileUpload\FileUpload;
+
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class User extends Authenticatable
 {
@@ -56,6 +59,11 @@ class User extends Authenticatable
         } else {
             return null;
         }
+    }
+
+    public function applications()
+    {
+        return $this->hasMany('App\JobApplicant');
     }
 
     public function getPrimaryContact() { // Get the Primary Contact No
@@ -124,19 +132,47 @@ class User extends Authenticatable
 
 
     public Function uploadUserResume($file){
-        $id = $this->uploadFile($file);
-        $this->remapImages([$id]);
+        $id = $this->uploadFile($file,false);
+        $this->remapFiles([$id]);
 
          return $id;
     }
 
+    public function getUserProfileDetails(){
+        $userAuth = new UserAuth;
+        $user = $this;
+        // $userDetails = $userAuth->getUserData($this);
 
-    public Function getUserResume($type){
-        $companyLogoUrl  ='';
-        $companyLogo = $this->getFiles();
-        foreach ($companyLogo as $key => $logo) {
-            $companyLogoUrl = (isset($logo[$type])) ? $logo[$type] : '';
+     
+        if((!empty($this->getUserDetails()->first())) && !empty($this->getUserDetails()->first()->city)){
+            $city = $this->getUserDetails()->first()->city;
+            $user['city'] = City::find($city)->name;
         }
-        return $companyLogoUrl;
+        if((!empty($this->first()->getUserCommunications()->first())) && !$this->first()->getUserCommunications()->where('type','mobile')->first()->value){
+            $phone = $this->first()->getUserCommunications()->where('type','mobile')->first()->value;
+            $user['phone'] = $phone;
+        }
+        dd($user);
+        return $user;
+    }
+
+     
+
+
+    public Function getUserResume(){
+        $userResumeUrl  ='';
+        $userResume = $this->getFiles(); 
+        foreach ($userResume as $key => $resume) {
+            $url = $resume['url'];
+        }
+        return $url;
+
+    }
+
+    public function getUserJobLastApplication(){
+        $application = $this->applications()->orderBy('date_of_application','desc')->first();
+        $application['resume_url'] = $this->getUserResume();
+
+        return $application;
     }
 }

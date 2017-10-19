@@ -588,16 +588,6 @@
             </div>
             <!-- Advertisement ends -->
             <div class="featured-jobs browse-cat company-section">
-              @if(!empty($jobTypes))
-               <h6 class="m-t-0 company-section__title">Job Type</h6>
-               <div class="featured-jobs__row flex-row">
-                    <div class="job-type">
-                    @foreach($jobTypes as $jobType)
-                     <div class="text-color year-exp">{{ $jobType }}</div>
-                    @endforeach
-                    </div>
-               </div>
-               @endif
                <h6 class="m-t-0 company-section__title">Offered Salary</h6>
                <div class="featured-jobs__row flex-row">
                    @if($job->salary_lower >="0" && $job->salary_upper > "0" )
@@ -624,6 +614,16 @@
                         @endforeach
                       </div>
                    </div>
+               </div>
+               @endif
+               @if(!empty($jobTypes))
+               <h6 class="m-t-0 company-section__title">Job Type</h6>
+               <div class="featured-jobs__row flex-row">
+                    <div class="job-type">
+                    @foreach($jobTypes as $jobType)
+                     <div class="text-color year-exp">{{ $jobType }}</div>
+                    @endforeach
+                    </div>
                </div>
                @endif
                <h6 class="m-t-0 company-section__title">Company Info</h6>

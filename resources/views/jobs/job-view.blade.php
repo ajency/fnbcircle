@@ -6,13 +6,7 @@ $additionalData = ['job'=>$job];
 @endphp
 
 @section('openGraph')
-<meta property="og:title" content="Migration To Australia (Restaurant Manager/ F & B/skilled Chef/cook) | Goa, Mumbai | Rajan & Associates Pvt. Ltd. | Food Processing | 0-1 years, 1-3 years, 3-5 years, 10+ years of experience| Fnb Circle ">
-<meta property="og:url" content="http://staging.fnbcircle.com/jobs/migration-to-australia-restaurant-manager-f-bskilled-chefcook-food-processing-rajan-associates-pvt-ltd-eBAOnEu4">
-<meta property="og:description" content="Migration To Australia (Restaurant Manager/ F & B/skilled Chef/cook) in Goa, Mumbai for Food Processing. Job Description: Job opening for Accounting Manager Jobs,Assistant chef,Chef De Partie Jobs,Administrationin Rajan & Associates Pvt. Ltd. for 0-1, 1-3, 3-5, 10+ years of experience. Job Type:Full Time, Internship. Interview Location:Chaudhary Meher Chand Yadav Marg, Haiderpur, Shalimar Bagh, Delhi, 110088, India. Apply Now!">
-<meta property="og:image" content="http://staging.fnbcircle.com/img/logo-fnb.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="fnbcircle">
-<meta property="fb:app_id" content="129599084331045">
+{!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 @section('js')
     @parent

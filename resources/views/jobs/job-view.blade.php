@@ -606,7 +606,7 @@
                </div>
                @if(!empty($experience))
                <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
-               <div class="featured-jobs__row flex-row">
+               <div class="featured-jobs__row flex-row ms-container">
                    <div class="year-exp">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
@@ -618,7 +618,7 @@
                @endif
                @if(!empty($jobTypes))
                <h6 class="m-t-0 company-section__title">Job Type</h6>
-               <div class="featured-jobs__row flex-row">
+               <div class="featured-jobs__row flex-row ms-container">
                     <div class="job-type">
                     @foreach($jobTypes as $jobType)
                      <div class="text-color year-exp">{{ $jobType }}</div>
@@ -638,7 +638,7 @@
                     </div>
                     <div class="jobdesc">
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                        <span class="x-small text-color">
+                        <span class="x-small text-color break-all">
                         @if(!empty($jobCompany->website))
                            <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
                            @endif

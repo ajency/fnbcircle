@@ -156,7 +156,11 @@ $additionalData = ['job'=>$job];
                     <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
+<<<<<<< HEAD
                        <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
+=======
+                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
+>>>>>>> e95134c4b4c8e300695f1a755a22082de5b7892b
                     </div>
                     <!-- publish date -->
                     <!-- @if($job->jobPublishedOn()!='')
@@ -168,6 +172,14 @@ $additionalData = ['job'=>$job];
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                  </div>
+
+                  <div class="featured-jobs__row job-data company-top-info">
+                    <div class="flex-row">
+                      <div class="jobdesc">
+                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                       </div>
+                    </div>
                   </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
@@ -442,7 +454,7 @@ $additionalData = ['job'=>$job];
                 <h6 class="element-title">Related News Articles</h6>
                 <a href="" class="secondary-link view-more heavier">View More</a>
               </div>
-              <div class="related-article__section flex-row align-top">
+              <div class="related-article__section jobs-related-article flex-row align-top">
                 <div class="related-article__col article-col fnb-article">
                   <a href="" class="article-link">
                     <div class="fnb-article__banner"></div>
@@ -544,16 +556,6 @@ $additionalData = ['job'=>$job];
             </div>
             <!-- Advertisement ends -->
             <div class="featured-jobs browse-cat company-section">
-              @if(!empty($jobTypes))
-               <h6 class="m-t-0 company-section__title">Job Type</h6>
-               <div class="featured-jobs__row flex-row">
-                    <div class="job-type">
-                    @foreach($jobTypes as $jobType)
-                     <div class="text-color year-exp">{{ $jobType }}</div>
-                    @endforeach
-                    </div>
-               </div>
-               @endif
                <h6 class="m-t-0 company-section__title">Offered Salary</h6>
                <div class="featured-jobs__row flex-row">
                    @if($job->salary_lower >="0" && $job->salary_upper > "0" )
@@ -572,7 +574,7 @@ $additionalData = ['job'=>$job];
                </div>
                @if(!empty($experience))
                <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
-               <div class="featured-jobs__row flex-row">
+               <div class="featured-jobs__row flex-row ms-container">
                    <div class="year-exp">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
@@ -582,6 +584,18 @@ $additionalData = ['job'=>$job];
                    </div>
                </div>
                @endif
+
+               @if(!empty($jobTypes))
+               <h6 class="m-t-0 company-section__title">Job Type</h6>
+               <div class="featured-jobs__row flex-row ms-container">
+                    <div class="job-type">
+                    @foreach($jobTypes as $jobType)
+                     <div class="text-color year-exp">{{ $jobType }}</div>
+                    @endforeach
+                    </div>
+               </div>
+               @endif
+
                <h3 class="m-t-0 company-section__title">Company Info</h3>
                <div class="featured-jobs__row job-data">
                   <div class="flex-row align-top">
@@ -594,7 +608,7 @@ $additionalData = ['job'=>$job];
                     </div>
                     <div class="jobdesc">
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                        <span class="x-small text-color">
+                        <span class="x-small text-color break-all">
                         @if(!empty($jobCompany->website))
                            <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
                            @endif
@@ -602,6 +616,7 @@ $additionalData = ['job'=>$job];
                      </div>
                   </div>
                </div>
+               
                 @if(!empty($jobCompany->description))
                   <h6 class="m-t-0 company-section__title">About Company</h6>
                   <div class="featured-jobs__row">

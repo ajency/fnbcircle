@@ -2444,6 +2444,9 @@ input[type="checkbox"].toggle__check {
   word-break: break-word;
   line-height: 1.3;
 }
+.break-all {
+  word-break: break-all;
+}
 .input-required {
   color: #d0021b;
   padding-left: 0.3em;
@@ -7244,6 +7247,12 @@ input[type=checkbox].custom-checkbox:before {
   .interested-options .radio {
     opacity: 0;
   }
+  .job-areas.job-areas {
+    height: 34px;
+  }
+  .ms-container {
+    width: 330px;
+  }
 }
 @media screen and (max-width: 600px) {
   .business-type {
@@ -7375,6 +7384,9 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-flex: 0 0 30%;
         -ms-flex: 0 0 30%;
             flex: 0 0 30%;
+  }
+  .similar-business.job-similar-business .business-card {
+    max-width: calc(52% - 2em);
   }
 }
 .hours_day {
@@ -9857,6 +9869,23 @@ input[type='checkbox'].remove-addr {
           transform: scale(0.5);
   width: 18px;
 }
+.company-top-info.featured-jobs__row:not(:last-child) {
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.company-top-info.job-data .jobdesc {
+  width: inherit;
+}
+@media screen and (max-width: 768px) {
+  .company-top-info.job-data .jobdesc p {
+    margin: 5px 0;
+    font-size: 0.9em;
+  }
+}
+.cat-label {
+  padding: 0.3em 0.5em;
+}
 .jobDesc {
   font-size: 1.3em;
 }
@@ -10310,6 +10339,17 @@ input[type='checkbox'].remove-addr {
   padding: 0.3em 0.5em;
   font-size: 0.9em;
 }
+@media screen and (max-width: 768px) {
+  .jobs-related-article {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: inherit;
+        -ms-flex-wrap: inherit;
+            flex-wrap: inherit;
+  }
+}
 .similar-business.job-similar-business .business-card {
   margin-bottom: 2em;
   -webkit-box-flex: 1;
@@ -10320,6 +10360,20 @@ input[type='checkbox'].remove-addr {
 }
 .similar-business.job-similar-business .business-card:nth-child(odd) {
   margin-right: 2em;
+}
+@media screen and (max-width: 768px) {
+  .similar-business.job-similar-business .business-card {
+    margin-bottom: 2em;
+    -webkit-box-flex: inherit;
+    -webkit-flex: inherit;
+        -ms-flex: inherit;
+            flex: inherit;
+    max-width: inherit;
+    width: 300px;
+  }
+  .similar-business.job-similar-business .business-card:first-child {
+    margin-right: 0.3em;
+  }
 }
 .readMore span {
   font-size: 1em;

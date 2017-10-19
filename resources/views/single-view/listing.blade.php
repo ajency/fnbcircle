@@ -456,7 +456,7 @@
                         <div class="similar-business p-t-20 p-b-20" id="business">
                             <div class="section-start-head m-b-15 flex-row">
                                 <p class="element-title">Similar Businesses</p>
-                                <a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>
+                                @isset($similar[1])<a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>@endisset
                             </div>
                             <div class="similar-business__section flex-row">
                                 <div class="card business-card article-col">

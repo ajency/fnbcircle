@@ -100,7 +100,7 @@
 
                     <div class="detach-preview mobile-hide">
                         @if($listing->reference!=null)
-                            <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+                            <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
                         @endif
                     </div>
                 </div>

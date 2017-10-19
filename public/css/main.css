@@ -7386,7 +7386,10 @@ input[type=checkbox].custom-checkbox:before {
             flex: 0 0 30%;
   }
   .similar-business.job-similar-business .business-card {
-    max-width: calc(52% - 2em);
+    max-width: 46% !important;
+  }
+  .similar-business.job-similar-business .business-card:nth-child(odd) {
+    margin-right: 3em !important;
   }
 }
 .hours_day {

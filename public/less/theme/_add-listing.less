@@ -641,7 +641,10 @@
 	.similar-business{
 		&.job-similar-business{
 			.business-card{
-	    		max-width: calc(~'52% - 2em');
+				&:nth-child(odd){
+					margin-right: 3em !important;
+				}
+	    		max-width: 46% !important;
 			}
 		}
 	}

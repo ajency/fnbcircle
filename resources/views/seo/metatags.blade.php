@@ -25,6 +25,9 @@
 
 @isset($ogtag['site_name'])<meta property="og:site_name" content="{{$ogtag['site_name']}}">@endisset
 
+<meta property="fb:app_id" content="{{ env('FACEBOOK_ID') }}">
+
+
 <!-- Twitter -->
 @isset($twitterTag['card'])<meta property="twitter:card" content="{{$twitterTag['card']}}">@endisset
 
@@ -42,6 +45,8 @@
 @isset($twitterTag['image'])<meta property="twitter:image" content="{{$twitterTag['image']}}">@endisset
 
 @isset($twitterTag['image_alt'])<meta property="twitter:image:alt" content="{{$twitterTag['image_alt']}}">@endisset
+
+
 
 
 <!-- google+ -->

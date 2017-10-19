@@ -1,4 +1,4 @@
-<title> {!!$page['title']!!}</title>
+@isset($page['title']) <title> {!!$page['title']!!}</title>@endisset
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="MobileOptimized" content="width" />

@@ -5,7 +5,7 @@ return [
 	'base_root_path' => '',
 	'default_base_path' => 'other_files',
 	'valid_image_formats' => ['jpg', 'png', 'jpeg', 'gif'],
-	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf'],
+	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf', 'ppt', 'pptx', 'pps', 'ppsx'],
 	'sizes' => [
 		'400X300' => [
 			'width' => 400,

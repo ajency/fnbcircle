@@ -276,7 +276,7 @@ class JobController extends Controller
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
         $data['companyLogo'] = $companyLogo;
-        $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
+        $data['pageName'] = $job->getPageTitle();
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
 

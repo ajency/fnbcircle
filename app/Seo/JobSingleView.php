@@ -47,20 +47,17 @@ class JobSingleView extends Model
     	$tags['keywords'] =  $this->getKeywords();
     	$tags['description'] =  $this->getDescription();
 
+        $page = [];
+        $page['title'] =  $this->getTitle();
+
  		
 
- 		return ['ogTag'=>$ogTag,'twitterTag'=>$twitterTag,'itemPropTag'=>$itemPropTag,'tags'=>$tags];
+ 		return ['ogTag'=>$ogTag,'twitterTag'=>$twitterTag,'itemPropTag'=>$itemPropTag,'tags'=>$tags,'page'=>$page];
 
     }
 
     public function getTitle(){
-
-    	$cities = $this->job->getJobLocationNames('city');
-    	$jobCompany = $this->job->getJobCompany();
-        $jobExperience =  $this->job->getJobExperience();
-
-        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
-    	return $this->job->title .' | '.implode(', ', $cities).' | '. $jobCompany ->name.' | '. $this->job->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+    	return $this->job->getPageTitle();
     } 
 
     public function getDescription(){

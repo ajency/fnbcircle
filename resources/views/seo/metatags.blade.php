@@ -1,4 +1,4 @@
-@isset($tags['title'])<title> {!!$tags['title']!!}</title> @else  @yield('title') @endisset
+<title> {!!$page['title']!!}</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="MobileOptimized" content="width" />

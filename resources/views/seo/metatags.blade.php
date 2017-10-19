@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="robots" content="index, follow"/>
 
+<link rel="canonical" href="{{ url('/')}}" />
 
 @isset($tags['title']) <meta name="title" content="{!!$tags['title']!!}" /> @endisset
 

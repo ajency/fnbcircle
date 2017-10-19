@@ -13,5 +13,8 @@ class EncryptCookies extends BaseEncrypter
      */
     protected $except = [
         //
+    	"user_id",
+    	"user_type",
+    	"mobile_otp"
     ];
 }

@@ -60,17 +60,12 @@
   getFilters = function() {
     var filters;
     filters = {
-      "category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val(),
-      "business_search": $('input[type="hidden"][name="business_search"]').val(),
+      "category_search": $(document).find('input[name="category_search"].flexdatalist').val(),
+      "business_search": $('input[name="business_search"]').val(),
       "areas_selected": [],
       "business_types": [],
       "listing_status": []
     };
-    if (filters["category_search"].length > 0 && filters["category_search"].indexOf("|[]") < 0) {
-      updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"]);
-    } else {
-      updateUrlPushstate("category_search", "");
-    }
     if (filters["business_search"].length > 0) {
       updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"]);
     } else {
@@ -131,9 +126,9 @@
     }
 
     /* --- Update the State labels --- */
-    if ($('input[type="hidden"][name="city"]').val().length > 0) {
-      $(".listings-page .state_label").text(capitalize($('input[type="hidden"][name="city"]').val()));
-      $(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[type="hidden"][name="city"]').val());
+    if ($('input[name="city"]').val().length > 0) {
+      $(".listings-page .state_label").text(capitalize($('input[name="city"]').val()));
+      $(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[name="city"]').val());
     } else {
       $(".listings-page span.state_label").text("India");
       $(".listings-page p.state_label").text("India");
@@ -149,7 +144,7 @@
       "page_size": limit,
       "sort_by": "published",
       "sort_order": "desc",
-      "city": $('input[type="hidden"][name="city"]').val(),
+      "city": $('input[name="city"]').val(),
       "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters()
     };
@@ -235,7 +230,7 @@
     updateTextLabels();
 
     /* --- City filter dropdown --- */
-    $('input[type="hidden"][name="city"].flexdatalist').flexdatalist({
+    $('input[name="city"].flexdatalist').flexdatalist({
       url: '/api/search-city',
       requestType: 'post',
       focusFirstResult: true,
@@ -254,11 +249,11 @@
       debug: false,
       noResultsText: 'Sorry! No results found for "{keyword}"'
     });
-    $('input[type="hidden"][name="category_search"].flexdatalist').flexdatalist({
+    $('input[name="category_search"].flexdatalist').flexdatalist({
       url: '/api/search-category',
       requestType: 'post',
       params: {
-        "search": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+        "search": $('input[name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
@@ -275,12 +270,12 @@
       allowDuplicateValues: false,
       noResultsText: 'Sorry! No categories found for "{keyword}"'
     });
-    $('input[type="hidden"][name="business_search"].flexdatalist').flexdatalist({
+    $('input[name="business_search"].flexdatalist').flexdatalist({
       url: '/api/search-business',
       requestType: 'post',
       params: {
-        "city": $('input[type="hidden"][name="city"].flexdatalist').val(),
-        "category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+        "city": $('input[name="city"].flexdatalist').val(),
+        "category": $('input[name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
@@ -325,7 +320,7 @@
     }
 
     /* --- Triggered every time the value in input changes --- */
-    $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('change:flexdatalist', function() {
+    $('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on('change:flexdatalist', function() {
 
       /* -- make a request if any one the Searchbox is cleared -- */
       key = "";
@@ -335,11 +330,12 @@
         key = $(this).attr("name");
       }
       if ($(this).val().length <= 0) {
-        updateUrlPushstate(key, "");
         if ($(this).prop("name") === "category_search") {
 
           /* --- update the value to null on change --- */
           $(document).find(".results__body ul.contents #current_category").val($(this).val());
+        } else {
+          updateUrlPushstate(key, "");
         }
         if (key !== "state") {
           getListContent();
@@ -350,7 +346,7 @@
     });
 
     /* -- Triggered every time the user selects an option -- */
-    $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('select:flexdatalist', function() {
+    $('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on('select:flexdatalist', function() {
       var areas, location, pushstate_url;
       key = "";
       if ($(this).prop("name") === "category_search") {
@@ -378,7 +374,9 @@
         key = $(this).attr("name");
         pushstate_url = $(this).attr("name") + "=" + $(this).val();
       }
-      updateUrlPushstate(key, pushstate_url);
+      if (key !== 'category_search') {
+        updateUrlPushstate(key, pushstate_url);
+      }
       setTimeout((function() {
         return getListContent();
       }), 500);
@@ -388,8 +386,8 @@
     $(document).on("click", ".results__body ul.contents a", function(e) {
       $(document).find(".results__body ul.contents #current_category").val($(this).attr("value"));
       updateUrlPushstate("categories", "categories=" + $(this).attr("value"));
-      $('#category input[type="hidden"][name="category_search"].flexdatalist').prop('value', $(this).attr("value"));
-      $('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('');
+      $('#category input[name="category_search"].flexdatalist').prop('value', $(this).attr("value"));
+      $('#category input[name="category_search"].flexdatalist').flexdatalist('');
       setTimeout((function() {
         getListContent();
       }), 100);
@@ -409,13 +407,13 @@
 
     /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
     $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val();
+      old_values["state"] = $('input[name="city"].flexdatalist').val();
     });
 
     /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
     $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      if ($('input[type="hidden"][name="city"].flexdatalist').val().length <= 0) {
-        $('input[type="hidden"][name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
+      if ($('input[name="city"].flexdatalist').val().length <= 0) {
+        $('input[name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
       }
     });
 

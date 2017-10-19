@@ -16,11 +16,12 @@
       <script type="text/javascript" src="/bower_components/jssocials/dist/jssocials.min.js"></script>
       <script type="text/javascript" src="/js/single-list-view.js"></script>
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
-       @if(Session::has('statusChange'))
-    <script> 
-       $('#listing-review').modal('show');
-    </script>
-    @endif
+        @if(Session::has('statusChange'))
+            <script> 
+               $('#listing-review').modal('show');
+            </script>
+        @endif
+        <!-- <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script> -->
 @endsection
 
 @section('openGraph')
@@ -156,7 +157,7 @@
                             </div>
                             @isset($data['operationAreas'])
                             <div class="operations p-t-5">
-                                <h2 class="operations__title">Areas of operation of {{$data['title']['name']}}</h2>
+                                <h5 class="operations__title">Areas of operation of {{$data['title']['name']}}</h5>
                                 @foreach($data['operationAreas'] as $city)
                                 <div class="opertaions__container flex-row">
                                     <div class="location flex-row">
@@ -245,11 +246,11 @@
                                             <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                         </ul>
                                     </div>
-                                   <!--  <div class="col-sm-4">
+                                    <div class="col-sm-4">
                                         <div class="text-center">
                                             <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -443,15 +444,15 @@
                                     <div class="operations m-t-20">
                                         <span class="dis-block lighter">Area of operations</span>
                                         @foreach($similar[0]['operationAreas'] as $city)
-                                        {{$city['name']}}
-                                        <ul class="areas flex-row">
-                                            @foreach($city['areas'] as $area)
-                                            <li>
-                                                <p class="default-size areas__title">{{$area['name']}}</p>
-                                            </li>
-                                            @endforeach
-                                            
-                                        </ul>
+                                            {{$city['name']}}
+                                            <ul class="areas flex-row">
+                                                @foreach($city['areas'] as $area)
+                                                <li>
+                                                    <p class="default-size areas__title">{{$area['name']}}</p>
+                                                </li>
+                                                @endforeach
+                                                
+                                            </ul>
                                         @endforeach
                                     </div>
                                     @endisset
@@ -551,6 +552,7 @@
                         <div class="contact__enquiry text-center mobile-hide">                                
                             <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                             <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
+                            <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                             @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                             <div class="approval">
                                 <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -615,11 +617,79 @@
                         @endisset
                     </div>
                     <!-- documents ends -->
-                    <!-- enquiry form -->
                     @endif
 
-
-
+                    <!-- enquiry form -->
+                    <div class="fly-out__content">
+                        <div class="enquiry-form card m-t-30 m-b-20">
+                            <form method="">
+                                <div class="enquiry-form__header flex-row space-between">
+                                    <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
+                                    <div class="enquiry-title">
+                                        <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
+                                        <p class="sub-title">{{ $data['title']['name'] }}</p>
+                                    </div>
+                                    <span class="fnb-icons enquiry"></span>
+                                </div>
+                                <div class="enquiry-form__body m-t-10">
+                                    <div class="form-group p-t-10 m-b-0">
+                                        <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
+                                        <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
+                                        <input type="text" class="form-control fnb-input float-input" id="contact_name">
+                                    </div>
+                                    <div class="form-group p-t-10 m-b-0">
+                                        <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
+                                        <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
+                                        <input type="email" class="form-control fnb-input float-input" id="contact_email">
+                                    </div>
+                                    <div class="form-group p-t-10 m-b-0">
+                                        <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
+                                        <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
+                                        <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
+                                    </div>
+                                    <div class="form-group p-t-20 p-b-10 m-b-0">
+                                        <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
+                                        <p class="x-small text-lighter lighter">(Please select atleast one)</p>
+                                        <select class="form-control fnb-select" id="describe">
+                                            <option>--Select--</option>
+                                            <option>I work in the F&amp;B industry</option>
+                                            <option>I work in the F&amp;B industry</option>
+                                            <option>I work in the F&amp;B industry</option>
+                                            <option>I work in the F&amp;B industry</option>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="form-group p-t-10 p-b-10 m-b-0">
+                                        <label class="">Interested in</label>
+                                        <ul class="interested-options flex-row m-t-15">
+                                            <li>
+                                                <input type="radio" class="radio" name="interests" checked>
+                                                <div class="meat option flex-row">
+                                                    <span class="fnb-icons cat-icon meat"></span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <input type="radio" class="radio" name="interests">
+                                                <div class="veg option flex-row">
+                                                    <span class="fnb-icons cat-icon veg"></span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                    <div class="form-group p-t-10 p-b-20 m-b-0">
+                                        <!-- <label class="custom-label">Message</label> -->
+                                        <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
+                                        <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
+                                        <!-- <input> -->
+                                        <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
+                                        <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
+                                    </div>
+                                    <div class="form-group p-t-10 m-b-0">
+                                        <button class="btn fnb-btn primary-btn full border-btn">Send an Enquiry</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <!-- enquiry form ends-->
                     <!-- browse category -->
                     <div class="browse-cat">
@@ -678,6 +748,14 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Enquiry modal -->
+        <input type="hidden" name="enquiry_slug" id="enquiry_slug" value="{{ $data['title']['slug'] }}">
+        <div id="updateTemplate">
+            @include('modals.listing_enquiry')
+        </div>
+        <!-- Enquiry ends -->
+
      </div>
      <div class="pos-fixed fly-out side-toggle">
         <!-- <div class="mobile-back desk-hide mobile-flex">

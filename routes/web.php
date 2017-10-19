@@ -13,6 +13,8 @@
 
 Route::get('/', function () {
 	$header_type = "home-header";
+	// dd(Cookie::get('laravel_session'));
+	// cookie()->queue('user_id', '12345', 120, '/', "localhost", '', false);
     return view('welcome', compact('header_type'));
 });
 
@@ -157,4 +159,9 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('/search-city', 'ListViewController@searchCity');
 	Route::post('/search-category', 'ListViewController@searchCategory');
 	Route::post('/search-business', 'ListViewController@searchBusiness');
+
+	/* Enquiry APIs */
+	Route::post('/get_enquiry_template', 'EnquiryController@requestTemplateEnquiry');
+	Route::post('/send_enquiry', 'EnquiryController@getEnquiry');
+	Route::post('/verify_enquiry_otp', 'EnquiryController@verifyOtp');
 });

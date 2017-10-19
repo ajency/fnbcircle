@@ -4,11 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="canonical" href="{{ url('/')}}" />
     @yield('meta') 
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
 
-    @yield('openGraph')
+    @yield('seo')
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->

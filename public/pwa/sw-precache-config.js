@@ -10,10 +10,15 @@ module.exports = {
     'css/main.css',
     'img/404.png ',
     'img/logo-fnb.png',
+    'js/offline-detection.js',
     'static/offline.html'
   ],
-  skipWaiting: true,
-  clientsClaim: false, // control pages immediately after activation
+  dynamicUrlToDependencies: {
+    '/': 'index.php'
+  },
+  importScripts: ['push.js'],
+  skipWaiting: false, // if true activates the service immediately after install
+  clientsClaim: false, // if true controls all tabs from domain immediately after activation
   templateFilePath: templatepath,
   verbose: true
 };

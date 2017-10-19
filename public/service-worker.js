@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["css/bootstrap.min.css","ec3bb52a00e176a7181d454dffaea219"],["css/font-awesome/css/font-awesome.min.css","269550530cc127b6aa5a35925a7de6ce"],["css/main.css","bda3bb7b8f4a8cf66bd6355c5cfba261"],["img/404.png","2421442ae23d1b10b2533b1fc7f95227"],["img/logo-fnb.png","4dd930b375a9e06f396840e2d00f7b14"],["static/offline.html","fa496ae27111678d7438624905a3c610"]];
+var precacheConfig = [["/","828e0013b8f3bc1bb22b4f57172b019d"],["css/bootstrap.min.css","ec3bb52a00e176a7181d454dffaea219"],["css/font-awesome/css/font-awesome.min.css","269550530cc127b6aa5a35925a7de6ce"],["css/main.css","bda3bb7b8f4a8cf66bd6355c5cfba261"],["img/404.png","2421442ae23d1b10b2533b1fc7f95227"],["img/logo-fnb.png","4dd930b375a9e06f396840e2d00f7b14"],["js/offline-detection.js","13f64e5a861c384d0b2d3692e1c6913c"],["static/offline.html","f737946e1707d62d03e16a7efd0612ec"]];
 var cacheName = 'sw-precache-v3-fnbcircle-' + (self.registration ? self.registration.scope : '');
 
 
@@ -195,9 +195,6 @@ self.addEventListener('install', function(event) {
       });
     }).then(function() {
       
-      // Force the SW to transition from installing -> active state
-      return self.skipWaiting();
-      
     })
   );
 });
@@ -299,4 +296,6 @@ self.addEventListener('fetch', function(event) {
 
 
 
+
+importScripts("push.js");
 

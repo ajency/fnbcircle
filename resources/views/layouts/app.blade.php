@@ -7,6 +7,8 @@
     @yield('meta') 
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ec6d4b">
+
     <!-- <title>Homepage</title> -->
     <title> @yield('title')</title>
 
@@ -213,6 +215,7 @@
 
     @yield('js')
     <script src="init-service-worker.js"></script>
+    <script src="js/offline-detection.js"></script>
 </body>
 
 </html>

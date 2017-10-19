@@ -7244,6 +7244,9 @@ input[type=checkbox].custom-checkbox:before {
   .interested-options .radio {
     opacity: 0;
   }
+  .job-areas.job-areas {
+    height: 34px;
+  }
 }
 @media screen and (max-width: 600px) {
   .business-type {

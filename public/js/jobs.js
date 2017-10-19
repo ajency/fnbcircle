@@ -83,6 +83,7 @@
         searchContain: true,
         selectionRequired: true,
         minLength: 0,
+        maxShownResults: 5000,
         url: '/get-keywords',
         searchIn: ["label"]
       });

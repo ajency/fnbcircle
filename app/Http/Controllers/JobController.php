@@ -642,7 +642,7 @@ class JobController extends Controller
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')
-        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%" order by label asc');
+        $jobKeywords = \DB::select('select id,label  from  defaults where type="job_keyword" and label like "%'.$request->keyword.'%" order by label asc');
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }

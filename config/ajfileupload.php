@@ -11,7 +11,7 @@ return [
 			'width' => 400,
 			'height' => 300,
 			'watermark' => [
-				'image_path' => public_path().'/img/fnb_watermark.png',
+				'image_path' => public_path().'/img/fnb_watermark_60x60.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
@@ -21,7 +21,7 @@ return [
 			'width' => 200,
 			'height' => 150,
 			'watermark' => [
-				'image_path' => public_path().'/img/fnb_watermark.png',
+				'image_path' => public_path().'/img/fnb_watermark_30x30.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
@@ -31,7 +31,7 @@ return [
 			'width' => 65,
 			'height' => 65,
 			'watermark' => [
-				'image_path' => public_path().'/img/fnb_watermark.png',
+				'image_path' => public_path().'/img/fnb_watermark_30x30.png',
 				'position'=>'bottom-left', 
 				'x'=> 0, 
 				'y'=>0
@@ -41,7 +41,7 @@ return [
 			'width' => 150,
 			'height' => 150,
 			'watermark' => [
-				'image_path' => public_path().'/img/logo-fnb.png',
+				'image_path' => public_path().'/img/fnb_watermark_30x30.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10
@@ -51,7 +51,7 @@ return [
 			'width' => 80,
 			'height' => 80,
 			'watermark' => [
-				'image_path' => public_path().'/img/logo-fnb.png',
+				'image_path' => public_path().'/img/fnb_watermark_30x30.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10

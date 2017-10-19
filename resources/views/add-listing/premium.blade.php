@@ -87,7 +87,7 @@
                 <div class="selection">
                     <input type="radio" class="fnb-radio" name="plan-select" @if($current['id'] == 0) checked="" @endif></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter">Your current plan</span>
+                    <span class="dis-block lighter text-lighter planCaption">Your current plan</span>
                 </div>
             </div>
         </label>
@@ -116,7 +116,7 @@
                 <div class="selection">
                     <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter">@if($pending != null and $pending->plan_id == $plan->id) Your request for this plan is under process @else Your current plan @endif</span>
+                    <span class="dis-block lighter text-lighter planCaption">@if($pending != null and $pending->plan_id == $plan->id) Your request for this plan is under process @else Click here to choose this plan @endif</span>
                 </div>
             </div>
         </label>

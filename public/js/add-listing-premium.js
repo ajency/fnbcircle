@@ -2,6 +2,8 @@
   $('input[type=radio][name=plan-select]').change(function() {
     if ($(this).is(':checked')) {
       $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
+      $(this).closest('.selection').find('.planCaption').text('Your current plan');
+      $(this).closest('.pricing-table__cards').siblings().find('.planCaption').text('Click here to choose this plan');
       if ($(this).closest('.pricing-table__cards').hasClass('free-plan')) {
         $('#subscribe-btn').prop('disabled', true);
       } else {

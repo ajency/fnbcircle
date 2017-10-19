@@ -8,8 +8,7 @@ function getMetaTags($seoFileName,$additionaldata=[]){
 	$seoFile = new $seoFileName($additionaldata) ;
 	$metaData = $seoFile->getMetaData($seoFileName,$additionaldata);
 
-	return $metaData;
-	// return \View::make('seo.metatags')->with(["ogtag"=>$metaData['ogTag'], "twitterTag"=>$metaData['twitterTag'], "itemPropTag"=>$metaData['itemPropTag'],"tags"=>$metaData['tags'],"page"=>$metaData['page']])->render();
+	return \View::make('seo.metatags')->with(["ogtag"=>$metaData['ogTag'], "twitterTag"=>$metaData['twitterTag'], "itemPropTag"=>$metaData['itemPropTag'],"tags"=>$metaData['tags'],"page"=>$metaData['page']])->render();
 }
 
 

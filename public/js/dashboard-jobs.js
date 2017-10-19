@@ -64,7 +64,7 @@
     ],
     "columnDefs": [
       {
-        "width": "35px",
+        "width": "60px",
         "targets": 0
       }, {
         "width": "60px",
@@ -73,13 +73,13 @@
         "width": "90px",
         "targets": 2
       }, {
-        "width": "120px",
+        "width": "100px",
         "targets": 3
       }, {
-        "width": "140px",
+        "width": "120px",
         "targets": 4
       }, {
-        "width": "100px",
+        "width": "80px",
         "targets": 5
       }, {
         "width": "100px",
@@ -88,7 +88,7 @@
         "width": "80px",
         "targets": 7
       }, {
-        "width": "100px",
+        "width": "80px",
         "targets": 8
       }, {
         "width": "80px",

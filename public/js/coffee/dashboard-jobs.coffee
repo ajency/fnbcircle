@@ -42,15 +42,15 @@ jobsTable = $('#datatable-jobs').DataTable(
     { 'data': 'status' , "orderable": false}
   ]
   "columnDefs": [
-    { "width": "35px", "targets": 0 }    
+    { "width": "60px", "targets": 0 }    
     { "width": "60px", "targets": 1 }    
     { "width": "90px", "targets": 2 }  
-    { "width": "120px", "targets": 3 }  
-    { "width": "140px", "targets": 4 }
-    { "width": "100px", "targets": 5 }
+    { "width": "100px", "targets": 3 }  
+    { "width": "120px", "targets": 4 }
+    { "width": "80px", "targets": 5 }
     { "width": "100px", "targets": 6 }
     { "width": "80px", "targets": 7 }
-    { "width": "100px", "targets": 8 }
+    { "width": "80px", "targets": 8 }
     { "width": "80px", "targets": 9 }
     { "width": "70px", "targets": 10 }
   ])

@@ -655,7 +655,7 @@
                             @foreach($data['files'] as $file)
                             <div class="catalogue flex-row p-t-20 p-b-20">
                                 <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                    {{$file['name']}}
+                                    {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
                                 </p>
                                 <a href="{{$file['url']}}">
                                     <span class="fnb-icons download"></span>

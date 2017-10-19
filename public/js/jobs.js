@@ -1,5 +1,5 @@
 (function() {
-  var Applybtn, Articles, companyLogo, getID, previewL;
+  var Applybtn, Articles, adv, company, companyLogo, getID, previewL;
 
   $(document).on('change', 'select[name="job_city[]"]', function() {
     var city, html, jobCityObj;
@@ -326,6 +326,10 @@
     $('.detachsection').after(Applybtn);
     Articles = $('.related-article,.similar-business').detach();
     $('.list-of-business').after(Articles);
+    adv = $('.advertisement').detach();
+    $('.list-of-business').after(adv);
+    company = $('.company-info').detach();
+    $('.desc-start').after(company);
   }
 
   $('[data-toggle="tooltip"]').tooltip();

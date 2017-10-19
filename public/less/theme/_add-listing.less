@@ -641,7 +641,10 @@
 	.similar-business{
 		&.job-similar-business{
 			.business-card{
-	    		max-width: calc(~'52% - 2em');
+				&:nth-child(odd){
+					margin-right: 3em !important;
+				}
+	    		max-width: 46% !important;
 			}
 		}
 	}
@@ -3634,7 +3637,8 @@ input[type='checkbox'].remove-addr{
 		font-size: 1em;
 	}
 	.jobDesc{
-		font-size: 1.3em;
+		font-size: 1.05em;
+		margin-top: 0;
 	}
 	.contact__info{
 		&.applyJob{
@@ -3798,6 +3802,14 @@ input[type='checkbox'].remove-addr{
 			}
 		}
 	}
+	.company-section{
+		padding: 0.2em;
+    	box-shadow: none;
+    	margin-bottom: 1.5em;
+    	&__title{
+    		font-size: 1.05em;
+    	}
+	}
 }
 
 
@@ -3888,3 +3900,5 @@ input[type='checkbox'].remove-addr{
 	position: relative;
 	top: -0.5em;
 }
+
+

@@ -342,13 +342,13 @@ $additionalData = ['job'=>$job];
 
             <!-- contact info ends -->
             <!-- updates section -->
-            <div class="update-sec m-t-30" id="updates">
+           <!--  <div class="update-sec m-t-30" id="updates">
 
-            </div>
+            </div> -->
             <!-- update section ends -->
             <!-- listed -->
- 
-            <div class="listed" id="listed">
+
+            <div class="listed desc-start" id="listed">
                <h5 class="jobDesc">Job Description</h5>
  
                <hr>
@@ -572,8 +572,8 @@ $additionalData = ['job'=>$job];
                </div>
                @if(!empty($experience))
                <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
-               <div class="featured-jobs__row flex-row ms-container">
-                   <div class="year-exp">
+               <div class="featured-jobs__row flex-row">
+                   <div class="year-exp ms-container">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
                          <div class="text-color year-exp">{{ $exp }} years</div>

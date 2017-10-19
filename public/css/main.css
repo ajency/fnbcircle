@@ -7386,7 +7386,10 @@ input[type=checkbox].custom-checkbox:before {
             flex: 0 0 30%;
   }
   .similar-business.job-similar-business .business-card {
-    max-width: calc(52% - 2em);
+    max-width: 46% !important;
+  }
+  .similar-business.job-similar-business .business-card:nth-child(odd) {
+    margin-right: 3em !important;
   }
 }
 .hours_day {
@@ -10187,7 +10190,8 @@ input[type='checkbox'].remove-addr {
     font-size: 1em;
   }
   .jobDesc {
-    font-size: 1.3em;
+    font-size: 1.05em;
+    margin-top: 0;
   }
   .contact__info.applyJob {
     width: 100%;
@@ -10329,6 +10333,14 @@ input[type='checkbox'].remove-addr {
   .contact-stuff .sell-re .close-contact {
     top: 10px;
     right: 10px;
+  }
+  .company-section {
+    padding: 0.2em;
+    box-shadow: none;
+    margin-bottom: 1.5em;
+  }
+  .company-section__title {
+    font-size: 1.05em;
   }
 }
 .jobs-table {

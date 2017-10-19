@@ -3,14 +3,14 @@
 
 @section('css')
     @parent
-    <link rel="stylesheet" href="{{ asset('node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
 @endsection
 
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
     <!-- <script type="text/javascript" src="{{ asset('js/verification.js') }}"></script> -->
-    <script type="text/javascript" src="{{ asset('node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>  
   >
 @endsection
 @section('form-data')
@@ -26,7 +26,9 @@
 <div class="business-info tab-pane fade in active" id="company_details">
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="no-m-t main-heading  white m-t-0 margin-btm">Company Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading  white m-t-0 ">Company Details</h5>
+    </div>
 
     <!-- Job title/category -->
 
@@ -84,6 +86,9 @@
     
     <!-- phone number -->
     @include('modals.verification.mobile-verification')
+
+    <!-- phone number -->
+    @include('modals.verification.landline-verification')
     <!-- /contact verification HTML -->
 
     </div>

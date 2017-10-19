@@ -12,13 +12,15 @@
 @endif
 
 <div class="business-details tab-pane fade in active" id="business_details">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Business Details</h5>
+    </div>    
     <div class="m-t-30 c-gap">
-        <label class="label-size">Give us some more details about your listing</label>
+        <label class="label-size">Give us some more details about your listing <span class="text-lighter">(optional)</span></label>
         <textarea type="text" rows="4" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
-        <label class="label-size">What are the highlights of your business?</label>
+        <label class="label-size">What are the highlights of your business? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Mention your business strengths, advantages over competition, top customers/clients, etc to get more leads.
         </div>
@@ -55,18 +57,18 @@
         <div class="row">
             <div class="col-sm-6">
 
-                <label class="label-size">When was your business established?</label>
+                <label class="label-size">When was your business established? <span class="text-lighter">(optional)</span></label>
                 <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Business established cannot be a future date" value="@isset($details->established){{$details->established}}@endisset">
 
             </div>
             <div class="col-sm-6 c-gap">
-                <label>Do you have a business website?</label>
+                <label>Do you have a business website? <span class="text-lighter">(optional)</span></label>
                 <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="@isset($details->website){{$details->website}}@endisset">
             </div>
         </div>
     </div>
     <div class="m-t-30 c-gap">
-        <label class="label-size">Payment modes accepted by you:</label>
+        <label class="label-size">Payment modes accepted by you: <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Select from the list below or add your own mode
         </div>

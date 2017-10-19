@@ -89,6 +89,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
+	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
 
 	
 	Route::get('/get-keywords','JobController@getKeywords');

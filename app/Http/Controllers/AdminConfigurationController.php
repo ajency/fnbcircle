@@ -682,7 +682,7 @@ class AdminConfigurationController extends Controller
         $job = new Job;
         $jobStatuses = $job->jobStatuses();
         $jobAvailabeStatus = $job->jobAvailabeStatus();
-        $cities = City::orderBy('order')->orderBy('name')->get();
+        $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
         $categories =  $job->jobCategories();
         $keywords = $job->jobKeywords();
 
@@ -697,18 +697,18 @@ class AdminConfigurationController extends Controller
 
         $requestData = $request->all();  //dd($requestData);
         $data =[];
-        $startPage = $requestData['start'];
+        $skip = $requestData['start'];
         $length = $requestData['length'];
         $orderValue = $requestData['order'][0];
-
+      
        
         $columnOrder = array( 
-                                        '2'=> 'jobs.title',
-                                        '3'=> 'categories.name',
-                                        '5'=> 'companies.title',
-                                        '6'=> 'jobs.date_of_submission',
-                                        '7'=> 'jobs.published_on',
-                                        '8'=> 'jobs.updated_at'
+                                        '1'=> 'jobs.title',
+                                        '2'=> 'categories.name',
+                                        '4'=> 'companies.title',
+                                        '5'=> 'jobs.date_of_submission',
+                                        '6'=> 'jobs.published_on',
+                                        '7'=> 'jobs.updated_at'
                                         );
 
         
@@ -758,12 +758,24 @@ class AdminConfigurationController extends Controller
             $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
         }
 
+        if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
+        { 
+            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
+        }
+
+        if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
+        {
+            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
+        }
+
          
 
         $columnName = 'jobs.created_at';
         $orderBy = 'desc';
         
-        if($orderValue['column'] == 5){ 
+        if($orderValue['column'] == 4){ 
             $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
             $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
 
@@ -775,39 +787,45 @@ class AdminConfigurationController extends Controller
             $orderBy = $orderValue['dir'];
         }
 
-        $totalJobs = $jobQuery->count();
+
         if($length>1)
-        {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->skip($startPage)->take($length)->get();   
+        {  
+            $totalJobs = $jobQuery->get()->count(); 
+            $jobs = $jobQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
         }
         else
         {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();   
+            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();  
+            $totalJobs = $jobs->count();  
         }
+
 
         $jobsData = [];
         foreach ($jobs as $key => $job) {
          
 
             $cityNames = $job->getJobLocationNames('city');
-            $cityNamesStr = (!empty($cityNames)) ? implode(",", $cityNames) :'';
+            $cityNamesStr = (!empty($cityNames)) ? implode("<br>", $cityNames) :'';
 
             $metaData = $job->meta_data;
             $keyWords = (!empty($metaData['job_keyword'])) ? $metaData['job_keyword'] : []; 
 
             $splitKeywords =  splitJobArrayData($keyWords,2); 
-            $jobKeywords = implode(',', $splitKeywords['array']);
+            $jobKeywords = implode(',', $keyWords);
             $moreJobKeywords  = ($splitKeywords['moreArrayCount']) ? '<i title="'.implode(',', $splitKeywords['moreArray']).'">...</i>' :'';
 
             $companyName = (!empty($job->getJobCompany())) ? $job->getJobCompany()->title :''; 
 
-            $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
-                     
-            $jobsData[] = [ '#' => '<input type="checkbox" class="hidden" name="job_check[]" value="'.$job->id.'" >',
+            $editLink = url('jobs/'.$job->reference_id.'/job-details'); 
+            $statusEditHtml =  '<a job-id="'.$job->id.'" job-name="'.$job->title.'" job-link="'.$editLink.'"  job-status="'.$job->status.'" href="#updateStatusModal" data-target="#updateStatusModal" class="update_status" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
+            //'#' => '<input type="checkbox" class="hidden" name="job_check[]" value="'.$job->id.'" >',   
+            
+            $editJob =  '<a  href="'.$editLink.'"  target="_blank" >'.$job->title.'</a>';
+            $jobsData[] = [ 
                             'city' => $cityNamesStr,
-                            'title' => $job->title,
+                            'title' => $editJob,
                             'business_type' => $job->getJobCategoryName(),
-                            'keyword' => $jobKeywords .''. $moreJobKeywords,
+                            'keyword' => $jobKeywords,
                             'company_name' => $companyName,
                             'date_of_submission' => $job->jobPostedOn(2),
                             'published_date' => $job->jobPublishedOn(2),
@@ -839,16 +857,21 @@ class AdminConfigurationController extends Controller
         $jobId = $requestData['job_id'];
         $jobStatus = $requestData['job_status'];
 
+
         $job = Job::find($jobId);
-        if(!empty($job)){
+        if(!empty($job) && $job->isJobDataComplete()){
             $job->status = $jobStatus;
+
+            if($job->status == '2' && empty($job->date_of_submission))
+                $job->date_of_submission = date('Y-m-d H:i:s');
             $job->save();
             $status = true;
         }
         else
             $status = false;
- 
-        return response()->json(array("code" => "200","status" =>$status, "msg" => ""));
+        
+        $editLink = url('jobs/'.$job->reference_id.'/job-details');
+        return response()->json(array("code" => "200","status" =>$status, "name" => $job->title,"link" => $editLink));
     }
 
     public function bulkUpdateJobStatus(Request $request){

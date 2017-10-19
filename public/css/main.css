@@ -9656,6 +9656,15 @@ input[type='checkbox'].remove-addr {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
+.listing-plans.pricing-table .pricing-table__cards {
+  max-width: calc(33.33% - 1.5em);
+  margin-right: 2em;
+  margin-bottom: 2em;
+  margin-left: 0;
+}
+.listing-plans.pricing-table .pricing-table__cards:last-child {
+  margin-right: 0;
+}
 .plan-label {
   cursor: pointer;
   display: -webkit-box;

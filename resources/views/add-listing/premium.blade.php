@@ -73,7 +73,7 @@
 </div>
 <h6 class="m-t-30 m-b-30">Our Plans <span id="pending-request">@if($pending != null) (Request pending) @endif</span></h6>
 <!-- pricing grids -->
-<div class="pricing-table plans flex-row job-plans listing-plans">
+<div class="pricing-table plans flex-row flex-wrap job-plans listing-plans">
     <div class="pricing-table__cards free-plan active">
         <label class="plan-label">
             <div class="plans__header">

@@ -331,13 +331,13 @@
                             @if(!$loop->last)<hr>@endif
                             @endforeach
                         </div>
-                        <hr>
+                        <!-- <hr> -->
                         <!-- listed ends -->
                         @endisset
                         @isset($data['brands'])
                         <!-- brands -->
-                        <div class="brands p-t-20 p-b-20" >
-                            <p class="element-title m-b-20">{{$data['title']['name']}} Brands</p>
+                        <div class="brands p-t-20 p-b-10" >
+                            <p class="element-title m-b-20 heavier">{{$data['title']['name']}} Brands</p>
                             <ul class="brands__list flex-row">
                                 @foreach($data['brands'] as $brand)<li class="flex-row">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
@@ -353,7 +353,7 @@
                     <div id="overview">
                         @isset($data['highlights'])
                         <!-- Highlights -->
-                        <div class="highlights p-t-20 p-b-20">
+                        <div class="highlights p-t-10 p-b-20">
                             <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
@@ -371,20 +371,20 @@
                            
                         @isset($data['description'])
                         <!-- Description -->
-                        <div class="description p-t-20 p-b-20">
+                        <div class="description p-t-10 p-b-20">
                             <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
                             <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
                         </div>
                         <!-- Description ends -->
                         @endisset
                         <!-- more-details -->
-                        <div class="more-details p-t-20 p-b-20">
+                        <div class="more-details p-t-10 p-b-20">
                             <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
                             <div class="detail-1 flex-row m-t-25 m-b-25">
 
                                 @isset($data['established'])
                                 <div class="year">
-                                    <p class="element-title heavier m-b-20">Year of establishment</p>
+                                    <p class="element-title heavier m-b-10">Year of establishment</p>
                                     <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset
@@ -471,7 +471,7 @@
                         <!-- Similar businesses -->
                         <div class="similar-business p-t-20 p-b-20" id="business">
                             <div class="section-start-head m-b-15 flex-row">
-                                <p class="element-title">Similar Businesses</p>
+                                <p class="element-title bolder">Similar Businesses</p>
                                 @isset($similar[1])<a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>@endisset
                             </div>
                             <div class="similar-business__section flex-row">
@@ -598,8 +598,8 @@
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
-                                    <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} <i class="fa fa-check-circle text-success" aria-hidden="true"></i></div>
-                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"><i class="fa fa-archive" aria-hidden="true"></i> {{$data['status']['next']}} </a> @endif
+                                    <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} </div>
+                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                 </div>
                                 @endif
                             </div>
@@ -640,8 +640,8 @@
                         <!-- claim end -->
                         @if(isset($data['images']) or isset($data['files']))
                         <!-- Photos and documents -->
-                        <div class="docs p-t-20 p-b-20">
-                            <p class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</p>
+                        <div class="docs p-t-20 p-b-20 m-t-20">
+                            <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
                             @isset($data['images'])
                             <div class="photo-gallery">
                                 @foreach($data['images'] as $images)

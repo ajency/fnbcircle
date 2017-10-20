@@ -20,12 +20,15 @@ getAreas = (cityID) ->
       success: (data) ->
         # console.log data
         html=''
+        # console.log array
         for key of data
           html+='<li><label class="flex-row"><input type="checkbox" '
+          # console.log data[key]['id'], _.indexOf(array,data[key]['id'])
           if _.indexOf(array,data[key]['id']) != -1
             html+='checked'
           html+= ' class="checkbox" for="'+slugify(data[key]['name'])+'" value="'+data[key]['id']+'" name="'+data[key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[key]['name'])+'">'+data[key]['name']+'</p></label></li>'
         city[cityID] = true
+        # console.log html
         $('div[name="'+cityID+'"].tab-pane ul.nodes').html html
         return
       error: (request, status, error) ->
@@ -55,7 +58,6 @@ $('.fnb-modal.area-modal').on 'show.bs.modal', (e) ->
   $('div#disp-operation-areas').find('input[type=\'hidden\']').each (index,data) ->
     array.push $(this).val()
     return
-  # console.log array
   getAreas(cityID);
   $('.tab-pane ul.nodes input[type="checkbox"]').each ->
     key = $(this).val()

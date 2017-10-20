@@ -4156,10 +4156,10 @@ input[type=checkbox].custom-checkbox:before {
   width: 100%;
 }
 .photo-gallery__thumbnails {
-  -webkit-box-align: inherit;
-  -webkit-align-items: inherit;
-      -ms-flex-align: inherit;
-          align-items: inherit;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 .photo-gallery__thumbnails li {
   -webkit-box-flex: 1;

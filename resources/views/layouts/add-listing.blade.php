@@ -389,7 +389,7 @@
                                         <!-- Submit for review section -->
                                         <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable() and $listing->status > "2")
-                                        <div class="m-t-0 c-gap">
+                                        <div class="m-t-30 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
                                                     <i class="fa fa-list-alt" aria-hidden="true"></i>

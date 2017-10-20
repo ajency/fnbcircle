@@ -122,7 +122,7 @@
                 <div class="col-sm-8">
                     <div class="spacer">
                         <!-- Card Info starts -->
-                        <div class="seller-info card design-2-card">
+                        <div class="seller-info card design-2-card new-changes">
                             <div class="seller-info__header flex-row"></div>
                             <div class="seller-info__body">
                                 <div class="flex-row space-between">
@@ -140,7 +140,7 @@
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier"> (Map)</span>@endisset</p>
                                 </div>
-                                <div class="stats flex-row m-t-25">
+                                <div class="stats flex-row m-t-25 stat-section">
                                     <div class="rating-view flex-row">
                                         @isset($data['rating'])
                                         <div class="rating">
@@ -163,18 +163,18 @@
                                         @endif
                                         @endisset
                                      </div>
-                                    <label class="fnb-label wholesaler flex-row">
+                                    <label class="fnb-label wholesaler flex-row text-uppercase">
                                         <a href="#" class="secondary-link">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                         {{$data['type']}}</a>
                                     </label>
                                 </div>
                                 @isset($data['operationAreas'])
-                                <div class="operations p-t-5">
-                                    <h2 class="operations__title sub-title">Areas of operation of {{$data['title']['name']}}</h2>
+                                <div class="operations p-t-5 operate-section">
+                                    <h2 class="operations__title sub-title m-t-20">Areas of operation of {{$data['title']['name']}}</h2>
                                     @foreach($data['operationAreas'] as $city)
                                     <div class="opertaions__container flex-row">
-                                        <div class="location flex-row">
+                                        <div class="location set-width flex-row">
                                             <span class="fnb-icons map-icon"></span>
                                             <p class="location__title c-title default-size">{{$city['name']}} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                                         </div>
@@ -608,13 +608,13 @@
                               <div class="modal-dialog modal-sm" role="document">
                                   <div class="modal-content">
                                       <div class="modal-header">
-                                          <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                                          <h5 class="text-medium m-t-0 bolder m-b-5">Confirm</h5>
                                       </div>
                                       <div class="modal-body text-center">
-                                          <div class="listing-message">
-                                              <h4 class="element-title text-medium text-left text-color">Are you sure you want to {{$data['status']['next']}} ?</h4>
+                                          <div class="listing-message p-l-10 p-r-10">
+                                              <h4 class="element-title text-medium text-left text-color m-t-0">Are you sure you want to {{$data['status']['next']}} ?</h4>
                                           </div>  
-                                          <div class="confirm-actions text-right">
+                                          <div class="confirm-actions text-right flex-row flex-end">
                                             {!!$data['status']['change']!!}
                                                 <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                           </div>

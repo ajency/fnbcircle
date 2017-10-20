@@ -153,7 +153,6 @@
       "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters()
     };
-    $("#listing_card_view").css("filter", "blur(2px)");
     $.ajax({
       type: 'post',
       url: '/api/get-listview-data',
@@ -475,6 +474,38 @@
     setTimeout((function() {
       getListContent();
     }), 1000);
+  });
+
+  $(document).ready(function() {
+    return setTimeout((function() {
+      var advAdd, businessListing;
+      if ($(window).width() <= 768) {
+        businessListing = $('.businessListing').detach();
+        $('.addShow').after(businessListing);
+        $('.filter-data').each(function() {
+          var detailbtn, detailrow, power, powerseller, publishedAdd, publisherow, recentData, recentrow;
+          detailrow = $(this).find('.recent-updates__content');
+          detailbtn = $(this).find('.detail-move').detach();
+          $(detailrow).append(detailbtn);
+          recentrow = $(this).find('.updates-dropDown');
+          recentData = $(this).find('.recent-data').detach();
+          $(recentrow).append(recentData);
+          publishedAdd = $(this).find('.stats');
+          publisherow = $(this).find('.rat-pub').detach();
+          $(publishedAdd).append(publisherow);
+          power = $(this).find('.power-seller-container');
+          powerseller = $(this).find('.power-seller').detach();
+          $(power).append(powerseller);
+        });
+        advAdd = $('.adv-row').detach();
+        $('.adv-after').append(advAdd);
+        $('.recent-updates__text').click(function() {
+          $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle('slow');
+          $(this).toggleClass('active');
+          return $(this).find('.arrowDown').toggleClass('fa-rotate-180');
+        });
+      }
+    }), 1500);
   });
 
 }).call(this);

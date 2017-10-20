@@ -178,11 +178,10 @@
 @endforeach
 @if($listing_data->count() <= 0)
     <div class="filter-data m-b-30">
-        <div class="list-title-container">
-            <h3 class="seller-info__title ellipsis">Sorry, no results found!</h3>
-        </div>
-        <div>
-            <p class="m-b-0 default-size heavier flex-row">Please check the spelling or try searching for something else</p>    
+        <div class="no-results">
+            <h3 class="seller-info__title ellipsis text-primary">Sorry, no results found!</h3>
+            <p class="nf-text heavier text-color">Please check the spelling or try searching for something else</p>
+            <img src="/img/404.png" class="img-reponsive center-block img-nf" width="100">
         </div>
     </div>
 @endif

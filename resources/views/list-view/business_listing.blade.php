@@ -47,7 +47,7 @@ List View
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
                                         <input type="hidden" value="" class="form-control fnb-select flexdatalist" name="area_hidden" id="area"/>
-                                        <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-input flexdatalist" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 
                                         <datalist id="states">
@@ -188,7 +188,7 @@ List View
                     </div>
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
-                            <div id="listing_filter_view">
+                            <div id="listing_filter_view" class="listing_filter_view">
                                 {!! $filter_view_html !!}
                             </div>
                             <!-- why fnb -->
@@ -235,8 +235,8 @@ List View
                                 <div class="advertisement flex-row m-t-20">
                                     <h6 class="element-title">Advertisement</h6>
                                 </div>
-                                <div class="flex-row boost-row">
-                                    <div class="heavier text-color boost-row__title">
+                                <div class="boost-row text-center">
+                                    <div class="heavier text-color boost-row__title m-b-5">
                                         Give your marketing a boost!
                                     </div>
                                     <button class="btn fnb-btn s-outline full border-btn default-size"><i class="fa fa-rocket fa-rotate-180" aria-hidden="true"></i> Advertise with us</button>
@@ -256,16 +256,58 @@ List View
             </script> -->
             <div class="col-sm-9 custom-col-9">
                 <div id="listing_card_view">
-                    
-                    
+                   <div class="loader-section">
+                        <div class="site-loader section-loader">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="site-loader section-loader hidden">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" class="text-center list-navigation hidden">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>   
             </div>
         </div>
 
         <div id="pagination">
             {!! $paginate !!}
+
         </div>
-        <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button>
+       <!--  <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button> -->
 
         <div class="site-overlay"></div>
     </div>

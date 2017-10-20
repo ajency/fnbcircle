@@ -1,5 +1,4 @@
 @extends('layouts.single-view')
-@section('title', $pageName )
 
 @php
 $additionalData = ['job'=>$job];

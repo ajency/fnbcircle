@@ -608,13 +608,13 @@
                               <div class="modal-dialog modal-sm" role="document">
                                   <div class="modal-content">
                                       <div class="modal-header">
-                                          <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                                          <h5 class="text-medium m-t-0 bolder m-b-5">Confirm</h5>
                                       </div>
                                       <div class="modal-body text-center">
-                                          <div class="listing-message">
-                                              <h4 class="element-title text-medium text-left text-color">Are you sure you want to {{$data['status']['next']}} ?</h4>
+                                          <div class="listing-message p-l-10 p-r-10">
+                                              <h4 class="element-title text-medium text-left text-color m-t-0">Are you sure you want to {{$data['status']['next']}} ?</h4>
                                           </div>  
-                                          <div class="confirm-actions text-right">
+                                          <div class="confirm-actions text-right flex-row flex-end">
                                             {!!$data['status']['change']!!}
                                                 <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                           </div>

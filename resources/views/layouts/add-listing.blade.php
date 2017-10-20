@@ -405,7 +405,7 @@
                                         <div class="gs-form__footer flex-row m-t-30">
                                             @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
 
-                                            <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
+                                            @if($step != 'business-premium')<button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>@endif
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>

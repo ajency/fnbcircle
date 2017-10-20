@@ -338,7 +338,7 @@
                         <!-- brands -->
                         <div class="brands p-t-20 p-b-10" >
                             <p class="element-title m-b-20 heavier">{{$data['title']['name']}} Brands</p>
-                            <ul class="brands__list flex-row">
+                            <ul class="brands__list flex-row flex-wrap">
                                 @foreach($data['brands'] as $brand)<li class="flex-row flex-wrap">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
                                     <span class="fnb-icons tags"></span>

@@ -450,7 +450,7 @@
                         <div class="pending text-darker heavier sub-title">
                         @if(session('statusChange')=='review')<i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review @endif
                         @if(session('statusChange')=='archive')
-                        Archieved
+                        Archived
                         @endif
                        @if(session('statusChange')=='published')
                        Published

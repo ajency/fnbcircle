@@ -73,3 +73,18 @@ $('body').on 'change','select[name="update-sort"]',()->
 
 $('body').on 'click', '.view-more-updates a', () ->
   loadUpdates()
+
+
+if $('.operation__hours').length
+  $('.operation__hours').readmore
+    speed: 25
+    collapsedHeight: 18
+    moreLink: '<a href="#" class="more default-size secondary-link">View more</a>'
+    lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'
+      
+if $('.description').length
+  $('.description').readmore
+    speed: 25
+    collapsedHeight: 158
+    moreLink: '<a href="#" class="more default-size secondary-link">View more</a>'
+    lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'

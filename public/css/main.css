@@ -3122,6 +3122,9 @@ input[type=checkbox].custom-checkbox:before {
   .seller-info .cities.cities li.remain {
     display: block;
   }
+  .seller-info .cities.cities.list-cities li:nth-child(-n+5) {
+    display: block;
+  }
   .seller-info .cities.cities.expand-more li {
     display: block;
   }
@@ -3497,6 +3500,8 @@ input[type=checkbox].custom-checkbox:before {
 @media screen and (max-width: 768px) {
   .brands {
     padding-top: 10px;
+    margin-top: 1em;
+    padding-bottom: 0;
   }
   .brands .element-title {
     margin-bottom: 10px;
@@ -3509,6 +3514,11 @@ input[type=checkbox].custom-checkbox:before {
   }
   .brands li {
     padding-right: 1.2em;
+  }
+  .sTitle {
+    line-height: 1.4;
+    font-size: 1.15em;
+    margin: 0.5em 0;
   }
 }
 .highlights li:not(:first-child) {

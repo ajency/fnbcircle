@@ -94,3 +94,9 @@ if $(window).width() > 769
   getheight = $('.design-2-card').outerHeight()
   $('.equal-col').css 'min-height', getheight
 
+
+if $(window).width() < 769
+  browsecat = $('.browse-cat').detach()
+  $('.similar-business').after browsecat
+
+

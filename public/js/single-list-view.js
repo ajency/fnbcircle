@@ -1,5 +1,5 @@
 (function() {
-  var equalcol, getheight, loadUpdates, offset, order;
+  var browsecat, equalcol, getheight, loadUpdates, offset, order;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -88,6 +88,11 @@
     $('.design-2-card').css('min-height', equalcol);
     getheight = $('.design-2-card').outerHeight();
     $('.equal-col').css('min-height', getheight);
+  }
+
+  if ($(window).width() < 769) {
+    browsecat = $('.browse-cat').detach();
+    $('.similar-business').after(browsecat);
   }
 
 }).call(this);

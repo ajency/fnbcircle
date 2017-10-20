@@ -518,6 +518,13 @@
 					display: block;
 				}
 			}
+			&.list-cities{
+				li{
+					&:nth-child(-n+5){
+						display: block;
+					}
+				}
+			}
 			&.expand-more{
 				li{
 					display: block;
@@ -949,6 +956,8 @@
 @media screen and (max-width: @mobile){
 	.brands{
 		padding-top: 10px;
+		margin-top: 1em;
+		padding-bottom: 0;
 		.element-title{
 			margin-bottom: 10px;
 			margin-top: 0;
@@ -961,6 +970,11 @@
 		li{
 			padding-right: 1.2em;
 		}
+	}
+	.sTitle{
+		line-height: 1.4;
+		font-size: 1.15em;
+    	margin: 0.5em 0;
 	}
 }
 

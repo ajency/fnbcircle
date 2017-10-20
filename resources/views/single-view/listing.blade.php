@@ -178,7 +178,7 @@
                                             <span class="fnb-icons map-icon"></span>
                                             <p class="location__title c-title default-size">{{$city['name']}} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></h6>
                                         </div>
-                                        <ul class="cities flex-row p-l-10">
+                                        <ul class="cities list-cities flex-row p-l-10">
                                             @foreach($city['areas'] as $area)
                                             @if($loop->last)
                                             <li>
@@ -337,7 +337,7 @@
                         @isset($data['brands'])
                         <!-- brands -->
                         <div class="brands p-t-20 p-b-10" >
-                            <p class="element-title m-b-20 heavier">{{$data['title']['name']}} Brands</p>
+                            <p class="element-title m-b-20 heavier sTitle">{{$data['title']['name']}} Brands</p>
                             <ul class="brands__list flex-row flex-wrap">
                                 @foreach($data['brands'] as $brand)<li class="flex-row flex-wrap">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
@@ -354,7 +354,7 @@
                         @isset($data['highlights'])
                         <!-- Highlights -->
                         <div class="highlights p-t-10 p-b-20">
-                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Highlights</h3>
+                            <h3 class="element-title m-b-20 sTitle">{{$data['title']['name']}} Highlights</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
                                     <li class="flex-row">
@@ -372,7 +372,7 @@
                         @isset($data['description'])
                         <!-- Description -->
                         <div class="description p-t-10 p-b-20">
-                            <h3 class="element-title m-b-20">{{$data['title']['name']}} Description</h3>
+                            <h3 class="element-title m-b-20 sTitle">{{$data['title']['name']}} Description</h3>
                             <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
                         </div>
                         <!-- Description ends -->
@@ -384,13 +384,13 @@
 
                                 @isset($data['established'])
                                 <div class="year">
-                                    <p class="element-title heavier m-b-10">Year of establishment</p>
+                                    <p class="element-title heavier m-b-10 sTitle">Year of establishment</p>
                                     <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset
                                 @isset($data['website'])
                                 <div class="site">
-                                    <p class="element-title heavier m-b-10">Website</p>
+                                    <p class="element-title heavier m-b-10 sTitle">Website</p>
                                     <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
                                 </div>
                                 @endisset
@@ -398,7 +398,7 @@
                             @if(isset($data['showHours']) and $data['showHours'] == 1)
                             <div class="detail-2 flex-row m-t-25 m-b-25">
                                 <div class="operation">
-                                    <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
+                                    <p class="element-title heavier m-b-20 sTitle">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
                                     <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} 
                                     <span class="dis-block data-show m-t-5 p-l-15">
                                         @foreach($data['hours'] as $day)
@@ -411,7 +411,7 @@
                             @if(isset($data['address']) or isset($data['location']))
                             <div class="detail-3 flex-row m-t-25 m-b-25">
                                 <div class="address">
-                                    <h3 class="element-title heavier m-b-20">Address {{$data['title']['name']}}</h3>
+                                    <h3 class="element-title heavier m-b-20 sTitle">Address {{$data['title']['name']}}</h3>
                                     @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>
@@ -454,7 +454,7 @@
                                 @isset($data['payments'])
                                 <div class="detail-4 flex-row m-t-25">
                                     <div class="payment-mode">
-                                        <p class="element-title heavier m-b-20 payment-mode__title">Modes of payment</p>
+                                        <p class="element-title heavier m-b-20 payment-mode__title sTitle">Modes of payment</p>
                                         <ul class="credit-card flex-row flex-wrap">
                                             @foreach($data['payments'] as $mode)
                                             <li><i class="fa fa-credit-card" aria-hidden="true"></i> {{$mode}}
@@ -473,7 +473,7 @@
                         <!-- Similar businesses -->
                         <div class="similar-business p-t-20 p-b-20" id="business">
                             <div class="section-start-head m-b-15 flex-row">
-                                <p class="element-title bolder">Similar Businesses</p>
+                                <p class="element-title bolder sTitle">Similar Businesses</p>
                                 @isset($similar[1])<a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>@endisset
                             </div>
                             <div class="similar-business__section flex-row">

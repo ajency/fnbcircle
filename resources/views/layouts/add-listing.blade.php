@@ -100,7 +100,7 @@
 
                     <div class="detach-preview mobile-hide">
                         @if($listing->reference!=null)
-                            <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+                            <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
                         @endif
                     </div>
                 </div>
@@ -202,13 +202,13 @@
                                                 @endif
                                                 </div>
                                                 @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
-                                                    <a href="#" class="review-submit-link">Submit for Review</a>
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
-                                                    <a href="#" class="archive-submit-link">Archive</a>
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "4"))
-                                                    <a href="#" class="publish-submit-link">Publish</a>
+                                                   <a href="#" data-toggle="modal" data-target="#confirmBox">Publish</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -338,12 +338,12 @@
                                     </div>
                                     @if($listing->reference!=null)
                                         <div>
-                                            <a href="http://staging.fnbcircle.com/single-view.html" class="fnb-btn mini outline btn preview-header__link">Preview</a>
+                                            <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="fnb-btn mini outline btn preview-header__link">Preview</a>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="fly-out__content">
-                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="http://staging.fnbcircle.com/single-view.html" class="secondary-link preview-header__link">Preview</a>
+                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
 
@@ -432,8 +432,18 @@
                 <div class="modal-body text-center">
                     <div class="listing-message">
                         <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                        <h4 class="element-title heavier">We have sent your listing for review</h4>
-                        <p class="default-size text-color lighter list-caption">Our team will review your listing and you will be notified if your listing is published.</p>
+                        <h4 class="element-title heavier">
+                            @if(session('statusChange')=='review')
+                                We have sent your listing for review
+                            @endif
+                            @if(session('statusChange')=='archive')
+                                Your listing has been archived
+                            @endif
+                            @if(session('statusChange')=='published')
+                                Your Listing has been published
+                            @endif
+                        </h4>
+                        <p class="default-size text-color lighter list-caption">@if(session('statusChange')=='review')Our team will review your listing and you will be notified if your listing is published.@endif</p>
                     </div>
                     <div class="listing-status highlight-color">
                         <p class="m-b-0 text-darker heavier">The current status of your listing is</p>
@@ -513,6 +523,75 @@
                         </div>
                     </div>
                 </div>
+                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to send your listing for review?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="review-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Send for Review</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
+                @if($listing->isReviewable() and ($listing->status == "1"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to archive your listing?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="archive-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Archive</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
+                @if($listing->isReviewable() and ($listing->status == "4"))
+                    <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to publish your listing ?</h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                      <a href="#" class="publish-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Publish</button></a>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+                @endif
             </div>
         </div>
         <div class="site-loader full-loader hidden">

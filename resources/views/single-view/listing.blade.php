@@ -468,7 +468,7 @@
                         <div class="similar-business p-t-20 p-b-20" id="business">
                             <div class="section-start-head m-b-15 flex-row">
                                 <p class="element-title">Similar Businesses</p>
-                                <a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>
+                                @isset($similar[1])<a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>@endisset
                             </div>
                             <div class="similar-business__section flex-row">
                                 <div class="card business-card article-col">
@@ -595,11 +595,33 @@
                                 <div class="approval">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                     <div class="heavier sub-title">{!! $data['status']['status'] !!} </div>
-                                    {!!$data['status']['change']!!}
+                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                 </div>
                                 @endif
                             </div>
-                            
+                            @isset($data['status']['next'])
+                            <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                              <div class="modal-dialog modal-sm" role="document">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+                                      </div>
+                                      <div class="modal-body text-center">
+                                          <div class="listing-message">
+                                              <h4 class="element-title text-medium text-left text-color">Are you sure you want to {{$data['status']['next']}} ?</h4>
+                                          </div>  
+                                          <div class="confirm-actions text-right">
+                                            {!!$data['status']['change']!!}
+                                                <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                          </div>
+                                      </div>
+                                      <!-- <div class="modal-footer">
+                                          <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                                      </div> -->
+                                  </div>
+                              </div>
+                          </div>
+                            @endisset
                         </div>
                         <!-- core categories end -->
                         <!-- Claim -->
@@ -645,9 +667,9 @@
                             @foreach($data['files'] as $file)
                             <div class="catalogue flex-row p-t-20 p-b-20">
                                 <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
-                                    {{$file['name']}}
+                                    {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
                                 </p>
-                                <a href="{{$file['url']}}">
+                                <a href="{{$file['url']}}" target="_blank" download>
                                     <span class="fnb-icons download"></span>
                                 </a>
                             </div>

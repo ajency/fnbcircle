@@ -30,7 +30,7 @@ class Listing extends Model
 
     /* Array containing the Key-Value pair combination for Listing Columns -> STATUS & TYPE */
     const listing_status = array(1 => "Published", 2 => "Review", 3 => "Draft", 4 => "Archived", 5 => "Rejected");
-    const listing_business_type = array(11 => "Wholesaler", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
+    const listing_business_type = array(11 => "Wholesaler/Distributor", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
     const listing_business_type_slug = array(11 => "wholesaler", 12 => "retailer", 13 => "manufacturer", 14 => "importer", 15 => "exporter", 16 => "service-provider");
 
     use Taggable;

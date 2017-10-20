@@ -1,10 +1,11 @@
 @extends('layouts.single-view')
+@section('title', $pageName )
+
 @php
 $additionalData = ['job'=>$job];
 @endphp
 
-@section('seometa')   
-<link rel="canonical" href="{{ url('/')}}" />
+@section('openGraph')   
 {!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 @section('js')

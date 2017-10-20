@@ -297,7 +297,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                       </div>
                     </div>
                     <div class="col-sm-12 form-group c-gap">
-                      <label class="">Listing description</label>
+                      <label class="">Give us some more details about your listing</label>
                         <textarea type="text" rows="2" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
                     </div>
                     <div class="col-sm-12">

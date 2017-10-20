@@ -399,10 +399,12 @@
                             <div class="detail-2 flex-row m-t-25 m-b-25">
                                 <div class="operation">
                                     <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
-                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
-                                    @foreach($data['hours'] as $day)
-                                   {{$day['day']}} {{$day['timing']}} <br> 
-                                    @endforeach</span><!-- <a href="" class="secondary-link heavier p-l-10 more-show">See more</a> --></p>
+                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} 
+                                    <span class="dis-block data-show m-t-5 p-l-15">
+                                        @foreach($data['hours'] as $day)
+                                        <span class="dis-block text-color text-medium m-t-10 m-b-10"><i class="fa fa-clock-o p-r-5" aria-hidden="true"></i> {{$day['day']}} {{$day['timing']}} </span>
+                                        @endforeach
+                                    </span><!-- <a href="" class="secondary-link heavier p-l-10 more-show">See more</a> --></p>
                                 </div>
                             </div>
                             @endif

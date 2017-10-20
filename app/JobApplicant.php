@@ -19,4 +19,23 @@ class JobApplicant extends Model
         return $date;
 
     }
+
+
+    public function resumeUpdated($format=1){
+        $date = '';
+        if(!empty($this->resume_updated_on)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->resume_updated_on)));
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->resume_updated_on)));
+
+        }
+        return $date;
+
+    }
+
+    public function job() {
+        return $this->belongsTo( 'App\Job');
+    }
 }

@@ -280,3 +280,17 @@ function pagination($totalRecords,$currentPage,$limit){
 }
 
 
+function getUploadFileUrl($id){
+	$url = '';
+	if(!empty($id)){
+		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
+	
+		if(!empty($fileUrl)){
+			$url = $fileUrl[0]->url;
+		}
+	}
+	
+	 return $url;
+}
+
+

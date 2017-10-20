@@ -19,8 +19,8 @@ class CreateJobApplicantsTable extends Migration
             $table->integer('user_id')->unsigned()->nullable(); 
             $table->string('name');
             $table->string('email');
-            $table->string('phone');
-            $table->string('city');
+            $table->string('phone')->nullable(); 
+            $table->string('city')->nullable(); 
             $table->integer('resume_id')->nullable(); 
             $table->dateTime('date_of_application')->nullable();
 

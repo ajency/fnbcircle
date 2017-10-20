@@ -30,7 +30,7 @@
       $('.apply-job-form').addClass('hidden');
       $('.success-apply').removeClass('hidden');
 
-        $('#apply-jobs').modal('show');
+      $('#apply-jobs').modal('show');
     });
     </script> 
     @endif 
@@ -425,15 +425,22 @@
               @endif -->
                <div class="footer-share flex-row">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                   
                   @else
-                  @if(Auth::check())
-                    <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+
+                  <!-- if applied for job -->
+                  @if($hasAppliedForJob)
+                    <button class="btn fnb-btn primary-btn full border-btn" type="button">You already applied for this job.</button>
                   @else
-                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @if(Auth::check())
+                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                      @else
+                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @endif
+                        <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now </button>
+                        </a>
                   @endif
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
-                    </a>
 
                   @endif
 
@@ -534,7 +541,7 @@
       <div class="col-sm-4 tes">
          <div class="detach-col-1">
             <div class="equal-col job-equal-col">
-               @if($job->canEditJob())
+               @if($job->jobOwnerOrAdmin())
                  <div class="row mobile-hide">
                     <div class="col-sm-12">
                        <div class="pre-benefits job-pending-review pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
@@ -577,28 +584,32 @@
                                
                    @endif
 
-                  <!-- @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
+                 @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+            
+                  @else
+
+                  @if($hasAppliedForJob)
+                    <button class="btn fnb-btn primary-btn full border-btn" type="button">You already applied for this job.</button>
                   @else
                     @if(Auth::check())
                       <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
                     @else
                       <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                    @endif -->
-                     <!-- <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs"> -->
-                     <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
-                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                    </a>
+                    @endif
+                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                      </a>
+                  @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <!-- <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
-                  @endif -->
+                  <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  @endif
                </div>
               @if($job->isPublished()) 
                <div class="share-job flex-row justify-center">
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+              
                      <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
@@ -849,7 +860,7 @@
 
 </div>
 
-@if($userProfile)
+
 <div class="modal fnb-modal center-modal apply-jobs-modal fade" id="apply-jobs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -858,6 +869,7 @@
             </div>
             <div class="modal-body">
                 
+                @if($userProfile)
                 <div class="apply-job-form">
                   <div class="apply-info text-center">
                     <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
@@ -920,15 +932,15 @@
                         <div class="row m-b-10">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Name: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}">
+                                <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}" data-parsley-required-message="Please enter name." data-parsley-required>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Email: </label>
-                                <input text="email" class="form-control fnb-input" name="applicant_email" placeholder="Enter email" value="{{ $userProfile->email}}" >
+                                <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $userProfile->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Phone number: </label>
-                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}">
+                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" >
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">City: </label>
@@ -938,17 +950,18 @@
                         
                             @if($userResume)
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
-                            <span class="text-lighter">Resume last updated on: {{ $userResume->dateOfSubmission()}}</span>
+                            <span class="text-lighter">Resume last updated on: {{ $userResume->resumeUpdated()}}</span>
+                            <input type="hidden" name="resume_id" value="{{ $userResume->resume_id}}">
                             <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
                             @else
-                            <p class="default-size heavier m-b-0">WYou do not have resume uploaded on your profile</p>
+                            <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
                             Please upload your resume
                              
                             @endif
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png pdf doc"/> 
+                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png pdf doc"  @if(!$userResume) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
  
                             </div>
                           </div>
@@ -959,6 +972,7 @@
                         </div>
                         <div class="validationError text-left"></div>
                     </div>
+                  @endif
                    <div class="success-apply hidden">
                     <!-- <img src="/img/email-add.png" class="img-responsive center-block" width="60"> -->
                     <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i> Your application has been sent</h6>
@@ -971,22 +985,45 @@
                             <p class="text-lighter">You can now contact the employer directly</p>  
                           </div>
                           
+                          @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                           <div class="j-container">
                             <div class="jobInfo text-center flex-row">
                               <div class="contactD email">
                                 <i class="fa fa-envelope-o text-primary dis-block" aria-hidden="true"></i>
-                                <a href="mailto:intcohgroup@gmail.com" class="dark-link">intcohgroup@gmail.com</a>
+                                @if(!empty($contactEmail))
+                                  @foreach($contactEmail as $email)
+                                    @if($email['visible'])
+                                    <a class="dark-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                    @endif
+                                  @endforeach
+                                @endif
+
+                                 
                               </div>
                               <div class="contactD phone">
                                 <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
                                 <div class="flex-row flex-wrap">
-                                  <a href="tel:+918987363738" class="dark-link">(+91) 8987363738</a>
-                                  <a href="tel:+918987363738" class="dark-link">(85412) 8987363738</a>  
+                                @if(!empty($contactMobile))
+                                  @foreach($contactMobile as $mobile)
+                                    @if($mobile['visible'])
+                                      <a class="dark-link" href="tel:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+({{ $mobile['country_code']}}) {{ $mobile['mobile']}}</a>
+                                    @endif
+                                  @endforeach  
+                                @endif
+
+                                @if(!empty($contactLandline))
+                                  @foreach($contactLandline as $landline)
+                                  @if($landline['visible'])
+                                    <a class="dark-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}">({{ $landline['country_code']}}) {{ $landline['landline']}}</a>
+                                  @endif
+                                  @endforeach  
+                                @endif
+   
                                 </div>
                               </div>
                             </div>  
                           </div>
-                          
+                          @endif
                           
                           <!-- <div class="job-alert text-center">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
@@ -1202,6 +1239,66 @@
         </div>
     </div>
 </div>
+ 
+
+@if($jobApplications)
+  <div class="pos-fixed fly-out side-toggle">
+    <div class="mobile-back desk-hide mobile-flex">
+       <div class="left mobile-flex">
+          <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+          <p class="element-title heavier m-b-0">Back</p>
+       </div>
+       <div class="right">
+       </div>
+    </div>
+    <div class="fly-out__content">
+       <div class="sidebar-updates page-sidebar">
+          <div class="page-sidebar__header flex-row space-between mobile-hide">
+             <div class="backLink flex-row">
+                <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                <div class="element-title bolder">Job Applications</div>
+             </div>
+             <!-- <div class="sort flex-row">
+                <p class="m-b-0 text-lighter default-size">Sort</p>
+                <select name="" id="" class="fnb-select">
+                   <option>Recent</option>
+                   <option>Newer</option>
+                   <option>Older</option>
+                </select>
+             </div> -->
+          </div>
+          <div class="page-sidebar__body">
+             <table>
+             <thead>
+               <th>Name</th>
+               <th>Email</th>
+               <th>Phone</th>
+               <th>City</th>
+               <th>Resume</th>
+             </thead>
+             @foreach($jobApplications as $application)
+              @php
+              $resumeUrl = getUploadFileUrl($application->resume_id);
+              @endphp
+             <tr>
+               <td>{{ $application->name }}</td>
+               <td>{{ $application->email }}</td>
+               <td>{{ $application->phone }}</td>
+               <td>{{ $application->city }}</td>
+               <td>
+              @if($application->resume_id && $resumeUrl!='')
+                <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">download</a>
+              @endif
+                </td>
+             </tr>
+             @endforeach
+             </table> 
+             
+          </div>
+          <div class="page-sidebar__footer"></div>
+       </div>
+    </div>
+ </div>
 @endif
 
 @include('jobs.job-status-modal')

@@ -310,19 +310,31 @@ class JobController extends Controller
         //if logged in user
         $userApplication = false;
         $userProfile = false;
-
-        $userResume = [];
+        $userResume = false;
  
         if(Auth::check()){
             $user = Auth::user();
-            $userResume = $user->getUserJobLastApplication();
-            $userProfile = $user->getUserProfileDetails();
+
+            $hasAppliedForJob = $user->applications()->where('job_id',$job->id)->first(); 
+            if(!$hasAppliedForJob){
+                $userResume = $user->getUserJobLastApplication();
+                $userProfile = $user->getUserProfileDetails();
+            }
+                
 
         }
-        
+
+        $jobApplications = false;
+        if($job->jobOwnerOrAdmin()){
+            $jobApplications = $job->jobApplicants()->get();
+            
+        }
+       
+        $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;
         $data['userProfile'] = $userProfile;
- 
+        $data['jobApplications'] = $jobApplications;
+      
          return view('jobs.job-view')->with($data);
     }
 
@@ -336,7 +348,7 @@ class JobController extends Controller
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
 
-        // if(!$job->canEditJob())
+        // if(!$job->jobOwnerOrAdmin())
         //     abort(403);
 
 
@@ -719,8 +731,8 @@ class JobController extends Controller
         $this->validate($request, [
             'applicant_name' => 'required',
             'applicant_email' => 'required',
-            'applicant_phone' => 'required',
-            'applicant_city' => 'required',
+            // 'applicant_phone' => 'required',
+            // 'applicant_city' => 'required',
         ]);
 
         $job = Job::where('reference_id',$referenceId)->first();
@@ -730,7 +742,8 @@ class JobController extends Controller
         $applicantEmail = $data['applicant_email'];
         $applicantPhone = $data['applicant_phone'];
         $applicantCity = $data['applicant_city'];
-        $resume = $data['resume'];
+        $resume = (isset($data['resume'])) ? $data['resume'] : [];
+        $resumeId =(isset($data['resume_id'])) ? $data['resume_id'] : 0;
 
         $jobApplicant = new JobApplicant;
         $jobApplicant->job_id = $job->id;
@@ -744,9 +757,10 @@ class JobController extends Controller
 
         if(!empty($resume)){
             $resumeId = $user->uploadUserResume($resume);
-            $jobApplicant->resume_id = $resumeId;
-             
+            $jobApplicant->resume_updated_on  = date('Y-m-d H:i:s');
         }
+         
+        $jobApplicant->resume_id = $resumeId; 
 
         $jobApplicant->save();
     
@@ -757,7 +771,6 @@ class JobController extends Controller
     }
 
     
-
 
 
     /**

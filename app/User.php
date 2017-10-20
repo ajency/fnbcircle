@@ -139,7 +139,6 @@ class User extends Authenticatable
     }
 
     public function getUserProfileDetails(){
-        $userAuth = new UserAuth;
         $user = $this;
         // $userDetails = $userAuth->getUserData($this);
        
@@ -161,7 +160,7 @@ class User extends Authenticatable
             $email = $this->getUserCommunications()->where('type','email')->first()->value;
             $user['email'] = $email;
         }
-      
+       
         return $user;
     }
 
@@ -180,7 +179,8 @@ class User extends Authenticatable
 
     public function getUserJobLastApplication(){
         $application = $this->applications()->orderBy('date_of_application','desc')->first();
-        $application['resume_url'] = $this->getUserResume();
+        if(!empty($application))
+            $application['resume_url'] = $this->getUserResume();
 
         return $application;
     }

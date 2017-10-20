@@ -172,6 +172,10 @@ class Job extends Model
 		return $this->hasMany('App\JobKeyword');
 	}
 
+    public function jobApplicants(){
+        return $this->hasMany('App\JobApplicant');
+    }
+
 	public function jobCompany() {
         return $this->hasOne('App\JobCompany');
     }
@@ -350,7 +354,7 @@ class Job extends Model
 
     }
 
-    public function canEditJob(){
+    public function jobOwnerOrAdmin(){
         if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id) )
             return true;
         else
@@ -493,6 +497,11 @@ class Job extends Model
 
 
    }
+
+   public function getJobApplications(){
+        
+
+    }
 
     
 }

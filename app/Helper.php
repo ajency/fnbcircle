@@ -102,17 +102,27 @@ function generateHTML($reference, $values = []) {
 			} else {
 				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			}
+		} else if($value["type"] == "li_label") {
+			if (sizeof($values) > 0) {
+				if(in_array($key, $values)) {
+					$temp_html["html"] = "<li class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\">" . $value["title"] . "</li>";
+				}
+			} else {
+				$temp_html["html"] = "<li class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\">" . $value["title"] . "</li>";
+			}
 		}
 
-		if(isset($value["title"])) {
+		if(isset($value["title"]) && isset($temp_html["html"])) {
 			$temp_html["title"] = $value["title"];
 		}
 
-		if(isset($value["content"])) {
+		if(isset($value["content"])  && isset($temp_html["html"])) {
 			$temp_html["content"] = $value["content"];
 		}
 
-		array_push($response_html, $temp_html);
+		if(isset($temp_html["html"])) { // If html value exist, then push it in array
+			array_push($response_html, $temp_html);
+		}
 	}
 
 	return $response_html;

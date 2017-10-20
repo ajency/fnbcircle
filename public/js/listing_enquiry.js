@@ -6,7 +6,7 @@
   };
 
   getFilters = function(enquiry_no, listing_slug) {
-    var data, descr_values;
+    var areas, data, descr_values;
     if (enquiry_no == null) {
       enquiry_no = 'step_1';
     }
@@ -25,17 +25,37 @@
         enquiry_level: enquiry_no,
         listing_slug: listing_slug
       };
+    } else if (enquiry_no === 'step_2' || enquiry_no === 'step_3') {
+      console.log(enquiry_no);
+      descr_values = [];
+      areas = [];
+      $.each($("#level-three-enquiry input[name='categories_interested']:checked"), function() {
+        descr_values.push($(this).val());
+      });
+      areas = $("#level-three-enquiry select[name='area']").val();
+      data = {
+        name: $("#level-three-enquiry #enquiry_name").text(),
+        email: $("#level-three-enquiry #enquiry_email").text(),
+        contact: $("#level-three-enquiry #enquiry_contact").text(),
+        categories_interested: descr_values,
+        city: $("#level-three-enquiry select[name='city']").val(),
+        area: areas,
+        enquiry_level: enquiry_no,
+        listing_slug: listing_slug
+      };
     }
-
-    /* --- Step -2 & 3 are not added under this as the flow is different for Premium & Non-Premium --- */
     return data;
   };
 
   getContent = function(enquiry_level, listing_slug) {
+    var data;
+    console.log("calling .....");
+    data = getFilters(enquiry_level, listing_slug);
+    console.log(data);
     $.ajax({
       type: 'post',
       url: '/api/send_enquiry',
-      data: getFilters(enquiry_level, listing_slug),
+      data: data,
       dataType: 'json',
       success: function(data) {
         if (data["popup_template"].length > 0) {
@@ -104,6 +124,15 @@
         }
       },
       error: function(request, status, error) {
+        if (status === 410) {
+          console.log("Sorry, the OTP has expired");
+        } else if (status === 400) {
+          console.log("Please enter the Valid OTP");
+        } else if (status === 404) {
+          console.log("Please enter OTP");
+        } else {
+          console.log("Some error in OTP verification");
+        }
         return console.log(error);
       }
     });
@@ -196,6 +225,16 @@
       $(document).on("change", "#level-three-enquiry #area_section select[name='city']", function() {
         console.log($(this).val());
         getArea($(this).val(), "area_section");
+      });
+      $(document).on("click", "#level-three-enquiry #level-three-form-btn", function() {
+        var page_level;
+        page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+        if ($(document).find("#level-three-enquiry").parsley().validate()) {
+          getContent(page_level, $(".single-view-head #enquiry_slug").val());
+          console.log("true");
+        } else {
+          console.log("forms not complete");
+        }
       });
     }
   });

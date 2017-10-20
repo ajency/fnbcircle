@@ -14,10 +14,15 @@ use Auth;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use App\Category;
+use App\Area;
 use App\Listing;
 use App\Job;
 use App\Lead;
 use App\Enquiry;
+use App\EnquiryCategory;
+use App\EnquiryArea;
+
 use App\Http\Controllers\ListingViewController;
 
 class EnquiryController extends Controller {
@@ -84,6 +89,35 @@ class EnquiryController extends Controller {
         return $json;
 	}
 
+	public function createEnquiry($enquiry_data=[], $enquiry_categories=[], $enquiry_area=[]) {
+
+		if(sizeof($enquiry_data) > 0) {
+			$enquiry_obj = Enquiry::create($enquiry_data);
+
+			if(sizeof($enquiry_categories) > 0) {
+				foreach ($enquiry_categories as $cat_key => $cat_value) {
+					$category_obj = Category::where('slug', $cat_value)->first();
+					$enquiry_cat_obj = EnquiryCategory::create(["enquiry_id" => $enquiry_obj->id, "category_id" => $category_obj->id]);
+				}
+			} else {
+				$enquiry_cat_obj = [];
+			}
+
+			if(sizeof($enquiry_area) > 0) {
+				foreach ($enquiry_area as $area_key => $area_value) {
+					$area_obj = Area::where('id', $area_value)->first();
+					$enquiry_area_obj = EnquiryArea::create(["enquiry_id" => $enquiry_obj->id, "area_id" => $area_obj->id, "city_id" => $area_obj->city_id]);
+				}
+			}
+		} else {
+			$enquiry_obj = [];
+			$enquiry_cat_obj = [];
+			$enquiry_area_obj = [];
+		}
+
+		return array("enquiry" => $enquiry_obj, "enquiry_categories" => "", "enquiry_areas" => "");
+	}
+
 	/**
 	* This function is used to get respective Modal templates for the Enquiry with data pre-populated if any value found
 	*/
@@ -93,8 +127,7 @@ class EnquiryController extends Controller {
    		$output = new ConsoleOutput;
 
    		if(strlen($listing_slug) > 0) {
-   			$output->writeln("listing_slug -> " . $listing_slug);
-    		$listing_obj = Listing::where('slug', $listing_slug)->get();
+   			$listing_obj = Listing::where('slug', $listing_slug)->get();
 
     		if($listing_obj->count() > 0 && $listing_obj->first()->premium) { // If premium
     			$template_name .= "premium";
@@ -147,13 +180,17 @@ class EnquiryController extends Controller {
 			   		}
 		   		} else if ($template_config[$template_type] == 'popup_level_three' && strlen($session_id) > 0) {
 		   			$payload_data["enquiry_data"] = Session::get('enquiry_data', []);
+		   			
+		   			// $next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+		   			$data['current_page'] = $template_type;
 
 		   			if(isset($payload_data["enquiry_data"]["contact"])) {
 		   				$enquiry_data = $payload_data["enquiry_data"];
 		   				$response_html = View::make('modals.listing_enquiry_popup.popup_level_three')->with(compact('data', 'enquiry_data'))->render();
 			   		}
 
-
+		   		} else {
+		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('data', 'enquiry_data'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
 		   		$response_html = abort(404);
@@ -186,11 +223,14 @@ class EnquiryController extends Controller {
 	}
 
 	/**
-	*
+	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
 		$output = new ConsoleOutput; $status = 500; $template_name = '';
-		$listing_obj_type = "App\Listing"; $listing_obj_id = 0;
+		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = '';
+		
+		$session_id = Cookie::get('laravel_session');
+		$template_type = $request->has('enquiry_level') && strlen($request->enquiry_level) > 0 ? $request->enquiry_level : 'step_1';
 		
 		if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
 			if($request->has('enquiry_to_type') && $request->enquiry_to_type == "job") {
@@ -209,52 +249,81 @@ class EnquiryController extends Controller {
 				$template_name .= "non_premium";
 			}
 
-			if(!Auth::guest()) { // If user is not Logged In
+			if(Auth::guest()) { // If user is not Logged In
 				$template_name .= "_not_logged_in";
 			} else { // If user is Logged In
 				$template_name .= "_logged_in";
 			}
 			
-			$template_config = config('enquiry_flow_config')[$template_name];
+			$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 			// dd($template_name);
+		} else {
+			$template_config = "popup_level_one";
+			$listing_obj = Listing::where('slug', '')->get();
 		}
 
-		$session_id = Cookie::get('laravel_session');
-		$template_type = $request->has('enquiry_level') && strlen($request->enquiry_level) > 0 ? $request->enquiry_level : 'step_1';
+		if($template_config == 'popup_level_one' && strlen($session_id) > 0 && $listing_obj->count() > 0) {
+			$session_obj = DB::table('sessions')->where('id', $session_id);
+			if($session_obj->count() > 0) {
+				// $payload_data = unserialize(base64_decode($session_obj->get()->first()->payload));
+				$payload_data = [];
+				if($request->has('name') && $request->has('email')) {
+					$payload_data["enquiry_data"] = array("name" => $request->name, "email" => $request->email);
+					$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
+					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
+					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
 
-		if($template_type == 'step_1' && strlen($session_id) > 0) {
-				$session_obj = DB::table('sessions')->where('id', $session_id);
-				if($session_obj->count() > 0) {
-					// $payload_data = unserialize(base64_decode($session_obj->get()->first()->payload));
-					$payload_data = [];
-					if($request->has('name') && $request->has('email')) {
-						$payload_data["enquiry_data"] = array("name" => $request->name, "email" => $request->email);
-						$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
-						$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
-						$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
+					$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
+					$payload_data["enquiry_data"]["enquiry_to_type"] = $listing_obj_type;
 
-						$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
-						$payload_data["enquiry_data"]["enquiry_to_type"] = $listing_obj_type;
+					// $payload_data = base64_encode(serialize($payload_data));
+					//$op = $session_obj->update(['payload' => $payload_data]); // Serialize & Save the Payload content
+					
+					Session::put('enquiry_data', $payload_data["enquiry_data"]);
+					Cookie::queue('user_id', '0', 120, '/', explode('://', env('APP_URL'))[1], '', false);
+					Cookie::queue('user_type', 'lead', 120, '/', explode('://', env('APP_URL'))[1], '', false);
 
-						// $payload_data = base64_encode(serialize($payload_data));
-						//$op = $session_obj->update(['payload' => $payload_data]); // Serialize & Save the Payload content
-						
-						Session::put('enquiry_data', $payload_data["enquiry_data"]);
-						Cookie::queue('user_id', '0', 120, '/', explode('://', env('APP_URL'))[1], '', false);
-						Cookie::queue('user_type', 'lead', 120, '/', explode('://', env('APP_URL'))[1], '', false);
-
-						$modal_template_html = $this->getEnquiryTemplate("step_2", 'kfc', $session_id);
-						$status = 200;
-					} else {
-						$status = 400;
-						$output->writeln("No name & email");
-					}
+					$modal_template_html = $this->getEnquiryTemplate("step_2", $listing_obj->first()->slug, $session_id);
+					$status = 200;
 				} else {
-					$status = 404;
+					$status = 400;
+					$output->writeln("No name & email");
 				}
-			} else if($template_type == "step_2" || $template_type == "step_3") {
-
+			} else {
+				$status = 404;
 			}
+		} else if($template_config == "popup_level_three") {
+			if($listing_obj->count() > 0) {
+				$session_payload = Session::get('enquiry_data', "[]");
+
+				$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
+				$lead_type = "App\Lead";
+				$lead_obj = $lead_obj->first();
+				
+				$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
+
+				if($request->has('categories_interested') && sizeof($request->categories_interested) > 0) {
+					$enquiry_categories = $request->categories_interested;
+				} else {
+					$enquiry_categories = [];
+				}
+
+				if($request->has('area') && sizeof($request->area) > 0) {
+					$enquiry_areas = $request->area;
+				} else {
+					$enquiry_areas = [];
+				}
+
+				$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_categories, $enquiry_areas);
+				$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+				$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id);
+				$status = 200;
+			}
+		} else if($template_config == "popup_level_four") {
+			$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+			$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id);;
+			$status = 200;
+		}
 
 		return response()->json(["popup_template" => $modal_template_html], $status);
 	}
@@ -287,7 +356,9 @@ class EnquiryController extends Controller {
 	    				}
 
 	    				if(sizeof($session_payload) > 0) {
-	    					$enquiry_obj = Enquiry::create(["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]]);
+	    					$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
+
+	    					$this->createEnquiry($enquiry_data, [], []);
 	    					// $session_payload["enquiry_id"] = $enquiry_obj->id;
 	    				}
 

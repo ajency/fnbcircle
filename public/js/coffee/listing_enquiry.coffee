@@ -19,15 +19,42 @@ getFilters = (enquiry_no = 'step_1', listing_slug) ->
 			enquiry_level: enquiry_no
 			listing_slug: listing_slug
 
-	### --- Step -2 & 3 are not added under this as the flow is different for Premium & Non-Premium --- ###
-	
+	else if enquiry_no == 'step_2' or enquiry_no == 'step_3'
+		console.log enquiry_no
+		descr_values = []
+		areas = []
+		
+		$.each $("#level-three-enquiry input[name='categories_interested']:checked"), ->
+			descr_values.push $(this).val()
+			return
+
+		# $.each $("#level-three-enquiry select[name='area[]']:checked"), ->
+		# 	areas.push $(this).val()
+		# 	return
+		areas = $("#level-three-enquiry select[name='area']").val()
+
+		data =
+			name: $("#level-three-enquiry #enquiry_name").text()
+			email: $("#level-three-enquiry #enquiry_email").text()
+			contact: $("#level-three-enquiry #enquiry_contact").text()
+			categories_interested: descr_values
+			city: $("#level-three-enquiry select[name='city']").val()
+			area: areas
+			enquiry_level: enquiry_no
+			listing_slug: listing_slug
+
 	return data
 
 getContent = (enquiry_level, listing_slug) ->
+	console.log "calling ....."
+
+	data = getFilters(enquiry_level, listing_slug)
+	console.log data
+
 	$.ajax
 		type: 'post'
 		url: '/api/send_enquiry'
-		data: getFilters(enquiry_level, listing_slug)
+		data: data
 		dataType: 'json'
 		success: (data) ->
 			# console.log data["popup_template"]
@@ -83,6 +110,14 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false) ->
 				$(document).find("div.single-view-head div.container #enquiry-modal").modal 'show'
 		error: (request, status, error) ->
 			#$("div.single-view-head div.container #enquiry-modal").modal 'show'
+			if status == 410
+				console.log "Sorry, the OTP has expired"
+			else if status == 400
+				console.log "Please enter the Valid OTP"
+			else if status == 404
+				console.log "Please enter OTP"
+			else
+				console.log "Some error in OTP verification"
 			console.log error
 	return
 
@@ -166,6 +201,17 @@ $(document).ready () ->
 		$(document).on "change", "#level-three-enquiry #area_section select[name='city']", () ->
 			console.log $(this).val()
 			getArea($(this).val(), "area_section")
+			return
+
+		$(document).on "click", "#level-three-enquiry #level-three-form-btn", () ->
+			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+
+			if $(document).find("#level-three-enquiry").parsley().validate()
+				getContent(page_level, $(".single-view-head #enquiry_slug").val())
+				console.log "true"
+			else
+				console.log "forms not complete"
+
 			return
 
 	return

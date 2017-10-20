@@ -66,7 +66,7 @@ class Job extends Model
     }
 
     public function getJobCategoryName(){ 
-        $categoryName = strtolower($this->category->name);
+        $categoryName = $this->category->name;
         return ucwords($categoryName);
     }
 

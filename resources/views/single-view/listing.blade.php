@@ -560,7 +560,7 @@
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
-                                        <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                        <p class="sub-title heavier footer-text"><a href="{{$similar[1]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
                                         <span class="x-small date lighter">Updated on {{$similar[1]['update']}}</span>
                                     </div>
                                 </div>

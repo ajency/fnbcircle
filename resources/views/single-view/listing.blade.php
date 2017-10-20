@@ -47,8 +47,8 @@
                     <!-- Breadcrums -->
                     @php
                         $breadcrumbs = [];
-                        $breadcrumbs[] = ['url'=>env('APP_URL').'/', 'name'=>"Home", 'image'=>'/img/logo-fnb.png'];
-                        $breadcrumbs[] = ['url'=>$data['city']['url'], 'name'=>$data['city']['name']];
+                        $breadcrumbs[] = ['url'=>env('APP_URL').'/', 'name'=>"Home", 'image'=>'/img/logo-fnb.png', 'title'=>'Home'];
+                        $breadcrumbs[] = ['url'=>$data['city']['url'], 'name'=>$data['city']['name'], 'title'=>$data['city']['alt']];
                         $breadcrumbs[] = ['url'=>$data['title']['url'], 'name'=>$data['title']['name']];
                     @endphp
                     @include('single-view.breadcrumbs')
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="location flex-row">
                                     <span class="fnb-icons map-icon"></span>
-                                    <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier"> (Map)</span>@endisset</p>
+                                    <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-25 stat-section">
                                     <div class="rating-view flex-row">
@@ -164,7 +164,7 @@
                                         @endisset
                                      </div>
                                     <label class="fnb-label wholesaler flex-row text-uppercase">
-                                        <a href="#" class="secondary-link">
+                                        <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                         {{$data['type']}}</a>
                                     </label>
@@ -253,10 +253,10 @@
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <ul class="nav-info__tabs flex-row">
-                                                @if(isset($data['updates']) and !empty($data['updates']))<li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> @endif
-                                                @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
-                                                @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
-                                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business">Similar Businesses</a></li>@endif
+                                                @if(isset($data['updates']) and !empty($data['updates']))<li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li> @endif
+                                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
+                                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
+                                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
@@ -269,10 +269,10 @@
                                 </div>
                             </div>
                             <ul class="nav-info__tabs flex-row">
-                               @if(isset($data['updates']) and !empty($data['updates'])) <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li>@endif
-                                @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
-                                @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
-                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business">Similar Businesses</a></li>@endif
+                               @if(isset($data['updates']) and !empty($data['updates'])) <li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li>@endif
+                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
+                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
+                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
                             </ul>
                         </div>
 
@@ -324,7 +324,7 @@
                                 </div>
                                 <ul class="fnb-cat flex-row">
                                     @foreach($category['nodes'] as $node)
-                                    <li><a href="" class="fnb-cat__title">{{$node['name']}}</a></li>
+                                    <li><a href="" class="fnb-cat__title" title="{{$node['name']}} businesses in {{$data['city']['name']}}">{{$node['name']}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -391,7 +391,7 @@
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
                                 </div>
                                 @endisset
                             </div>
@@ -482,7 +482,7 @@
                                         @if($similar[0]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                         <ul class="fnb-cat flex-row">
                                             @foreach($similar[0]['cores'] as $core)
-                                            <li><a href="/{{$core['slug']}}" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                            <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                             @endforeach
                                         </ul>
                                         @isset($similar[0]['operationAreas'])
@@ -516,7 +516,7 @@
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
-                                        <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                        <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}" title="{{$similar[0]['title']['name']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
                                         <span class="x-small date lighter">Updated on {{$similar[0]['update']}}</span>
                                     </div>
                                 </div>
@@ -526,7 +526,7 @@
                                         @if($similar[1]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                         <ul class="fnb-cat flex-row">
                                             @foreach($similar[1]['cores'] as $core)
-                                            <li><a href="/{{$core['slug']}}" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                            <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                             @endforeach
                                         </ul>
                                         @isset($similar[1]['operationAreas'])
@@ -560,7 +560,7 @@
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
-                                        <p class="sub-title heavier footer-text"><a href="{{$similar[1]['title']['url']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                        <p class="sub-title heavier footer-text"><a href="{{$similar[1]['title']['url']}}" title="{{$similar[1]['title']['name']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
                                         <span class="x-small date lighter">Updated on {{$similar[1]['update']}}</span>
                                     </div>
                                 </div>
@@ -588,7 +588,7 @@
                                 <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
                                 <ul class="fnb-cat special-cat flex-row">
                                     @foreach($data['cores'] as $core)
-                                    <li><a href="" class="fnb-cat__title">{{$core['name']}}</a></li>
+                                    <li><a href="" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                     @endforeach
                                 </ul>
                                 @endisset
@@ -675,7 +675,7 @@
                                 <p class="sub-title flex-row"><i class="fa fa-file file-icon p-r-10" aria-hidden="true"></i>
                                     {{$file['name']}}.{{pathinfo($file['url'])['extension']}}
                                 </p>
-                                <a href="{{$file['url']}}" target="_blank" download>
+                                <a href="{{$file['url']}}" target="_blank" title="Download {{$file['name']}}" download>
                                     <span class="fnb-icons download"></span>
                                 </a>
                             </div>
@@ -695,7 +695,7 @@
                             <ul class="browse-cat__list m-t-20">
                                 @foreach($data['browse_categories'] as $category)
                                 <li>
-                                    <a href="">
+                                    <a href="" title="Browse for {{$category['name']}} category in {{$data['city']['name']}}">
                                         <p class="m-b-0 flex-row">
                                             <span class="fnb-icons cat-icon">
                                                 <img src="{{$category['image']}}">

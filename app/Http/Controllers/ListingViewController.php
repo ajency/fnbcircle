@@ -33,7 +33,7 @@ class ListingViewController extends Controller
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
         $pagedata['verified']  = ($listing->owner_id == null)? false:true;
-        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '', 'alt' => '', 'area' => $area->name);
+        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '', 'alt' => 'All business listings in ('.$area->city['name'].')', 'area' => $area->name);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();

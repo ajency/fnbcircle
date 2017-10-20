@@ -1,10 +1,23 @@
 @extends('layouts.admin-dashboard')
 
+@section('css')
+  <!-- bootstrap-daterangepicker -->
+    <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="/bower_components/datatables.net-select-dt/css/select.dataTables.css" rel="stylesheet">
+  @parent
+@endsection
+
 @section('js')
   @parent
+   <!-- bootstrap-daterangepicker -->
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+
   <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/dashboard-jobs.js') }}"></script>
  
+  
+
   <script type="text/javascript">
     
       var avail_status = [<?php echo json_encode($jobAvailabeStatus);?>];
@@ -31,7 +44,7 @@
             <div class="x_panel">
               <div class="x_content">
 
-                <div class="bulk-status-update m-t-10 hidden">
+                <!-- <div class="bulk-status-update m-t-10 hidden">
                   <hr>
                   <form id="bulkupdateform">
                   <label>Bulk Status Update</label>
@@ -55,25 +68,52 @@
                   </div>
                   </form>
                 </div>
-                <br>
+                <br> -->
+              <div class="row">  
+               <div class="col-sm-3">
+                    <label>Date of Submission</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="submission_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="submission_from" class="date-from">
+                      <input type="hidden" name="submission_to" class="date-to">
+                    </div>
+                  </div>  
 
-                <input type="text" name="job_name" placeholder="Search by Job Name" id="job_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
-                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobsearchinput">
+                <div class="col-sm-3">
+                    <label>Publish Date</label>
+                    <a href="#" class="btn btn-link btn-sm clear-date"  >Clear</a>
+                    <div class="form-group date-range-picker">
+                      <input type="text" id="publish_date" name="" class="form-control fnb-input date-range">
+                      <!-- <button class="btn btn-sm fnb-btn">Apply</button> -->
+                      <input type="hidden" name="published_from" class="date-from">
+                      <input type="hidden" name="published_to" class="date-to">
+                    </div>
+                  </div>  
+              </div>
 
-                <table id="datatable-jobs" class="table table-striped  nowrap" cellspacing="0" width="100%">
+                <input type="text" name="job_name" placeholder="Search by Job Title" id="job_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
+
+                <input type="text" name="company_name" placeholder="Search by Company Name" id="company_name" class="form-control fnb-input pull-right customDtSrch jobstrsearchinput manage-search-box">
+                
+
+                <table id="datatable-jobs" class="table table-striped jobs-table" cellspacing="0" width="100%">
+
                   <thead>
                     <tr>
-                      <th class="no-sort update-checkbox " width="2%"><input type='checkbox' class="hidden" name='job_check_all'></th>
-                      <th class="no-sort" data-col="5" width="10%">
-                          City
+                      <!--<th class="no-sort update-checkbox " width="2%"> 
+                       <input type='checkbox' class="hidden" name='job_check_all'></th> -->
+                      <th class="no-sort city-select" data-col="5" width="10%">
+                          State
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">
                             @foreach ($cities as $city)
                             <option value="{{$city->id}}">{{$city->name}}</option>
                           @endforeach
                           </select>
                       </th>
-                      <th width="15%">Job Title</th>
-                      <th width="5%">
+                      <th>Job Title</th>
+                      <th>
                          Business Type
                          <select multiple class="form-control multi-dd jobsearchinput" id="filtercategory" name="job_category">
                             @foreach ($categories as $categoryId => $category)
@@ -82,24 +122,24 @@
                           </select>
                       </th>
                       <th width="20%">
-                         Keywords
-                         <select multiple class="form-control multi-dd jobsearchinput" id="filterkeywords" name="job_keywords">
+                         Job Role(s)
+                         <select multiple class="form-control jobsearchinput admin-job-role-search" id="filterkeywords" name="job_keywords">
                             @foreach ($keywords as $keywordId => $keyword)
-                            <option value="{{$keywordId}}">{{$keyword}}</option>
+                            <option value="{{$keywordId}}"  >{{$keyword}}</option>
                           @endforeach
                           </select>
                       </th>
-                      <th class="no-sort text-center" data-col="4" width="10%">
+                      <th class="no-sort" data-col="4" style="min-width: 10%;">
                         Company Name
                          
                       </th>                    
-                      <th class="text-center" width="10%">Date of submission</th>
-                      <th width="10%">Published Date</th>
-                      <th width="10%">Last Updated on</th>
-                      <th width="10%">Last Updated By</th>
-                      <th class="no-sort" data-col="9" width="10%">
+                      <th class="" style="min-width: 10%;">Date of submission</th>
+                      <th>Published Date</th>
+                      <th>Last Updated on</th>
+                      <th>Last Updated By</th>
+                      <th class="no-sort man-status-col" data-col="9">
                         Status
-                        <select name="job_status" multiple class="form-control multi-dd job-status jobsearchinput">
+                        <select name="job_status" multiple class="form-control multi-dd  jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)
                           <option value="{{ $jobStatusId }}">{{ $jobStatus }}</option>
                           @endforeach
@@ -154,5 +194,31 @@
             </div>
           </div>
         </div> 
+
+<div class="modal fnb-modal bulk-failure modal-center" id="status-failure" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                        <h4 class="element-title modal-title">Status Update Failed!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="listings">
+                            <p class="default-size text-center listings__title">The following Job Listing(s) did not get updated.</p>
+                            <ul class="listings__links flex-row flex-wrap">
+                                <li>
+                                    <a href="#" class="primary-link job-title" target="_blank">Lorem ipsum</a>
+                                </li>
+                                 
+                            </ul>
+                            Job listing doesn't meet reviewable criteria.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
 
 @endsection

@@ -53,22 +53,26 @@ function getSingleListingTitle($listing){
 	$title .= ' |';
 	$categories = ListingCategory::getCategories($listing->id);
 	// dd($categories);
+	$temp = [];
 	foreach($categories as $category){
-		$title .= ' '.$category['branch'];
+		$temp[] = $category['branch'];
 	}
+	$title .= ' '. implode(',',$temp);
 	$listing_type = config('tempconfig.listing-type')[$listing->type];
-	$title .= ' '.$listing_type. ' | '.$area->name.' '.$area->city['name'].' | FnBCircle';
+	$title .= ' '.$listing_type. ' | '.$area->name.', '.$area->city['name'].' | FnBCircle';
 
 	return $title;
 }
 function getSingleListingDescription($listing){
 	$description = $listing->title.' in ';
 	$area = Area::with('city')->find($listing->locality_id);
-	$description .= $area->name.' '.$area->city['name'].' listed under';
+	$description .= $area->name.', '.$area->city['name'].' listed under';
 	$categories = ListingCategory::getCategories($listing->id);
+	$temp = [];
 	foreach($categories as $category){
-		$description .= ' '.$category['branch'];
+		$temp[] = $category['branch'];
 	}
+	$description .= ' '. implode(',',$temp);
 	$listing_type = config('tempconfig.listing-type')[$listing->type];
 	$description .= ' '.$listing_type.' with Updates, Address, Contact Number, Ratings, Photos, Maps. Visit Fnb Circle for ';
 	$description .= $listing->title.', '.$area->name.', '.$area->city['name'];

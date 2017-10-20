@@ -2,6 +2,8 @@ $('input[type=radio][name=plan-select]').change ->
   if $(this).is(':checked')
     $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass 'active'
     # console.log $(this).closest('.pricing-table__cards').hasClass('free-plan')
+    # $(this).closest('.selection').find('.planCaption').text 'Your current plan'
+    # $(this).closest('.pricing-table__cards').siblings().find('.planCaption').text 'Click here to choose this plan'
     if $(this).closest('.pricing-table__cards').hasClass('free-plan')
         # console.log 'free-plan'
         $('#subscribe-btn').prop('disabled',true);
@@ -11,6 +13,7 @@ $('input[type=radio][name=plan-select]').change ->
 
 $('body').on 'click', '#subscribe-btn', (e) ->
 	planID = $('input[type=radio][name=plan-select]:checked').val()
+	planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plan__footer')
 	if(confirm('are you sure?'))
 		url = document.head.querySelector('[property="premium-url"]').content
 		$.ajax
@@ -24,6 +27,10 @@ $('body').on 'click', '#subscribe-btn', (e) ->
 				if data['status'] == '200'
 					$('#pending-request').html '(Request Pending)'
 					$('#subscribe-btn').remove()
+					# planContainer.
+					$('.alert-success').find('.success-message').html 'Plan request sent successfully'
+					$('.alert-success').addClass('active')
+					
 		console.log 'request sent of plan'+planID
 
 $('input[type=radio][name=plan-select]').change()

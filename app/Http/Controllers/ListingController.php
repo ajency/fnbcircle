@@ -709,8 +709,16 @@ class ListingController extends Controller
         $user    = Auth::user();
         $details = $user->getUserDetails()->first();
         if($user->type == 'internal') $areas = [];
-        else    {$areas  = Area::where('city_id', $details->city)->get();
-            $listing->locality_id = $details->area;}
+        else    {
+            if($details==null){
+                $areas = [];
+                $listing->locality_id = null;
+            }
+            else{
+                $areas  = Area::where('city_id', $details->city)->get();
+                $listing->locality_id = $details->area;
+            }
+        }
         if($user->type == 'external') $listing->owner_id = $user->id;
         return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
     }
@@ -769,6 +777,13 @@ class ListingController extends Controller
             $pending = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->where('status',0)->first();
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
+        if($listing->status == 1){
+            $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
+            if ($step == 'business-updates'){
+                return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
+            }
+        }
+        abort(404);
     }
 
     public function submitForReview(Request $request)

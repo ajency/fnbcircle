@@ -38,11 +38,15 @@ class AdminModerationController extends Controller
                 $sort_by = 'title';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '4':
-                $sort_by = "submission_date";
+            case '2':
+                $sort_by = 'id';
                 $order   = $request->order['0']['dir'];
                 break;
             case '5':
+                $sort_by = "submission_date";
+                $order   = $request->order['0']['dir'];
+                break;
+            case '6':
                 $sort_by = "updated_at";
                 $order   = $request->order['0']['dir'];
                 break;

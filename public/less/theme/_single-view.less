@@ -16,10 +16,10 @@
 			text-decoration: none;
 		}
 	}
-	.fa{
-		font-size: 1.05em;
-		color: @text-lighter;
-	}
+	// .fa{
+	// 	font-size: 1.05em;
+	// 	color: @text-lighter;
+	// }
 	&__title{
 		font-size: 1em;
 	}
@@ -154,10 +154,10 @@
     // height: 45px;
     // line-height: 45px;
     border: 2px solid #fff;
-    font-size: 1.1em;
+    font-size: 1em;
     justify-content: center;
-    background-color: transparent;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     border-radius: 4px;
     padding: 0.2em 0.8em;
     margin-left: 0.8em;
@@ -223,6 +223,14 @@
 		justify-content: space-between;
 		padding-bottom: 1em;
     	border-bottom: 1px solid #e6e6e6;
+	}
+	.stat-section{
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+	.operate-section{
+		border-top: 1px solid #e6e6e6;
+		padding-top: 0;
 	}
 	.view-icon{
     	padding-right: 0.3em;
@@ -1017,9 +1025,9 @@
 		color: @grey-darker;
 	}
 	.operation{
-		.data-show{
-			display: none;
-		}
+		// .data-show{
+		// 	display: none;
+		// }
 		.expand-more{
 			.data-show{
 				display: block;
@@ -1822,7 +1830,7 @@
 
 .pre-benefits{
 	justify-content: space-between;
-    padding: 1.3em 1.5em;
+    padding: 0.8em 1.5em;
     border: 1px dashed #ff353b;
     margin-bottom: 1em;
     background-color: #fff;
@@ -2829,7 +2837,7 @@ and (max-device-width: 650px) {
 }
 
 .published-title{
-	color: rgba(6, 6, 6, 0.41);
+	color: #fff;
 }
 
 .design-2-card{
@@ -2869,6 +2877,12 @@ and (max-device-width: 650px) {
 	.contact__title{
 		padding-left: 1em;
     	padding-top: 0;
+	}
+	&.new-changes{
+		padding: 1em 1.5em;
+	}
+	.set-width{
+		min-width: 70px;
 	}
 }
 
@@ -2928,6 +2942,7 @@ and (max-device-width: 650px) {
 	li{
 		margin-right: 1em;
 		font-size: 1.1em;
+		margin-bottom: 1em;
 	}
 	.fa{
 		color: #a7a7a7;
@@ -3124,9 +3139,44 @@ and (max-device-width: 650px) {
 }
 
 
+.social-drop{
+	.dropdown-menu{
+		width: 88px;
+	    right: 0;
+	    min-width: inherit;
+	    left: inherit;
+	}
+	.jssocials-shares{
+		display: flex;
+    	flex-direction: column;
+    	align-items: center;
+    	margin: 0;
+	}
+	.jssocials-share{
+		width: 100%;
+	    text-align: center;
+	    margin: 5px 0;
+	    border-bottom: 1px solid #eee;
+	    padding-bottom: 0.8em;
+	    &:last-child{
+	    	padding-bottom: 0;
+    		border-bottom: 0;
+	    }
+	}
+	.jssocials-share-logo{
+		font-size: 1.1em;
+	}
+}
 
 
-
-
+@media screen and (max-width: @mobile){
+	.pub-row{
+		margin-bottom: 0;
+	}
+	.editList{
+		justify-content: flex-end;
+    	padding-top: 0;
+	}
+}
 
 

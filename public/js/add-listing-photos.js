@@ -101,7 +101,10 @@
       if (type === 0) {
         formData.append('name', '');
       } else {
-        formData.append('name', container.find('input.doc-name').val());
+        if (container.find('input.doc-name').val() !== '') {
+          name = container.find('input.doc-name').val();
+        }
+        formData.append('name', name);
         container.find('input.doc-name').val('');
       }
       formData.append('listing_id', document.getElementById('listing_id').value);

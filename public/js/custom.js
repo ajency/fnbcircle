@@ -232,14 +232,14 @@ $(function(){
 	// else{
 	// 	$('.enquiry-btn').hide(300);
 	// }
-	if($('.description').length){
-		$('.description').readmore({
-		   speed: 25,
-		   collapsedHeight: 170,
-		   moreLink: '<a href="#" class="more vm text-secondary">View more</a>',
-		   lessLink: '<a href="#" class="vm less text-secondary">View Less</a>'
-		 });
-	}
+	// if($('.description').length){
+	// 	$('.description').readmore({
+	// 	   speed: 25,
+	// 	   collapsedHeight: 158,
+	// 	   moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
+	// 	   lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'
+	// 	 });
+	// }
 	// Smooth scroll
 
 	$("html").easeScroll();
@@ -764,8 +764,8 @@ $(function(){
 		// detaching sections
 
 		if ($(window).width() <= 768) {
-	    	var coreCat = $('.detach-col-1').detach();
-			$('.sell-re').after(coreCat);
+	  //   	var coreCat = $('.detach-col-1').detach();
+			// $('.sell-re').after(coreCat);
 
 			var businessListing = $('.businessListing').detach();
 			$('.addShow').after(businessListing);
@@ -965,7 +965,7 @@ $(function(){
 	            includeSelectAllOption: true,
 	            numberDisplayed: 5,
         		delimiterText:',',
-	            nonSelectedText: 'Select Area(s)'
+	            nonSelectedText: 'Select City'
 	        });
 		}
 

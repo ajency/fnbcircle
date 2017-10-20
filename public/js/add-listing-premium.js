@@ -11,8 +11,9 @@
   });
 
   $('body').on('click', '#subscribe-btn', function(e) {
-    var planID, url;
+    var planContainer, planID, url;
     planID = $('input[type=radio][name=plan-select]:checked').val();
+    planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plan__footer');
     if (confirm('are you sure?')) {
       url = document.head.querySelector('[property="premium-url"]').content;
       $.ajax({
@@ -26,7 +27,9 @@
         success: function(data) {
           if (data['status'] === '200') {
             $('#pending-request').html('(Request Pending)');
-            return $('#subscribe-btn').remove();
+            $('#subscribe-btn').remove();
+            $('.alert-success').find('.success-message').html('Plan request sent successfully');
+            return $('.alert-success').addClass('active');
           }
         }
       });

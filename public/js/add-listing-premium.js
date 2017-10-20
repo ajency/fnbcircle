@@ -14,28 +14,26 @@
     var planContainer, planID, url;
     planID = $('input[type=radio][name=plan-select]:checked').val();
     planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plans__footer');
-    if (confirm('are you sure?')) {
-      url = document.head.querySelector('[property="premium-url"]').content;
-      $.ajax({
-        type: 'post',
-        url: url,
-        data: {
-          'plan_id': planID,
-          'type': 'listing',
-          'id': document.getElementById('listing_id').value
-        },
-        success: function(data) {
-          if (data['status'] === '200') {
-            $('#pending-request').html('(Request Pending)');
-            $('#subscribe-btn').remove();
-            planContainer.find('.planCaption').html('Your request for this plan is under process');
-            $('.alert-success').find('.success-message').html('Plan request sent successfully');
-            return $('.alert-success').addClass('active');
-          }
+    url = document.head.querySelector('[property="premium-url"]').content;
+    $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        'plan_id': planID,
+        'type': 'listing',
+        'id': document.getElementById('listing_id').value
+      },
+      success: function(data) {
+        if (data['status'] === '200') {
+          $('#pending-request').html('(Request Pending)');
+          $('#subscribe-btn').remove();
+          planContainer.find('.planCaption').html('Your request for this plan is under process');
+          $('.alert-success').find('.success-message').html('Plan request sent successfully');
+          return $('.alert-success').addClass('active');
         }
-      });
-      return console.log('request sent of plan' + planID);
-    }
+      }
+    });
+    return console.log('request sent of plan' + planID);
   });
 
   window.validatePremium = function() {

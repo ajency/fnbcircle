@@ -97,6 +97,7 @@
       formData = new FormData;
       container.find(".image-loader").removeClass('hidden');
       name = file[0].value.split('\\').reverse()[0];
+      name = name.split('.')[0];
       formData.append('file', file[0].files[0]);
       if (type === 0) {
         formData.append('name', '');

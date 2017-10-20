@@ -171,7 +171,7 @@
                                 </div>
                                 @isset($data['operationAreas'])
                                 <div class="operations p-t-5 operate-section">
-                                    <h2 class="operations__title sub-title m-t-20">Areas of operation of {{$data['title']['name']}}</h2>
+                                    <h2 class="operations__title sub-title m-t-20">Areas of Operation <span class="mobile-hide default-size">of {{$data['title']['name']}}</span></h2>
                                     @foreach($data['operationAreas'] as $city)
                                     <div class="opertaions__container flex-row">
                                         <div class="location set-width flex-row">
@@ -337,7 +337,7 @@
                         @isset($data['brands'])
                         <!-- brands -->
                         <div class="brands p-t-20 p-b-10" >
-                            <p class="element-title m-b-20 heavier sTitle">{{$data['title']['name']}} Brands</p>
+                            <p class="element-title m-b-20 heavier sTitle"><span class="mobile-hide default-size">{{$data['title']['name']}}</span> Brands</p>
                             <ul class="brands__list flex-row flex-wrap">
                                 @foreach($data['brands'] as $brand)<li class="flex-row flex-wrap">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
@@ -354,7 +354,7 @@
                         @isset($data['highlights'])
                         <!-- Highlights -->
                         <div class="highlights p-t-10 p-b-20">
-                            <h3 class="element-title m-b-20 sTitle">{{$data['title']['name']}} Highlights</h3>
+                            <h3 class="element-title m-b-20 sTitle"><span class="mobile-hide default-size">{{$data['title']['name']}}</span> Highlights</h3>
                             <ul class="highlights__points">
                                 @foreach($data['highlights'] as $highlight)
                                     <li class="flex-row">
@@ -372,7 +372,7 @@
                         @isset($data['description'])
                         <!-- Description -->
                         <div class="description p-t-10 p-b-20">
-                            <h3 class="element-title m-b-20 sTitle">{{$data['title']['name']}} Description</h3>
+                            <h3 class="element-title m-b-20 sTitle"><span class="mobile-hide default-size">{{$data['title']['name']}}</span> Description</h3>
                             <p class="sub-title description__detail">{!!nl2br(e($data['description']))!!}</p>
                         </div>
                         <!-- Description ends -->

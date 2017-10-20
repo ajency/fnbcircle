@@ -3,6 +3,7 @@ jobsTable = $('#datatable-jobs').DataTable(
   'processing': true
   'serverSide': true
   'bAutoWidth': false
+  'aaSorting': [[0,'desc']]
   'drawCallback': () ->
     displayCheckbox()
   'ajax':

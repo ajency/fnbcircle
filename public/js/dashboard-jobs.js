@@ -6,6 +6,7 @@
     'processing': true,
     'serverSide': true,
     'bAutoWidth': false,
+    'aaSorting': [[0, 'desc']],
     'drawCallback': function() {
       return displayCheckbox();
     },

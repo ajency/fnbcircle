@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
- {{-- <title> @yield('title')</title> --}}   
-    @yield('seometa')
+    <title> @yield('title')</title> 
+    @yield('openGraph')
     @yield('meta') 
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">

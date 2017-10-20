@@ -5,11 +5,9 @@
 $additionalData = ['job'=>$job];
 @endphp
 
-@section('seometa')  
-<link rel="canonical" href="{{ url('/')}}" /> 
+@section('openGraph')   
 {!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
-
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
@@ -438,7 +436,9 @@ $additionalData = ['job'=>$job];
                   </div>
                   <div class="business-card__footer flex-row">
                     <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                    @if($similarjob->jobPublishedOn()!="")
                     <span class="x-small date lighter">Published on {{ $similarjob->jobPublishedOn(3) }}</span>
+                    @endif
                   </div>
                 </div>
               @endforeach

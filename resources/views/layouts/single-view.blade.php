@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@yield('seometa')
 @section('content')
 <!-- content -->
   <div class="single-view-head">

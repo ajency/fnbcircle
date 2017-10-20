@@ -256,7 +256,7 @@
                                                 @if(isset($data['updates']) and !empty($data['updates']))<li class="nav-section"><a class="active" href="#updates">Recent updates</a></li> @endif
                                                 @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
                                                 @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
-                                                <li class="nav-section"><a href="#business">Similar Businesses</a></li>
+                                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business">Similar Businesses</a></li>@endif
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
@@ -272,7 +272,7 @@
                                @if(isset($data['updates']) and !empty($data['updates'])) <li class="nav-section"><a class="active" href="#updates">Recent updates</a></li>@endif
                                 @isset($data['categories'])<li class="nav-section"><a href="#listed">Listed In</a></li>@endisset
                                 @isset($data['overview'])<li class="nav-section"><a href="#overview">Overview</a></li>@endisset
-                                <li class="nav-section"><a href="#business">Similar Businesses</a></li>
+                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business">Similar Businesses</a></li>@endif
                             </ul>
                         </div>
 

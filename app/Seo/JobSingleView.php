@@ -77,7 +77,7 @@ class JobSingleView extends Model
     }
 
     public function getPageUrl(){
-    	return url('jobs/'.$this->job->slug);
+    	return url('job/'.$this->job->slug);
     }
 
     public function getOgType(){

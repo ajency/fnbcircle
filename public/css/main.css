@@ -3550,9 +3550,6 @@ input[type=checkbox].custom-checkbox:before {
 .more-details .link-click {
   color: #686565;
 }
-.more-details .operation .data-show {
-  display: none;
-}
 .more-details .operation .expand-more .data-show {
   display: block;
 }
@@ -5438,6 +5435,7 @@ input[type=checkbox].custom-checkbox:before {
 .credit-card li {
   margin-right: 1em;
   font-size: 1.1em;
+  margin-bottom: 1em;
 }
 .credit-card .fa {
   color: #a7a7a7;

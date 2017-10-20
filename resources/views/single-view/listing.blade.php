@@ -311,8 +311,8 @@
                         @foreach($data['categories'] as $category)
                         <div class="listed__section flex-row">
                             <div class="parent-cat flex-row">
-                                <span class="fnb-icons cat-icon">
-                                    <img src="{{$category['image-url']}}">
+                                <span class="m-r-10">
+                                    <img src="{{$category['image-url']}}" width="40">
                                 </span>
                                 <p class="parent-cat__title cat-size">{{$category['parent']}}</p>
                             </div>
@@ -401,8 +401,8 @@
                                     <p class="element-title heavier m-b-20">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
                                     <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} <span class="dis-block data-show m-t-5">
                                     @foreach($data['hours'] as $day)
-                                   <br> {{$day['day']}} {{$day['timing']}} 
-                                    @endforeach</span><a href="" class="secondary-link heavier p-l-10 more-show">See more</a></p>
+                                   {{$day['day']}} {{$day['timing']}} <br> 
+                                    @endforeach</span><!-- <a href="" class="secondary-link heavier p-l-10 more-show">See more</a> --></p>
                                 </div>
                             </div>
                             @endif

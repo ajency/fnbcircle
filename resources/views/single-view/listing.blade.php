@@ -586,7 +586,7 @@
                            <div class="core-cat">
                                 @isset($data['cores'])
                                 <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
-                                <ul class="fnb-cat flex-row">
+                                <ul class="fnb-cat special-cat flex-row">
                                     @foreach($data['cores'] as $core)
                                     <li><a href="" class="fnb-cat__title">{{$core['name']}}</a></li>
                                     @endforeach
@@ -598,7 +598,7 @@
                                 <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                                 <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                                <div class="approval">
+                                <div class="approval m-t-20">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                     <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} </div>
                                     @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif

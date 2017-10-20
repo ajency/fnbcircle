@@ -5701,6 +5701,12 @@ input[type=checkbox].custom-checkbox:before {
 .social-drop .jssocials-share-logo {
   font-size: 1.1em;
 }
+.core-cat .special-cat li {
+  padding: 0.4em 0.8em;
+}
+.core-cat .special-cat .fnb-cat__title {
+  font-size: 0.95em;
+}
 @media screen and (max-width: 768px) {
   .pub-row {
     margin-bottom: 0;

@@ -1034,8 +1034,8 @@ $(function(){
 
 		// cards equal heights
 		if ($(window).width() > 769){
-			var getheight = $('.design-2-card').outerHeight();
-			$('.equal-col').css('height',getheight);
+			// var getheight = $('.design-2-card').outerHeight();
+			// $('.equal-col').css('height',getheight);
 
 			$('.open-sidebar').click(function(){
 				event.preventDefault();

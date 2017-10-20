@@ -83,7 +83,7 @@ JOBS/USERS
 //job single view
 Route::get('/job/{slug}','JobController@show');
 
-Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+//Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
  
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
@@ -101,7 +101,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
-});
+//});
 
 
 

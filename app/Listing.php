@@ -113,7 +113,7 @@ class Listing extends Model
 
         $this->title = $title;
         $this->type  = $type;
-        if ($this->status == "3" or $this->status == null) {
+        if ($this->status == "3" or $this->status == "2" or $this->status == "5" or $this->status == null) {
             $this->slug = $slug1;
         }
 

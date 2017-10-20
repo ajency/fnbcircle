@@ -150,9 +150,9 @@
                       <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
                       <th class="no-sort" data-col="10" style="min-width: 10%;">
                         Premium Request
-                        <select multiple class="form-control multi-dd">
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
+                        <select multiple class="form-control multi-dd" id="premiumRequest">
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
                         </select>
                       </th>
                       <th class="no-sort" data-col="11" style="min-width: 10%;">

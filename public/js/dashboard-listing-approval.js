@@ -525,6 +525,11 @@
     return sendRequest();
   });
 
+  $('body').on('change', 'select#premiumRequest', function() {
+    filters['premium'] = $(this).val();
+    return sendRequest();
+  });
+
   $('body').on('change', 'select#citySelect', function() {
     filters['city'] = $(this).val();
     return sendRequest();

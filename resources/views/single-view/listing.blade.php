@@ -411,7 +411,7 @@
                             @if(isset($data['address']) or isset($data['location']))
                             <div class="detail-3 flex-row m-t-25 m-b-25">
                                 <div class="address">
-                                    <h3 class="element-title heavier m-b-20 sTitle">Address {{$data['title']['name']}}</h3>
+                                    <h3 class="element-title heavier m-b-20 sTitle">Address of {{$data['title']['name']}}</h3>
                                     @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>

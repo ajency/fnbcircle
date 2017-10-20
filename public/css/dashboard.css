@@ -112,6 +112,17 @@
   color: #fff;
   background-color: transparent;
 }
+.fnb-btn.link-btn.btn.link-btn {
+  background-color: transparent;
+  color: #ec6d4b;
+  border: 0;
+  box-shadow: none;
+}
+.fnb-btn.link-btn.btn.link-btn:hover {
+  background-color: transparent;
+  color: #f19279;
+  border: 0;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;

@@ -258,6 +258,17 @@ span {
   color: #fff;
   background-color: transparent;
 }
+.fnb-btn.link-btn.btn.link-btn {
+  background-color: transparent;
+  color: #ec6d4b;
+  border: 0;
+  box-shadow: none;
+}
+.fnb-btn.link-btn.btn.link-btn:hover {
+  background-color: transparent;
+  color: #f19279;
+  border: 0;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;
@@ -4293,7 +4304,7 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 1.3em 1.5em;
+  padding: 0.8em 1.5em;
   border: 1px dashed #ff353b;
   margin-bottom: 1em;
   background-color: #fff;

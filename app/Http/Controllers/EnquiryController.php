@@ -287,7 +287,7 @@ class EnquiryController extends Controller {
 					$status = 200;
 				} else {
 					$status = 400;
-					$output->writeln("No name & email");
+					//$output->writeln("No name & email");
 				}
 			} else {
 				$status = 404;
@@ -296,11 +296,16 @@ class EnquiryController extends Controller {
 			if($listing_obj->count() > 0) {
 				$session_payload = Session::get('enquiry_data', "[]");
 
-				$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
-				$lead_type = "App\Lead";
-				$lead_obj = $lead_obj->first();
+				if(Auth::guest()) {
+					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
+					$lead_type = "App\Lead";
+					$lead_obj = $lead_obj->first();
+				} else {
+					$lead_obj = Auth::user();
+					$lead_type = "App\User";
+				}
 				
-				$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
+				$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "shared", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
 				if($request->has('categories_interested') && sizeof($request->categories_interested) > 0) {
 					$enquiry_categories = $request->categories_interested;

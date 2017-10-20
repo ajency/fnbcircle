@@ -42,7 +42,7 @@
     <!-- <div class="page-shifter animate-row"> -->
         <div class="single-view-head">
          <div class="container">
-            <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
+            <div class="row m-t-30 m-b-20 mobile-flex breadcrums-container single-breadcrums">
                 <div class="col-sm-8  flex-col">
                     <!-- Breadcrums -->
                     @php
@@ -57,17 +57,21 @@
                 <div class="col-sm-4 flex-col listingActions">
                     @if(isset($data['publish_date']) and $data['status']['id'] == '1')
                     <!-- Slide navigation -->
-                    <div class="slide-nav flex-row m-b-10">
-                         <p class="m-b-0 published-title default-size">Published on {{$data['publish_date']}}</p>
-                        <button type="button" class="share-btn flex-row"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share</button>
-                        <div id="shareRoundIcons"></div>
+                    <div class="slide-nav flex-row m-b-10 pub-row">
+                        <p class="m-b-0 published-title default-size">Published on {{$data['publish_date']}}</p>
+                        <div class="dropdown social-drop">
+                            <button type="button" class="share-btn flex-row" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share <i class="fa fa-caret-down p-l-5" aria-hidden="true"></i></button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                <div id="shareRoundIcons"></div>
+                            </ul>
+                        </div>
                     </div>
                     <!-- slide navigation ends -->
                     @endif
 
                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                     <!-- edit business listing  is this required?????? -->
-                    <div class="slide-nav flex-row">
+                    <div class="slide-nav flex-row editList">
                         <a class="no-decor share-btn edit-job edit-listing flex-row" href="/listing/{{$data['reference']}}/edit">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                             Edit business listing
@@ -134,7 +138,7 @@
                                 </div>
                                 <div class="location flex-row">
                                     <span class="fnb-icons map-icon"></span>
-                                    <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier">(Map)</span>@endisset</p>
+                                    <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-25">
                                     <div class="rating-view flex-row">

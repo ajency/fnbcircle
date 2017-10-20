@@ -70,16 +70,16 @@
       speed: 25,
       collapsedHeight: 18,
       moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
-      lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'
+      lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
     });
   }
 
   if ($('.description').length) {
     $('.description').readmore({
       speed: 25,
-      collapsedHeight: 158,
+      collapsedHeight: 170,
       moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
-      lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'
+      lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
     });
   }
 

@@ -2,8 +2,6 @@
   $('input[type=radio][name=plan-select]').change(function() {
     if ($(this).is(':checked')) {
       $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-      $(this).closest('.selection').find('.planCaption').text('Your current plan');
-      $(this).closest('.pricing-table__cards').siblings().find('.planCaption').text('Click here to choose this plan');
       if ($(this).closest('.pricing-table__cards').hasClass('free-plan')) {
         $('#subscribe-btn').prop('disabled', true);
       } else {
@@ -13,8 +11,9 @@
   });
 
   $('body').on('click', '#subscribe-btn', function(e) {
-    var planID, url;
+    var planContainer, planID, url;
     planID = $('input[type=radio][name=plan-select]:checked').val();
+    planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plan__footer');
     if (confirm('are you sure?')) {
       url = document.head.querySelector('[property="premium-url"]').content;
       $.ajax({
@@ -28,7 +27,9 @@
         success: function(data) {
           if (data['status'] === '200') {
             $('#pending-request').html('(Request Pending)');
-            return $('#subscribe-btn').remove();
+            $('#subscribe-btn').remove();
+            $('.alert-success').find('.success-message').html('Plan request sent successfully');
+            return $('.alert-success').addClass('active');
           }
         }
       });

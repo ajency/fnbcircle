@@ -111,9 +111,9 @@
             </div>
             <div class="plans__footer">
                 <div class="selection">
-                    <input type="radio" class="fnb-radio" name="plan-select" @if($current['id'] == 0) checked="" @endif></input>
+                    <input type="radio" disabled class="fnb-radio" name="plan-select" @if($current['id'] == 0) checked="" @endif></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter planCaption">Your current plan</span>
+                    <span class="dis-block lighter text-lighter planCaption">@if($current['id'] == 0)Your current plan @endif </span>
                 </div>
             </div>
         </label>
@@ -142,7 +142,13 @@
                 <div class="selection">
                     <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter planCaption">@if($pending != null and $pending->plan_id == $plan->id) Your request for this plan is under process @else Click here to choose this plan @endif</span>
+                    <span class="dis-block lighter text-lighter planCaption">
+                    @if($pending != null and $pending->plan_id == $plan->id) 
+                        Your request for this plan is under process 
+                    @elseif($current['id'] == $plan->id) 
+                        Your current plan
+                    @else Click here to choose this plan 
+                    @endif</span>
                 </div>
             </div>
         </label>

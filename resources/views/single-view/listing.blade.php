@@ -598,8 +598,8 @@
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
-                                    <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} <i class="fa fa-check-circle text-success" aria-hidden="true"></i></div>
-                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"><i class="fa fa-archive" aria-hidden="true"></i> {{$data['status']['next']}} </a> @endif
+                                    <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} </div>
+                                    @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                 </div>
                                 @endif
                             </div>

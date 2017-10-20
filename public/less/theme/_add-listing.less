@@ -3057,12 +3057,23 @@ input[type='checkbox'].remove-addr{
     	&:last-child{
     		margin-right: 0;
     	}
+    	&.free-plan{
+    		.points{
+    			margin-top: 0;
+    		}
+    	}
 	}
 	.points{
 		li{
 			@media screen and (min-width: 769px){
 				padding: 0.4em 1em;		
 			}
+		}
+		margin-bottom: 1.5em;
+	}
+	.plans__fee{
+		@media screen and (min-width: 769px){
+			min-height: 50px;	
 		}
 	}
 }

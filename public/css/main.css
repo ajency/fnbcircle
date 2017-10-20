@@ -9807,9 +9807,20 @@ input[type='checkbox'].remove-addr {
 .listing-plans.pricing-table .pricing-table__cards:last-child {
   margin-right: 0;
 }
+.listing-plans.pricing-table .pricing-table__cards.free-plan .points {
+  margin-top: 0;
+}
+.listing-plans.pricing-table .points {
+  margin-bottom: 1.5em;
+}
 @media screen and (min-width: 769px) {
   .listing-plans.pricing-table .points li {
     padding: 0.4em 1em;
+  }
+}
+@media screen and (min-width: 769px) {
+  .listing-plans.pricing-table .plans__fee {
+    min-height: 50px;
   }
 }
 .plan-label {

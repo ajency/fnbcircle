@@ -343,7 +343,7 @@
                                     @endif
                                 </div>
                                 <div class="fly-out__content">
-                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>
+                                    @if($listing->reference!=null)<div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>@endif
                                     </div>
                                     <p class="note-row__text--status text-medium desk-hide">
 

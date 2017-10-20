@@ -384,7 +384,7 @@
 
                                 @isset($data['established'])
                                 <div class="year">
-                                    <p class="element-title heavier m-b-20">Year of establishment</p>
+                                    <p class="element-title heavier m-b-10">Year of establishment</p>
                                     <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset
@@ -641,7 +641,7 @@
                         @if(isset($data['images']) or isset($data['files']))
                         <!-- Photos and documents -->
                         <div class="docs p-t-20 p-b-20">
-                            <p class="element-title m-b-15">Photos &amp; Documents of {{$data['title']['name']}}</p>
+                            <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
                             @isset($data['images'])
                             <div class="photo-gallery">
                                 @foreach($data['images'] as $images)

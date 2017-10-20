@@ -505,7 +505,7 @@ class ListingController extends Controller
             'description' => 'max:65535 ',
             'highlights'  => 'required',
             'established' => 'nullable|numeric',
-            'website'     => 'nullable|url',
+            'website'     => 'nullable',
             'payment.*'   => 'required|boolean',
         ]);
         return true;

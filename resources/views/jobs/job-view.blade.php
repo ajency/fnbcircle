@@ -5,9 +5,11 @@
 $additionalData = ['job'=>$job];
 @endphp
 
-@section('openGraph')   
+@section('seometa')  
+<link rel="canonical" href="{{ url('/')}}" /> 
 {!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
+
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>

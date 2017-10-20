@@ -508,7 +508,7 @@
                                                 <div class="bg"></div>
                                                 <div class="value" style="width: {{$similar[0]['rating']}}%;"></div>
                                             </div>
-                                            <span class="fnb-icons verified-icon"></span>
+                                            @if($similar[0]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
                                             <p class="sub-title heavier">{{$similar[0]['title']['name']}}</p>
@@ -552,7 +552,7 @@
                                                 <div class="bg"></div>
                                                 <div class="value" style="width: {{$similar[1]['rating']}}%;"></div>
                                             </div>
-                                            <span class="fnb-icons verified-icon"></span>
+                                            @if($similar[1]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
                                             <p class="sub-title heavier">{{$similar[1]['title']['name']}}</p>

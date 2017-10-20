@@ -9801,24 +9801,34 @@ input[type='checkbox'].remove-addr {
     margin-top: -2.5em;
   }
 }
-.listing-plans.pricing-table {
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-}
-.listing-plans.pricing-table .pricing-table__cards {
-  max-width: calc(33.33% - 1.5em);
-  margin-right: 2em;
-  margin-bottom: 2em;
-  margin-left: 0;
-  min-height: 360px;
-}
-.listing-plans.pricing-table .pricing-table__cards:last-child {
-  margin-right: 0;
+@media screen and (min-width: 769px) {
+  .listing-plans.pricing-table {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
+  .listing-plans.pricing-table .pricing-table__cards {
+    max-width: calc(33.33% - 1.5em);
+    margin-right: 2em;
+    margin-bottom: 2em;
+    margin-left: 0;
+    min-height: 360px;
+  }
+  .listing-plans.pricing-table .pricing-table__cards:last-child {
+    margin-right: 0;
+  }
+  .listing-plans.pricing-table .pricing-table__cards.free-plan .points {
+    margin-top: 0;
+  }
 }
 .listing-plans.pricing-table .pricing-table__cards.free-plan .points {
   margin-top: 0;
+}
+@media screen and (max-width: 768px) {
+  .listing-plans.pricing-table .pricing-table__cards {
+    min-height: auto;
+  }
 }
 .listing-plans.pricing-table .points {
   margin-bottom: 1.5em;
@@ -9827,6 +9837,10 @@ input[type='checkbox'].remove-addr {
   .listing-plans.pricing-table .points li {
     padding: 0.4em 1em;
   }
+}
+.listing-plans.pricing-table .selection {
+  bottom: 0;
+  margin-top: 0;
 }
 @media screen and (min-width: 769px) {
   .listing-plans.pricing-table .plans__fee {

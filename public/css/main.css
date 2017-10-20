@@ -10180,6 +10180,11 @@ input[type='checkbox'].remove-addr {
 .listingActions .slide-nav {
   margin-top: 0;
 }
+@media screen and (max-width: 768px) {
+  .listingActions {
+    margin-top: 0.5em;
+  }
+}
 .pending-review {
   border: 0;
   padding: 0.5em;

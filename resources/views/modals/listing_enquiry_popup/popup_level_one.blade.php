@@ -8,20 +8,20 @@
                 <div class="form-group m-b-0">
                     <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
                     <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
-                    <input type="text" class="form-control fnb-input float-input" id="name" name="name" data-required="true" value="{{ !Auth::guest() ? Auth::user()->name : (isset($enquiry_data) && isset($enquiry_data['name']) ? $enquiry_data['name'] : '') }}" required/>
+                    <input type="text" class="form-control fnb-input float-input" id="name" name="name" data-required="true" value="{{ !Auth::guest() ? Auth::user()->name : (isset($enquiry_data) && isset($enquiry_data['name']) ? $enquiry_data['name'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }} />
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
-                    <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-required="true" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
+                    <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-required="true" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}>
                     <input type="hidden" name="contact_locality" value="">
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                    <input type="text" class="form-control fnb-input float-input" id="email" name="email" name="email" data-parsley-trigger="change" data-required="true" value="{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required/>
+                    <input type="text" class="form-control fnb-input float-input" id="email" name="email" name="email" data-parsley-trigger="change" data-required="true" value="{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -31,7 +31,7 @@
         </div>
         <!-- form ends -->
         <!-- describes best -->
-        <div class="describes gap-separator">
+        <div class="describes gap-separator {{ !Auth::guest() ? 'hidden' : '' }}">
             <p class="text-darker describes__title text-medium">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
             <div class="row">
                 <!-- <div class="col-sm-6">

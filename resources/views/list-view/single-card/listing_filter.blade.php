@@ -69,24 +69,38 @@
                 </a>
             </label>
             @foreach(array_slice($filter_data["areas"], 0, 5) as $area_index => $area_value)
-                @if($area_index < 5)
+                @if($area_index < 2)
                     <label class="sub-title flex-row text-color">
                         <input type="checkbox" name="areas[]" class="checkbox p-r-10" value="{{$area_value['slug']}}"  {{ in_array($area_value['slug'], $filter_data["areas_selected"]) ? "checked" : "" }}>
                         <span>{{ $area_value['name'] }}</span>
                     </label>
                 @endif
             @endforeach
-            @if(sizeof($filter_data["areas"]) > 5)
+            @php
+                $dropdown_checkboxes = 0;
+            @endphp
+            @if(sizeof($filter_data["areas"]) > 2)
                 <div class="more-section collapse" id="moreDown">
-                    @foreach(array_slice($filter_data["areas"], 5) as $area_index => $area_value)
+                    @foreach(array_slice($filter_data["areas"], 2) as $area_index => $area_value)
                         <label class="sub-title flex-row text-color">
                             <input type="checkbox" name="areas[]" class="checkbox p-r-10" value="{{$area_value['slug']}}"  {{ in_array($area_value['slug'], $filter_data["areas_selected"]) ? "checked" : "" }}>
-                            <span>{{ $area_value['name'] }}</span>
+                            @php
+                                $dropdown_checkboxes += in_array($area_value['slug'], $filter_data["areas_selected"]) ? 1 : 0;
+                            @endphp
+
+                            <span> {{ $area_value['name'] }}</span>
                         </label>
                     @endforeach
                 </div>
 
-                <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+{{ sizeof($filter_data["areas"]) - 5 }} more</p>
+                <input type="hidden" name="" id="areas_hidden" value='{{ $dropdown_checkboxes > 0 ? 0 : sizeof($filter_data["areas"]) - 2 }}'/>
+                @if(isset($dropdown_checkboxes) && $dropdown_checkboxes > 0)
+                    <script type="text/javascript">
+                        $(document).find(".filter-group #section-area #moreDown").collapse('show');
+                    </script>
+                @else
+                    <p data-toggle="collapse" href="#moreDown" id="moreAreaShow" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+ {{ sizeof($filter_data["areas"]) - 2 }} more</p>
+                @endif
             @endif
         </div>
     </div>

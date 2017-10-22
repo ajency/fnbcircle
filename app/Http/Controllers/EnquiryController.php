@@ -293,19 +293,31 @@ class EnquiryController extends Controller {
 				$status = 404;
 			}
 		} else if($template_config == "popup_level_three") {
-			if($listing_obj->count() > 0) {
+			if($listing_obj && $listing_obj->count() > 0) {
 				$session_payload = Session::get('enquiry_data', "[]");
 
 				if(Auth::guest()) {
 					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
 					$lead_type = "App\Lead";
-					$lead_obj = $lead_obj->first();
+					if($lead_obj->count() > 0) {
+						$lead_obj = $lead_obj->first();
+					} else {
+						$lead_obj = null;
+					}
 				} else {
 					$lead_obj = Auth::user();
 					$lead_type = "App\User";
 				}
+
+				if(!Auth::guest()) {
+					if(sizeof($session_payload) > 0) {
+    					$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
+
+    					$this->createEnquiry($enquiry_data, [], []);
+					}
+				}
 				
-				$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "shared", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
+				$enquiry_data = ["user_object_id" => isset($lead_obj['id']) ? $lead_obj->id : '', "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_type" => "shared", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
 				if($request->has('categories_interested') && sizeof($request->categories_interested) > 0) {
 					$enquiry_categories = $request->categories_interested;
@@ -318,8 +330,13 @@ class EnquiryController extends Controller {
 				} else {
 					$enquiry_areas = [];
 				}
+				
+				if($listing_obj->first()->premium || !Auth::guest()) { // If premium or (not guest User) then save the data
+					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_categories, $enquiry_areas);
+				} else {
+					Session::put('second_enquiry_data', ["enquiry_data" => $enquiry_data, "enquiry_category" => $enquiry_categories, "enquiry_area" => $enquiry_areas]);
+				}
 
-				$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_categories, $enquiry_areas);
 				$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 				$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id);
 				$status = 200;
@@ -365,6 +382,13 @@ class EnquiryController extends Controller {
 
 	    					$this->createEnquiry($enquiry_data, [], []);
 	    					// $session_payload["enquiry_id"] = $enquiry_obj->id;
+	    				}
+
+	    				if(Session::has('second_enquiry_data') && Session::get('second_enquiry_data')) { // If the key exist & value is not NULL
+	    					$secondary_enquiry_data = Session::get('second_enquiry_data');
+	    					$secondary_enquiry_data['enquiry_data']["user_object_id"] = $lead_obj->id;
+	    					$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
+	    					Session::flush('second_enquiry_data'); // Delete this key from the session
 	    				}
 
 	    			}

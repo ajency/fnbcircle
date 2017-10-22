@@ -22,16 +22,17 @@
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis" title="{{ $list_value->title }}">{{ $list_value->title }}</h3>
+                            <h3 class="seller-info__title ellipsis" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-5 flex-row">
                             <span class="fnb-icons map-icon"></span>
-                            @if($list_value->display_address)
+                            <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
+                            <!-- @if($list_value->display_address)
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>
                             @else
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
-                            @endif
+                            @endif -->
                         </div>
                         <div class="flex-row rat-pub">
                             <div class="rating-view flex-row p-r-10">
@@ -40,7 +41,7 @@
                                     <div class="value" style="width: 80%;"></div>
                                 </div>
                             </div>
-                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('d M Y', strtotime($list_value->published_on)) }}</i></p>
+                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
                         <div class="stats flex-row m-t-10 p-t-10">
                             <label class="fnb-label wholesaler flex-row">
@@ -66,7 +67,7 @@
                                         <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @endif
                                 @endforeach
-                                @if (sizeof($list_value->cores) >= 4)
+                                @if (sizeof($list_value->cores) > 4)
                                     <li class="cat-more more-show">
                                         <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                     </li>
@@ -82,7 +83,7 @@
                         @endif
                         <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
                         <div class="operations__container">
-                            @foreach(array_slice($list_value->areas_operation, 0, 3) as $locations_index => $locations_value)
+                            @foreach(array_slice($list_value->areas_operation, 0, 1) as $locations_index => $locations_value)
                                 <div class="location flex-row">
                                     <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
                                     </p>
@@ -127,9 +128,9 @@
                                     </li> -->
                                 </ul>
                             @endforeach
-                            @if(sizeof($list_value->areas_operation) > 3)
+                            @if(sizeof($list_value->areas_operation) > 1)
                                 <div class="location flex-row">
-                                    <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 3 }} more...</a>
+                                    <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
                                     </p>
                                 </div>
                                 <!-- <div class="location remain more-show">
@@ -172,7 +173,7 @@
             </div>
         </div>
     </div>
-    @if(($list_index + 1) % 5 === 0 && ($list_index + 1) < sizeof($listing_data))
+    @if((($list_index + 1) % 5 === 0 && ($list_index + 1) < sizeof($listing_data)) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
         @include("enquiries.listings_enquiry")
     @endif
 @endforeach

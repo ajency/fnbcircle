@@ -66,11 +66,6 @@
       "business_types": [],
       "listing_status": []
     };
-    if (filters["category_search"].length > 0 && filters["category_search"].indexOf("|[]") < 0) {
-      updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"]);
-    } else {
-      updateUrlPushstate("category_search", "");
-    }
     if (filters["business_search"].length > 0) {
       updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"]);
     } else {
@@ -163,7 +158,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
+          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
           $(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"]);
         } else {
           start = 0;
@@ -232,6 +227,12 @@
 
     /* --- Load all the popular city on load --- */
     updateTextLabels();
+    window.onpopstate = function(event) {
+      console.log("back ");
+      if (event && event.state) {
+        window.location.reload();
+      }
+    };
 
     /* --- City filter dropdown --- */
     $('input[type="hidden"][name="city"].flexdatalist').flexdatalist({
@@ -278,8 +279,8 @@
       url: '/api/search-business',
       requestType: 'post',
       params: {
-        "city": $('input[type="hidden"][name="city"].flexdatalist').val(),
-        "category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+        "city": $('input[name="city"].flexdatalist').val(),
+        "category": $('input[name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
@@ -377,9 +378,11 @@
         key = $(this).attr("name");
         pushstate_url = $(this).attr("name") + "=" + $(this).val();
       }
-      updateUrlPushstate(key, pushstate_url);
+      if (key !== "category_search") {
+        updateUrlPushstate(key, pushstate_url);
+      }
       setTimeout((function() {
-        return getListContent();
+        getListContent();
       }), 500);
     });
 
@@ -438,16 +441,26 @@
 
     /* --- On Input / Change of area-search in Left filterbox, search the name --- */
     $(document).on("input change", ".filter-group.area #section-area input[type='text']#area_search", function(event) {
-      var search_key;
+      var areas_found, search_key;
       search_key = $(this).val();
+      areas_found = 0;
+      if (!($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') === "true")) {
+        $(this).closest("#section-area").find("#moreDown").collapse('show');
+      }
       if (search_key.length > 0) {
         $("input[type='checkbox'][name='areas[]']").parent().addClass('hidden');
         $("input[type='checkbox'][name='areas[]']").each(function() {
           if ($(this).parent().text().toLowerCase().indexOf(search_key.toLowerCase()) > -1) {
+            areas_found += 1;
             $(this).parent().removeClass("hidden");
           }
         });
+        $(this).closest("#section-area").find("#moreAreaShow").addClass('hidden');
       } else {
+        if ($(this).closest("#section-area").find("#areas_hidden").val() > 0) {
+          $(this).closest("#section-area").find("#moreDown").collapse('hide');
+        }
+        $(this).closest("#section-area").find("#moreAreaShow").removeClass('hidden');
         $("input[type='checkbox'][name='areas[]']").parent().removeClass('hidden');
       }
     });

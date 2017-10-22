@@ -1,10 +1,10 @@
 (function() {
-  var loadUpdates, offset, order;
+  var browsecat, equalcol, getheight, loadUpdates, offset, order;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
     showCount: false,
-    shares: ['email', 'twitter', 'facebook', 'googleplus', 'linkedin', 'pinterest', 'stumbleupon', 'whatsapp']
+    shares: ['twitter', 'facebook', 'googleplus', 'linkedin', 'whatsapp']
   });
 
   offset = 0;
@@ -81,6 +81,18 @@
       moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
       lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
     });
+  }
+
+  if ($(window).width() > 769) {
+    equalcol = $('.equal-col').outerHeight();
+    $('.design-2-card').css('min-height', equalcol);
+    getheight = $('.design-2-card').outerHeight();
+    $('.equal-col').css('min-height', getheight);
+  }
+
+  if ($(window).width() < 769) {
+    browsecat = $('.browse-cat').detach();
+    $('.similar-business').after(browsecat);
   }
 
 }).call(this);

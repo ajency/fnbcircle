@@ -466,6 +466,10 @@ $('body').on 'change','select#listingType', ->
   filters['type'] = $(this).val()
   sendRequest()
 
+$('body').on 'change','select#premiumRequest', ->
+  filters['premium'] = $(this).val()
+  sendRequest()
+
 $('body').on 'change','select#citySelect', ->
   filters['city']= $(this).val()
   sendRequest()

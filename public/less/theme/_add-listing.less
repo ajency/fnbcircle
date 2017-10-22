@@ -3047,15 +3047,32 @@ input[type='checkbox'].remove-addr{
 
 
 .listing-plans.pricing-table{
-	justify-content: flex-start;
+	@media screen and (min-width: 769px){
+		justify-content: flex-start;
+		.pricing-table__cards{
+			max-width: calc(~'33.33% - 1.5em');
+			margin-right: 2em;
+	    	margin-bottom: 2em;
+	    	margin-left: 0;
+	    	min-height: 360px;
+	    	&:last-child{
+	    		margin-right: 0;
+	    	}
+	    	&.free-plan{
+	    		.points{
+	    			margin-top: 0;
+	    		}
+	    	}
+		}
+	}
 	.pricing-table__cards{
-		max-width: calc(~'33.33% - 1.5em');
-		margin-right: 2em;
-    	margin-bottom: 2em;
-    	margin-left: 0;
-    	min-height: 360px;
-    	&:last-child{
-    		margin-right: 0;
+    	&.free-plan{
+    		.points{
+    			margin-top: 0;
+    		}
+    	}
+    	@media screen and (max-width: @mobile){
+    		min-height: auto;
     	}
 	}
 	.points{
@@ -3063,6 +3080,16 @@ input[type='checkbox'].remove-addr{
 			@media screen and (min-width: 769px){
 				padding: 0.4em 1em;		
 			}
+		}
+		margin-bottom: 1.5em;
+	}
+	.selection{
+		bottom: 0;
+    	margin-top: 0;
+	}
+	.plans__fee{
+		@media screen and (min-width: 769px){
+			min-height: 50px;	
 		}
 	}
 }
@@ -3397,6 +3424,9 @@ input[type='checkbox'].remove-addr{
 .listingActions{
 	.slide-nav{
 		margin-top: 0;
+	}
+	@media screen and (max-width: @mobile){
+		margin-top: 0.5em;
 	}
 }
 

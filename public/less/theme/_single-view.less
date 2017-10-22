@@ -518,6 +518,13 @@
 					display: block;
 				}
 			}
+			&.list-cities{
+				li{
+					&:nth-child(-n+5){
+						display: block;
+					}
+				}
+			}
 			&.expand-more{
 				li{
 					display: block;
@@ -931,14 +938,17 @@
 
 .brands{
 	li{
-		padding-right: 1em;
+		padding-right: 0.5em;
+		margin-bottom: 0.5em;
 	}
 	.sub-title{
 		font-weight: 500;
 		margin-bottom: 0;
 	}
 	.tags{
-		padding-right: 0.3em;
+		// padding-right: 0.3em;
+		width: 33px;
+		transform: scale(0.6);
 	}
 }
 
@@ -946,6 +956,8 @@
 @media screen and (max-width: @mobile){
 	.brands{
 		padding-top: 10px;
+		margin-top: 1em;
+		padding-bottom: 0;
 		.element-title{
 			margin-bottom: 10px;
 			margin-top: 0;
@@ -958,6 +970,11 @@
 		li{
 			padding-right: 1.2em;
 		}
+	}
+	.sTitle{
+		line-height: 1.4;
+		font-size: 1.15em;
+    	margin: 0.5em 0;
 	}
 }
 
@@ -1678,7 +1695,7 @@
 		width: 100%;
 	}
 	&__thumbnails{
-		align-items: inherit;
+		align-items: flex-start;
 		li{
 			flex: 1;
 	    	padding-right: 0.4em;
@@ -1824,6 +1841,9 @@
     		display: block;
     	}
 	}
+	// .photo-gallery{
+	// 	&__banner{}
+	// }
 }
 
 
@@ -3169,6 +3189,16 @@ and (max-device-width: 650px) {
 	}
 }
 
+.core-cat{
+	.special-cat{
+		li{
+			padding: 0.4em 0.8em;
+		}
+		.fnb-cat__title{
+			font-size: 0.95em;
+		}
+	}
+}
 
 @media screen and (max-width: @mobile){
 	.pub-row{

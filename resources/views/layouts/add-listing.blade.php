@@ -56,7 +56,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif post-mode ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates') post-mode @endif ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -110,7 +110,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif post-mode-shifter">
+            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates') post-mode-shifter @endif">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
                     <h3 class="main-heading m-b-0 m-t-0 white">@if($listing->reference==null)Let's get started! @endif</h3>
                     <!-- <div class="flex-row">
@@ -342,9 +342,12 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="fly-out__content">
-                                    @if($listing->reference!=null)<div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>@endif
+                                <div class="fly-out__content test">
+                                    @if($listing->reference!=null)
+                                    <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>
                                     </div>
+                                    @endif
+                                    
                                     <p class="note-row__text--status text-medium desk-hide">
 
                                          @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle @else The current status of your listing is <span class="text-primary bolder status-changer" @if($listing->status=="3") data-toggle="tooltip" data-placement="top" title="" data-original-title="Listing will remain in draft status till submitted for review."> Draft @endif @if($listing->status=="2") >Pending Review @endif @if($listing->status=="1") >Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
@@ -386,7 +389,7 @@
                                         <!-- Submit for review section -->
                                         <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
                                         @if($listing->isReviewable() and $listing->status > "2")
-                                        <div class="m-t-0 c-gap">
+                                        <div class="m-t-30 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
                                                     <i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -402,7 +405,7 @@
                                         <div class="gs-form__footer flex-row m-t-30">
                                             @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
 
-                                            <button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>
+                                            @if($step != 'business-premium')<button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>@endif
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         </form>
@@ -479,7 +482,7 @@
                             <div class="modal-body">
                                 <div class="listing-details text-center">
                                     <img src="/img/listing-search.png" class="img-responsive center-block">
-                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on FnBCircle.</h5>
+                                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on FnB Circle.</h5>
                                     @if(Auth::user()->type == 'external')
                                     <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
                                         <br> You can either Claim the listing or Delete it.</p>

@@ -32,7 +32,8 @@ class ListingViewController extends Controller
         $area                  = Area::with('city')->find($listing->locality_id);
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
-        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '', 'alt' => '', 'area' => $area->name);
+        $pagedata['verified']  = ($listing->owner_id == null)? false:true;
+        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '', 'alt' => 'All business listings in ('.$area->city['name'].')', 'area' => $area->name);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
@@ -41,7 +42,7 @@ class ListingViewController extends Controller
             $pagedata['publish_date'] = $listing->published_on->format('F j, Y');
             $pagedata['rating']       = '50';
             $pagedata['views']        = $listing->views_count;
-            $pagedata['verified']     = ($listing->verified == 1) ? true : false;
+            // $pagedata['verified']     = ($listing->verified == 1) ? true : false;
         }
 
         $pagedata['type']           = config('tempconfig.listing-type')[$listing->type];

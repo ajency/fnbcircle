@@ -63,7 +63,7 @@
             </div>
             <div class="col-sm-6 c-gap">
                 <label>Do you have a business website? <span class="text-lighter">(optional)</span></label>
-                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="@isset($details->website){{$details->website}}@endisset">
+                <input type="text" class="form-control fnb-input" id="business-website" data-parsley-type="url" value="@isset($details->website){{$details->website}}@endisset">
             </div>
         </div>
     </div>

@@ -505,7 +505,7 @@ class ListingController extends Controller
             'description' => 'max:65535 ',
             'highlights'  => 'required',
             'established' => 'nullable|numeric',
-            'website'     => 'nullable|url',
+            'website'     => 'nullable',
             'payment.*'   => 'required|boolean',
         ]);
         return true;
@@ -670,6 +670,24 @@ class ListingController extends Controller
         }
     }
 
+    public function listingPremium(Request $request){
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        } elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        } elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
+        }
+    }
+
     //--------------------Common method ------------------------
     public function store(Request $request)
     {
@@ -693,6 +711,9 @@ class ListingController extends Controller
                     break;
                 case 'business-photos-documents':
                     return $this->listingPhotosAndDocuments($request);
+                    break;
+                case 'business-premium':
+                    return $this->listingPremium($request);
                     break;
                 default:
                     return \Redirect::back()->withErrors(array('wrong_step' => 'Something went wrong. Please try again'));

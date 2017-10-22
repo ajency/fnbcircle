@@ -164,7 +164,8 @@ updateTextLabels = () ->
 	if $(".listings-page a.bolder").text().length > 0
 		$(".listings-page .category_label").text($(".listings-page a.bolder").text())
 	else
-		$(".listings-page span.category_label").text("All categories")
+		#$(".listings-page span.category_label").text("All categories")
+		$(".listings-page span.category_label").text "All"
 		$(".listings-page p.category_label").text("all")
 
 	### --- Update the State labels --- ###

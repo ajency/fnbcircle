@@ -240,7 +240,7 @@ class ListViewController extends Controller {
 
     		if($request->has("city") && $request->city) {
     			$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray();
-    			$business_obj = $business_obj->whereIn('locality_id', $area_list);
+    			$business_obj = $business_obj->whereIn('locality_id', $area_list)->where('status', 1);
     		}
 
     		if($request->has("category") && $request->category) {
@@ -507,7 +507,7 @@ class ListViewController extends Controller {
 	    	$listing_obj = $listing_obj->orderBy('premium', 'desc')->orderBy($sort_by, $sort_order)->skip(($start - 1) * $page_limit)->take($page_limit)->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at']);// , 'rating']);
 
 	    	$listing_obj = $listing_obj->each(function($list){ // Get following data for each list
-	    		$list["area"] = $list->location()->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
+	    		$list["area"] = $list->location()->where('status', 1)->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
 	    		$list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
 
 	    		// $list["status"] = Listing::listing_status[$list["status"]]; // Get the string of the Listing Status

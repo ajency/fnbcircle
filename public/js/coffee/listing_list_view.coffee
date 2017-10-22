@@ -106,10 +106,10 @@ getFilters = () ->
 		"business_types": []
 		"listing_status": []
 
-	if filters["category_search"].length > 0 and filters["category_search"].indexOf("|[]") < 0
-		updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
-	else
-		updateUrlPushstate("category_search", "")
+	# if filters["category_search"].length > 0 and filters["category_search"].indexOf("|[]") < 0
+	# 	updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
+	# else
+	# 	updateUrlPushstate("category_search", "")
 
 	if filters["business_search"].length > 0
 		updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"])
@@ -276,6 +276,12 @@ $(document).ready () ->
 	# getCity({"search": ""}, "states")
 	updateTextLabels()
 
+	window.onpopstate = (event) ->
+		console.log "back "
+		if event and event.state
+			window.location.reload()
+			return
+
 	### --- City filter dropdown --- ###
 	## -- Note: flexdatalist appends "flexdatalist-" to the name i.e. name="city" becomes name="flexdatalist-city" -- ##
 	$('input[type="hidden"][name="city"].flexdatalist').flexdatalist
@@ -346,8 +352,8 @@ $(document).ready () ->
 		requestType: 'post'
 		params: {
 			#"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
-			"city": $('input[type="hidden"][name="city"].flexdatalist').val()
-			"category": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+			"city": $('input[name="city"].flexdatalist').val()
+			"category": $('input[name="category_search"].flexdatalist').val()
 		}
 
 		keywordParamName: "search"
@@ -456,10 +462,12 @@ $(document).ready () ->
 			key = $(this).attr("name")
 			pushstate_url = $(this).attr("name") + "=" + $(this).val()
 
-		updateUrlPushstate(key, pushstate_url)
+		if key != "category_search"
+			updateUrlPushstate(key, pushstate_url)
 
 		setTimeout (->
 			getListContent()
+			return
 		), 500
 		return
 
@@ -529,16 +537,32 @@ $(document).ready () ->
 	### --- On Input / Change of area-search in Left filterbox, search the name --- ###
 	$(document).on "input change", ".filter-group.area #section-area input[type='text']#area_search", (event) ->
 		search_key = $(this).val()
+		areas_found = 0
+
+		if not ($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') == "true")
+			$(this).closest("#section-area").find("#moreDown").collapse 'show'
 		
 		if search_key.length > 0
-			$("input[type='checkbox'][name='areas[]']").parent().addClass('hidden')
+			$("input[type='checkbox'][name='areas[]']").parent().addClass 'hidden'
 
 			$("input[type='checkbox'][name='areas[]']").each ->
 				if($(this).parent().text().toLowerCase().indexOf(search_key.toLowerCase()) > -1)
+					areas_found += 1
 					$(this).parent().removeClass "hidden"
 				return
+			
+			## -- Hide other cities & display the "area found" count -- ##
+			# if areas_found > 0 and areas_found - parseInt($(this).closest("#section-area").find("#areas_hidden").val()) > 0
+			# 	$(this).closest("#section-area").find("#moreAreaShow").text("+ " + areas_found - parseInt($(this).closest("#section-area").find("#areas_hidden").val()) + " more")
+
+			## -- Hide "+'n' more" areas TEXT on search -- ##
+			$(this).closest("#section-area").find("#moreAreaShow").addClass 'hidden'
 		else
-			$("input[type='checkbox'][name='areas[]']").parent().removeClass('hidden')
+			## -- If the areas are greater than 0, then hide "other areas" section -- ##
+			if $(this).closest("#section-area").find("#areas_hidden").val() > 0
+				$(this).closest("#section-area").find("#moreDown").collapse 'hide'
+			$(this).closest("#section-area").find("#moreAreaShow").removeClass 'hidden'
+			$("input[type='checkbox'][name='areas[]']").parent().removeClass 'hidden'
 		return
 	
 	# initHandleBars()

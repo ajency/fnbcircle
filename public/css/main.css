@@ -5729,6 +5729,9 @@ input[type=checkbox].custom-checkbox:before {
     padding-top: 0;
   }
 }
+.pending-stuff .fa-clock-o {
+  margin-right: 5px;
+}
 .search-section {
   position: relative;
   top: 2em;

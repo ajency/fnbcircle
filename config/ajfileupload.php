@@ -8,20 +8,20 @@ return [
 	'valid_file_formats' => ['jpg', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'png', 'pdf', 'ppt', 'pptx', 'pps', 'ppsx'],
 	'sizes' => [
 		'400X300' => [
-			'width' => 400,
-			'height' => 300,
+			'width' => 1000,
+			'height' => 1000,
 			'watermark' => [
-				'image_path' => public_path().'/img/fnb_watermark_60x60.png',
+				'image_path' => public_path().'/img/original-watermark.png',
 				'position'=>'bottom-left', 
-				'x'=> 10, 
-				'y'=>10
+				'x'=> 15, 
+				'y'=>15
 			],
 		],
 		'200x150' => [
-			'width' => 200,
-			'height' => 150,
+			'width' => 350,
+			'height' => 350,
 			'watermark' => [
-				'image_path' => public_path().'/img/fnb_watermark_30x30.png',
+				'image_path' => public_path().'/img/thumbnail-watermark.png',
 				'position'=>'bottom-left', 
 				'x'=> 10, 
 				'y'=>10

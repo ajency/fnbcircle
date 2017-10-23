@@ -388,7 +388,7 @@
 
                                         <!-- Submit for review section -->
                                         <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
-                                        @if($listing->isReviewable() and $listing->status > "2")
+                                        @if($listing->isReviewable() and $listing->status > "2" and $listing->status != "4")
                                         <div class="m-t-30 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -396,7 +396,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="#" class="primary-link sub-title review-submit-link">Submit for Review</a>
+                                                     <a href="#" class="primary-link sub-title" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
                                                </div>
                                            </div>
                                         </div>

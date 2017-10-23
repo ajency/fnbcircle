@@ -79,6 +79,15 @@ if $('.operation__hours').length
     moreLink: '<a href="#" class="more default-size secondary-link">View more</a>'
     lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
 
+if $('.catShow').length
+  $('.catShow').readmore
+    speed: 25
+    collapsedHeight: 35
+    moreLink: '<a href="#" class="more x-small secondary-link">View more</a>'
+    lessLink: '<a href="#" class="x-small less secondary-link">View less</a>'
+
+
+
 if $('.description').length
   $('.description').readmore
     speed: 25
@@ -104,4 +113,6 @@ if $(window).width() < 769
   $('.nav-info').before moveelement
   catlabel = $('.single-cate').detach()
   $('.singleV-title').before catlabel
+  contactrow = $('.single-contact-section').detach()
+  $('.operate-section').after contactrow
 

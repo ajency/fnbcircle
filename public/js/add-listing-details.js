@@ -89,7 +89,7 @@
           $('input#cards').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
         case 'E/Mobile Wallets':
-          $('input#wallet').prop('checked', true);
+          $('input#wallets').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
         case 'Cash on Delivery':
           $('input#cod').prop('checked', true);

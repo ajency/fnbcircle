@@ -140,7 +140,7 @@
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
-                                <div class="stats flex-row m-t-25 stat-section">
+                                <div class="stats flex-row m-t-10 stat-section">
                                     <div class="@isset($data['rating']) rating-view @endisset flex-row">
                                         @isset($data['rating'])
                                         <div class="rating">
@@ -201,9 +201,10 @@
                                 </div>
                                 @endisset
                             </div>
-                            <div class="seller-info__footer p-t-20">
+                            <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row">
                                     <div class="contact__info flex-row">
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
@@ -260,11 +261,11 @@
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
-                                       <!--  <div class="col-sm-4">
+                                        <div class="col-sm-4">
                                             <div class="text-center">
                                                 <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +342,8 @@
                             <ul class="brands__list flex-row flex-wrap">
                                 @foreach($data['brands'] as $brand)<li class="flex-row flex-wrap">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                    <span class="fnb-icons tags"></span>
+                                    <!-- <span class="fnb-icons tags"></span> -->
+                                    <img src="/img/Single-view-powerseller.png" class="m-r-10" width="20">
                                     <p class="sub-title">{{$brand}}</p>
                                 </li>
                                 @endforeach
@@ -380,18 +382,20 @@
                         <!-- more-details -->
                         <div class="more-details p-t-10 p-b-20">
                             <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
-                            <div class="detail-1 flex-row m-t-25 m-b-25">
+                            <div class="detail-1 flex-row m-t-25 m-b-25 align-top">
 
                                 @isset($data['established'])
                                 <div class="year">
-                                    <p class="element-title heavier m-b-10 sTitle">Year of establishment</p>
+                                    <p class="element-title heavier m-b-10 sTitle">Year of Establishment</p>
                                     <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+                                    <img src="/img/link.png" alt="" class="m-l-5" width="15">
+                                    </a></p>
                                 </div>
                                 @endisset
                             </div>
@@ -409,7 +413,7 @@
                             </div>
                             @endif
                             @if(isset($data['address']) or isset($data['location']))
-                            <div class="detail-3 flex-row m-t-25 m-b-25">
+                            <div class="detail-3 flex-row m-t-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20 sTitle">Address of {{$data['title']['name']}}</h3>
                                     @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
@@ -417,7 +421,7 @@
                             </div>
                             @endif
                             @isset($data['location'])
-                            <div class="detail-4 flex-row m-t-25 m-b-25">
+                            <div class="detail-4 flex-row m-b-25">
                                 <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
                                 <script type="text/javascript">
                                     function initMap() {
@@ -480,26 +484,37 @@
                                 <div class="card business-card article-col">
                                     <div class="business-card__header">
                                         @if($similar[0]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
-                                        <ul class="fnb-cat flex-row">
+                                        <ul class="fnb-cat catShow flex-row">
                                             @foreach($similar[0]['cores'] as $core)
                                             <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                             @endforeach
                                         </ul>
                                         @isset($similar[0]['operationAreas'])
+
                                         <div class="operations m-t-20">
-                                            <span class="dis-block lighter">Area of operations</span>
-                                            @foreach($similar[0]['operationAreas'] as $city)
-                                            {{$city['name']}}
-                                            <ul class="areas flex-row">
-                                                @foreach($city['areas'] as $area)
-                                                <li>
-                                                    <p class="default-size areas__title">{{$area['name']}}</p>
-                                                </li>
-                                                @endforeach
-                                                
-                                            </ul>
+                                            <span class="dis-block lighter">Areas of operations</span>
+                                            @foreach($similar[1]['operationAreas'] as $city)
+                                            <div class="flex-row state-container align-top m-t-5 m-b-5">
+                                                <p class="heavier state-row default-size m-b-0"><i class="fa fa-map-marker text-lighter p-r-5" aria-hidden="true"></i> {{$city['name']}} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i></p>
+                                                <div class="flex-row mainRow">
+                                                    <ul class="areas hide-areas flex-row">
+                                                        @foreach($city['areas'] as $area)
+                                                        <li>
+                                                            <p class="default-size areas__title">{{$area['name']}}</p>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    
+                                                    @if(count($city['areas']) > 3)
+                                                    <li class="remain more-show">
+                                                        <a href="" class="secondary-link remain__number">+{{count($city['areas']) - 3}}</a>
+                                                    </li>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             @endforeach
                                         </div>
+
                                         @endisset
                                     </div>
                                     <div class="business-card__body">
@@ -512,7 +527,7 @@
                                         </div>
                                         <div class="address">
                                             <p class="sub-title heavier">{{$similar[0]['title']['name']}}</p>
-                                            <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
+                                            <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
@@ -524,24 +539,38 @@
                                 <div class="card business-card article-col">
                                     <div class="business-card__header">
                                         @if($similar[1]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
-                                        <ul class="fnb-cat flex-row">
+                                        <ul class="fnb-cat catShow flex-row">
                                             @foreach($similar[1]['cores'] as $core)
                                             <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                             @endforeach
                                         </ul>
+                                            <!-- @if(count($similar[1]['cores']) > 3)
+                                                <li class="remain more-show">
+                                                    <a href="" class="secondary-link remain__number">+{{count($similar[1]['cores']) - 3}}</a>
+                                                </li>
+                                                @endif -->
                                         @isset($similar[1]['operationAreas'])
                                         <div class="operations m-t-20">
-                                            <span class="dis-block lighter">Area of operations</span>
+                                            <span class="dis-block lighter">Areas of operations</span>
                                             @foreach($similar[1]['operationAreas'] as $city)
-                                            {{$city['name']}}
-                                            <ul class="areas flex-row">
-                                                @foreach($city['areas'] as $area)
-                                                <li>
-                                                    <p class="default-size areas__title">{{$area['name']}}</p>
-                                                </li>
-                                                @endforeach
-                                                
-                                            </ul>
+                                            <div class="flex-row state-container align-top m-t-5 m-b-5">
+                                                <p class="heavier state-row default-size m-b-0"><i class="fa fa-map-marker text-lighter p-r-5" aria-hidden="true"></i> {{$city['name']}} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i></p>
+                                                <div class="flex-row mainRow">
+                                                    <ul class="areas hide-areas flex-row">
+                                                        @foreach($city['areas'] as $area)
+                                                        <li>
+                                                            <p class="default-size areas__title">{{$area['name']}}</p>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    
+                                                    @if(count($city['areas']) > 3)
+                                                    <li class="remain more-show">
+                                                        <a href="" class="secondary-link remain__number">+{{count($city['areas']) - 3}}</a>
+                                                    </li>
+                                                    @endif
+                                                </div>
+                                            </div>
                                             @endforeach
                                         </div>
                                         @endisset
@@ -571,6 +600,35 @@
                         @endif
                         <!-- Related article section -->
 
+
+                        <div class="related-article p-b-20" id="article">
+                                <div class="section-start-head m-b-15 flex-row">
+                                    <h6 class="element-title">Related Articles</h6>
+                                    <a href="" class="secondary-link view-more heavier">View More</a>
+                                </div>
+                                <div class="related-article__section flex-row">
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner"></div>
+                                            <div class="fnb-article__content m-t-15">
+                                                <h6 class="sub-title fnb-article__title">There could be Ketamine in your 'natural' chicken</h6>
+                                                <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                                                <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner banner-2"></div>
+                                            <div class="fnb-article__content m-t-15">
+                                                <h6 class="sub-title fnb-article__title">There could be Ketamine in your 'natural' chicken</h6>
+                                                <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                                                <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
 
 
 
@@ -651,16 +709,19 @@
                                 @if($loop->first)
                                 <div class="photo-gallery__banner">
                                     <a href="{{$images['full']}}" class="thumb-click">
-                                      <img src="{{$images['full']}}" class="img-responsive main-img">
+                                      <img src="{{$images['thumb']}}" class="img-responsive main-img">
                                     </a>
                                 </div>
                                 <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
                                 @else
 
                                     <li>
-                                        <a href="{{$images['full']}}" class="thumb-click">
+                                        <a href="{{$images['full']}}" class="thumb-click" >
+                                            <!-- <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
+                                                
+                                            </div> -->
                                             <img src="{{$images['thumb']}}" alt="" class="img-responsive">
-                                            @if($i == 3 and $photo_count>0)<p class="sub-title">+ 2 More</p>@endif
+                                            @if($i == 3 and $photo_count>0)<p class="sub-title">+ {{$photo_count}} More</p>@endif
                                         </a>
                                     </li>
                                     
@@ -689,6 +750,97 @@
                         <!-- enquiry form -->
                         @endif
 
+                        <div class="sticky-bottom mobile-flex desk-hide active">
+                            <div class="stick-bottom__text">
+                                <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
+                            </div>
+                            <div class="actions">
+                                <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Send Enquiry</button>
+                            </div>
+                        </div>
+
+                        <div class="pos-fixed fly-out">
+                            <div class="mobile-back desk-hide mobile-flex">
+                                <div class="left mobile-flex">
+                                    <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                                    <p class="element-title heavier m-b-0">Enquiry</p>
+                                </div>
+                                <div class="right">
+                                    <!-- <a href="" class="text-primary heavier element-title">Clear All</a> -->
+                                </div>
+                            </div>
+                            <div class="fly-out__content">
+                                <div class="enquiry-form card m-t-30 m-b-20">
+                                    <form method="">
+                                        <div class="enquiry-form__header flex-row space-between">
+                                            <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
+                                            <div class="enquiry-title">
+                                                <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
+                                                <p class="sub-title">Mystical the meat and fish store</p>
+                                            </div>
+                                            <span class="fnb-icons enquiry"></span>
+                                        </div>
+                                        <div class="enquiry-form__body m-t-10">
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
+                                                <input type="text" class="form-control fnb-input float-input" id="contact_name">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
+                                                <input type="email" class="form-control fnb-input float-input" id="contact_email">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
+                                                <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
+                                                <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
+                                            </div>
+                                            <div class="form-group p-t-20 p-b-10 m-b-0">
+                                                <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
+                                                <p class="x-small text-lighter lighter">(Please select atleast one)</p>
+                                                <select class="form-control fnb-select" id="describe">
+                                                    <option>--Select--</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                </select>
+                                            </div>
+                                            <!-- <div class="form-group p-t-10 p-b-10 m-b-0">
+                                                <label class="">Interested in</label>
+                                                <ul class="interested-options flex-row m-t-15">
+                                                    <li>
+                                                        <input type="radio" class="radio" name="interests" checked>
+                                                        <div class="meat option flex-row">
+                                                            <span class="fnb-icons cat-icon meat"></span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" class="radio" name="interests">
+                                                        <div class="veg option flex-row">
+                                                            <span class="fnb-icons cat-icon veg"></span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div> -->
+                                            <div class="form-group p-t-10 p-b-20 m-b-0">
+                                                <!-- <label class="custom-label">Message</label> -->
+                                                <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
+                                                <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
+                                                <!-- <input> -->
+                                                <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
+                                                <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <button class="btn fnb-btn primary-btn full border-btn">Send an Enquiry</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
 
 
                         <!-- enquiry form ends-->
@@ -712,6 +864,37 @@
                             </ul>
                         </div>
                         <!-- Browse category ends-->
+
+
+                        <div class="advertisement flex-row m-t-20">
+                            <h6 class="element-title">Advertisement</h6>
+                        </div>
+
+
+
+                        <div class="boost-row single-boost text-center">
+                            <i class="fa fa-rocket text-secondary" aria-hidden="true"></i> 
+                            <div class="element-title heavier boost-row__title">
+                                Give your marketing a boost!
+                            </div>
+                            <button class="btn fnb-btn s-outline full border-btn default-size">Advertise with us</button>
+                        </div>
+
+
+                        <div class="business-listing businessListing increase-sale text-center">
+                            <!-- <span class="fnb-icons note"></span> -->
+                            <div class="bl-top">
+                                <img src="/img/business-graph.png" class="img-responsive center-block">
+                                <div class="business-listing__content m-b-15">
+                                    <h6 class="element-title business-listing__title">Increase your business sales on F&amp;BCircle</h6>
+                                    <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
+                                </div>
+                            </div>
+                            <button class="btn fnb-btn outline full border-btn default-size">Advertise with us</button>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>

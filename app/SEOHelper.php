@@ -27,6 +27,7 @@ function singleListingOgTags($listing_ref){
 function singleListingTags($listing_ref){
 	$listing = Listing::where('reference',$listing_ref)->firstorfail();
 	$tags = [];
+	$tags['title'] = getSingleListingTitle($listing);
 	$tags['description'] = getSingleListingDescription($listing);
 	$tags['keywords'] = getSingleListingKeywords($listing);
 	return $tags;

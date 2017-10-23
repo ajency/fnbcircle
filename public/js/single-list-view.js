@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, catlabel, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
+  var browsecat, catlabel, contactrow, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -74,6 +74,15 @@
     });
   }
 
+  if ($('.catShow').length) {
+    $('.catShow').readmore({
+      speed: 25,
+      collapsedHeight: 35,
+      moreLink: '<a href="#" class="more x-small secondary-link">View more</a>',
+      lessLink: '<a href="#" class="x-small less secondary-link">View less</a>'
+    });
+  }
+
   if ($('.description').length) {
     $('.description').readmore({
       speed: 25,
@@ -99,6 +108,8 @@
     $('.nav-info').before(moveelement);
     catlabel = $('.single-cate').detach();
     $('.singleV-title').before(catlabel);
+    contactrow = $('.single-contact-section').detach();
+    $('.operate-section').after(contactrow);
   }
 
 }).call(this);

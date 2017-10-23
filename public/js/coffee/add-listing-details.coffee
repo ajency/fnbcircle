@@ -68,7 +68,7 @@ setTimeout (->
         $('input#cards').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
       when 'E/Mobile Wallets'
-        $('input#wallet').prop 'checked', true
+        $('input#wallets').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
       when 'Cash on Delivery'
         $('input#cod').prop 'checked', true

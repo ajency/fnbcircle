@@ -261,11 +261,11 @@
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
-                                       <!--  <div class="col-sm-4">
+                                        <div class="col-sm-4">
                                             <div class="text-center">
                                                 <button class="btn fnb-btn primary-btn full border-btn enquiry-btn">Send an Enquiry</button>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -385,7 +385,7 @@
 
                                 @isset($data['established'])
                                 <div class="year">
-                                    <p class="element-title heavier m-b-10 sTitle">Year of establishment</p>
+                                    <p class="element-title heavier m-b-10 sTitle">Year of Establishment</p>
                                     <p class="sub-title lighter">{{$data['established']}} </p>
                                 </div>
                                 @endisset

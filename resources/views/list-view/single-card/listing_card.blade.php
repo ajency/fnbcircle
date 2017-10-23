@@ -26,7 +26,8 @@
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-5 flex-row">
-                            <span class="fnb-icons map-icon"></span>
+                            <!-- <span class="fnb-icons map-icon"></span> -->
+                            <i class="fa fa-map-marker sub-title text-lighter p-r-5" aria-hidden="true"></i>
                             <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
                             <!-- @if($list_value->display_address)
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>

@@ -897,8 +897,10 @@ class JobController extends Controller
 
         //get filter values
         if(isset($requestData['category']) && $requestData['category']!=""){
-            $categoryName = Category::find($requestData['category']);
+            // $categoryName = Category::find($requestData['category']);
+            $categoryName = Category::where('slug',$requestData['category'])->first();
             $requestData['category_name'] = (!empty($categoryName)) ? $categoryName->name : '';
+            $requestData['category_id'] = (!empty($categoryName)) ? $categoryName->id : '';
         }
 
         if(isset($requestData['job_type']) && $requestData['job_type']!=""){
@@ -910,7 +912,8 @@ class JobController extends Controller
         }
 
         if(isset($requestData['area']) && $requestData['area']!=""){
-            $city_areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            $cityId  = City::where('slug', $request->city)->first()->id;
+            $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         
             $requestData['area'] = json_decode($requestData['area']);
             $requestData['city_areas'] = $city_areas;
@@ -929,7 +932,8 @@ class JobController extends Controller
         if(!isset($requestData['page'])){
             $requestData['page'] = 1;
         }
-    
+        // dd($requestData); 
+
         $header_type = "trans-header";
         return view('jobs.job-listing',compact('header_type'))->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)

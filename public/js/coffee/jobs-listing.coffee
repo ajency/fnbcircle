@@ -9,22 +9,35 @@ filterJobs = (resetPage) ->
     experienceValues.push $(this).val()
 
   jobTypeValues = []
+  jobTypeSlug = []
   $('input[name="job_type[]"]:checked').map ->
     jobTypeValues.push $(this).val()
+    jobTypeSlug.push $(this).attr('slug')
 
   areaValues = []
+  areaSlugs = []
   $('input[name="areas[]"]:checked').map ->
     areaValues.push $(this).val()
+    areaSlugs.push $(this).attr('slug')
 
   keywords = []
+  keywordslug = []
   $('input[name="keyword_id[]"]').map ->
     keywords.push $(this).val()
+    keyword_slug_str = $(this).val()+'|'+strSlug($(this).attr('label'))
+    keywordslug.push keyword_slug_str
 
   urlParams = '';
   job_name = $('#job_name').val()
   city = $('select[name="job_city"]').val()
+  cityObj = $('select[name="job_city"]');
+  cityId = $('option:selected',cityObj).attr('id');
+
   category_id = $('input[name="category_id"]').val()
-  salary_type = $('select[name="salary_type"]').val()
+  category_slug = $('input[name="category_id"]').attr('slug')
+  salary_type_obj = $('select[name="salary_type"]')
+  salary_type = salary_type_obj.val()
+  salary_type_slug = $("option:selected", salary_type_obj).attr("slug") 
   salary_lower =$('input[name="salary_lower"]').val()
   salary_upper = $('input[name="salary_upper"]').val()
   page = $('input[name="listing_page"]').val()
@@ -36,7 +49,7 @@ filterJobs = (resetPage) ->
     urlParams +='&city='+city
 
   if(salary_type!='')
-    urlParams +='&salary_type='+salary_type
+    urlParams +='&salary_type='+salary_type_slug
 
   if(salary_lower!='')
     urlParams +='&salary_lower='+salary_lower
@@ -49,21 +62,21 @@ filterJobs = (resetPage) ->
     urlParams +='&job_name='+job_name
 
   if(category_id!='')
-    urlParams +='&category='+category_id
+    urlParams +='&category='+category_slug
 
   
 
   if(jobTypeValues.length != 0)
-    urlParams +='&job_type='+JSON.stringify(jobTypeValues)
+    urlParams +='&job_type='+JSON.stringify(jobTypeSlug)
 
   if(areaValues.length != 0)
-    urlParams +='&area='+JSON.stringify(areaValues)
+    urlParams +='&area='+JSON.stringify(areaSlugs)
 
   if(experienceValues.length != 0)
     urlParams +='&experience='+JSON.stringify(experienceValues)
 
   if(keywords.length != 0)
-    urlParams +='&keywords='+JSON.stringify(keywords)
+    urlParams +='&keywords='+JSON.stringify(keywordslug)
 
 
   window.history.pushState("", "", "?"+urlParams);
@@ -75,7 +88,7 @@ filterJobs = (resetPage) ->
       'job_name' : job_name
       'company_name' :''
       'job_type': jobTypeValues
-      'city' : city
+      'city' : cityId
       'area' : areaValues
       'experience' :experienceValues
       'category' : category_id
@@ -104,6 +117,11 @@ $(document).on 'change', '.search-job', ->
   return
 
 
+strSlug = (str) ->
+  str = str.replace(' ','-')
+  str = str.trim()
+  str = str.toLowerCase()
+  str
 
 
 $('.clear-checkbox').click ->
@@ -112,8 +130,12 @@ $('.clear-checkbox').click ->
 
 
 $('.clear-keywords').click ->
-  $('input[class="job-input-keywords"]').remove()
-  $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden')
+  # $('input[class="job-input-keywords"]').remove()
+  # $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden')
+
+  $('.flexdatalist-multiple').find('li[class="value"]').each ->
+    $(this).find('.fdl-remove').click()
+
   filterJobs(true)
 
 
@@ -154,6 +176,7 @@ $('input[name="area_search"]').change ->
 displayCityText = () -> 
   cityObj = $('select[name="job_city"]');
   cityText = $('option:selected',cityObj).text();
+  cityId = $('option:selected',cityObj).attr('id');
   $("#state_name").text cityText 
   $( ".fnb-breadcrums:eq(2)" ).text cityText 
 
@@ -161,14 +184,14 @@ displayCityText = () ->
     type: 'post'
     url: '/get_areas'
     data:
-      'city': cityObj.val()
+      'city': cityId
       'area_name': $('input[name="area_search"]').val()
     success: (data) ->
       # console.log data
       area_html = ''
       for key of data
         area_html += '<label class="sub-title flex-row text-color">'
-        area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">'
+        area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
         area_html += '<span>' + data[key]['name'] + '</span>'
         area_html += '</label>'
 
@@ -220,6 +243,7 @@ $(document).ready ()->
 
   $('.job-categories').on 'select:flexdatalist', (event, set, options) ->
     $('input[name="category_id"]').val set.id   
+    $('input[name="category_id"]').attr 'slug',set.slug   
     filterJobs(true) 
 
   console.log $('.area-list').attr('has-filter')

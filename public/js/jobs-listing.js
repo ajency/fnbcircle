@@ -1,8 +1,8 @@
 (function() {
-  var displayCityText, filterJobs;
+  var displayCityText, filterJobs, strSlug;
 
   filterJobs = function(resetPage) {
-    var append, areaValues, category_id, city, experienceValues, jobTypeValues, job_name, keywords, page, salary_lower, salary_type, salary_upper, urlParams;
+    var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
     console.log(resetPage);
     append = false;
     if (resetPage) {
@@ -13,22 +13,35 @@
       return experienceValues.push($(this).val());
     });
     jobTypeValues = [];
+    jobTypeSlug = [];
     $('input[name="job_type[]"]:checked').map(function() {
-      return jobTypeValues.push($(this).val());
+      jobTypeValues.push($(this).val());
+      return jobTypeSlug.push($(this).attr('slug'));
     });
     areaValues = [];
+    areaSlugs = [];
     $('input[name="areas[]"]:checked').map(function() {
-      return areaValues.push($(this).val());
+      areaValues.push($(this).val());
+      return areaSlugs.push($(this).attr('slug'));
     });
     keywords = [];
+    keywordslug = [];
     $('input[name="keyword_id[]"]').map(function() {
-      return keywords.push($(this).val());
+      var keyword_slug_str;
+      keywords.push($(this).val());
+      keyword_slug_str = $(this).val() + '|' + strSlug($(this).attr('label'));
+      return keywordslug.push(keyword_slug_str);
     });
     urlParams = '';
     job_name = $('#job_name').val();
     city = $('select[name="job_city"]').val();
+    cityObj = $('select[name="job_city"]');
+    cityId = $('option:selected', cityObj).attr('id');
     category_id = $('input[name="category_id"]').val();
-    salary_type = $('select[name="salary_type"]').val();
+    category_slug = $('input[name="category_id"]').attr('slug');
+    salary_type_obj = $('select[name="salary_type"]');
+    salary_type = salary_type_obj.val();
+    salary_type_slug = $("option:selected", salary_type_obj).attr("slug");
     salary_lower = $('input[name="salary_lower"]').val();
     salary_upper = $('input[name="salary_upper"]').val();
     page = $('input[name="listing_page"]').val();
@@ -39,7 +52,7 @@
       urlParams += '&city=' + city;
     }
     if (salary_type !== '') {
-      urlParams += '&salary_type=' + salary_type;
+      urlParams += '&salary_type=' + salary_type_slug;
     }
     if (salary_lower !== '') {
       urlParams += '&salary_lower=' + salary_lower;
@@ -51,19 +64,19 @@
       urlParams += '&job_name=' + job_name;
     }
     if (category_id !== '') {
-      urlParams += '&category=' + category_id;
+      urlParams += '&category=' + category_slug;
     }
     if (jobTypeValues.length !== 0) {
-      urlParams += '&job_type=' + JSON.stringify(jobTypeValues);
+      urlParams += '&job_type=' + JSON.stringify(jobTypeSlug);
     }
     if (areaValues.length !== 0) {
-      urlParams += '&area=' + JSON.stringify(areaValues);
+      urlParams += '&area=' + JSON.stringify(areaSlugs);
     }
     if (experienceValues.length !== 0) {
       urlParams += '&experience=' + JSON.stringify(experienceValues);
     }
     if (keywords.length !== 0) {
-      urlParams += '&keywords=' + JSON.stringify(keywords);
+      urlParams += '&keywords=' + JSON.stringify(keywordslug);
     }
     window.history.pushState("", "", "?" + urlParams);
     return $.ajax({
@@ -74,7 +87,7 @@
         'job_name': job_name,
         'company_name': '',
         'job_type': jobTypeValues,
-        'city': city,
+        'city': cityId,
         'area': areaValues,
         'experience': experienceValues,
         'category': category_id,
@@ -105,14 +118,22 @@
     filterJobs(true);
   });
 
+  strSlug = function(str) {
+    str = str.replace(' ', '-');
+    str = str.trim();
+    str = str.toLowerCase();
+    return str;
+  };
+
   $('.clear-checkbox').click(function() {
     $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
     return filterJobs(true);
   });
 
   $('.clear-keywords').click(function() {
-    $('input[class="job-input-keywords"]').remove();
-    $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden');
+    $('.flexdatalist-multiple').find('li[class="value"]').each(function() {
+      return $(this).find('.fdl-remove').click();
+    });
     return filterJobs(true);
   });
 
@@ -153,16 +174,17 @@
   });
 
   displayCityText = function() {
-    var cityObj, cityText;
+    var cityId, cityObj, cityText;
     cityObj = $('select[name="job_city"]');
     cityText = $('option:selected', cityObj).text();
+    cityId = $('option:selected', cityObj).attr('id');
     $("#state_name").text(cityText);
     $(".fnb-breadcrums:eq(2)").text(cityText);
     return $.ajax({
       type: 'post',
       url: '/get_areas',
       data: {
-        'city': cityObj.val(),
+        'city': cityId,
         'area_name': $('input[name="area_search"]').val()
       },
       success: function(data) {
@@ -170,7 +192,7 @@
         area_html = '';
         for (key in data) {
           area_html += '<label class="sub-title flex-row text-color">';
-          area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" class="checkbox p-r-10">';
+          area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
           area_html += '<span>' + data[key]['name'] + '</span>';
           area_html += '</label>';
         }
@@ -223,6 +245,7 @@
     });
     $('.job-categories').on('select:flexdatalist', function(event, set, options) {
       $('input[name="category_id"]').val(set.id);
+      $('input[name="category_id"]').attr('slug', set.slug);
       return filterJobs(true);
     });
     console.log($('.area-list').attr('has-filter'));

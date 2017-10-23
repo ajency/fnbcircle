@@ -56,13 +56,13 @@
               <!-- results ends -->
               <div class="filter-group area">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
-                      <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Search by City <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-area" >
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                          <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an area">
+                          <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an city">
                       </div>
                       <div class="check-section filter-check">
                           <label class="sub-title flex-row clear ">
@@ -76,7 +76,7 @@
                         @if(isset($urlFilters['area']) && !empty($urlFilters['area']))
                           @foreach($urlFilters['city_areas'] as $area)
                              <label class="sub-title flex-row text-color"> 
-                             <input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->id,$urlFilters['area'])) checked @endif> 
+                             <input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" slug="{{ $area->slug }}" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area'])) checked @endif> 
                               <span>{{ $area->name }}</span> 
                             </label> 
                           @endforeach
@@ -102,8 +102,11 @@
                               </a>
                           </label>
                           @foreach($jobTypes as $jobTypeId => $jobType)
+                            @php
+                              $jobTypeSlug = str_slug($jobType,'-');
+                            @endphp
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array($jobTypeId,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}">
+                              <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array( $jobTypeSlug,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}" slug="{{ $jobTypeSlug }}">
                               <span>{{ $jobType }}</span>
                           </label>
                           @endforeach
@@ -153,8 +156,9 @@
                              @php
                               $minSal = (isset($salaryRange[$salaryTypeId]['min'])) ? $salaryRange[$salaryTypeId]['min'] : 0;
                               $maxSal = (isset($salaryRange[$salaryTypeId]['max'])) ? $salaryRange[$salaryTypeId]['max'] : 0;
+                              $salaryTypeSlug =  str_slug($salaryType);
                              @endphp
-                             <option @if(isset($urlFilters['salary_type']) && $salaryTypeId == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}" min="{{ $minSal }}" max="{{ $maxSal }}"  > {{ $salaryType }}</option>
+                             <option @if(isset($urlFilters['salary_type']) && $salaryTypeSlug == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}" min="{{ $minSal }}" max="{{ $maxSal }}" slug="{{ $salaryTypeSlug }}"  > {{ $salaryType }}</option>
                              @endforeach
                              
                            </select>

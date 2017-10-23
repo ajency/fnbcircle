@@ -528,7 +528,8 @@ class ListingController extends Controller
         }
 
         if (isset($data->website) and !empty($data->website)) {
-            $other['website'] = $data->website;
+            if(substr($data->website,0,4) == 'http') $other['website'] = $data->website;
+            else $other['website'] = 'http://'.$data->website;
         }
         $other                  = json_encode($other);
         $listing->other_details = $other;

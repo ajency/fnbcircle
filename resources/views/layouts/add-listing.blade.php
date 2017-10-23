@@ -342,7 +342,7 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="fly-out__content test">
+                                <div class="fly-out__content">
                                     @if($listing->reference!=null)
                                     <div class="preview-header text-color desk-hide"> Do you want to see a preview of your listing? <a href="{{url('/'.$cityy->slug.'/'.$listing->slug)}}" class="secondary-link preview-header__link">Preview</a>
                                     </div>
@@ -350,7 +350,7 @@
                                     
                                     <p class="note-row__text--status text-medium desk-hide">
 
-                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle @else The current status of your listing is <span class="text-primary bolder status-changer" @if($listing->status=="3") data-toggle="tooltip" data-placement="top" title="" data-original-title="Listing will remain in draft status till submitted for review."> Draft @endif @if($listing->status=="2") >Pending Review @endif @if($listing->status=="1") >Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
+                                         @if($listing->reference==null) <span class="text-primary bolder status-changer">Note:</span> You can add multiple listings on FnB Circle @else The current status of your listing is <span class="text-primary bolder status-changer">@if($listing->status=="3") Draft <i class="fa fa-info-circle text-color" data-toggle="tooltip" data-placement="top" title="" data-original-title="Listing will remain in draft status till submitted for review."></i> @endif @if($listing->status=="2") >Pending Review @endif @if($listing->status=="1") Published @endif</span> <!-- <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Listing will remain in draft status till submitted for review."></i> -->
 
                                          @endif
                                     </p>

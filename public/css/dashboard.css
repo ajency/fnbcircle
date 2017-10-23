@@ -731,6 +731,11 @@ table.dataTable tr th.selected.select-checkbox:after {
             transition: inherit;
   }
 }
+.parent_cat_icon .parsley-errors-list {
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+}
 @media screen and (min-width: 769px) {
   .form-inline .manage-search-box {
     width: 38%;

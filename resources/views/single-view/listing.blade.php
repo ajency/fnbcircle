@@ -125,7 +125,7 @@
                         <div class="seller-info card design-2-card new-changes">
                             <div class="seller-info__header flex-row"></div>
                             <div class="seller-info__body">
-                                <div class="flex-row space-between">
+                                <div class="flex-row space-between singleV-title">
                                     <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
                                     <input readonly id='listing_id' value="{{$data['reference']}}" type="hidden">
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
@@ -141,7 +141,7 @@
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-25 stat-section">
-                                    <div class="rating-view flex-row">
+                                    <div class="@isset($data['rating']) rating-view @endisset flex-row">
                                         @isset($data['rating'])
                                         <div class="rating">
                                             <div class="bg"></div>
@@ -163,7 +163,7 @@
                                         @endif
                                         @endisset
                                      </div>
-                                    <label class="fnb-label wholesaler flex-row text-uppercase">
+                                    <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
                                         <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                         {{$data['type']}}</a>
@@ -279,7 +279,7 @@
                     <!-- tabs structure ends -->
                     @if(isset($data['updates']) and !empty($data['updates']))
                     <!-- updates section -->
-                     <div class="update-sec m-t-30" id="updates">
+                     <div class="update-sec m-t-30 nav-starter" id="updates">
                         <!-- <div class="update-sec__header flex-row update-space">
                             <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                             <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
@@ -583,7 +583,7 @@
 
                         <!-- core categories -->
                         <div class="equal-col">
-                           <div class="core-cat">
+                           <div class="core-cat move-element">
                                 @isset($data['cores'])
                                 <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
                                 <ul class="fnb-cat special-cat flex-row">
@@ -594,13 +594,13 @@
                                 @endisset
                             </div> 
                             
-                            <div class="contact__enquiry text-center mobile-hide">                                
+                            <div class="contact__enquiry text-center">                                
                                 <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                                 <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval m-t-20">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
-                                    <div class="heavier sub-title m-b-10">{!! $data['status']['status'] !!} </div>
+                                    <div class="heavier sub-title m-b-10 pending-stuff">{!! $data['status']['status'] !!} </div>
                                     @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                 </div>
                                 @endif
@@ -642,10 +642,11 @@
                         <!-- claim end -->
                         @if(isset($data['images']) or isset($data['files']))
                         <!-- Photos and documents -->
-                        <div class="docs p-t-20 p-b-20 m-t-20">
+                        <div class="docs p-t-20 p-b-20 m-t-20 move-element">
                             <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
                             @isset($data['images'])
                             <div class="photo-gallery">
+                                @php $photo_count = count($data['images'])-4; $i=0;  @endphp
                                 @foreach($data['images'] as $images)
                                 @if($loop->first)
                                 <div class="photo-gallery__banner">
@@ -659,6 +660,7 @@
                                     <li>
                                         <a href="{{$images['full']}}" class="thumb-click">
                                             <img src="{{$images['thumb']}}" alt="" class="img-responsive">
+                                            @if($i == 3 and $photo_count>0)<p class="sub-title">+ 2 More</p>@endif
                                         </a>
                                     </li>
                                     
@@ -666,6 +668,7 @@
                                 @if($loop->last)
                                 </ul>
                                 @endif
+                                @php $i++; @endphp
                                 @endforeach
                             </div>
                             @endisset

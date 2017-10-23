@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, equalcol, getheight, loadUpdates, offset, order;
+  var browsecat, catlabel, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -93,6 +93,12 @@
   if ($(window).width() < 769) {
     browsecat = $('.browse-cat').detach();
     $('.similar-business').after(browsecat);
+    status = $('.contact__enquiry .approval').detach();
+    $('.new-changes .seller-info__body').append(status);
+    moveelement = $('.move-element').detach();
+    $('.nav-info').before(moveelement);
+    catlabel = $('.single-cate').detach();
+    $('.singleV-title').before(catlabel);
   }
 
 }).call(this);

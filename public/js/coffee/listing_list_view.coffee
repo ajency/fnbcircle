@@ -336,6 +336,8 @@ getListContent = () ->
 			    power = $(this).find('.power-seller-container')
 			    powerseller = $(this).find('.power-seller').detach()
 			    $(power).append powerseller
+			    listlabel = $(this).find('.list-label').detach()
+			    $(this).find('.list-title-container').before listlabel
 			    return
 			  advAdd = $('.adv-row').detach()
 			  $('.adv-after').append advAdd

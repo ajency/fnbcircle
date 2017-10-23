@@ -286,7 +286,7 @@
           businessListing = $('.businessListing').detach();
           $('.addShow').after(businessListing);
           $('.filter-data').each(function() {
-            var detailbtn, detailrow, power, powerseller, publishedAdd, publisherow, recentData, recentrow;
+            var detailbtn, detailrow, listlabel, power, powerseller, publishedAdd, publisherow, recentData, recentrow;
             detailrow = $(this).find('.recent-updates__content');
             detailbtn = $(this).find('.detail-move').detach();
             $(detailrow).append(detailbtn);
@@ -299,6 +299,8 @@
             power = $(this).find('.power-seller-container');
             powerseller = $(this).find('.power-seller').detach();
             $(power).append(powerseller);
+            listlabel = $(this).find('.list-label').detach();
+            $(this).find('.list-title-container').before(listlabel);
           });
           advAdd = $('.adv-row').detach();
           $('.adv-after').append(advAdd);

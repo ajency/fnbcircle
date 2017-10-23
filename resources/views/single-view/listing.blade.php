@@ -204,6 +204,7 @@
                             <div class="seller-info__footer p-t-20">
                                 <div class="contact flex-row">
                                     <div class="contact__info flex-row">
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 

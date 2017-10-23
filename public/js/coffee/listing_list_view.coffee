@@ -596,6 +596,7 @@ $(document).ready () ->
 
 $(document).ready ->
 	setTimeout (->
+		### --- For mobile Screen --- ###
 		if $(window).width() <= 768
 		  businessListing = $('.businessListing').detach()
 		  $('.addShow').after businessListing

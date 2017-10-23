@@ -491,6 +491,8 @@
 
   $(document).ready(function() {
     return setTimeout((function() {
+
+      /* --- For mobile Screen --- */
       var advAdd, businessListing;
       if ($(window).width() <= 768) {
         businessListing = $('.businessListing').detach();

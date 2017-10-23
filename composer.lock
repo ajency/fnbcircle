@@ -14,6 +14,7 @@
         {
             "name": "aws/aws-sdk-php",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "3.36.31",
             "source": {
                 "type": "git",
@@ -26,15 +27,23 @@
                 "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
 =======
             "version": "3.36.29",
+=======
+            "version": "3.36.31",
+>>>>>>> develop
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "210958295921f0004d0fdc38bc9aefe33ef2a3de"
+                "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/210958295921f0004d0fdc38bc9aefe33ef2a3de",
                 "reference": "210958295921f0004d0fdc38bc9aefe33ef2a3de",
+>>>>>>> develop
+=======
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
+                "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
 >>>>>>> develop
                 "shasum": ""
             },
@@ -103,9 +112,13 @@
                 "sdk"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-10-20 16:43:56"
 =======
             "time": "2017-10-18 18:46:11"
+>>>>>>> develop
+=======
+            "time": "2017-10-20 16:43:56"
 >>>>>>> develop
         },
         {
@@ -1619,6 +1632,7 @@
         {
             "name": "spatie/laravel-permission",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "2.7.3",
             "source": {
                 "type": "git",
@@ -1631,15 +1645,23 @@
                 "reference": "dff9df3237e82200d9e50abf7d2370bf1e6f1673",
 =======
             "version": "2.7.2",
+=======
+            "version": "2.7.3",
+>>>>>>> develop
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "0dc7a3d8f47596a64e2d93a9f9f132422b12b97e"
+                "reference": "dff9df3237e82200d9e50abf7d2370bf1e6f1673"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/0dc7a3d8f47596a64e2d93a9f9f132422b12b97e",
                 "reference": "0dc7a3d8f47596a64e2d93a9f9f132422b12b97e",
+>>>>>>> develop
+=======
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/dff9df3237e82200d9e50abf7d2370bf1e6f1673",
+                "reference": "dff9df3237e82200d9e50abf7d2370bf1e6f1673",
 >>>>>>> develop
                 "shasum": ""
             },
@@ -1693,9 +1715,13 @@
                 "spatie"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-10-22 04:22:18"
 =======
             "time": "2017-10-18 14:39:11"
+>>>>>>> develop
+=======
+            "time": "2017-10-22 04:22:18"
 >>>>>>> develop
         },
         {
@@ -2856,9 +2882,13 @@
                 "object graph"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-10-19 19:58:43"
 =======
             "time": "2017-04-12 18:52:22"
+>>>>>>> develop
+=======
+            "time": "2017-10-19 19:58:43"
 >>>>>>> develop
         },
         {

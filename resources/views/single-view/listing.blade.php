@@ -201,7 +201,7 @@
                                 </div>
                                 @endisset
                             </div>
-                            <div class="seller-info__footer p-t-20">
+                            <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row">
                                     <div class="contact__info flex-row">
                                         <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>

@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, catlabel, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
+  var browsecat, catlabel, contactrow, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -99,6 +99,8 @@
     $('.nav-info').before(moveelement);
     catlabel = $('.single-cate').detach();
     $('.singleV-title').before(catlabel);
+    contactrow = $('.single-contact-section').detach();
+    $('.operate-section').after(contactrow);
   }
 
 }).call(this);

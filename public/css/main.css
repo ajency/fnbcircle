@@ -5810,6 +5810,15 @@ input[type=checkbox].custom-checkbox:before {
 .singleV-title .seller-info__title {
   white-space: inherit;
 }
+@media screen and (min-width: 769px) {
+  .jssocials-share-whatsapp {
+    display: none !important;
+  }
+}
+.social-drop .jssocials-share.jssocials-share-linkedin {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
 .search-section {
   position: relative;
   top: 2em;

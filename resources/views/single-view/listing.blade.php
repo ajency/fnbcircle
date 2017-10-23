@@ -140,7 +140,7 @@
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
-                                <div class="stats flex-row m-t-25 stat-section">
+                                <div class="stats flex-row m-t-10 stat-section">
                                     <div class="@isset($data['rating']) rating-view @endisset flex-row">
                                         @isset($data['rating'])
                                         <div class="rating">
@@ -342,7 +342,8 @@
                             <ul class="brands__list flex-row flex-wrap">
                                 @foreach($data['brands'] as $brand)<li class="flex-row flex-wrap">
                                     <!-- <img src="img/tags.png" alt="" class="tags img-responsive"> -->
-                                    <span class="fnb-icons tags"></span>
+                                    <!-- <span class="fnb-icons tags"></span> -->
+                                    <img src="/img/Single-view-powerseller.png" class="m-r-10" width="20">
                                     <p class="sub-title">{{$brand}}</p>
                                 </li>
                                 @endforeach
@@ -392,7 +393,9 @@
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i></a></p>
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+                                    <img src="/img/link.png" alt="" class="m-l-5" width="15">
+                                    </a></p>
                                 </div>
                                 @endisset
                             </div>

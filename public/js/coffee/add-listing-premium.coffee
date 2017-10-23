@@ -25,11 +25,10 @@ $('body').on 'click', '#subscribe-btn', (e) ->
 		success: (data) ->
 			if data['status'] == '200'
 				$('#pending-request').html '(Request Pending)'
-				$('#subscribe-btn').remove()
+				$('.premium-plans .planCaption').html 'Click here to choose this plan'
 				planContainer.find('.planCaption').html 'Your request for this plan is under process'
 				$('.alert-success').find('.success-message').html 'Plan request sent successfully'
 				$('.alert-success').addClass('active')
-				
 	console.log 'request sent of plan'+planID
 
 window.validatePremium = () ->

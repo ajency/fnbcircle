@@ -36,9 +36,9 @@ List View
                                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                 <p class="element-title heavier m-b-0">Search By</p>
                             </div>
-                            <div class="right">
+                            <!-- <div class="right">
                                 <a href="" class="text-primary heavier element-title">Clear All</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="fly-out__content">
                             <div class="search-section">
@@ -73,12 +73,14 @@ List View
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" name="category_search" value="" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
+                                                <a href="#" id="clear_search">Clear</a>
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
+                                                <a href="#" id="clear_search">Clear</a>
                                             </div>
                                         </div>
                                       </div>
@@ -183,7 +185,7 @@ List View
                             <p class="element-title heavier m-b-0">Filter</p>
                         </div>
                         <div class="right">
-                            <a href="" class="text-primary heavier element-title">Clear All</a>
+                            <a href="#" class="text-primary heavier element-title" id="clear_all_filters">Clear All</a>
                         </div>
                     </div>
                     <div class="fly-out__content">
@@ -244,7 +246,7 @@ List View
                             </div>
                             <!-- advertisement ends-->
                             <div class="apply-btn desk-hide">
-                                <button class="btn fnb-btn primary-btn full border-btn">Apply</button>
+                                <button class="btn fnb-btn primary-btn full border-btn" id="apply_listing_filter">Apply</button>
                             </div>
                         </div>
                     </div>

@@ -8,6 +8,12 @@ getTemplateHTML = (templateToRender, data) ->
 	htmlToRender = theTemplate(list)
 	return htmlToRender
 
+### --- Function to check if Device is mobile or Desktop --- ###
+isMobile = () ->
+	if $(window).width() <= 768
+		return true
+	return false
+
 # initHandleBars = () ->
 # 	### --- Handle Bar template functions --- ###
 # 	### --- Clear the listing_card_view section --- ###
@@ -79,6 +85,7 @@ updateUrlPushstate = (key, pushstate_url) ->
 		params = getUrlSearchParams()
 		old_url = ""
 		i = 0
+		
 		if params.length > 0 and window.location.search.indexOf(key) > -1
 			while i < params.length
 				### --- remove the key from the URL --- ###
@@ -96,9 +103,13 @@ updateUrlPushstate = (key, pushstate_url) ->
 				### --- the key has no value, so update the url with rest of the keys --- ###
 				if old_url.length > 0
 					window.history.pushState("", "", old_url)
+				else if window.location.search.length > 0
+					window.history.pushState("", "", "?")
+
 	return
 
-getFilters = () ->
+### --- get the filters & Update the URL using PushState --- ###
+getFilters = (update_url) ->
 	filters = 
 		"category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val()#$('input[type="hidden"][name="category_search"]').val()
 		"business_search": $('input[type="hidden"][name="business_search"]').val()
@@ -106,59 +117,83 @@ getFilters = () ->
 		"business_types": []
 		"listing_status": []
 
-	# if filters["category_search"].length > 0 and filters["category_search"].indexOf("|[]") < 0
-	# 	updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
-	# else
-	# 	updateUrlPushstate("category_search", "")
-
-	if filters["business_search"].length > 0
-		updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"])
-	else
-		updateUrlPushstate("business_search", "")
 
 	filters["categories"] =  $(".results__body ul.contents #current_category").val() #$(".results__body ul.contents a.bolder").attr("value")
-	#updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
-	if $(".results__body ul.contents #current_category").val().length > 0 and $(".results__body ul.contents #current_category").val().indexOf("|[]") < 0
-		updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
-	else
-		updateUrlPushstate("categories", "")
-
-	### --- Get 'area' values & update URL --- ###
+	
+	### --- Get 'area' values --- ###
 	$("input[type='checkbox'][name='areas[]']:checked").each ->
 		filters["areas_selected"].push $(this).val()
 		return
 
-	if filters["areas_selected"].length > 0
-		updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
-	else
-		updateUrlPushstate("areas_selected", "")
-		updateUrlPushstate("location", "")
-
-	### --- Get 'business_types' values & update URL --- ###
+	### --- Get 'business_types' values --- ###
 	$("input[type='checkbox'][name='business_type[]']:checked").each ->
 		filters["business_types"].push $(this).val()
 		return
 
-	if filters["business_types"].length > 0
-		updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
-	else
-		updateUrlPushstate("business_types", "")
-
-	### --- Get 'listing_status' values & update URL --- ###
+	### --- Get 'listing_status' values --- ###
 	$("input[type='checkbox'][name='listing_status[]']:checked").each ->
 		filters["listing_status"].push $(this).val()
 		return
 	
-	if filters["listing_status"].length > 0
-		updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
-	else
-		updateUrlPushstate("listing_status", "")
+	if update_url
+		### --- Update 'category_search' in URL --- ###
+		# if filters["category_search"].length > 0 and filters["category_search"].indexOf("|[]") < 0
+		# 	updateUrlPushstate("category_search", "category_search" + "=" + filters["category_search"])
+		# else
+		# 	updateUrlPushstate("category_search", "")
+		
+		### --- Update 'business_search' in URL --- ###
+		if filters["business_search"].length > 0
+			updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"])
+		else
+			updateUrlPushstate("business_search", "")
+
+		### --- Update 'categories' in URL --- ###
+		#updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+		if $(".results__body ul.contents #current_category").val().length > 0 and $(".results__body ul.contents #current_category").val().indexOf("|[]") < 0
+			updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
+		else
+			updateUrlPushstate("categories", "")
+
+		### --- Update 'areas_selected' in URL --- ###
+		if filters["areas_selected"].length > 0
+			updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
+		else
+			updateUrlPushstate("areas_selected", "")
+			updateUrlPushstate("location", "")
+
+		### --- Update 'business_types' in URL --- ###
+		if filters["business_types"].length > 0
+			updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
+		else
+			updateUrlPushstate("business_types", "")
+
+		### --- Update 'listing_status' in URL --- ###
+		if filters["listing_status"].length > 0
+			updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
+		else
+			updateUrlPushstate("listing_status", "")
 
 	return filters
 
+### --- Clear the filters --- ###
+resetFilter = () ->
+	checkbox_name_list = ["areas[]", "business_type[]", "listing_status[]"]
+	
+	i = 0
+	### --- Clear the Checkboxes --- ###
+	while i < checkbox_name_list.length
+		$("input[type='checkbox'][name='" + checkbox_name_list[i] + "']").prop("checked", "")
+		i++
+
+	$(".results__body ul.contents #current_category").val("") ## Clear the Categories filter
+	return
+
+### --- Capitalize 1st character of the string --- ###
 capitalize = (string) ->
 	return string.charAt(0).toUpperCase() + string.slice(1)
 
+### --- Update the text labels on change of DOM / content --- ###
 updateTextLabels = () ->
 	### --- Update the Category labels --- ###
 	if $(".listings-page a.bolder").text().length > 0
@@ -178,11 +213,8 @@ updateTextLabels = () ->
 
 	return
 
-getListContent = () ->
-	# data = 
-	# 	"title" : "sharath"
-	# 	"business_type" : 11
-	# 	"verified" : 1
+### --- Update the Filter's DOM --- ###
+getFilterContent = () ->
 	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
 	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 10
 
@@ -194,7 +226,67 @@ getListContent = () ->
 		"city" : $('input[type="hidden"][name="city"]').val()
 		"area" : $("input[type='hidden'][name='area_hidden']").val()
 		"filters":
-			getFilters()
+			getFilters(false)
+
+	# $("#listing_card_view").css "filter", "blur(2px)"
+
+	# console.log getFilters()
+
+	$.ajax
+		type: 'post'
+		url: '/api/get-listview-data'
+		data: data
+		dataType: 'json'
+		success: (data) ->
+			#$("#listing_filter_view").html data["filtered_view"]
+			#console.log data
+			if parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])
+				start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1
+				end = start + parseInt(data["page_size"]) - 1 # (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1
+
+				end = if(end > parseInt(data["count"])) then parseInt(data["count"]) else end
+
+				$(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"])
+			else
+				start = 0
+				end = 0
+				$(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"])
+
+			### --- Load the filter template --- ###
+			$("#listing_filter_view").html data["data"]["filter_view"]
+
+			### --- Add the pagination to the HTML --- ###
+			# console.log data["data"]["paginate"]
+			$(".listings-page #pagination").html data["data"]["paginate"]
+
+			updateTextLabels()
+			### --- Note: the function below is called again to update the URL post AJAX --- ###
+			getFilters(false)
+			$("input[type='hidden'][name='area_hidden']").val("")
+			# $(document).find(".results__body ul.contents #current_category").val("")
+
+			### ---- HAndleBar template content load ---- ###
+			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
+			# $('#listing_card_view').append(templateHTML)
+		error: (request, status, error) ->
+			$("#listing_card_view").css "filter", ""
+			console.log error
+	return
+
+### --- Update the Filter & Content DOM --- ###
+getListContent = () ->
+	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
+	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 10
+
+	data = 
+		"page": page
+		"page_size": limit
+		"sort_by": "published"
+		"sort_order": "desc"
+		"city" : $('input[type="hidden"][name="city"]').val()
+		"area" : $("input[type='hidden'][name='area_hidden']").val()
+		"filters":
+			getFilters(true)
 
 	# $("#listing_card_view").css "filter", "blur(2px)"
 
@@ -227,13 +319,41 @@ getListContent = () ->
 			$("#listing_card_view").html data["data"]["list_view"]
 			$("#listing_card_view").css "filter", ""
 
+			### --- For mobile Screen --- ###
+			if $(window).width() <= 768
+			  businessListing = $('.businessListing').detach()
+			  $('.addShow').after businessListing
+			  $('.filter-data').each ->
+			    detailrow = $(this).find('.recent-updates__content')
+			    detailbtn = $(this).find('.detail-move').detach()
+			    $(detailrow).append detailbtn
+			    recentrow = $(this).find('.updates-dropDown')
+			    recentData = $(this).find('.recent-data').detach()
+			    $(recentrow).append recentData
+			    publishedAdd = $(this).find('.stats')
+			    publisherow = $(this).find('.rat-pub').detach()
+			    $(publishedAdd).append publisherow
+			    power = $(this).find('.power-seller-container')
+			    powerseller = $(this).find('.power-seller').detach()
+			    $(power).append powerseller
+			    listlabel = $(this).find('.list-label').detach()
+			    $(this).find('.list-title-container').before listlabel
+			    return
+			  advAdd = $('.adv-row').detach()
+			  $('.adv-after').append advAdd
+			  $('.recent-updates__text').click ->
+				  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
+				  $(this).toggleClass 'active'
+				  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+
+
 			### --- Add the pagination to the HTML --- ###
 			# console.log data["data"]["paginate"]
 			$(".listings-page #pagination").html data["data"]["paginate"]
 
 			updateTextLabels()
 			### --- Note: the function below is called again to update the URL post AJAX --- ###
-			getFilters()
+			getFilters(true)
 			$("input[type='hidden'][name='area_hidden']").val("")
 			# $(document).find(".results__body ul.contents #current_category").val("")
 
@@ -245,6 +365,7 @@ getListContent = () ->
 			console.log error
 	return
 
+### --- Search the list of city & area on text type --- ###
 getCity = (data, populate_id) ->
 	$.ajax
 		type: 'post'
@@ -259,6 +380,7 @@ getCity = (data, populate_id) ->
 			console.log error
 	return
 
+### --- Generate the City list dropdown --- ###
 updateCityDropdown = (data, populate_id) ->
 	if data.length
 		data.forEach (value, index) ->
@@ -427,6 +549,11 @@ $(document).ready () ->
 			# console.log $(this).val()
 			## -- Do not make AJAX request if state is empty -- ##
 			if key != "state" then getListContent() else ''
+			
+			## --  For mobile -- ##
+			#if key != "state" && isMobile()
+			#	$('.searchBy.fly-out').removeClass 'active'
+		return
 		# else if key == "category_search" and $(this).val().length <= 0
 		# 	updateUrlPushstate(key, "")
 		return
@@ -466,29 +593,37 @@ $(document).ready () ->
 		if key != "category_search"
 			updateUrlPushstate(key, pushstate_url)
 
-		setTimeout (->
-			getListContent()
-			return
-		), 500
+		if isMobile()
+			setTimeout (->
+				getListContent()
+				return
+			), 500
+			
+			$('.searchBy.fly-out').removeClass 'active'
+		else
+			setTimeout (->
+				getListContent()
+				return
+			), 500
 		return
 
-	### --- Detect <a> click --- ###
+	### --- Detect <a> click for categories --- ###
 	$(document).on "click", ".results__body ul.contents a", (e) ->
-		# console.log "clicking Category"
 		$(document).find(".results__body ul.contents #current_category").val($(this).attr("value"))
-		# console.log $(this).attr("value")
-		updateUrlPushstate("categories", "categories=" + $(this).attr("value"))
-		# console.log $(this).attr("value")
+		# updateUrlPushstate("categories", "categories=" + $(this).attr("value"))
 		#$(document).find('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
-		$('#category input[type="hidden"][name="category_search"].flexdatalist').prop('value', $(this).attr("value"))
-		$('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('')
+
+		# $('#category input[type="hidden"][name="category_search"].flexdatalist').prop('value', $(this).attr("value"))
+		$('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
 
 		#getListContent()
-		
-		setTimeout (->
-			getListContent()
-			return
-		), 100
+		if not isMobile()
+			setTimeout (->
+				getListContent()
+				return
+			), 100
+		else
+			getFilterContent()
 		
 		#console.log $(this).attr("value")
 		#console.log $(this).text()
@@ -518,9 +653,16 @@ $(document).ready () ->
 
 	### --- On filter checkbox select --- ###
 	$(document).on "change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", (e) ->
-		getListContent()
+		# getListContent()
+		if not isMobile()
+			setTimeout (->
+				getListContent()
+				return
+			), 100
+		else
+			getFilterContent()
 		return
-	
+
 	### --- Clear the Filter Area, Business-Type, Listing-Status checkbox --- ###
 	$(document).on "click", "div#section-area div.check-section label.sub-title.clear, div#section-business div.check-section label.sub-title.clear, div#section-list-status div.check-section label.sub-title.clear", (e) ->
 		e.preventDefault()
@@ -533,6 +675,42 @@ $(document).ready () ->
 		$("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "")
 
 		getListContent()
+		return
+
+	### --- On click of "Clear All" in filters --- ###
+	$(document).on "click", ".filterBy a#clear_all_filters", (e) ->
+		if isMobile()
+			resetFilter()
+			setTimeout (->
+				getListContent()
+				return
+			), 100
+
+			$('.filterBy.fly-out').removeClass 'active'
+
+		return
+	
+	### --- Mobile => If User clicks on the clear-search link, then clear that searchbox --- ###
+	$(document).on "click", ".searchBy #clear_search", (e) ->
+		if isMobile()
+			$(this).parent().find('input').val("")
+			setTimeout (->
+				getListContent()
+				return
+			), 100
+			
+			$('.searchBy.fly-out').removeClass 'active'
+		return
+
+	### --- Mobile => Apply the filter on 'Apply' button click --- ###
+	$(document).on "click", "#apply_listing_filter", (e) ->
+		if isMobile()
+			setTimeout (->
+				getListContent()
+				return
+			), 100
+			
+			$('.filterBy.fly-out').removeClass 'active'
 		return
 
 	### --- On Input / Change of area-search in Left filterbox, search the name --- ###
@@ -591,39 +769,42 @@ $(document).ready () ->
 		return
 	), 1000
 
-
-	return
-
-$(document).ready ->
-	setTimeout (->
-		### --- For mobile Screen --- ###
-		if $(window).width() <= 768
-		  businessListing = $('.businessListing').detach()
-		  $('.addShow').after businessListing
-		  $('.filter-data').each ->
-		    detailrow = $(this).find('.recent-updates__content')
-		    detailbtn = $(this).find('.detail-move').detach()
-		    $(detailrow).append detailbtn
-		    recentrow = $(this).find('.updates-dropDown')
-		    recentData = $(this).find('.recent-data').detach()
-		    $(recentrow).append recentData
-		    publishedAdd = $(this).find('.stats')
-		    publisherow = $(this).find('.rat-pub').detach()
-		    $(publishedAdd).append publisherow
-		    power = $(this).find('.power-seller-container')
-		    powerseller = $(this).find('.power-seller').detach()
-		    $(power).append powerseller
-		    return
-		  advAdd = $('.adv-row').detach()
-		  $('.adv-after').append advAdd
-		  $('.recent-updates__text').click ->
-			  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
-			  $(this).toggleClass 'active'
-			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+	$(document).on 'click', '.send-enquiry', ->
+		$('.enquiry-card').addClass 'active'
 		return
-	), 1500
 
+	$(document).on 'click', '.back-icon', ->
+		$('.fly-out').removeClass 'active'
+		return
 
+# $(document).ready ->
+# 	setTimeout (->
+# 		### --- For mobile Screen --- ###
+# 		if $(window).width() <= 768
+# 		  businessListing = $('.businessListing').detach()
+# 		  $('.addShow').after businessListing
+# 		  $('.filter-data').each ->
+# 		    detailrow = $(this).find('.recent-updates__content')
+# 		    detailbtn = $(this).find('.detail-move').detach()
+# 		    $(detailrow).append detailbtn
+# 		    recentrow = $(this).find('.updates-dropDown')
+# 		    recentData = $(this).find('.recent-data').detach()
+# 		    $(recentrow).append recentData
+# 		    publishedAdd = $(this).find('.stats')
+# 		    publisherow = $(this).find('.rat-pub').detach()
+# 		    $(publishedAdd).append publisherow
+# 		    power = $(this).find('.power-seller-container')
+# 		    powerseller = $(this).find('.power-seller').detach()
+# 		    $(power).append powerseller
+# 		    return
+# 		  advAdd = $('.adv-row').detach()
+# 		  $('.adv-after').append advAdd
+# 		  $('.recent-updates__text').click ->
+# 			  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
+# 			  $(this).toggleClass 'active'
+# 			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+# 		return
+# 	), 1500
 
 
 

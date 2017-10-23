@@ -26,8 +26,9 @@
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-5 flex-row">
-                            <span class="fnb-icons map-icon"></span>
-                            <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
+                            <!-- <span class="fnb-icons map-icon"></span> -->
+                                <i class="fa fa-map-marker sub-title text-lighter p-r-5" aria-hidden="true"></i>
+                                <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
                             <!-- @if($list_value->display_address)
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>
                             @else
@@ -44,7 +45,7 @@
                             <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
                         <div class="stats flex-row m-t-10 p-t-10">
-                            <label class="fnb-label wholesaler flex-row">
+                            <label class="fnb-label wholesaler flex-row list-label">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type }}
                             </label>
@@ -60,16 +61,16 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                @foreach($list_value->cores as $core_index => $core_value)
-                                    @if($core_index <= 3)
+                                @foreach($list_value->cores->take(5) as $core_index => $core_value)
+                                    @if($core_index < 3)
                                         <li><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @else
                                         <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @endif
                                 @endforeach
-                                @if (sizeof($list_value->cores) > 4)
+                                @if (sizeof($list_value->cores) > 5)
                                     <li class="cat-more more-show">
-                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 5}} more...</a>
                                     </li>
                                 @endif
                             </ul>
@@ -92,17 +93,17 @@
                                     @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
                                         @if ($areas_index < 3)
                                             <li>
-                                                <p class="cities__title default-size">{{ $areas_value->name }}, </p>
+                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
                                             </li>
                                         @else
                                             <li class="mobile-hide">
-                                                <p class="cities__title default-size"> {{ $areas_value->name }}, </p>
+                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
                                             </li>
                                         @endif
                                     @endforeach
                                     @if ($locations_value["areas"]->count() > 5)
                                         <li class="remain more-show">
-                                            <a href="" class="cities__title remain__number default-size text-medium"> + {{ $locations_value["areas"]->count() - 5 }} more...</a>
+                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
                                         </li>
                                     @endif
                                     <!-- <li>

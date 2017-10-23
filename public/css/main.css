@@ -10086,6 +10086,7 @@ input[type='checkbox'].remove-addr {
   .jobs-head-title .joblogo {
     position: absolute;
     right: 0;
+    top: 3px;
   }
 }
 @media screen and (max-width: 768px) {

@@ -172,7 +172,7 @@ $additionalData = ['job'=>$job];
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
                      @if(($jobCompany->logo))
                          <div class="joblogo mobile-hide">
-                           <img src="{{ $companyLogo }}" width="50">
+                           <img src="{{ $companyLogo }}" width="60">
                         </div>
                       @endif
                   </div>

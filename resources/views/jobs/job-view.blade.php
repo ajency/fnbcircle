@@ -170,12 +170,17 @@ $additionalData = ['job'=>$job];
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                     @if(($jobCompany->logo))
+                         <div class="joblogo mobile-hide">
+                           <img src="{{ $companyLogo }}" width="50">
+                        </div>
+                      @endif
                   </div>
 
                   <div class="featured-jobs__row job-data company-top-info">
                     <div class="flex-row">
                       <div class="jobdesc">
-                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                          <p class="heavier m-b-0">{{ $jobCompany->title }}</p>
                        </div>
                     </div>
                   </div>

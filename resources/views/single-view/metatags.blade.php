@@ -4,6 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="robots" content="index, follow"/>
 
+@isset($tag['title']) <meta name="title" content="{{$tag['title']}}" /> @endisset
 @isset($tag['description']) <meta name="description" content="{{$tag['description']}}" /> @endisset
 @isset($tag['keywords']) <meta name="keywords" content="{{$tag['keywords']}}" /> @endisset
 

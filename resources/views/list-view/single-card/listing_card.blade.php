@@ -60,16 +60,16 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                @foreach($list_value->cores as $core_index => $core_value)
-                                    @if($core_index <= 3)
+                                @foreach($list_value->cores->take(5) as $core_index => $core_value)
+                                    @if($core_index < 3)
                                         <li><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @else
                                         <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @endif
                                 @endforeach
-                                @if (sizeof($list_value->cores) > 4)
+                                @if (sizeof($list_value->cores) > 5)
                                     <li class="cat-more more-show">
-                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 5}} more...</a>
                                     </li>
                                 @endif
                             </ul>
@@ -92,17 +92,17 @@
                                     @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
                                         @if ($areas_index < 3)
                                             <li>
-                                                <p class="cities__title default-size">{{ $areas_value->name }}, </p>
+                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
                                             </li>
                                         @else
                                             <li class="mobile-hide">
-                                                <p class="cities__title default-size"> {{ $areas_value->name }}, </p>
+                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
                                             </li>
                                         @endif
                                     @endforeach
                                     @if ($locations_value["areas"]->count() > 5)
                                         <li class="remain more-show">
-                                            <a href="" class="cities__title remain__number default-size text-medium"> + {{ $locations_value["areas"]->count() - 5 }} more...</a>
+                                            <a href="" class="cities__title remain__number default-size text-medium"> and more...</a>
                                         </li>
                                     @endif
                                     <!-- <li>

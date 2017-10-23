@@ -27,8 +27,8 @@
                         </div>
                         <div class="location p-b-5 flex-row">
                             <!-- <span class="fnb-icons map-icon"></span> -->
-                            <i class="fa fa-map-marker sub-title text-lighter p-r-5" aria-hidden="true"></i>
-                            <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
+                                <i class="fa fa-map-marker sub-title text-lighter p-r-5" aria-hidden="true"></i>
+                                <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->area["name"] }}, {{ $list_value->city["name"] }}</p>
                             <!-- @if($list_value->display_address)
                                 <p class="location__title default-size m-b-0 text-lighter">{{ $list_value->display_address }}</p>
                             @else
@@ -45,7 +45,7 @@
                             <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
                         <div class="stats flex-row m-t-10 p-t-10">
-                            <label class="fnb-label wholesaler flex-row">
+                            <label class="fnb-label wholesaler flex-row list-label">
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type }}
                             </label>

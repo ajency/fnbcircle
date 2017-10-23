@@ -102,7 +102,7 @@
                                     @endforeach
                                     @if ($locations_value["areas"]->count() > 5)
                                         <li class="remain more-show">
-                                            <a href="" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
                                         </li>
                                     @endif
                                     <!-- <li>

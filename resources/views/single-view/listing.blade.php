@@ -381,7 +381,7 @@
                         <!-- more-details -->
                         <div class="more-details p-t-10 p-b-20">
                             <!-- <p class="main-heading p-b-15">More details of {{$data['title']['name']}}</p> -->
-                            <div class="detail-1 flex-row m-t-25 m-b-25">
+                            <div class="detail-1 flex-row m-t-25 m-b-25 align-top">
 
                                 @isset($data['established'])
                                 <div class="year">
@@ -410,7 +410,7 @@
                             </div>
                             @endif
                             @if(isset($data['address']) or isset($data['location']))
-                            <div class="detail-3 flex-row m-t-25 m-b-25">
+                            <div class="detail-3 flex-row m-t-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20 sTitle">Address of {{$data['title']['name']}}</h3>
                                     @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
@@ -418,7 +418,7 @@
                             </div>
                             @endif
                             @isset($data['location'])
-                            <div class="detail-4 flex-row m-t-25 m-b-25">
+                            <div class="detail-4 flex-row m-b-25">
                                 <div class="m-t-10" id="map"  style="width:600px;height:250px;"></div>
                                 <script type="text/javascript">
                                     function initMap() {
@@ -690,6 +690,97 @@
                         <!-- enquiry form -->
                         @endif
 
+                        <div class="sticky-bottom mobile-flex desk-hide active">
+                            <div class="stick-bottom__text">
+                                <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
+                            </div>
+                            <div class="actions">
+                                <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Send Enquiry</button>
+                            </div>
+                        </div>
+
+                        <div class="pos-fixed fly-out">
+                            <div class="mobile-back desk-hide mobile-flex">
+                                <div class="left mobile-flex">
+                                    <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                                    <p class="element-title heavier m-b-0">Enquiry</p>
+                                </div>
+                                <div class="right">
+                                    <!-- <a href="" class="text-primary heavier element-title">Clear All</a> -->
+                                </div>
+                            </div>
+                            <div class="fly-out__content">
+                                <div class="enquiry-form card m-t-30 m-b-20">
+                                    <form method="">
+                                        <div class="enquiry-form__header flex-row space-between">
+                                            <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
+                                            <div class="enquiry-title">
+                                                <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
+                                                <p class="sub-title">Mystical the meat and fish store</p>
+                                            </div>
+                                            <span class="fnb-icons enquiry"></span>
+                                        </div>
+                                        <div class="enquiry-form__body m-t-10">
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
+                                                <input type="text" class="form-control fnb-input float-input" id="contact_name">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
+                                                <input type="email" class="form-control fnb-input float-input" id="contact_email">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
+                                                <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
+                                                <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
+                                            </div>
+                                            <div class="form-group p-t-20 p-b-10 m-b-0">
+                                                <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
+                                                <p class="x-small text-lighter lighter">(Please select atleast one)</p>
+                                                <select class="form-control fnb-select" id="describe">
+                                                    <option>--Select--</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                    <option>I work in the F&amp;B industry</option>
+                                                </select>
+                                            </div>
+                                            <!-- <div class="form-group p-t-10 p-b-10 m-b-0">
+                                                <label class="">Interested in</label>
+                                                <ul class="interested-options flex-row m-t-15">
+                                                    <li>
+                                                        <input type="radio" class="radio" name="interests" checked>
+                                                        <div class="meat option flex-row">
+                                                            <span class="fnb-icons cat-icon meat"></span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <input type="radio" class="radio" name="interests">
+                                                        <div class="veg option flex-row">
+                                                            <span class="fnb-icons cat-icon veg"></span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div> -->
+                                            <div class="form-group p-t-10 p-b-20 m-b-0">
+                                                <!-- <label class="custom-label">Message</label> -->
+                                                <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
+                                                <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
+                                                <!-- <input> -->
+                                                <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
+                                                <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
+                                            </div>
+                                            <div class="form-group p-t-10 m-b-0">
+                                                <button class="btn fnb-btn primary-btn full border-btn">Send an Enquiry</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
 
 
                         <!-- enquiry form ends-->
@@ -713,6 +804,37 @@
                             </ul>
                         </div>
                         <!-- Browse category ends-->
+
+
+                        <div class="advertisement flex-row m-t-20">
+                            <h6 class="element-title">Advertisement</h6>
+                        </div>
+
+
+
+                        <div class="boost-row single-boost text-center">
+                            <i class="fa fa-rocket text-secondary" aria-hidden="true"></i> 
+                            <div class="element-title heavier boost-row__title">
+                                Give your marketing a boost!
+                            </div>
+                            <button class="btn fnb-btn s-outline full border-btn default-size">Advertise with us</button>
+                        </div>
+
+
+                        <div class="business-listing businessListing increase-sale text-center">
+                            <!-- <span class="fnb-icons note"></span> -->
+                            <div class="bl-top">
+                                <img src="/img/business-graph.png" class="img-responsive center-block">
+                                <div class="business-listing__content m-b-15">
+                                    <h6 class="element-title business-listing__title">Increase your business sales on F&amp;BCircle</h6>
+                                    <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
+                                </div>
+                            </div>
+                            <button class="btn fnb-btn outline full border-btn default-size">Advertise with us</button>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>

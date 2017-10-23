@@ -707,6 +707,11 @@
     				}
 				}
 			}
+			&:first-child{
+				a{
+					padding-left: 0;
+				}
+			}
 		}
 	}
 	.sticky-section{
@@ -1040,6 +1045,9 @@
 	}
 	.year{
 		padding-right: 5em;
+		@media screen and (min-width: 769px){
+			min-width: 300px;
+		}
 	}
 	.lighter,.link-click{
 		color: @grey-darker;
@@ -1058,6 +1066,13 @@
 		width: 100%;
 	}
 }
+
+.sTitle{
+	@media screen and (min-width: 769px){
+		margin-bottom: 10px;
+	}
+}
+
 
 @media screen and (max-width: @mobile){
 	.more-details{
@@ -1712,7 +1727,7 @@
 			    width: 100%;
 			    height: 100px;
 			    background-position: center;
-			    background-size: contain;
+			    background-size: cover;
 				&:hover{
 					text-decoration: none;
 				}

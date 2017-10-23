@@ -3292,6 +3292,9 @@ input[type=checkbox].custom-checkbox:before {
 .nav-info__tabs li a.active:after {
   width: 100%;
 }
+.nav-info__tabs li:first-child a {
+  padding-left: 0;
+}
 .nav-info .sticky-section {
   position: fixed;
   background-color: #fff;
@@ -3564,6 +3567,11 @@ input[type=checkbox].custom-checkbox:before {
 .more-details .year {
   padding-right: 5em;
 }
+@media screen and (min-width: 769px) {
+  .more-details .year {
+    min-width: 300px;
+  }
+}
 .more-details .lighter,
 .more-details .link-click {
   color: #686565;
@@ -3573,6 +3581,11 @@ input[type=checkbox].custom-checkbox:before {
 }
 .more-details iframe {
   width: 100%;
+}
+@media screen and (min-width: 769px) {
+  .sTitle {
+    margin-bottom: 10px;
+  }
 }
 @media screen and (max-width: 768px) {
   .more-details .main-heading {
@@ -4191,7 +4204,7 @@ input[type=checkbox].custom-checkbox:before {
   width: 100%;
   height: 100px;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
 }
 .photo-gallery__thumbnails li a:hover {
   text-decoration: none;

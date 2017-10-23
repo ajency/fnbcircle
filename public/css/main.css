@@ -6711,6 +6711,17 @@ input[type=checkbox].custom-checkbox:before {
 .no-results .nf-text {
   margin: 1.5em 0;
 }
+@media screen and (max-width: 768px) {
+  .no-results .seller-info__title {
+    font-size: 1.6em;
+  }
+  .no-results .nf-text {
+    margin: 1.2em 0;
+  }
+  .no-results img {
+    width: 80px;
+  }
+}
 .flexdatalist-results.flexdatalist-results {
   border: 0;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.09);

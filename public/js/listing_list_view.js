@@ -154,7 +154,7 @@
       data: data,
       dataType: 'json',
       success: function(data) {
-        var end, start;
+        var advAdd, businessListing, end, start;
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
@@ -172,6 +172,34 @@
         /* --- Load the Listing card template --- */
         $("#listing_card_view").html(data["data"]["list_view"]);
         $("#listing_card_view").css("filter", "");
+
+        /* --- For mobile Screen --- */
+        if ($(window).width() <= 768) {
+          businessListing = $('.businessListing').detach();
+          $('.addShow').after(businessListing);
+          $('.filter-data').each(function() {
+            var detailbtn, detailrow, power, powerseller, publishedAdd, publisherow, recentData, recentrow;
+            detailrow = $(this).find('.recent-updates__content');
+            detailbtn = $(this).find('.detail-move').detach();
+            $(detailrow).append(detailbtn);
+            recentrow = $(this).find('.updates-dropDown');
+            recentData = $(this).find('.recent-data').detach();
+            $(recentrow).append(recentData);
+            publishedAdd = $(this).find('.stats');
+            publisherow = $(this).find('.rat-pub').detach();
+            $(publishedAdd).append(publisherow);
+            power = $(this).find('.power-seller-container');
+            powerseller = $(this).find('.power-seller').detach();
+            $(power).append(powerseller);
+          });
+          advAdd = $('.adv-row').detach();
+          $('.adv-after').append(advAdd);
+          $('.recent-updates__text').click(function() {
+            $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle('slow');
+            $(this).toggleClass('active');
+            return $(this).find('.arrowDown').toggleClass('fa-rotate-180');
+          });
+        }
 
         /* --- Add the pagination to the HTML --- */
         $(".listings-page #pagination").html(data["data"]["paginate"]);
@@ -495,40 +523,6 @@
 
   $(document).on('click', '.back-icon', function() {
     $('.fly-out').removeClass('active');
-  });
-
-  $(document).ready(function() {
-    return setTimeout((function() {
-
-      /* --- For mobile Screen --- */
-      var advAdd, businessListing;
-      if ($(window).width() <= 768) {
-        businessListing = $('.businessListing').detach();
-        $('.addShow').after(businessListing);
-        $('.filter-data').each(function() {
-          var detailbtn, detailrow, power, powerseller, publishedAdd, publisherow, recentData, recentrow;
-          detailrow = $(this).find('.recent-updates__content');
-          detailbtn = $(this).find('.detail-move').detach();
-          $(detailrow).append(detailbtn);
-          recentrow = $(this).find('.updates-dropDown');
-          recentData = $(this).find('.recent-data').detach();
-          $(recentrow).append(recentData);
-          publishedAdd = $(this).find('.stats');
-          publisherow = $(this).find('.rat-pub').detach();
-          $(publishedAdd).append(publisherow);
-          power = $(this).find('.power-seller-container');
-          powerseller = $(this).find('.power-seller').detach();
-          $(power).append(powerseller);
-        });
-        advAdd = $('.adv-row').detach();
-        $('.adv-after').append(advAdd);
-        $('.recent-updates__text').click(function() {
-          $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle('slow');
-          $(this).toggleClass('active');
-          return $(this).find('.arrowDown').toggleClass('fa-rotate-180');
-        });
-      }
-    }), 1500);
   });
 
 }).call(this);

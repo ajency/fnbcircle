@@ -227,6 +227,32 @@ getListContent = () ->
 			$("#listing_card_view").html data["data"]["list_view"]
 			$("#listing_card_view").css "filter", ""
 
+			### --- For mobile Screen --- ###
+			if $(window).width() <= 768
+			  businessListing = $('.businessListing').detach()
+			  $('.addShow').after businessListing
+			  $('.filter-data').each ->
+			    detailrow = $(this).find('.recent-updates__content')
+			    detailbtn = $(this).find('.detail-move').detach()
+			    $(detailrow).append detailbtn
+			    recentrow = $(this).find('.updates-dropDown')
+			    recentData = $(this).find('.recent-data').detach()
+			    $(recentrow).append recentData
+			    publishedAdd = $(this).find('.stats')
+			    publisherow = $(this).find('.rat-pub').detach()
+			    $(publishedAdd).append publisherow
+			    power = $(this).find('.power-seller-container')
+			    powerseller = $(this).find('.power-seller').detach()
+			    $(power).append powerseller
+			    return
+			  advAdd = $('.adv-row').detach()
+			  $('.adv-after').append advAdd
+			  $('.recent-updates__text').click ->
+				  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
+				  $(this).toggleClass 'active'
+				  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+
+
 			### --- Add the pagination to the HTML --- ###
 			# console.log data["data"]["paginate"]
 			$(".listings-page #pagination").html data["data"]["paginate"]
@@ -604,34 +630,34 @@ $(document).on 'click', '.back-icon', ->
 	return
 
 
-$(document).ready ->
-	setTimeout (->
-		### --- For mobile Screen --- ###
-		if $(window).width() <= 768
-		  businessListing = $('.businessListing').detach()
-		  $('.addShow').after businessListing
-		  $('.filter-data').each ->
-		    detailrow = $(this).find('.recent-updates__content')
-		    detailbtn = $(this).find('.detail-move').detach()
-		    $(detailrow).append detailbtn
-		    recentrow = $(this).find('.updates-dropDown')
-		    recentData = $(this).find('.recent-data').detach()
-		    $(recentrow).append recentData
-		    publishedAdd = $(this).find('.stats')
-		    publisherow = $(this).find('.rat-pub').detach()
-		    $(publishedAdd).append publisherow
-		    power = $(this).find('.power-seller-container')
-		    powerseller = $(this).find('.power-seller').detach()
-		    $(power).append powerseller
-		    return
-		  advAdd = $('.adv-row').detach()
-		  $('.adv-after').append advAdd
-		  $('.recent-updates__text').click ->
-			  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
-			  $(this).toggleClass 'active'
-			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
-		return
-	), 1500
+# $(document).ready ->
+# 	setTimeout (->
+# 		### --- For mobile Screen --- ###
+# 		if $(window).width() <= 768
+# 		  businessListing = $('.businessListing').detach()
+# 		  $('.addShow').after businessListing
+# 		  $('.filter-data').each ->
+# 		    detailrow = $(this).find('.recent-updates__content')
+# 		    detailbtn = $(this).find('.detail-move').detach()
+# 		    $(detailrow).append detailbtn
+# 		    recentrow = $(this).find('.updates-dropDown')
+# 		    recentData = $(this).find('.recent-data').detach()
+# 		    $(recentrow).append recentData
+# 		    publishedAdd = $(this).find('.stats')
+# 		    publisherow = $(this).find('.rat-pub').detach()
+# 		    $(publishedAdd).append publisherow
+# 		    power = $(this).find('.power-seller-container')
+# 		    powerseller = $(this).find('.power-seller').detach()
+# 		    $(power).append powerseller
+# 		    return
+# 		  advAdd = $('.adv-row').detach()
+# 		  $('.adv-after').append advAdd
+# 		  $('.recent-updates__text').click ->
+# 			  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
+# 			  $(this).toggleClass 'active'
+# 			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+# 		return
+# 	), 1500
 
 
 

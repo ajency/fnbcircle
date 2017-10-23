@@ -3,6 +3,7 @@ jobsTable = $('#datatable-jobs').DataTable(
   'processing': true
   'serverSide': true
   'bAutoWidth': false
+  'aaSorting': [[0,'desc']]
   'drawCallback': () ->
     displayCheckbox()
   'ajax':
@@ -29,6 +30,7 @@ jobsTable = $('#datatable-jobs').DataTable(
       return
   'columns': [
     # { 'data': '#' , "orderable": false}
+    { 'data': 'id' }
     { 'data': 'city'  , "orderable": false}
     { 'data': 'title' , "orderable": false}
     { 'data': 'business_type', "orderable": false}
@@ -42,15 +44,16 @@ jobsTable = $('#datatable-jobs').DataTable(
   ]
   "columnDefs": [
     { "width": "60px", "targets": 0 }    
-    { "width": "90px", "targets": 1 }  
-    { "width": "120px", "targets": 2 }  
-    { "width": "140px", "targets": 3 }
-    { "width": "100px", "targets": 4 }
-    { "width": "100px", "targets": 5 }
-    { "width": "80px", "targets": 6 }
-    { "width": "100px", "targets": 7 }
+    { "width": "60px", "targets": 1 }    
+    { "width": "90px", "targets": 2 }  
+    { "width": "100px", "targets": 3 }  
+    { "width": "120px", "targets": 4 }
+    { "width": "80px", "targets": 5 }
+    { "width": "100px", "targets": 6 }
+    { "width": "80px", "targets": 7 }
     { "width": "80px", "targets": 8 }
-    { "width": "70px", "targets": 9 }
+    { "width": "80px", "targets": 9 }
+    { "width": "70px", "targets": 10 }
   ])
 
 jobsTable.columns().iterator 'column', (ctx, idx) ->

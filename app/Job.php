@@ -66,7 +66,7 @@ class Job extends Model
     }
 
     public function getJobCategoryName(){ 
-        $categoryName = strtolower($this->category->name);
+        $categoryName = $this->category->name;
         return ucwords($categoryName);
     }
 
@@ -178,6 +178,17 @@ class Job extends Model
         return $this->hasOne('App\JobCompany');
     }
 
+
+    public function getPageTitle(){
+
+        $cities = $this->getJobLocationNames('city');
+        $jobCompany = $this->getJobCompany();
+        $jobExperience =  $this->getJobExperience();
+
+        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
+        return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany->title.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+    }
+
     public function getMetaDescription(){
        // if(!empty($this->description)){            
 
@@ -193,7 +204,7 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
-        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->name;
+        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->title;
 
         $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
    

@@ -4,11 +4,16 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "fa376db5b5602c5e1820041d4dd3d597",
+=======
+    "hash": "4ec5fb06720e5ef483f8fcaf3bf3ba9a",
+>>>>>>> develop
     "content-hash": "ca1c57e4ee282d566e5eb311e2f1f7aa",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.36.31",
             "source": {
                 "type": "git",
@@ -19,6 +24,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
                 "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
+=======
+            "version": "3.36.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "210958295921f0004d0fdc38bc9aefe33ef2a3de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/210958295921f0004d0fdc38bc9aefe33ef2a3de",
+                "reference": "210958295921f0004d0fdc38bc9aefe33ef2a3de",
+>>>>>>> develop
                 "shasum": ""
             },
             "require": {
@@ -85,7 +102,11 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2017-10-20 16:43:56"
+=======
+            "time": "2017-10-18 18:46:11"
+>>>>>>> develop
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1597,6 +1618,7 @@
         },
         {
             "name": "spatie/laravel-permission",
+<<<<<<< HEAD
             "version": "2.7.3",
             "source": {
                 "type": "git",
@@ -1607,6 +1629,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/dff9df3237e82200d9e50abf7d2370bf1e6f1673",
                 "reference": "dff9df3237e82200d9e50abf7d2370bf1e6f1673",
+=======
+            "version": "2.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "0dc7a3d8f47596a64e2d93a9f9f132422b12b97e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/0dc7a3d8f47596a64e2d93a9f9f132422b12b97e",
+                "reference": "0dc7a3d8f47596a64e2d93a9f9f132422b12b97e",
+>>>>>>> develop
                 "shasum": ""
             },
             "require": {
@@ -1658,7 +1692,11 @@
                 "security",
                 "spatie"
             ],
+<<<<<<< HEAD
             "time": "2017-10-22 04:22:18"
+=======
+            "time": "2017-10-18 14:39:11"
+>>>>>>> develop
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2817,7 +2855,11 @@
                 "object",
                 "object graph"
             ],
+<<<<<<< HEAD
             "time": "2017-10-19 19:58:43"
+=======
+            "time": "2017-04-12 18:52:22"
+>>>>>>> develop
         },
         {
             "name": "phpdocumentor/reflection-common",

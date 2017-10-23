@@ -499,6 +499,28 @@ table.dataTable tr th.selected.select-checkbox:after {
 		left: -75px;
 	}
 }
+
+.city-select{
+	.multiselect-container{
+		padding: 0.5em;
+		&.dropdown-menu{
+			left: inherit;
+		}
+	}
+	.sort-icon{
+		display: none;
+	}
+}
+
+.man-status-col{
+	.multiselect-container{
+		&.dropdown-menu{
+			left: -108px;
+		}
+	}
+}
+
+
 .multiselect{
 	&.multiselect{
 		border: 0;
@@ -697,3 +719,9 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 
 
+.form-inline .manage-search-box{
+	@media screen and (min-width: 769px){
+		width: 38%;
+    	margin-left: 1em;
+	}
+}

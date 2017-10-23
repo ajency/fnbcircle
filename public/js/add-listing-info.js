@@ -1,29 +1,5 @@
 (function() {
-  window.checkDuplicates = function() {
-    var contacts, index, index1, others, value;
-    contacts = document.getElementsByClassName('contact-input');
-    index = 0;
-    while (index < contacts.length) {
-      others = document.getElementsByClassName('contact-input');
-      value = contacts[index].value;
-      if (value !== '') {
-        index1 = 0;
-        while (index1 < others.length) {
-          if (value === others[index1].value && index !== index1) {
-            $(others[index1]).closest('.get-val').find('.dupError').html('Same contact detail has been added multiple times.');
-            return true;
-          } else {
-            $(others[index1]).closest('.get-val').find('.dupError').html('');
-          }
-          ++index1;
-        }
-      }
-      ++index;
-    }
-  };
-
   $(document).on('blur', '.fnb-input', function() {
-    checkDuplicates();
     $('#info-form').parsley();
   });
 
@@ -48,7 +24,7 @@
 
   $(document).on('change', '.city select', function() {
     var city, html;
-    html = '<option value="" selected>Select Area </option>';
+    html = '<option value="" selected>Select City </option>';
     $('.area select').html(html);
     city = $(this).val();
     if (city === '') {

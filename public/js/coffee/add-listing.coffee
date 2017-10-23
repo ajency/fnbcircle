@@ -141,6 +141,9 @@ $('body').on 'click', '.review-submit', (e)->
   $(this).addClass('hidden')
 
 
+previewL = $('.detach-preview').detach()
+$('.preview-detach').append previewL
+
 
 # mondayValue = $('.monday').prop('selectedIndex')
 

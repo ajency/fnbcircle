@@ -761,8 +761,8 @@ $(function(){
 		// detaching sections
 
 		if ($(window).width() <= 768) {
-	    	var coreCat = $('.detach-col-1').detach();
-			$('.sell-re').after(coreCat);
+	  //   	var coreCat = $('.detach-col-1').detach();
+			// $('.sell-re').after(coreCat);
 
 			var businessListing = $('.businessListing').detach();
 			$('.addShow').after(businessListing);
@@ -962,7 +962,7 @@ $(function(){
 	            includeSelectAllOption: true,
 	            numberDisplayed: 5,
         		delimiterText:',',
-	            nonSelectedText: 'Select Area(s)'
+	            nonSelectedText: 'Select City'
 	        });
 		}
 

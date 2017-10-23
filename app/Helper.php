@@ -182,8 +182,11 @@ function getDefaultValues($type, $arrayType=1){
 }
 
 
-function getCommunicationContactDetail($objectId,$objectType,$type){
-    $commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
+	if($mode == 'edit')
+    	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+   	else
+   		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
     
     $contactInfo = [];
     if(!empty($commObjs)){

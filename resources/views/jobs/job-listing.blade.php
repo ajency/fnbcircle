@@ -4,6 +4,9 @@
 Job Listing
 @endsection
 
+@php
+$additionalData = ['city'=>$serachCity];
+@endphp
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
@@ -102,7 +105,8 @@ Job Listing
         <div class="row m-t-30 p-t-30 m-b-30 mobile-flex breadcrums-container mobile-hide">
             <div class="col-sm-8 flex-col">
                 <!-- Breadcrums -->
-                {!! getPageBreadcrum('App\Seo\JobListView') !!}
+                
+                {!! getPageBreadcrum('App\Seo\JobListView',$additionalData) !!}
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">

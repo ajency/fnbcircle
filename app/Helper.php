@@ -293,6 +293,27 @@ function pagination($totalRecords,$currentPage,$limit){
 
 	return $html;
 }
- 
+
+
+function salaryRange(){
+	$range = [	'5'=>['min' => 0,
+					'max' => 300000000
+					],
+
+				'6'=>['min' => 0,
+					'max' => 25000000
+					],
+
+				'7'=>['min' => 0,
+					'max' => 822000
+					],
+
+				'8'=>['min' => 0,
+					'max' => 34500
+					]
+
+			];
+	return  $range;
+} 
 
 

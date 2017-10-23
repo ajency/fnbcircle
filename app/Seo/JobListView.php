@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobListView extends Model
 {
+    public $state;
+
+    public function __construct($additionaldata){
+        $state = $additionaldata['city'];
+        $this->state = $state;
+    }
+
     public function getMetaData(){
 
     	$ogTag = [];
@@ -87,10 +94,10 @@ class JobListView extends Model
     }
 
     public function getBreadcrum(){
-    	$jobState = '';
+ 
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
-        $breadcrumbs[] = ['url'=>url($jobState.'/job-listings/'), 'name'=> $jobState];
+        $breadcrumbs[] = ['url'=>url($this->state.'/job-listings/'), 'name'=>  $this->state];
         $breadcrumbs[] = ['url'=>'', 'name'=> 'Job Listings'];
 
         return $breadcrumbs;

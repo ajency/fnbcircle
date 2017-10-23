@@ -892,6 +892,8 @@ class JobController extends Controller
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();
         $defaultExperience  = $job->jobExperience();
+        $salaryRange = salaryRange();
+         
 
         //get filter values
         if(isset($requestData['category']) && $requestData['category']!=""){
@@ -927,13 +929,14 @@ class JobController extends Controller
         if(!isset($requestData['page'])){
             $requestData['page'] = 1;
         }
-        
+    
         $header_type = "trans-header";
         return view('jobs.job-listing',compact('header_type'))->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)
                                        ->with('salaryTypes', $salaryTypes)
                                        ->with('defaultExperience', $defaultExperience)
                                        ->with('urlFilters', $requestData)
+                                       ->with('salaryRange', $salaryRange)
                                        ->with('serachCity', $serachCity);
     }
 

@@ -110,11 +110,32 @@
     return filterJobs(true);
   });
 
+  $('.clear-keywords').click(function() {
+    $('input[class="job-input-keywords"]').remove();
+    $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden');
+    return filterJobs(true);
+  });
+
   $('.clear-salary').click(function() {
     $('select[name="salary_type"]').prop("selectedIndex", 0);
-    $('input[name="salary_lower"]').val('0');
-    $('input[name="salary_upper"]').val('200000');
+    $('input[name="salary_lower"]').val('');
+    $('input[name="salary_upper"]').val('');
     return filterJobs(true);
+  });
+
+  $('select[name="salary_type"]').change(function() {
+    var maxSalary, minSalary;
+    if ($(this).val() !== '') {
+      minSalary = $("option:selected", this).attr("min");
+      maxSalary = $("option:selected", this).attr("max");
+      $('input[name="salary_lower"]').val(minSalary);
+      $('input[name="salary_upper"]').val(maxSalary);
+      $('.salary-range').removeClass('hidden');
+    } else {
+      $('.salary-range').addClass('hidden');
+      $('input[name="salary_lower"]').val('');
+      $('input[name="salary_upper"]').val('');
+    }
   });
 
   $('.header_city').change(function() {
@@ -136,6 +157,7 @@
     cityObj = $('select[name="job_city"]');
     cityText = $('option:selected', cityObj).text();
     $("#state_name").text(cityText);
+    $(".fnb-breadcrums:eq(2)").text(cityText);
     return $.ajax({
       type: 'post',
       url: '/get_areas',
@@ -169,14 +191,15 @@
 
   $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
-    inputTxt = '<input type="hidden" name="keyword_id[]" value="' + set.id + '" label="' + set.label + '">';
+    inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
     return filterJobs(true);
   });
 
   $('.job-keywords').on('change:flexdatalist', function(event, set, options) {
-    if (set.length && $('input[label="' + set[0]['text'] + '"]').length) {
-      $('input[label="' + set[0]['text'] + '"]').remove();
+    console.log(set);
+    if (set.length && $('input[label="' + set['text'] + '"]').length) {
+      $('input[label="' + set['text'] + '"]').remove();
       return filterJobs(true);
     }
   });
@@ -186,7 +209,6 @@
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
-      selectionRequired: true,
       minLength: 0,
       url: '/get-keywords',
       searchIn: ["label"]
@@ -195,7 +217,6 @@
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
-      selectionRequired: true,
       minLength: 0,
       url: '/job/get-category-types',
       searchIn: ["name"]

@@ -25,6 +25,13 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-area">
+                      <label class="sub-title flex-row clear ">
+                              <a href="javascript:void(0)" class="text-color clear-keywords">
+                                 <i class="fa fa-times" aria-hidden="true"></i>
+                                  <span>Clear All</span>
+                              </a>
+                      </label>
+
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
                            <input type="text" class="form-control fnb-input search-input text-color job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
@@ -37,7 +44,7 @@
                             <div id="keyword-ids">
                               @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords']))
                               @foreach($urlFilters['keywords'] as $keywordId => $keyword)
-                              <input type="hidden" name="keyword_id[]" value="{{ $keywordId }}" label="{{ $keyword }}">
+                              <input type="hidden" name="keyword_id[]" class="job-input-keywords" value="{{ $keywordId }}" label="{{ $keyword }}">
                               @endforeach
                               @endif
 
@@ -141,13 +148,19 @@
                               </a>
                           </label>
                            <select name="salary_type" class="search-job">
+                            <option value=""> -select salary- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
-                             <option @if(isset($urlFilters['salary_type']) && $salaryTypeId == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}"> {{ $salaryType }}</option>
+                             @php
+                              $minSal = (isset($salaryRange[$salaryTypeId]['min'])) ? $salaryRange[$salaryTypeId]['min'] : 0;
+                              $maxSal = (isset($salaryRange[$salaryTypeId]['max'])) ? $salaryRange[$salaryTypeId]['max'] : 0;
+                             @endphp
+                             <option @if(isset($urlFilters['salary_type']) && $salaryTypeId == $urlFilters['salary_type']) selected @endif value="{{ $salaryTypeId }}" min="{{ $minSal }}" max="{{ $maxSal }}"  > {{ $salaryType }}</option>
                              @endforeach
                              
                            </select>
-
-                           <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@else 0 @endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@else 200000 @endif" class="search-job">
+                           <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
+                           <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           </div>
                       </div>
                   </div>
               </div>

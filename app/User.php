@@ -73,7 +73,7 @@ class User extends Authenticatable
     }
 
     public function saveContactDetails($data,$type){
-
+       
         if($type=='listing'){
             if ($data['id'] == null) {
                 $object = new ListingCommunication;

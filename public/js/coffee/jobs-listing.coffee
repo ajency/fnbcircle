@@ -111,11 +111,32 @@ $('.clear-checkbox').click ->
   filterJobs(true)
 
 
+$('.clear-keywords').click ->
+  $('input[class="job-input-keywords"]').remove()
+  $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden')
+  filterJobs(true)
+
+
+
 $('.clear-salary').click ->
   $('select[name="salary_type"]').prop("selectedIndex", 0)
-  $('input[name="salary_lower"]').val('0')
-  $('input[name="salary_upper"]').val('200000')
+  $('input[name="salary_lower"]').val('')
+  $('input[name="salary_upper"]').val('')
   filterJobs(true)
+
+$('select[name="salary_type"]').change ->
+  if($(this).val() !='')
+    minSalary = $("option:selected", this).attr("min") 
+    maxSalary = $("option:selected", this).attr("max") 
+    $('input[name="salary_lower"]').val(minSalary)
+    $('input[name="salary_upper"]').val(maxSalary)
+    $('.salary-range').removeClass('hidden')
+  else
+    $('.salary-range').addClass('hidden')
+    $('input[name="salary_lower"]').val('')
+    $('input[name="salary_upper"]').val('')
+
+  return
 
 
 $('.header_city').change ->
@@ -134,6 +155,7 @@ displayCityText = () ->
   cityObj = $('select[name="job_city"]');
   cityText = $('option:selected',cityObj).text();
   $("#state_name").text cityText 
+  $( ".fnb-breadcrums:eq(2)" ).text cityText 
 
   $.ajax
     type: 'post'
@@ -168,13 +190,14 @@ $('.job-pagination').on 'click', '.paginate', ->
 
 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
-  inputTxt = '<input type="hidden" name="keyword_id[]" value="'+set.id+'" label="'+set.label+'">'
+  inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
   filterJobs(true) 
 
 $('.job-keywords').on 'change:flexdatalist', (event, set, options) ->
-  if(set.length && $('input[label="'+set[0]['text']+'"]').length)
-    $('input[label="'+set[0]['text']+'"]').remove()
+  console.log set
+  if(set.length && $('input[label="'+set['text']+'"]').length)
+    $('input[label="'+set['text']+'"]').remove()
     filterJobs(true) 
  
 
@@ -183,7 +206,6 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      selectionRequired:true
       minLength: 0
       url: '/get-keywords'
       searchIn: ["label"]
@@ -192,7 +214,6 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      selectionRequired:true
       minLength: 0
       url: '/job/get-category-types'
       searchIn: ["name"] 

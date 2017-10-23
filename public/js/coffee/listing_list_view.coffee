@@ -591,8 +591,18 @@ $(document).ready () ->
 		return
 	), 1000
 
-
 	return
+
+
+
+$(document).on 'click', '.send-enquiry', ->
+	$('.enquiry-card').addClass 'active'
+	return
+
+$(document).on 'click', '.back-icon', ->
+	$('.fly-out').removeClass 'active'
+	return
+
 
 $(document).ready ->
 	setTimeout (->
@@ -622,8 +632,6 @@ $(document).ready ->
 			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
 		return
 	), 1500
-
-
 
 
 

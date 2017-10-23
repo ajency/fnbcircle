@@ -489,6 +489,14 @@
     }), 1000);
   });
 
+  $(document).on('click', '.send-enquiry', function() {
+    $('.enquiry-card').addClass('active');
+  });
+
+  $(document).on('click', '.back-icon', function() {
+    $('.fly-out').removeClass('active');
+  });
+
   $(document).ready(function() {
     return setTimeout((function() {
 

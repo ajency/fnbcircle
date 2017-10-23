@@ -186,7 +186,8 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
-        return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany->title.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+        // return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany->title.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+        return $this->title;
     }
 
     public function getMetaDescription(){

@@ -283,7 +283,7 @@ $(function(){
 			}
 		}
 
-		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
+		function validateContact(contact, error_path, region_code) { // Check if Contact Number entered is Valid
 			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
 
 			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
@@ -308,7 +308,7 @@ $(function(){
 			return false;
 		}
 
-		function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
+		function validatePassword(password, confirm_password, parent_path, child_path) {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
 			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
 			var message = '', status = true;
@@ -337,7 +337,7 @@ $(function(){
 			return status;
 		}
 
-		function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
+		function validateDropdown(path, error_path, error_msg) {
 			if($(path).val() == '' || $(path).val == 0) {
 				$(error_path).removeClass('hidden').text(error_msg);
 				return false;
@@ -347,7 +347,7 @@ $(function(){
 			}
 		}
 
-		function validateUser(data, parent_path="") {
+		function validateUser(data, parent_path) {
 			var flag = true;
 
 			if (data.hasOwnProperty("name") && !data["name"]) {
@@ -536,7 +536,7 @@ $(function(){
 
 			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
-				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form")) {
+				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
 					return false;
 				} else {
 					$("#register_form #password_errors").addClass("hidden");
@@ -703,9 +703,9 @@ $(function(){
                 	"description" : descr_values
                 };
 
-                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent);
+                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors");
 
-                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent)) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
+                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors")) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
                 	if($("#accept_terms_checkbox").prop("checked")) {
                 		return $(parent).submit(); // Submit the form
                 	} else {

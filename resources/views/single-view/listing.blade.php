@@ -279,7 +279,7 @@
                     <!-- tabs structure ends -->
                     @if(isset($data['updates']) and !empty($data['updates']))
                     <!-- updates section -->
-                     <div class="update-sec m-t-30" id="updates">
+                     <div class="update-sec m-t-30 nav-starter" id="updates">
                         <!-- <div class="update-sec__header flex-row update-space">
                             <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                             <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
@@ -594,7 +594,7 @@
                                 @endisset
                             </div> 
                             
-                            <div class="contact__enquiry text-center mobile-hide">                                
+                            <div class="contact__enquiry text-center">                                
                                 <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
                                 <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))

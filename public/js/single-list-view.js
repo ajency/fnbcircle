@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, equalcol, getheight, loadUpdates, offset, order;
+  var browsecat, equalcol, getheight, loadUpdates, offset, order, status;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -93,6 +93,8 @@
   if ($(window).width() < 769) {
     browsecat = $('.browse-cat').detach();
     $('.similar-business').after(browsecat);
+    status = $('.contact__enquiry .approval').detach();
+    $('.new-changes .seller-info__body').append(status);
   }
 
 }).call(this);

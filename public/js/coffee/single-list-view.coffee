@@ -98,5 +98,7 @@ if $(window).width() > 769
 if $(window).width() < 769
   browsecat = $('.browse-cat').detach()
   $('.similar-business').after browsecat
+  status = $('.contact__enquiry .approval').detach()
+  $('.new-changes .seller-info__body').append status
 
 

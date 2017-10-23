@@ -758,7 +758,7 @@
 
 @media screen and (max-width: @mobile){
 	.nav-info{
-		margin-top: 0;
+		margin-top: 1em;
     	padding-top: 10px;
 		&__tabs{
 			white-space: nowrap;
@@ -792,6 +792,9 @@
 		.enquiry-btn{
 			display: none;
 		}
+	}
+	.nav-starter{
+		margin-top: 1em;
 	}
 }
 
@@ -3042,6 +3045,7 @@ and (max-device-width: 650px) {
     			order: 1;
     			align-self: flex-end;
     			margin-top: -24px;
+    			padding: 0.3em 0.5em;
     		}
     	}
     	.map-icon{
@@ -3148,6 +3152,17 @@ and (max-device-width: 650px) {
 		p{
 			font-size: 1em;
 		}
+	}
+	.approval{
+		text-align: center;
+    	border-top: 1px solid #ddd;
+    	padding-top: 1em;
+    	.pending-stuff{
+    		margin: 5px 0;
+    	}
+    	.fnb-btn.full{
+    		padding: 0.7em 2.5em
+    	}
 	}
 }
 

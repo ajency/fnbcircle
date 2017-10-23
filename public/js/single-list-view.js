@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
+  var browsecat, catlabel, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
 
   $('#shareRoundIcons').jsSocials({
     showLabel: false,
@@ -97,6 +97,8 @@
     $('.new-changes .seller-info__body').append(status);
     moveelement = $('.move-element').detach();
     $('.nav-info').before(moveelement);
+    catlabel = $('.single-cate').detach();
+    $('.singleV-title').before(catlabel);
   }
 
 }).call(this);

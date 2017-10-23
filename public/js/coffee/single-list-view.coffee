@@ -102,5 +102,6 @@ if $(window).width() < 769
   $('.new-changes .seller-info__body').append status
   moveelement = $('.move-element').detach()
   $('.nav-info').before moveelement
-
+  catlabel = $('.single-cate').detach()
+  $('.singleV-title').before catlabel
 

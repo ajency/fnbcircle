@@ -5504,9 +5504,11 @@ input[type=checkbox].custom-checkbox:before {
     padding: 1em;
   }
   .design-2-card .seller-info__title {
-    font-size: 1.2em;
+    font-size: 1.3em;
     padding-right: 0.5em;
     margin-top: 0;
+    white-space: inherit;
+    line-height: 1.4;
   }
   .design-2-card .rating {
     width: 85px;
@@ -5536,7 +5538,7 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-order: 2;
         -ms-flex-order: 2;
             order: 2;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 100%;
     -webkit-box-pack: justify;
     -webkit-justify-content: space-between;
@@ -5746,6 +5748,23 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-pack: end;
             justify-content: flex-end;
     padding-top: 0;
+  }
+  .single-cate {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    margin-bottom: 0.8em;
+    padding: 0.3em 0.5em;
+  }
+  .seller-info .operate-section {
+    padding-bottom: 0;
+  }
+  .new-changes.design-2-card .operations .opertaions__container {
+    margin-top: 10px;
+  }
+  .stat-section .verified-icon {
+    background-position: -148px -682px;
   }
 }
 .pending-stuff .fa-clock-o {

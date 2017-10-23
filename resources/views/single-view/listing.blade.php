@@ -125,7 +125,7 @@
                         <div class="seller-info card design-2-card new-changes">
                             <div class="seller-info__header flex-row"></div>
                             <div class="seller-info__body">
-                                <div class="flex-row space-between">
+                                <div class="flex-row space-between singleV-title">
                                     <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
                                     <input readonly id='listing_id' value="{{$data['reference']}}" type="hidden">
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
@@ -141,7 +141,7 @@
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-25 stat-section">
-                                    <div class="rating-view flex-row">
+                                    <div class="@isset($data['rating']) rating-view @endisset flex-row">
                                         @isset($data['rating'])
                                         <div class="rating">
                                             <div class="bg"></div>
@@ -163,7 +163,7 @@
                                         @endif
                                         @endisset
                                      </div>
-                                    <label class="fnb-label wholesaler flex-row text-uppercase">
+                                    <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
                                         <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                         {{$data['type']}}</a>

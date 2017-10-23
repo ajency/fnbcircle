@@ -62,7 +62,8 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Does your company have a website? <span class="text-lighter">(optional)</span>:</label>
-        <input type="text" name="company_website" data-parsley-pattern="/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/" data-parsley-pattern-message="Please enter valid url"  class="form-control fnb-input" placeholder="http://" value="{{ $jobCompany['website'] }}">  
+        <input type="url" name="company_website" data-parsley-type="url" data-parsley-type-message="Please enter valid url"  class="form-control fnb-input" placeholder="" value="{{ $jobCompany['website'] }}">  
+        <!-- data-parsley-pattern="/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/"  -->
     </div>
 
 

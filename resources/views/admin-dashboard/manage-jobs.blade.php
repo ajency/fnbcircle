@@ -104,6 +104,7 @@
                     <tr>
                       <!--<th class="no-sort update-checkbox " width="2%"> 
                        <input type='checkbox' class="hidden" name='job_check_all'></th> -->
+                      <th class="no-sort update-checkbox " width="2%">Job Id</th>
                       <th class="no-sort city-select" data-col="5" width="10%">
                           State
                           <select multiple class="form-control multi-dd jobsearchinput" id="filtercities" name="job_city">

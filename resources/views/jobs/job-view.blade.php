@@ -5,7 +5,7 @@
 $additionalData = ['job'=>$job];
 @endphp
 
-@section('openGraph')
+@section('openGraph')   
 {!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 @section('js')
@@ -167,20 +167,27 @@ $additionalData = ['job'=>$job];
                     <div class="pusblished-date text-color lighter text-right x-small hidden ">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
                     @endif -->
                   </div>
-                  <div class="flex-row space-between jobs-head-title">
-                     <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
+                  <div class="flex-row space-between jobs-head-title align-top">
+                    <div>
+                      <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
+                      <div class="featured-jobs__row job-data company-top-info">
+                        <div class="flex-row">
+                          <div class="jobdesc">
+                              <p class="heavier m-b-0">{{ $jobCompany->title }}</p>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                     @if(($jobCompany->logo))
+                         <div class="joblogo mobile-hide">
+                           <img src="{{ $companyLogo }}" width="60">
+                        </div>
+                      @endif
                   </div>
 
-                  <div class="featured-jobs__row job-data company-top-info">
-                    <div class="flex-row">
-                      <div class="jobdesc">
-                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                       </div>
-                    </div>
-                  </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
                      @if(!empty($keywords))
@@ -349,9 +356,10 @@ $additionalData = ['job'=>$job];
             </div> -->
             <!-- update section ends -->
             <!-- listed -->
-
+ 
             <div class="listed desc-start" id="listed">
-               <h5 class="jobDesc">Job Description</h5>
+ 
+               <h3 class="jobDesc">Job Description</h3>
  
                <hr>
                <div class="job-desc text-color stable-size">
@@ -362,7 +370,7 @@ $additionalData = ['job'=>$job];
                <div class="job-summary job-points">
                   <h6 class="sub-title m-b-15">Map address of Interview Location</h6>
                   <div class="text-color stable-size">
-                      
+                       <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
                       <div class="m-t-10" id="map" map-title="your interview location" show-address="yes">
 
                       </div>
@@ -437,7 +445,9 @@ $additionalData = ['job'=>$job];
                   </div>
                   <div class="business-card__footer flex-row">
                     <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                    @if($similarjob->jobPublishedOn()!="")
                     <span class="x-small date lighter">Published on {{ $similarjob->jobPublishedOn(3) }}</span>
+                    @endif
                   </div>
                 </div>
               @endforeach
@@ -542,7 +552,7 @@ $additionalData = ['job'=>$job];
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
+                    
                      <a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
                      <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
@@ -610,7 +620,8 @@ $additionalData = ['job'=>$job];
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
                         <span class="x-small text-color break-all">
                         @if(!empty($jobCompany->website))
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
+
+                           <a href="{{ $jobCompany->website() }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
                            @endif
                         </span>
                      </div>
@@ -622,8 +633,8 @@ $additionalData = ['job'=>$job];
                   <div class="featured-jobs__row">
                      <div class="readMore">
                         <span class="x-small text-color">
-                          <!-- {!! $jobCompany->description !!} -->
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat.
+                          {!! $jobCompany->description !!}
+                         <!--  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat. -->
                         </span>
                      </div>
                   </div>

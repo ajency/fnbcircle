@@ -646,6 +646,7 @@
                             <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
                             @isset($data['images'])
                             <div class="photo-gallery">
+                                @php $photo_count = count($data['images'])-4; $i=0;  @endphp
                                 @foreach($data['images'] as $images)
                                 @if($loop->first)
                                 <div class="photo-gallery__banner">
@@ -659,6 +660,7 @@
                                     <li>
                                         <a href="{{$images['full']}}" class="thumb-click">
                                             <img src="{{$images['thumb']}}" alt="" class="img-responsive">
+                                            @if($i == 3 and $photo_count>0)<p class="sub-title">+ 2 More</p>@endif
                                         </a>
                                     </li>
                                     
@@ -666,6 +668,7 @@
                                 @if($loop->last)
                                 </ul>
                                 @endif
+                                @php $i++; @endphp
                                 @endforeach
                             </div>
                             @endisset

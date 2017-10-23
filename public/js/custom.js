@@ -267,123 +267,123 @@ $(function(){
 	//     $(this).ekkoLightbox();
 	// });
 
-		function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid
-			if(email.length > 0) {
-				var email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				if(email_re.test(email)) {
-					$(error_path).addClass("hidden");
-					return true;
-				} else {
-					$(error_path).removeClass("hidden").text("Please enter a valid Email ID");
-					return false;
-				}
-			} else {
-				$(error_path).removeClass("hidden").text("Please enter your Email address");
-				return false;
-			}
-		}
+		// function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid
+		// 	if(email.length > 0) {
+		// 		var email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		// 		if(email_re.test(email)) {
+		// 			$(error_path).addClass("hidden");
+		// 			return true;
+		// 		} else {
+		// 			$(error_path).removeClass("hidden").text("Please enter a valid Email ID");
+		// 			return false;
+		// 		}
+		// 	} else {
+		// 		$(error_path).removeClass("hidden").text("Please enter your Email address");
+		// 		return false;
+		// 	}
+		// }
 
-		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
-			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
+		// function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
+		// 	contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
 
-			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
-				if (region_code)
-					var contact_sub = contact.substring(1, contact.length); // Exclude the +
-				else
-					contact_sub = contact;
+		// 	if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
+		// 		if (region_code)
+		// 			var contact_sub = contact.substring(1, contact.length); // Exclude the +
+		// 		else
+		// 			contact_sub = contact;
 
-				if((!region_code && contact_sub.length <= 0) || (region_code && contact_sub.length <= 2)) {
-					$(error_path).removeClass("hidden").text("Please enter your contact number");
-				} else if(contact_sub.length < 10) {
-					$(error_path).removeClass("hidden").text("Contact number too short");
-				} else if((region_code && contact_sub.length > 13) || (!region_code && contact_sub.length > 10)) { // If excluding <region_code> & length is greater than 10, then
-					$(error_path).removeClass("hidden").text("Contact number too long");
-				} else {
-					$(error_path).addClass("hidden");
-					return true;
-				}
-			} else {
-				$(error_path).removeClass("hidden").text("Please enter a valid Contact number");
-			}
-			return false;
-		}
+		// 		if((!region_code && contact_sub.length <= 0) || (region_code && contact_sub.length <= 2)) {
+		// 			$(error_path).removeClass("hidden").text("Please enter your contact number");
+		// 		} else if(contact_sub.length < 10) {
+		// 			$(error_path).removeClass("hidden").text("Contact number too short");
+		// 		} else if((region_code && contact_sub.length > 13) || (!region_code && contact_sub.length > 10)) { // If excluding <region_code> & length is greater than 10, then
+		// 			$(error_path).removeClass("hidden").text("Contact number too long");
+		// 		} else {
+		// 			$(error_path).addClass("hidden");
+		// 			return true;
+		// 		}
+		// 	} else {
+		// 		$(error_path).removeClass("hidden").text("Please enter a valid Contact number");
+		// 	}
+		// 	return false;
+		// }
 
-		function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
-			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
-			var message = '', status = true;
+		// function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
+		// 	// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
+		// 	var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+		// 	var message = '', status = true;
 
-			if(expression.test(password)) {
-				if (confirm_password != '' && confirm_password == password) { // Confirm_password isn't empty & is Same
-					status = true;
-				} else if (confirm_password == '') { // Just validate Password
-					status = true;
-				} else { // confirm_password != '' && password != confirm_password
-					message = "Password & Confirm Password are not matching";
-					status = false;
-				}
-			} else { // Else password not Satisfied the criteria
-				message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
-				status = false;
-			}
+		// 	if(expression.test(password)) {
+		// 		if (confirm_password != '' && confirm_password == password) { // Confirm_password isn't empty & is Same
+		// 			status = true;
+		// 		} else if (confirm_password == '') { // Just validate Password
+		// 			status = true;
+		// 		} else { // confirm_password != '' && password != confirm_password
+		// 			message = "Password & Confirm Password are not matching";
+		// 			status = false;
+		// 		}
+		// 	} else { // Else password not Satisfied the criteria
+		// 		message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+		// 		status = false;
+		// 	}
 
-			if(!status && parent_path !== '') {
-				$(parent_path + " " + child_path).removeClass('hidden').text(message);
-			} else if(status && parent_path !== '') {
-				//$(parent_path + " " + child_path).addClass('hidden');
-				$(parent_path + " " + "#password_errors").addClass('hidden');
-				$(parent_path + " " + "#password_confirm_errors").addClass('hidden');
-			}
-			return status;
-		}
+		// 	if(!status && parent_path !== '') {
+		// 		$(parent_path + " " + child_path).removeClass('hidden').text(message);
+		// 	} else if(status && parent_path !== '') {
+		// 		//$(parent_path + " " + child_path).addClass('hidden');
+		// 		$(parent_path + " " + "#password_errors").addClass('hidden');
+		// 		$(parent_path + " " + "#password_confirm_errors").addClass('hidden');
+		// 	}
+		// 	return status;
+		// }
 
-		function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
-			if($(path).val() == '' || $(path).val == 0) {
-				$(error_path).removeClass('hidden').text(error_msg);
-				return false;
-			} else {
-				$(error_path).addClass('hidden');
-				return true;
-			}
-		}
+		// function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
+		// 	if($(path).val() == '' || $(path).val == 0) {
+		// 		$(error_path).removeClass('hidden').text(error_msg);
+		// 		return false;
+		// 	} else {
+		// 		$(error_path).addClass('hidden');
+		// 		return true;
+		// 	}
+		// }
 
-		function validateUser(data, parent_path="") {
-			var flag = true;
+		// function validateUser(data, parent_path="") {
+		// 	var flag = true;
 
-			if (data.hasOwnProperty("name") && !data["name"]) {
-				$(parent_path + " #name-error").removeClass("hidden").text("Please enter your name");
-				flag = false;
-			} else {
-				$(parent_path + " #name-error").addClass("hidden");
-			}
+		// 	if (data.hasOwnProperty("name") && !data["name"]) {
+		// 		$(parent_path + " #name-error").removeClass("hidden").text("Please enter your name");
+		// 		flag = false;
+		// 	} else {
+		// 		$(parent_path + " #name-error").addClass("hidden");
+		// 	}
 
-			if (data.hasOwnProperty("email")) {
-				flag = validateEmail(data["email"], parent_path + " #email-error");
-			}
+		// 	if (data.hasOwnProperty("email")) {
+		// 		flag = validateEmail(data["email"], parent_path + " #email-error");
+		// 	}
 
-			if (data.hasOwnProperty('contact') && data["contact"]) { // The count includes +<region code> <contact No>
-				validateContact(data["contact"], parent_path + " #contact-error", false);
-			} else {
-				$(parent_path + " #contact-error").removeClass("hidden").text("Please enter your contact");
-				flag = false;
-			}
+		// 	if (data.hasOwnProperty('contact') && data["contact"]) { // The count includes +<region code> <contact No>
+		// 		validateContact(data["contact"], parent_path + " #contact-error", false);
+		// 	} else {
+		// 		$(parent_path + " #contact-error").removeClass("hidden").text("Please enter your contact");
+		// 		flag = false;
+		// 	}
 
-			if (!(data.hasOwnProperty("description") && data["description"].length > 0)) { // If description doesn't exist or if exist & count <= 0, then return False
-				$(parent_path + " #description-error").removeClass("hidden").text("Please select atleast one description.");
-				flag = false;
-			} else {
-				$(parent_path + " #description-error").addClass("hidden");
-			}
+		// 	if (!(data.hasOwnProperty("description") && data["description"].length > 0)) { // If description doesn't exist or if exist & count <= 0, then return False
+		// 		$(parent_path + " #description-error").removeClass("hidden").text("Please select atleast one description.");
+		// 		flag = false;
+		// 	} else {
+		// 		$(parent_path + " #description-error").addClass("hidden");
+		// 	}
 
-			if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
-				flag = flag ? true : false;
-			} else {
-				flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
-				flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
-			}
+		// 	if (data.hasOwnProperty("area") && data.hasOwnProperty("city") && data["area"] && data["city"]) {
+		// 		flag = flag ? true : false;
+		// 	} else {
+		// 		flag = validateDropdown(parent_path + " select[name='area']", parent_path + " label#area-error", "Please select a city") ? flag : false;
+		// 		flag = validateDropdown(parent_path + " select[name='city']", parent_path + " label#city-error", "Please select a state")? flag : false;
+		// 	}
 
-			return flag;
-		}
+		// 	return flag;
+		// }
 
 		$(document).ready(function() {
 

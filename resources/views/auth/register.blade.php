@@ -7,16 +7,16 @@
 
 @section('js')
     <!-- Custom file input -->
-    <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script>
+    <!-- <script type="text/javascript" src="/js/jquery.custom-file-input.js"></script> -->
     <!-- Add listing -->
     <!-- <script type="text/javascript" src="/js/add-listing.js"></script> -->
     <!-- custom script -->
-    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+    <!-- <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script> -->
 
-    <script type="text/javascript" src="/js/custom.js"></script>
+    <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
 
-     <script src="{{ asset('js/AddListing.js') }}"></script>
-    <script type="text/javascript" src="/js/handlebars.js"></script>
+     <!-- <script src="{{ asset('js/AddListing.js') }}"></script> -->
+    <!-- <script type="text/javascript" src="/js/handlebars.js"></script> -->
     <script type="text/javascript" src="{{ asset('/js/contact_flag_initialization.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 @endsection

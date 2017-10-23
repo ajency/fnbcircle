@@ -2441,7 +2441,7 @@ input[type="checkbox"].toggle__check {
   font-size: 1.05em;
 }
 .overflow-hidden {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .required:after {
   content: '*';
@@ -8977,13 +8977,6 @@ input[type='checkbox'].remove-addr {
   margin-bottom: 0;
   cursor: pointer;
   padding-left: 3px;
-}
-@media screen and (min-width: 767px) {
-  _::-webkit-full-page-media,
-  _:future,
-  :root .node-select .nav li {
-    margin-bottom: 3.35em;
-  }
 }
 @media screen and (max-width: 768px) {
   .add-editCat {

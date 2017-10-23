@@ -3292,6 +3292,9 @@ input[type=checkbox].custom-checkbox:before {
 .nav-info__tabs li a.active:after {
   width: 100%;
 }
+.nav-info__tabs li:first-child a {
+  padding-left: 0;
+}
 .nav-info .sticky-section {
   position: fixed;
   background-color: #fff;
@@ -3564,6 +3567,11 @@ input[type=checkbox].custom-checkbox:before {
 .more-details .year {
   padding-right: 5em;
 }
+@media screen and (min-width: 769px) {
+  .more-details .year {
+    min-width: 300px;
+  }
+}
 .more-details .lighter,
 .more-details .link-click {
   color: #686565;
@@ -3573,6 +3581,11 @@ input[type=checkbox].custom-checkbox:before {
 }
 .more-details iframe {
   width: 100%;
+}
+@media screen and (min-width: 769px) {
+  .sTitle {
+    margin-bottom: 10px;
+  }
 }
 @media screen and (max-width: 768px) {
   .more-details .main-heading {
@@ -4191,7 +4204,7 @@ input[type=checkbox].custom-checkbox:before {
   width: 100%;
   height: 100px;
   background-position: center;
-  background-size: contain;
+  background-size: cover;
 }
 .photo-gallery__thumbnails li a:hover {
   text-decoration: none;
@@ -5689,6 +5702,7 @@ input[type=checkbox].custom-checkbox:before {
     text-align: center;
     border-top: 1px solid #ddd;
     padding-top: 1em;
+    margin-top: 1em;
   }
   .approval .pending-stuff {
     margin: 5px 0;
@@ -5772,6 +5786,22 @@ input[type=checkbox].custom-checkbox:before {
   .stat-section .verified-icon {
     background-position: -154px -682px;
     width: 20px;
+  }
+  .new-changes .single-contact-section .contact {
+    border-top: 1px solid #ddd;
+    margin-top: 0.5em;
+  }
+  .new-changes .single-contact-section .contact__info {
+    width: 48%;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin: 0 auto;
+    margin-top: 1em;
+  }
+  .new-changes .single-contact-section .contact__info .fnb-btn {
+    padding: 0.8em 1em;
   }
 }
 .pending-stuff .fa-clock-o {

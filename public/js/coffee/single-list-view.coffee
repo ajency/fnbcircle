@@ -104,4 +104,6 @@ if $(window).width() < 769
   $('.nav-info').before moveelement
   catlabel = $('.single-cate').detach()
   $('.singleV-title').before catlabel
+  contactrow = $('.single-contact-section').detach()
+  $('.operate-section').after contactrow
 

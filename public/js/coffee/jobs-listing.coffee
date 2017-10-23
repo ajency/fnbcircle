@@ -184,7 +184,7 @@ $(document).ready ()->
       searchByWord:true
       searchContain:true
       selectionRequired:true
-      minLength: 1
+      minLength: 0
       url: '/get-keywords'
       searchIn: ["label"]
 
@@ -193,7 +193,7 @@ $(document).ready ()->
       searchByWord:true
       searchContain:true
       selectionRequired:true
-      minLength: 1
+      minLength: 0
       url: '/job/get-category-types'
       searchIn: ["name"] 
 

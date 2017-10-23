@@ -51,11 +51,10 @@ class CommonController extends Controller
     }
 
     public function getCategories(Request $request,$type){ 
-        $this->validate($request, [
-            'keyword' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'keyword' => 'required',
+        // ]);
 
-        
         $categories = Category::where("type",$type)->where('status',1)->where('name','like','%'.$request->area_name.'%')->where('name','like','%'.$request->keyword.'%')->orderBy('name')->get();
         
         return response()->json(['results' => $categories, 'options' => []]);

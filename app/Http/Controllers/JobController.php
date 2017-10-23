@@ -885,6 +885,7 @@ class JobController extends Controller
 
 
     public function jobListing(Request $request,$serachCity){ 
+
         $cities  = City::where('status', 1)->orderBy('name')->get();
         $requestData = $request->all();  
         $job    = new Job;
@@ -926,9 +927,7 @@ class JobController extends Controller
         if(!isset($requestData['page'])){
             $requestData['page'] = 1;
         }
-        // pagination(100,0,5);
-
-        // dd($requestData);
+        
         $header_type = "trans-header";
         return view('jobs.job-listing',compact('header_type'))->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)

@@ -4,6 +4,7 @@
 Job Listing
 @endsection
 
+
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
 @endsection
@@ -101,43 +102,7 @@ Job Listing
         <div class="row m-t-30 p-t-30 m-b-30 mobile-flex breadcrums-container mobile-hide">
             <div class="col-sm-8 flex-col">
                 <!-- Breadcrums -->
-                <ul class="fnb-breadcrums flex-row">
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">Delhi</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title main-name">Meat &amp; Poultry</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title">/</p>
-                        </a>
-                    </li>
-                    <li class="fnb-breadcrums__section">
-                        <a href="">
-                            <p class="fnb-breadcrums__title main-name">Chicken</p>
-                        </a>
-                    </li>
-                </ul>
+                {!! getPageBreadcrum('App\Seo\JobListView') !!}
                 <!-- Breadcrums ends -->
             </div>
             <div class="col-sm-4 flex-col">

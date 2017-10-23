@@ -78,18 +78,21 @@
         
     </div>
 
-    <!-- contact verification HTML -->
-    <input type="hidden" name="object_type" value="App\Job">
-    <input type="hidden" name="object_id" value="{{ $job->id}}">
-    <!-- email -->
-    @include('modals.verification.email-verification')
-    
-    <!-- phone number -->
-    @include('modals.verification.mobile-verification')
+    <div class="verification-content">
+        <!-- contact verification HTML -->
+        <input type="hidden" name="object_type" value="App\Job">
+        <input type="hidden" name="object_id" value="{{ $job->id}}">
 
-    <!-- phone number -->
-    @include('modals.verification.landline-verification')
-    <!-- /contact verification HTML -->
+        <!-- email -->
+        @include('modals.verification.email-verification')
+        
+        <!-- phone number -->
+        @include('modals.verification.mobile-verification')
+
+        <!-- phone number -->
+        @include('modals.verification.landline-verification')
+        <!-- /contact verification HTML -->
+    </div>
 
     </div>
 

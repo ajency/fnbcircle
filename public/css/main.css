@@ -10082,6 +10082,11 @@ input[type='checkbox'].remove-addr {
     padding-right: 3em;
   }
 }
+@media screen and (min-width: 769px) {
+  .jobs-head-title .joblogo {
+    margin-top: 0.2em;
+  }
+}
 @media screen and (max-width: 768px) {
   .job-type {
     -webkit-box-align: start;

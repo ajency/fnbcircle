@@ -709,7 +709,7 @@
                                 @if($loop->first)
                                 <div class="photo-gallery__banner">
                                     <a href="{{$images['full']}}" class="thumb-click">
-                                      <img src="{{$images['full']}}" class="img-responsive main-img">
+                                      <img src="{{$images['thumb']}}" class="img-responsive main-img">
                                     </a>
                                 </div>
                                 <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">

@@ -19,7 +19,7 @@ class JobSingleView extends Model
     public function getMetaData(){
 
     	$ogTag = [];
-    	$ogTag['title'] =  $this->getTitle();
+    	$ogTag['title'] =  $this->getOgTitle();
     	$ogTag['description'] =  $this->getDescription();
     	$ogTag['image'] =  $this->getImageUrl();
     	$ogTag['url'] =  $this->getPageUrl();
@@ -43,23 +43,25 @@ class JobSingleView extends Model
     	$itemPropTag['url'] =  $this->getPageUrl();
 
     	$tags = [];
+        $tags['title'] =  $this->getTitle();
     	$tags['keywords'] =  $this->getKeywords();
     	$tags['description'] =  $this->getDescription();
 
+        $page = [];
+        $page['title'] =  $this->getTitle();
+
  		
 
- 		return ['ogTag'=>$ogTag,'twitterTag'=>$twitterTag,'itemPropTag'=>$itemPropTag,'tags'=>$tags];
+ 		return ['ogTag'=>$ogTag,'twitterTag'=>$twitterTag,'itemPropTag'=>$itemPropTag,'tags'=>$tags,'page'=>$page];
 
     }
 
+    public function getOgTitle(){
+    	return $this->job->title;
+    }
+
     public function getTitle(){
-
-    	$cities = $this->job->getJobLocationNames('city');
-    	$jobCompany = $this->job->getJobCompany();
-        $jobExperience =  $this->job->getJobExperience();
-
-        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(', ', $jobExperience) .' years of experience':''; 
-    	return $this->job->title .' | '.implode(', ', $cities).' | '. $jobCompany ->name.' | '. $this->job->getJobCategoryName().$experienceStr.'| Fnb Circle ';
+        return $this->job->getPageTitle();
     } 
 
     public function getDescription(){
@@ -79,7 +81,7 @@ class JobSingleView extends Model
     }
 
     public function getPageUrl(){
-    	return url('jobs/'.$this->job->slug);
+    	return url('job/'.$this->job->slug);
     }
 
     public function getOgType(){
@@ -128,7 +130,7 @@ class JobSingleView extends Model
     	if(!empty($jobCompany->website)){
     		$organizationData['url'] = $jobCompany->website;
     	}
-    	$organizationData['@type'] = $jobCompany->name;
+    	$organizationData['name'] = $jobCompany->title;
 
 
     	$data['@context'] = 'http://schema.org';
@@ -137,7 +139,7 @@ class JobSingleView extends Model
     	$data['description'] = $this->job->getMetaDescription();
 
     	if(!empty($jobExperience)){
-    		$experienceStr = implode(', ', $jobExperience);
+    		$experienceStr = implode('years, ', $jobExperience);
     		$data['experienceRequirements'] = $experienceStr;
     	}
 

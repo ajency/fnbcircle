@@ -3311,3 +3311,42 @@ and (max-device-width: 650px) {
 	padding-bottom: 0;
 }
 
+
+.hide-areas{
+	li{
+		display: none;
+		&:nth-child(-n+3){
+			display: block;
+		}
+	}
+}
+
+.expand-more{
+	.hide-areas{
+		li{
+			display: block;
+		}
+	}
+}
+
+
+.state-row{
+	// min-width: 80px;
+}
+
+.mainRow{
+	flex: 1;
+}
+
+.state-container{
+	.remain{
+		list-style: none;
+	}
+}
+
+
+.catShow[data-readmore]{
+	display: flex;
+}
+
+

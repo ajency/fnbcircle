@@ -3743,6 +3743,7 @@ input[type=checkbox].custom-checkbox:before {
     display: inline-block;
     width: 300px;
     max-width: inherit;
+    vertical-align: top;
   }
   .article-col:first-child {
     margin-right: 0;

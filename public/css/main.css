@@ -5770,6 +5770,9 @@ input[type=checkbox].custom-checkbox:before {
 .pending-stuff .fa-clock-o {
   margin-right: 5px;
 }
+.singleV-title .seller-info__title {
+  white-space: inherit;
+}
 .search-section {
   position: relative;
   top: 2em;

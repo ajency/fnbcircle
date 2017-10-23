@@ -716,8 +716,11 @@
                                 @else
 
                                     <li>
-                                        <a href="{{$images['full']}}" class="thumb-click" style="background-image:url('{{$images['thumb']}}');">
-                                            <!-- <img src="{{$images['thumb']}}" alt="" class="img-responsive"> -->
+                                        <a href="{{$images['full']}}" class="thumb-click" >
+                                            <!-- <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
+                                                
+                                            </div> -->
+                                            <img src="{{$images['thumb']}}" alt="" class="img-responsive">
                                             @if($i == 3 and $photo_count>0)<p class="sub-title">+ {{$photo_count}} More</p>@endif
                                         </a>
                                     </li>

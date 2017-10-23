@@ -4199,15 +4199,17 @@ input[type=checkbox].custom-checkbox:before {
 }
 .photo-gallery__thumbnails li a {
   color: inherit;
+}
+.photo-gallery__thumbnails li a:hover {
+  text-decoration: none;
+}
+.photo-gallery__thumbnails li .image-mag {
   display: block;
   background-repeat: no-repeat;
   width: 100%;
   height: 100px;
   background-position: center;
   background-size: cover;
-}
-.photo-gallery__thumbnails li a:hover {
-  text-decoration: none;
 }
 .photo-gallery__thumbnails li:last-child {
   padding-right: 0;

@@ -142,33 +142,36 @@ getFilters = (update_url) ->
 		if filters["business_search"].length > 0
 			updateUrlPushstate("business_search", "business_search" + "=" + filters["business_search"])
 		else
-			updateUrlPushstate("business_search", "")
+			updateUrlPushstate("business_search", " ")
 
 		### --- Update 'categories' in URL --- ###
 		#updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
 		if $(".results__body ul.contents #current_category").val().length > 0 and $(".results__body ul.contents #current_category").val().indexOf("|[]") < 0
 			updateUrlPushstate("categories", "categories" + "=" + filters["categories"])
 		else
-			updateUrlPushstate("categories", "")
+			updateUrlPushstate("categories", " ")
 
 		### --- Update 'areas_selected' in URL --- ###
+		console.log filters["areas_selected"]
 		if filters["areas_selected"].length > 0
+			console.log "IF"
 			updateUrlPushstate("areas_selected", "areas_selected" + "=" + JSON.stringify(filters["areas_selected"]))
 		else
-			updateUrlPushstate("areas_selected", "")
-			updateUrlPushstate("location", "")
+			console.log "ELSE"
+			updateUrlPushstate("areas_selected", " ")
+			updateUrlPushstate("location", " ")
 
 		### --- Update 'business_types' in URL --- ###
 		if filters["business_types"].length > 0
 			updateUrlPushstate("business_types", "business_types" + "=" + JSON.stringify(filters["business_types"]))
 		else
-			updateUrlPushstate("business_types", "")
+			updateUrlPushstate("business_types", " ")
 
 		### --- Update 'listing_status' in URL --- ###
 		if filters["listing_status"].length > 0
 			updateUrlPushstate("listing_status", "listing_status" + "=" + JSON.stringify(filters["listing_status"]))
 		else
-			updateUrlPushstate("listing_status", "")
+			updateUrlPushstate("listing_status", " ")
 
 	return filters
 

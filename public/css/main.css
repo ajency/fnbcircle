@@ -4182,6 +4182,7 @@ input[type=checkbox].custom-checkbox:before {
   padding-right: 0.4em;
   position: relative;
   cursor: pointer;
+  display: none;
 }
 .photo-gallery__thumbnails li a {
   color: inherit;
@@ -4191,6 +4192,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .photo-gallery__thumbnails li:last-child {
   padding-right: 0;
+}
+.photo-gallery__thumbnails li:nth-child(-n+3) {
+  display: block;
 }
 .photo-gallery .sub-title {
   position: absolute;

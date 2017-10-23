@@ -119,7 +119,7 @@
         </label>
     </div>
     @foreach($plans as $plan)
-    <div class="pricing-table__cards plan-1">
+    <div class="pricing-table__cards plan-1 premium-plans">
         <label class="plan-label">
             <div class="plans__header">
                 <div class="validity">
@@ -157,7 +157,7 @@
     
 </div>
 <div class="text-right m-t-30 m-b-30 subscribe-plan">
-    @if($pending == null)<button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button> @endif
+    <button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
 </div>
 </div>
 

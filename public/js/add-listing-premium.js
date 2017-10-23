@@ -26,7 +26,7 @@
       success: function(data) {
         if (data['status'] === '200') {
           $('#pending-request').html('(Request Pending)');
-          $('#subscribe-btn').remove();
+          $('.premium-plans .planCaption').html('Click here to choose this plan');
           planContainer.find('.planCaption').html('Your request for this plan is under process');
           $('.alert-success').find('.success-message').html('Plan request sent successfully');
           return $('.alert-success').addClass('active');

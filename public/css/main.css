@@ -2441,7 +2441,7 @@ input[type="checkbox"].toggle__check {
   font-size: 1.05em;
 }
 .overflow-hidden {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .required:after {
   content: '*';
@@ -5770,6 +5770,9 @@ input[type=checkbox].custom-checkbox:before {
 .pending-stuff .fa-clock-o {
   margin-right: 5px;
 }
+.singleV-title .seller-info__title {
+  white-space: inherit;
+}
 .search-section {
   position: relative;
   top: 2em;
@@ -8374,6 +8377,11 @@ input[type='checkbox'].remove-addr {
   float: left;
   top: 8px;
 }
+@-moz-document url-prefix() {
+  input[type='checkbox'].remove-addr {
+    top: -4px;
+  }
+}
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
   .location-hours .baseline .save-addr {
     top: -4px;
@@ -9028,13 +9036,6 @@ input[type='checkbox'].remove-addr {
   margin-bottom: 0;
   cursor: pointer;
   padding-left: 3px;
-}
-@media screen and (min-width: 767px) {
-  _::-webkit-full-page-media,
-  _:future,
-  :root .node-select .nav li {
-    margin-bottom: 3.35em;
-  }
 }
 @media screen and (max-width: 768px) {
   .add-editCat {

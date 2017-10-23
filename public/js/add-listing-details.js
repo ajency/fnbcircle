@@ -79,32 +79,29 @@
     $('.payment-add').on('change:flexdatalist', function(event, set, options) {
       console.log(set);
       switch (set.value) {
-        case 'Visa cards':
-          $('input#visa').prop('checked', true);
+        case 'Online Banking':
+          $('input#online').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Debit Card':
-          $('input#debit').prop('checked', true);
+        case 'On Credit':
+          $('input#credit').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Money Order':
-          $('input#money_order').prop('checked', true);
+        case 'Credit/Debit Cards':
+          $('input#cards').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'E/Mobile Wallets':
+          $('input#wallet').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'Cash on Delivery':
+          $('input#cod').prop('checked', true);
+          return $('.flexdatalist').flexdatalist('remove', set.value);
+        case 'USSD/AEPS/UPI':
+          $('input#ussd').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
         case 'Cheque':
           $('input#cheque').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Credit Card':
-          $('input#credit').prop('checked', true);
-          return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Travelers Cheque':
-          $('input#travelers').prop('checked', true);
-          return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Cash':
-          $('input#cash').prop('checked', true);
-          return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Master Card':
-          $('input#master').prop('checked', true);
-          return $('.flexdatalist').flexdatalist('remove', set.value);
-        case 'Diner\'s Club':
-          $('input#diners').prop('checked', true);
+        case 'Draft':
+          $('input#draft').prop('checked', true);
           return $('.flexdatalist').flexdatalist('remove', set.value);
       }
     });

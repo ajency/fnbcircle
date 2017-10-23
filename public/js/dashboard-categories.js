@@ -106,6 +106,7 @@
     if (this.value === '1') {
       $('.select-parent-cat, .select-branch-cat').addClass('hidden');
       $('.parent_cat_icon').removeClass('hidden');
+      $('#add_category_modal input[type="file"]').attr('required', 'required');
       $('.select-parent-cat select').removeAttr('required');
       $('.select-branch-cat select').removeAttr('required');
       $('select[name="status"] option[value="1"]').attr("hidden", "hidden");
@@ -117,6 +118,7 @@
       $('.select-branch-cat, .parent_cat_icon').addClass('hidden');
       $('.select-parent-cat select').attr('required', 'required');
       $('.select-branch-cat select').removeAttr('required');
+      $('#add_category_modal input[type="file"]').removeAttr('required');
       $('select[name="status"] option[value="1"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="0"]').prop("hidden", false);
@@ -127,6 +129,7 @@
       $('.select-branch-cat select').attr('required', 'required');
       $('.select-branch-cat select').html('<option value="">Select Branch</option>');
       $('.select-parent-cat select').attr('required', 'required');
+      $('#add_category_modal input[type="file"]').removeAttr('required');
       $('select[name="status"] option[value="1"]').prop('hidden', false);
       $('select[name="status"] option[value="2"]').attr("hidden", "hidden");
       $('select[name="status"] option[value="0"]').prop("hidden", false);
@@ -295,7 +298,7 @@
   status = void 0;
 
   $('#datatable-categories').on('click', 'i.fa-pencil', function() {
-    var cat;
+    var cat, ecm_dropify;
     editrow = $(this).closest('td');
     cat = cat_table.row(editrow).data();
     $('input[name="categoryType"]').prop('checked', false);
@@ -304,7 +307,10 @@
     $('#edit_category_modal .parent_cat_icon').append('<input type="file">');
     $('#edit_category_modal input[type="file"]').attr('data-default-file', cat['image_url']);
     $('#edit_category_modal input[type="file"]').attr('title', cat['image_url']);
-    $('#edit_category_modal input[type="file"]').dropify();
+    ecm_dropify = $('#edit_category_modal input[type="file"]').dropify();
+    ecm_dropify.on('dropify.afterClear', function(event, element) {
+      $('input[type="file"]').attr('required', 'required');
+    });
     if (cat['level'] === 1) {
       $('input#parent_cat[name="categoryType"]').prop('checked', true);
     }

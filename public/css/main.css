@@ -5770,7 +5770,8 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 10px;
   }
   .stat-section .verified-icon {
-    background-position: -148px -682px;
+    background-position: -154px -682px;
+    width: 20px;
   }
 }
 .pending-stuff .fa-clock-o {

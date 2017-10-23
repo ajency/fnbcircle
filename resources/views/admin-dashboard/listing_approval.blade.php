@@ -115,8 +115,8 @@
                     <tr>
                       <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>
                       <th style="min-width: 12%;">Listing Name</th>
-                      <th>ID</th>
-                      <th class="no-sort" data-col="3">
+                      <th style="min-width: 5%;">ID</th>
+                      <th style="min-width: 8%;" class="no-sort" data-col="3">
                         City
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)

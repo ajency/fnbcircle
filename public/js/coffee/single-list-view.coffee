@@ -100,5 +100,7 @@ if $(window).width() < 769
   $('.similar-business').after browsecat
   status = $('.contact__enquiry .approval').detach()
   $('.new-changes .seller-info__body').append status
+  moveelement = $('.move-element').detach()
+  $('.nav-info').before moveelement
 
 

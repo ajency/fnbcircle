@@ -583,7 +583,7 @@
 
                         <!-- core categories -->
                         <div class="equal-col">
-                           <div class="core-cat">
+                           <div class="core-cat move-element">
                                 @isset($data['cores'])
                                 <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
                                 <ul class="fnb-cat special-cat flex-row">
@@ -642,7 +642,7 @@
                         <!-- claim end -->
                         @if(isset($data['images']) or isset($data['files']))
                         <!-- Photos and documents -->
-                        <div class="docs p-t-20 p-b-20 m-t-20">
+                        <div class="docs p-t-20 p-b-20 m-t-20 move-element">
                             <p class="element-title m-b-15 bolder">Photos &amp; Documents of {{$data['title']['name']}}</p>
                             @isset($data['images'])
                             <div class="photo-gallery">

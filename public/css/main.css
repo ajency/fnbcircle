@@ -6744,6 +6744,46 @@ input[type=checkbox].custom-checkbox:before {
   background-color: #ec6d4b;
   border-color: #ec6d4b;
 }
+@media screen and (max-width: 768px) {
+  .enquiry-card .add-card {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border: 0;
+  }
+  .enquiry-card .add-card__content {
+    padding-right: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .enquiry-card .add-card__form {
+    width: 100%;
+  }
+  .enquiry-card .add-card .fnb-select {
+    font-size: 1em;
+    padding-left: 0;
+  }
+  .enquiry-card .add-card .fnb-input {
+    font-size: 1em;
+  }
+  .enquiry-card .add-card .form-group {
+    margin-bottom: 10px;
+  }
+}
 .home-text {
   position: relative;
   top: 3em;

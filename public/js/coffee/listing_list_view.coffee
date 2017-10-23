@@ -737,6 +737,14 @@ $(document).ready () ->
 		return
 	), 1000
 
+	$(document).on 'click', '.send-enquiry', ->
+		$('.enquiry-card').addClass 'active'
+		return
+
+	$(document).on 'click', '.back-icon', ->
+		$('.fly-out').removeClass 'active'
+		return
+
 # $(document).ready ->
 	setTimeout (->
 		### --- For mobile Screen --- ###
@@ -763,12 +771,11 @@ $(document).ready () ->
 			  $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle 'slow'
 			  $(this).toggleClass 'active'
 			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
+			  return
 		return
 	), 1500
 
 	return
-
-
 
 
 

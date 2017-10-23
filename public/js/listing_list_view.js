@@ -647,6 +647,12 @@
     setTimeout((function() {
       getListContent();
     }), 1000);
+    $(document).on('click', '.send-enquiry', function() {
+      $('.enquiry-card').addClass('active');
+    });
+    $(document).on('click', '.back-icon', function() {
+      $('.fly-out').removeClass('active');
+    });
     setTimeout((function() {
 
       /* --- For mobile Screen --- */
@@ -674,7 +680,7 @@
         $('.recent-updates__text').click(function() {
           $(this).parent('.recent-updates').siblings('.updates-dropDown').slideToggle('slow');
           $(this).toggleClass('active');
-          return $(this).find('.arrowDown').toggleClass('fa-rotate-180');
+          $(this).find('.arrowDown').toggleClass('fa-rotate-180');
         });
       }
     }), 1500);

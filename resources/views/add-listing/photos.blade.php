@@ -20,9 +20,11 @@
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-files-maxnumber')}}">
 @endsection
 <div class="photos tab-pane fade active in" id="business_photos">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Photos &amp; Documents</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Photos &amp; Documents</h5>
+    </div>
     <div class="m-t-30 add-container c-gap">
-        <label class="label-size">Add some images for your listing (optional)</label>
+        <label class="label-size">Add some images for your listing <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Tip: Photos are the most important feature of your listing. Listing with images in general get 5x more responses.
         </div>
@@ -85,7 +87,7 @@
         </div>
     </div>
     <div class="m-t-10 upload-container c-gap">
-        <label class="label-size">Do you have some files which you would like to upload for the listing?</label>
+        <label class="label-size">Do you have some files which you would like to upload for the listing? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx &amp; .png with a maximum size of 1mb is allowed
         </div>
@@ -99,7 +101,7 @@
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   />
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                         <div id="floatingBarsG">
@@ -121,7 +123,7 @@
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
                     <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" title="{{basename($file['url'])}}" />
-                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif">
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif">
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                             <div id="floatingBarsG">
@@ -142,7 +144,7 @@
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   />
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                         <div id="floatingBarsG">
@@ -168,7 +170,7 @@
                 <input type="hidden" name="file-id" value="">
                 <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                             <div id="floatingBarsG">

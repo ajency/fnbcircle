@@ -1,5 +1,13 @@
 @extends('layouts.single-view')
 @section('title', $pageName )
+
+@php
+$additionalData = ['job'=>$job];
+@endphp
+
+@section('openGraph')   
+{!! getMetaTags('App\Seo\JobSingleView',$additionalData) !!}
+@endsection
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
@@ -15,65 +23,20 @@
     });
     </script> 
     @endif 
+
+    {!! getPageLdJson('App\Seo\JobSingleView',$additionalData) !!}
 @endsection
 
-@section('openGraph')
-<!-- Open Graph -->
-<meta property="og:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta property="og:url" content="{{ url('jobs/'.$job->slug) }}" />
 
-<meta property="og:description" content="{{ $job->getMetaDescription() }}" />
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="fnbcircle" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@fnbcircle">
-<meta name="twitter:creator" content="@fnbcircle">
-<meta name="twitter:title" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta name="twitter:url" content="{{ url('jobs/'.$job->slug) }}" />
-<meta name="twitter:description" content="{{ $job->getMetaDescription() }}" />
- 
-
-<!-- google+ -->
-<meta itemprop="name" content="{{ $job->title }} | {{ $job->getJobCategoryName() }} | fnbcircle" />
-<meta itemprop="url" content="{{ url('jobs/'.$job->slug) }}" />
-<meta itemprop="description" content="{{ $job->getMetaDescription() }}" />
- 
-@endsection
 
 @section('single-view-data')
 <div class="container">
    <div class="row m-t-30 m-b-30 mobile-flex breadcrums-container single-breadcrums">
       <div class="col-sm-8  flex-col">
          <!-- Breadcrums -->
-         <ul class="fnb-breadcrums flex-row">
-            <li class="fnb-breadcrums__section">
-               <a href="">
-               <i class="fa fa-home home-icon" aria-hidden="true"></i>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title">/</p>
-               </a>
-            </li>
-               <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title main-name">{{ breadCrumbText($job->getJobCategoryName()) }} Jobs</p>
-               </a>
-            </li>
-            
+          
+         {!! getPageBreadcrum('App\Seo\JobSingleView',$additionalData) !!}
 
-            <li class="fnb-breadcrums__section">
-               <a href="">
-                  <p class="fnb-breadcrums__title">/</p>
-               </a>
-            </li>
-            <li class="fnb-breadcrums__section">
-                  <p class="fnb-breadcrums__title main-name">{{ $job->title }}</p>
-            </li>
-         </ul>
          <!-- Breadcrums ends -->
       </div>
       <div class="col-sm-4 flex-col">
@@ -91,8 +54,8 @@
                    <i class="fa fa-arrow-right arrow-icon p-l-10" aria-hidden="true"></i>
                </a>
                </div> -->
-            @if($job->jobPostedOn()!="")
-            <p class="m-b-0 published-title job-published-date lighter default-size">Published On: {{ $job->jobPostedOn() }}</p>
+            @if($job->jobPublishedOn()!="")
+            <p class="m-b-0 published-title job-published-date lighter default-size">Published On: {{ $job->jobPublishedOn() }}</p>
             @endif
 
             @if($job->canEditJob())
@@ -119,7 +82,7 @@
    </div>
    <!-- pending review -->
    @if($job->canEditJob())
-   <div class="row">
+   <div class="row desk-hide">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -143,7 +106,8 @@
                 @php
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
-          <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}" @if($job->status != 5) onclick="return confirm('Are you sure?')" @endif ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+          <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+          <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -192,29 +156,39 @@
                     <div class="location main-loc flex-row text-primary m-b-5">
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
-                       <a href="#" class="location__title default-size fnb-label wholesaler lighter no-decor">{{ $job->getJobCategoryName() }}</a>
+ 
+                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
+ 
                     </div>
                     <!-- publish date -->
-                    @if($job->jobPublishedOn()!='')
-                    <div class="pusblished-date text-color lighter text-right x-small">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
-                    @endif
+                    <!-- @if($job->jobPublishedOn()!='')
+                    <div class="pusblished-date text-color lighter text-right x-small hidden ">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
+                    @endif -->
                   </div>
                   <div class="flex-row space-between jobs-head-title">
-                     <h3 class="seller-info__title main-heading">{{ $job->title }}</h3>
+                     <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
-                     <img src="/img/power-icon.png" class="img-responsive" width="30">
+                     <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                  </div>
+
+                  <div class="featured-jobs__row job-data company-top-info">
+                    <div class="flex-row">
+                      <div class="jobdesc">
+                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
+                       </div>
+                    </div>
                   </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
                      @if(!empty($keywords))
                        <div class="job-role">
-                          <h6 class="operations__title sub-title m-t-5">Job Role</h6>
+                          <h2 class="operations__title sub-title m-t-5">Job Role</h2>
                           <ul class="j-role flex-row">
 
                             @foreach($keywords as $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href="#" class="primary-link" title="Find all jobs matching {{ $keyword }}"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach
@@ -235,7 +209,7 @@
                 <div class="operations p-t-10 flex-row flex-wrap role-selection detachsection">
 
                       <div class="job-places">
-                        <h6 class="operations__title sub-title">Job Location</h6>
+                        <h2 class="operations__title sub-title m-t-10">Job Location</h2>
                         @foreach($locations as $city => $locAreas)
                           
                         <div class="opertaions__container flex-row job-location">
@@ -293,7 +267,7 @@
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       <div class="flex-row align-top">
                         <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
-                        <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
+                        <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
                       </div>
                       
                      </div>
@@ -303,7 +277,7 @@
                     
                 </div>
                 @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
-                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff">
+                <div class="operations p-t-10 flex-row flex-wrap role-selection contact-stuff hidden">
                     <button class="btn fnb-btn primary-btn full border-btn" data-toggle="collapse" data-target="#contact-data">Show contact info</button>
                     <!-- contact info -->
                     <div class="card seller-info sell-re collapse" id="contact-data">
@@ -317,7 +291,7 @@
                                <div class="number flex-row flex-wrap">
                                 @foreach($contactEmail as $email)
                                   @if($email['visible'])
-                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
+                                  <a class="number__real secondary-link" href="mailto:{{ $email['email'] }}" title="{{ $email['email'] }}">{{ $email['email'] }}</a>
                                   @endif
                                 @endforeach
                                     
@@ -332,7 +306,7 @@
                              <div class="number flex-row flex-wrap">
                              @foreach($contactMobile as $mobile)
                               @if($mobile['visible'])
-                                <a class="number__real secondary-link" href="callto:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
+                                <a class="number__real secondary-link" href="tel:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}" title="+{{ $mobile['country_code']}} {{ $mobile['mobile']}}">+{{ $mobile['country_code']}} {{ $mobile['mobile']}}</a>
                               @endif
                             @endforeach  
                              </div>
@@ -346,105 +320,19 @@
                             <div class="number flex-row flex-wrap">
                                 @foreach($contactLandline as $landline)
                                 @if($landline['visible'])
-                                  <a class="number__real secondary-link" href="callto:+{{ $landline['country_code']}}{{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
+                                  <a class="number__real secondary-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}" title="+{{ $landline['country_code']}} {{ $landline['landline']}}">+{{ $landline['country_code']}} {{ $landline['landline']}}</a>
                                 @endif
                               @endforeach  
                              </div>
                           </div>
                           @endif
                           
-                          
-                         <!--  <div class="message flex-row">
-                             <span class="fnb-icons exclamation"></span>
-                             <p class="message__title p-l-10">When you contact, don't forget to mention that you found this listing on FnBcircle</p>
-                          </div> -->
                        </div>
                     </div>
                 </div>
                 @endif
 
 
-                  <!-- job type -->
-
-                  <!-- <div class="stats flex-row m-t-15 owner-info">
-
-                    
-                    @if(!empty($jobTypes))
-                      <div class="job-type">
-                      @foreach($jobTypes as $jobType)
-                       <label class="fnb-label wholesaler flex-row">
-                          {{ $jobType }}
-                       </label>
-                      @endforeach
-                      </div>
-                    @endif
-                    
-
-
-                  </div> -->
-
-<!-- 
-                  <div class="operations p-t-10 flex-row flex-wrap role-selection">
-                     @if(!empty($keywords))
-                       <div class="job-role">
-                          <h6 class="operations__title sub-title">Job Role</h6>
-                          <ul class="cities flex-row">
-
-                            @foreach($keywords as $keyword)
-                             <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link"> {{ $keyword }}</a> </p>
-
-                             </li>
-                             @endforeach
-
-                             @if($moreKeywordCount) -->
-                             <!-- <li class="remain more-show">
-                                <a href="" class="secondary-link">+{{ $moreKeywordCount }}</a>
-                             </li> -->
-                             <!-- <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></i>
-                             @endif
-                            
-                          </ul>
-                       </div>
-                    @endif -->
-
-
-  
-                  
-                   <!--   <div class="off-salary">
-                        <h6 class="operations__title sub-title">Offered Salary</h6>
-
-                        @if($job->salary_lower >="0" && $job->salary_upper > "0" )
-
-                        <div class="text-color lighter">
-                          @if($job->salary_lower == $job->salary_upper )
-                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
-                          @else
-                          <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
-                          @endif
-                        {{ $job->getSalaryTypeShortForm()}}</div>
- 
-                        @else
-                        <div class="text-color lighter">Not disclosed</div>
-                        @endif
-                     </div> -->
-                    
-
-                 <!--  @if(!empty($experience))
-                     <div class="year-exp">
-                        <h6 class="operations__title sub-title">Years Of Experience</h6>
-                        <div class="flex-row flex-wrap">
-                          @foreach($experience as $exp)
-                           <div class="text-color lighter year-exp">{{ $exp }} years</div>
-                          @endforeach
-                        </div>
-                        
-                     </div>
-                     @endif
-
-                  
-
-                  </div> -->
              </div> 
 
 
@@ -454,13 +342,16 @@
 
             <!-- contact info ends -->
             <!-- updates section -->
-            <div class="update-sec m-t-30" id="updates">
+           <!--  <div class="update-sec m-t-30" id="updates">
 
-            </div>
+            </div> -->
             <!-- update section ends -->
             <!-- listed -->
-            <div class="listed p-t-5 p-b-10" id="listed">
-               <h5 class="jobDesc">Job Description</h5>
+ 
+            <div class="listed desc-start" id="listed">
+ 
+               <h3 class="jobDesc">Job Description</h3>
+ 
                <hr>
                <div class="job-desc text-color stable-size">
                   {!! $job->description !!}
@@ -468,9 +359,9 @@
               
                @if($job->interview_location!="")
                <div class="job-summary job-points">
-                  <h6 class="sub-title m-b-15">Address/Map</h6>
+                  <h6 class="sub-title m-b-15">Map address of Interview Location</h6>
                   <div class="text-color stable-size">
-                      
+                       <div class="text-color lighter mapAddress scroll-to-location" title="See the map view for interview address">{{ $job->interview_location }}</div>  
                       <div class="m-t-10" id="map" map-title="your interview location" show-address="yes">
 
                       </div>
@@ -488,7 +379,7 @@
               @endif -->
                <div class="footer-share flex-row">
                   @if($job->canEditJob())
-                    <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
@@ -502,14 +393,14 @@
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
-                        <li class="desk-hide whats-app-row" ><a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                        <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                        <li class="desk-hide whats-app-row" ><a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                         
-                        <li><a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $facebookShare }}" target="_blank" title="Share Job on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
                         
                         </li>
-                        <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $twitterShare }}" target="_blank" title="Share Job on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="{{ $googleShare }}" target="_blank" title="Share Job on Google+"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
                   @if($job->isPublished())
@@ -518,116 +409,134 @@
             </div>
             <hr>
             <!-- listed ends -->
-            <!-- Related article section -->
-            <div class="related-article p-b-20" id="article">
-               <div class="section-start-head m-b-15 flex-row">
-                  <h6 class="element-title">Featured News Articles</h6>
-                  <!-- <a href="" class="secondary-link view-more heavier">View More</a> -->
-               </div>
-               <div class="related-article__section equalCol flex-row">
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
+
+
+        @if($similarjobs->count())
+            <div class="similar-business job-similar-business p-t-20 p-b-20" id="business">
+              <div class="section-start-head m-b-15 flex-row">
+                <h6 class="element-title">Similar Jobs</h6>
+                <a href="#" class="secondary-link view-more heavier">View More</a>
+              </div>
+              <div class="similar-business__section flex-row">
+              @foreach($similarjobs as $similarjob)
+                <div class="card business-card article-col">
+                  <div class="business-card__body">
+                    <div class="flex-row space-between">
+                      <div class="location main-loc flex-row text-primary m-b-5 similar-cat">
+                         <a href="#" class="location__title x-small fnb-label wholesaler lighter no-decor">{{ $similarjob->getJobCategoryName() }}</a>
+                      </div>
+                    </div>
+                    <div class="address">
+                        <p class="sub-title heavier ellipsis-2">{{ $similarjob->title }}</p>
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i> {{ implode(', ',$similarjob->getJobLocationNames('city'))}}</p>
+
+                        @if(!empty($similarjob->getJobExperience()))
+                        <p class="m-b-0 lighter address-title m-t-5"><i class="fa fa-briefcase p-r-5" aria-hidden="true"></i> <span class="default-size">{{ implode(' years ,',$similarjob->getJobExperience()) }} years</span></p>
+                        @endif
+                    </div>
                   </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner banner-2"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
+                  <div class="business-card__footer flex-row">
+                    <p class="sub-title heavier footer-text"><a href="{{ url('/job/'.$similarjob->getJobSlug()) }}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                    @if($similarjob->jobPublishedOn()!="")
+                    <span class="x-small date lighter">Published on {{ $similarjob->jobPublishedOn(3) }}</span>
+                    @endif
                   </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
-                  </div>
-                  <div class="related-article__col article-col fnb-article">
-                     <a href="" class="article-link">
-                        <div class="fnb-article__banner banner-2"></div>
-                        <div class="fnb-article__content m-t-10">
-                           <h6 class="sub-title fnb-article__title">Nestle details ways to make cappuc-cinos creamier.</h6>
-                           <!-- <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p> -->
-                        </div>
-                     </a>
-                     <span class="dis-block fnb-article__caption lighter date flex-row space-between">
-                     <label class="fnb-label news-label">Supplier innovation</label>
-                     June 28, 2017
-                     </span>
-                  </div>
-               </div>
+                </div>
+              @endforeach
+              </div>
+            </div>
+            <!-- similar business ends -->
+          @endif
+
+
+        <!-- Related article section -->
+       
+          <div class="related-article p-b-20" id="article">
+              <div class="section-start-head m-b-15 flex-row">
+                <h6 class="element-title">Related News Articles</h6>
+                <a href="" class="secondary-link view-more heavier">View More</a>
+              </div>
+              <div class="related-article__section jobs-related-article flex-row align-top">
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                    </div>
+                  </a>
+                </div>
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner banner-2"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
          </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-4 tes">
          <div class="detach-col-1">
-            <div class="equal-col">
-               <!-- <div class="Company-info">
-                  <div class="flex-row name-row">
-                    
-                     <div class="company-logo">
-                        <img src="{{ $companyLogo }}" width="60">
-                     </div>
-                    @if(!empty($jobCompany->logo))@endif
-                     <div class="company-name heavier">
-                        <div class="@if(empty($jobCompany->logo)) text-center @endif">
-                           <div class="heavier @if(empty($jobCompany->logo)) element-title @else sub-title @endif">
-                            {{ $jobCompany->title }}
-                            </div>
+            <div class="equal-col job-equal-col">
+               @if($job->canEditJob())
+                 <div class="row mobile-hide">
+                    <div class="col-sm-12">
+                       <div class="pre-benefits job-pending-review pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
+                          <div class="pre-benefits__intro flex-row">
+                             <div class="pre-benefits__content">
+                                <h5 class="sub-title pre-benefits__title m-b-0">The current status of your job listing is <b>{{ $job->getJobStatus()}} </b> 
+                                @if($job->status == 1)
+                                <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
+                                @endif
+                                </h5>
+                             </div>
+                          </div>
+                          @if(!$job->submitForReview() && !$job->getNextActionButton())
+                          <button type="button" class="close desk-hide" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#10005;</span></button>
+                          @endif
 
+                          @if($job->submitForReview()) 
+                           <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit for review</button></a>
+                          @endif
 
-                           @if(!empty($jobCompany->website))
+                          @if($job->getNextActionButton())
+                              @php
+                              $nextActionBtn =$job->getNextActionButton();
+                              @endphp
+                        <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+                        <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                          
+                           
+                          @endif
+                       </div>
+                    </div>
+                 </div>
+                @endif
 
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }} <i class="fa fa-link p-r-5" aria-hidden="true"></i></a>
-
-                           @endif
-
-                           @if(!empty($jobCompany->description))
-                           <a href="#" class="secondary-link dis-block x-small m-t-5 check-detail @if(empty($jobCompany->website) && empty($jobCompany->logo)) text-center @endif">View details</a>
-                           @endif
-                        </div>
-                     </div>
-                  </div>
-
-               </div> -->
-               <div class="contact__info applyJob">
-                  <!-- If logged in -->
-                  <!-- If not logged in -->
-                  @if($job->status != 3 && $job->status != 4)
+                @if($job->status != 3 && $job->status != 4)
                    
                   <h5 class="sub-title pre-benefits__title m-b-0 no-published">You're viewing the job which is not yet published.</h5>
                                
-                   @endif
+                @endif
+
+               <div class="contact__info applyJob">
+                  <!-- If logged in -->
+                  <!-- If not logged in -->
+                  
 
                   @if($job->canEditJob())
-                     <p class="sub-title m-b-0 text-color">Number of job applicants : 0</p>
+                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : 0</p>
                   @else
                   <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                   
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <a href="#" class="secondary-link p-l-20 dis-block"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
               @if($job->isPublished()) 
@@ -635,13 +544,13 @@
                   <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                   <ul class="options flex-row flex-wrap">
                      <li class="desk-hide whats-app-row" >
-                     <a href="whatsapp://send" data-text="{{ $shareTitle }}" data-href="{{ $shareLink }}" class="wa_btn wa_btn_s hidden " style="display:none"><i class="fa fa-whatsapp" aria-hidden="true"></i></a> 
-                     <a href="{{ $watsappShare }}" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $linkedInShare }}" target="_blank"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                    
+                     <a href="{{ $watsappShare }}" target="_blank" title="Share Job on Whatsapp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $linkedInShare }}" target="_blank" title="Share Job on Linkedin"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
                      <li>
-                     <a href="{{ $facebookShare }}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $twitterShare }}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                     <li><a href="{{ $googleShare }}" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                     <a href="{{ $facebookShare }}" target="_blank" title="Share Job on Facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $twitterShare }}" target="_blank" title="Share Job on Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                     <li><a href="{{ $googleShare }}" target="_blank" title="Share Job on Google+"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                   </ul>
                </div>
                
@@ -649,16 +558,6 @@
             </div>
             <!-- Advertisement ends -->
             <div class="featured-jobs browse-cat company-section">
-              @if(!empty($jobTypes))
-               <h6 class="m-t-0 company-section__title">Job Type</h6>
-               <div class="featured-jobs__row flex-row">
-                    <div class="job-type">
-                    @foreach($jobTypes as $jobType)
-                     <div class="text-color year-exp">{{ $jobType }}</div>
-                    @endforeach
-                    </div>
-               </div>
-               @endif
                <h6 class="m-t-0 company-section__title">Offered Salary</h6>
                <div class="featured-jobs__row flex-row">
                    @if($job->salary_lower >="0" && $job->salary_upper > "0" )
@@ -678,7 +577,7 @@
                @if(!empty($experience))
                <h6 class="m-t-0 company-section__title">Years Of Experience</h6>
                <div class="featured-jobs__row flex-row">
-                   <div class="year-exp">
+                   <div class="year-exp ms-container">
                       <div class="flex-row flex-wrap">
                         @foreach($experience as $exp)
                          <div class="text-color year-exp">{{ $exp }} years</div>
@@ -687,7 +586,19 @@
                    </div>
                </div>
                @endif
-               <h6 class="m-t-0 company-section__title">Company Info</h6>
+
+               @if(!empty($jobTypes))
+               <h6 class="m-t-0 company-section__title">Job Type</h6>
+               <div class="featured-jobs__row flex-row ms-container">
+                    <div class="job-type">
+                    @foreach($jobTypes as $jobType)
+                     <div class="text-color year-exp">{{ $jobType }}</div>
+                    @endforeach
+                    </div>
+               </div>
+               @endif
+
+               <h3 class="m-t-0 company-section__title">Company Info</h3>
                <div class="featured-jobs__row job-data">
                   <div class="flex-row align-top">
                     <div class="joblogo">
@@ -699,20 +610,23 @@
                     </div>
                     <div class="jobdesc">
                         <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                        <span class="x-small text-color">
+                        <span class="x-small text-color break-all">
                         @if(!empty($jobCompany->website))
-                           <a href="{{ $jobCompany->website }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank">{{ $jobCompany->website }}</a>
+
+                           <a href="{{ $jobCompany->website() }}" class="primary-link default-size ellipsis-2" title="{{ $jobCompany->website }}" target="_blank" title="{{ $jobCompany->title }}">{{ $jobCompany->website }}</a>
                            @endif
                         </span>
                      </div>
                   </div>
                </div>
+               
                 @if(!empty($jobCompany->description))
                   <h6 class="m-t-0 company-section__title">About Company</h6>
-                  <div class="featured-jobs__row flex-row">
-                     <div>
+                  <div class="featured-jobs__row">
+                     <div class="readMore">
                         <span class="x-small text-color">
                           {!! $jobCompany->description !!}
+                         <!--  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas libero pariatur consequatur quibusdam doloribus aliquid commodi laudantium quaerat, dicta perferendis enim, ea quis debitis consequuntur quisquam magni nam quia fugiat. -->
                         </span>
                      </div>
                   </div>
@@ -724,7 +638,7 @@
             <!-- advertisement ends -->
          </div>
                   <!-- Featured Jobs -->
-        <div class="featured-jobs browse-cat">
+        <div class="featured-jobs browse-cat hidden ">
            <h6 class="element-title m-t-0">Featured Jobs</h6>
            <hr>
            <div class="featured-jobs__row flex-row">
@@ -790,29 +704,7 @@
         </div>
         <!-- End featured jobs -->
         <!-- Similar Jobs -->
-        @if($similarjobs->count())
-        <div class="featured-jobs browse-cat">
-           <h6 class="element-title m-t-0">Similar Jobs</h6>
-           <hr>
-           @foreach($similarjobs as $similarjob)
-           <div class="featured-jobs__row flex-row">
-              <div class="joblogo">
-                 <img src="http://via.placeholder.com/60x60">
-              </div>
-              <div class="jobdesc">
-                 <div>
-                    <p class="default-size heavier m-b-0">{{ $similarjob->title }}</p>
-                    <span class="x-small text-color">{{ $similarjob->getJobCategoryName() }}</span>
-                 </div>
-                 <div class="location flex-row">
-                    <span class="fnb-icons map-icon"></span>
-                    <span class="x-small">{{ implode(', ',$similarjob->getJobLocationNames('city'))}}</span>
-                 </div>
-              </div>
-           </div>
-          @endforeach
-        </div>
-        @endif
+      
         <!-- Similar jobs -->
         <!-- Claim -->
         <div class="claim-box p-b-10 job-post">
@@ -821,7 +713,7 @@
            <!-- <span class="fnb-icons exclamation"></span> -->
            <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
            <div class="contact__enquiry text-center m-t-15">    
-              <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button>
+              <a href="{{ url('jobs/create') }}"><button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
            </div>
         </div>
 
@@ -907,39 +799,5 @@
 
 </div>
 
-<!-- Modal -->
-                <!-- listing review -->
-                @if($job->id)
-                <div class="modal fnb-modal listing-review job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <div class="listing-message">
-                                    @if($job->status == 2 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">We have sent your job for review</h4>
-                                    <p class="default-size text-color lighter list-caption">Our team will review your job and you will be notified if your job is published.</p>
-                                    @elseif($job->status == 3 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">Your job is now published</h4>
-                                    @elseif($job->status == 4 )
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">Your job is now archived</h4>
-                                    @endif
-                                </div>
-                                <div class="listing-status highlight-color">
-                                    <p class="m-b-0 text-darker heavier">The current status of your job is</p>
-                                    <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> {{ $job->getJobStatus()}}  <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                    <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
+@include('jobs.job-status-modal')
 @endsection

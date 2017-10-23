@@ -205,9 +205,10 @@ class JobController extends Controller
     public function addJobKeywords($job,$keywords,$jobKeywords){
         $job->hasKeywords()->delete();
         $keywordData = [];
+
         foreach ($keywords as $keywordId => $keyword) {
-            
-            if(in_array($keyword, $jobKeywords)){
+             
+            if(!empty($jobKeywords) && in_array($keyword, $jobKeywords)){
                 $keywordData[$keywordId] = $keyword;
                 $jobKeyword    = new JobKeyword;
                 $jobKeyword->job_id = $job->id;
@@ -228,7 +229,7 @@ class JobController extends Controller
     public function getExperienceLowerAndUpperValue($jobExperience){
  
         $lower = $upper =[];
-        $min = $max = 0;
+        $min = $max = 0; 
         if(!empty($jobExperience)){
 
 
@@ -238,16 +239,18 @@ class JobController extends Controller
                 else
                     $experienceValues = explode('+', $experience);
 
+
                 if(!empty($experienceValues)){
                     $lower[] = trim($experienceValues[0]);
                     $upper[] = trim($experienceValues[1]);
                 }
 
             } 
-            $min = min($lower);
-            $max = max($upper);
-        }
 
+            $min = min($lower);
+            $max = (max($upper) == '') ? 10 :max($upper);
+        }
+        
         return ['lower'=> $min, 'upper'=>$max];
     }
 
@@ -262,7 +265,10 @@ class JobController extends Controller
 
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
-  
+        
+        if(!empty($job) && $job->slug!="" && $job->slug!=$jobSlug)
+            abort(404);
+
         if(empty($job))
             abort(404);
 
@@ -289,14 +295,14 @@ class JobController extends Controller
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
         $data['companyLogo'] = $companyLogo;
-        $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
+        $data['pageName'] = $job->getPageTitle();
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
 
         $shareLink = url('/job/'.$job->getJobSlug());
         $shareTitle = $job->title.' | ' .$job->getJobCategoryName()." | fnbcircle";
 
-        $facebookShare = "https://www.facebook.com/dialog/share?app_id=117054608958714&display=page&href=".$shareLink;
+        $facebookShare = "https://www.facebook.com/dialog/share?app_id=".env('FACEBOOK_ID')."&display=page&href=".$shareLink;
 
         $twitterShare = "http://www.twitter.com/share?url=".$shareLink;
         
@@ -638,6 +644,7 @@ class JobController extends Controller
         }
    
         $job->job_modifier = $userId;
+        $job->updated_at = date('Y-m-d H:i:s');
         $job->save(); 
 
         if($hasChanges == 1)
@@ -657,7 +664,7 @@ class JobController extends Controller
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')
-        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%" order by label asc');
+        $jobKeywords = \DB::select('select id,label  from  defaults where type="job_keyword" and label like "%'.$request->keyword.'%" order by label asc');
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }
@@ -754,6 +761,20 @@ class JobController extends Controller
 
             $jobQuery->distinct('jobs.id');
         }
+
+        if(isset($filters['published_date_from']) && !empty($filters['published_date_from']) && !empty($filters['published_date_to']))
+        { 
+
+            $jobQuery->where('jobs.published_on','>=',$filters['published_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.published_on','<=',$filters['published_date_to'].' 23:59:59');
+        }
+
+        if(isset($filters['submission_date_from']) && !empty($filters['submission_date_from']) &&  !empty($filters['submission_date_to']))
+        {
+            $jobQuery->where('jobs.date_of_submission','>=',$filters['submission_date_from'].' 00:00:00'); 
+            $jobQuery->where('jobs.date_of_submission','<=',$filters['submission_date_to'].' 23:59:59');
+        }
+
 
         if(isset($filters['experience']) && !empty($filters['experience']))
         {

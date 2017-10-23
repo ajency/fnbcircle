@@ -8,6 +8,7 @@ use App\Area;
 use App\Company;
 use App\Category;
 use App\UserCommunication;
+use App\JobLocation;
 use Auth;
 
 class Job extends Model
@@ -29,7 +30,7 @@ class Job extends Model
     }
 
     public function getTitleAttribute( $value ) { 
-        $value = ucwords( $value );      
+        $value = title_case( $value );      
         return $value;
     }
 
@@ -65,7 +66,7 @@ class Job extends Model
     }
 
     public function getJobCategoryName(){ 
-        $categoryName = strtolower($this->category->name);
+        $categoryName = $this->category->name;
         return ucwords($categoryName);
     }
 
@@ -111,10 +112,11 @@ class Job extends Model
     	return $experience;
     }
 
-    public function getJobExperience($id){
-    	$experienceData = $this->jobExperience();
-    	$experience = $experienceData[$id];
-    	return $experience;
+    public function getJobExperience(){
+     	$metaData = $this->meta_data;
+        $jobExperience = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+    	return $jobExperience;
+ 
     }
 
     public function salaryTypes(){
@@ -180,16 +182,67 @@ class Job extends Model
         return $this->hasOne('App\JobCompany');
     }
 
-    public function getMetaDescription(){
-       if(!empty($this->description)){            
 
-        return strip_tags(trim($this->description));
+    public function getPageTitle(){
 
-        }else{
-            return '';
-        } 
+        $cities = $this->getJobLocationNames('city');
+        $jobCompany = $this->getJobCompany();
+        $jobExperience =  $this->getJobExperience();
+
+        $experienceStr = (!empty($jobExperience)) ? ' | '. implode(' years, ', $jobExperience) .' years of experience':''; 
+        return $this->title .' | '.implode(', ', $cities).' | '. $jobCompany->title.' | '. $this->getJobCategoryName().$experienceStr.'| Fnb Circle ';
     }
 
+    public function getMetaDescription(){
+       // if(!empty($this->description)){            
+
+       //  return strip_tags(trim($this->description));
+
+       //  }else{
+       //      return '';
+       //  }
+        $cities = $this->getJobLocationNames('city');
+        $jobCompany = $this->getJobCompany();
+        $jobRoles = $this->getAllJobKeywords();
+        $jobTypes = $this->getJobTypes();
+        $jobExperience =  $this->getJobExperience();
+
+        $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
+        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->title;
+
+        $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
+   
+        if(!empty($jobTypes)){
+            $description .= ' Job Type:'.implode(', ', $jobTypes).'.' ;
+        }
+
+        if(!empty($this->interview_location)){
+            $description .= ' Interview Location:'.$this->interview_location.'.' ;
+        }
+
+
+        $description .= ' Apply Now!' ;
+        
+
+        return $description;
+        
+
+    }
+
+    public function getSeoImage(){
+        $jobCompany = $this->jobCompany()->first();
+        $company = null;
+        $seoImage = url('img/logo-fnb.png');
+        if(!empty($jobCompany)){
+            if(($jobCompany->logo))
+                $seoImage = $jobCompany->getCompanyLogo('company_logo');
+              
+        } 
+
+        return $seoImage;
+    }
+
+ 
     public function getShortDescription(){
        if(!empty($this->description)){            
 
@@ -208,6 +261,15 @@ class Job extends Model
         } 
     }
 
+ 
+    public function getAllJobKeywords(){
+        $metaData = $this->meta_data;
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+
+        return implode(',', $jobKeywords);
+    }
+
+ 
     public function getJobCompany(){
         $jobCompany = $this->jobCompany()->first();
         $company = null;
@@ -235,6 +297,12 @@ class Job extends Model
     	}
 
     	return ['savedLocation'=>$savedLocation,'areas'=>$areas];
+    }
+
+    public function getJobSingleState(){
+        $jobLoction = $this->hasLocations()->first();
+        $city = City::find($jobLoction['city_id'])->name;
+        return $city;
     }
 
     public function  getJobLocationNames($getData='all'){
@@ -288,6 +356,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->date_of_submission)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->date_of_submission)));
 
@@ -313,6 +387,16 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->published_on)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->published_on)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
+            elseif($format==3){
+                $date = date('jS F', strtotime(str_replace('-','/', $this->published_on)));
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->published_on)));
 
@@ -327,6 +411,12 @@ class Job extends Model
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->updated_at)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->updated_at)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
             else
                 $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->updated_at)));
 
@@ -366,13 +456,20 @@ class Job extends Model
     public function publishJob(){
         
         $this->status = 3;
-        if($this->slug =="")
+        if($this->slug ==""){
             $this->slug = $this->getJobSlug();
+            $this->published_on = date('Y-m-d H:i:s');
+            $this->published_by = Auth::user()->id;
+        }
+            
         $this->save();
 
-        $company = $this->getJobCompany();
-        $company->status = 2;
-        $company->save();
+        if(!empty($this->getJobCompany())){
+            $company = $this->getJobCompany();
+            $company->status = 2;
+            $company->save();
+        }
+        
 
         return true;
 
@@ -397,7 +494,9 @@ class Job extends Model
 
     public function getJobSlug(){
         $titleSlug = str_slug($this->title);
+ 
         $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug : '';
+ 
         if(empty($this->slug))
             $slug = $titleSlug.'-'.$this->category->slug.'-'.$companySlug.'-'.$this->reference_id;
         else
@@ -410,7 +509,7 @@ class Job extends Model
     public function getSimilarJobs(){
 
         //, 'status'=>3  
-        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->orderBy('published_on','desc')->get()->take(4);
+        $jobs = Job::where(['category_id' => $this->category_id])->where('id', '<>',$this->id)->where('status', 3)->orderBy('published_on','desc')->get()->take(4);
         return $jobs;
     }
 

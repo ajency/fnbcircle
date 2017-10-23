@@ -92,9 +92,11 @@
                     <!-- Breadcrums ends -->
                 </div>
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    @if($listing->reference!=null)
-                        <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
-                    @endif
+                    <div class="detach-preview mobile-hide">
+                        @if($listing->reference!=null)
+                            <a href="http://staging.fnbcircle.com/single-view.html" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Listing</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -488,7 +490,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
+                                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip to Continue <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
                             </div>
                         </div>
                     </div>

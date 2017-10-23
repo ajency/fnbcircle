@@ -7,36 +7,39 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
   if city == ''
     return
 
+  hasDuplicateState = false
   jobCityObj.closest('.areas-select').find('select[name="job_city[]"]').each ->
     if jobCityObj.get(0) != $(this).get(0) and $(this).val() == city
-      jobCityObj.closest('.city').find('.city-errors').text 'City already selected'
+      jobCityObj.closest('.city').find('.state-errors').text 'State already selected'
+      hasDuplicateState =true
       jobCityObj.val ''
       return 
 
-  $.ajax
-    type: 'post'
-    url: '/get_areas'
-    data:
-      'city': city
-    success: (data) ->
-      # console.log data
-      for key of data
-        html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
+  if !hasDuplicateState
+    $.ajax
+      type: 'post'
+      url: '/get_areas'
+      data:
+        'city': city
+      success: (data) ->
+        # console.log data
+        for key of data
+          html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
 
-      jobCityObj.closest('.location-select').find('.job-areas').html html
-      jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
-      jobCityObj.closest('.location-select').find('.job-areas').multiselect
-        includeSelectAllOption: true
-        numberDisplayed: 2
-        delimiterText:','
-        nonSelectedText: 'Select City'
+        jobCityObj.closest('.location-select').find('.job-areas').html html
+        jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
+        jobCityObj.closest('.location-select').find('.job-areas').multiselect
+          includeSelectAllOption: true
+          numberDisplayed: 2
+          delimiterText:','
+          nonSelectedText: 'Select City'
 
-      jobCityObj.closest('.location-select').find('.job-areas').attr('name','job_area['+city+'][]')
+        jobCityObj.closest('.location-select').find('.job-areas').attr('name','job_area['+city+'][]')
 
-      return
-    error: (request, status, error) ->
-      throwError()
-      return
+        return
+      error: (request, status, error) ->
+        throwError()
+        return
 
 
 $('input[name="salary_type"]').change (e) ->
@@ -78,6 +81,7 @@ $(document).ready ()->
       searchContain:true
       selectionRequired:true
       minLength: 0
+      maxShownResults: 5000
       url: '/get-keywords'
       searchIn: ["label"]
     return
@@ -331,8 +335,12 @@ if $(window).width() <= 768
   ), 500
   Applybtn = $('.applyJob').detach()
   $('.detachsection').after Applybtn
-  Articles = $('.related-article').detach()
+  Articles = $('.related-article,.similar-business').detach()
   $('.list-of-business').after Articles
+  adv = $('.advertisement').detach()
+  $('.list-of-business').after adv
+  company = $('.company-info').detach()
+  $('.desc-start').after company
 
 $('[data-toggle="tooltip"]').tooltip()
 
@@ -345,9 +353,21 @@ $('[data-toggle="tooltip"]').tooltip()
 #   return
 # ), 1000
 
- 
+
+# Get id add active
+
+if $(window).width() > 769
+  getID = $('.gs-form .tab-pane').attr('id')
+  $('.gs-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return 
+
+
 
 $('.add-job-areas').click (e) ->
+  locationLen = $('.location-select').length
+  addLocationLen = parseInt(locationLen)+1
   area_group = undefined
   area_group_clone = undefined
   e.preventDefault()
@@ -356,12 +376,31 @@ $('.add-job-areas').click (e) ->
   area_group_clone.removeClass 'area-append hidden'
   area_group_clone.find('.areas-appended').addClass 'newly-created'
   area_group_clone.find('.selectCity').attr 'data-parsley-required', ''
-  area_group_clone.find('.selectCity').attr 'data-parsley-required-message', 'Select a city where the job is located.'
-  area_group_clone.find('.newly-created').attr 'data-parsley-required', ''
-  area_group_clone.find('.newly-created').attr 'data-parsley-required-message', 'Select an area where the job is located.'
+  area_group_clone.find('.selectCity').attr 'data-parsley-errors-container', '#state-errors'+addLocationLen
+  area_group_clone.find('.state-errors').attr 'id', 'state-errors'+addLocationLen
+  area_group_clone.find('.selectCity').attr 'data-parsley-required-message', 'Select a state where the job is located.'
+  area_group_clone.find('.job-areas').attr 'data-parsley-required', ''
+  area_group_clone.find('.job-areas').attr 'data-parsley-required-message', 'Select city where the job is located.'
+  area_group_clone.find('.job-areas').attr 'data-parsley-errors-container', '#city-errors'+addLocationLen
+  area_group_clone.find('.city-errors').attr 'id', 'city-errors'+addLocationLen
   area_group_clone.find('.newly-created').multiselect
     includeSelectAllOption: true
     numberDisplayed: 1
     nonSelectedText: 'Select City'
   area_group_clone.insertBefore area_group
   return
+
+
+previewL = $('.detach-preview').detach()
+$('.preview-detach').append previewL
+
+
+if $('.readMore').length
+  $('.readMore').readmore
+    speed: 75
+    collapsedHeight: 40
+    lessLink: '<a href="#">Read less</a>'
+
+
+
+

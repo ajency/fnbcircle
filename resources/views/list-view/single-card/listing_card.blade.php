@@ -18,11 +18,11 @@
                     </i>
                 </p>
             </div> -->
-            <div class="seller-info__body filter-cards__body flex-row white-space">
+            <div class="seller-info__body filter-cards__body flex-row white-space list-new-changes">
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">{{ $list_value->title }}</a></h3>
+                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-5 flex-row">

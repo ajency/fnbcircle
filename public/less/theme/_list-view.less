@@ -419,6 +419,10 @@
 			padding: 0.4em 1em;
 			margin-left: 0;
     		margin-right: 0.5em;
+    		display: none;
+    		&:nth-child(-n+4),&:last-child{
+				display: block;
+			}
 			a{
 				font-size: 0.95em;
 			}
@@ -489,7 +493,7 @@
 		}
 	}
 	.operations__title{
-		margin-top: 2em;
+		// margin-top: 2em;
 	}
 }
 
@@ -547,6 +551,7 @@
 		}
 		.seller-info{
 			.verified-icon{
+				margin-left: -5px;
 				width: 28px;
 				background-size: auto;
 				background-position: -265px -249px;
@@ -637,6 +642,9 @@
 				max-width: 100%;
 			}
 		}
+		.moreLink{
+			font-size: 1em;
+		}
 		.main-heading{
 			font-size: 1.35em;
 		}
@@ -646,28 +654,25 @@
 		.stats{
 			margin-top: 0;
 			padding: 0;
+			justify-content: space-between;
 		}
 		.rat-pub{
 			flex-direction: column;
-    		align-items: flex-end;
+    		align-items: flex-start;
     		.rating-view{
     			padding-right: 0;
     		}
 		}
 		.fnb-cat{
 			li{
-				display: none;
 				padding: 0.3em 0.7em;
-				&:nth-child(-n+2),&:last-child{
-					display: block;
-				}
 				a{
 					font-size: 0.9em;
 				}
 			}
 		}
 		.verified{
-			padding-left: 10px;
+			// padding-left: 10px;
 			.c-title{
 				display: block;
 				font-size: 1em;
@@ -676,7 +681,7 @@
 		}
 		.published-date{
 			font-size: 0.85em;
-    		padding-left: 0.8em;
+    		// padding-left: 0.8em;
     		text-align: right;
 		}
 		.cat-holder{
@@ -689,6 +694,7 @@
 				margin-bottom: 5px;
 			}
 		}
+
 		.operations{
 			&__title{
 				margin-bottom: 5px;
@@ -796,6 +802,12 @@
 	}
 	.list-title-container{
 		display: flex;
+		position: relative;
+		.power-seller-container{
+			position: absolute;
+    		top: -3.6em;
+    		right: -1.2em;
+		}
 	}
 	.businessListing{
 		display: flex;

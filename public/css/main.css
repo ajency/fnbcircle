@@ -6276,6 +6276,11 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0.4em 1em;
   margin-left: 0;
   margin-right: 0.5em;
+  display: none;
+}
+.filter-cards .fnb-cat li:nth-child(-n+4),
+.filter-cards .fnb-cat li:last-child {
+  display: block;
 }
 .filter-cards .fnb-cat li a {
   font-size: 0.95em;
@@ -6351,9 +6356,6 @@ input[type=checkbox].custom-checkbox:before {
 .filter-cards .verified .c-title {
   font-size: 1em;
 }
-.filter-cards .operations__title {
-  margin-top: 2em;
-}
 .power-seller {
   margin-left: auto;
 }
@@ -6403,6 +6405,7 @@ input[type=checkbox].custom-checkbox:before {
     margin-bottom: 0;
   }
   .filter-data .seller-info .verified-icon {
+    margin-left: -5px;
     width: 28px;
     background-size: auto;
     background-position: -265px -249px;
@@ -6487,6 +6490,9 @@ input[type=checkbox].custom-checkbox:before {
     padding-left: 0;
     max-width: 100%;
   }
+  .filter-cards .moreLink {
+    font-size: 1em;
+  }
   .filter-cards .main-heading {
     font-size: 1.35em;
   }
@@ -6496,6 +6502,10 @@ input[type=checkbox].custom-checkbox:before {
   .filter-cards .stats {
     margin-top: 0;
     padding: 0;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   .filter-cards .rat-pub {
     -webkit-box-orient: vertical;
@@ -6503,27 +6513,19 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
-    -webkit-box-align: end;
-    -webkit-align-items: flex-end;
-        -ms-flex-align: end;
-            align-items: flex-end;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
   }
   .filter-cards .rat-pub .rating-view {
     padding-right: 0;
   }
   .filter-cards .fnb-cat li {
-    display: none;
     padding: 0.3em 0.7em;
-  }
-  .filter-cards .fnb-cat li:nth-child(-n+2),
-  .filter-cards .fnb-cat li:last-child {
-    display: block;
   }
   .filter-cards .fnb-cat li a {
     font-size: 0.9em;
-  }
-  .filter-cards .verified {
-    padding-left: 10px;
   }
   .filter-cards .verified .c-title {
     display: block;
@@ -6532,7 +6534,6 @@ input[type=checkbox].custom-checkbox:before {
   }
   .filter-cards .published-date {
     font-size: 0.85em;
-    padding-left: 0.8em;
     text-align: right;
   }
   .filter-cards .cat-holder {
@@ -6676,6 +6677,12 @@ input[type=checkbox].custom-checkbox:before {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    position: relative;
+  }
+  .list-title-container .power-seller-container {
+    position: absolute;
+    top: -3.6em;
+    right: -1.2em;
   }
   .businessListing {
     display: -webkit-box;

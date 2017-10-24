@@ -3,7 +3,6 @@
 
   filterJobs = function(resetPage) {
     var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
-    console.log(resetPage);
     append = false;
     if (resetPage) {
       $('input[name="listing_page"]').val(1);
@@ -275,7 +274,6 @@
         return filterJobs(true);
       }
     });
-    console.log($('.area-list').attr('has-filter'));
     if ($('.area-list').attr('has-filter').trim() === 'no') {
       displayCityText();
     }

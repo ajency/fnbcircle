@@ -1,5 +1,5 @@
 filterJobs = (resetPage) ->
-  console.log resetPage
+  # console.log resetPage
   append = false
   if (resetPage) 
     $('input[name="listing_page"]').val(1)
@@ -274,7 +274,7 @@ $(document).ready ()->
       $('input[name="category_id"]').attr 'slug','' 
       filterJobs(true)
 
-  console.log $('.area-list').attr('has-filter')
+  # console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
   filterJobs(true)

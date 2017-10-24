@@ -818,7 +818,6 @@ class JobController extends Controller
             $salaryUpper = $filters['salary_upper'];
             $salaryType = $filters['salary_type'];
 
-            
 
             $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
@@ -842,11 +841,11 @@ class JobController extends Controller
                 });
 
                 //for not disclosed salary
-                $salaryQry->orWhere(function($query)use($salaryLower,$salaryUpper)
+                $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
                 {
-                    $query->where('jobs.salary_lower',0); 
-                    $query->where('jobs.salary_upper',0); 
-                    $query->where('jobs.salary_type',0); 
+                    $salaryQuery->where('jobs.salary_lower',0); 
+                    $salaryQuery->where('jobs.salary_upper',0); 
+                    $salaryQuery->where('jobs.salary_type',0); 
                 });
             });
             
@@ -954,8 +953,8 @@ class JobController extends Controller
 
     public function getListingJobs(Request $request){
        
-        $length = 5;
-        $orderDataBy = ['created_at'=>'desc'];
+        $length = 10;
+        $orderDataBy = ['published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $startPage = ($filters['page'] - 1); 

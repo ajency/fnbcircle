@@ -49,12 +49,12 @@
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type }}
                             </label>
-                            <div class="verified flex-row p-l-10">
-                                @if ($list_value->verified)
-                                    <span class="fnb-icons verified-icon verified-mini"></span>
-                                    <p class="c-title">Verified</p>
-                                @endif
+                            @if ($list_value->verified)
+                            <div class="verified flex-row p-r-10">
+                                <span class="fnb-icons verified-icon verified-mini"></span>
+                                <p class="c-title">Verified</p>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <div class="m-t-15 p-t-15 cat-holder">
@@ -70,7 +70,7 @@
                                 @endforeach
                                 @if (sizeof($list_value->cores) > 4)
                                     <li class="cat-more more-show">
-                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="x-small secondary-link">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                     </li>
                                 @endif
                             </ul>
@@ -83,7 +83,7 @@
                             <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
                         @endif
                         @if(sizeof($list_value->areas_operation) > 0)
-                            <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
+                            <p class="operations__title default-size text-lighter m-t-5">Areas of Operation:</p>
                             <div class="operations__container">
                                 @foreach(array_slice($list_value->areas_operation, 0, 1) as $locations_index => $locations_value)
                                     <div class="location flex-row">
@@ -104,7 +104,7 @@
                                         @endforeach
                                         @if ($locations_value["areas"]->count() > 5)
                                             <li class="remain more-show">
-                                                <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                                <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number x-small moreLink secondary-link"> and more...</a>
                                             </li>
                                         @endif
                                         <!-- <li>
@@ -130,20 +130,17 @@
                                         </li> -->
                                     </ul>
                                 @endforeach
-                                @if(sizeof($list_value->areas_operation) > 1)
-                                    <div class="location flex-row">
-                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
-                                        </p>
-                                    </div>
-                                    <!-- <div class="location remain more-show">
-                                        <p class="m-b-0 text-color heavier default-size"><a href="" class="cities__title remain__number default-size text-medium">more...</a></p>
-                                    </div> -->
-                                @endif
                             </div>
+                            @if(sizeof($list_value->areas_operation) > 1)
+                                <div class="location flex-row m-t-5">
+                                    <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                                    </p>
+                                </div>
+                            @endif
                         @endif
                     </div>
                     <div>
-                        <div class="enquiries flex-row">
+                        <div class="enquiries flex-row m-t-15">
                             <div class="enquiries__count">
                                 <p class="default-size heavier text-color m-b-0">50+</p>
                                 <p class="default-size text-lighter">Enquiries</p>
@@ -163,7 +160,7 @@
             <div class="seller-info__footer filter-cards__footer white-space">
                 <div class="recent-updates flex-row">
                     <div class="recent-updates__text">
-                        <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
+                        <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
                     </div>
                     <div class="recent-updates__content">
                         <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,

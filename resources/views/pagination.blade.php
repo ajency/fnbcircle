@@ -8,7 +8,7 @@
         </li>
         @endif
         @for($i = $startPage; $i <= $endPage; $i++)
-            <li><a href="javascript:void(0)" class="paginate page {{ $i === $currentPage ? 'active' : '' }}"> {{ $i }} </a></li>
+            <li><a href="javascript:void(0)" class="paginate page {{ $i === $currentPage ? 'active' : '' }}" page="{{ $i }}"> {{ $i }} </a></li>
         @endfor
         @if($next)
         <li>

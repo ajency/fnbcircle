@@ -18,6 +18,7 @@
   <meta property="photo-upload-url" content="{{action('ListingController@uploadListingPhotos')}}">
   <meta property="file-upload-url" content="{{action('ListingController@uploadListingFiles')}}">
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-files-maxnumber')}}">
+  <meta property="max-file-size" content="{{config('tempconfig.add-listing-files-totalsize')}}">
 @endsection
 <div class="photos tab-pane fade active in" id="business_photos">
     <div class="flex-row space-between preview-detach">
@@ -120,11 +121,11 @@
                 </div>
             </div>
         @else
-            @php $files = $listing->getFiles(); @endphp
+            @php $files = $listing->getFiles(); $file_total =0; @endphp
             @foreach($files as $file)
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
-                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-default-file="{{$file['url']}}" title="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" />
+                    <input type="file" class="doc-upload" data-height="100" data-size="{{$file['size']}}" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-default-file="{{$file['url']}}" title="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" />
                     <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" required>
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
@@ -141,11 +142,12 @@
                         </div>
                     </div>
                 </div>
+                @php $file_total +=  $file['size']; @endphp
             @endforeach
             @if(count($files)==0)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"   />
+                <input type="file" class="doc-upload" data-height="100"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"   />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -170,7 +172,7 @@
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"  />
+                <input type="file" class="doc-uploadd" data-height="100"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"  />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
@@ -192,5 +194,7 @@
         <div id="more-file-error" class="text-danger"></div>
     </div>
 </div>
+
+<script type="text/javascript"> window.current_file_total_size = {{$file_total}}</script>
 
 @endsection

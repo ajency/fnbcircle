@@ -44,7 +44,7 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        Common::authenticate('listing', $this);
+        // Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -657,6 +657,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
+        
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -667,7 +668,7 @@ class ListingController extends Controller
         if ($id != false) {
             return response()->json(['status' => '200', 'message' => 'File Uploaded successfully', 'data' => ['id' => $id]]);
         } else {
-            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []]);
+            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []], 400 );
         }
     }
 

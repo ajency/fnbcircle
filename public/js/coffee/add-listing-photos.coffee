@@ -59,11 +59,21 @@ $('body').on 'click', '.add-uploader', (e)->
     # getTarget.insertBefore(contact_group_clone)
     contact_group_clone.insertBefore(getTarget)
     console.log(contact_group_clone)
-    contact_group_clone.find('.doc-uploadd').dropify messages:
+    file_uploader = contact_group_clone.find('.doc-uploadd').dropify messages:
       'default': 'Upload file'
       'replace': 'Replace file'
       'remove': '<i class="">&#10005;</i>'
       'error': ''
+    file_uploader.on 'dropify.afterClear', (event, element) ->
+      $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
+      $(this).closest('.image-grid__cols').find('.doc-name').val ""
+      $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+      console.log $(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size')
+      window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'))
+      $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('data-size');
+      $(this).closest('.image-grid__cols').find('.doc-name').removeAttr "required"
+      console.log "file deleted"
+      return
     # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
     # contact_group_clone.find('.doc-uploadd').parent().addClass 'disable'    
     $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
@@ -136,6 +146,7 @@ uploadFile = (container,type)->
     xhr = new XMLHttpRequest
     xhr.open 'POST', url
     xhr.onreadystatechange = ->
+      console.log @responseText
       if @readyState == 4 and @status == 200
         data = JSON.parse(@responseText)
         if(data['status'] == "200")
@@ -147,8 +158,9 @@ uploadFile = (container,type)->
             container.find('input[type="hidden"]').attr 'title',name
         else
           #throw some error
-          $container.find('input[type="file"]').val ''
+          container.find('input[type="file"]').val ''
           container.find(".image-loader").addClass('hidden')
+          container.find('.dropify-clear').click();
           $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please check your internet connection and retry</div>'
           $('.alert-failure').addClass 'active'
           setTimeout (->
@@ -156,7 +168,17 @@ uploadFile = (container,type)->
             return
           ), 6000
       else
-        #throw some error
+        if @status != 200
+          console.log @status
+          container.find('input[type="file"]').val ''
+          container.find(".image-loader").addClass('hidden')
+          container.find('.dropify-clear').click();
+          $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! '+@status+' error occurred</div>'
+          $('.alert-failure').addClass 'active'
+          setTimeout (->
+            $('.alert-failure').removeClass 'active'
+            return
+          ), 6000
       return
     xhr.send formData
   else
@@ -171,6 +193,8 @@ file_dropify.on 'dropify.afterClear', (event, element) ->
   $(this).closest('.image-grid__cols').find('input[type="hidden"]').val ""
   $(this).closest('.image-grid__cols').find('.doc-name').val ""
   $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+  window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'))
+  $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('data-size');
   $(this).closest('.image-grid__cols').find('.doc-name').removeAttr "required"
   console.log "file deleted"
   return
@@ -186,12 +210,22 @@ $('body').on 'change','.imageUpload input[type="file"]', (e) ->
 
 $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
   container =$(this).closest('.image-grid__cols')
-  setTimeout (->
-    if ef == 0
-      uploadFile(container,1)
-    return
-  ), 250
-
+  size = this.files[0].size
+  maxsize = document.head.querySelector('[property="max-file-size"]').content
+  console.log maxsize
+  if parseInt(window.current_file_total_size) + parseInt(size) < parseInt(maxsize)
+    setTimeout (->
+      if ef == 0
+        uploadFile(container,1)
+        window.current_file_total_size = parseInt(window.current_file_total_size) + parseInt(size)
+        container.find('input[type="file"]').attr('data-size',size)
+      return
+    ), 250
+  else
+    alert('Total file size cannot be more than 25 MB')
+    container.find('input[type="file"]').val ''
+    container.find(".image-loader").addClass('hidden')
+    container.find('.dropify-clear').click();
 
 $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 

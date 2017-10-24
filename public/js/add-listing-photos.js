@@ -50,7 +50,7 @@
   console.log(fileuploaders);
 
   $('body').on('click', '.add-uploader', function(e) {
-    var contact_group, contact_group_clone, getTarget, max;
+    var contact_group, contact_group_clone, file_uploader, getTarget, max;
     e.preventDefault();
     max = parseInt(document.head.querySelector('[property="max-file-upload"]').content);
     if (fileuploaders < max) {
@@ -63,13 +63,23 @@
       getTarget = $(this).closest('.fileUpload').find('.addCol');
       contact_group_clone.insertBefore(getTarget);
       console.log(contact_group_clone);
-      contact_group_clone.find('.doc-uploadd').dropify({
+      file_uploader = contact_group_clone.find('.doc-uploadd').dropify({
         messages: {
           'default': 'Upload file',
           'replace': 'Replace file',
           'remove': '<i class="">&#10005;</i>',
           'error': ''
         }
+      });
+      file_uploader.on('dropify.afterClear', function(event, element) {
+        $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
+        $(this).closest('.image-grid__cols').find('.doc-name').val("");
+        $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+        console.log($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'));
+        window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'));
+        $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('data-size');
+        $(this).closest('.image-grid__cols').find('.doc-name').removeAttr("required");
+        console.log("file deleted");
       });
       return $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove file');
     } else {
@@ -113,6 +123,7 @@
       xhr.open('POST', url);
       xhr.onreadystatechange = function() {
         var data;
+        console.log(this.responseText);
         if (this.readyState === 4 && this.status === 200) {
           data = JSON.parse(this.responseText);
           if (data['status'] === "200") {
@@ -124,8 +135,9 @@
               container.find('input[type="hidden"]').attr('title', name);
             }
           } else {
-            $container.find('input[type="file"]').val('');
+            container.find('input[type="file"]').val('');
             container.find(".image-loader").addClass('hidden');
+            container.find('.dropify-clear').click();
             $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! Some error occurred. Please check your internet connection and retry</div>');
             $('.alert-failure').addClass('active');
             setTimeout((function() {
@@ -133,7 +145,17 @@
             }), 6000);
           }
         } else {
-
+          if (this.status !== 200) {
+            console.log(this.status);
+            container.find('input[type="file"]').val('');
+            container.find(".image-loader").addClass('hidden');
+            container.find('.dropify-clear').click();
+            $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i><div>Oh snap! ' + this.status + ' error occurred</div>');
+            $('.alert-failure').addClass('active');
+            setTimeout((function() {
+              $('.alert-failure').removeClass('active');
+            }), 6000);
+          }
         }
       };
       return xhr.send(formData);
@@ -152,6 +174,8 @@
     $(this).closest('.image-grid__cols').find('input[type="hidden"]').val("");
     $(this).closest('.image-grid__cols').find('.doc-name').val("");
     $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('title');
+    window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'));
+    $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('data-size');
     $(this).closest('.image-grid__cols').find('.doc-name').removeAttr("required");
     console.log("file deleted");
   });
@@ -167,13 +191,25 @@
   });
 
   $('body').on('change', '.fileUpload input[type="file"]', function(e) {
-    var container;
+    var container, maxsize, size;
     container = $(this).closest('.image-grid__cols');
-    return setTimeout((function() {
-      if (ef === 0) {
-        uploadFile(container, 1);
-      }
-    }), 250);
+    size = this.files[0].size;
+    maxsize = document.head.querySelector('[property="max-file-size"]').content;
+    console.log(maxsize);
+    if (parseInt(window.current_file_total_size) + parseInt(size) < parseInt(maxsize)) {
+      return setTimeout((function() {
+        if (ef === 0) {
+          uploadFile(container, 1);
+          window.current_file_total_size = parseInt(window.current_file_total_size) + parseInt(size);
+          container.find('input[type="file"]').attr('data-size', size);
+        }
+      }), 250);
+    } else {
+      alert('Total file size cannot be more than 25 MB');
+      container.find('input[type="file"]').val('');
+      container.find(".image-loader").addClass('hidden');
+      return container.find('.dropify-clear').click();
+    }
   });
 
   $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');

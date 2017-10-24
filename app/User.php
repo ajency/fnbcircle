@@ -178,7 +178,7 @@ class User extends Authenticatable
     }
 
     public function getUserJobLastApplication(){
-        $application = $this->applications()->orderBy('date_of_application','desc')->first();
+        $application = $this->applications()->orderBy('resume_updated_on','desc')->first(); 
         if(!empty($application))
             $application['resume_url'] = $this->getUserResume();
 

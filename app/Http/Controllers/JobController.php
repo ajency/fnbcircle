@@ -357,7 +357,7 @@ class JobController extends Controller
         $data['userResume'] = $userResume;
         $data['userProfile'] = $userProfile;
         $data['jobApplications'] = $jobApplications;
-      
+         
          return view('jobs.job-view')->with($data);
     }
 

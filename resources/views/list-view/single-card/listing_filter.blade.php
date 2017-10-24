@@ -63,7 +63,7 @@
         </div>
         <div class="check-section">
             <label class="sub-title flex-row clear {{ sizeof($filter_data['areas_selected']) > 0 ? '' : 'hidden' }}">
-                <a href="" class="text-color">
+                <a href="" class="secondary-link">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
                 </a>

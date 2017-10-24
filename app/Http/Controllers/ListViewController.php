@@ -306,7 +306,7 @@ class ListViewController extends Controller {
     public function getListFilterData($filters=[], $render_html = false) {
 
 		# $category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
-		$category_obj = new Category;
+		$category_obj = Category::where('status', 1);
 		$path_breaker = array(1 => 0, 2 => 1, 3 => 2); // <level> => no of breaks
 
 		$filter_data["category"] = [];

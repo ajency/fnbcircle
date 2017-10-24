@@ -4212,6 +4212,9 @@ input[type=checkbox].custom-checkbox:before {
   background-position: center;
   background-size: cover;
 }
+.photo-gallery__thumbnails li .no-height {
+  height: 0px;
+}
 .photo-gallery__thumbnails li:last-child {
   padding-right: 0;
 }

@@ -208,23 +208,11 @@
       data: data,
       dataType: 'json',
       success: function(data) {
-        var end, start;
-        if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
-          start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
-          end = start + parseInt(data["page_size"]) - 1;
-          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
-          $(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"]);
-        } else {
-          start = 0;
-          end = 0;
-          $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
-        }
 
         /* --- Load the filter template --- */
         $("#listing_filter_view").html(data["data"]["filter_view"]);
 
         /* --- Add the pagination to the HTML --- */
-        $(".listings-page #pagination").html(data["data"]["paginate"]);
         updateTextLabels();
 
         /* --- Note: the function below is called again to update the URL post AJAX --- */
@@ -268,7 +256,11 @@
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
           end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
-          $(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"]);
+          if (isMobile()) {
+            $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
+          } else {
+            $(".container div.addShow p.search-actions__title label#listing_filter_count").text(start.toString() + " - " + end.toString() + " of " + data["count"]);
+          }
         } else {
           start = 0;
           end = 0;

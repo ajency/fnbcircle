@@ -61,16 +61,16 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                @foreach($list_value->cores->take(5) as $core_index => $core_value)
-                                    @if($core_index < 3)
-                                        <li><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                @foreach($list_value->cores->take(4) as $core_index => $core_value)
+                                    @if($core_index < 4)
+                                        <li><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @else
-                                        <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                        <!-- <li class="desk-hide"><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li> -->
                                     @endif
                                 @endforeach
-                                @if (sizeof($list_value->cores) > 5)
+                                @if (sizeof($list_value->cores) > 4)
                                     <li class="cat-more more-show">
-                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 5}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                     </li>
                                 @endif
                             </ul>

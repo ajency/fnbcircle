@@ -83,6 +83,12 @@ $('body').on 'click', '#post-update-button', ->
 
 
 $('body').on 'click', '.add-uploader', (e)->
+  max_uploads = document.head.querySelector('[property="max-file-upload"]').content
+  current_uploads =$(this).closest('.fileUpload').find('input[type="file"]').length 
+  console.log max_uploads,current_uploads
+  if current_uploads > max_uploads 
+    alert('You can upload maximum of '+max_uploads+' photos')
+    return
   e.preventDefault()
   console.log 'bxbvbbz'
   contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
@@ -154,10 +160,10 @@ loadUpdates = () ->
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>
-                          <ul class="flex-row update-img">'
+                          <ul class="flex-row update-img align-top flex-wrap">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><img src="'+item['200x150']+'" alt="" width="80"></li>'
+              html+='<li><img src="'+item['200x150']+'" alt="" width="60"></li>'
               return
                               
             html +=      '</ul>
@@ -221,7 +227,7 @@ newPost = () ->
                     </div>
           </div>
           <div class="image-grid__cols addCol">
-                    <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                    <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                 </div>
                 <div class="image-grid__cols uppend-uploader hidden">
                     <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
@@ -343,7 +349,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                         </div>
                       </div>'
         html+=       '<div class="image-grid__cols addCol">
-                                <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                                <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                             </div>
                             <div class="image-grid__cols uppend-uploader hidden">
                                 <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
@@ -435,6 +441,8 @@ $('#edit-updates').on 'click','#edit-update-button',()->
       newPost()
 
 $('body').on 'click','.delete-post', () ->
+  if !confirm('Are you sure you want to delete this post?')
+    return
   console.log "lllal"
   id = $(this).attr('data-delete-id')
   url = document.head.querySelector('[property="delete-post-url"]').content
@@ -449,3 +457,28 @@ $('body').on 'click','.delete-post', () ->
       offset = 0
       $('.update-display-section').html ''
       loadUpdates()
+
+window.updateActions = () ->
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-premium'
+  if window.submit ==1
+    parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  return

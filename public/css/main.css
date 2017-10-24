@@ -3651,7 +3651,7 @@ input[type=checkbox].custom-checkbox:before {
 .similar-business .business-card__header {
   margin: -14px;
   padding: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 5px;
   background-color: #f7f7f7;
 }
 .similar-business .business-card__body {
@@ -3705,8 +3705,8 @@ input[type=checkbox].custom-checkbox:before {
   color: #4a4a4a;
 }
 .similar-business .address .sub-title {
-  margin-bottom: 0;
-  margin-top: 2px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 .similar-business .address-title {
   font-size: 1em;
@@ -5837,14 +5837,29 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex: 1;
           flex: 1;
 }
+.mainRow .hide-areas li:nth-child(-n+3) p:after {
+  content: ',';
+  display: inline-block;
+  color: #6b6b6b;
+  padding-left: 2px;
+}
+.mainRow .hide-areas li:last-child p:after {
+  display: none;
+}
 .state-container .remain {
   list-style: none;
 }
-.catShow[data-readmore] {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+.no-list-type {
+  list-style: none;
+}
+.no-post-title {
+  line-height: 1.4;
+}
+.fnb-btn.posUpdate {
+  font-size: 0.9em;
+}
+.update-img img {
+  border-radius: 4px;
 }
 .search-section {
   position: relative;

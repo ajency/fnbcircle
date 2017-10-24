@@ -75,7 +75,10 @@
       validatePhotosDocuments();
     }
     if (step === 'business-premium') {
-      return validatePremium();
+      validatePremium();
+    }
+    if (step === 'business-updates') {
+      return updateActions();
     }
   };
 

@@ -29,7 +29,9 @@
             "Ajency\\FileUpload\\": "packages/ajency/laravel-file-upload-package/src",
             "Ajency\\User\\": "packages/ajency/user/src"
         },
-        "files": ["app/Helper.php","app/FnbPermissions.php"]
+ 
+        "files": ["app/Helper.php","app/FnbPermissions.php","app/Seo/Seo.php"]
+ 
     },
     "autoload-dev": {
         "psr-4": {

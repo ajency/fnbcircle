@@ -247,7 +247,10 @@ class JobController extends Controller
 
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
-  
+        
+        if(!empty($job) && $job->slug!="" && $job->slug!=$jobSlug)
+            abort(404);
+
         if(empty($job))
             abort(404);
 
@@ -274,7 +277,7 @@ class JobController extends Controller
         $data['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
         $data['jobCompany'] = $jobCompany;
         $data['companyLogo'] = $companyLogo;
-        $data['pageName'] = $job->getJobCategoryName() .'-'. $job->title;
+        $data['pageName'] = $job->getPageTitle();
         $data['locations'] = $locations;
         $data['similarjobs'] = $similarjobs;
 
@@ -668,7 +671,7 @@ class JobController extends Controller
 
         
         // $jobKeywords =  Defaults::where("type","job_keyword")->where('label', 'like', '%'.$request->keyword.'%')->select('id', 'label')
-        $jobKeywords = \DB::select('select id,label  from  defaults where label like "%'.$request->keyword.'%" order by label asc');
+        $jobKeywords = \DB::select('select id,label  from  defaults where type="job_keyword" and label like "%'.$request->keyword.'%" order by label asc');
         
         return response()->json(['results' => $jobKeywords, 'options' => []]);
     }

@@ -35,5 +35,14 @@ class Company extends Model
         return $companyLogoUrl;
     }
 
+    public function website(){
+        $website = $this->website;
+        $parsed = parse_url($website);
+        if (empty($parsed['scheme'])) {
+            $website = 'http://' . ltrim($website, '/');
+        }
+                return $website;
+    }
+
 
 }

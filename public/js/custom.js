@@ -965,7 +965,7 @@ $(function(){
 	            includeSelectAllOption: true,
 	            numberDisplayed: 5,
         		delimiterText:',',
-	            nonSelectedText: 'Select Area(s)'
+	            nonSelectedText: 'Select City'
 	        });
 		}
 

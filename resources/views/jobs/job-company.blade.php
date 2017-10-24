@@ -26,7 +26,9 @@
 <div class="business-info tab-pane fade in active" id="company_details">
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
-    <h5 class="no-m-t main-heading  white m-t-0 margin-btm">Company Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading  white m-t-0 ">Company Details</h5>
+    </div>
 
     <!-- Job title/category -->
 
@@ -60,7 +62,8 @@
 
     <div class="m-t-40 c-gap">
         <label class="label-size">Does your company have a website? <span class="text-lighter">(optional)</span>:</label>
-        <input type="text" name="company_website" data-parsley-pattern="/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/" data-parsley-pattern-message="Please enter valid url"  class="form-control fnb-input" placeholder="http://" value="{{ $jobCompany['website'] }}">  
+        <input type="url" name="company_website" data-parsley-type="url" data-parsley-type-message="Please enter valid url"  class="form-control fnb-input" placeholder="" value="{{ $jobCompany['website'] }}">  
+        <!-- data-parsley-pattern="/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/"  -->
     </div>
 
 

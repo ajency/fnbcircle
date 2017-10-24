@@ -724,6 +724,15 @@ $(document).ready () ->
 			$('.filterBy.fly-out').removeClass 'active'
 		return
 
+	### --- On click --- ###
+	$(document).on "click", "#section-area #moreAreaShow", (event) ->
+		
+		if $(this).attr('aria-expanded') == "true"
+			$(this).text($(this).text().replace("more", "less"))
+		else
+			$(this).text($(this).text().replace("less", "more"))
+		return
+
 	### --- On Input / Change of area-search in Left filterbox, search the name --- ###
 	$(document).on "input change", ".filter-group.area #section-area input[type='text']#area_search", (event) ->
 		search_key = $(this).val()

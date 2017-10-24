@@ -285,29 +285,10 @@ List View
                         <div class="blockG" id="rotateG_08"></div>
                     </div>
                 </div>
-                <nav aria-label="Page navigation" class="text-center list-navigation hidden">
-                    <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>   
+                <div id="pagination">
+                    {!! $paginate !!}
+                </div>
             </div>
-        </div>
-
-        <div id="pagination">
-            {!! $paginate !!}
-
         </div>
        <!--  <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button> -->
 

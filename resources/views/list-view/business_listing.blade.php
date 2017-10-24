@@ -146,7 +146,7 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-6 mobile-hide">
-                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> <span class="text-lighter"> Business Listings in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
+                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> Business Listings <span class="text-lighter">in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
             </div>
             <div class="col-sm-6">
                 <div class="search-actions mobile-flex">

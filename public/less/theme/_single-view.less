@@ -1167,9 +1167,12 @@
 		li{
 			background-color: #fff;
 			border: 1px solid #000;
-			padding: 0.3em 1em;
+			padding: 0.3em 0.6em;
     		margin: 0.2em 0.6em 0.2em 0;
 			// border-bottom: 2px solid #ddd;
+			&:nth-child(3n){
+				margin-right: 0;
+			}
 		}
 		&__title{
 			font-size: 0.9em;
@@ -3375,6 +3378,7 @@ and (max-device-width: 650px) {
 
 .no-list-type{
 	list-style: none;
+	padding-left: 8px;
 }
 
 // .catShow[data-readmore]{

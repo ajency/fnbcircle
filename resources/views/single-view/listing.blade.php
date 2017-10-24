@@ -301,7 +301,7 @@
                                 <li><a href="{{$photo[config('tempconfig.listing-photo-thumb')]}}"><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></a></li>
                                 @endforeach
                             </ul>
-                            <p class="m-b-0 text-right">
+                            <p class="m-b-0 text-right mobile-flex">
                             @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
                             <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>

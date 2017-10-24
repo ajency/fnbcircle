@@ -96,6 +96,8 @@ submitForm = (e) ->
     validatePhotosDocuments()
   if step == 'business-premium'
     validatePremium()
+  if step == 'business-updates'
+    updateActions()
 
 
 

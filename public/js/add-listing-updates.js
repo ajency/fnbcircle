@@ -98,7 +98,14 @@
   });
 
   $('body').on('click', '.add-uploader', function(e) {
-    var contact_group, contact_group_clone, getTarget, newimg;
+    var contact_group, contact_group_clone, current_uploads, getTarget, max_uploads, newimg;
+    max_uploads = document.head.querySelector('[property="max-file-upload"]').content;
+    current_uploads = $(this).closest('.fileUpload').find('input[type="file"]').length;
+    console.log(max_uploads, current_uploads);
+    if (current_uploads > max_uploads) {
+      alert('You can upload maximum of ' + max_uploads + ' photos');
+      return;
+    }
     e.preventDefault();
     console.log('bxbvbbz');
     contact_group = $(this).closest('.fileUpload').find('.uppend-uploader');
@@ -330,5 +337,35 @@
       }
     });
   });
+
+  window.updateActions = function() {
+    var form, parameters;
+    parameters = {};
+    parameters['listing_id'] = document.getElementById('listing_id').value;
+    parameters['step'] = 'business-premium';
+    if (window.submit === 1) {
+      parameters['submitReview'] = 'yes';
+    }
+    if (window.archive === 1) {
+      parameters['archive'] = 'yes';
+    }
+    if (window.publish === 1) {
+      parameters['publish'] = 'yes';
+    }
+    form = $('<form></form>');
+    form.attr("method", "post");
+    form.attr("action", "/listing");
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr("type", "hidden");
+      field.attr("name", key);
+      field.attr("value", value);
+      form.append(field);
+      console.log(key + '=>' + value);
+    });
+    $(document.body).append(form);
+    form.submit();
+  };
 
 }).call(this);

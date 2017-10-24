@@ -83,6 +83,12 @@ $('body').on 'click', '#post-update-button', ->
 
 
 $('body').on 'click', '.add-uploader', (e)->
+  max_uploads = document.head.querySelector('[property="max-file-upload"]').content
+  current_uploads =$(this).closest('.fileUpload').find('input[type="file"]').length 
+  console.log max_uploads,current_uploads
+  if current_uploads > max_uploads 
+    alert('You can upload maximum of '+max_uploads+' photos')
+    return
   e.preventDefault()
   console.log 'bxbvbbz'
   contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
@@ -449,3 +455,28 @@ $('body').on 'click','.delete-post', () ->
       offset = 0
       $('.update-display-section').html ''
       loadUpdates()
+
+window.updateActions = () ->
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-premium'
+  if window.submit ==1
+    parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  return

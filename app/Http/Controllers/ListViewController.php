@@ -184,14 +184,14 @@ class ListViewController extends Controller {
 		$output = new ConsoleOutput;
 
 		if($request->has("search") && $request->search) {
-			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if($request->has("keyword") && $request->keyword) {
-    		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if ($request->has("load") && $request->load) {
-    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug', 'level'], 1, true);
     	} else { // return parent Data
     		//$is_parent = true;
-    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	}
 
     	$response_data = $response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);

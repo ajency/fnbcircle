@@ -229,7 +229,7 @@ class ListViewController extends Controller {
     */
     public function searchBusiness(Request $request) {
     	if($request->has("search") && $request->search) { 
-    		$business_obj = new Listing;
+    		$business_obj = Listing::where('status', 1);// new Listing;
 
     		$output = new ConsoleOutput;
     		/*$output->writeln("City");
@@ -240,7 +240,7 @@ class ListViewController extends Controller {
 
     		if($request->has("city") && $request->city) {
     			$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray();
-    			$business_obj = $business_obj->whereIn('locality_id', $area_list)->where('status', 1);
+    			$business_obj = $business_obj->whereIn('locality_id', $area_list);
     		}
 
     		if($request->has("category") && $request->category) {

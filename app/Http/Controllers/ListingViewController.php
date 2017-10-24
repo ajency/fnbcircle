@@ -37,6 +37,7 @@ class ListingViewController extends Controller
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
+        $pagedata['updates_count'] = $listing->updates()->count();
         // dd($pagedata['updates']->getImages());
         if ($listing->status == 1) {
             $pagedata['publish_date'] = $listing->published_on->format('F j, Y');

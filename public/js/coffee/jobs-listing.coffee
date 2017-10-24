@@ -229,10 +229,7 @@ $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
   $('input[name="listing_page"]').val page
   filterJobs(false)
-
-
-
-
+ 
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
   inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
@@ -244,8 +241,6 @@ $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
   filterJobs(true) 
 
  
- 
-
 $(document).ready ()->
   $('.job-keywords').flexdatalist
       removeOnBackspace: false

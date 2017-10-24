@@ -5,8 +5,12 @@ Job Listing
 @endsection
 
 @php
-$additionalData = ['city'=>$serachCity];
+$additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
 @endphp
+
+@section('openGraph')   
+{!! getMetaTags('App\Seo\JobListView',$additionalData) !!}
+@endsection
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
@@ -106,7 +110,7 @@ $additionalData = ['city'=>$serachCity];
         <div class="row m-t-30 p-t-30 m-b-30 mobile-flex breadcrums-container mobile-hide">
             <div class="col-sm-8 flex-col">
                 <!-- Breadcrums -->
-                
+
                 {!! getPageBreadcrum('App\Seo\JobListView',$additionalData) !!}
                 <!-- Breadcrums ends -->
             </div>
@@ -116,7 +120,7 @@ $additionalData = ['city'=>$serachCity];
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0">Meat &amp; Poultry <span class="text-lighter">in</span> Delhi</h5>
+                <h5 class="m-t-0">Jobs <span class="text-lighter">in</span> {{ ucwords($urlFilters['city']) }}</h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">

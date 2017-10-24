@@ -232,7 +232,9 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
-        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->title;
+        $description .= ' Job Description: Job opening for '.$jobRoles;
+        if(!empty($jobCompany))
+            $description .= ' in '.$jobCompany->title;
 
         $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
    

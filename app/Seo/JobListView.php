@@ -7,10 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 class JobListView extends Model
 {
     public $state;
+    public $urlFilters;
+    public $currentUrl;
+    public $job;
+    public $category;
 
     public function __construct($additionaldata){
-        $state = $additionaldata['city'];
-        $this->state = $state;
+        
+        $this->category = null;
+        if(isset($additionaldata['city'])){
+            
+        }
+
+        if(isset($additionaldata['urlFilters'])){
+            $urlFilters = $additionaldata['urlFilters'];
+            $this->urlFilters = $urlFilters;
+
+            if(isset($urlFilters['category_name']))
+                $this->category = breadCrumbText($urlFilters['category_name']);
+
+            $state = $urlFilters['city'];
+                $this->state = ucwords($state);
+        }
+ 
+        if(isset($additionaldata['currentUrl'])){
+            $currentUrl = $additionaldata['currentUrl'];
+            $this->currentUrl = $currentUrl;
+        }
+ 
+        if(isset($additionaldata['job']))
+            $this->job = $additionaldata['job'];
     }
 
     public function getMetaData(){
@@ -53,28 +79,80 @@ class JobListView extends Model
 
     }
 
+    public function getStateFilterText(){
+        $text = 'Jobs in '.$this->state;
+
+        return $text;
+    }
+
+    public function getJobNameFilterText($filters){
+        $text = '';
+        if(isset($filters['job_name'])){
+            $text = $filters['job_name'] .' | ';
+        }
+
+        return $text;
+    }
+
+    public function getCategoryFilterText($filters){
+        $text = '';
+        if(isset($filters['category_name'])){
+            $text = ' | Job openings for '.$filters['category_name'];
+        }
+
+        return $text;
+    }
+
+    public function getKeywordsFilterText($filters){
+        $text = '';
+        if(isset($filters['keywords'])){
+            $text = ' | Job roles in '. implode(',', $filters['keywords']);
+        }
+
+        return $text;
+    }
+
     public function getTitle(){
-    	return $this->job->getPageTitle();
+        $filters = $this->urlFilters;
+ 
+        $title = $this->getJobNameFilterText($filters); 
+        $title .= $this->getStateFilterText(); 
+        $title .= $this->getCategoryFilterText($filters);
+        $title .= $this->getKeywordsFilterText($filters);
+        $title .= ' | Fnb Circle ';
+    	return $title;
     } 
 
     public function getDescription(){
-    	return $this->job->getMetaDescription();
+    	$filters = $this->urlFilters;
+ 
+        $desc = $this->getJobNameFilterText($filters); 
+        $desc .= $this->getStateFilterText(); 
+        $desc .= $this->getCategoryFilterText($filters);
+        $desc .= $this->getKeywordsFilterText($filters);
+        $desc .= ' | Find Latest Job vacancies for Freshers & Experienced across Top Companies. | Fnb Circle ';
+        return $desc;
     }
 
     public function getKeywords(){
+        $filters = $this->urlFilters;
     	$keywords = 'fnb,fnbcircle,jobs,job,job opening,interview';
-    	$keywords .= ','.$this->job->title;
-    	$keywords .= ','.$this->job->getJobCategoryName();
-    	$keywords .= ','.$this->job->getAllJobKeywords();
+    	$keywords .= ','.$this->getStateFilterText(); 
+        if(isset($filters['category_name']))
+    	   $keywords .= ','. $filters['category_name'];
+
+        if(isset($filters['keywords']))
+           $keywords .= ','. implode(',', $filters['keywords']);
+
     	return $keywords;
     }
 
     public function getImageUrl(){
-    	return $this->job->getSeoImage();
+    	return url('img/logo-fnb.png');
     }
 
     public function getPageUrl(){
-    	return url('job/'.$this->job->slug);
+    	return $this->currentUrl;
     }
 
     public function getOgType(){
@@ -98,7 +176,11 @@ class JobListView extends Model
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
         $breadcrumbs[] = ['url'=>url($this->state.'/job-listings/'), 'name'=>  $this->state];
-        $breadcrumbs[] = ['url'=>'', 'name'=> 'Job Listings'];
+        if(!$this->category)
+            $breadcrumbs[] = ['url'=>'', 'name'=> 'all Jobs'];
+        else{
+            $breadcrumbs[] = ['url'=>'', 'name'=> 'Jobs for '.$this->category];
+        }
 
         return $breadcrumbs;
     }

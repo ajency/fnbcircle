@@ -971,6 +971,7 @@ class JobController extends Controller
         }
         // dd($requestData); 
 
+        $currentUrl = $request->fullUrl();
         $header_type = "trans-header";
         return view('jobs.job-listing',compact('header_type'))->with('cities', $cities)
                                        ->with('jobTypes', $jobTypes)
@@ -978,6 +979,7 @@ class JobController extends Controller
                                        ->with('defaultExperience', $defaultExperience)
                                        ->with('urlFilters', $requestData)
                                        ->with('salaryRange', $salaryRange)
+                                       ->with('currentUrl', $currentUrl)
                                        ->with('serachCity', $serachCity);
     }
 

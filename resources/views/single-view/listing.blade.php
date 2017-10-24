@@ -285,6 +285,7 @@
                             <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                             <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
                         </div> -->
+                        @if((isset($data['updates']) and !empty($data['updates']))
                         <div class="update-sec__body update-space">
     
                             <h6 class="element-title update-sec__heading m-t-15 bolder">
@@ -300,8 +301,11 @@
                                 <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
                                 @endforeach
                             </ul>
-                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a><a href="" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
+                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a><a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>
+                        @else
+                            <!-- if no posts -->
+                        @endif
                     </div>
                     <!-- updates section ends -->
                     @endif

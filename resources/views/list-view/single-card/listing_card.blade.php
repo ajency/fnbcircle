@@ -105,9 +105,9 @@
                                             @endif
                                         @endforeach
 
-                                        <li class="remain more-show mobile-hide">
+                                        <li class="remain more-show">
                                             @if ($locations_value["areas"]->count() > 5)
-                                                    <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                                <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
                                             @endif
                                         </li>
                                         <!-- <li>
@@ -166,8 +166,12 @@
                         <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
                     </div>
                     <div class="recent-updates__content">
-                        <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,
-                        <span class="text-lighter p-l-10">Updated few hours ago</span></p>
+                        @if($list_value->recent_updates)
+                            <p class="m-b-0 default-size text-color recent-data"> {{ $list_value->recent_updates->title }}
+                            <span class="text-lighter p-l-10">Updated on {{ date('F d, Y', strtotime($list_value->recent_updates->updated_at)) }}</span></p>
+                        @else
+                            <p class="m-b-0 default-size text-color recent-data"> No updates </p>
+                        @endif
                     </div>
                 </div>
                 <div class="updates-dropDown">

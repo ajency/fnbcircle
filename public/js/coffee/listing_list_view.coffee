@@ -111,8 +111,8 @@ updateUrlPushstate = (key, pushstate_url) ->
 ### --- get the filters & Update the URL using PushState --- ###
 getFilters = (update_url) ->
 	filters = 
-		"category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val()#$('input[type="hidden"][name="category_search"]').val()
-		"business_search": $('input[type="hidden"][name="business_search"]').val()
+		"category_search": $(document).find('input[name="category_search"].flexdatalist').val()#$('input[name="category_search"]').val()
+		"business_search": $('input[name="business_search"]').val()
 		"areas_selected": []
 		"business_types": []
 		"listing_status": []
@@ -204,9 +204,9 @@ updateTextLabels = () ->
 		$(".listings-page p.category_label").text("all")
 
 	### --- Update the State labels --- ###
-	if $('input[type="hidden"][name="city"]').val().length > 0
-		$(".listings-page .state_label").text(capitalize($('input[type="hidden"][name="city"]').val()))
-		$(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[type="hidden"][name="city"]').val())
+	if $('input[name="city"]').val().length > 0
+		$(".listings-page .state_label").text(capitalize($('input[name="city"]').val()))
+		$(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[name="city"]').val())
 	else
 		$(".listings-page span.state_label").text("India")
 		$(".listings-page p.state_label").text("India")
@@ -223,7 +223,7 @@ getFilterContent = () ->
 		"page_size": limit
 		"sort_by": "published"
 		"sort_order": "desc"
-		"city" : $('input[type="hidden"][name="city"]').val()
+		"city" : $('input[name="city"]').val()
 		"area" : $("input[type='hidden'][name='area_hidden']").val()
 		"filters":
 			getFilters(false)
@@ -283,13 +283,13 @@ getListContent = () ->
 		"page_size": limit
 		"sort_by": "published"
 		"sort_order": "desc"
-		"city" : $('input[type="hidden"][name="city"]').val()
+		"city" : $('input[name="city"]').val()
 		"area" : $("input[type='hidden'][name='area_hidden']").val()
 		"filters":
 			getFilters(true)
 
 	# $("#listing_card_view").css "filter", "blur(2px)"
-
+	$(".listings-page .site-loader.section-loader").removeClass "hidden"
 	# console.log getFilters()
 
 	$.ajax
@@ -317,7 +317,9 @@ getListContent = () ->
 
 			### --- Load the Listing card template --- ###
 			$("#listing_card_view").html data["data"]["list_view"]
-			$("#listing_card_view").css "filter", ""
+			# $("#listing_card_view").css "filter", ""
+
+			$(".listings-page .site-loader.section-loader").addClass "hidden"
 
 			### --- For mobile Screen --- ###
 			if $(window).width() <= 768
@@ -361,7 +363,7 @@ getListContent = () ->
 			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
 			# $('#listing_card_view').append(templateHTML)
 		error: (request, status, error) ->
-			$("#listing_card_view").css "filter", ""
+			$(".listings-page .site-loader.section-loader").addClass "hidden"
 			console.log error
 	return
 
@@ -407,9 +409,9 @@ $(document).ready () ->
 
 	### --- City filter dropdown --- ###
 	## -- Note: flexdatalist appends "flexdatalist-" to the name i.e. name="city" becomes name="flexdatalist-city" -- ##
-	$('input[type="hidden"][name="city"].flexdatalist').flexdatalist
+	$('input[name="city"].flexdatalist').flexdatalist
 		url: '/api/search-city'
-		# params: {"search": $('input[type="hidden"][name="city"].flexdatalist').val()}
+		# params: {"search": $('input[name="city"].flexdatalist').val()}
 		requestType: 'post'
 		# requestContentType: 'json'
 		focusFirstResult: true
@@ -445,10 +447,10 @@ $(document).ready () ->
 		debug: false
 		noResultsText: 'Sorry! No results found for "{keyword}"'
 	
-	$('input[type="hidden"][name="category_search"].flexdatalist').flexdatalist
+	$('input[name="category_search"].flexdatalist').flexdatalist
 		url: '/api/search-category'
 		requestType: 'post'
-		params: {"search": $('input[type="hidden"][name="category_search"].flexdatalist').val()}
+		params: {"search": $('input[name="category_search"].flexdatalist').val()}
 
 		keywordParamName: "search"
 		resultsProperty: "data"
@@ -470,19 +472,19 @@ $(document).ready () ->
 		noResultsText: 'Sorry! No categories found for "{keyword}"'
 	
 
-	$('input[type="hidden"][name="business_search"].flexdatalist').flexdatalist
+	$('input[name="business_search"].flexdatalist').flexdatalist
 		url: '/api/search-business'
 		requestType: 'post'
 		params: {
-			#"search": $('input[type="hidden"][name="business_search"].flexdatalist').val()
-			"city": $('input[name="city"].flexdatalist').val()
+			#"search": $('input[name="business_search"].flexdatalist').val()
+			"city": old_values["state"]
 			"category": $('input[name="category_search"].flexdatalist').val()
 		}
 
 		keywordParamName: "search"
 		resultsProperty: "data"
 		searchIn: ['title']
-		valueProperty: 'id'
+		valueProperty: 'slug'
 		visibleProperties: ["title", "area"] ## Order of display & dropdown contents to display
 		
 		minLength: 1
@@ -500,6 +502,7 @@ $(document).ready () ->
 
 	### --- Update the filters from the URL if any exist --- ###
 	if window.location.search.length > 0
+		console.log window.location.search
 		search_box_params =
 			#"state" : "city"
 			"category_search" : "category_search"
@@ -516,7 +519,7 @@ $(document).ready () ->
 			while i < get_params.length
 				if get_params[i].indexOf(key + "=") > -1
 					value_assigned = get_params[i].split("=")[1]
-					$('input[type="hidden"][name="' + search_box_params[key] + '"].flexdatalist').val(value_assigned)
+					$('input[name="' + search_box_params[key] + '"].flexdatalist').flexdatalist('value', value_assigned)
 				i++
 
 		### --- Update Filter values --- ###
@@ -526,11 +529,11 @@ $(document).ready () ->
 		# 		if get_params[i].indexOf(key + "=") > -1
 		# 			value_assigned = get_params[i].split("=")[1]
 
-		# 			$('input[type="hidden"][id="' + filter_listing_params[key] + '"]').val(value_assigned)
+		# 			$('input[id="' + filter_listing_params[key] + '"]').val(value_assigned)
 		# 		i++
 
 	### --- Triggered every time the value in input changes --- ###
-	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
+	$('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
 		### -- make a request if any one the Searchbox is cleared -- ###
 		key = ""
 
@@ -538,6 +541,9 @@ $(document).ready () ->
 			key = "state"
 		else
 			key = $(this).attr("name")
+
+		if $(this).attr("name") == "business_search"
+			$('input[name="business_search"].flexdatalist').flexdatalist('params', {'city': $('input[name="city"]').val()})
 		
 		if $(this).val().length <= 0
 			updateUrlPushstate(key, "")
@@ -559,7 +565,7 @@ $(document).ready () ->
 		return
 
 	### -- Triggered every time the user selects an option -- ###
-	$('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on 'select:flexdatalist', () ->
+	$('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on 'select:flexdatalist', () ->
 		key = ""
 
 		if $(this).prop("name") == "category_search"
@@ -611,10 +617,10 @@ $(document).ready () ->
 	$(document).on "click", ".results__body ul.contents a", (e) ->
 		$(document).find(".results__body ul.contents #current_category").val($(this).attr("value"))
 		# updateUrlPushstate("categories", "categories=" + $(this).attr("value"))
-		#$(document).find('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
+		#$(document).find('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
 
-		# $('#category input[type="hidden"][name="category_search"].flexdatalist').prop('value', $(this).attr("value"))
-		$('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
+		# $('#category input[name="category_search"].flexdatalist').prop('value', $(this).attr("value"))
+		$('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
 
 		#getListContent()
 		if not isMobile()
@@ -641,13 +647,13 @@ $(document).ready () ->
 
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
 	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
-		old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val()
+		old_values["state"] = $('input[name="city"].flexdatalist').val()
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
 	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"]', (event) ->
-		if $('input[type="hidden"][name="city"].flexdatalist').val().length <= 0
-			$('input[type="hidden"][name="city"].flexdatalist').flexdatalist('value', old_values["state"])
+		if $('input[name="city"].flexdatalist').val().length <= 0
+			$('input[name="city"].flexdatalist').flexdatalist('value', old_values["state"])
 
 		return
 

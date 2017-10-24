@@ -75,8 +75,8 @@
   getFilters = function(update_url) {
     var filters;
     filters = {
-      "category_search": $(document).find('input[type="hidden"][name="category_search"].flexdatalist').val(),
-      "business_search": $('input[type="hidden"][name="business_search"]').val(),
+      "category_search": $(document).find('input[name="category_search"].flexdatalist').val(),
+      "business_search": $('input[name="business_search"]').val(),
       "areas_selected": [],
       "business_types": [],
       "listing_status": []
@@ -177,9 +177,9 @@
     }
 
     /* --- Update the State labels --- */
-    if ($('input[type="hidden"][name="city"]').val().length > 0) {
-      $(".listings-page .state_label").text(capitalize($('input[type="hidden"][name="city"]').val()));
-      $(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[type="hidden"][name="city"]').val());
+    if ($('input[name="city"]').val().length > 0) {
+      $(".listings-page .state_label").text(capitalize($('input[name="city"]').val()));
+      $(".listings-page p.state_label").closest("a").prop("href", window.location.pathname + "?state=" + $('input[name="city"]').val());
     } else {
       $(".listings-page span.state_label").text("India");
       $(".listings-page p.state_label").text("India");
@@ -198,7 +198,7 @@
       "page_size": limit,
       "sort_by": "published",
       "sort_order": "desc",
-      "city": $('input[type="hidden"][name="city"]').val(),
+      "city": $('input[name="city"]').val(),
       "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters(false)
     };
@@ -252,10 +252,11 @@
       "page_size": limit,
       "sort_by": "published",
       "sort_order": "desc",
-      "city": $('input[type="hidden"][name="city"]').val(),
+      "city": $('input[name="city"]').val(),
       "area": $("input[type='hidden'][name='area_hidden']").val(),
       "filters": getFilters(true)
     };
+    $(".listings-page .site-loader.section-loader").removeClass("hidden");
     $.ajax({
       type: 'post',
       url: '/api/get-listview-data',
@@ -279,7 +280,7 @@
 
         /* --- Load the Listing card template --- */
         $("#listing_card_view").html(data["data"]["list_view"]);
-        $("#listing_card_view").css("filter", "");
+        $(".listings-page .site-loader.section-loader").addClass("hidden");
 
         /* --- For mobile Screen --- */
         if ($(window).width() <= 768) {
@@ -322,7 +323,7 @@
         /* ---- HAndleBar template content load ---- */
       },
       error: function(request, status, error) {
-        $("#listing_card_view").css("filter", "");
+        $(".listings-page .site-loader.section-loader").addClass("hidden");
         return console.log(error);
       }
     });
@@ -379,7 +380,7 @@
     };
 
     /* --- City filter dropdown --- */
-    $('input[type="hidden"][name="city"].flexdatalist').flexdatalist({
+    $('input[name="city"].flexdatalist').flexdatalist({
       url: '/api/search-city',
       requestType: 'post',
       focusFirstResult: true,
@@ -398,11 +399,11 @@
       debug: false,
       noResultsText: 'Sorry! No results found for "{keyword}"'
     });
-    $('input[type="hidden"][name="category_search"].flexdatalist').flexdatalist({
+    $('input[name="category_search"].flexdatalist').flexdatalist({
       url: '/api/search-category',
       requestType: 'post',
       params: {
-        "search": $('input[type="hidden"][name="category_search"].flexdatalist').val()
+        "search": $('input[name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
@@ -419,17 +420,17 @@
       allowDuplicateValues: false,
       noResultsText: 'Sorry! No categories found for "{keyword}"'
     });
-    $('input[type="hidden"][name="business_search"].flexdatalist').flexdatalist({
+    $('input[name="business_search"].flexdatalist').flexdatalist({
       url: '/api/search-business',
       requestType: 'post',
       params: {
-        "city": $('input[name="city"].flexdatalist').val(),
+        "city": old_values["state"],
         "category": $('input[name="category_search"].flexdatalist').val()
       },
       keywordParamName: "search",
       resultsProperty: "data",
       searchIn: ['title'],
-      valueProperty: 'id',
+      valueProperty: 'slug',
       visibleProperties: ["title", "area"],
       minLength: 1,
       cache: false,
@@ -444,6 +445,7 @@
 
     /* --- Update the filters from the URL if any exist --- */
     if (window.location.search.length > 0) {
+      console.log(window.location.search);
       search_box_params = {
         "category_search": "category_search",
         "business_search": "business_search"
@@ -459,7 +461,7 @@
         while (i < get_params.length) {
           if (get_params[i].indexOf(key + "=") > -1) {
             value_assigned = get_params[i].split("=")[1];
-            $('input[type="hidden"][name="' + search_box_params[key] + '"].flexdatalist').val(value_assigned);
+            $('input[name="' + search_box_params[key] + '"].flexdatalist').flexdatalist('value', value_assigned);
           }
           i++;
         }
@@ -469,7 +471,7 @@
     }
 
     /* --- Triggered every time the value in input changes --- */
-    $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('change:flexdatalist', function() {
+    $('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on('change:flexdatalist', function() {
 
       /* -- make a request if any one the Searchbox is cleared -- */
       key = "";
@@ -477,6 +479,11 @@
         key = "state";
       } else {
         key = $(this).attr("name");
+      }
+      if ($(this).attr("name") === "business_search") {
+        $('input[name="business_search"].flexdatalist').flexdatalist('params', {
+          'city': $('input[name="city"]').val()
+        });
       }
       if ($(this).val().length <= 0) {
         updateUrlPushstate(key, "");
@@ -495,7 +502,7 @@
     });
 
     /* -- Triggered every time the user selects an option -- */
-    $('input[type="hidden"][name="city"].flexdatalist, input[type="hidden"][name="category_search"].flexdatalist, input[type="hidden"][name="business_search"].flexdatalist').on('select:flexdatalist', function() {
+    $('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on('select:flexdatalist', function() {
       var areas, location, pushstate_url;
       key = "";
       if ($(this).prop("name") === "category_search") {
@@ -541,7 +548,7 @@
     /* --- Detect <a> click for categories --- */
     $(document).on("click", ".results__body ul.contents a", function(e) {
       $(document).find(".results__body ul.contents #current_category").val($(this).attr("value"));
-      $('#category input[type="hidden"][name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"));
+      $('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"));
       if (!isMobile()) {
         setTimeout((function() {
           getListContent();
@@ -565,13 +572,13 @@
 
     /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
     $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      old_values["state"] = $('input[type="hidden"][name="city"].flexdatalist').val();
+      old_values["state"] = $('input[name="city"].flexdatalist').val();
     });
 
     /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
     $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      if ($('input[type="hidden"][name="city"].flexdatalist').val().length <= 0) {
-        $('input[type="hidden"][name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
+      if ($('input[name="city"].flexdatalist').val().length <= 0) {
+        $('input[name="city"].flexdatalist').flexdatalist('value', old_values["state"]);
       }
     });
 

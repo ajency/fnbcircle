@@ -285,7 +285,7 @@
                             <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                             <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
                         </div> -->
-                        @if((isset($data['updates']) and !empty($data['updates']))
+                        @if(isset($data['updates']) and !empty($data['updates']))
                         <div class="update-sec__body update-space">
     
                             <h6 class="element-title update-sec__heading m-t-15 bolder">

@@ -6677,6 +6677,12 @@ input[type=checkbox].custom-checkbox:before {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
+    position: relative;
+  }
+  .list-title-container .power-seller-container {
+    position: absolute;
+    top: -3.6em;
+    right: -1.2em;
   }
   .businessListing {
     display: -webkit-box;

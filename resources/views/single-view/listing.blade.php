@@ -408,7 +408,7 @@
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
                                     <img src="/img/link.png" alt="" class="m-l-5" width="15">
                                     </a></p>
                                 </div>

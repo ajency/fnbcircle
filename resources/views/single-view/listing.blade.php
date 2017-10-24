@@ -254,7 +254,7 @@
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <ul class="nav-info__tabs flex-row">
-                                                @if(isset($data['updates']) and !empty($data['updates']))<li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li> @endif
+                                                @if((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))<li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li> @endif
                                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
                                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
                                                 @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
@@ -270,7 +270,7 @@
                                 </div>
                             </div>
                             <ul class="nav-info__tabs flex-row">
-                               @if(isset($data['updates']) and !empty($data['updates'])) <li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li>@endif
+                               @if((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')) <li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li>@endif
                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
                                 @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
@@ -278,7 +278,7 @@
                         </div>
 
                     <!-- tabs structure ends -->
-                    @if(isset($data['updates']) and !empty($data['updates']))
+                    @if((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing') )
                     <!-- updates section -->
                      <div class="update-sec m-t-30 nav-starter" id="updates">
                         <!-- <div class="update-sec__header flex-row update-space">

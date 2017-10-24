@@ -16,6 +16,11 @@
               <div class="results filter-sidebar__section">
                   <div class="results__header filter-row">
                       <h6 class="element-title text-uppercase">Show Results for</h6>
+
+                      <a href="javascript:void(0)" class="text-color clear-all-filters">
+                         <i class="fa fa-times" aria-hidden="true"></i>
+                          <span>Clear All</span>
+                      </a>
                   </div>
       
               </div>
@@ -47,7 +52,7 @@
                               <input type="hidden" name="keyword_id[]" class="job-input-keywords" value="{{ $keywordId }}" label="{{ $keyword }}">
                               @endforeach
                               @endif
-
+ 
                             </div>
                       </div>
                   </div>

@@ -30,7 +30,7 @@ class JobController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['show']]);
+        // $this->middleware('auth', ['except' => ['show']]);
     }
 
     public function index()
@@ -920,7 +920,14 @@ class JobController extends Controller
         }
 
         if(isset($requestData['keywords']) && $requestData['keywords']!=""){
-            $keywordIds = json_decode($requestData['keywords']);
+
+            $keywordIdStr = json_decode($requestData['keywords']); 
+            $keywordIds = [];
+            foreach ($keywordIdStr as $key => $keywordstr) {
+                $keyword = explode('|', $keywordstr);
+                $keywordIds[] = $keyword[0];
+            }
+            
             $keywordData = Defaults::whereIn("id",$keywordIds)->get();
             $searchKeywords = [];
             foreach ($keywordData as $key => $keyword) {

@@ -16,6 +16,24 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
+});
+
+/****
+api
+****/
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-view-data', 'ListViewController@getListData');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -71,6 +89,8 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+Route::get('/get-keywords','JobController@getKeywords');
+Route::get('/get-company','JobController@getCompanies');
  
 
 Route::group( ['middleware' => ['auth']], function() { 
@@ -79,11 +99,6 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
-
-	
-	Route::get('/get-keywords','JobController@getKeywords');
-	Route::get('/get-company','JobController@getCompanies');
-	
 
 	/**Users**/
 
@@ -142,15 +157,3 @@ Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
 
-/* List View of Listing */
-Route::group(['prefix' => '{city}'], function() {
-	Route::get('/business-listings', 'ListViewController@listView');
-	Route::get('/job-listings', 'JobController@jobListing');
-	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-});
-
-Route::group(['prefix' => 'api'], function() {
-	Route::post('/get-view-data', 'ListViewController@getListData');
-	Route::post('/search-category', 'ListViewController@searchCategory');
-	Route::post('/search-business', 'ListViewController@searchBusiness');
-});

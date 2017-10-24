@@ -118,12 +118,38 @@
     filterJobs(true);
   });
 
+  $(document).on('change', 'input[name="search_category"]', function() {
+    $('input[name="category_id"]').val('');
+    $('input[name="category_id"]').attr('slug', '');
+    return filterJobs(true);
+  });
+
   strSlug = function(str) {
-    str = str.replace(' ', '-');
-    str = str.trim();
+    var from, i, l, to;
+    str = str.replace(/^\s+|\s+$/g, '');
     str = str.toLowerCase();
+    from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;';
+    to = 'aaaaeeeeiiiioooouuuunc------';
+    i = 0;
+    l = from.length;
+    while (i < l) {
+      str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+      i++;
+    }
+    str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
     return str;
   };
+
+  $('.clear-all-filters').click(function() {
+    $('.clear-checkbox').click();
+    $('.clear-keywords').click();
+    $('.clear-checkbox').click();
+    $('.clear-salary').click();
+    $('input[name="job_name"]').val('');
+    $('input[name="category_id"]').val('');
+    $('input[name="category_id"]').attr('slug', '');
+    return filterJobs(true);
+  });
 
   $('.clear-checkbox').click(function() {
     $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
@@ -218,12 +244,11 @@
     return filterJobs(true);
   });
 
-  $('.job-keywords').on('change:flexdatalist', function(event, set, options) {
-    console.log(set);
-    if (set.length && $('input[label="' + set['text'] + '"]').length) {
-      $('input[label="' + set['text'] + '"]').remove();
-      return filterJobs(true);
-    }
+  $('.job-keywords').on('before:flexdatalist.remove', function(event, set, options) {
+    var keywordlabel;
+    keywordlabel = set[0]['textContent'].slice(0, -1);
+    $('input[label="' + keywordlabel + '"]').remove();
+    return filterJobs(true);
   });
 
   $(document).ready(function() {
@@ -231,7 +256,7 @@
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
-      minLength: 0,
+      minLength: 1,
       url: '/get-keywords',
       searchIn: ["label"]
     });
@@ -239,7 +264,7 @@
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
-      minLength: 0,
+      minLength: 1,
       url: '/job/get-category-types',
       searchIn: ["name"]
     });

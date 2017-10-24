@@ -116,13 +116,38 @@ $(document).on 'change', '.search-job', ->
   filterJobs(true)
   return
 
+$(document).on 'change', 'input[name="search_category"]', ->
+  $('input[name="category_id"]').val ''
+  $('input[name="category_id"]').attr 'slug','' 
+  filterJobs(true) 
+
 
 strSlug = (str) ->
-  str = str.replace(' ','-')
-  str = str.trim()
+  str = str.replace(/^\s+|\s+$/g, '')
+  # trim
   str = str.toLowerCase()
+  # remove accents, swap ñ for n, etc
+  from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;'
+  to = 'aaaaeeeeiiiioooouuuunc------'
+  i = 0
+  l = from.length
+  while i < l
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
+    i++
+  str = str.replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-')
+  # collapse dashes
   str
 
+
+$('.clear-all-filters').click ->
+  $('.clear-checkbox').click()
+  $('.clear-keywords').click()
+  $('.clear-checkbox').click()
+  $('.clear-salary').click()
+  $('input[name="job_name"]').val ''
+  $('input[name="category_id"]').val ''
+  $('input[name="category_id"]').attr 'slug',''
+  filterJobs(true)
 
 $('.clear-checkbox').click ->
   $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
@@ -217,11 +242,10 @@ $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
   $('#keyword-ids').append inputTxt
   filterJobs(true) 
 
-$('.job-keywords').on 'change:flexdatalist', (event, set, options) ->
-  console.log set
-  if(set.length && $('input[label="'+set['text']+'"]').length)
-    $('input[label="'+set['text']+'"]').remove()
-    filterJobs(true) 
+$('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
+  keywordlabel = (set[0]['textContent']).slice(0, -1)
+  $('input[label="'+keywordlabel+'"]').remove()
+  filterJobs(true) 
  
 
 $(document).ready ()->
@@ -229,7 +253,7 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      minLength: 0
+      minLength: 1
       url: '/get-keywords'
       searchIn: ["label"]
 
@@ -237,7 +261,7 @@ $(document).ready ()->
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
-      minLength: 0
+      minLength: 1
       url: '/job/get-category-types'
       searchIn: ["name"] 
 

@@ -4197,6 +4197,7 @@ input[type=checkbox].custom-checkbox:before {
   position: relative;
   cursor: pointer;
   display: none;
+  max-width: 33.33%;
 }
 .photo-gallery__thumbnails li a {
   color: inherit;

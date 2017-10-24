@@ -6723,6 +6723,9 @@ input[type=checkbox].custom-checkbox:before {
     padding: 0.5em 1em;
     font-size: 0.85em;
   }
+  .list-label {
+    display: table;
+  }
 }
 @media screen and (min-width: 1024px) and (max-width: 1200px) {
   .custom-col-3 {
@@ -6802,6 +6805,17 @@ input[type=checkbox].custom-checkbox:before {
 .no-results .nf-text {
   margin: 1.5em 0;
 }
+@media screen and (max-width: 768px) {
+  .no-results .seller-info__title {
+    font-size: 1.6em;
+  }
+  .no-results .nf-text {
+    margin: 1.2em 0;
+  }
+  .no-results img {
+    width: 80px;
+  }
+}
 .flexdatalist-results.flexdatalist-results {
   border: 0;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.09);
@@ -6834,6 +6848,46 @@ input[type=checkbox].custom-checkbox:before {
   color: #fff;
   background-color: #ec6d4b;
   border-color: #ec6d4b;
+}
+@media screen and (max-width: 768px) {
+  .enquiry-card .add-card {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border: 0;
+  }
+  .enquiry-card .add-card__content {
+    padding-right: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .enquiry-card .add-card__form {
+    width: 100%;
+  }
+  .enquiry-card .add-card .fnb-select {
+    font-size: 1em;
+    padding-left: 0;
+  }
+  .enquiry-card .add-card .fnb-input {
+    font-size: 1em;
+  }
+  .enquiry-card .add-card .form-group {
+    margin-bottom: 10px;
+  }
 }
 .home-text {
   position: relative;

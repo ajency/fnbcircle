@@ -249,7 +249,7 @@
                                             @if($listing->status!="1")
                                             <div class="links inactive">
                                             @else
-                                            <a href="@if($listing->reference!=null and $step != 'business-updates') /listing/{{$listing->reference}}/edit/post-an-update?step=true @else # @endif" class="links enabled">
+                                            <a href="@if($listing->reference!=null and $step != 'business-updates') /listing/{{$listing->reference}}/edit/post-an-update?step=true @else # @endif" id="post-update" class="links enabled form-toggle">
                                             @endif
                                                 <div>
                                                     Post an Update

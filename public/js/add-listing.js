@@ -118,6 +118,11 @@
         $(this).parent().addClass('active');
       }
     });
+    $('.edit-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
   }
 
   $('body').on('click', '.review-submit', function(e) {

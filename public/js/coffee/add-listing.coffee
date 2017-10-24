@@ -136,6 +136,13 @@ if $(window).width() > 769
     if $(this).attr('id') == getID
       $(this).parent().addClass 'active'
     return
+  $('.edit-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return
+
+
+
 
 
 $('body').on 'click', '.review-submit', (e)->

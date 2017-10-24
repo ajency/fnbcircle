@@ -7350,6 +7350,10 @@ input[type=checkbox].custom-checkbox:before {
 .edit-steps li:last-child a {
   border-bottom: 0;
 }
+.edit-steps li.active.active a,
+.edit-steps li.active.active i {
+  color: #27b7b0;
+}
 .gs-form {
   padding: 15px;
   position: relative;

@@ -73,14 +73,14 @@ List View
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" name="category_search" value="" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
-                                                <a href="#" id="clear_search">Clear</a>
+                                                <a href="#" class="desk-hide" id="clear_search">Clear</a>
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
-                                                <a href="#" id="clear_search">Clear</a>
+                                                <a href="#" id="clear_search" class="desk-hide">Clear</a>
                                             </div>
                                         </div>
                                       </div>
@@ -145,10 +145,10 @@ List View
         </div>
         <!-- section headings -->
         <div class="row addShow">
-            <div class="col-sm-7 mobile-hide">
+            <div class="col-sm-6 mobile-hide">
                 <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> <span class="text-lighter"> Business Listings in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-6">
                 <div class="search-actions mobile-flex">
                     <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">

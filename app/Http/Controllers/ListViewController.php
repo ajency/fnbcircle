@@ -529,7 +529,10 @@ class ListViewController extends Controller {
 	    		//$list["categories"] = ListingCategory::getCategories($list->id); // Get list of all the categories & it's respective Parent & branch node
 	    		
 	    		// Fetches the list of all the Core categories & it's details
-	    		$list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug']);
+	    		$list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+                        $cat_obj["node_categories"] = $this->getCategoryNodeArray($cat_obj, "slug", false);
+                });
+
 	    	});
     	} catch (Exception $e) {
     		$filtered_count = 0;

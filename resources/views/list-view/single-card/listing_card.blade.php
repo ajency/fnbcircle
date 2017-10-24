@@ -61,16 +61,16 @@
                         <div class="core-cat">
                             <p class="default-size text-lighter m-t-0 m-b-0">Core Categories</p>
                             <ul class="fnb-cat flex-row">
-                                @foreach($list_value->cores->take(5) as $core_index => $core_value)
-                                    @if($core_index < 3)
-                                        <li><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                @foreach($list_value->cores->take(4) as $core_index => $core_value)
+                                    @if($core_index < 4)
+                                        <li><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                     @else
-                                        <li class="desk-hide"><a href="" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                        <!-- <li class="desk-hide"><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li> -->
                                     @endif
                                 @endforeach
-                                @if (sizeof($list_value->cores) > 5)
+                                @if (sizeof($list_value->cores) > 4)
                                     <li class="cat-more more-show">
-                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 5}} more...</a>
+                                        <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="text-darker">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                     </li>
                                 @endif
                             </ul>
@@ -82,63 +82,65 @@
                         @if($list_value->premium)
                             <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
                         @endif
-                        <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
-                        <div class="operations__container">
-                            @foreach(array_slice($list_value->areas_operation, 0, 1) as $locations_index => $locations_value)
-                                <div class="location flex-row">
-                                    <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
-                                    </p>
-                                </div>
-                                <ul class="cities flex-row">
-                                    @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
-                                        @if ($areas_index < 3)
-                                            <li>
-                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
-                                            </li>
-                                        @else
-                                            <li class="mobile-hide">
-                                                <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
+                        @if(sizeof($list_value->areas_operation) > 0)
+                            <p class="operations__title default-size text-lighter m-t-5">Areas of operation:</p>
+                            <div class="operations__container">
+                                @foreach(array_slice($list_value->areas_operation, 0, 1) as $locations_index => $locations_value)
+                                    <div class="location flex-row">
+                                        <p class="m-b-0 text-color heavier default-size"> {{ $locations_value["city"]["name"] }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
+                                        </p>
+                                    </div>
+                                    <ul class="cities flex-row">
+                                        @foreach($locations_value["areas"]->take(5) as $areas_index => $areas_value)
+                                            @if ($areas_index < 3)
+                                                <li>
+                                                    <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
+                                                </li>
+                                            @else
+                                                <li class="mobile-hide">
+                                                    <p class="cities__title default-size">{{ $areas_value->name }}{{($areas_index < $locations_value["areas"]->take(5)->count() - 1) ? ', ' : ''}}</p>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                        @if ($locations_value["areas"]->count() > 5)
+                                            <li class="remain more-show">
+                                                <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
                                             </li>
                                         @endif
-                                    @endforeach
-                                    @if ($locations_value["areas"]->count() > 5)
-                                        <li class="remain more-show">
-                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                        <!-- <li>
+                                            <p class="cities__title default-size">Bandra, </p>
                                         </li>
-                                    @endif
-                                    <!-- <li>
-                                        <p class="cities__title default-size">Bandra, </p>
-                                    </li>
-                                    <li>
-                                        <p class="cities__title default-size">Andheri, </p>
-                                    </li>
-                                    <li>
-                                        <p class="cities__title default-size">Juhu, </p>
-                                    </li>
-                                    <li class="mobile-hide">
-                                        <p class="cities__title default-size">Worli, </p>
-                                    </li>
-                                    <li class="mobile-hide">
-                                        <p class="cities__title default-size">Powai</p>
-                                    </li>
-                                    <li class="line">
-                                        <p class="cities__title default-size">|</p>
-                                    </li>
-                                    <li class="remain more-show">
-                                        <a href="" class="cities__title remain__number default-size text-medium">more...</a>
-                                    </li> -->
-                                </ul>
-                            @endforeach
-                            @if(sizeof($list_value->areas_operation) > 1)
-                                <div class="location flex-row">
-                                    <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
-                                    </p>
-                                </div>
-                                <!-- <div class="location remain more-show">
-                                    <p class="m-b-0 text-color heavier default-size"><a href="" class="cities__title remain__number default-size text-medium">more...</a></p>
-                                </div> -->
-                            @endif
-                        </div>
+                                        <li>
+                                            <p class="cities__title default-size">Andheri, </p>
+                                        </li>
+                                        <li>
+                                            <p class="cities__title default-size">Juhu, </p>
+                                        </li>
+                                        <li class="mobile-hide">
+                                            <p class="cities__title default-size">Worli, </p>
+                                        </li>
+                                        <li class="mobile-hide">
+                                            <p class="cities__title default-size">Powai</p>
+                                        </li>
+                                        <li class="line">
+                                            <p class="cities__title default-size">|</p>
+                                        </li>
+                                        <li class="remain more-show">
+                                            <a href="" class="cities__title remain__number default-size text-medium">more...</a>
+                                        </li> -->
+                                    </ul>
+                                @endforeach
+                                @if(sizeof($list_value->areas_operation) > 1)
+                                    <div class="location flex-row">
+                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number default-size text-darker">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                                        </p>
+                                    </div>
+                                    <!-- <div class="location remain more-show">
+                                        <p class="m-b-0 text-color heavier default-size"><a href="" class="cities__title remain__number default-size text-medium">more...</a></p>
+                                    </div> -->
+                                @endif
+                            </div>
+                        @endif
                     </div>
                     <div>
                         <div class="enquiries flex-row">

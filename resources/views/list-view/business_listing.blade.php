@@ -150,7 +150,8 @@ List View
             </div>
             <div class="col-sm-6">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title mobile-hide">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title desk-hide"><label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>

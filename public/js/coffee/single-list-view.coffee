@@ -104,7 +104,15 @@ if $('.description').length
     collapsedHeight: 170
     moreLink: '<a href="#" class="more default-size secondary-link">View more</a>'
     lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
-
+  
+if $('.post-gallery').length
+  $('.post-gallery').magnificPopup
+    delegate: 'a'
+    type: 'image'
+    gallery: enabled: true
+    zoom:
+      enabled: true
+      duration: 300
 
 # cards equal heights
 if $(window).width() > 769

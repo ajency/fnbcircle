@@ -101,6 +101,20 @@
     });
   }
 
+  if ($('.post-gallery').length) {
+    $('.post-gallery').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      gallery: {
+        enabled: true
+      },
+      zoom: {
+        enabled: true,
+        duration: 300
+      }
+    });
+  }
+
   if ($(window).width() > 769) {
     equalcol = $('.equal-col').outerHeight();
     $('.design-2-card').css('min-height', equalcol);

@@ -295,10 +295,10 @@
                             <p class="update-sec__caption text-lighter">
                                 {!! nl2br(e($data['updates']->contents)) !!}
                             </p>
-                            <ul class="flex-row update-img flex-wrap">
+                            <ul class="flex-row update-img flex-wrap post-gallery">
                             @php $photos = $data['updates']->getImages(); @endphp
                                 @foreach($photos as $photo)
-                                <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
+                                <li><a href="{{$photo[config('tempconfig.listing-photo-thumb')]}}"><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></a></li>
                                 @endforeach
                             </ul>
                             <p class="m-b-0 text-right">

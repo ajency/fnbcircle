@@ -1037,11 +1037,27 @@ $(function(){
 		if ($(window).width() > 769){
 			// var getheight = $('.design-2-card').outerHeight();
 			// $('.equal-col').css('height',getheight);
-
-			$('.open-sidebar').click(function(){
-				event.preventDefault();
-				$('.animate-row').addClass('body-slide');
-			});
+			
+				$('.open-sidebar').click(function(){
+					event.preventDefault();
+					$('.animate-row').addClass('body-slide');
+					setTimeout((function() {
+						if ($('.post-gallery').length) {
+						  $('.post-gallery').magnificPopup({
+						    delegate: 'a',
+						    type: 'image',
+						    gallery: {
+						      enabled: true
+						    },
+						    zoom: {
+						      enabled: true,
+						      duration: 300
+						    }
+						  });
+						}
+						console.log('asdfsad');
+					}), 500);
+				});
 
 			$('.article-back').click(function(){
 				event.preventDefault();

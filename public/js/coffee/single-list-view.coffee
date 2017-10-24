@@ -114,6 +114,8 @@ if $('.post-gallery').length
       enabled: true
       duration: 300
 
+
+
 # cards equal heights
 if $(window).width() > 769
   equalcol = $('.equal-col').outerHeight()

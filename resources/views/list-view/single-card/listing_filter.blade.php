@@ -53,17 +53,17 @@
 <!-- results ends -->
 <div class="filter-group area">
     <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
-        <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+        <h6 class="sub-title flex-row">Search by City <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
         </h6>
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-area">
         <div class="search-area flex-row">
             <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-            <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search an area">
+            <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search City">
         </div>
         <div class="check-section">
             <label class="sub-title flex-row clear {{ sizeof($filter_data['areas_selected']) > 0 ? '' : 'hidden' }}">
-                <a href="" class="text-color">
+                <a href="" class="secondary-link">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
                 </a>

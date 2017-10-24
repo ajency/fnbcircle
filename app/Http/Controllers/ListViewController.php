@@ -184,17 +184,17 @@ class ListViewController extends Controller {
 		$output = new ConsoleOutput;
 
 		if($request->has("search") && $request->search) {
-			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if($request->has("keyword") && $request->keyword) {
-    		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if ($request->has("load") && $request->load) {
-    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug', 'level'], 1, true);
     	} else { // return parent Data
     		//$is_parent = true;
-    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug'], 1, true);
+    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	}
 
-    	$response_data = $response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);
+    	$response_data = $response_data->get(['id', 'name', 'slug', 'level']);//$response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);
 
     	$response_data->each(function($category) {
 			$output = new ConsoleOutput;
@@ -229,7 +229,7 @@ class ListViewController extends Controller {
     */
     public function searchBusiness(Request $request) {
     	if($request->has("search") && $request->search) { 
-    		$business_obj = new Listing;
+    		$business_obj = Listing::where('status', 1);// new Listing;
 
     		$output = new ConsoleOutput;
     		/*$output->writeln("City");
@@ -240,7 +240,7 @@ class ListViewController extends Controller {
 
     		if($request->has("city") && $request->city) {
     			$area_list = City::where('slug', $request->city)->first()->areas()->pluck('id')->toArray();
-    			$business_obj = $business_obj->whereIn('locality_id', $area_list)->where('status', 1);
+    			$business_obj = $business_obj->whereIn('locality_id', $area_list);
     		}
 
     		if($request->has("category") && $request->category) {
@@ -345,12 +345,12 @@ class ListViewController extends Controller {
     	
     	/* if state filter is passed, then get all the areas to be displayed in the filter */
     	if(isset($filters["state"]) && $filters["state"]) {
-    		$filter_data["areas"] = City::where('slug', $filters["state"]);
+    		$filter_data["areas"] = City::where('slug', $filters["state"]);//City::where([['slug', $filters["state"]], ['status', 1]]);
     		
     		if($filter_data["areas"]->count() > 0) {
-    			$filter_data["areas"] = $filter_data["areas"]->first()->areas()->get()->toArray();
+    			$filter_data["areas"] = $filter_data["areas"]->first()->areas()->where('status', 1)->get()->toArray();
     		} else {
-    			$filter_data["areas"] = Area::where('slug', $filters["state"])->get()->toArray();
+    			$filter_data["areas"] = Area::where([['slug', $filters["state"]], ['status', 1]])->get()->toArray();
 
     			if(sizeof($filter_data["areas"]) == 1) {
     				$filter_data["areas_selected"] = [$filter_data["areas"][0]["slug"]];
@@ -511,7 +511,9 @@ class ListViewController extends Controller {
 	    		$list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
 
 	    		// $list["status"] = Listing::listing_status[$list["status"]]; // Get the string of the Listing Status
-	    		$list["business_type"] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+	    		// $list["business_type"]['name'] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+
+                $list["business_type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
 
 	    		// Get list of areas under that Listing
 	    		$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
@@ -568,13 +570,17 @@ class ListViewController extends Controller {
     	$sort_order = ($request->has('sort_order') && $request->sort_order) ? $request->sort_order : "desc";
 
     	if($request->has("filters")) {
-    		if(isset($request->filters["business_search"])) {
-    			if(!isset($filters["listing_ids"])) {
-    				$filters["listing_ids"] = [$request->filters["business_search"]];
-    			} else {
-    				array_push($filters["listing_ids"], $request->filters["business_search"]);
-    			}
-    		}
+            if(isset($request->filters["business_search"])) {
+                $listing_business_obj = Listing::where('slug', $request->filters["business_search"])->get();
+                if($listing_business_obj->count() > 0) {
+                    $listing_business_obj = $listing_business_obj->first();
+                    if(!isset($filters["listing_ids"])) {
+                        $filters["listing_ids"] = [$listing_business_obj->id];
+                    } else {
+                        array_push($filters["listing_ids"], $listing_business_obj->id);
+                    }
+                }
+            }
 
     		// If a Category is selected from the List from the Search box
     		if(isset($request->filters["category_search"])) {

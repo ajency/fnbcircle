@@ -248,10 +248,16 @@
 				color: @accent-secondary;
 			}
 		}
+
 	}
 	li:last-child{
 		a{
 			border-bottom: 0;
+		}
+	}
+	li.active.active{
+		a,i{
+			color: @accent-secondary;
 		}
 	}
 	@media(max-width: @mobile){

@@ -146,11 +146,12 @@ List View
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-6 mobile-hide">
-                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> <span class="text-lighter"> Business Listings in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
+                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> Business Listings <span class="text-lighter">in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
             </div>
             <div class="col-sm-6">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title mobile-hide">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title desk-hide"><label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>

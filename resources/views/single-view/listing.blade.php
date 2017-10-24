@@ -254,10 +254,10 @@
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <ul class="nav-info__tabs flex-row">
-                                                @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')))<li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li> @endif
-                                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
-                                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
-                                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
+                                                @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')))<li class="nav-section"><a class="active bolder" href="#updates" title="Updates">Recent updates</a></li> @endif
+                                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
+                                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset
+                                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses" class="bolder">Similar Businesses</a></li>@endif
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
@@ -270,17 +270,17 @@
                                 </div>
                             </div>
                             <ul class="nav-info__tabs flex-row">
-                              @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))) <li class="nav-section"><a class="active" href="#updates" title="Updates">Recent updates</a></li>@endif
-                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In">Listed In</a></li>@endisset
-                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview">Overview</a></li>@endisset
-                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses">Similar Businesses</a></li>@endif
+                              @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))) <li class="nav-section"><a class="active bolder" href="#updates" title="Updates">Recent updates</a></li>@endif
+                                @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
+                                @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset
+                                @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" class="bolder" title="Similar Businesses">Similar Businesses</a></li>@endif
                             </ul>
                         </div>
 
                     <!-- tabs structure ends -->
                     @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')))
                     <!-- updates section -->
-                     <div class="update-sec m-t-30 nav-starter" id="updates">
+                     <div class="update-sec m-t-20 nav-starter" id="updates">
                         <!-- <div class="update-sec__header flex-row update-space">
                             <h6 class="element-title m-t-5 m-b-5">Recent Updates</h6>
                             <a href="" class="text-secondary update-sec__link secondary-link open-sidebar">View More</a>
@@ -301,7 +301,7 @@
                                 <li><a href="{{$photo[config('tempconfig.listing-photo-thumb')]}}"><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></a></li>
                                 @endforeach
                             </ul>
-                            <p class="m-b-0 text-right">
+                            <p class="m-b-0 text-right mobile-flex">
                             @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
                             <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>
@@ -309,8 +309,8 @@
                             <!-- if no posts -->
                         <div class="update-sec__body update-space">
     
-                            <h6 class="sub-title update-sec__heading m-t-15 bolder text-center no-post-title">
-                                Recently updated listings usually get more leads, so go ahead and post an update.
+                            <h6 class="sub-title update-sec__heading m-t-15 heavier text-center no-post-title">
+                                You have not posted any updates as of yet! <br> Recently updated listings usually get more leads, so go ahead and post an update.
                             </h6>
                             <p class="m-b-0 m-t-20 text-center">
                                 <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
@@ -408,7 +408,7 @@
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
                                     <img src="/img/link.png" alt="" class="m-l-5" width="15">
                                     </a></p>
                                 </div>

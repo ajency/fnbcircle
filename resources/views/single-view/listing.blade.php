@@ -300,7 +300,7 @@
                                 <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
                                 @endforeach
                             </ul>
-                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates">View More</a></p>
+                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a><a href="" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>
                     </div>
                     <!-- updates section ends -->

@@ -302,7 +302,7 @@
                                 @endforeach
                             </ul>
                             <p class="m-b-0 text-right">
-                            @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a>@endif
+                            @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
                             <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>
                         @else

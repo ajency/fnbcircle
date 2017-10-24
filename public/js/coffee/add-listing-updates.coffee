@@ -154,10 +154,10 @@ loadUpdates = () ->
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>
-                          <ul class="flex-row update-img">'
+                          <ul class="flex-row update-img align-top flex-wrap">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><img src="'+item['200x150']+'" alt="" width="80"></li>'
+              html+='<li><img src="'+item['200x150']+'" alt="" width="60"></li>'
               return
                               
             html +=      '</ul>

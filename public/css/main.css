@@ -5858,6 +5858,9 @@ input[type=checkbox].custom-checkbox:before {
 .fnb-btn.posUpdate {
   font-size: 0.9em;
 }
+.update-img img {
+  border-radius: 4px;
+}
 .search-section {
   position: relative;
   top: 2em;

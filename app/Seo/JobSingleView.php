@@ -19,7 +19,7 @@ class JobSingleView extends Model
     public function getMetaData(){
 
     	$ogTag = [];
-    	$ogTag['title'] =  $this->getTitle();
+    	$ogTag['title'] =  $this->getOgTitle();
     	$ogTag['description'] =  $this->getDescription();
     	$ogTag['image'] =  $this->getImageUrl();
     	$ogTag['url'] =  $this->getPageUrl();
@@ -56,8 +56,12 @@ class JobSingleView extends Model
 
     }
 
+    public function getOgTitle(){
+    	return $this->job->title;
+    }
+
     public function getTitle(){
-    	return $this->job->getPageTitle();
+        return $this->job->getPageTitle();
     } 
 
     public function getDescription(){

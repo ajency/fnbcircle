@@ -165,20 +165,27 @@ $additionalData = ['job'=>$job];
                     <div class="pusblished-date text-color lighter text-right x-small hidden ">Published on : <b>{{ $job->jobPublishedOn()}}</b></div>
                     @endif -->
                   </div>
-                  <div class="flex-row space-between jobs-head-title">
-                     <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
+                  <div class="flex-row space-between jobs-head-title align-top">
+                    <div>
+                      <h1 class="seller-info__title main-heading">{{ $job->title }}</h1>
+                      <div class="featured-jobs__row job-data company-top-info">
+                        <div class="flex-row">
+                          <div class="jobdesc">
+                              <p class="heavier m-b-0">{{ $jobCompany->title }}</p>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
+                     @if(($jobCompany->logo))
+                         <div class="joblogo mobile-hide">
+                           <img src="{{ $companyLogo }}" width="60">
+                        </div>
+                      @endif
                   </div>
 
-                  <div class="featured-jobs__row job-data company-top-info">
-                    <div class="flex-row">
-                      <div class="jobdesc">
-                          <p class="default-size heavier m-b-0">{{ $jobCompany->title }}</p>
-                       </div>
-                    </div>
-                  </div>
 
                   <div class="operations p-t-10 flex-row flex-wrap role-selection new-roles">
                      @if(!empty($keywords))

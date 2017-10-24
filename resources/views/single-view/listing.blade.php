@@ -301,10 +301,19 @@
                                 <li><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></li>
                                 @endforeach
                             </ul>
-                            <p class="m-b-0 text-right"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a><a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
+                            <p class="m-b-0 text-right m-t-5"><a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View More</a><a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a></p>
                         </div>
                         @else
                             <!-- if no posts -->
+                        <div class="update-sec__body update-space">
+    
+                            <h6 class="sub-title update-sec__heading m-t-15 bolder text-center no-post-title">
+                                Recently updated listings usually get more leads, so go ahead and post an update.
+                            </h6>
+                            <p class="m-b-0 m-t-20 text-center">
+                                <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
+                            </p>
+                        </div>
                         @endif
                     </div>
                     <!-- updates section ends -->

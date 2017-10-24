@@ -5852,6 +5852,12 @@ input[type=checkbox].custom-checkbox:before {
 .no-list-type {
   list-style: none;
 }
+.no-post-title {
+  line-height: 1.4;
+}
+.fnb-btn.posUpdate {
+  font-size: 0.9em;
+}
 .search-section {
   position: relative;
   top: 2em;

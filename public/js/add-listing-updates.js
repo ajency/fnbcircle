@@ -338,4 +338,34 @@
     });
   });
 
+  window.updateActions = function() {
+    var form, parameters;
+    parameters = {};
+    parameters['listing_id'] = document.getElementById('listing_id').value;
+    parameters['step'] = 'business-premium';
+    if (window.submit === 1) {
+      parameters['submitReview'] = 'yes';
+    }
+    if (window.archive === 1) {
+      parameters['archive'] = 'yes';
+    }
+    if (window.publish === 1) {
+      parameters['publish'] = 'yes';
+    }
+    form = $('<form></form>');
+    form.attr("method", "post");
+    form.attr("action", "/listing");
+    $.each(parameters, function(key, value) {
+      var field;
+      field = $('<input></input>');
+      field.attr("type", "hidden");
+      field.attr("name", key);
+      field.attr("value", value);
+      form.append(field);
+      console.log(key + '=>' + value);
+    });
+    $(document.body).append(form);
+    form.submit();
+  };
+
 }).call(this);

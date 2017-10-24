@@ -402,13 +402,13 @@
                                 @isset($data['established'])
                                 <div class="year">
                                     <p class="element-title heavier m-b-10 sTitle">Year of Establishment</p>
-                                    <p class="sub-title lighter">{{$data['established']}} </p>
+                                    <p class="sub-title grey-darker">{{$data['established']}} </p>
                                 </div>
                                 @endisset
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+                                    <p class="sub-title grey-darker"><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
                                     <img src="/img/link.png" alt="" class="m-l-5" width="15">
                                     </a></p>
                                 </div>
@@ -418,7 +418,7 @@
                             <div class="detail-2 flex-row m-t-25 m-b-25">
                                 <div class="operation">
                                     <p class="element-title heavier m-b-20 sTitle">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
-                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} 
+                                    <p class="sub-title grey-darker operation__hours">Today {{$data['today']['timing']}} 
                                     <span class="dis-block data-show m-t-5 p-l-15">
                                         @foreach($data['hours'] as $day)
                                         <span class="dis-block text-color text-medium m-t-10 m-b-10"><i class="fa fa-clock-o p-r-5" aria-hidden="true"></i> {{$day['day']}} {{$day['timing']}} </span>
@@ -431,7 +431,7 @@
                             <div class="detail-3 flex-row m-t-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20 sTitle">Address of {{$data['title']['name']}}</h3>
-                                    @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
+                                    @isset($data['address'])<p class="sub-title grey-darker">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>
                             @endif

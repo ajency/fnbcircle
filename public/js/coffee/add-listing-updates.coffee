@@ -83,6 +83,12 @@ $('body').on 'click', '#post-update-button', ->
 
 
 $('body').on 'click', '.add-uploader', (e)->
+  max_uploads = document.head.querySelector('[property="max-file-upload"]').content
+  current_uploads =$(this).closest('.fileUpload').find('input[type="file"]').length 
+  console.log max_uploads,current_uploads
+  if current_uploads > max_uploads 
+    alert('You can upload maximum of '+max_uploads+' photos')
+    return
   e.preventDefault()
   console.log 'bxbvbbz'
   contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')

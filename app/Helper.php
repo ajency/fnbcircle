@@ -198,14 +198,6 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
 
     return $contactInfo;
 }
-
-function isAdmin()
-{
-    if(Auth::check() && Auth::user()->hasRole('superadmin'))
-        return true;
-    else
-        return false;
-}
  
 
 function moneyFormatIndia($amount){
@@ -294,7 +286,6 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
-
 function salaryRange(){
 	$range = [	'5'=>['min' => 0,
 					'max' => 300000000
@@ -315,5 +306,19 @@ function salaryRange(){
 			];
 	return  $range;
 } 
+
+function getUploadFileUrl($id){
+	$url = '';
+	if(!empty($id)){
+		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
+	
+		if(!empty($fileUrl)){
+			$url = $fileUrl[0]->url;
+		}
+	}
+	
+	 return $url;
+}
+
 
 

@@ -91,14 +91,16 @@ JOBS/USERS
 Route::get('/job/{slug}','JobController@show');
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-company','JobController@getCompanies');
- 
+Route::get('/user/download-resume','UserController@downloadResume');
 
-Route::group( ['middleware' => ['auth']], function() { 
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+ 
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
+	Route::post('/jobs/{reference_id}/applyjob','JobController@applyJob');
 
 	/**Users**/
 

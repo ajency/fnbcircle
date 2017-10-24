@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
 use App\UserCommunication;
+use File;
+use Illuminate\Support\Facades\Storage;
+use Aws\Laravel\AwsFacade as AWS;
+use Aws\Laravel\AwsServiceProvider;
+
 
 class UserController extends Controller
 {
@@ -156,6 +161,68 @@ class UserController extends Controller
         return response()->json(
             ['code' => 200, 
              'status' => true]);
+    }
+
+    public function downloadResume(){
+        if(isset($_GET['resume'])){
+            $file = $_GET['resume'];
+            $this->getUserResume($file);
+        }
+        else
+            abort(404);
+        
+    }
+
+    public function getUserResume($doc_url,$download =true){
+
+        $source = pathinfo($doc_url); 
+        $filename = $source['filename'];
+        $extension = $source['extension'];
+        $basename = $source['basename'];
+
+        $s3 = AWS::createClient('s3');
+
+        $getKey = explode('user', $doc_url);
+
+        $bucket = env('AWS_BUCKET');
+        $keyname = 'user'.$getKey[1]; 
+        $localPath = public_path().'/tmp/'.$basename;
+        
+        if(!File::exists(public_path().'/tmp/')) { 
+            File::makeDirectory(public_path().'/tmp/', 0777, true);
+        }
+ 
+        // Save object to a file.
+        $result = $s3->getObject(array(
+            'Bucket' => $bucket,
+            'Key'    => $keyname,
+            'SaveAs' => $localPath
+        ));
+
+ 
+        if($download){
+            //NOW comes the action, this statement would say that WHATEVER output given by the script is given in form of an octet-stream, or else to make it easy an application or downloadable
+            header('Content-type: application/octet-stream');
+            header('Content-Length: ' . filesize($localPath));
+            //This would be the one to rename the file
+            header('Content-Disposition: attachment; filename='.$basename.'');
+            //clean all levels of output buffering
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
+            readfile($localPath);
+
+
+            //Remove the local original file once all sizes are generated and uploaded
+            if (File::exists($localPath)){
+                File::delete($localPath);
+            }
+
+             exit();
+        }
+        else
+            return $localPath;
+ 
     }
 
 }

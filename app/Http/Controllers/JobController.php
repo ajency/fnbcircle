@@ -19,6 +19,8 @@ use Session;
 use App\UserCommunication;
 use View;
 use \Input;
+use App\JobApplicant;
+ 
 
 class JobController extends Controller
 {
@@ -327,7 +329,35 @@ class JobController extends Controller
         $data['contactEmail'] = $contactEmail;
         $data['contactMobile'] = $contactMobile;
         $data['contactLandline'] = $contactLandline;
-        
+
+        //if logged in user
+        $userApplication = false;
+        $userProfile = false;
+        $userResume = false;
+ 
+        if(Auth::check()){
+            $user = Auth::user();
+
+            $hasAppliedForJob = $user->applications()->where('job_id',$job->id)->first(); 
+            if(!$hasAppliedForJob){
+                $userResume = $user->getUserJobLastApplication();
+                $userProfile = $user->getUserProfileDetails();
+            }
+                
+
+        }
+
+        $jobApplications = false;
+        if($job->jobOwnerOrAdmin()){
+            $jobApplications = $job->jobApplicants()->get();
+            
+        }
+       
+        $data['hasAppliedForJob'] = $hasAppliedForJob;
+        $data['userResume'] = $userResume;
+        $data['userProfile'] = $userProfile;
+        $data['jobApplications'] = $jobApplications;
+      
          return view('jobs.job-view')->with($data);
     }
 
@@ -341,8 +371,8 @@ class JobController extends Controller
     {
         $job = Job::where('reference_id',$reference_id)->first(); 
 
-        if(!$job->canEditJob())
-            abort(403);
+        // if(!$job->jobOwnerOrAdmin())
+        //     abort(403);
 
 
         $data = [];
@@ -1023,6 +1053,50 @@ class JobController extends Controller
  
         Session::flash('job_review_pending',$successMessage[$statusId]);
         return redirect()->back();
+    }
+ 
+    public function applyJob(Request $request,$referenceId){
+
+        $this->validate($request, [
+            'applicant_name' => 'required',
+            'applicant_email' => 'required',
+            // 'applicant_phone' => 'required',
+            // 'applicant_city' => 'required',
+        ]);
+
+        $job = Job::where('reference_id',$referenceId)->first();
+        $user =  Auth::user();
+        $data = $request->all(); 
+        $applicantName = $data['applicant_name'];
+        $applicantEmail = $data['applicant_email'];
+        $applicantPhone = $data['applicant_phone'];
+        $applicantCity = $data['applicant_city'];
+        $resume = (isset($data['resume'])) ? $data['resume'] : [];
+        $resumeId =(isset($data['resume_id'])) ? $data['resume_id'] : 0;
+
+        $jobApplicant = new JobApplicant;
+        $jobApplicant->job_id = $job->id;
+        $jobApplicant->user_id = $user->id;
+        $jobApplicant->name = $applicantName;
+        $jobApplicant->email = $applicantEmail;
+        $jobApplicant->phone = $applicantPhone;
+        $jobApplicant->city = $applicantCity;
+        
+        $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
+
+        if(!empty($resume)){
+            $resumeId = $user->uploadUserResume($resume);
+            $jobApplicant->resume_updated_on  = date('Y-m-d H:i:s');
+        }
+         
+        $jobApplicant->resume_id = $resumeId; 
+
+        $jobApplicant->save();
+    
+        // Session::flash('success_message','Successfully applied for job');
+        Session::flash('success_apply_job','Job apply');
+        return redirect()->back();
+
     }
  
 

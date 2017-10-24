@@ -11,6 +11,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
+        "aws/aws-sdk-php-laravel": "^3.1",
         "spatie/laravel-permission": "^2.6"
     },
     "require-dev": {
@@ -28,7 +29,9 @@
             "Ajency\\FileUpload\\": "packages/ajency/laravel-file-upload-package/src",
             "Ajency\\User\\": "packages/ajency/user/src"
         },
-        "files": ["app/Helper.php","app/Seo/Seo.php"]
+ 
+        "files": ["app/Helper.php","app/FnbPermissions.php","app/Seo/Seo.php"]
+ 
     },
     "autoload-dev": {
         "psr-4": {

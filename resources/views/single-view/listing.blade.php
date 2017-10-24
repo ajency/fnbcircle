@@ -783,11 +783,11 @@
                                 <p class="m-b-0 element-title text-capitalise bolder">Get best deals in "Meat &amp; poultry"</p>
                             </div>
                             <div class="actions">
-                                <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Send Enquiry</button>
+                                <button class="btn fnb-btn primary-btn full border-btn send-enquiry">Send Enquiry</button>
                             </div>
                         </div>
 
-                        <div class="pos-fixed fly-out">
+                        <div class="pos-fixed fly-out enquiry-form-slide">
                             <div class="mobile-back desk-hide mobile-flex">
                                 <div class="left mobile-flex">
                                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>

@@ -119,6 +119,12 @@
     $('.singleV-title').before(catlabel);
     contactrow = $('.single-contact-section').detach();
     $('.operate-section').after(contactrow);
+    $('.back-icon').click(function() {
+      $('.fly-out').removeClass('active');
+    });
+    $('.send-enquiry').click(function() {
+      $('.enquiry-form-slide').addClass('active');
+    });
   }
 
 }).call(this);

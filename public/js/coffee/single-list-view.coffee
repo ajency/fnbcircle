@@ -125,5 +125,10 @@ if $(window).width() < 769
   $('.singleV-title').before catlabel
   contactrow = $('.single-contact-section').detach()
   $('.operate-section').after contactrow
-
+  $('.back-icon').click ->
+    $('.fly-out').removeClass 'active'
+    return
+  $('.send-enquiry').click ->
+    $('.enquiry-form-slide').addClass 'active'
+    return  
 

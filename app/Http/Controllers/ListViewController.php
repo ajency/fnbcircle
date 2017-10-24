@@ -345,12 +345,12 @@ class ListViewController extends Controller {
     	
     	/* if state filter is passed, then get all the areas to be displayed in the filter */
     	if(isset($filters["state"]) && $filters["state"]) {
-    		$filter_data["areas"] = City::where('slug', $filters["state"]);
+    		$filter_data["areas"] = City::where('slug', $filters["state"]);//City::where([['slug', $filters["state"]], ['status', 1]]);
     		
     		if($filter_data["areas"]->count() > 0) {
-    			$filter_data["areas"] = $filter_data["areas"]->first()->areas()->get()->toArray();
+    			$filter_data["areas"] = $filter_data["areas"]->first()->areas()->where('status', 1)->get()->toArray();
     		} else {
-    			$filter_data["areas"] = Area::where('slug', $filters["state"])->get()->toArray();
+    			$filter_data["areas"] = Area::where([['slug', $filters["state"]], ['status', 1]])->get()->toArray();
 
     			if(sizeof($filter_data["areas"]) == 1) {
     				$filter_data["areas_selected"] = [$filter_data["areas"][0]["slug"]];
@@ -568,13 +568,17 @@ class ListViewController extends Controller {
     	$sort_order = ($request->has('sort_order') && $request->sort_order) ? $request->sort_order : "desc";
 
     	if($request->has("filters")) {
-    		if(isset($request->filters["business_search"])) {
-    			if(!isset($filters["listing_ids"])) {
-    				$filters["listing_ids"] = [$request->filters["business_search"]];
-    			} else {
-    				array_push($filters["listing_ids"], $request->filters["business_search"]);
-    			}
-    		}
+            if(isset($request->filters["business_search"])) {
+                $listing_business_obj = Listing::where('slug', $request->filters["business_search"])->get();
+                if($listing_business_obj->count() > 0) {
+                    $listing_business_obj = $listing_business_obj->first();
+                    if(!isset($filters["listing_ids"])) {
+                        $filters["listing_ids"] = [$listing_business_obj->id];
+                    } else {
+                        array_push($filters["listing_ids"], $listing_business_obj->id);
+                    }
+                }
+            }
 
     		// If a Category is selected from the List from the Search box
     		if(isset($request->filters["category_search"])) {

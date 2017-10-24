@@ -511,7 +511,9 @@ class ListViewController extends Controller {
 	    		$list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
 
 	    		// $list["status"] = Listing::listing_status[$list["status"]]; // Get the string of the Listing Status
-	    		$list["business_type"] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+	    		// $list["business_type"]['name'] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+
+                $list["business_type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
 
 	    		// Get list of areas under that Listing
 	    		$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();

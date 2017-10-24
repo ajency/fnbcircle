@@ -391,12 +391,7 @@ $additionalData = ['job'=>$job];
                   <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now</button>
                   @endif
 
-
-
-
-
-
-                  
+                  @if($job->isPublished())
                   <div class="share-job flex-row">
                      <p class="sub-title heavier m-b-0 p-r-10">Share: </p>
                      <ul class="options flex-row flex-wrap">
@@ -410,7 +405,7 @@ $additionalData = ['job'=>$job];
                         <li><a href="{{ $googleShare }}" target="_blank" title="Share Job on Google+"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
                      </ul>
                   </div>
-                  @if($job->isPublished())
+                  
                   @endif
                </div>
             </div>

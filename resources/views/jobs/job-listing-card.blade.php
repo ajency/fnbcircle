@@ -15,8 +15,8 @@
  
                   </div>
                   <div class="flex-row">
-                      <div class="rating-view flex-row p-r-10">
-                          <a>{{ $job->getJobCategoryName() }}</a>
+                      <div class="rating-view flex-row p-r-10"> 
+                          <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}">{{ $job->getJobCategoryName() }}</a>
                       </div>
                       @if($job->jobPostedOn()!="")
                       <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on {{ $job->jobPostedOn() }}</i></p>
@@ -38,9 +38,9 @@
                      
                   </div>
               </div>
-              @if(!empty($job->meta_data['job_keyword']))
+              @if(!empty($job->getJobSavedKeywords(2)))
               @php
-              $splitKeywords =  splitJobArrayData($job->meta_data['job_keyword'],5);
+              $splitKeywords =  splitJobArrayData($job->getJobSavedKeywords(2),5);
               $keywords = $splitKeywords['array'];
               $moreKeywords = $splitKeywords['moreArray'];
               $moreKeywordCount = $splitKeywords['moreArrayCount'];
@@ -50,7 +50,7 @@
                       <p class="default-size text-lighter m-t-0 m-b-0">Job Roles</p>
                       <ul class="fnb-cat flex-row">
                         @foreach($keywords as $keyword)
-                          <li><a href="" class="fnb-cat__title">{{ $keyword }}</a></li>
+                          <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title">{{ $keyword['label'] }}</a></li>
 
                         @endforeach
 

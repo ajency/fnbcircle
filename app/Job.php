@@ -182,6 +182,24 @@ class Job extends Model
         return $this->hasOne('App\JobCompany');
     }
 
+    public function getJobSavedKeywords($format=1){
+        if($format==1)
+        {
+            $keywords = $this->meta_data['job_keyword'];
+
+        }
+        elseif($format==2)
+        {
+            $keywordIds = $this->hasKeywords()->pluck('keyword_id');
+            $keywords = Defaults::whereIn('id',$keywordIds)->get()->toArray();
+        }
+        elseif($format==3){
+            $keywords = $this->hasKeywords()->pluck('keyword_id')->toArray();
+        }
+
+        return $keywords;
+    }
+
 
     public function getPageTitle(){
 

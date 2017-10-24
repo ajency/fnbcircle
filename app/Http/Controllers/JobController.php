@@ -901,6 +901,7 @@ class JobController extends Controller
             $categoryName = Category::where('slug',$requestData['category'])->first();
             $requestData['category_name'] = (!empty($categoryName)) ? $categoryName->name : '';
             $requestData['category_id'] = (!empty($categoryName)) ? $categoryName->id : '';
+
         }
 
         if(isset($requestData['job_type']) && $requestData['job_type']!=""){
@@ -927,7 +928,7 @@ class JobController extends Controller
                 $keyword = explode('|', $keywordstr);
                 $keywordIds[] = $keyword[0];
             }
-            
+
             $keywordData = Defaults::whereIn("id",$keywordIds)->get();
             $searchKeywords = [];
             foreach ($keywordData as $key => $keyword) {
@@ -961,7 +962,10 @@ class JobController extends Controller
         $skip = $startPage * $length;
 
         //convert to array 
-        $city[] =  $filters['city']; 
+        $flteredCity =  $filters['city']; 
+        $flteredCitySlug =  City::find($flteredCity)->slug;   
+        // $flteredCityName =  City::where('slug', $flteredCity)->first()->name;   
+        $city[] =  $flteredCity; 
         $filters['city'] = $city;
 
         if(!empty($filters['category'])){
@@ -978,7 +982,7 @@ class JobController extends Controller
         $filteredJobs = count($jobs);
 
 
-        $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append])->render();
+        $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append,'flteredCitySlug'=>$flteredCitySlug])->render();
 
 
         $pagination = pagination($totalJobs,$startPage,$length);

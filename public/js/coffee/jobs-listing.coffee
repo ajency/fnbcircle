@@ -116,12 +116,7 @@ $(document).on 'change', '.search-job', ->
   filterJobs(true)
   return
 
-$(document).on 'change', 'input[name="search_category"]', ->
-  $('input[name="category_id"]').val ''
-  $('input[name="category_id"]').attr 'slug','' 
-  filterJobs(true) 
-
-
+ 
 strSlug = (str) ->
   str = str.replace(/^\s+|\s+$/g, '')
   # trim
@@ -145,6 +140,7 @@ $('.clear-all-filters').click ->
   $('.clear-checkbox').click()
   $('.clear-salary').click()
   $('input[name="job_name"]').val ''
+  $('input[name="search_category"]').val ''
   $('input[name="category_id"]').val ''
   $('input[name="category_id"]').attr 'slug',''
   filterJobs(true)
@@ -246,6 +242,8 @@ $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
   keywordlabel = (set[0]['textContent']).slice(0, -1)
   $('input[label="'+keywordlabel+'"]').remove()
   filterJobs(true) 
+
+ 
  
 
 $(document).ready ()->
@@ -269,6 +267,12 @@ $(document).ready ()->
     $('input[name="category_id"]').val set.id   
     $('input[name="category_id"]').attr 'slug',set.slug   
     filterJobs(true) 
+
+  $('.job-categories').on 'change:flexdatalist', (event, set, options) ->
+    if set.value == ''
+      $('input[name="category_id"]').val ''
+      $('input[name="category_id"]').attr 'slug','' 
+      filterJobs(true)
 
   console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'

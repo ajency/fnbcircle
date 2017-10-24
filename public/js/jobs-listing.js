@@ -118,12 +118,6 @@
     filterJobs(true);
   });
 
-  $(document).on('change', 'input[name="search_category"]', function() {
-    $('input[name="category_id"]').val('');
-    $('input[name="category_id"]').attr('slug', '');
-    return filterJobs(true);
-  });
-
   strSlug = function(str) {
     var from, i, l, to;
     str = str.replace(/^\s+|\s+$/g, '');
@@ -146,6 +140,7 @@
     $('.clear-checkbox').click();
     $('.clear-salary').click();
     $('input[name="job_name"]').val('');
+    $('input[name="search_category"]').val('');
     $('input[name="category_id"]').val('');
     $('input[name="category_id"]').attr('slug', '');
     return filterJobs(true);
@@ -272,6 +267,13 @@
       $('input[name="category_id"]').val(set.id);
       $('input[name="category_id"]').attr('slug', set.slug);
       return filterJobs(true);
+    });
+    $('.job-categories').on('change:flexdatalist', function(event, set, options) {
+      if (set.value === '') {
+        $('input[name="category_id"]').val('');
+        $('input[name="category_id"]').attr('slug', '');
+        return filterJobs(true);
+      }
     });
     console.log($('.area-list').attr('has-filter'));
     if ($('.area-list').attr('has-filter').trim() === 'no') {

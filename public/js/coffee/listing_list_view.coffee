@@ -200,8 +200,9 @@ updateTextLabels = () ->
 		$(".listings-page .category_label").text($(".listings-page a.bolder").text())
 	else
 		#$(".listings-page span.category_label").text("All categories")
-		$(".listings-page span.category_label").text "All"
-		$(".listings-page p.category_label").text("all")
+		$(".listings-page span.category_label").text ""
+		$(".listings-page h5 span.category_label").text "All"
+		$(".listings-page p.category_label").text "all"
 
 	### --- Update the State labels --- ###
 	if $('input[name="city"]').val().length > 0

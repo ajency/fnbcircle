@@ -194,7 +194,7 @@ class ListViewController extends Controller {
     		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	}
 
-    	$response_data = $response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);
+    	$response_data = $response_data->get(['id', 'name', 'slug', 'level']);//$response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);
 
     	$response_data->each(function($category) {
 			$output = new ConsoleOutput;

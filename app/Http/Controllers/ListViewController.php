@@ -13,6 +13,7 @@ use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\ListingOperationTime;
+use App\Update;
 use App\User;
 use App\UserCommunication;
 use Auth;
@@ -20,6 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use App\Helper;
+use Illuminate\Support\Facades\DB;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -527,6 +529,9 @@ class ListViewController extends Controller {
 	    			));
 	    		}
 	    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+
+                $recent_update_obj = DB::table('updates')->where([["object_type", "App\Listing"], ['object_id', $list->id]])->orderBy('updated_at', "desc")->get();// Update::where([["object_type", "App\Listing"], ['object_id', $list->id]])->orderBy('updated_at', "desc")->get();
+                $list["recent_updates"] = $recent_update_obj->count() > 0 ? $recent_update_obj->first() : null;
 
 	    		//$list["categories"] = ListingCategory::getCategories($list->id); // Get list of all the categories & it's respective Parent & branch node
 	    		

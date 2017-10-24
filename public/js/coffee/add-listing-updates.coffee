@@ -441,6 +441,8 @@ $('#edit-updates').on 'click','#edit-update-button',()->
       newPost()
 
 $('body').on 'click','.delete-post', () ->
+  if !confirm('Are you sure you want to delete this post?')
+    return
   console.log "lllal"
   id = $(this).attr('data-delete-id')
   url = document.head.querySelector('[property="delete-post-url"]').content

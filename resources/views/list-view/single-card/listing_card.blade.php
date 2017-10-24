@@ -160,7 +160,7 @@
             <div class="seller-info__footer filter-cards__footer white-space">
                 <div class="recent-updates flex-row">
                     <div class="recent-updates__text">
-                        <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
+                        <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
                     </div>
                     <div class="recent-updates__content">
                         <p class="m-b-0 default-size text-color recent-data">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur recusandae quasi facere voluptates error, ab, iusto similique?,

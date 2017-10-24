@@ -502,32 +502,11 @@
                                             @endif
                                         </div>
 
-
+<!-- 
                                         @isset($similar[0]['operationAreas'])
 
                                         <div class="operations m-t-10">
                                             <span class="dis-block text-color">Areas of operation</span>
-<!-- 
-                                            @foreach($similar[1]['operationAreas'] as $city)
-                                            <div class="flex-row state-container align-top m-t-5 m-b-5">
-                                                <p class="heavier state-row default-size m-b-0"><i class="fa fa-map-marker text-lighter p-r-5" aria-hidden="true"></i> {{$city['name']}} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i></p>
-                                                <div class="flex-row mainRow">
-                                                    <ul class="areas hide-areas flex-row">
-                                                        @foreach($city['areas'] as $area)
-                                                        <li>
-                                                            <p class="default-size areas__title">{{$area['name']}}</p>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                    
-                                                    @if(count($city['areas']) > 3)
-                                                    <li class="remain more-show">
-                                                        <a href="" class="secondary-link remain__number">+{{count($city['areas']) - 3}}</a>
-                                                    </li>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            @endforeach -->
 
                                             <div class="similar-card-operation">
                                                 @foreach($similar[0]['operationAreas'] as $city)
@@ -554,7 +533,7 @@
 
                                         </div>
 
-                                        @endisset
+                                        @endisset -->
                                     </div>
                                     <div class="business-card__body">
                                         <div class="flex-row space-between">
@@ -565,6 +544,11 @@
                                             @if($similar[0]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
+                                            <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
+                                                <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
+                                                <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
+                                                {{$similar[0]['type']}}</a>
+                                            </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[0]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
                                         </div>
@@ -590,7 +574,7 @@
                                             </li>
                                             @endif
                                         </div>
-                                        @isset($similar[1]['operationAreas'])
+                              <!--           @isset($similar[1]['operationAreas'])
                                         <div class="operations m-t-10">
                                             <span class="dis-block text-color">Areas of operation</span>
                                             <div class="similar-card-operation">
@@ -616,7 +600,7 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        @endisset
+                                        @endisset -->
                                     </div>
                                     <div class="business-card__body">
                                         <div class="flex-row space-between">
@@ -627,6 +611,11 @@
                                             @if($similar[1]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
+                                            <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
+                                                <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
+                                                <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
+                                                {{$similar[1]['type']}}</a>
+                                            </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[1]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>
                                         </div>

@@ -544,10 +544,8 @@
                                             @if($similar[0]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
-                                            <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
-                                                <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
-                                                <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                                {{$similar[0]['type']}}</a>
+                                            <label class="flex-row">
+                                                <p class="m-b-0 default-size text-medium">{{$similar[0]['type']}}</p>
                                             </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[0]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
@@ -611,10 +609,8 @@
                                             @if($similar[1]['verified'])<span class="fnb-icons verified-icon"></span>@endif
                                         </div>
                                         <div class="address">
-                                            <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
-                                                <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
-                                                <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                                {{$similar[1]['type']}}</a>
+                                            <label class="flex-row">
+                                                <p class="m-b-0 default-size text-medium">{{$similar[1]['type']}}</p>
                                             </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[1]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>

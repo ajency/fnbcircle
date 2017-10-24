@@ -3705,8 +3705,8 @@ input[type=checkbox].custom-checkbox:before {
   color: #4a4a4a;
 }
 .similar-business .address .sub-title {
-  margin-bottom: 0;
-  margin-top: 2px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 .similar-business .address-title {
   font-size: 1em;

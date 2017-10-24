@@ -3651,7 +3651,7 @@ input[type=checkbox].custom-checkbox:before {
 .similar-business .business-card__header {
   margin: -14px;
   padding: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 5px;
   background-color: #f7f7f7;
 }
 .similar-business .business-card__body {
@@ -5837,14 +5837,20 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex: 1;
           flex: 1;
 }
+.mainRow .hide-areas li:nth-child(-n+3) p:after {
+  content: ',';
+  display: inline-block;
+  color: #6b6b6b;
+  padding-left: 2px;
+}
+.mainRow .hide-areas li:last-child p:after {
+  display: none;
+}
 .state-container .remain {
   list-style: none;
 }
-.catShow[data-readmore] {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+.no-list-type {
+  list-style: none;
 }
 .search-section {
   position: relative;

@@ -74,6 +74,15 @@
     });
   }
 
+  if ($('.similar-card-operation').length) {
+    $('.similar-card-operation').readmore({
+      speed: 25,
+      collapsedHeight: 26,
+      moreLink: '<a href="#" class="more x-small secondary-link">More</a>',
+      lessLink: '<a href="#" class="x-small less secondary-link">Less</a>'
+    });
+  }
+
   if ($('.catShow').length) {
     $('.catShow').readmore({
       speed: 25,

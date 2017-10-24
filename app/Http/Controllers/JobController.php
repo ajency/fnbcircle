@@ -731,7 +731,7 @@ class JobController extends Controller
  
     public function filterJobs($filters,$skip,$length,$orderDataBy){
 
-        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
+        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id')->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
 
 
         if($filters['job_name']!="")
@@ -755,11 +755,9 @@ class JobController extends Controller
 
         if(isset($filters['city']) && !empty($filters['city']))
         {   
-            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
-
             $jobQuery->whereIn('job_locations.city_id',$filters['city']);
 
-            $jobQuery->distinct('jobs.id');
+            $jobQuery->distinct('jobs.id'); 
         }
 
         if(isset($filters['area']) && !empty($filters['area']))
@@ -986,7 +984,7 @@ class JobController extends Controller
     public function getListingJobs(Request $request){
        
         $length = 10;
-        $orderDataBy = ['published_on'=>'desc'];
+        $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $startPage = ($filters['page'] - 1); 

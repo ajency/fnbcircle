@@ -186,6 +186,10 @@
   });
 
   $('select[name="job_city"]').change(function() {
+    var cityText;
+    cityText = $('option:selected', this).text();
+    $(".fnb-breadcrums li:nth-child(3)").find('a').attr('href', '/' + cityText + '/job-listings?city=' + cityText);
+    $(".fnb-breadcrums li:nth-child(3)").find('p').text(cityText);
     displayCityText();
   });
 
@@ -199,7 +203,6 @@
     cityText = $('option:selected', cityObj).text();
     cityId = $('option:selected', cityObj).attr('id');
     $("#state_name").text(cityText);
-    $(".fnb-breadcrums:eq(2)").text(cityText);
     return $.ajax({
       type: 'post',
       url: '/get_areas',
@@ -265,6 +268,7 @@
     $('.job-categories').on('select:flexdatalist', function(event, set, options) {
       $('input[name="category_id"]').val(set.id);
       $('input[name="category_id"]').attr('slug', set.slug);
+      $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
       return filterJobs(true);
     });
     $('.job-categories').on('change:flexdatalist', function(event, set, options) {

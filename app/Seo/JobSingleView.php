@@ -104,7 +104,7 @@ class JobSingleView extends Model
     	$jobState = $this->job->getJobSingleState();
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
-        $breadcrumbs[] = ['url'=>url($jobState.'/job-listings/'), 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
+        $breadcrumbs[] = ['url'=>url($jobState->name.'/job-listings?city='.$jobState->slug.'&category='.$this->job->category->slug), 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
         $breadcrumbs[] = ['url'=>'', 'name'=> $this->job->title];
 
         return $breadcrumbs;

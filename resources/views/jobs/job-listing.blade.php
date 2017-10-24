@@ -124,7 +124,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span> Jobs in <span id="state_name">Delhi</span></p>
+                    <p class="sub-title text-color text-right search-actions__title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span> Jobs in <span id="state_name">{{ ucwords($urlFilters['city']) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>

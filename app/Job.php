@@ -327,7 +327,7 @@ class Job extends Model
 
     public function getJobSingleState(){
         $jobLoction = $this->hasLocations()->first();
-        $city = City::find($jobLoction['city_id'])->name;
+        $city = City::find($jobLoction['city_id']);
         return $city;
     }
 

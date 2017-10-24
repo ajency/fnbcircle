@@ -188,6 +188,9 @@ $('.header_city').change ->
   return
 
 $('select[name="job_city"]').change ->
+  cityText = $('option:selected',this).text();
+  $( ".fnb-breadcrums li:nth-child(3)" ).find('a').attr 'href', '/'+cityText+'/job-listings?city='+cityText
+  $( ".fnb-breadcrums li:nth-child(3)" ).find('p').text cityText
   displayCityText()
   return
 
@@ -195,11 +198,10 @@ $('input[name="area_search"]').change ->
   displayCityText()
 
 displayCityText = () -> 
-  cityObj = $('select[name="job_city"]');
-  cityText = $('option:selected',cityObj).text();
-  cityId = $('option:selected',cityObj).attr('id');
+  cityObj = $('select[name="job_city"]')
+  cityText = $('option:selected',cityObj).text()
+  cityId = $('option:selected',cityObj).attr('id')
   $("#state_name").text cityText 
-  $( ".fnb-breadcrums:eq(2)" ).text cityText 
 
   $.ajax
     type: 'post'
@@ -261,6 +263,7 @@ $(document).ready ()->
   $('.job-categories').on 'select:flexdatalist', (event, set, options) ->
     $('input[name="category_id"]').val set.id   
     $('input[name="category_id"]').attr 'slug',set.slug   
+    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
     filterJobs(true) 
 
   $('.job-categories').on 'change:flexdatalist', (event, set, options) ->

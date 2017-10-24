@@ -227,7 +227,7 @@ newPost = () ->
                     </div>
           </div>
           <div class="image-grid__cols addCol">
-                    <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                    <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                 </div>
                 <div class="image-grid__cols uppend-uploader hidden">
                     <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
@@ -349,7 +349,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                         </div>
                       </div>'
         html+=       '<div class="image-grid__cols addCol">
-                                <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                                <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                             </div>
                             <div class="image-grid__cols uppend-uploader hidden">
                                 <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />

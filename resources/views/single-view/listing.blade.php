@@ -628,7 +628,7 @@
                                         </div>
                                         <div class="address">
                                             <p class="sub-title heavier ellipsis">{{$similar[1]['title']['name']}}</p>
-                                            <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5 loc-icon" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>
+                                            <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">

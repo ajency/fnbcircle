@@ -11118,6 +11118,14 @@ input[type='checkbox'].remove-addr {
 .edit-updates .post-card {
   padding-bottom: 0;
 }
+.no-post-updates {
+  margin-top: 1.5em;
+}
+@media screen and (min-width: 769px) {
+  .no-post-updates {
+    font-size: 1.3em;
+  }
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

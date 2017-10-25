@@ -190,9 +190,9 @@ loadUpdates = () ->
                   enabled: true
                   duration: 300
         else
-          nothing = '<div class="m-t-10 text-center no-updates">
-                            No updates as of yet!
-                        </div>'
+          nothing = '<div class="m-t-10 text-center text-primary no-post-updates">
+                      No updates as of now! <i class="fa fa-frown-o p-l-5" aria-hidden="true"></i>
+                      </div>'
           $('.update-display-section').append(nothing)
 
 $('body').on 'change','select[name="update-sort"]',()->

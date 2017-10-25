@@ -217,7 +217,7 @@ newPost = () ->
           <div class="flex-row space-between title-flex-row">
             <div class="title-icon">
               <label class="required">Title</label>
-                    <input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required>
+                    <input type="text" class="form-control fnb-input" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="Give a title to your post" name="title" data-parsley-required>
                   </div>
                   <img src="/img/post-title-icon.png" class="img-responsive">
           </div>
@@ -318,7 +318,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                       <div class="flex-row space-between title-flex-row">
                         <div class="title-icon">
                           <label class="">Title</label>
-                           <input type="text" class="form-control fnb-input form-update-data1" placeholder="" name="title" data-parsley-required>
+                           <input type="text" class="form-control fnb-input form-update-data1" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="" name="title" data-parsley-required>
                         </div>
                       </div>
                     </div>

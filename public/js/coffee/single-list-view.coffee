@@ -36,10 +36,11 @@ loadUpdates = () ->
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>
-                          <ul class="flex-row update-img">'
+                          <ul class="flex-row update-img post-gallery flex-wrap">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="80"></a></li>'
+              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="80" class="no-height"><div class="updates-img-col" style="background-image: url('+item['200x150']+');">
+                                        </div></a></li>'
               return
                               
             html +=      '</ul>
@@ -52,7 +53,15 @@ loadUpdates = () ->
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
             $('.update-display-section').append(button)
-
+          if $('.post-gallery').length
+            $('.post-gallery').each ->
+              $(this).magnificPopup
+                delegate: 'a'
+                type: 'image'
+                gallery: enabled: true
+                zoom:
+                  enabled: true
+                  duration: 300  
   
 
 $('body').on 'click', '.view-updates', () ->

@@ -180,15 +180,15 @@ loadUpdates = () ->
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
             $('.update-display-section').append(button)
-            if $('.post-gallery').length
-              $('.post-gallery').each ->
-                $(this).magnificPopup
-                  delegate: 'a'
-                  type: 'image'
-                  gallery: enabled: true
-                  zoom:
-                    enabled: true
-                    duration: 300
+          if $('.post-gallery').length
+            $('.post-gallery').each ->
+              $(this).magnificPopup
+                delegate: 'a'
+                type: 'image'
+                gallery: enabled: true
+                zoom:
+                  enabled: true
+                  duration: 300
         else
           nothing = '<div class="m-t-10 text-center no-updates">
                             No updates as of yet!

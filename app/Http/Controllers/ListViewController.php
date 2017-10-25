@@ -286,7 +286,7 @@ class ListViewController extends Controller {
     	}
 
     	if($category_val->level < 3) {
-			$node_categories = $temp_cat_obj->where([["path", 'like', $category_val->path() . '%'], ["level", 3]])->pluck($col_return)->toArray();
+			$node_categories = $temp_cat_obj->where([["path", 'like', $category_val->path() . '%'], ["level", 3], ['status', 1]])->pluck($col_return)->toArray();
 		} else {
 			$node_categories = [$category_val[$col_return]];
 		}
@@ -305,16 +305,17 @@ class ListViewController extends Controller {
     */
     public function getListFilterData($filters=[], $render_html = false) {
 
-		# $category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
+		// $category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
 		$category_obj = new Category;
 		$path_breaker = array(1 => 0, 2 => 1, 3 => 2); // <level> => no of breaks
 
 		$filter_data["category"] = [];
 
 		/* If the category is defined in the filter param & the value exist, then get that "category's" Parent, Child, Name & Node Categories under that Category */
+        if(isset($filters["category"]) && $filters["category"] && isset($filters["category"]["slug"]) && strlen($filters["category"]["slug"]) > 0 ) {
     	// if(isset($filters["category"]) && $filters["category"] && intVal($filters["category"]["id"]) > 0 ) {
-    	if(isset($filters["category"]) && $filters["category"] && isset($filters["category"]["slug"]) && strlen($filters["category"]["slug"]) > 0 ) {
     		$cat_obj = $category_obj->where('slug', $filters["category"]["slug"])->get()->first();
+            
     		// Get the name & node_categories under it
     		$filter_data["category"] = array("name" => $cat_obj->name, "node_categories" => $this->getCategoryNodeArray($cat_obj, "slug", false));
 
@@ -334,13 +335,13 @@ class ListViewController extends Controller {
 	    	}
     		
     		// Find the children
-    		$filter_data["category"]["children"] = $category_obj->where([["path", "like", $cat_obj->path() . "%"], ["level", $cat_obj->level + 1]])->get()->each(function($child_cat) {
+    		$filter_data["category"]["children"] = $category_obj->where([["path", "like", $cat_obj->path() . "%"], ["level", $cat_obj->level + 1], ['status', 1]])->get()->each(function($child_cat) {
 				$child_cat["node_categories"] = $this->getCategoryNodeArray($child_cat, "slug", false);
 			})->toArray();
     	} else {
     		$filter_data["category"] = array("parent" => [], "node_categories" => "|[]", "name" => "");
 			
-			$filter_data["category"]["children"] = $category_obj->where([["level", 1], ["type", "listing"]])->get()->each(function($category_val) {
+			$filter_data["category"]["children"] = $category_obj->where([["level", 1], ["type", "listing"], ['status', 1]])->get()->each(function($category_val) {
 				$category_val["node_categories"] = $this->getCategoryNodeArray($category_val, "slug", false);
 			})->toArray();
     	}

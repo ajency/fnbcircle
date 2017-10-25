@@ -306,7 +306,7 @@ class ListViewController extends Controller {
     public function getListFilterData($filters=[], $render_html = false) {
 
 		# $category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
-		$category_obj = Category::where('status', 1);
+		$category_obj = new Category;
 		$path_breaker = array(1 => 0, 2 => 1, 3 => 2); // <level> => no of breaks
 
 		$filter_data["category"] = [];
@@ -530,7 +530,7 @@ class ListViewController extends Controller {
 	    		}
 	    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
 
-                $recent_update_obj = DB::table('updates')->where([["object_type", "App\Listing"], ['object_id', $list->id]])->orderBy('updated_at', "desc")->get();// Update::where([["object_type", "App\Listing"], ['object_id', $list->id]])->orderBy('updated_at', "desc")->get();
+                $recent_update_obj = DB::table('updates')->where([["object_type", "App\Listing"], ['object_id', $list->id], ['deleted_at', null]])->orderBy('updated_at', "desc")->get();// Update::where([["object_type", "App\Listing"], ['object_id', $list->id]])->orderBy('updated_at', "desc")->get();
                 $list["recent_updates"] = $recent_update_obj->count() > 0 ? $recent_update_obj->first() : null;
 
 	    		//$list["categories"] = ListingCategory::getCategories($list->id); // Get list of all the categories & it's respective Parent & branch node

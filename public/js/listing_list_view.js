@@ -577,22 +577,6 @@
       }), 200);
     });
 
-    /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
-    $(document).on("focusin", 'input[type="text"][name="flexdatalist-category_search"]', function(event) {
-      old_values["category_search"] = $('input[name="category_search"]').val();
-      $('input[name="category_search"]').flexdatalist('value', "");
-    });
-
-    /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
-    $(document).on("focusout", 'input[type="text"][name="flexdatalist-category_search"]', function(event) {
-      setTimeout((function() {
-        if ($('input[name="category_search"]').val().length <= 0) {
-          console.log(old_values["category_search"]);
-          return $('input[name="category_search"]').flexdatalist('value', old_values["category_search"]);
-        }
-      }), 200);
-    });
-
     /* --- On filter checkbox select --- */
     $(document).on("change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", function(e) {
       if (!isMobile()) {

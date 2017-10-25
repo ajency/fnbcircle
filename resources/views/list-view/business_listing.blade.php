@@ -6,14 +6,14 @@ List View
 
 @section('css')
     <!-- FlexDatalist -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
 @endsection
 
 @section('js')
     <!-- Handle bars  -->
     <script type="text/javascript" src="{{ asset('/bower_components/handlebars/handlebars.min.js') }}"></script>
     <!-- FlexDatalist -->
-    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
 
     <!-- Custom js codes -->
     <script type="text/javascript" src="{{ asset('/js/listing_list_view.js') }}"></script>

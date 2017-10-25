@@ -197,7 +197,7 @@
   getFilterContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 5;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
     data = {
       "page": page,
       "page_size": limit,
@@ -239,7 +239,7 @@
   getListContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 5;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
     data = {
       "page": page,
       "page_size": limit,
@@ -260,7 +260,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
+          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
           if (isMobile()) {
             $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
           } else {
@@ -561,7 +561,7 @@
     $(document).on("click", "#pagination a.paginate.page", function(e) {
       updateUrlPushstate("page", "page=" + $(this).attr("page"));
       if (window.location.search.indexOf("limit") < 0) {
-        updateUrlPushstate("limit", "limit=5");
+        updateUrlPushstate("limit", "limit=10");
       } else {
         '';
       }

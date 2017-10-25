@@ -221,7 +221,7 @@ updateTextLabels = () ->
 ### --- Update the Filter's DOM --- ###
 getFilterContent = () ->
 	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
-	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 5
+	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 10
 
 	data = 
 		"page": page
@@ -283,7 +283,7 @@ getFilterContent = () ->
 ### --- Update the Filter & Content DOM --- ###
 getListContent = () ->
 	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
-	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 5
+	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 10
 
 	data = 
 		"page": page
@@ -656,7 +656,7 @@ $(document).ready () ->
 	$(document).on "click", "#pagination a.paginate.page", (e) ->
 		updateUrlPushstate("page", "page=" + $(this).attr("page"))
 
-		if window.location.search.indexOf("limit") < 0 then updateUrlPushstate("limit", "limit=5") else ''
+		if window.location.search.indexOf("limit") < 0 then updateUrlPushstate("limit", "limit=10") else ''
 		getListContent()
 		return
 

@@ -92,7 +92,7 @@
     <div class="m-t-10 upload-container c-gap">
         <label class="label-size">Do you have some files which you would like to upload for the listing? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
-            Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx &amp; .png with a maximum size of 1mb is allowed
+            Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx, .png &amp; .ppt with total maximum size of 25mb is allowed
         </div>
         <!-- <div class="m-t-20">
             <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />

@@ -319,7 +319,7 @@
                                     You have not posted any updates as of yet! <br> Recently updated listings usually get more leads, so go ahead and post an update.
                                 </h6>
                                 <p class="m-b-0 m-t-20 text-center">
-                                    <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
+                                    <a href="/listing/{{$data['reference']}}/edit/post-an-update?step=true" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
                                 </p>
                             </div>
                             @endif

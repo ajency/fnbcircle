@@ -383,7 +383,7 @@
       focusFirstResult: true,
       minLength: 0,
       cache: false,
-      selectionRequired: false,
+      selectionRequired: true,
       keywordParamName: 'search',
       resultsProperty: "data",
       searchIn: ['search_text'],
@@ -408,7 +408,6 @@
       valueProperty: 'node_children',
       visibleProperties: ["name", "search_name"],
       searchContain: true,
-      searchDelay: 200,
       searchByWord: true,
       allowDuplicateValues: false,
       debug: false,
@@ -431,7 +430,6 @@
       searchContain: true,
       searchEqual: false,
       searchDisabled: false,
-      searchDelay: 200,
       searchByWord: false,
       allowDuplicateValues: false,
       noResultsText: 'Sorry! No business names found for this search criteria'
@@ -464,7 +462,7 @@
     }
 
     /* --- Triggered every time the value in input changes --- */
-    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('change:flexdatalist', function() {
+    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('change:flexdatalist', function(event, set, options) {
 
       /* -- make a request if any one the Searchbox is cleared -- */
       key = "";
@@ -568,13 +566,16 @@
     /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
     $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
       old_values["state"] = $('input[name="city"]').val();
+      $('input[name="city"]').flexdatalist('value', "");
     });
 
     /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
     $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      if ($('input[name="city"]').val().length <= 0) {
-        $('input[name="city"]').flexdatalist('value', old_values["state"]);
-      }
+      setTimeout((function() {
+        if ($('input[name="city"]').val().length <= 0) {
+          return $('input[name="city"]').flexdatalist('value', old_values["state"]);
+        }
+      }), 200);
     });
 
     /* --- On filter checkbox select --- */

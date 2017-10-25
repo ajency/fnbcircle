@@ -2502,6 +2502,9 @@ input[type="checkbox"].toggle__check {
   .mobile-center {
     text-align: center;
   }
+  .full-m-width {
+    width: 100%;
+  }
 }
 .rating.rating-small {
   width: 86px;

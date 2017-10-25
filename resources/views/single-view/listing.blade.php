@@ -141,7 +141,7 @@
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
                                 </div>
                                 <div class="stats flex-row m-t-10 stat-section">
-                                    <div class="@isset($data['rating']) rating-view @endisset flex-row">
+                                    <div class="rating-view flex-row">
                                         @isset($data['rating'])
                                         <div class="rating m-r-20">
                                             <div class="bg"></div>

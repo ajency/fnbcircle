@@ -424,7 +424,7 @@ $(document).ready () ->
 		# params: {"search": $('input[name="city"]').val()}
 		requestType: 'post'
 		# requestContentType: 'json'
-		focusFirstResult: true
+		# focusFirstResult: true
 
 		minLength: 0
 		cache: false

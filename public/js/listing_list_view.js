@@ -380,7 +380,6 @@
     $('input[name="city"]').flexdatalist({
       url: '/api/search-city',
       requestType: 'post',
-      focusFirstResult: true,
       minLength: 0,
       cache: false,
       selectionRequired: true,

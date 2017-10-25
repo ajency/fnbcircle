@@ -29,16 +29,31 @@
             offset += data['data']['updates'].length;
             html = '';
             $.each(data['data']['updates'], function(i, element) {
-              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img">';
+              html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img post-gallery flex-wrap">';
               $.each(element.images, function(j, item) {
-                html += '<li><a href="' + item['400X300'] + '"><img src="' + item['200x150'] + '" alt="" width="80"></a></li>';
+                html += '<li><a href="' + item['400X300'] + '"><img src="' + item['200x150'] + '" alt="" width="80" class="no-height"><div class="updates-img-col" style="background-image: url(' + item['200x150'] + ');"> </div></a></li>';
               });
               return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted ' + element.updated + '</p> </div> </div>';
             });
             $('.update-display-section').append(html);
             if (data['data']['updates'].length === 5) {
               button = '<div class="m-t-10 text-center view-more-updates"> <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a> </div>';
-              return $('.update-display-section').append(button);
+              $('.update-display-section').append(button);
+            }
+            if ($('.post-gallery').length) {
+              return $('.post-gallery').each(function() {
+                return $(this).magnificPopup({
+                  delegate: 'a',
+                  type: 'image',
+                  gallery: {
+                    enabled: true
+                  },
+                  zoom: {
+                    enabled: true,
+                    duration: 300
+                  }
+                });
+              });
             }
           }
         }

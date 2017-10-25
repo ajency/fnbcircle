@@ -170,21 +170,21 @@
             if (data['data']['more'].length === true) {
               button = '<div class="m-t-10 text-center view-more-updates"> <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a> </div>';
               $('.update-display-section').append(button);
-              if ($('.post-gallery').length) {
-                return $('.post-gallery').each(function() {
-                  return $(this).magnificPopup({
-                    delegate: 'a',
-                    type: 'image',
-                    gallery: {
-                      enabled: true
-                    },
-                    zoom: {
-                      enabled: true,
-                      duration: 300
-                    }
-                  });
+            }
+            if ($('.post-gallery').length) {
+              return $('.post-gallery').each(function() {
+                return $(this).magnificPopup({
+                  delegate: 'a',
+                  type: 'image',
+                  gallery: {
+                    enabled: true
+                  },
+                  zoom: {
+                    enabled: true,
+                    duration: 300
+                  }
                 });
-              }
+              });
             }
           } else {
             nothing = '<div class="m-t-10 text-center no-updates"> No updates as of yet! </div>';

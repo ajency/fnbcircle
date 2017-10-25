@@ -44,7 +44,7 @@
                             </div>
                             <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
-                        <div class="stats flex-row m-t-10 p-t-10">
+                        <div class="stats flex-row m-t-10">
                             <a class="fnb-label wholesaler flex-row list-label m-r-10" href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]'>
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type["name"] }}
@@ -167,7 +167,7 @@
                         <div class="recent-updates__text {{ $list_value->recent_updates ? '' : 'mobile-hide' }}">
                             <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
                         </div>
-                        <div class="recent-updates__content">
+                        <div class="recent-updates__content {{ $list_value->recent_updates ? '' : 'no-updates' }}">
                             @if($list_value->recent_updates)
                                 <p class="m-b-0 default-size text-color recent-data"> {{ $list_value->recent_updates->title }}
                                 <span class="text-lighter p-l-10">Updated on {{ date('F d, Y', strtotime($list_value->recent_updates->updated_at)) }}</span></p>

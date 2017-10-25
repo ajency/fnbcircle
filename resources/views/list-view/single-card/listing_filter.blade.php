@@ -21,7 +21,11 @@
                 <p class="default-size p-l-20">
                     <a href="#" class="text-inherit bolder" value="{{ $filter_data['category']['node_categories'] }}">{{ $filter_data["category"]["name"] }}</a>
                 </p>
-                <ul class="node">
+                @if($filter_data['category']['node_categories'] !== "|[]")
+                    <ul class="node">
+                @else
+                    <ul class="container">
+                @endif
                     @foreach(array_slice($filter_data["category"]["children"], 0, 10) as $cat_child_index => $cat_child_value)
                         <li class="node__child">
                             <a href="#" class="text-darker" value="{{ $cat_child_value['node_categories'] }}">

@@ -4251,6 +4251,17 @@ input[type=checkbox].custom-checkbox:before {
   background-repeat: no-repeat;
   background-position: center;
 }
+.no-height {
+  height: 0;
+}
+.updates-img-col {
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 65px;
+  display: block;
+  background-size: cover;
+  background-position: center;
+}
 @media screen and (max-width: 768px) {
   .collapse.m-side-bar {
     display: block;

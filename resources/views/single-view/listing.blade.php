@@ -299,7 +299,13 @@
                             <ul class="flex-row update-img flex-wrap post-gallery align-top">
                             @php $photos = $data['updates']->getImages(); @endphp
                                 @foreach($photos as $photo)
-                                <li><a href="{{$photo[config('tempconfig.listing-photo-full')]}}"><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></a></li>
+                                <li>
+                                    <a href="{{$photo[config('tempconfig.listing-photo-full')]}}">
+                                        <img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80" class="no-height">
+                                        <div class="updates-img-col" style="background-image: url('{{$photo[config('tempconfig.listing-photo-thumb')]}}');">
+                                        </div>
+                                    </a>
+                                </li>
                                 @endforeach
                             </ul>
                             <div class="m-b-0 text-right flex-row space-between postActions flex-wrap">

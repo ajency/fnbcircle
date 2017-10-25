@@ -166,7 +166,8 @@ loadUpdates = () ->
                           <ul class="flex-row update-img align-top flex-wrap post-gallery">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="60"></a></li>'
+              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="80" class="no-height"><div class="updates-img-col" style="background-image: url('+item['200x150']+');">
+                                        </div></a></li>'
               return
                               
             html +=      '</ul>

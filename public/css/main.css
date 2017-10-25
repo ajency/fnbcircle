@@ -6394,6 +6394,9 @@ input[type=checkbox].custom-checkbox:before {
   vertical-align: middle;
   padding-right: 5px;
 }
+.filter-cards .verified-icon {
+  margin-right: -2px;
+}
 .filter-cards .verified .c-title {
   font-size: 1em;
 }

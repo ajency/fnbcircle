@@ -24,7 +24,7 @@
                 @if($filter_data['category']['node_categories'] !== "|[]")
                     <ul class="node">
                 @else
-                    <ul class="container">
+                    <ul class="">
                 @endif
                     @foreach(array_slice($filter_data["category"]["children"], 0, 10) as $cat_child_index => $cat_child_value)
                         <li class="node__child">

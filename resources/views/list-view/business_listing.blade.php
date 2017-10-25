@@ -46,8 +46,8 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <input type="hidden" value="" class="form-control fnb-select flexdatalist" name="area_hidden" id="area"/>
-                                        <input type="text" value="{{ $city }}" class="form-control fnb-input flexdatalist" name="city" placeholder="State">
+                                        <input type="hidden" value="" class="form-control fnb-select hidden" name="area_hidden" id="area"/>
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-input" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 
                                         <datalist id="states">
@@ -72,14 +72,14 @@ List View
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="category_search" value="" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
+                                                <input type="text" name="category_search" id="category_search" class="form-control fnb-input" placeholder="Start typing to search category...">
                                                 <a href="#" class="desk-hide" id="clear_search">Clear</a>
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
+                                                <input type="text" name="business_search" class="form-control fnb-input" placeholder="Search for a specific business">
                                                 <a href="#" id="clear_search" class="desk-hide">Clear</a>
                                             </div>
                                         </div>

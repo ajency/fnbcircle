@@ -111,7 +111,7 @@ updateUrlPushstate = (key, pushstate_url) ->
 ### --- get the filters & Update the URL using PushState --- ###
 getFilters = (update_url) ->
 	filters = 
-		"category_search": $(document).find('input[name="category_search"].flexdatalist').val()#$('input[name="category_search"]').val()
+		"category_search": $(document).find('input[name="category_search"]').val()#$('input[name="category_search"]').val()
 		"business_search": $('input[name="business_search"]').val()
 		"areas_selected": []
 		"business_types": []
@@ -419,9 +419,9 @@ $(document).ready () ->
 
 	### --- City filter dropdown --- ###
 	## -- Note: flexdatalist appends "flexdatalist-" to the name i.e. name="city" becomes name="flexdatalist-city" -- ##
-	$('input[name="city"].flexdatalist').flexdatalist
+	$('input[name="city"]').flexdatalist
 		url: '/api/search-city'
-		# params: {"search": $('input[name="city"].flexdatalist').val()}
+		# params: {"search": $('input[name="city"]').val()}
 		requestType: 'post'
 		# requestContentType: 'json'
 		focusFirstResult: true
@@ -457,38 +457,40 @@ $(document).ready () ->
 		debug: false
 		noResultsText: 'Sorry! No results found for "{keyword}"'
 	
-	$('input[name="category_search"].flexdatalist').flexdatalist
+	$('input[name="category_search"]').flexdatalist
 		url: '/api/search-category'
 		requestType: 'post'
-		params: {"search": $('input[name="category_search"].flexdatalist').val()}
+		# params: {"search": $('input[name="category_search"]').val()}
+
+		minLength: 0
+		cache: false
+		selectionRequired: false
 
 		keywordParamName: "search"
 		resultsProperty: "data"
 		searchIn: ['name']
 		valueProperty: 'node_children'
 		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
-
-		minLength: 0
-		cache: false
 		
 		searchContain: true
-		searchEqual: false
-		searchDisabled: false
+		# searchEqual: false
+		# searchDisabled: false
 
 		searchDelay: 200
 
-		searchByWord: false
+		searchByWord: true
 		allowDuplicateValues: false
+		debug: false
 		noResultsText: 'Sorry! No categories found for "{keyword}"'
 	
 
-	$('input[name="business_search"].flexdatalist').flexdatalist
+	$('input[name="business_search"]').flexdatalist
 		url: '/api/search-business'
 		requestType: 'post'
 		params: {
-			#"search": $('input[name="business_search"].flexdatalist').val()
+			#"search": $('input[name="business_search"]').val()
 			"city": old_values["state"]
-			"category": $('input[name="category_search"].flexdatalist').val()
+			"category": $('input[name="category_search"]').val()
 		}
 
 		keywordParamName: "search"
@@ -528,7 +530,7 @@ $(document).ready () ->
 			while i < get_params.length
 				if get_params[i].indexOf(key + "=") > -1
 					value_assigned = get_params[i].split("=")[1]
-					$('input[name="' + search_box_params[key] + '"].flexdatalist').flexdatalist('value', value_assigned)
+					$('input[name="' + search_box_params[key] + '"]').flexdatalist('value', value_assigned)
 				i++
 
 		### --- Update Filter values --- ###
@@ -542,7 +544,7 @@ $(document).ready () ->
 		# 		i++
 
 	### --- Triggered every time the value in input changes --- ###
-	$('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on 'change:flexdatalist', () ->
+	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'change:flexdatalist', () ->
 		### -- make a request if any one the Searchbox is cleared -- ###
 		key = ""
 
@@ -552,7 +554,7 @@ $(document).ready () ->
 			key = $(this).attr("name")
 
 		if $(this).attr("name") == "business_search"
-			$('input[name="business_search"].flexdatalist').flexdatalist('params', {'city': $('input[name="city"]').val()})
+			$('input[name="business_search"]').flexdatalist('params', {'city': $('input[name="city"]').val()})
 		
 		if $(this).val().length <= 0
 			updateUrlPushstate(key, "")
@@ -577,7 +579,7 @@ $(document).ready () ->
 		return
 
 	### -- Triggered every time the user selects an option -- ###
-	$('input[name="city"].flexdatalist, input[name="category_search"].flexdatalist, input[name="business_search"].flexdatalist').on 'select:flexdatalist', () ->
+	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'select:flexdatalist', () ->
 		key = ""
 
 		if $(this).prop("name") == "category_search"
@@ -631,10 +633,10 @@ $(document).ready () ->
 	$(document).on "click", ".results__body ul.contents a", (e) ->
 		$(document).find(".results__body ul.contents #current_category").val($(this).attr("value"))
 		# updateUrlPushstate("categories", "categories=" + $(this).attr("value"))
-		#$(document).find('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
+		#$(document).find('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
 
-		# $('#category input[name="category_search"].flexdatalist').prop('value', $(this).attr("value"))
-		$('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"))
+		# $('#category input[name="category_search"]').prop('value', $(this).attr("value"))
+		$('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
 
 		#getListContent()
 		if not isMobile()
@@ -662,13 +664,13 @@ $(document).ready () ->
 
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
 	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
-		old_values["state"] = $('input[name="city"].flexdatalist').val()
+		old_values["state"] = $('input[name="city"]').val()
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
 	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"]', (event) ->
-		if $('input[name="city"].flexdatalist').val().length <= 0
-			$('input[name="city"].flexdatalist').flexdatalist('value', old_values["state"])
+		if $('input[name="city"]').val().length <= 0
+			$('input[name="city"]').flexdatalist('value', old_values["state"])
 
 		return
 

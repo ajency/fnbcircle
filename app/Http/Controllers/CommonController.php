@@ -44,7 +44,7 @@ class CommonController extends Controller
         $res   = array();
         
         foreach ($areas as $area) {
-            $res[] = array('id'=>$area->id,'name'=>$area->name);
+            $res[] = array('id'=>$area->id,'name'=>$area->name,'slug'=>$area->slug);
         }
         
         return response()->json($res);

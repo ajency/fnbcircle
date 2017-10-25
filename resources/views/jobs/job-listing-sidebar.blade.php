@@ -1,4 +1,4 @@
-<div class="col-sm-3 custom-col-3">
+<div class="col-sm-3 custom-col-3 serach-sidebar">
   <!-- filter sidebar -->
   <div class="pos-fixed fly-out filterBy">
       <div class="mobile-back desk-hide mobile-flex">
@@ -7,7 +7,7 @@
               <p class="element-title heavier m-b-0">Filter</p>
           </div>
           <div class="right">
-              <a href="" class="text-primary heavier element-title">Clear All</a>
+              <a href="javascript:void(0)" class="text-primary heavier element-title clear-all-filters">Clear All</a>
           </div>
       </div>
       <div class="fly-out__content">
@@ -30,7 +30,7 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-area">
-                      <label class="sub-title flex-row clear ">
+                      <label class="sub-title flex-row clear @if(!isset($urlFilters['keywords'])) hidden @endif ">
                               <a href="javascript:void(0)" class="text-color clear-keywords">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
@@ -70,7 +70,7 @@
                           <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an city">
                       </div>
                       <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear ">
+                          <label class="sub-title flex-row clear @if(!isset($urlFilters['area'])) hidden @endif">
                               <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
@@ -81,7 +81,7 @@
                         @if(isset($urlFilters['area']) && !empty($urlFilters['area']))
                           @foreach($urlFilters['city_areas'] as $area)
                              <label class="sub-title flex-row text-color"> 
-                             <input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" slug="{{ $area->slug }}" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area'])) checked @endif> 
+                             <input type="checkbox" class="checkbox p-r-10 search-job search-checkbox" name="areas[]" slug="{{ $area->slug }}" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area'])) checked @endif> 
                               <span>{{ $area->name }}</span> 
                             </label> 
                           @endforeach
@@ -100,7 +100,7 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-business">
                       <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear ">
+                          <label class="sub-title flex-row clear @if(!isset($urlFilters['job_type'])) hidden @endif">
                               <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
@@ -111,7 +111,7 @@
                               $jobTypeSlug = str_slug($jobType,'-');
                             @endphp
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array( $jobTypeSlug,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job" value="{{ $jobTypeId }}" slug="{{ $jobTypeSlug }}">
+                              <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array( $jobTypeSlug,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job search-checkbox" value="{{ $jobTypeId }}" slug="{{ $jobTypeSlug }}">
                               <span>{{ $jobType }}</span>
                           </label>
                           @endforeach
@@ -126,7 +126,7 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-list-status">
                       <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear ">
+                          <label class="sub-title flex-row clear @if(!isset($urlFilters['experience'])) hidden @endif">
                               <a href="javascript:void(0)" class="text-color clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
@@ -134,7 +134,7 @@
                           </label>
                           @foreach($defaultExperience as $jobTypeId => $experience)
                           <label class="sub-title flex-row text-color">
-                              <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job" @if((isset($urlFilters['experience'])) && (!empty($urlFilters['experience'])) && in_array($experience,$urlFilters['experience'])) checked @endif value="{{ $experience }}">
+                              <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job search-checkbox" @if((isset($urlFilters['experience'])) && (!empty($urlFilters['experience'])) && in_array($experience,$urlFilters['experience'])) checked @endif value="{{ $experience }}">
                               <span>{{ $experience }}</span>
                           </label>
                           @endforeach 
@@ -149,7 +149,7 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-rating">
                       <div class="check-section">
-                          <label class="sub-title flex-row clear ">
+                          <label class="sub-title flex-row clear @if(!isset($urlFilters['salary_type'])) hidden @endif">
                               <a href="javascript:void(0)" class="text-color clear-salary">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
@@ -226,7 +226,7 @@
                   </div>
               </div>
               <!-- advertisement ends-->
-              <div class="apply-btn desk-hide">
+              <div class="apply-btn desk-hide apply-filters">
                   <button class="btn fnb-btn primary-btn full border-btn">Apply</button>
               </div>
           </div>

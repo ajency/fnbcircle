@@ -117,6 +117,19 @@
     filterJobs(true);
   });
 
+  $(document).on('change', '.search-checkbox', function() {
+    if (($(this).closest('.filter-row').find('.search-checkbox:checked').length)) {
+      return $(this).closest('.filter-row').find('.clear').removeClass('hidden');
+    } else {
+      return $(this).closest('.filter-row').find('.clear').addClass('hidden');
+    }
+  });
+
+  $(document).on('click', '.apply-filters', function() {
+    filterJobs(true);
+    $('.back-icon').click();
+  });
+
   strSlug = function(str) {
     var from, i, l, to;
     str = str.replace(/^\s+|\s+$/g, '');
@@ -138,10 +151,14 @@
     $('.clear-keywords').click();
     $('.clear-checkbox').click();
     $('.clear-salary').click();
-    $('input[name="job_name"]').val('');
-    $('input[name="search_category"]').val('');
     $('input[name="category_id"]').val('');
     $('input[name="category_id"]').attr('slug', '');
+    if ($(window).width() > 769) {
+      $('input[name="job_name"]').val('');
+      $('input[name="search_category"]').val('');
+    } else {
+      $('.back-icon').click();
+    }
     return filterJobs(true);
   });
 
@@ -172,10 +189,12 @@
       $('input[name="salary_lower"]').val(minSalary);
       $('input[name="salary_upper"]').val(maxSalary);
       $('.salary-range').removeClass('hidden');
+      $(this).closest('.filter-row').find('.clear').removeClass('hidden');
     } else {
       $('.salary-range').addClass('hidden');
       $('input[name="salary_lower"]').val('');
       $('input[name="salary_upper"]').val('');
+      $(this).closest('.filter-row').find('.clear').addClass('hidden');
     }
   });
 
@@ -211,11 +230,16 @@
         'area_name': $('input[name="area_search"]').val()
       },
       success: function(data) {
-        var area_html, key;
+        var area_html, key, serachClass;
         area_html = '';
+        if ($(window).width() < 769) {
+          serachClass = '';
+        } else {
+          serachClass = 'search-job';
+        }
         for (key in data) {
           area_html += '<label class="sub-title flex-row text-color">';
-          area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
+          area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + serachClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
           area_html += '<span>' + data[key]['name'] + '</span>';
           area_html += '</label>';
         }
@@ -238,17 +262,28 @@
     var inputTxt;
     inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
-    return filterJobs(true);
+    $('.job-keywords').closest('.filter-row').find('.clear').removeClass('hidden');
+    if ($(window).width() > 769) {
+      return filterJobs(true);
+    }
   });
 
   $('.job-keywords').on('before:flexdatalist.remove', function(event, set, options) {
     var keywordlabel;
     keywordlabel = set[0]['textContent'].slice(0, -1);
     $('input[label="' + keywordlabel + '"]').remove();
-    return filterJobs(true);
+    if (!$('input[name="keyword_id[]"]').length) {
+      $('.job-keywords').closest('.filter-row').find('.clear').addClass('hidden');
+    }
+    if ($(window).width() > 769) {
+      return filterJobs(true);
+    }
   });
 
   $(document).ready(function() {
+    if ($(window).width() < 769) {
+      $('.serach-sidebar').find('.search-job').removeClass('search-job');
+    }
     $('.job-keywords').flexdatalist({
       removeOnBackspace: false,
       searchByWord: true,

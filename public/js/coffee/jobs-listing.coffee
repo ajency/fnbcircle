@@ -116,6 +116,20 @@ $(document).on 'change', '.search-job', ->
   filterJobs(true)
   return
 
+$(document).on 'change', '.search-checkbox', ->
+  if($(this).closest('.filter-row').find('.search-checkbox:checked').length)
+    $(this).closest('.filter-row').find('.clear').removeClass 'hidden'
+  else
+    $(this).closest('.filter-row').find('.clear').addClass 'hidden'
+
+
+$(document).on 'click', '.apply-filters', ->
+  filterJobs(true)
+  $('.back-icon').click()
+  return
+
+
+
  
 strSlug = (str) ->
   str = str.replace(/^\s+|\s+$/g, '')
@@ -139,10 +153,15 @@ $('.clear-all-filters').click ->
   $('.clear-keywords').click()
   $('.clear-checkbox').click()
   $('.clear-salary').click()
-  $('input[name="job_name"]').val ''
-  $('input[name="search_category"]').val ''
   $('input[name="category_id"]').val ''
   $('input[name="category_id"]').attr 'slug',''
+
+  if $(window).width() > 769 
+    $('input[name="job_name"]').val ''
+    $('input[name="search_category"]').val ''
+  else
+    $('.back-icon').click()
+
   filterJobs(true)
 
 $('.clear-checkbox').click ->
@@ -174,10 +193,12 @@ $('select[name="salary_type"]').change ->
     $('input[name="salary_lower"]').val(minSalary)
     $('input[name="salary_upper"]').val(maxSalary)
     $('.salary-range').removeClass('hidden')
+    $(this).closest('.filter-row').find('.clear').removeClass 'hidden'
   else
     $('.salary-range').addClass('hidden')
     $('input[name="salary_lower"]').val('')
     $('input[name="salary_upper"]').val('')
+    $(this).closest('.filter-row').find('.clear').addClass 'hidden'
 
   return
 
@@ -212,9 +233,15 @@ displayCityText = () ->
     success: (data) ->
       # console.log data
       area_html = ''
+
+      if $(window).width() < 769 
+        serachClass = ''
+      else
+        serachClass = 'search-job'
+
       for key of data
         area_html += '<label class="sub-title flex-row text-color">'
-        area_html += '<input type="checkbox" class="checkbox p-r-10 search-job" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
+        area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox '+serachClass+'" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
         area_html += '<span>' + data[key]['name'] + '</span>'
         area_html += '</label>'
 
@@ -235,15 +262,28 @@ $('.job-pagination').on 'click', '.paginate', ->
 $('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
   inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
-  filterJobs(true) 
+
+  $('.job-keywords').closest('.filter-row').find('.clear').removeClass 'hidden'
+  if $(window).width() > 769 
+    filterJobs(true) 
 
 $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
   keywordlabel = (set[0]['textContent']).slice(0, -1)
   $('input[label="'+keywordlabel+'"]').remove()
-  filterJobs(true) 
+  if(!$('input[name="keyword_id[]"]').length)
+    $('.job-keywords').closest('.filter-row').find('.clear').addClass 'hidden'
+
+  if $(window).width() > 769 
+    filterJobs(true) 
 
  
 $(document).ready ()->
+
+  # remove serach classes from side bar for mobile view
+  if $(window).width() < 769 
+    $('.serach-sidebar').find('.search-job').removeClass('search-job')
+
+
   $('.job-keywords').flexdatalist
       removeOnBackspace: false
       searchByWord:true

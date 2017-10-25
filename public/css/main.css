@@ -6093,6 +6093,7 @@ input[type=checkbox].custom-checkbox:before {
     text-overflow: ellipsis;
     display: -webkit-box;
     font-size: 0.95em;
+    line-height: 1;
   }
   .search-actions__btn {
     -webkit-box-flex: 1;

@@ -19,7 +19,7 @@ class ListingViewController extends Controller
         if ($area->city['slug'] != $city) {abort(404);die();}
         if ($listing->status != 1 and $listing->status != 4 and !hasAccess('edit_permission_element_cls', $listing->reference, 'listing')) {abort(404);die();}
         $pagedata                      = $this->getListingData($listing);
-        $pagedata['browse_categories'] = $this->getPopularParentCategories();
+        $pagedata['browse_categories'] = $this->getPopularParentCategories($area);
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
@@ -33,7 +33,7 @@ class ListingViewController extends Controller
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
         $pagedata['verified']  = ($listing->owner_id == null)? false:true;
-        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name);
+        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
@@ -46,7 +46,8 @@ class ListingViewController extends Controller
             // $pagedata['verified']     = ($listing->verified == 1) ? true : false;
         }
 
-        $pagedata['type']           = config('tempconfig.listing-type')[$listing->type];
+        $pagedata['type']           = [ 'label'=>config('tempconfig.listing-type')[$listing->type],
+                                        'url'=>'/'.$area->city['slug'].'/business-listings?business_types=["'.Listing::listing_business_type_slug[$listing->type].'"]'];
         $pagedata['reference']      = $listing->reference;
         $pagedata['operationAreas'] = ListingAreasOfOperation::city($listing->id);
         if (count($pagedata['operationAreas']) == 0) {
@@ -95,8 +96,11 @@ class ListingViewController extends Controller
         $pagedata['categories'] = ListingCategory::getCategories($listing->id);
         if (count($pagedata['categories']) != 0) {
             $pagedata['cores'] = [];
-            foreach ($pagedata['categories'] as $category) {
-                foreach ($category['nodes'] as $node) {
+            $listviewcontroller_obj = new ListViewController;
+            foreach ($pagedata['categories'] as &$category) {
+                foreach ($category['nodes'] as &$node) {
+
+                    $node['url']='/'.$area->city['slug'].'/business-listings?categories='.$listviewcontroller_obj->getCategoryNodeArray($node['id'], "slug", true);;
                     if ($node['core'] == "1") {
                         $pagedata['cores'][] = $node;
                     }
@@ -286,8 +290,9 @@ class ListingViewController extends Controller
 
     }
 
-    private function getPopularParentCategories()
+    private function getPopularParentCategories($area)
     {
+        $listviewcontroller_obj = new ListViewController;
         $parents    = Category::where('type', 'listing')->where('level', '1')->where('status', 1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();
         $categories = [];
         foreach ($parents as $category) {
@@ -297,6 +302,7 @@ class ListingViewController extends Controller
                 'slug'  => $category->slug,
                 'image' => $category->icon_url,
                 'count' => count($category->getAssociatedListings()['data']['listings']),
+                'url' => '/'.$area->city['slug'].'/business-listings?categories='.$listviewcontroller_obj->getCategoryNodeArray($category, "slug", false) ,
             ];
         }
         return $categories;

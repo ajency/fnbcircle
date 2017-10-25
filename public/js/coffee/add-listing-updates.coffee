@@ -87,7 +87,8 @@ $('body').on 'click', '.add-uploader', (e)->
   current_uploads =$(this).closest('.fileUpload').find('input[type="file"]').length 
   console.log max_uploads,current_uploads
   if current_uploads > max_uploads 
-    alert('You can upload maximum of '+max_uploads+' photos')
+    $('#more-file-error').html('Cannot upload more than '+max_uploads+' files')
+    # alert('You can upload maximum of '+max_uploads+' photos')
     return
   e.preventDefault()
   console.log 'bxbvbbz'
@@ -119,6 +120,7 @@ $('body').on 'click', '.add-uploader', (e)->
 
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
+  $('#more-file-error').html('')
   $(this).parent().remove()
 
 
@@ -264,6 +266,7 @@ newPost = () ->
                     </div>
                 </div>
         </div>
+        <div id="more-file-error" class="text-danger"></div>
         </div>
         <div class="col-sm-12">
           <div class="text-right mobile-center post-action">

@@ -141,6 +141,7 @@ loadUpdates = () ->
     success: (data) ->
       if data['status'] == '200'
         $('.update-display-section').find('.view-more-updates').remove()
+        $('.update-display-section').find('.no-updates').remove()
         if data['data']['updates'].length != 0 
           offset+=data['data']['updates'].length
           html = ''
@@ -171,7 +172,7 @@ loadUpdates = () ->
                       </div>
                   </div>'
           $('.update-display-section').append(html)
-          if data['data']['updates'].length == 5 
+          if data['data']['more'].length == true 
             button = '<div class="m-t-10 text-center view-more-updates">
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
@@ -185,6 +186,11 @@ loadUpdates = () ->
                   zoom:
                     enabled: true
                     duration: 300
+        else
+          nothing = '<div class="m-t-10 text-center no-updates">
+                            No updates as of yet!
+                        </div>'
+          $('.update-display-section').append(nothing)
 
 $('body').on 'change','select[name="update-sort"]',()->
   order = @value

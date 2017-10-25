@@ -151,9 +151,10 @@
         'order': order
       },
       success: function(data) {
-        var button, html;
+        var button, html, nothing;
         if (data['status'] === '200') {
           $('.update-display-section').find('.view-more-updates').remove();
+          $('.update-display-section').find('.no-updates').remove();
           if (data['data']['updates'].length !== 0) {
             offset += data['data']['updates'].length;
             html = '';
@@ -165,7 +166,7 @@
               return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on ' + element.updated + '</p> </div> </div>';
             });
             $('.update-display-section').append(html);
-            if (data['data']['updates'].length === 5) {
+            if (data['data']['more'].length === true) {
               button = '<div class="m-t-10 text-center view-more-updates"> <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a> </div>';
               $('.update-display-section').append(button);
               if ($('.post-gallery').length) {
@@ -184,6 +185,9 @@
                 });
               }
             }
+          } else {
+            nothing = '<div class="m-t-10 text-center no-updates"> No updates as of yet! </div>';
+            return $('.update-display-section').append(nothing);
           }
         }
       }

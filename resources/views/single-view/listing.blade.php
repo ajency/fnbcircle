@@ -289,7 +289,8 @@
                         <div class="update-sec__body update-space">
     
                             <h6 class="element-title update-sec__heading m-t-15 bolder">
-                                {{$data['title']['name']}} recent updates
+                                <div class="mobile-hide">{{$data['title']['name']}} recent updates</div>
+                                <div class="desk-hide">Recent Updates</div>
                             </h6>
                             <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
                             <p class="update-sec__caption text-lighter">
@@ -301,9 +302,9 @@
                                 <li><a href="{{$photo[config('tempconfig.listing-photo-thumb')]}}"><img src="{{$photo[config('tempconfig.listing-photo-thumb')]}}" alt="" width="80"></a></li>
                                 @endforeach
                             </ul>
-                            <div class="m-b-0 text-right flex-row space-between postActions">
-                                <p class="text-lighter m-b-0">8 hrs ago</p>
-                                <div class="">
+                            <div class="m-b-0 text-right flex-row space-between postActions flex-wrap">
+                                <p class="text-lighter m-b-0 postDate">8 hrs ago</p>
+                                <div class="mobile-flex">
                                     @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
                                     <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a>
                                 </div>

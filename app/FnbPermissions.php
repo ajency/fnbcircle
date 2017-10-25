@@ -22,9 +22,13 @@ function routePermission(){
 				//listing permission
 				// 'listing/create'=>['add_listing'],					
 				'listing/{reference}/edit/{step?}'=>['edit_listing'], 
+				
 
 
 				//admin jobs permission
+				'admin-dashboard/moderation/listing-approval'=>['listing_approval'],
+
+
  				'admin-dashboard/jobs/manage-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/get-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/update-job-status'=>['manage_job_status'],

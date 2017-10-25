@@ -221,7 +221,7 @@ updateTextLabels = () ->
 ### --- Update the Filter's DOM --- ###
 getFilterContent = () ->
 	page = if window.location.search.indexOf("page") > 0 then window.location.search.split("page=")[1].split("&")[0] else 1
-	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 5
+	limit = if window.location.search.indexOf("limit") > 0 then window.location.search.split("limit=")[1].split("&")[0] else 10
 
 	data = 
 		"page": page

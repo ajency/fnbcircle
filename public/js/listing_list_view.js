@@ -197,7 +197,7 @@
   getFilterContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 5;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
     data = {
       "page": page,
       "page_size": limit,

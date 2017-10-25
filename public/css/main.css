@@ -11126,6 +11126,12 @@ input[type='checkbox'].remove-addr {
     font-size: 1.3em;
   }
 }
+.post-up-head .detach-preview {
+  top: 0;
+}
+.post-up-head .preview-header__link {
+  font-size: 0.6em;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

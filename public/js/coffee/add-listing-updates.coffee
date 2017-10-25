@@ -383,6 +383,9 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
         $('#edit-updates .update-edit-modal').html html
         $('#edit-updates').find('input[name="title"]').val(post['title'])
         $('#edit-updates').find('textarea[name="description"]').val(post['content'])
+
+
+        
         # if post['images'].length == 0
         newmodalimg = $('#edit-updates .img-modal-upload').dropify messages:
           'default': 'Add photo'
@@ -483,15 +486,17 @@ window.updateActions = () ->
   form.submit()
   return
 
+# Gallery magnify for individual group
 
 setTimeout (->
   if $('.post-gallery').length
-    $('.post-gallery').magnificPopup
-      delegate: 'a'
-      type: 'image'
-      gallery: enabled: true
-      zoom:
-        enabled: true
-        duration: 300
-  return
+    $('.post-gallery').each ->
+      $(this).magnificPopup
+        delegate: 'a'
+        type: 'image'
+        gallery: enabled: true
+        zoom:
+          enabled: true
+          duration: 300
+      return
 ), 500

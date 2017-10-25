@@ -373,16 +373,18 @@
 
   setTimeout((function() {
     if ($('.post-gallery').length) {
-      $('.post-gallery').magnificPopup({
-        delegate: 'a',
-        type: 'image',
-        gallery: {
-          enabled: true
-        },
-        zoom: {
-          enabled: true,
-          duration: 300
-        }
+      return $('.post-gallery').each(function() {
+        $(this).magnificPopup({
+          delegate: 'a',
+          type: 'image',
+          gallery: {
+            enabled: true
+          },
+          zoom: {
+            enabled: true,
+            duration: 300
+          }
+        });
       });
     }
   }), 500);

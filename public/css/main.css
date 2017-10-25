@@ -2365,6 +2365,9 @@ input[type="checkbox"].toggle__check {
 .text-color {
   color: #6b6b6b;
 }
+.grey-darker {
+  color: #686565;
+}
 .highlight-color {
   background-color: #f9f9f9;
 }
@@ -3423,10 +3426,10 @@ input[type=checkbox].custom-checkbox:before {
   margin-bottom: 0;
 }
 .listed .fnb-cat {
-  -webkit-box-flex: 1.5;
-  -webkit-flex: 1.5;
-      -ms-flex: 1.5;
-          flex: 1.5;
+  -webkit-box-flex: 1.3;
+  -webkit-flex: 1.3;
+      -ms-flex: 1.3;
+          flex: 1.3;
 }
 .listed .fnb-cat li {
   background-color: transparent;
@@ -3494,8 +3497,8 @@ input[type=checkbox].custom-checkbox:before {
   margin-bottom: 0.5em;
 }
 .brands .sub-title {
-  font-weight: 500;
   margin-bottom: 0;
+  color: #686565;
 }
 .brands .tags {
   width: 33px;
@@ -3651,7 +3654,7 @@ input[type=checkbox].custom-checkbox:before {
 .similar-business .business-card__header {
   margin: -14px;
   padding: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 5px;
   background-color: #f7f7f7;
 }
 .similar-business .business-card__body {
@@ -3659,7 +3662,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .similar-business .business-card__footer {
   margin: 0 -1em -1em;
-  padding: 1em 1.5em;
+  padding: 1em 1em;
   border-top: 1px solid #ececec;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
@@ -3683,8 +3686,11 @@ input[type=checkbox].custom-checkbox:before {
 .similar-business .fnb-cat li {
   background-color: #fff;
   border: 1px solid #000;
-  padding: 0.3em 1em;
+  padding: 0.3em 0.6em;
   margin: 0.2em 0.6em 0.2em 0;
+}
+.similar-business .fnb-cat li:nth-child(3n) {
+  margin-right: 0;
 }
 .similar-business .fnb-cat__title {
   font-size: 0.9em;
@@ -3705,8 +3711,8 @@ input[type=checkbox].custom-checkbox:before {
   color: #4a4a4a;
 }
 .similar-business .address .sub-title {
-  margin-bottom: 0;
-  margin-top: 2px;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 .similar-business .address-title {
   font-size: 1em;
@@ -3743,6 +3749,7 @@ input[type=checkbox].custom-checkbox:before {
     display: inline-block;
     width: 300px;
     max-width: inherit;
+    vertical-align: top;
   }
   .article-col:first-child {
     margin-right: 0;
@@ -4178,6 +4185,31 @@ input[type=checkbox].custom-checkbox:before {
     padding: 0 0.8em;
   }
 }
+.photo-gallery .no-height {
+  height: 0px;
+}
+.photo-gallery .blur-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+}
+.photo-gallery__banner {
+  position: relative;
+}
+.photo-gallery__banner .image-cover {
+  display: block;
+  background-repeat: no-repeat;
+  height: 400px;
+  width: 100%;
+  height: 350px;
+  background-position: center;
+  background-size: contain;
+  position: relative;
+  z-index: 1;
+}
 .photo-gallery .main-img {
   width: 100%;
 }
@@ -4196,18 +4228,21 @@ input[type=checkbox].custom-checkbox:before {
   position: relative;
   cursor: pointer;
   display: none;
+  max-width: 33.33%;
 }
 .photo-gallery__thumbnails li a {
   color: inherit;
+}
+.photo-gallery__thumbnails li a:hover {
+  text-decoration: none;
+}
+.photo-gallery__thumbnails li .image-mag {
   display: block;
   background-repeat: no-repeat;
   width: 100%;
   height: 100px;
   background-position: center;
   background-size: cover;
-}
-.photo-gallery__thumbnails li a:hover {
-  text-decoration: none;
 }
 .photo-gallery__thumbnails li:last-child {
   padding-right: 0;
@@ -5819,6 +5854,46 @@ input[type=checkbox].custom-checkbox:before {
   border-bottom: 0;
   padding-bottom: 0;
 }
+.hide-areas li {
+  display: none;
+}
+.hide-areas li:nth-child(-n+3) {
+  display: block;
+}
+.expand-more .hide-areas li {
+  display: block;
+}
+.mainRow {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.mainRow .hide-areas li:nth-child(-n+3) p:after {
+  content: ',';
+  display: inline-block;
+  color: #6b6b6b;
+  padding-left: 2px;
+}
+.mainRow .hide-areas li:last-child p:after {
+  display: none;
+}
+.state-container .remain {
+  list-style: none;
+}
+.no-list-type {
+  list-style: none;
+  padding-left: 8px;
+}
+.no-post-title {
+  line-height: 1.4;
+}
+.fnb-btn.posUpdate {
+  font-size: 0.9em;
+}
+.update-img img {
+  border-radius: 4px;
+}
 .search-section {
   position: relative;
   top: 2em;
@@ -6681,6 +6756,9 @@ input[type=checkbox].custom-checkbox:before {
     padding: 0.5em 1em;
     font-size: 0.85em;
   }
+  .list-label {
+    display: table;
+  }
 }
 @media screen and (min-width: 1024px) and (max-width: 1200px) {
   .custom-col-3 {
@@ -6760,6 +6838,17 @@ input[type=checkbox].custom-checkbox:before {
 .no-results .nf-text {
   margin: 1.5em 0;
 }
+@media screen and (max-width: 768px) {
+  .no-results .seller-info__title {
+    font-size: 1.6em;
+  }
+  .no-results .nf-text {
+    margin: 1.2em 0;
+  }
+  .no-results img {
+    width: 80px;
+  }
+}
 .flexdatalist-results.flexdatalist-results {
   border: 0;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.09);
@@ -6792,6 +6881,46 @@ input[type=checkbox].custom-checkbox:before {
   color: #fff;
   background-color: #ec6d4b;
   border-color: #ec6d4b;
+}
+@media screen and (max-width: 768px) {
+  .enquiry-card .add-card {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    border: 0;
+  }
+  .enquiry-card .add-card__content {
+    padding-right: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .enquiry-card .add-card__form {
+    width: 100%;
+  }
+  .enquiry-card .add-card .fnb-select {
+    font-size: 1em;
+    padding-left: 0;
+  }
+  .enquiry-card .add-card .fnb-input {
+    font-size: 1em;
+  }
+  .enquiry-card .add-card .form-group {
+    margin-bottom: 10px;
+  }
 }
 .home-text {
   position: relative;

@@ -801,7 +801,7 @@ class ListingController extends Controller
         }
         if($listing->status == 1){
             $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
-            if ($step == 'business-updates'){
+            if ($step == 'post-an-update'){
                 return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
             }
         }

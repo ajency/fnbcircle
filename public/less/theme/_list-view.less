@@ -807,6 +807,9 @@
     		font-size: 0.85em;
     	}
 	}
+	.list-label{
+		display: table;
+	}
 }
 
 
@@ -907,6 +910,17 @@
     .nf-text{
     	margin: 1.5em 0;
     }
+    @media screen and (max-width: @mobile){
+    	.seller-info__title{
+    		font-size: 1.6em;
+    	}
+    	 .nf-text{
+    		margin: 1.2em 0;
+    	}
+    	img{
+    		width: 80px;
+    	}
+    }
 }
 
 
@@ -945,5 +959,51 @@
 		}
 	}
 }
+
+
+
+// ---------------------------
+// ENQUIRY CARD -----------
+// ---------------------------
+
+
+.enquiry-card{
+	.add-card{
+		@media screen and (max-width: @mobile){
+			flex-direction: column;
+    		border: 0;
+    		&__content{
+    			padding-right: 0;
+			    width: 100%;
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+    		}
+    		&__form{
+    			width: 100%;
+    		}
+    		.fnb-select{
+    			font-size: 1em;
+    			padding-left: 0;
+    		}
+    		.fnb-input{
+    			font-size: 1em;
+    		}
+    		.form-group{
+    			margin-bottom: 10px;
+    		}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
 
 

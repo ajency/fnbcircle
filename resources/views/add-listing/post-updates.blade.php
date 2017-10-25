@@ -19,8 +19,8 @@
 
 
 <div class="business-info  post-update tab-pane fade in active" id="post-update">
-    <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between"><div>Post an update 
-    	<span class="dis-block xxx-small lighter m-t-10 post-caption">Post special events, promotions and more on your lsiting.</span>
+    <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between"><div>Post an Update 
+    	<span class="dis-block xxx-small lighter m-t-10 post-caption">Post special events, promotions and more on your listing.</span>
     	</div>
     	<img src="/img/post-update.png" class="img-responsive mobile-hide" width="60">
     </h5>

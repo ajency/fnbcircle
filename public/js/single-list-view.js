@@ -74,12 +74,44 @@
     });
   }
 
+  if ($('.similar-card-operation').length) {
+    $('.similar-card-operation').readmore({
+      speed: 25,
+      collapsedHeight: 26,
+      moreLink: '<a href="#" class="more x-small secondary-link">More</a>',
+      lessLink: '<a href="#" class="x-small less secondary-link">Less</a>'
+    });
+  }
+
+  if ($('.catShow').length) {
+    $('.catShow').readmore({
+      speed: 25,
+      collapsedHeight: 35,
+      moreLink: '<a href="#" class="more x-small secondary-link">View more</a>',
+      lessLink: '<a href="#" class="x-small less secondary-link">View less</a>'
+    });
+  }
+
   if ($('.description').length) {
     $('.description').readmore({
       speed: 25,
       collapsedHeight: 170,
       moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
       lessLink: '<a href="#" class="default-size less secondary-link">View less</a>'
+    });
+  }
+
+  if ($('.post-gallery').length) {
+    $('.post-gallery').magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      gallery: {
+        enabled: true
+      },
+      zoom: {
+        enabled: true,
+        duration: 300
+      }
     });
   }
 
@@ -101,6 +133,12 @@
     $('.singleV-title').before(catlabel);
     contactrow = $('.single-contact-section').detach();
     $('.operate-section').after(contactrow);
+    $('.back-icon').click(function() {
+      $('.fly-out').removeClass('active');
+    });
+    $('.send-enquiry').click(function() {
+      $('.enquiry-form-slide').addClass('active');
+    });
   }
 
 }).call(this);

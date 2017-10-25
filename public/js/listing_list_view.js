@@ -464,7 +464,7 @@
     }
 
     /* --- Triggered every time the value in input changes --- */
-    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('change:flexdatalist', function() {
+    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('change:flexdatalist', function(event, set, options) {
 
       /* -- make a request if any one the Searchbox is cleared -- */
       key = "";

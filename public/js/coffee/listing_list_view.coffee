@@ -544,7 +544,7 @@ $(document).ready () ->
 		# 		i++
 
 	### --- Triggered every time the value in input changes --- ###
-	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'change:flexdatalist', () ->
+	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'change:flexdatalist', (event, set, options) ->
 		### -- make a request if any one the Searchbox is cleared -- ###
 		key = ""
 
@@ -665,6 +665,7 @@ $(document).ready () ->
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
 	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
 		old_values["state"] = $('input[name="city"]').val()
+		# $('input[name="city"]').flexdatalist('value', "")
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###

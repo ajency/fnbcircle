@@ -922,7 +922,9 @@ class JobController extends Controller
         $defaultExperience  = $job->jobExperience();
         $salaryRange = salaryRange();
          
-
+        if(!isset($requestData['city'])){
+            $requestData['city'] = $serachCity;
+        }
         //get filter values
         if(isset($requestData['category']) && $requestData['category']!=""){
             // $categoryName = Category::find($requestData['category']);

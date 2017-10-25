@@ -209,6 +209,8 @@
     cityText = $('option:selected', this).text();
     $(".fnb-breadcrums li:nth-child(3)").find('a').attr('href', '/' + cityText + '/job-listings?city=' + cityText);
     $(".fnb-breadcrums li:nth-child(3)").find('p').text(cityText);
+    $(".serach_state_name").html(cityText);
+    console.log(cityText);
     displayCityText();
   });
 
@@ -221,7 +223,8 @@
     cityObj = $('select[name="job_city"]');
     cityText = $('option:selected', cityObj).text();
     cityId = $('option:selected', cityObj).attr('id');
-    $("#state_name").text(cityText);
+    $(".serach_state_name").html(cityText);
+    console.log(cityText);
     return $.ajax({
       type: 'post',
       url: '/get_areas',

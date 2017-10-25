@@ -24,11 +24,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/get-updates','UpdatesController@getUpdates');
 
-//add listing
-Route::get('listing/create','ListingController@create');
 
-//edit listing
-Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+	//add listing
+	Route::get('listing/create','ListingController@create');
+	//edit listing
+	Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+});
+
+
 Route::post('/listing/review','ListingController@submitForReview');
 Route::post('/listing/archive','ListingController@archive');
 Route::post('/listing/publish','ListingController@publish');
@@ -82,26 +86,30 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+Route::get('/get-keywords','JobController@getKeywords');
+Route::get('/get-company','JobController@getCompanies');
 
-//Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+/**
+logged in users group
+permission group
+*/
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
  
 	/**Jobs**/
 	Route::resource( 'jobs', 'JobController' );
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
+});
 
-	
-	Route::get('/get-keywords','JobController@getKeywords');
-	Route::get('/get-company','JobController@getCompanies');
-	
-
-	/**Users**/
-
-	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
+/**
+logged in users group
+*/
+Route::group( ['middleware' => ['auth']], function() { 
+ 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
-//});
+});
 
 
 

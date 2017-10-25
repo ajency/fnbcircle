@@ -42,7 +42,7 @@
     <!-- <div class="page-shifter animate-row"> -->
         <div class="single-view-head">
          <div class="container">
-            <div class="row m-t-30 m-b-20 mobile-flex breadcrums-container single-breadcrums">
+            <div class="row m-t-30 m-b-10 mobile-flex breadcrums-container single-breadcrums">
                 <div class="col-sm-8  flex-col">
                     <!-- Breadcrums -->
                     @php

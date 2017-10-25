@@ -5357,6 +5357,11 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0 15px;
   padding-bottom: 4em;
 }
+@media screen and (min-width: 1605px) {
+  .page-sidebar {
+    width: 30vw;
+  }
+}
 @media screen and (max-width: 768px) {
   .page-sidebar {
     padding: 0;
@@ -5417,6 +5422,12 @@ input[type=checkbox].custom-checkbox:before {
   top: 0;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.5);
+}
+@media screen and (min-width: 1605px) {
+  .body-slide {
+    -webkit-transform: translate3d(-30%, 0, 0);
+            transform: translate3d(-30%, 0, 0);
+  }
 }
 .published-title {
   color: #fff;

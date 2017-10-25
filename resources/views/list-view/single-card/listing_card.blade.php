@@ -180,7 +180,7 @@
             </div>
         </div>
     </div>
-    @if((($list_index + 1) % 5 === 0 && ($list_index + 1) < sizeof($listing_data)) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
+    @if((($list_index + 1) % 5 === 0) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
         @include("enquiries.listings_enquiry")
     @endif
 @endforeach

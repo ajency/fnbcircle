@@ -190,9 +190,9 @@ loadUpdates = () ->
                   enabled: true
                   duration: 300
         else
-          nothing = '<div class="m-t-10 text-center no-updates">
-                            No updates as of yet!
-                        </div>'
+          nothing = '<div class="m-t-10 text-center text-primary no-post-updates">
+                      No updates as of now! <i class="fa fa-frown-o p-l-5" aria-hidden="true"></i>
+                      </div>'
           $('.update-display-section').append(nothing)
 
 $('body').on 'change','select[name="update-sort"]',()->
@@ -222,7 +222,7 @@ newPost = () ->
         </div>
         <div class="col-sm-12 form-group c-gap">
           <label class="required">Give us some more details about your listing</label>
-               <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
+               <textarea type="text" rows="3" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
         </div>
         <div class="col-sm-12">
           <div class="image-grid imageUpload fileUpload post-uploads">
@@ -323,7 +323,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                     </div>
                     <div class="col-sm-12 form-group c-gap">
                       <label class="">Give us some more details about your listing</label>
-                        <textarea type="text" rows="2" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
+                        <textarea type="text" rows="3" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
                     </div>
                     <div class="col-sm-12">
                       <div class="image-grid imageUpload fileUpload post-uploads modal-uploads">'

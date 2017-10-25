@@ -42,7 +42,7 @@
     <!-- <div class="page-shifter animate-row"> -->
         <div class="single-view-head">
          <div class="container">
-            <div class="row m-t-30 m-b-20 mobile-flex breadcrums-container single-breadcrums">
+            <div class="row m-t-30 m-b-10 mobile-flex breadcrums-container single-breadcrums">
                 <div class="col-sm-8  flex-col">
                     <!-- Breadcrums -->
                     @php
@@ -254,7 +254,7 @@
                                     <div class="row">
                                         <div class="col-sm-8">
                                             <ul class="nav-info__tabs flex-row">
-                                                @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')))<li class="nav-section"><a class="active bolder" href="#updates" title="Updates">Recent updates</a></li> @endif
+                                                @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing')))<li class="nav-section"><a class="active bolder" href="#updates" title="Updates"><div class="mobile-hide">Recent updates</div><div class="desk-hide">Updates</div></a></li> @endif
                                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
                                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset
                                                 @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses" class="bolder">Similar Businesses</a></li>@endif
@@ -271,7 +271,7 @@
                                 </div>
                             </div>
                             <ul class="nav-info__tabs flex-row">
-                              @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))) <li class="nav-section"><a class="active bolder" href="#updates" title="Updates">Recent updates</a></li>@endif
+                              @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))) <li class="nav-section"><a class="active bolder" href="#updates" title="Updates"><div class="mobile-hide">Recent updates</div><div class="desk-hide">Updates</div></a></li>@endif
 
                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset

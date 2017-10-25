@@ -43,7 +43,7 @@ loadUpdates = () ->
               return
                               
             html +=      '</ul>
-                          <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on '+element.updated+'</p>
+                          <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted '+element.updated+'</p>
                       </div>
                   </div>'
           $('.update-display-section').append(html)

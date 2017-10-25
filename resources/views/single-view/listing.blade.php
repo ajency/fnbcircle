@@ -303,7 +303,7 @@
                                 @endforeach
                             </ul>
                             <div class="m-b-0 text-right flex-row space-between postActions flex-wrap">
-                                <p class="text-lighter m-b-0 postDate">8 hrs ago</p>
+                                <p class="text-lighter m-b-0 postDate">Posted {{$data['updates']->created_at->diffForHumans()}}</p>
                                 <div class="mobile-flex">
                                     @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
                                     <!-- <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a> -->

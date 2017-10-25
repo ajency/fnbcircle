@@ -164,7 +164,7 @@
               $.each(element.images, function(j, item) {
                 html += '<li><a href="' + item['400X300'] + '"><img src="' + item['200x150'] + '" alt="" width="60"></a></li>';
               });
-              return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on ' + element.updated + '</p> </div> </div>';
+              return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted ' + element.updated + '</p> </div> </div>';
             });
             $('.update-display-section').append(html);
             if (data['data']['more'].length === true) {

@@ -291,6 +291,7 @@ List View
                 </div>
             </div>
         </div>
+        <br><br>
        <!--  <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button> -->
 
         <div class="site-overlay"></div>

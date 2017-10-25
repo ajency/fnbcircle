@@ -464,7 +464,7 @@ $(document).ready () ->
 
 		minLength: 0
 		cache: false
-		selectionRequired: false
+		# selectionRequired: false
 
 		keywordParamName: "search"
 		resultsProperty: "data"
@@ -493,14 +493,15 @@ $(document).ready () ->
 			"category": $('input[name="category_search"]').val()
 		}
 
+		minLength: 1
+		cache: false
+
 		keywordParamName: "search"
 		resultsProperty: "data"
 		searchIn: ['title']
 		valueProperty: 'slug'
 		visibleProperties: ["title", "area"] ## Order of display & dropdown contents to display
 		
-		minLength: 1
-		cache: false
 
 		searchContain: true
 		searchEqual: false
@@ -636,7 +637,7 @@ $(document).ready () ->
 		#$(document).find('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
 
 		# $('#category input[name="category_search"]').prop('value', $(this).attr("value"))
-		$('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
+		# $('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
 
 		#getListContent()
 		if not isMobile()

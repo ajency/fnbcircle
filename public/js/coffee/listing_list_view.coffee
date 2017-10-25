@@ -189,6 +189,10 @@ resetFilter = () ->
 	$(".results__body ul.contents #current_category").val("") ## Clear the Categories filter
 	return
 
+resetPagination = () ->
+	updateUrlPushstate("page", "page=1")
+	return
+
 ### --- Capitalize 1st character of the string --- ###
 capitalize = (string) ->
 	return string.charAt(0).toUpperCase() + string.slice(1)
@@ -508,7 +512,6 @@ $(document).ready () ->
 
 	### --- Update the filters from the URL if any exist --- ###
 	if window.location.search.length > 0
-		console.log window.location.search
 		search_box_params =
 			#"state" : "city"
 			"category_search" : "category_search"
@@ -560,7 +563,10 @@ $(document).ready () ->
 
 			# console.log $(this).val()
 			## -- Do not make AJAX request if state is empty -- ##
-			if key != "state" then getListContent() else ''
+			# if key != "state" then getListContent() else ''
+			if key != "state"
+				resetPagination()
+				getListContent()
 			
 			## --  For mobile -- ##
 			#if key != "state" && isMobile()
@@ -607,6 +613,7 @@ $(document).ready () ->
 
 		if isMobile()
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 500
@@ -614,6 +621,7 @@ $(document).ready () ->
 			$('.searchBy.fly-out').removeClass 'active'
 		else
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 500
@@ -631,6 +639,7 @@ $(document).ready () ->
 		#getListContent()
 		if not isMobile()
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 100
@@ -668,6 +677,7 @@ $(document).ready () ->
 		# getListContent()
 		if not isMobile()
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 100
@@ -686,6 +696,7 @@ $(document).ready () ->
 
 		$("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "")
 
+		resetPagination()
 		getListContent()
 		return
 
@@ -707,6 +718,7 @@ $(document).ready () ->
 		if isMobile()
 			$(this).parent().find('input').val("")
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 100
@@ -718,6 +730,7 @@ $(document).ready () ->
 	$(document).on "click", "#apply_listing_filter", (e) ->
 		if isMobile()
 			setTimeout (->
+				resetPagination()
 				getListContent()
 				return
 			), 100

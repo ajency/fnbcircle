@@ -23,8 +23,6 @@ window.slugify = (string) ->
 
 
 
-
-
 # Tips Toggle
 $('body').on 'click', '.tips', ->
 	$(this).toggleClass 'open'

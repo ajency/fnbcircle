@@ -205,10 +205,13 @@
         }
       }), 250);
     } else {
+      container.find('.dropify-clear').click();
       alert('Total file size cannot be more than 25 MB');
       container.find('input[type="file"]').val('');
       container.find(".image-loader").addClass('hidden');
-      return container.find('.dropify-clear').click();
+      return setTimeout((function() {
+        container.find('.dropify-clear').click();
+      }), 750);
     }
   });
 

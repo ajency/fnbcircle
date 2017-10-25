@@ -160,10 +160,10 @@ loadUpdates = () ->
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>
-                          <ul class="flex-row update-img align-top flex-wrap">'
+                          <ul class="flex-row update-img align-top flex-wrap post-gallery">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><img src="'+item['200x150']+'" alt="" width="60"></li>'
+              html+='<li><a href="'+item['200x150']+'"><img src="'+item['200x150']+'" alt="" width="60"></a></li>'
               return
                               
             html +=      '</ul>
@@ -482,3 +482,16 @@ window.updateActions = () ->
   $(document.body).append form
   form.submit()
   return
+
+
+setTimeout (->
+  if $('.post-gallery').length
+    $('.post-gallery').magnificPopup
+      delegate: 'a'
+      type: 'image'
+      gallery: enabled: true
+      zoom:
+        enabled: true
+        duration: 300
+  return
+), 500

@@ -1055,7 +1055,6 @@ $(function(){
 						    }
 						  });
 						}
-						console.log('asdfsad');
 					}), 500);
 				});
 

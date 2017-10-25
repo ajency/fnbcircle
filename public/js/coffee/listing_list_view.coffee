@@ -676,21 +676,6 @@ $(document).ready () ->
 		), 200
 		return
 
-	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
-	$(document).on "focusin", 'input[type="text"][name="flexdatalist-category_search"]', (event) ->
-		old_values["category_search"] = $('input[name="category_search"]').val()
-		$('input[name="category_search"]').flexdatalist 'value', ""
-		return
-
-	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
-	$(document).on "focusout", 'input[type="text"][name="flexdatalist-category_search"]', (event) ->
-		setTimeout (->
-			if $('input[name="category_search"]').val().length <= 0
-				console.log old_values["category_search"]
-				$('input[name="category_search"]').flexdatalist 'value', old_values["category_search"]
-		), 200
-		return
-
 	### --- On filter checkbox select --- ###
 	$(document).on "change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", (e) ->
 		# getListContent()

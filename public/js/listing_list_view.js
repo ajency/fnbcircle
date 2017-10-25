@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, isMobile, resetFilter, updateCityDropdown, updateTextLabels, updateUrlPushstate;
+  var capitalize, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, isMobile, resetFilter, resetPagination, updateCityDropdown, updateTextLabels, updateUrlPushstate;
 
   getTemplateHTML = function(templateToRender, data) {
     var htmlToRender, list, theTemplate, theTemplateScript;
@@ -156,6 +156,10 @@
     $(".results__body ul.contents #current_category").val("");
   };
 
+  resetPagination = function() {
+    updateUrlPushstate("page", "page=1");
+  };
+
 
   /* --- Capitalize 1st character of the string --- */
 
@@ -193,7 +197,7 @@
   getFilterContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 5;
     data = {
       "page": page,
       "page_size": limit,
@@ -235,7 +239,7 @@
   getListContent = function() {
     var data, limit, page;
     page = window.location.search.indexOf("page") > 0 ? window.location.search.split("page=")[1].split("&")[0] : 1;
-    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 10;
+    limit = window.location.search.indexOf("limit") > 0 ? window.location.search.split("limit=")[1].split("&")[0] : 5;
     data = {
       "page": page,
       "page_size": limit,
@@ -438,7 +442,6 @@
 
     /* --- Update the filters from the URL if any exist --- */
     if (window.location.search.length > 0) {
-      console.log(window.location.search);
       search_box_params = {
         "category_search": "category_search",
         "business_search": "business_search"
@@ -486,9 +489,8 @@
           $(document).find(".results__body ul.contents #current_category").val($(this).val());
         }
         if (key !== "state") {
+          resetPagination();
           getListContent();
-        } else {
-          '';
         }
       }
       return;
@@ -528,11 +530,13 @@
       }
       if (isMobile()) {
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 500);
         $('.searchBy.fly-out').removeClass('active');
       } else {
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 500);
       }
@@ -544,6 +548,7 @@
       $('#category input[name="category_search"].flexdatalist').flexdatalist('value', $(this).attr("value"));
       if (!isMobile()) {
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 100);
       } else {
@@ -556,7 +561,7 @@
     $(document).on("click", "#pagination a.paginate.page", function(e) {
       updateUrlPushstate("page", "page=" + $(this).attr("page"));
       if (window.location.search.indexOf("limit") < 0) {
-        updateUrlPushstate("limit", "limit=10");
+        updateUrlPushstate("limit", "limit=5");
       } else {
         '';
       }
@@ -579,6 +584,7 @@
     $(document).on("change", "input[type='checkbox'][name='areas[]'], input[type='checkbox'][name='business_type[]'], input[type='checkbox'][name='listing_status[]']", function(e) {
       if (!isMobile()) {
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 100);
       } else {
@@ -596,6 +602,7 @@
         "section-list-status": "listing_status[]"
       };
       $("input[type='checkbox'][name='" + checkbox_name_linking[$(this).parent().parent().attr("id")] + "']").prop("checked", "");
+      resetPagination();
       getListContent();
     });
 
@@ -615,6 +622,7 @@
       if (isMobile()) {
         $(this).parent().find('input').val("");
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 100);
         $('.searchBy.fly-out').removeClass('active');
@@ -625,6 +633,7 @@
     $(document).on("click", "#apply_listing_filter", function(e) {
       if (isMobile()) {
         setTimeout((function() {
+          resetPagination();
           getListContent();
         }), 100);
         $('.filterBy.fly-out').removeClass('active');

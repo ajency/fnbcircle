@@ -5861,6 +5861,17 @@ input[type=checkbox].custom-checkbox:before {
 .update-img img {
   border-radius: 4px;
 }
+.postActions {
+  border-top: 1px solid #eee;
+  margin-top: 1em;
+  padding-top: 1em;
+}
+.postActions a {
+  border: 1px solid;
+  padding: 0.4em 0.8em;
+  margin-left: 0.5em;
+  font-size: 0.95em;
+}
 .search-section {
   position: relative;
   top: 2em;

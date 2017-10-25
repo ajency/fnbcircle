@@ -1259,6 +1259,7 @@ $additionalData = ['job'=>$job];
           <div class="page-sidebar__body">
              <table>
              <thead>
+               <th>Date of application</th>
                <th>Name</th>
                <th>Email</th>
                <th>Phone</th>
@@ -1270,6 +1271,7 @@ $additionalData = ['job'=>$job];
               $resumeUrl = getUploadFileUrl($application->resume_id);
               @endphp
              <tr>
+               <td>{{ $application->dateOfSubmission() }}</td>
                <td>{{ $application->name }}</td>
                <td>{{ $application->email }}</td>
                <td>{{ $application->phone }}</td>

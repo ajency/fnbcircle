@@ -23,7 +23,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
   'pageLength': 25
   'processing': true
   'order': [ [
-    5
+    2
     'desc'
   ] ]
   'serverSide':true

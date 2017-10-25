@@ -258,6 +258,7 @@
                                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
                                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset
                                                 @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" title="Similar Businesses" class="bolder">Similar Businesses</a></li>@endif
+
                                                 <!-- <li class="nav-section"><a href="#article">Articles</a></li> -->
                                             </ul>
                                         </div>
@@ -271,8 +272,10 @@
                             </div>
                             <ul class="nav-info__tabs flex-row">
                               @if($data['status']['id']==1 and ((isset($data['updates']) and !empty($data['updates'])) or hasAccess('edit_permission_element_cls',$data['reference'],'listing'))) <li class="nav-section"><a class="active bolder" href="#updates" title="Updates">Recent updates</a></li>@endif
+
                                 @isset($data['categories'])<li class="nav-section"><a href="#listed" title="Listed In" class="bolder">Listed In</a></li>@endisset
                                 @isset($data['overview'])<li class="nav-section"><a href="#overview" title="Overview" class="bolder">Overview</a></li>@endisset
+
                                 @if(!$data['premium'] and isset($similar[0]))<li class="nav-section"><a href="#business" class="bolder" title="Similar Businesses">Similar Businesses</a></li>@endif
                             </ul>
                         </div>
@@ -415,13 +418,14 @@
                                 @isset($data['established'])
                                 <div class="year">
                                     <p class="element-title heavier m-b-10 sTitle">Year of Establishment</p>
-                                    <p class="sub-title lighter">{{$data['established']}} </p>
+                                    <p class="sub-title grey-darker">{{$data['established']}} </p>
                                 </div>
                                 @endisset
                                 @isset($data['website'])
                                 <div class="site">
                                     <p class="element-title heavier m-b-10 sTitle">Website</p>
-                                    <p class="sub-title lighter "><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
+
+                                    <p class="sub-title grey-darker"><a href="{{$data['website']}}" target="_blank" class="link-click break-all" title="{{$data['title']['name']}}">{{$data['website']}} <!-- <i class="fa fa-external-link new-link p-l-5" aria-hidden="true"></i> -->
                                     <img src="/img/link.png" alt="" class="m-l-5" width="15">
                                     </a></p>
                                 </div>
@@ -431,7 +435,7 @@
                             <div class="detail-2 flex-row m-t-25 m-b-25">
                                 <div class="operation">
                                     <p class="element-title heavier m-b-20 sTitle">Hours of operation @if($data['today']['open'])<span class="text-success">(Open now)</span>@else <span class="text-danger">(Closed now)</span>@endif</p>
-                                    <p class="sub-title lighter operation__hours">Today {{$data['today']['timing']}} 
+                                    <p class="sub-title grey-darker operation__hours">Today {{$data['today']['timing']}} 
                                     <span class="dis-block data-show m-t-5 p-l-15">
                                         @foreach($data['hours'] as $day)
                                         <span class="dis-block text-color text-medium m-t-10 m-b-10"><i class="fa fa-clock-o p-r-5" aria-hidden="true"></i> {{$day['day']}} {{$day['timing']}} </span>
@@ -444,7 +448,7 @@
                             <div class="detail-3 flex-row m-t-25">
                                 <div class="address">
                                     <h3 class="element-title heavier m-b-20 sTitle">Address of {{$data['title']['name']}}</h3>
-                                    @isset($data['address'])<p class="sub-title lighter">{{$data['address']}}</p>@endisset
+                                    @isset($data['address'])<p class="sub-title grey-darker">{{$data['address']}}</p>@endisset
                                 </div>
                             </div>
                             @endif
@@ -767,7 +771,12 @@
                                 @if($loop->first)
                                 <div class="photo-gallery__banner">
                                     <a href="{{$images['full']}}" class="thumb-click">
-                                      <img src="{{$images['thumb']}}" class="img-responsive main-img">
+                                      <img src="{{$images['thumb']}}" class="img-responsive main-img no-height">
+                                      <div class="image-cover" style="background-image:url('{{$images['thumb']}}');">
+                                      </div>
+                                      <div class="blur-img">
+                                        <!-- <img src="{{$images['thumb']}}"> -->
+                                      </div>
                                     </a>
                                 </div>
                                 <ul class="photo-gallery__thumbnails flex-row m-t-5 m-b-20">
@@ -775,10 +784,11 @@
 
                                     <li>
                                         <a href="{{$images['full']}}" class="thumb-click" >
-                                            <!-- <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
+                                            
+                                            <img src="{{$images['thumb']}}" alt="" class="img-responsive no-height">
+                                            <div class="image-mag" style="background-image:url('{{$images['thumb']}}');">
                                                 
-                                            </div> -->
-                                            <img src="{{$images['thumb']}}" alt="" class="img-responsive">
+                                            </div>
                                             @if($i == 3 and $photo_count>0)<p class="sub-title">+ {{$photo_count}} More</p>@endif
                                         </a>
                                     </li>

@@ -18,7 +18,7 @@
   approval_table = $('#datatable-listing_approval').DataTable({
     'pageLength': 25,
     'processing': true,
-    'order': [[5, 'desc']],
+    'order': [[2, 'desc']],
     'serverSide': true,
     'drawCallback': function() {
       if (filters['status'].length === 1) {

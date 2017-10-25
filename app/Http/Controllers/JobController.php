@@ -334,6 +334,7 @@ class JobController extends Controller
         $userApplication = false;
         $userProfile = false;
         $userResume = false;
+        $hasAppliedForJob = false;
  
         if(Auth::check()){
             $user = Auth::user();

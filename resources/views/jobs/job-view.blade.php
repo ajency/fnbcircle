@@ -423,7 +423,7 @@ $additionalData = ['job'=>$job];
                       @else
                         <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
                       @endif
-                        <button class="btn fnb-btn primary-btn full border-btn" type="button">Apply Now </button>
+                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                         </a>
                   @endif
 

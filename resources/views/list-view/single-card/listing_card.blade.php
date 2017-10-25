@@ -160,20 +160,20 @@
                     </div>
                 </div>
             </div>
-            <div class="seller-info__footer filter-cards__footer white-space">
-                <div class="recent-updates flex-row">
-                    <div class="recent-updates__text">
-                        <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
+            <div class="seller-info__footer filter-cards__footer white-space {{ $list_value->recent_updates ? '' : 'desk-hide' }}"">
+                    <div class="recent-updates flex-row">
+                        <div class="recent-updates__text {{ $list_value->recent_updates ? '' : 'mobile-hide' }}">
+                            <p class="m-b-0 default-size heavier flex-row"><!-- <i class="fa fa-repeat p-r-5" aria-hidden="true"></i> --><img src="{{ asset('/img/list-updates.png') }}" class="img-responsive update-icon"> Recent Updates <i class="fa fa-angle-down desk-hide arrowDown" aria-hidden="true"></i></p>
+                        </div>
+                        <div class="recent-updates__content">
+                            @if($list_value->recent_updates)
+                                <p class="m-b-0 default-size text-color recent-data"> {{ $list_value->recent_updates->title }}
+                                <span class="text-lighter p-l-10">Updated on {{ date('F d, Y', strtotime($list_value->recent_updates->updated_at)) }}</span></p>
+                            @else
+                                <p class="m-b-0 default-size text-color recent-data"> No updates </p>
+                            @endif
+                        </div>
                     </div>
-                    <div class="recent-updates__content">
-                        @if($list_value->recent_updates)
-                            <p class="m-b-0 default-size text-color recent-data"> {{ $list_value->recent_updates->title }}
-                            <span class="text-lighter p-l-10">Updated on {{ date('F d, Y', strtotime($list_value->recent_updates->updated_at)) }}</span></p>
-                        @else
-                            <p class="m-b-0 default-size text-color recent-data"> No updates </p>
-                        @endif
-                    </div>
-                </div>
                 <div class="updates-dropDown">
 
                 </div>

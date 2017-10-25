@@ -72,6 +72,7 @@ $('body').on 'click', '.add-uploader', (e)->
       window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt($(this).closest('.image-grid__cols').find('input[type="file"]').attr('data-size'))
       $(this).closest('.image-grid__cols').find('input[type="file"]').removeAttr('data-size');
       $(this).closest('.image-grid__cols').find('.doc-name').removeAttr "required"
+      $('#more-file-error').html('')
       console.log "file deleted"
       return
     # contact_group_clone.find('.doc-uploadd').prop('disabled',true)
@@ -223,7 +224,8 @@ $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
     ), 250
   else
     container.find('.dropify-clear').click();
-    alert('Total file size cannot be more than 25 MB')
+    # alert('Total file size cannot be more than 25 MB')
+    $('#more-file-error').html('Total file size cannot be more than 25 MB')
     container.find('input[type="file"]').val ''
     container.find(".image-loader").addClass('hidden')
     setTimeout (->

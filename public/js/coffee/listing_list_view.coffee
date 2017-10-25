@@ -206,7 +206,7 @@ updateTextLabels = () ->
 		#$(".listings-page span.category_label").text("All categories")
 		$(".listings-page span.category_label").text ""
 		$(".listings-page h5 span.category_label").text "All"
-		$(".listings-page p.category_label").text "all"
+		$(".listings-page p.category_label").text "All"
 
 	### --- Update the State labels --- ###
 	if $('input[name="city"]').val().length > 0
@@ -424,7 +424,7 @@ $(document).ready () ->
 		# params: {"search": $('input[name="city"]').val()}
 		requestType: 'post'
 		# requestContentType: 'json'
-		focusFirstResult: true
+		# focusFirstResult: true
 
 		minLength: 0
 		cache: false
@@ -674,7 +674,6 @@ $(document).ready () ->
 			if $('input[name="city"]').val().length <= 0
 				$('input[name="city"]').flexdatalist 'value', old_values["state"]
 		), 200
-
 		return
 
 	### --- On filter checkbox select --- ###

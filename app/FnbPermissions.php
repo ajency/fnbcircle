@@ -15,7 +15,7 @@ function routePermission(){
 			[
 				//jobs permission
 				// 'jobs/create'=>['add_job'],					
-				'jobs/store'=>['add_job'],
+				// 'jobs/store'=>['add_job'],
 				'jobs/{reference_id}/{step?}'=>['edit_job'], 
 				'jobs/update'=>['edit_job'],
 

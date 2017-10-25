@@ -509,7 +509,7 @@
                                 @isset($similar[1])<a href="{{$similar['url']}}" class="secondary-link view-more heavier">View More</a>@endisset
                             </div>
                             <div class="similar-business__section flex-row">
-                                <div class="card business-card article-col">
+                                <div class="card business-card article-col similar-card cursor-pointer" data-href="{{$similar[0]['title']['url']}}">
                                     <div class="business-card__header">
                                         @if($similar[0]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                     <!--     <ul class="fnb-cat catShow flex-row">
@@ -520,7 +520,7 @@
                                         <div class="flex-row">
                                             <ul class="fnb-cat hide-areas flex-row">
                                                 @foreach($similar[0]['cores'] as $core)
-                                                <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
+                                                <li><span href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</span></li>
                                                 @endforeach
                                             </ul>
                                             @if(count($similar[0]['cores']) > 3)
@@ -582,18 +582,18 @@
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
-                                        <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}" title="{{$similar[0]['title']['name']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                        <p class="sub-title heavier footer-text"><a href="{{$similar[0]['title']['url']}}" title="{{$similar[0]['title']['name']}}" class="triggerClick">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
                                         <span class="x-small date lighter">Updated on {{$similar[0]['update']}}</span>
                                     </div>
                                 </div>
                                 @if(isset($similar[1]))
-                                <div class="card business-card article-col">
+                                <div class="card business-card article-col similar-card cursor-pointer" data-href="{{$similar[1]['title']['url']}}">
                                     <div class="business-card__header">
                                         @if($similar[1]['premium'])<img src="/img/power-seller.png" class="img-responsive powerSeller" width="100">@endif
                                         <div class="flex-row">
                                             <ul class="fnb-cat hide-areas flex-row">
                                                 @foreach($similar[1]['cores'] as $core)
-                                                <li><a href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
+                                                <li><span href="/{{$core['slug']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</span></li>
                                                 @endforeach
                                             </ul>
                                             @if(count($similar[1]['cores']) > 3)
@@ -647,7 +647,7 @@
                                         </div>
                                     </div>
                                     <div class="business-card__footer flex-row">
-                                        <p class="sub-title heavier footer-text"><a href="{{$similar[1]['title']['url']}}" title="{{$similar[1]['title']['name']}}">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
+                                        <p class="sub-title heavier footer-text"><a href="{{$similar[1]['title']['url']}}" title="{{$similar[1]['title']['name']}}" class="triggerClick">Get Details <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i></a></p>
                                         <span class="x-small date lighter">Updated on {{$similar[1]['update']}}</span>
                                     </div>
                                 </div>

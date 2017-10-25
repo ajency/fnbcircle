@@ -151,3 +151,13 @@ if $(window).width() < 769
     $('.enquiry-form-slide').addClass 'active'
     return  
 
+
+$('.similar-card').click ->
+  gethref = $(this).attr("data-href")
+  window.location.href = gethref
+  return
+
+
+
+
+

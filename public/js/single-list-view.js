@@ -156,4 +156,10 @@
     });
   }
 
+  $('.similar-card').click(function() {
+    var gethref;
+    gethref = $(this).attr("data-href");
+    window.location.href = gethref;
+  });
+
 }).call(this);

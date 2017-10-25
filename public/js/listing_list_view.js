@@ -178,7 +178,7 @@
     } else {
       $(".listings-page span.category_label").text("");
       $(".listings-page h5 span.category_label").text("All");
-      $(".listings-page p.category_label").text("all");
+      $(".listings-page p.category_label").text("All");
     }
 
     /* --- Update the State labels --- */
@@ -380,7 +380,6 @@
     $('input[name="city"]').flexdatalist({
       url: '/api/search-city',
       requestType: 'post',
-      focusFirstResult: true,
       minLength: 0,
       cache: false,
       selectionRequired: true,
@@ -574,6 +573,22 @@
       setTimeout((function() {
         if ($('input[name="city"]').val().length <= 0) {
           return $('input[name="city"]').flexdatalist('value', old_values["state"]);
+        }
+      }), 200);
+    });
+
+    /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
+    $(document).on("focusin", 'input[type="text"][name="flexdatalist-category_search"]', function(event) {
+      old_values["category_search"] = $('input[name="category_search"]').val();
+      $('input[name="category_search"]').flexdatalist('value', "");
+    });
+
+    /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
+    $(document).on("focusout", 'input[type="text"][name="flexdatalist-category_search"]', function(event) {
+      setTimeout((function() {
+        if ($('input[name="category_search"]').val().length <= 0) {
+          console.log(old_values["category_search"]);
+          return $('input[name="category_search"]').flexdatalist('value', old_values["category_search"]);
         }
       }), 200);
     });

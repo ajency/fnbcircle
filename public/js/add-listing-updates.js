@@ -160,14 +160,29 @@
             $.each(data['data']['updates'], function(i, element) {
               html += '<div class="update-sec sidebar-article"> <div class="update-sec__body update-space"> <div class="flex-row space-between"> <p class="element-title update-sec__heading m-t-15 bolder">' + element.title + '</p> <div class="update-actions flex-row"> <i class="fa fa-pencil editUpdates text-primary" aria-hidden="true" data-toggle="modal" data-target="#edit-updates" title="Edit" data-update-id="' + element.id + '"></i> <i class="fa fa-trash-o deleteUpdates delete-post" aria-hidden="true" title="Delete" data-delete-id="' + element.id + '"></i> </div> </div> <p class="update-sec__caption text-lighter">' + element.contents + '</p> <ul class="flex-row update-img align-top flex-wrap post-gallery">';
               $.each(element.images, function(j, item) {
-                html += '<li><a href="' + item['200x150'] + '"><img src="' + item['200x150'] + '" alt="" width="60"></a></li>';
+                html += '<li><a href="' + item['400X300'] + '"><img src="' + item['200x150'] + '" alt="" width="60"></a></li>';
               });
               return html += '</ul> <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on ' + element.updated + '</p> </div> </div>';
             });
             $('.update-display-section').append(html);
             if (data['data']['updates'].length === 5) {
               button = '<div class="m-t-10 text-center view-more-updates"> <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a> </div>';
-              return $('.update-display-section').append(button);
+              $('.update-display-section').append(button);
+              if ($('.post-gallery').length) {
+                return $('.post-gallery').each(function() {
+                  return $(this).magnificPopup({
+                    delegate: 'a',
+                    type: 'image',
+                    gallery: {
+                      enabled: true
+                    },
+                    zoom: {
+                      enabled: true,
+                      duration: 300
+                    }
+                  });
+                });
+              }
             }
           }
         }
@@ -370,23 +385,5 @@
     $(document.body).append(form);
     form.submit();
   };
-
-  setTimeout((function() {
-    if ($('.post-gallery').length) {
-      return $('.post-gallery').each(function() {
-        $(this).magnificPopup({
-          delegate: 'a',
-          type: 'image',
-          gallery: {
-            enabled: true
-          },
-          zoom: {
-            enabled: true,
-            duration: 300
-          }
-        });
-      });
-    }
-  }), 500);
 
 }).call(this);

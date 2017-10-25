@@ -163,7 +163,7 @@ loadUpdates = () ->
                           <ul class="flex-row update-img align-top flex-wrap post-gallery">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><a href="'+item['200x150']+'"><img src="'+item['200x150']+'" alt="" width="60"></a></li>'
+              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="60"></a></li>'
               return
                               
             html +=      '</ul>
@@ -176,6 +176,15 @@ loadUpdates = () ->
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
             $('.update-display-section').append(button)
+            if $('.post-gallery').length
+              $('.post-gallery').each ->
+                $(this).magnificPopup
+                  delegate: 'a'
+                  type: 'image'
+                  gallery: enabled: true
+                  zoom:
+                    enabled: true
+                    duration: 300
 
 $('body').on 'change','select[name="update-sort"]',()->
   order = @value
@@ -488,15 +497,15 @@ window.updateActions = () ->
 
 # Gallery magnify for individual group
 
-setTimeout (->
-  if $('.post-gallery').length
-    $('.post-gallery').each ->
-      $(this).magnificPopup
-        delegate: 'a'
-        type: 'image'
-        gallery: enabled: true
-        zoom:
-          enabled: true
-          duration: 300
-      return
-), 500
+# setTimeout (->
+#   if $('.post-gallery').length
+#     $('.post-gallery').each ->
+#       $(this).magnificPopup
+#         delegate: 'a'
+#         type: 'image'
+#         gallery: enabled: true
+#         zoom:
+#           enabled: true
+#           duration: 300
+#       return
+# ), 500

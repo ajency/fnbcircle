@@ -39,7 +39,7 @@ loadUpdates = () ->
                           <ul class="flex-row update-img">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><img src="'+item['200x150']+'" alt="" width="80"></li>'
+              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="80"></a></li>'
               return
                               
             html +=      '</ul>

@@ -295,8 +295,8 @@
                                 <div class="mobile-hide">{{$data['title']['name']}} recent updates</div>
                                 <div class="desk-hide">Recent Updates</div>
                             </h6>
-                            <p class="m-t-20 m-b-5 updateTitle">{{$data['updates']->title}}</p>
-                            <p class="update-sec__caption text-lighter">
+                            <p class="m-t-20 m-b-5 updateTitle heavier">{{$data['updates']->title}}</p>
+                            <p class="update-sec__caption grey-darker">
                                 {!! nl2br(e($data['updates']->contents)) !!}
                             </p>
                             <ul class="flex-row update-img flex-wrap post-gallery align-top">

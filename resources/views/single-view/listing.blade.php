@@ -306,21 +306,23 @@
                                 <p class="text-lighter m-b-0 postDate">8 hrs ago</p>
                                 <div class="mobile-flex">
                                     @if($data['updates_count']>1)<a href="" class="text-secondary update-sec__link secondary-link open-sidebar view-updates x-small">View more</a>@endif
-                                    <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a>
+                                    <!-- <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="text-secondary update-sec__link primary-link view-updates p-l-10 x-small">Post an Update</a> -->
                                 </div>
                             </div>
                         </div>
                         @else
                             <!-- if no posts -->
-                        <div class="update-sec__body update-space">
-    
-                            <h6 class="sub-title update-sec__heading m-t-15 heavier text-center no-post-title">
-                                You have not posted any updates as of yet! <br> Recently updated listings usually get more leads, so go ahead and post an update.
-                            </h6>
-                            <p class="m-b-0 m-t-20 text-center">
-                                <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
-                            </p>
-                        </div>
+                            @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))    
+                            <div class="update-sec__body update-space">
+        
+                                <h6 class="sub-title update-sec__heading m-t-15 heavier text-center no-post-title">
+                                    You have not posted any updates as of yet! <br> Recently updated listings usually get more leads, so go ahead and post an update.
+                                </h6>
+                                <p class="m-b-0 m-t-20 text-center">
+                                    <a href="/listing/{{$data['reference']}}/edit/post-an-update" class="btn fnb-btn primary-btn border-btn posUpdate full ">Post an Update</a>
+                                </p>
+                            </div>
+                            @endif
                         @endif
                     </div>
                     <!-- updates section ends -->

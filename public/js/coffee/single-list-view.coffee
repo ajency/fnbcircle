@@ -1,6 +1,8 @@
 $('#shareRoundIcons').jsSocials
   showLabel: false
   showCount: false
+  shareIn: "popup",
+  text: "",
   shares: [
     'twitter'
     'facebook'

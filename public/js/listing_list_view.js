@@ -178,7 +178,7 @@
     } else {
       $(".listings-page span.category_label").text("");
       $(".listings-page h5 span.category_label").text("All");
-      $(".listings-page p.category_label").text("all");
+      $(".listings-page p.category_label").text("All");
     }
 
     /* --- Update the State labels --- */
@@ -380,7 +380,6 @@
     $('input[name="city"]').flexdatalist({
       url: '/api/search-city',
       requestType: 'post',
-      focusFirstResult: true,
       minLength: 0,
       cache: false,
       selectionRequired: true,

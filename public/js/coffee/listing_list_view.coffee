@@ -206,7 +206,7 @@ updateTextLabels = () ->
 		#$(".listings-page span.category_label").text("All categories")
 		$(".listings-page span.category_label").text ""
 		$(".listings-page h5 span.category_label").text "All"
-		$(".listings-page p.category_label").text "all"
+		$(".listings-page p.category_label").text "All"
 
 	### --- Update the State labels --- ###
 	if $('input[name="city"]').val().length > 0
@@ -674,7 +674,21 @@ $(document).ready () ->
 			if $('input[name="city"]').val().length <= 0
 				$('input[name="city"]').flexdatalist 'value', old_values["state"]
 		), 200
+		return
 
+	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
+	$(document).on "focusin", 'input[type="text"][name="flexdatalist-category_search"]', (event) ->
+		old_values["category_search"] = $('input[name="category_search"]').val()
+		$('input[name="category_search"]').flexdatalist 'value', ""
+		return
+
+	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
+	$(document).on "focusout", 'input[type="text"][name="flexdatalist-category_search"]', (event) ->
+		setTimeout (->
+			if $('input[name="category_search"]').val().length <= 0
+				console.log old_values["category_search"]
+				$('input[name="category_search"]').flexdatalist 'value', old_values["category_search"]
+		), 200
 		return
 
 	### --- On filter checkbox select --- ###

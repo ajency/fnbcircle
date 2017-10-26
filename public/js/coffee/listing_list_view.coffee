@@ -666,7 +666,8 @@ $(document).ready () ->
 		return
 
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
-	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
+	#$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
+	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
 		searchbox_name_linking = 
 			"flexdatalist-city": "state"
 			"flexdatalist-category_search": "category_search"
@@ -685,7 +686,8 @@ $(document).ready () ->
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
-	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
+	#$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
+	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"]', (event) ->
 		searchbox_name_linking = 
 			"flexdatalist-city": "state"
 			"flexdatalist-category_search": "category_search"

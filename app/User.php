@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function jobPosted()
     {
-        return $this->hasMany('App\Job');
+        return $this->hasMany('App\Job','job_creator');
     }
 
     public function getPrimaryContact() { // Get the Primary Contact No

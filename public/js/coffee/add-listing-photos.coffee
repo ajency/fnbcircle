@@ -212,13 +212,15 @@ $('body').on 'change','.imageUpload input[type="file"]', (e) ->
 $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
   container =$(this).closest('.image-grid__cols')
   size = this.files[0].size
+  prev_size = container.find('input[type="file"]').attr('data-size')
+  console.log prev_size
   maxsize = document.head.querySelector('[property="max-file-size"]').content
   console.log maxsize
   if parseInt(window.current_file_total_size) + parseInt(size) < parseInt(maxsize)
     setTimeout (->
       if ef == 0
         uploadFile(container,1)
-        window.current_file_total_size = parseInt(window.current_file_total_size) + parseInt(size)
+        window.current_file_total_size = parseInt(window.current_file_total_size) - parseInt(prev_size) + parseInt(size)
         container.find('input[type="file"]').attr('data-size',size)
       return
     ), 250
@@ -230,8 +232,11 @@ $('body').on 'change', '.fileUpload input[type="file"]', (e) ->
     container.find(".image-loader").addClass('hidden')
     setTimeout (->
       container.find('.dropify-clear').click();
+      $('#more-file-error').html('Total file size cannot be more than 25 MB')
       return
     ), 750
+    
+
 
 $('.dropify-wrapper.touch-fallback .dropify-clear i').text('Remove photo');
 

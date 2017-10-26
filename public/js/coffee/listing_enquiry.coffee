@@ -59,10 +59,10 @@ getContent = (enquiry_level, listing_slug) ->
 		success: (data) ->
 			# console.log data["popup_template"]
 			if data["popup_template"].length > 0
-				$(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
-				$(document).find("div.single-view-head div.container #enquiry-modal").modal 'show'
+				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
+				$(document).find("div.container #enquiry-modal").modal 'show'
 		error: (request, status, error) ->
-			#$("div.single-view-head div.container #enquiry-modal").modal 'show'
+			#$("div.container #enquiry-modal").modal 'show'
 			console.log error
 	return
 
@@ -79,11 +79,11 @@ getTemplate = (modal_template, listing_slug = '') ->
 		dataType: 'json'
 		success: (data)->
 			if data["modal_template"].length > 0
-				$(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html data["modal_template"]
-				$(document).find("div.single-view-head div.container #enquiry-modal").modal 'show'
+				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["modal_template"]
+				$(document).find("div.container #enquiry-modal").modal 'show'
 		error: (request, status, error) ->
 			## -- Show the enquiry content -- ##
-			$("div.single-view-head div.container #enquiry-modal").modal 'show'
+			$("div.container #enquiry-modal").modal 'show'
 			console.log error
 	return
 
@@ -106,10 +106,10 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false) ->
 		dataType: 'json'
 		success: (data) ->
 			if data["popup_template"].length > 0
-				$(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
-				$(document).find("div.single-view-head div.container #enquiry-modal").modal 'show'
+				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
+				$(document).find("div.container #enquiry-modal").modal 'show'
 		error: (request, status, error) ->
-			#$("div.single-view-head div.container #enquiry-modal").modal 'show'
+			#$("div.container #enquiry-modal").modal 'show'
 			if status == 410
 				console.log "Sorry, the OTP has expired"
 			else if status == 400
@@ -160,25 +160,25 @@ $(document).ready () ->
 
 	### --- Display respective Popups on "Send Enquiry click" --- ###
 	if $("#enquiry-modal").length > 0
-		$(document).on "click", ".single-view-head div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
+		$(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			if getCookie('user_id').length > 0
 				if getCookie('user_type') == "user"
 					# If user has account on website
 					$("#login-modal").modal 'show' # show login popup
 				else
 					# If type exist & is not "user", then Show Popup
-					getTemplate('step_1', $(".single-view-head #enquiry_slug").val())
-					#$("div.single-view-head div.container #enquiry-modal").modal 'show'
+					getTemplate('step_1', $("#enquiry_slug").val())
+					#$("div.container #enquiry-modal").modal 'show'
 			else
 				# Else User is Enquiring 1st time, hence the Popup
-				$("div.single-view-head div.container #enquiry-modal").modal 'show'
+				$("div.container #enquiry-modal").modal 'show'
 			return
 
 		### --- On click of "Send Enquiry 1" button --- ###
 		$(document).on "click", "#level-one-enquiry #level-one-form-btn", () ->
 			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 			if $(document).find("#level-one-enquiry").parsley().validate()
-				getContent(page_level, $(".single-view-head #enquiry_slug").val())
+				getContent(page_level, $("#enquiry_slug").val())
 				console.log "true"
 			else
 				console.log "forms not complete"
@@ -190,12 +190,12 @@ $(document).ready () ->
 		### --- On click of OTP submit button --- ###
 		$(document).on "click", "#level-two-enquiry #level-two-form-btn", () ->
 			console.log "OTP submit"
-			getVerification($(this).data('value'), $(".single-view-head #enquiry_slug").val(), false)
+			getVerification($(this).data('value'), $("#enquiry_slug").val(), false)
 			return
 
 		### --- On click of OTP regenerate button --- ###
 		$(document).on "click", "#level-two-enquiry #level-two-resend-btn", () ->
-			getVerification($(this).data('value'), $(".single-view-head #enquiry_slug").val(), true)
+			getVerification($(this).data('value'), $("#enquiry_slug").val(), true)
 			return
 
 		$(document).on "change", "#level-three-enquiry #area_section select[name='city']", () ->
@@ -207,7 +207,7 @@ $(document).ready () ->
 			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 
 			if $(document).find("#level-three-enquiry").parsley().validate()
-				getContent(page_level, $(".single-view-head #enquiry_slug").val())
+				getContent(page_level, $("#enquiry_slug").val())
 				console.log "true"
 			else
 				console.log "forms not complete"

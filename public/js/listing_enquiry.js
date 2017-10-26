@@ -59,8 +59,8 @@
       dataType: 'json',
       success: function(data) {
         if (data["popup_template"].length > 0) {
-          $(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
-          return $(document).find("div.single-view-head div.container #enquiry-modal").modal('show');
+          $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
+          return $(document).find("div.container #enquiry-modal").modal('show');
         }
       },
       error: function(request, status, error) {
@@ -85,12 +85,12 @@
       dataType: 'json',
       success: function(data) {
         if (data["modal_template"].length > 0) {
-          $(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html(data["modal_template"]);
-          return $(document).find("div.single-view-head div.container #enquiry-modal").modal('show');
+          $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["modal_template"]);
+          return $(document).find("div.container #enquiry-modal").modal('show');
         }
       },
       error: function(request, status, error) {
-        $("div.single-view-head div.container #enquiry-modal").modal('show');
+        $("div.container #enquiry-modal").modal('show');
         return console.log(error);
       }
     });
@@ -119,8 +119,8 @@
       dataType: 'json',
       success: function(data) {
         if (data["popup_template"].length > 0) {
-          $(document).find(".single-view-head #updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
-          return $(document).find("div.single-view-head div.container #enquiry-modal").modal('show');
+          $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
+          return $(document).find("div.container #enquiry-modal").modal('show');
         }
       },
       error: function(request, status, error) {
@@ -187,15 +187,15 @@
 
     /* --- Display respective Popups on "Send Enquiry click" --- */
     if ($("#enquiry-modal").length > 0) {
-      $(document).on("click", ".single-view-head div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {
+      $(document).on("click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {
         if (getCookie('user_id').length > 0) {
           if (getCookie('user_type') === "user") {
             $("#login-modal").modal('show');
           } else {
-            getTemplate('step_1', $(".single-view-head #enquiry_slug").val());
+            getTemplate('step_1', $("#enquiry_slug").val());
           }
         } else {
-          $("div.single-view-head div.container #enquiry-modal").modal('show');
+          $("div.container #enquiry-modal").modal('show');
         }
       });
 
@@ -204,7 +204,7 @@
         var page_level;
         page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         if ($(document).find("#level-one-enquiry").parsley().validate()) {
-          getContent(page_level, $(".single-view-head #enquiry_slug").val());
+          getContent(page_level, $("#enquiry_slug").val());
           console.log("true");
         } else {
           console.log("forms not complete");
@@ -215,12 +215,12 @@
       /* --- On click of OTP submit button --- */
       $(document).on("click", "#level-two-enquiry #level-two-form-btn", function() {
         console.log("OTP submit");
-        getVerification($(this).data('value'), $(".single-view-head #enquiry_slug").val(), false);
+        getVerification($(this).data('value'), $("#enquiry_slug").val(), false);
       });
 
       /* --- On click of OTP regenerate button --- */
       $(document).on("click", "#level-two-enquiry #level-two-resend-btn", function() {
-        getVerification($(this).data('value'), $(".single-view-head #enquiry_slug").val(), true);
+        getVerification($(this).data('value'), $("#enquiry_slug").val(), true);
       });
       $(document).on("change", "#level-three-enquiry #area_section select[name='city']", function() {
         console.log($(this).val());
@@ -230,7 +230,7 @@
         var page_level;
         page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         if ($(document).find("#level-three-enquiry").parsley().validate()) {
-          getContent(page_level, $(".single-view-head #enquiry_slug").val());
+          getContent(page_level, $("#enquiry_slug").val());
           console.log("true");
         } else {
           console.log("forms not complete");

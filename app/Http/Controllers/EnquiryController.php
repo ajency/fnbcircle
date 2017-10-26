@@ -226,7 +226,7 @@ class EnquiryController extends Controller {
 	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
-		$output = new ConsoleOutput; $status = 500; $template_name = '';
+		$output = new ConsoleOutput; $status = 500; $template_name = '';$modal_template_html = '';
 		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = '';
 		
 		$session_id = Cookie::get('laravel_session');

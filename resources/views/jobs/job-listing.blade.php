@@ -50,7 +50,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
                                     
    
-                                        <select name="job_city" class="form-control fnb-select search-job">
+                                        <select name="job_city" class="form-control fnb-select search-job p-l-20">
                                         @foreach($cities as $city)
                                         @php
                                             $selectedCity = '';

@@ -17,8 +17,8 @@
                   <div class="results__header filter-row">
                       <h6 class="element-title text-uppercase">Show Results for</h6>
 
-                      <a href="javascript:void(0)" class="text-color clear-all-filters">
-                         <i class="fa fa-times" aria-hidden="true"></i>
+                      <a href="javascript:void(0)" class="text-color clear-all-filters top-clear-all">
+                         <i class="fa fa-times p-r-5" aria-hidden="true"></i>
                           <span>Clear All</span>
                       </a>
                   </div>
@@ -67,7 +67,7 @@
                   <div class="filter-group__body filter-row collapse in" id="section-area" >
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                          <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search an city">
+                          <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search city">
                       </div>
                       <div class="check-section filter-check">
                           <label class="sub-title flex-row clear @if(!isset($urlFilters['area'])) hidden @endif">

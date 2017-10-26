@@ -7071,6 +7071,18 @@ input[type=checkbox].custom-checkbox:before {
 .job-listings .filter-cards .off-salary {
   margin-right: 2em;
 }
+.top-clear-all {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 0.5em;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  color: #ec6d4b;
+}
 @media screen and (max-width: 768px) {
   .job-listings .filter-cards .seller-info__title {
     margin-bottom: 0.3em;

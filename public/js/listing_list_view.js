@@ -260,7 +260,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
+          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
           if (isMobile()) {
             $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
           } else {
@@ -405,8 +405,7 @@
       searchIn: ['name'],
       valueProperty: 'node_children',
       visibleProperties: ["name", "search_name"],
-      searchContain: true,
-      searchByWord: true,
+      searchDelay: 200,
       allowDuplicateValues: false,
       debug: false,
       noResultsText: 'Sorry! No categories found for "{keyword}"'
@@ -428,6 +427,7 @@
       searchContain: true,
       searchEqual: false,
       searchDisabled: false,
+      searchDelay: 200,
       searchByWord: false,
       allowDuplicateValues: false,
       noResultsText: 'Sorry! No business names found for this search criteria'
@@ -486,11 +486,11 @@
           getListContent();
         }
       }
-      return;
+      event.preventDefault();
     });
 
     /* -- Triggered every time the user selects an option -- */
-    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('select:flexdatalist', function() {
+    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('select:flexdatalist', function(event, item, options) {
       var areas, location, pushstate_url;
       key = "";
       if ($(this).prop("name") === "category_search") {
@@ -533,6 +533,7 @@
           getListContent();
         }), 500);
       }
+      event.preventDefault();
     });
 
     /* --- Detect <a> click for categories --- */
@@ -561,16 +562,36 @@
     });
 
     /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
-    $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      old_values["state"] = $('input[name="city"]').val();
-      $('input[name="city"]').flexdatalist('value', "");
+    $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', function(event) {
+      var e, key_name, searchbox_name_linking;
+      searchbox_name_linking = {
+        "flexdatalist-city": "state",
+        "flexdatalist-category_search": "category_search",
+        "flexdatalist-business_search": "business_search"
+      };
+      key_name = $(this).attr('name');
+      key_name = key_name.split("-")[1];
+      old_values[searchbox_name_linking['flexdatalist-' + key_name]] = $('input[name="' + key_name + '"]').val();
+      $('input[name="' + key_name + '"]').flexdatalist('value', "");
+      e = $.Event('keyup');
+      e.which = 8;
+      $(this).trigger(e);
     });
 
     /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */
-    $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"]', function(event) {
+    $(document).on("focusout", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', function(event) {
+      var key_name, searchbox_name_linking;
+      searchbox_name_linking = {
+        "flexdatalist-city": "state",
+        "flexdatalist-category_search": "category_search",
+        "flexdatalist-business_search": "business_search"
+      };
+      key_name = $(this).attr('name');
+      key_name = key_name.split("-")[1];
+      console.log(old_values);
       setTimeout((function() {
-        if ($('input[name="city"]').val().length <= 0) {
-          return $('input[name="city"]').flexdatalist('value', old_values["state"]);
+        if ($('input[name="' + key_name + '"]').val().length <= 0) {
+          return $('input[name="' + key_name + '"]').flexdatalist('value', old_values[searchbox_name_linking["flexdatalist-" + key_name]]);
         }
       }), 200);
     });

@@ -36,7 +36,7 @@ class JobApplicant extends Model
     }
 
     public function job() {
-        return $this->belongsTo( 'App\Job','job_creator');
+        return $this->belongsTo( 'App\Job');
     }
 
     public function jobAppliedBy() {

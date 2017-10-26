@@ -1015,7 +1015,7 @@ class JobController extends Controller
         $filteredJobs = count($jobs);
 
 
-        $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append,'flteredCitySlug'=>$flteredCitySlug])->render();
+        $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append,'flteredCitySlug'=>$flteredCitySlug,'isListing'=>true])->render();
 
 
         $pagination = pagination($totalJobs,$startPage,$length);

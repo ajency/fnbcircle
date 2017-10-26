@@ -66,6 +66,18 @@ class User extends Authenticatable
         return $this->hasMany('App\JobApplicant');
     }
 
+    public function jobApplications()
+    {
+        $applications = $this->applications()->get(); 
+        $jobs = [];
+        foreach ($applications as $key => $application) {
+            $job = $application->job;
+            $job['application'] = $application;
+            $jobs[] = $job;
+        }
+        return collect($jobs);
+    }
+
     public function jobPosted()
     {
         return $this->hasMany('App\Job','job_creator');

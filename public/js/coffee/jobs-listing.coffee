@@ -98,7 +98,8 @@ filterJobs = (resetPage) ->
       'salary_upper': salary_upper
       'append': append
     success: (response) ->
-      $("#filtered_count").text response.filtered_items 
+
+      $("#filtered_count").text response.recordStarts+'-'+response.recordEnd
       $("#total_count").text response.total_items 
       $(".job-pagination").html response.pagination 
       if(append) 

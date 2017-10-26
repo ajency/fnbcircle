@@ -754,13 +754,13 @@ class JobController extends Controller
             $jobQuery->whereIn('jobs.status',$filters['job_status']);
         }
 
-        if(isset($filters['city']) && !empty($filters['city']))
-        {   
-            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id');
-            $jobQuery->whereIn('job_locations.city_id',$filters['city']);
+        // if(isset($filters['city']) && !empty($filters['city']))
+        // {   
+        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id');
+        //     $jobQuery->whereIn('job_locations.city_id',$filters['city']);
 
-            $jobQuery->distinct('jobs.id'); 
-        }
+        //     $jobQuery->distinct('jobs.id'); 
+        // }
 
         if(isset($filters['area']) && !empty($filters['area']))
         {   
@@ -987,11 +987,12 @@ class JobController extends Controller
 
     public function getListingJobs(Request $request){
        
-        $length = 10;
+        $length = 2;
         $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
-        $startPage = ($filters['page'] - 1); 
+        $page = $filters['page'];
+        $startPage = ($page - 1); 
         $skip = $startPage * $length;
 
         //convert to array 
@@ -1020,10 +1021,15 @@ class JobController extends Controller
 
         $pagination = pagination($totalJobs,$startPage,$length);
 
+        $recordEnd = $page * $length;
+        if($recordEnd > $totalJobs)
+            $recordEnd = $recordEnd - ($recordEnd - $totalJobs);
         $response = array(
             'data' => $jobListingCard,
             'total_items' => $totalJobs,
             'filtered_items' => $filteredJobs,
+            'recordStarts' => ($startPage * $length) + 1 ,
+            'recordEnd' => $recordEnd ,
             'filters' => '',
             'page'=> '',
             'perpage'=> $length,

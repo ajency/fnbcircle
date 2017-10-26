@@ -107,8 +107,8 @@ class JobController extends Controller
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
-        $salaryLower = $data['salary_lower'];
-        $salaryUpper = $data['salary_upper'];
+        $salaryLower = (isset($data['salary_lower']))?$data['salary_lower']:0;
+        $salaryUpper =  (isset($data['salary_upper']))?$data['salary_upper']:0;
         $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
@@ -496,15 +496,15 @@ class JobController extends Controller
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
-        $salaryLower = $data['salary_lower'];
-        $salaryUpper = $data['salary_upper'];
+        $salaryLower = (isset($data['salary_lower']))?$data['salary_lower']:0;
+        $salaryUpper =  (isset($data['salary_upper']))?$data['salary_upper']:0;
         $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
         $hasChanges =  $data['has_changes'];
  
-
+dd($salaryLower);
         $metaData = [] ;
 
         if(is_array($jobTypeIds) && !empty($jobTypeIds)){
@@ -851,10 +851,10 @@ class JobController extends Controller
 
             $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
-                
+                $salaryQry->where('jobs.salary_type',$salaryType); 
                 $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
                 {
-                    $salaryQuery->where('jobs.salary_type',$salaryType); 
+                    
                     $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
                     {
                         $query->where('jobs.salary_lower','>=',$salaryLower); 
@@ -987,7 +987,7 @@ class JobController extends Controller
 
     public function getListingJobs(Request $request){
        
-        $length = 2;
+        $length = 10;
         $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
@@ -1019,7 +1019,7 @@ class JobController extends Controller
         $jobListingCard = View::make('jobs.job-listing-card', compact('jobs'))->with(['append'=>$append,'flteredCitySlug'=>$flteredCitySlug,'isListing'=>true])->render();
 
 
-        $pagination = pagination($totalJobs,$startPage,$length);
+        $pagination = pagination($totalJobs,$page,$length);
 
         $recordEnd = $page * $length;
         if($recordEnd > $totalJobs)
@@ -1031,7 +1031,7 @@ class JobController extends Controller
             'recordStarts' => ($startPage * $length) + 1 ,
             'recordEnd' => $recordEnd ,
             'filters' => '',
-            'page'=> '',
+            'page'=> $page,
             'perpage'=> $length,
             'jobs' => $jobs,
             'pagination' => $pagination,

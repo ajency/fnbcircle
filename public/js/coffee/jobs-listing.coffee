@@ -98,8 +98,13 @@ filterJobs = (resetPage) ->
       'salary_upper': salary_upper
       'append': append
     success: (response) ->
+      if response.total_items > 0
+        filter_record_str = response.recordStarts+'-'+response.recordEnd
+      else
+        filter_record_str = '0'
 
-      $("#filtered_count").text response.recordStarts+'-'+response.recordEnd
+
+      $("#filtered_count").text filter_record_str
       $("#total_count").text response.total_items 
       $(".job-pagination").html response.pagination 
       if(append) 
@@ -173,6 +178,10 @@ $('.clear-checkbox').click ->
   $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
   filterJobs(true)
 
+$('.clear-area').click ->
+  if($('.toggle-areas').attr('aria-expanded') == "true")
+    $('.toggle-areas').click()
+
 
 $('.clear-keywords').click ->
   # $('input[class="job-input-keywords"]').remove()
@@ -226,6 +235,9 @@ $('select[name="job_city"]').change ->
 $('input[name="area_search"]').keyup ->
   displayCityText()
 
+$('input[name="job_name"]').keyup ->
+  filterJobs(false)
+
 displayCityText = () -> 
   cityObj = $('select[name="job_city"]')
   cityText = $('option:selected',cityObj).text()
@@ -248,12 +260,23 @@ displayCityText = () ->
       else
         searchClass = 'search-job'
 
-      if data.length 
+      totalareafiltered = parseInt(data.length) 
+      if totalareafiltered
         for key of data
           area_html += '<label class="sub-title flex-row text-color">'
           area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox '+searchClass+'" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
           area_html += '<span>' + data[key]['name'] + '</span>'
           area_html += '</label>'
+
+          counter = parseInt key
+ 
+          if(counter == 5)
+            area_html += '<div class="more-section collapse" id="moreDown">'
+
+        if(data.length > 6)
+            area_html += '</div>'
+            morearea = totalareafiltered - 6
+            $('.toggle-areas').removeClass('hidden').text '+ '+morearea+' more' 
       else
           $('input[name="area_search"]').closest('.filter-row').find('.clear').addClass 'hidden'
           area_html += 'No results found for '+areaSearchTxt
@@ -300,9 +323,18 @@ $('.search-job-keywords').on 'before:flexdatalist.remove', (event, set, options)
 # ), 500
  
 
+$(document).on "click", "#section-area #moreAreaShow", (event) ->
+  $(this).removeClass('hidden')
+  if $(this).attr('aria-expanded') == "true"
+    $(this).text($(this).text().replace("more", "less"))
+  else
+    $(this).text($(this).text().replace("less", "more"))
+  return
  
  
 $(document).ready ()->
+  if($('.area-list').find('.show-all-list').length)
+    $('.toggle-areas').click()
 
   # remove serach classes from side bar for mobile view
   if $(window).width() < 769 

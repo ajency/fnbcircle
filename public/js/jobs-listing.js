@@ -97,7 +97,13 @@
         'append': append
       },
       success: function(response) {
-        $("#filtered_count").text(response.recordStarts + '-' + response.recordEnd);
+        var filter_record_str;
+        if (response.total_items > 0) {
+          filter_record_str = response.recordStarts + '-' + response.recordEnd;
+        } else {
+          filter_record_str = '0';
+        }
+        $("#filtered_count").text(filter_record_str);
         $("#total_count").text(response.total_items);
         $(".job-pagination").html(response.pagination);
         if (append) {
@@ -175,6 +181,12 @@
     return filterJobs(true);
   });
 
+  $('.clear-area').click(function() {
+    if ($('.toggle-areas').attr('aria-expanded') === "true") {
+      return $('.toggle-areas').click();
+    }
+  });
+
   $('.clear-keywords').click(function() {
     $(this).closest('.filter-row').find('.clear').addClass('hidden');
     $('.flexdatalist-multiple').find('li[class="value"]').each(function() {
@@ -228,6 +240,10 @@
     return displayCityText();
   });
 
+  $('input[name="job_name"]').keyup(function() {
+    return filterJobs(false);
+  });
+
   displayCityText = function() {
     var areaSearchTxt, cityId, cityObj, cityText;
     cityObj = $('select[name="job_city"]');
@@ -243,19 +259,29 @@
         'area_name': areaSearchTxt
       },
       success: function(data) {
-        var area_html, key, searchClass;
+        var area_html, counter, key, morearea, searchClass, totalareafiltered;
         area_html = '';
         if ($(window).width() < 769) {
           searchClass = '';
         } else {
           searchClass = 'search-job';
         }
-        if (data.length) {
+        totalareafiltered = parseInt(data.length);
+        if (totalareafiltered) {
           for (key in data) {
             area_html += '<label class="sub-title flex-row text-color">';
             area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + searchClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
             area_html += '<span>' + data[key]['name'] + '</span>';
             area_html += '</label>';
+            counter = parseInt(key);
+            if (counter === 5) {
+              area_html += '<div class="more-section collapse" id="moreDown">';
+            }
+          }
+          if (data.length > 6) {
+            area_html += '</div>';
+            morearea = totalareafiltered - 6;
+            $('.toggle-areas').removeClass('hidden').text('+ ' + morearea + ' more');
           }
         } else {
           $('input[name="area_search"]').closest('.filter-row').find('.clear').addClass('hidden');
@@ -299,7 +325,19 @@
     }
   });
 
+  $(document).on("click", "#section-area #moreAreaShow", function(event) {
+    $(this).removeClass('hidden');
+    if ($(this).attr('aria-expanded') === "true") {
+      $(this).text($(this).text().replace("more", "less"));
+    } else {
+      $(this).text($(this).text().replace("less", "more"));
+    }
+  });
+
   $(document).ready(function() {
+    if (($('.area-list').find('.show-all-list').length)) {
+      $('.toggle-areas').click();
+    }
     if ($(window).width() < 769) {
       $('.serach-sidebar').find('.search-job').removeClass('search-job');
     }

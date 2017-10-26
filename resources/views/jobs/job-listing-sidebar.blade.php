@@ -17,19 +17,19 @@
                   <div class="results__header filter-row">
                       <h6 class="element-title text-uppercase">Show Results for</h6>
 
-                      <a href="javascript:void(0)" class="primary-link heavier clear-all-filters top-clear-all">
+                    <!--   <a href="javascript:void(0)" class="primary-link heavier clear-all-filters top-clear-all">
                          <i class="fa fa-times p-r-5" aria-hidden="true"></i>
                           <span>Clear All</span>
-                      </a>
+                      </a> -->
                   </div>
       
               </div>
               <div class="filter-group keywords">
-                  <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
+                  <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-keywords" aria-expanded="false" aria-controls="section-keywords">
                       <h6 class="sub-title flex-row">Search by Keywords <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
-                  <div class="filter-group__body filter-row collapse in" id="section-area">
+                  <div class="filter-group__body filter-row collapse in" id="section-keywords">
                       <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['keywords'])) hidden @endif ">
                               <a href="javascript:void(0)" class="secondary-link clear-keywords">
                                  <i class="fa fa-times" aria-hidden="true"></i>
@@ -71,24 +71,47 @@
                       </div>
                       <div class="check-section filter-check">
                           <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['area'])) hidden @endif">
-                              <a href="javascript:void(0)" class="secondary-link clear-checkbox">
+                              <a href="javascript:void(0)" class="secondary-link clear-checkbox clear-area">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
                           </label>
                         <span class="area-list" has-filter="@if(isset($urlFilters['area']) && !empty($urlFilters['area'])) yes @else no @endif">
-
-                        @if(isset($urlFilters['area']) && !empty($urlFilters['area']))
-                          @foreach($urlFilters['city_areas'] as $area)
+                        @php
+                        $cityareaCount = 0;
+                        @endphp
+                        @if(isset($urlFilters['city_areas']) && !empty($urlFilters['city_areas']))
+                          @php
+                          $cityareaCount = count($urlFilters['city_areas']);
+                          @endphp
+                          @foreach($urlFilters['city_areas'] as $key=> $area)
+                            @php
+                              if((!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area']) && $key > 6){
+                                $showAll = 'show-all-list';
+                              } 
+                              else{
+                                $showAll = '';
+                              } 
+                            @endphp
                              <label class="sub-title flex-row text-color"> 
-                             <input type="checkbox" class="checkbox p-r-10 search-job search-checkbox" name="areas[]" slug="{{ $area->slug }}" value="{{ $area->id }}" class="checkbox p-r-10" @if( (!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area'])) checked @endif> 
+                             <input type="checkbox" class="checkbox p-r-10 search-job search-checkbox {{ $showAll }}" name="areas[]" slug="{{ $area->slug }}" value="{{ $area->id }}"   @if( (!empty($urlFilters['area'])) && in_array($area->slug,$urlFilters['area'])) checked @endif> 
                               <span>{{ $area->name }}</span> 
                             </label> 
+
+                            @if($key == 6)
+                            <div class="more-section collapse" id="moreDown">
+                            @endif
+
                           @endforeach
+
+                          @if($cityareaCount > 6)
+
+                            </div>
+                          @endif
                         @endif
                         </span>   
                           
-                         <!--  <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+more</p> -->
+                          <p id="moreAreaShow" data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary toggle-areas heavier text-right more-area m-b-0 default-size  @if($cityareaCount < 6) hidden @endif">+ {{ ($cityareaCount - 6) }} more</p>
                       </div>
                   </div>
               </div>

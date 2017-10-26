@@ -21,8 +21,8 @@ class CreateJobsTable extends Migration
             $table->string('slug');
             $table->integer('category_id')->unsigned()->nullable(); 
             $table->integer('job_type')->nullable();
-            $table->integer('experience_years_lower')->nullable();
-            $table->integer('experience_years_upper')->nullable();
+            $table->integer('experience_years_lower')->default(0);
+            $table->integer('experience_years_upper')->default(0);
             $table->integer('salary_type')->nullable();
             $table->integer('salary_lower')->nullable();
             $table->integer('salary_upper')->nullable();

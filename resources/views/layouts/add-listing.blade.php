@@ -249,7 +249,7 @@
                                             @if($listing->status!="1")
                                             <div class="links inactive">
                                             @else
-                                            <a href="@if($listing->reference!=null and $step != 'business-updates') /listing/{{$listing->reference}}/edit/business-updates?step=true @else # @endif" class="links enabled">
+                                            <a href="@if($listing->reference!=null and $step != 'business-updates') /listing/{{$listing->reference}}/edit/post-an-update?step=true @else # @endif" id="post-update" class="links enabled form-toggle">
                                             @endif
                                                 <div>
                                                     Post an Update
@@ -402,12 +402,14 @@
                                         </div>
                                         @endif
                                         <!-- content navigation -->
+                                        @if($step!= 'business-updates')
                                         <div class="gs-form__footer flex-row m-t-30">
                                             @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
 
-                                            @if($step != 'business-premium')<button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>@endif
+                                            @if($step != 'business-premium' )<button class="btn fnb-btn primary-btn full save-btn gs-next" type=button>Save &amp; Next</button>@endif
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
+                                        @endif
                                         </form>
                                     </div>
                                 </div>

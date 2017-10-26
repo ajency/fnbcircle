@@ -44,7 +44,7 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        Common::authenticate('listing', $this);
+        // Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -657,6 +657,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
+        
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -667,7 +668,7 @@ class ListingController extends Controller
         if ($id != false) {
             return response()->json(['status' => '200', 'message' => 'File Uploaded successfully', 'data' => ['id' => $id]]);
         } else {
-            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []]);
+            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []], 400 );
         }
     }
 
@@ -801,7 +802,7 @@ class ListingController extends Controller
         }
         if($listing->status == 1){
             $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
-            if ($step == 'business-updates'){
+            if ($step == 'post-an-update'){
                 return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
             }
         }

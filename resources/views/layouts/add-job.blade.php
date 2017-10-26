@@ -205,10 +205,10 @@
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 This is what your job will look like once created.
                                 <div class="m-t-10">
-                                    <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
+                                    <a href="/pdf/sample-job.pdf" class="mobile-hide" target="_blank">
                                         <img src="/img/sample_listing.png" class="img-responsive">
                                     </a>
-                                    <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
+                                    <a href="/pdf/sample-job.pdf" class="desk-hide">View the sample</a>
                                 </div>
                             </div>
 

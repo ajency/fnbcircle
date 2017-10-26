@@ -5,6 +5,7 @@ return [
 	'add-listing-photos-maxsize' => '3M',
 	'add-listing-files-maxsize' => '1M',
 	'add-listing-files-maxnumber' => '20',
+	'add-listing-files-totalsize' => '26214400',
 	'listing-thumb-size'=>'200x150',
 	'listing-type'=>[
 		'11' => 'Wholesaler / Distributor',

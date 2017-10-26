@@ -190,16 +190,12 @@
 
 @endforeach
 @else
-<div class="filter-data ">
-  <div class="seller-info bg-card filter-cards">
- 
-      <div class="seller-info__body filter-cards__body flex-row white-space">
-          <div class="body-left flex-cols">
-              <div>
-                 <h3 class="seller-info__title ellipsis" title="">No Jobs Found :(</h3>
-              </div>
-          </div>
-      </div>
-  </div>
+<div class="filter-data m-b-30">
+    <div class="no-results">
+        <h3 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+        <!-- <p class="nf-text heavier text-color">Please check the spelling or try searching for something else</p> -->
+        <p class="nf-text heavier text-color">Please try searching for something else</p>
+        <img src="/img/404.png" class="img-reponsive center-block img-nf" width="100">
+    </div>
 </div>  
 @endif

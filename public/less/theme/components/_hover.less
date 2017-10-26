@@ -1,0 +1,192 @@
+
+
+// As is often the case, some devices/browsers need additional code to get CSS to work
+// in the most desired way. These mixins are used to quickly drop in hacks for each element
+// Find out more here: https://github.com/IanLunn/Hover/wiki/Hacks-Explained
+
+.hardwareAccel() {
+	// Improve performance on mobile/tablet devices
+	// Perspective reduces blurryness of text in Chrome
+	.prefixed(transform, perspective(1px) translateZ(0));
+}
+
+.improveAntiAlias() {
+	// Improve aliasing on mobile/tablet devices
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+
+.forceBlockLevel() {
+	// Transforms need to be block-level to work
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.hacks() {
+	.forceBlockLevel();
+	.hardwareAccel();
+	.improveAntiAlias();
+}
+
+// prefix declarations
+.prefixed(@property, @value) {
+  & when (@webkit = true) {
+    -webkit-@{property}: @value;
+  }
+
+  & when (@moz = true) {
+      -moz-@{property}: @value;
+  }
+
+  & when (@ms = true) {
+      -ms-@{property}: @value;
+  }
+
+  & when (@o = true) {
+      -o-@{property}: @value;
+  }
+
+  @{property}: @value;
+}
+
+
+// prefix keyframes
+.keyframes(@name; @content) {
+  & when (@webkit = true) {
+    @-webkit-keyframes @name {
+      @content();
+    }
+  }
+
+  & when (@moz = true) {
+      @-moz-keyframes @name {
+          @content();
+      }
+  }
+
+  & when (@ms = true) {
+      @-ms-keyframes @name {
+          @content();
+      }
+  }
+
+  & when (@o = true) {
+      @-o-keyframes @name {
+          @content();
+      }
+  }
+
+  @keyframes @name {
+    @content();
+  }
+}
+
+
+
+/* Icon Sink Away */
+.keyframes(~"@{nameSpace}-icon-sink-away", {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+		.prefixed(transform, translateY(1em));
+	}
+});
+
+
+
+/* Icon Sink Away */
+.icon-sink-away() {
+	.hacks();
+	position: relative;
+	padding-right: @spaceBetweenTextAndArrows;
+
+	&:before,
+	&:after {
+		content: "\f056";
+		position: absolute;
+		right: 1em;
+		padding: 0 1px;
+		font-family: FontAwesome;
+		.prefixed(transform, translateZ(0));
+	}
+
+	&:after {
+		opacity: 0;
+		.prefixed(animation-duration, @slowDuration);
+		.prefixed(animation-fill-mode, forwards);
+	}
+
+	&:hover,
+	&:focus,
+	&:active {
+
+		&:after {
+			.prefixed(animation-name, ~"@{nameSpace}-icon-sink-away");
+			.prefixed(animation-timing-function, ease-out);
+		}
+	}
+}
+
+
+& when(@includeClasses = true) {
+	.@{nameSpace}-icon-sink-away {
+		.icon-sink-away();
+	}
+}
+
+/* Forward */
+.forward() {
+	.hacks();
+	.prefixed(transition-duration, @mediumDuration);
+	.prefixed(transition-property, transform);
+
+	&:hover,
+	&:focus,
+	&:active {
+		.prefixed(transform, translateX(8px));
+	}
+}
+
+& when(@includeClasses = true) {
+	.@{nameSpace}-forward {
+	    .forward();
+	}
+}
+
+/* Backward */
+.backward() {
+	.hacks();
+	.prefixed(transition-duration, @mediumDuration);
+	.prefixed(transition-property, transform);
+
+	&:hover,
+	&:focus,
+	&:active {
+		.prefixed(transform, translateX(-8px));
+	}
+}
+
+& when(@includeClasses = true) {
+	.@{nameSpace}-backward {
+	    .backward();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

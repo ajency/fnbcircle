@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Email Notifications - F&amp;B Circle Admin Control</title>
+
+    <!-- Google font cdn -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+    <!-- Font awesome cdn -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css">
+    <!-- Datatables -->
+    <link href="../public/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../public/css/bootstrap-multiselect.min.css" rel="stylesheet">
+    <!-- Main styles -->
+    <link rel="stylesheet" href="../public/css/main.css">
+    <link href="../public/css/dashboard.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+    <!-- header -->
+    <header class="fnb-header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid nav-gap">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header mobile-head mobile-flex">
+                    <div class="mobile-head__left mobile-flex">
+                        <i class="fa fa-bars sideMenu" aria-hidden="true"></i>
+                        <a class="navbar-brand nav-color" href="#">
+                          <img src="../public/img/logo-fnb.png" class="img-responsive">
+                        </a>
+                    </div>
+                    <div class="mobile-head__right mobile-flex">
+                         <a href="" class="login">
+                            <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                  <ul class="nav navbar-nav navbar-right side-section">
+                    <li class="mobile-hide">
+                        <a href="" class="login dropdown-toggle" data-toggle="dropdown" >
+                            <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
+                            <p class="login__title nav-title-size p-l-10">Admin <span class=" fa fa-angle-down"></span></p>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                          <li><a href="javascript:;"> Profile</a></li>
+                          <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+    <!-- header ends -->
+
+    <!-- content -->
+
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+          <div class="menu_section">
+            <ul class="nav side-menu">
+              <li class="active"><a><i class="fa fa-building"></i> Business <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: block">
+                    <li><a>Moderation <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu" >
+                        <li class="sub_menu"><a href="listing_approval.html">Listing Approval</a>
+                        </li>
+                        <li class=""><a href="#">Manage Listings</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a>Configuration <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu" style="display: block">
+                        <li class=""><a href="categories.html">Categories</a>
+                        </li>
+                        <li class="sub_menu current-page"><a href="locations.html">Locations</a>
+                        </li>
+                      </ul>
+                    </li>
+                </ul>
+              </li>
+              <li><a><i class="fa fa-briefcase"></i> Jobs </a>
+                <!-- <ul class="nav child_menu">
+                  <li><a href="form.html">General Form</a></li>
+                  <li><a href="form_advanced.html">Advanced Components</a></li>
+                </ul> -->
+              </li>
+              <li><a><i class="fa fa-user"></i> Users </a>
+              </li>
+              <li><a><i class="fa fa-envelope"></i> Emails <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li class=""><a href="email_notifications.html">Notifications</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <!-- /sidebar menu -->
+      </div>
+    </div>
+
+    <div class="right_col" role="main">
+      <div class="">
+
+        <ul class="fnb-breadcrums flex-row m-t-10 m-b-20">
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <i class="fa fa-home home-icon" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Admin Control Panel</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title">/</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Business</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title">/</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Configuration</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title">/</p>
+                </a>
+            </li>
+            <li class="fnb-breadcrums__section">
+                <a href="">
+                    <p class="fnb-breadcrums__title main-name">Locations</p>
+                </a>
+            </li>
+        </ul>
+
+        <div class="page-title">
+          <div class="title_left">
+            <h5>Manage Locations <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#add_location_modal">+ Add new</button></h5>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_content">
+
+                <input type="text" name="" placeholder="Search by Name" id="locationNameSearch" class="form-control fnb-input pull-right customDtSrch">
+
+                <table id="datatable-locations" class="table table-striped  nowrap" cellspacing="0" width="100%">
+                  <thead>
+                    <tr>
+                      <th class="no-sort"></th>
+                      <th>Name</th>
+                      <th class="no-sort text-center" data-col="2">
+                        isCity
+                        <select multiple class="form-control multi-dd">
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </th>
+                      <th class="no-sort text-center" data-col="3">
+                        isArea
+                        <select multiple class="form-control multi-dd">
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </th>
+                      <th class="no-sort" data-col="4">
+                          City
+                          <select multiple class="form-control multi-dd">
+                            <option value="goa">Goa</option>
+                          </select>
+                      </th>
+                      <th>Area</th>
+                      <th class="text-center">Sort Order</th>
+                      <th>Published on</th>
+                      <th>Last Updated on</th>
+                      <th class="no-sort" data-col="9">
+                        Status
+                        <select multiple class="form-control multi-dd">
+                          <option value="Published">Published</option>
+                          <option value="Draft">Draft</option>
+                          <option value="Archived">Archived</option>
+                        </select>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="dt-link">Goa</a></td>
+                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
+                      <td class="text-center">-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td class="text-center">1</td>
+                      <td>2017/06/05</td>
+                      <td>2017/06/05</td>
+                      <td>Published</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="dt-link">Panjim</a></td>
+                      <td class="text-center">-</td>
+                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
+                      <td>Goa</td>
+                      <td>-</td>
+                      <td class="text-center">4</td>
+                      <td>-</td>
+                      <td>2017/06/12</td>
+                      <td>Draft</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="dt-link">Mumbai</a></td>
+                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
+                      <td class="text-center">-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td class="text-center">2</td>
+                      <td>2017/06/05</td>
+                      <td>2017/07/31</td>
+                      <td>Archived</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="dt-link">Margao</a></td>
+                      <td class="text-center">-</td>
+                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
+                      <td>Goa</td>
+                      <td>-</td>
+                      <td class="text-center">3</td>
+                      <td>2017/06/05</td>
+                      <td>2017/06/20</td>
+                      <td>Published</td>
+                    </tr>
+                    <tr>
+                      <td><a href="#"><i class="fa fa-pencil"></i></a></td>
+                      <td><a href="#" class="dt-link">Delhi</a></td>
+                      <td class="text-center"><i class="fa fa-check text-success"></i></td>
+                      <td class="text-center">-</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td class="text-center">1</td>
+                      <td>2017/06/05</td>
+                      <td>2017/05/05</td>
+                      <td>Published</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Add Location Modal -->
+        <div class="modal fade" id="add_location_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form>
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h6 class="modal-title">Add New Location</h6>
+                </div>
+                <div class="modal-body">
+                  <label>Type of Location <span class="text-danger">*</span></label>
+                  <div class="form-group ">
+                    <label class="radio-inline">
+                      <input type="radio" name="locationType" id="city" value="city_type" class="fnb-radio"> City
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="locationType" id="area" value="area_type" class="fnb-radio" checked=""> Area
+                    </label>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group select_city">
+                        <label>Select the City <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border">
+                          <option value="">City Name</option>
+                          <option value="">City Name</option>
+                          <option value="">City Name</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Area Name  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter a Area name">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Area Url  <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control fnb-input" name="" placeholder="Enter the Area Url">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Sort Order  <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control fnb-input" name="" value="1" min="1">
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Status <span class="text-danger">*</span></label>
+                        <select class="form-control fnb-select w-border">
+                          <option value="">Published</option>
+                          <option value="">Draft</option>
+                          <option value="">Archived</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn primary-btn fnb-btn border-btn">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="site-overlay"></div>
+
+    <!-- jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- BS Script -->
+    <script type="text/javascript" src="../public/js/bootstrap.min.js"></script>
+    <!-- Smooth Mouse scroll -->
+    <script type="text/javascript" src="../public/js/jquery.easeScroll.min.js"></script>
+    <!-- BS lightbox -->
+    <!-- <script type="text/javascript" src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script> -->
+    <!-- Magnify popup plugin -->
+    <script type="text/javascript" src="../public/js/magnify.min.js"></script>
+    <!-- Read more -->
+    <script type="text/javascript" src="../public/js/readmore.min.js"></script>
+
+    <script src="../public/js/bootstrap-multiselect.js"></script>
+
+    <!-- Datatables -->
+    <script src="../public/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../public/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- Autosize textarea -->
+    <script src="../public/bower_components/autosize/dist/autosize.min.js"></script>
+
+    <!-- custom script -->
+    <script type="text/javascript" src="../public/js/custom.js"></script>
+
+    <script type="text/javascript" src="../public/js/dashboard.js"></script>
+</body>
+
+</html>

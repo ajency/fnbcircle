@@ -1,0 +1,16 @@
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/log
+/.idea
+/.vagrant
+/packages/ajency/
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
+/public/node_modules/*
+/public/bower_components/*
+app/Http/Controllers/TestController\.php

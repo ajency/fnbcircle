@@ -5625,6 +5625,16 @@ input[type=checkbox].custom-checkbox:before {
     width: 160px;
   }
 }
+.download-col {
+  min-width: 100px;
+}
+.application-table.table tr td.date-repeat {
+  background-color: #fff;
+  border-top: 0;
+}
+.application-table.table tr td {
+  padding: 15px 8px;
+}
 .search-section {
   position: relative;
   top: 2em;

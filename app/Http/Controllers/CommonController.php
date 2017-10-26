@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 use App\Area;
 use App\City;
 use App\Category;
+use App\Plan;
+use App\Job;
+use App\Listing;
+use App\PlanAssociation;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -146,5 +150,50 @@ class CommonController extends Controller
         }
 
         return response()->json($response_data, $status);
+    }
+
+    /**
+    * This function is used to send a subscription request for job or listing.
+    * It adds an entry in Plan association table
+    * @param Request containing following:
+    * id : Job or listing ID
+    * type: job/listing
+    * 
+    * This function @return
+    * [
+    *   array("status" => "<<html code>>", "data" => [], "message" => "<<Error message if generated>>"),
+    *   ....
+    * ]
+    * 
+    *
+    */
+    public function premium(Request $request){
+        $this->validate($request, [
+            'id' => 'required',
+            'type' => 'required',
+            'plan_id' => 'required|integer'
+        ]);
+
+        $config = [
+            'jobs' => ['table' => 'jobs', 'id' =>'reference_id', 'type' => 'listing'],
+                'listing' => ['table' => 'listings', 'id' =>'reference','type' => 'listing'],
+        ];
+
+        if($request->type == 'listing'){
+            $object = Listing::where($config['listing']['id'],$request->id)->firstOrFail();
+        }elseif($request->type == 'jobs'){
+            $object = Job::where($config['jobs']['id'],$request->id)->firstOrFail();
+        }else{
+            return response()->json(['status'=>"400", 'message'=>"Invalid Type"]);
+        }
+
+        $plan = Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->firstOrFail();
+        // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
+        $object->premium()->where('status',0)->update(['status'=>2]);
+        $premium = new PlanAssociation;
+        $premium->plan_id = $plan->id;
+        $object->premium()->save($premium);
+
+        return response()->json(array('status'=>'200'));
     }
 }

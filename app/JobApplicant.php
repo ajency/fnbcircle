@@ -38,4 +38,8 @@ class JobApplicant extends Model
     public function job() {
         return $this->belongsTo( 'App\Job');
     }
+
+    public function jobAppliedBy() {
+        return $this->belongsTo( 'App\User');
+    }
 }

@@ -596,10 +596,8 @@ class Job extends Model
 
    }
 
-   public function getJobApplications(){
-        
-
+    public function premium(){
+        return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
-
-    
+ 
 }

@@ -233,16 +233,16 @@
         'area_name': $('input[name="area_search"]').val()
       },
       success: function(data) {
-        var area_html, key, serachClass;
+        var area_html, key, searchClass;
         area_html = '';
         if ($(window).width() < 769) {
-          serachClass = '';
+          searchClass = '';
         } else {
-          serachClass = 'search-job';
+          searchClass = 'search-job';
         }
         for (key in data) {
           area_html += '<label class="sub-title flex-row text-color">';
-          area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + serachClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
+          area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + searchClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
           area_html += '<span>' + data[key]['name'] + '</span>';
           area_html += '</label>';
         }

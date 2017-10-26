@@ -23,7 +23,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
   'pageLength': 25
   'processing': true
   'order': [ [
-    4
+    2
     'desc'
   ] ]
   'serverSide':true
@@ -44,11 +44,13 @@ approval_table = $('#datatable-listing_approval').DataTable(
   "columns": [
     {"data": "#"}
     {"data": "name"}
+    {"data": "id"}
     {"data": "city"}
     {"data": "categories"}
     {"data": "submission_date"}
     {"data": "updated_on"}
     {"data": "last_updated_by"}
+    {"data": "type"}
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
@@ -69,7 +71,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     }
     {
       'targets': [
-        10
+        12
       ]
       'visible': false
       'searchable': false
@@ -458,6 +460,14 @@ $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
 
 $('body').on 'change','select#updateUser', ->
   filters['updated_by']['user_type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#listingType', ->
+  filters['type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#premiumRequest', ->
+  filters['premium'] = $(this).val()
   sendRequest()
 
 $('body').on 'change','select#citySelect', ->

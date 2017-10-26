@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->hasMany('App\JobApplicant');
     }
 
+    public function jobPosted()
+    {
+        return $this->hasMany('App\Job');
+    }
+
     public function getPrimaryContact() { // Get the Primary Contact No
         $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User'], ['is_primary', true]])->whereIn('type', ["telephone", "mobile"])->first();
         if ($comm_obj) {
@@ -184,4 +189,7 @@ class User extends Authenticatable
 
         return $application;
     }
+
+
+
 }

@@ -30,7 +30,7 @@
             "Ajency\\User\\": "packages/ajency/user/src"
         },
  
-        "files": ["app/Helper.php","app/FnbPermissions.php","app/Seo/Seo.php"]
+        "files": ["app/Helper.php","app/SEOHelper.php","app/FnbPermissions.php","app/Seo/Seo.php"]
  
     },
     "autoload-dev": {

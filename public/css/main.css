@@ -7035,6 +7035,7 @@ input[type=checkbox].custom-checkbox:before {
   margin: 0;
   white-space: normal;
   line-height: 1.2;
+  margin-bottom: 0.2em;
 }
 .job-listings .filter-cards .get-details {
   position: relative;
@@ -7067,9 +7068,6 @@ input[type=checkbox].custom-checkbox:before {
 }
 .job-listings .filter-cards .fnb-label {
   padding: 0.3em 0.6em;
-}
-.job-listings .filter-cards .year-exp:after {
-  display: none !important;
 }
 .top-clear-all {
   display: -webkit-box;
@@ -7139,6 +7137,9 @@ input[type=checkbox].custom-checkbox:before {
     width: 150px;
     margin: 0 auto;
     padding: 0.6em 1.8em;
+  }
+  .job-listings .filter-cards .seller-info .cities.cities {
+    padding-left: 0;
   }
 }
 .home-text {

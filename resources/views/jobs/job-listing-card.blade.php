@@ -41,7 +41,7 @@
                   </div>
 
                   @if(!empty($job->getJobTypes()))
-                  <div class="stats flex-row m-t-10 p-t-10 flex-wrap">
+                  <div class="stats flex-row m-t-10 flex-wrap">
                        
                       @foreach($job->getJobTypes() as $jobType)
                        <label class="fnb-label wholesaler flex-row m-r-5">
@@ -122,13 +122,13 @@
                             @endif
                           </ul>
                         </div>
-
+ 
                        <!--  <div class="location flex-row m-t-5">
                             <p class="m-b-0 text-color heavier default-size"> <a href="" class="remain__number x-small secondary-link moreLink">+  more...</a>
                             </p>
                         </div> -->
                             
-
+ 
                     </div>
                     @endforeach 
                 </div>
@@ -160,7 +160,7 @@
              </div>  
 
              @if(!empty($job->meta_data['experience']))
-               <div class="year-exp">
+               <div class="year-exp no-comma">
                   <p class="operations__title default-size grey-darker heavier m-t-0">Years Of Experience</p>
                   <div class="flex-row flex-wrap">
                     @foreach($job->meta_data['experience'] as $exp)

@@ -20,7 +20,7 @@
                       @endif
  
                   </div>
-                  <div class="flex-row space-between ">
+                  <div class="flex-row space-between flex-wrap cat-posted">
                       <div class="rating-view flex-row p-r-10"> 
                           <i class="fa fa-tag p-r-5 text-lighter" aria-hidden="true"></i>
                           <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}" class="primary-link">{{ $job->getJobCategoryName() }}</a>
@@ -31,7 +31,7 @@
                   </div>
 
                   @if(!empty($job->getJobTypes()))
-                  <div class="stats flex-row m-t-10 p-t-10">
+                  <div class="stats flex-row m-t-10 p-t-10 flex-wrap">
                        
                       @foreach($job->getJobTypes() as $jobType)
                        <label class="fnb-label wholesaler flex-row m-r-5">
@@ -114,7 +114,7 @@
             <p class="operations__title default-size grey-darker heavier m-t-0">Job Description</p>
             <p class="m-t-0 heavier text-lighter text-medium default-size job-list-desc">{{ $job->getShortDescription() }}</p>
           </div>
-           <div class="recent-updates flex-row open-border">
+           <div class="recent-updates flex-row flex-wrap open-border">
              <div class="off-salary">
                 <p class="operations__title default-size grey-darker heavier m-t-0">Offered Salary</p>
 

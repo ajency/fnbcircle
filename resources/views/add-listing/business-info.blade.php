@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4 col-xs-8">
-                            <div class="verified-toggle flex-row">
+                            <div class="verified-toggle flex-row @if($owner->type != 'external')hidden @endif">
                                 <div class="toggle m-l-10 m-r-10">
                                     <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
                                     <b class="switch"></b>

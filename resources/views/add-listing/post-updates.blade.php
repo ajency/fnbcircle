@@ -79,7 +79,27 @@
     </div>
 </div>
 
-
+ <div class="modal fnb-modal confirm-box fade modal-center" id="errorBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="text-medium m-t-0 bolder">Note</h5>
+                              </div>
+                              <div class="modal-body text-center">
+                                  <div class="listing-message">
+                                      <h4 class="element-title text-medium text-left text-color error-message"> </h4>
+                                  </div>  
+                                  <div class="confirm-actions text-right">
+                                       <button class="btn fnb-btn text-primary border-btn no-border" >OK</button>
+                                        <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+                                  </div>
+                              </div>
+                              <!-- <div class="modal-footer">
+                                  <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
 
 <!-- <div>
 	<label>TITLE</label>

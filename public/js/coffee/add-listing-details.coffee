@@ -58,33 +58,31 @@ setTimeout (->
   $('.payment-add').on 'change:flexdatalist', (event, set, options)->
     console.log set
     switch set.value
-      when 'Visa cards'
-        $('input#visa').prop 'checked', true
+      when 'Online Banking'
+        $('input#online').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Debit Card'
-        $('input#debit').prop 'checked', true
+      when 'On Credit'
+        $('input#credit').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Money Order'
-        $('input#money_order').prop 'checked', true
+      when 'Credit/Debit Cards'
+        $('input#cards').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'E/Mobile Wallets'
+        $('input#wallets').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'Cash on Delivery'
+        $('input#cod').prop 'checked', true
+        $('.flexdatalist').flexdatalist 'remove', set.value
+      when 'USSD/AEPS/UPI'
+        $('input#ussd').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
       when 'Cheque'
         $('input#cheque').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Credit Card'
-        $('input#credit').prop 'checked', true
+      when 'Draft'
+        $('input#draft').prop 'checked', true
         $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Travelers Cheque'
-        $('input#travelers').prop 'checked', true
-        $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Cash'
-        $('input#cash').prop 'checked', true
-        $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Master Card'
-        $('input#master').prop 'checked', true
-        $('.flexdatalist').flexdatalist 'remove', set.value
-      when 'Diner\'s Club'
-        $('input#diners').prop 'checked', true
-        $('.flexdatalist').flexdatalist 'remove', set.value
+      
   return
 ), 500
 

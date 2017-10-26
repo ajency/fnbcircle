@@ -137,6 +137,10 @@
   color: @text-color;
 }
 
+.grey-darker{
+  color: @grey-darker;
+}
+
 .highlight-color{
   background-color: @highlight;
 }
@@ -208,7 +212,7 @@
 }
 
 .overflow-hidden{
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 // required asterisk
@@ -271,6 +275,12 @@
    .link-center{
       display: flex;
       justify-content: center;
+  }
+  .mobile-center{
+    text-align: center;
+  }
+  .full-m-width{
+    width: 100%;
   }
 }
 
@@ -472,4 +482,8 @@ input[type=checkbox].custom-checkbox{
 
 .scale-down{
   transform: scale(0.6);
+}
+
+.editable{
+  background-color: #eee;
 }

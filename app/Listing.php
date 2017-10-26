@@ -9,7 +9,9 @@ use Conner\Tagging\Taggable;
 use Conner\Tagging\Model\Tagged;
 use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
+use Carbon\Carbon;
 use Auth;
+use App\Defaults;
 
 class Listing extends Model
 {
@@ -25,6 +27,11 @@ class Listing extends Model
     const IMPORTER = 14;
     const EXPORTER = 15;
     const SERVICEPROVIDER = 16;
+
+    /* Array containing the Key-Value pair combination for Listing Columns -> STATUS & TYPE */
+    const listing_status = array(1 => "Published", 2 => "Review", 3 => "Draft", 4 => "Archived", 5 => "Rejected");
+    const listing_business_type = array(11 => "Wholesaler/Distributor", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
+    const listing_business_type_slug = array(11 => "wholesaler-distributer", 12 => "retailer", 13 => "manufacturer", 14 => "importer", 15 => "exporter", 16 => "service-provider");
 
     use Taggable;
     use FileUpload;
@@ -57,7 +64,7 @@ class Listing extends Model
     }
     public function updates()
     {
-        return $this->hasMany('App\Update', 'listing_id');
+        return $this->morphMany('App\Update', 'object');
     }
     public function categories()
     {
@@ -69,7 +76,7 @@ class Listing extends Model
     }
     public function contacts()
     {
-        return $this->belongsToMany('App\UserCommunication')->using('App\ListingCommunication')->withPivot('verified');
+        return $this->morphMany('App\UserCommunication','object');
     }
     public function operationTimings()
     {
@@ -93,25 +100,31 @@ class Listing extends Model
     public function saveInformation($title, $type, $email, $area)
     {
         $slug  = str_slug($title);
-        $count = Listing::where('slug', $slug)->count();
+        $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
         $i     = 1;
         $slug1 = $slug;
         if ($count > 0) {
             do {
                 $slug1 = $slug . '-' . $i;
-                $count = Listing::where('slug', $slug1)->count();
+                $count = self::where('slug', $slug1)->count();
                 $i++;
             } while ($count > 0);
         }
 
         $this->title = $title;
         $this->type  = $type;
-        if ($this->status != "1") {
+        if ($this->status == "3" or $this->status == "2" or $this->status == "5" or $this->status == null) {
             $this->slug = $slug1;
         }
 
         $this->show_primary_email = $email;
-        $this->locality_id        = $area;
+        if($this->locality_id != $area){
+            $this->locality_id        = $area;
+            $this->latitude = null;
+            $this->longitude = null;
+            $this->map_address = null;
+            $this->display_address = null;
+        }
         if ($this->status == null) {
             $this->status = self::DRAFT;
         }
@@ -124,7 +137,11 @@ class Listing extends Model
 
         if ($this->created_by == null) {
             $this->created_by = Auth::user()->id;
-            $this->owner_id = Auth::user()->id;
+            if(Auth::user()->type == 'external') {
+                $this->owner_id = Auth::user()->id;
+                $this->verified = 1;
+            }
+            else $this->owner_id = null;
         }
 
         $this->save();
@@ -146,6 +163,76 @@ class Listing extends Model
     public function save(array $options = []){
         $this->last_updated_by = Auth::user()->id;
         parent::save();
+    }
+
+    public function getHoursofOperation(){
+        $opHrs = $this->operationTimings()->get();
+        $week = [
+            '0' => ['day' => 'Monday'],
+            '1' => ['day' => 'Tuesday'],
+            '2' => ['day' => 'Wednesday'],
+            '3' => ['day' => 'Thursday'],
+            '4' => ['day' => 'Friday'],
+            '5' => ['day' => 'Saturday'],
+            '6' => ['day' => 'Sunday'],
+        ];
+        foreach($opHrs as $day){
+            $week[$day->day_of_week]['timing'] = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+            $week[$day->day_of_week]['from'] = $day->from;
+            $week[$day->day_of_week]['to'] = $day->to;
+            if($day->closed == 1) $week[$day->day_of_week]['timing'] = 'Closed';
+            if($day->open24 == 1) $week[$day->day_of_week]['timing'] = 'Open 24 Hours';
+        }
+        return $week;
+    }
+
+    public function today(){
+        $carbon = new Carbon();
+        $today = ($carbon->dayOfWeek -1)%7;
+        $day = $this->operationTimings()->where('day_of_week',$today)->first();
+        if($day == null) return false;
+        $timing = substr($day->from,0,-3).' to '.substr($day->to,0,-3);
+        if($day->closed == 1) { $timing = 'Closed'; $open = false; }
+        elseif($day->open24 == 1) { $timing = 'Open 24 Hours'; $open = true; }
+        else {
+            $from = Carbon::createFromFormat('H:i:s',$day->from);
+            $to = Carbon::createFromFormat('H:i:s',$day->to);
+            if($from < $carbon and $carbon < $to){
+                $open = true;
+            }else{
+                $open = false;
+            }
+        }
+        return ['timing'=>$timing, 'open'=>$open];
+    }
+    public function getPayments(){
+        $payments = [];
+        if($this->payment_modes == null) return null;
+        $modes =json_decode($this->payment_modes);
+        $mode_name=[
+            "online" => "Online Banking",
+            "credit" => "On Credit",
+            "cards" => "Credit/Debit Cards",
+            "wallets" => "E/Mobile Wallets",
+            "cod" => "Cash on Delivery",
+            "ussd" => "USSD/AEPS/UPI",
+            "cheque" => "Cheque",
+            "draft" => "Draft",
+            
+        ];
+        foreach ($modes as $mode => $value) {
+             if($value == '1') $payments[] = $mode_name[$mode];
+         }
+         $payments = array_merge($payments,$this->tagNames('payment-modes'));
+         return $payments;
+    }
+
+    public function isPremium(){
+        if($this->premium == 1) return true;
+        else return false;
+    }
+    public function premium(){
+        return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
 
 }

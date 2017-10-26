@@ -109,8 +109,8 @@ $(document).ready ()->
     contactType = $('.under-review').closest('.contact-info').attr('contact-type')
     contactId = $('.under-review').find('.contact-id').val()
     countryCode = $('.under-review').find('.contact-country-code').val()
-    objectType = $('input[name="object_type"]').val()
-    objectId = $('input[name="object_id"]').val()
+    objectType = $('.under-review').parents(".verification-content").find('input[name="object_type"]').val()
+    objectId = $('.under-review').parents(".verification-content").find('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
     contactValueObj.closest('.contact-container').find('.dupError').html ''
     $('.validationError').html ''
@@ -140,6 +140,7 @@ $(document).ready ()->
           'object_id': objectId
           'object_type': objectType
           'is_visible': isVisible
+          'country_code': countryCode
         success: (data) ->
           $('.under-review').find('.contact-id').val(data['id']) 
           return

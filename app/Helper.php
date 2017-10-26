@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -199,15 +200,6 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
     return $contactInfo;
 }
 
-function isAdmin()
-{
-    if(Auth::check() && Auth::user()->hasRole('superadmin'))
-        return true;
-    else
-        return false;
-}
- 
-
 function moneyFormatIndia($amount){
     $num = floatval($amount);
     $splitNum = explode('.', $amount);
@@ -243,48 +235,82 @@ function salarayTypeText($type){
    return $salaryTpes[$type];
 }
 
+/**
+* This function will return DOM for the pagination
+* This function will @return
+* 	$html = < page 1 > | < page 2 > | ....... | < page n >
+*
+* Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
+*		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
+*/
 function pagination($totalRecords,$currentPage,$limit){
 
-	$currentPage = (!$currentPage)? 1 : $currentPage;
+	$currentPage = (!$currentPage) ? 1 : $currentPage;
 	$totalPages = intVal(ceil($totalRecords/$limit)); 
 	$next = false;
 	$previous = false;
 	$html = '';
-	$endCounterValue = ($currentPage >= 5 )? 5 : 10-$currentPage;
+	$endCounterValue = ($currentPage >= 5 ) ? 5 : 10 - $currentPage;
 
-	if($totalPages > 1){
+	if($totalPages > 1) {
 
-
-		if($currentPage > 4){
+		if($currentPage > 4) {
 			$previous = true;
-			$startPage = $currentPage-4;
-		}
-		else
+			$startPage = $currentPage - 4;
+		} else
 			$startPage = 1;
-
 		 
 		if(($currentPage + $endCounterValue) < $totalPages){
 			$next = true;
-			$endPage = $currentPage+$endCounterValue;
-		}
-		else
-			$endPage = $currentPage+ ($totalPages-$currentPage);
+			$endPage = $currentPage + $endCounterValue;
+		} else
+			$endPage = $currentPage + ($totalPages-$currentPage);
+
+		$html = View::make('pagination')->with(compact('previous', 'next', 'currentPage', 'startPage', 'endPage'))->render();
  
-		if($previous)
-			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> |';
+		/*if($previous)
+			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
 		for ($i=$startPage; $i <= $endPage; $i++) { 
 			$active = ($i == $currentPage) ? 'active' : '';
-			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a> |';
+			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a>';
+
+			if($i !== $endPage) {
+				$html .= ' | ';
+			}
 		}
 
 		if($next)
-			$html .= ' <a href="javascript:void(0)" class="paginate next" page="'.($endPage+1).'">next</a>';
-
+			$html .= '| <a href="javascript:void(0)" class="paginate next" page="' . ($endPage + 1) . '">next</a>';*/
 	}
-
 
 	return $html;
 }
 
+/**
+* This function is used to get Popular city object that will be used in Every page dropdown -> Header page
+* This function will @return
+*	Filtered <City_obj> which has "is_popular_city" applied & ordered by "order"
+*/
+function getPopularCities() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+}
 
+/**
+* This function is used to generate URL from city_name & 1 or more slugs
+* This function will @return
+*	url => /<city>/<slug1>/<slug2>/.......
+*/
+function generateUrl($city, $slug, $slug_extra = []) {
+
+	//str_slug('Laravel 5 Framework', '-');
+
+	$url = "/" . $city . "/" . $slug;
+	if(sizeof($slug_extra) > 0) {
+		foreach ($slug_extra as $slug_key => $slug_value) {
+			$url .= "/" . str_slug($slug_value, '-');
+		}
+	}
+
+	return $url;
+}

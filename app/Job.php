@@ -411,8 +411,8 @@ class Job extends Model
     }
 
     public function isJobVisible(){
-
-        if($this->canEditJob() && $this->isJobDataComplete())
+        
+        if(hasAccess('edit_permission',$this->reference_id,'jobs') && $this->isJobDataComplete())
             return true;
         elseif($this->status == 3 || $this->status == 4)
             return true;
@@ -546,5 +546,7 @@ class Job extends Model
 
    }
 
-    
+    public function premium(){
+        return $this->morphMany( 'App\PlanAssociation', 'premium');
+    }
 }

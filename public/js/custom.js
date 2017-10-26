@@ -18,18 +18,21 @@ $(function(){
 	});
 
 	$("#login-modal").on('hidden.bs.modal', function() {
-		var url = '/';
+		var url = '?';
 
 		if (window.location.search.indexOf("login=") >= 0) {
 			var url_split = window.location.search.split('?')[1].split('&');
 			for(i = 0; i < url_split.length; i++) {
 				if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
-					url += (url == '/' ? '?': '&') + url_split[i];
+					url += (url == '?' ? '?': '&') + url_split[i];
 				}
 			}
 		} else {
 			url = window.location.search;
 		}
+
+		// Some pages are adding "??" on modal close //
+		url = url.replace("??", "?");
 
 		if (window.location.hash) {
 			url += window.location.hash;
@@ -64,7 +67,7 @@ $(function(){
 	    if($('.sticky-section').length){
 		    $('.sticky-section').toggleClass('fixed',
 		     //add 'ok' class when div position match or exceeds else remove the 'ok' class.
-		      scroll >= $('.update-sec').offset().top - 100
+		      scroll >= $('.listed').offset().top - 100
 		    );
 	    }
 	 //    if($('.sticky-section').hasClass('fixed')){
@@ -229,14 +232,14 @@ $(function(){
 	// else{
 	// 	$('.enquiry-btn').hide(300);
 	// }
-	if($('.description').length){
-		$('.description').readmore({
-		   speed: 25,
-		   collapsedHeight: 170,
-		   moreLink: '<a href="#" class="more vm text-secondary">View more</a>',
-		   lessLink: '<a href="#" class="vm less text-secondary">View Less</a>'
-		 });
-	}
+	// if($('.description').length){
+	// 	$('.description').readmore({
+	// 	   speed: 25,
+	// 	   collapsedHeight: 158,
+	// 	   moreLink: '<a href="#" class="more default-size secondary-link">View more</a>',
+	// 	   lessLink: '<a href="#" class="default-size less secondary-link">View Less</a>'
+	// 	 });
+	// }
 	// Smooth scroll
 
 	$("html").easeScroll();
@@ -280,7 +283,7 @@ $(function(){
 			}
 		}
 
-		function validateContact(contact, error_path, region_code = false) { // Check if Contact Number entered is Valid
+		function validateContact(contact, error_path, region_code) { // Check if Contact Number entered is Valid
 			contact = contact.replace(/\s/g, '').replace(/-/g,''); // Remove all the <spaces> & '-' 
 
 			if((contact.indexOf("+") == 0 || !region_code) && !isNaN(contact.substring(1, contact.length))) {
@@ -305,7 +308,7 @@ $(function(){
 			return false;
 		}
 
-		function validatePassword(password, confirm_password = '', parent_path = '', child_path = "#password_errors") {
+		function validatePassword(password, confirm_password, parent_path, child_path) {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
 			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
 			var message = '', status = true;
@@ -334,7 +337,7 @@ $(function(){
 			return status;
 		}
 
-		function validateDropdown(path, error_path = '', error_msg = "Please select an option") {
+		function validateDropdown(path, error_path, error_msg) {
 			if($(path).val() == '' || $(path).val == 0) {
 				$(error_path).removeClass('hidden').text(error_msg);
 				return false;
@@ -344,7 +347,7 @@ $(function(){
 			}
 		}
 
-		function validateUser(data, parent_path="") {
+		function validateUser(data, parent_path) {
 			var flag = true;
 
 			if (data.hasOwnProperty("name") && !data["name"]) {
@@ -533,7 +536,7 @@ $(function(){
 
 			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
-				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form")) {
+				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
 					return false;
 				} else {
 					$("#register_form #password_errors").addClass("hidden");
@@ -637,6 +640,7 @@ $(function(){
                 	"email": $(parent + " input[name='email']").val(),
                 	"contact_locality" : $(parent + " input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
                 	"contact": $(parent + " input[name='contact']").val(),
+                	"contact_id": $(parent + " input#requirement_contact_mobile_id").val(),
                 	"area" : $(parent + " select[name='area']").val(),
                 	"city" : $(parent + " select[name='city']").val(),
                 	"description" : descr_values,
@@ -700,9 +704,9 @@ $(function(){
                 	"description" : descr_values
                 };
 
-                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent);
+                validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors");
 
-                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent)) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
+                if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors")) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
                 	if($("#accept_terms_checkbox").prop("checked")) {
                 		return $(parent).submit(); // Submit the form
                 	} else {
@@ -1023,11 +1027,7 @@ $(function(){
   		});
 
 
-		$('input[type=radio][name=plan-select]').change(function() {
-		  if ($(this).is(':checked')) {
-		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-		  }
-		});
+		
 
 		$('.sub-row .fnb-btn').click(function() {
 		    $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');	    
@@ -1035,13 +1035,28 @@ $(function(){
 
 		// cards equal heights
 		if ($(window).width() > 769){
-			var getheight = $('.design-2-card').outerHeight();
-			$('.equal-col').css('height',getheight);
-
-			$('.open-sidebar').click(function(){
-				event.preventDefault();
-				$('.animate-row').addClass('body-slide');
-			});
+			// var getheight = $('.design-2-card').outerHeight();
+			// $('.equal-col').css('height',getheight);
+			
+				$('.open-sidebar').click(function(){
+					event.preventDefault();
+					$('.animate-row').addClass('body-slide');
+					// setTimeout((function() {
+					// 	if ($('.post-gallery').length) {
+					// 	  $('.post-gallery').magnificPopup({
+					// 	    delegate: 'a',
+					// 	    type: 'image',
+					// 	    gallery: {
+					// 	      enabled: true
+					// 	    },
+					// 	    zoom: {
+					// 	      enabled: true,
+					// 	      duration: 300
+					// 	    }
+					// 	  });
+					// 	}
+					// }), 500);
+				});
 
 			$('.article-back').click(function(){
 				event.preventDefault();
@@ -1050,7 +1065,7 @@ $(function(){
 
 			$(document).mouseup(function(e) {
 			  var Click_todo;
-			  Click_todo = $('.page-sidebar');
+			  Click_todo = $('.page-sidebar,.mfp-ready');
 			  if (!Click_todo.is(e.target) && Click_todo.has(e.target).length === 0) {
 			    $('.animate-row').removeClass('body-slide');
 			  }

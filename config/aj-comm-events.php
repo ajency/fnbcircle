@@ -3,7 +3,7 @@ return [
     "new-user" =>
         [
             "pushcrew" => "welcome-email-new",
-            "laravel" => "email.hello-user"
+            "laravel" => "email.hello-user",
             "smsgupshup" => ""
         ],
     "reset-password" => [

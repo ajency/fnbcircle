@@ -27,7 +27,7 @@ class ListingViewController extends Controller
     }
 
     private function getListingData($listing)
-    {
+    { //
         $pagedata              = array();
         $area                  = Area::with('city')->find($listing->locality_id);
         $pagedata['pagetitle'] = getSingleListingTitle($listing);

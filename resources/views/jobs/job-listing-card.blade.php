@@ -16,7 +16,11 @@
                   </div>
                   <div class="flex-row">
                       <div class="rating-view flex-row p-r-10"> 
+                        @if($isListing)
                           <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}">{{ $job->getJobCategoryName() }}</a>
+                        @else
+                           {{ $job->getJobCategoryName() }} 
+                        @endif
                       </div>
                       @if($job->jobPostedOn()!="")
                       <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on {{ $job->jobPostedOn() }}</i></p>
@@ -50,7 +54,12 @@
                       <p class="default-size text-lighter m-t-0 m-b-0">Job Roles</p>
                       <ul class="fnb-cat flex-row">
                         @foreach($keywords as $keyword)
+
+                          @if($isListing)
                           <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title">{{ $keyword['label'] }}</a></li>
+                          @else
+                          <li> {{ $keyword['label'] }} </li>
+                          @endif
 
                         @endforeach
 
@@ -112,6 +121,13 @@
                   <div class="get-details detail-move">
                       <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank"><button class="btn fnb-btn outline full border-btn fullwidth default-size">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button></a>
                   </div>
+
+                  @if(isset($showApplication) && $showApplication)
+                  <div class="get-details detail-move">
+                      <a href="#" class="apply-jobs" data-toggle="modal" data-target="#job-application-{{ $job->id}}"><button class="btn fnb-btn outline full border-btn fullwidth default-size">View Application <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button></a>
+                  </div>
+                  @endif
+
               </div>
           </div>
       </div>
@@ -160,7 +176,18 @@
   </div>
 </div>
 
+@if($isListing)
 {!! getPageLdJson('App\Seo\JobSingleView',['job'=>$job]) !!}
+@endif
+
+
+@php
+  if(isset($showApplication) && $showApplication){
+    echo View::make('users.application-modal', compact('job'))->render();  
+  } 
+@endphp 
+
+
 
 @endforeach
 @else

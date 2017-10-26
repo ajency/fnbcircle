@@ -6,14 +6,14 @@ List View
 
 @section('css')
     <!-- FlexDatalist -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
 @endsection
 
 @section('js')
     <!-- Handle bars  -->
     <script type="text/javascript" src="{{ asset('/bower_components/handlebars/handlebars.min.js') }}"></script>
     <!-- FlexDatalist -->
-    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
 
     <!-- Custom js codes -->
     <script type="text/javascript" src="{{ asset('/js/listing_list_view.js') }}"></script>
@@ -36,9 +36,9 @@ List View
                                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                 <p class="element-title heavier m-b-0">Search By</p>
                             </div>
-                            <div class="right">
+                            <!-- <div class="right">
                                 <a href="" class="text-primary heavier element-title">Clear All</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="fly-out__content">
                             <div class="search-section">
@@ -46,8 +46,8 @@ List View
                                 <div class="search-section__cols flex-row">
                                     <div class="city search-boxes flex-row">
                                         <i class="fa fa-map-marker p-r-5 icons" aria-hidden="true"></i>
-                                        <input type="hidden" value="" class="form-control fnb-select" name="area_hidden" id="area"/>
-                                        <input type="text" value="{{ $city }}" class="form-control fnb-select flexdatalist" name="city" placeholder="State">
+                                        <input type="hidden" value="" class="form-control fnb-select hidden" name="area_hidden" id="area"/>
+                                        <input type="text" value="{{ $city }}" class="form-control fnb-input" name="city" placeholder="State">
                                         <!-- <input type="text" value="" class="form-control fnb-select flexdatalist" name="city" placeholder="State" data-min-length='0' list='states'> 
 
                                         <datalist id="states">
@@ -72,13 +72,15 @@ List View
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="category_search" value="" class="form-control fnb-input flexdatalist" placeholder="Start typing to search category...">
+                                                <input type="text" name="category_search" id="category_search" class="form-control fnb-input" placeholder="Start typing to search category...">
+                                                <a href="#" class="desk-hide" id="clear_search">Clear</a>
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="business_search" class="form-control fnb-input flexdatalist" placeholder="Search for a specific business">
+                                                <input type="text" name="business_search" class="form-control fnb-input" placeholder="Search for a specific business">
+                                                <a href="#" id="clear_search" class="desk-hide">Clear</a>
                                             </div>
                                         </div>
                                       </div>
@@ -143,12 +145,13 @@ List View
         </div>
         <!-- section headings -->
         <div class="row addShow">
-            <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> <span class="text-lighter">in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
+            <div class="col-sm-6 mobile-hide">
+                <h5 class="m-t-0"><span class="category_label"> Meat &amp; Poultry </span> Business Listings <span class="text-lighter">in</span> <span class="state_label">{{ ucfirst($city) }}</span></h5>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title mobile-hide">Showing <label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title desk-hide"><label id="listing_filter_count"></label> <span class="category_label">Chicken</span> Business Listings in <span class="state_label">{{ ucfirst($city) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -183,12 +186,12 @@ List View
                             <p class="element-title heavier m-b-0">Filter</p>
                         </div>
                         <div class="right">
-                            <a href="" class="text-primary heavier element-title">Clear All</a>
+                            <a href="#" class="text-primary heavier element-title" id="clear_all_filters">Clear All</a>
                         </div>
                     </div>
                     <div class="fly-out__content">
                         <div class="filter-sidebar bg-card">
-                            <div id="listing_filter_view">
+                            <div id="listing_filter_view" class="listing_filter_view">
                                 {!! $filter_view_html !!}
                             </div>
                             <!-- why fnb -->
@@ -235,8 +238,8 @@ List View
                                 <div class="advertisement flex-row m-t-20">
                                     <h6 class="element-title">Advertisement</h6>
                                 </div>
-                                <div class="flex-row boost-row">
-                                    <div class="heavier text-color boost-row__title">
+                                <div class="boost-row text-center">
+                                    <div class="heavier text-color boost-row__title m-b-5">
                                         Give your marketing a boost!
                                     </div>
                                     <button class="btn fnb-btn s-outline full border-btn default-size"><i class="fa fa-rocket fa-rotate-180" aria-hidden="true"></i> Advertise with us</button>
@@ -244,7 +247,7 @@ List View
                             </div>
                             <!-- advertisement ends-->
                             <div class="apply-btn desk-hide">
-                                <button class="btn fnb-btn primary-btn full border-btn">Apply</button>
+                                <button class="btn fnb-btn primary-btn full border-btn" id="apply_listing_filter">Apply</button>
                             </div>
                         </div>
                     </div>
@@ -256,16 +259,40 @@ List View
             </script> -->
             <div class="col-sm-9 custom-col-9">
                 <div id="listing_card_view">
-                    
-                    
+                   <div class="loader-section">
+                        <div class="site-loader section-loader">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="site-loader section-loader hidden">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
+                <div id="pagination">
+                    {!! $paginate !!}
                 </div>
             </div>
         </div>
-
-        <div id="pagination">
-            {!! $paginate !!}
-        </div>
-        <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button>
+        <br><br>
+       <!--  <button type="button" id="backToTop" title="Go to top" class="btn fnb-btn primary-btn full border-btn" style="display: none; position: fixed; bottom: 10px; right: 10px;"><i class="fa fa-angle-up p-r-5 arrow" aria-hidden="true"></i> Back to Top</button> -->
 
         <div class="site-overlay"></div>
     </div>

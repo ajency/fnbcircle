@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Http\Controllers\FnbAuthController;
 
+use App\UserCommunication;
+
 /* Plugin Access Headers */
 use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Ajency\User\Ajency\userauth\UserAuth;
@@ -125,7 +127,22 @@ class RegisterController extends Controller
             $request_data["user_details"]["city"] = $request->city;
         }
 
-        $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"]);
+        $request_data["user_comm"]["object_id"] = $user_obj->id;
+        if($request->has('contact_id') && $request->contact_id) {
+            $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], $request->contact_id);
+        }
+
+        // if(isset($request_data["user_comm"]["contact"])) {
+        //     $user_comm = UserCommunication::where([['value', $request_data["user_comm"]["contact"]], ["object_type", "App\User"]])->get();
+
+        //     if($user_comm->count() > 0) {
+        //         if($user_comm->object_id === null) {
+        //             $user_comm->object_id = $user_obj->id;
+        //             $user_comm->save();
+        //         }
+        //     }
+        // }
+
         $response = $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 

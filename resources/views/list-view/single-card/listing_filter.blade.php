@@ -21,7 +21,11 @@
                 <p class="default-size p-l-20">
                     <a href="#" class="text-inherit bolder" value="{{ $filter_data['category']['node_categories'] }}">{{ $filter_data["category"]["name"] }}</a>
                 </p>
-                <ul class="node">
+                @if($filter_data['category']['node_categories'] !== "|[]")
+                    <ul class="node">
+                @else
+                    <ul class="">
+                @endif
                     @foreach(array_slice($filter_data["category"]["children"], 0, 10) as $cat_child_index => $cat_child_value)
                         <li class="node__child">
                             <a href="#" class="text-darker" value="{{ $cat_child_value['node_categories'] }}">
@@ -53,17 +57,17 @@
 <!-- results ends -->
 <div class="filter-group area">
     <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-area" aria-expanded="false" aria-controls="section-area">
-        <h6 class="sub-title flex-row">Search by Area <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+        <h6 class="sub-title flex-row">Search by City <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
         </h6>
     </div>
     <div class="filter-group__body filter-row collapse in" id="section-area">
         <div class="search-area flex-row">
             <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-            <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search an area">
+            <input type="text" class="form-control fnb-input search-input text-color" name="area_search" id="area_search" placeholder="Search City">
         </div>
         <div class="check-section">
             <label class="sub-title flex-row clear {{ sizeof($filter_data['areas_selected']) > 0 ? '' : 'hidden' }}">
-                <a href="" class="text-color">
+                <a href="" class="secondary-link">
                    <i class="fa fa-times" aria-hidden="true"></i>
                     <span>Clear All</span>
                 </a>
@@ -76,17 +80,31 @@
                     </label>
                 @endif
             @endforeach
+            @php
+                $dropdown_checkboxes = 0;
+            @endphp
             @if(sizeof($filter_data["areas"]) > 5)
                 <div class="more-section collapse" id="moreDown">
                     @foreach(array_slice($filter_data["areas"], 5) as $area_index => $area_value)
                         <label class="sub-title flex-row text-color">
                             <input type="checkbox" name="areas[]" class="checkbox p-r-10" value="{{$area_value['slug']}}"  {{ in_array($area_value['slug'], $filter_data["areas_selected"]) ? "checked" : "" }}>
-                            <span>{{ $area_value['name'] }}</span>
+                            @php
+                                $dropdown_checkboxes += in_array($area_value['slug'], $filter_data["areas_selected"]) ? 1 : 0;
+                            @endphp
+
+                            <span> {{ $area_value['name'] }}</span>
                         </label>
                     @endforeach
                 </div>
 
-                <p data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+{{ sizeof($filter_data["areas"]) - 5 }} more</p>
+                <input type="hidden" name="" id="areas_hidden" value='{{ $dropdown_checkboxes > 0 ? 0 : sizeof($filter_data["areas"]) - 5 }}'/>
+                @if(isset($dropdown_checkboxes) && $dropdown_checkboxes > 0)
+                    <script type="text/javascript">
+                        $(document).find(".filter-group #section-area #moreDown").collapse('show');
+                    </script>
+                @else
+                    <p data-toggle="collapse" href="#moreDown" id="moreAreaShow" aria-expanded="false" aria-controls="moreDown" class="text-primary heavier text-right more-area m-b-0 default-size">+ {{ sizeof($filter_data["areas"]) - 5 }} more</p>
+                @endif
             @endif
         </div>
     </div>

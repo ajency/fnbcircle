@@ -30,8 +30,8 @@ class Listing extends Model
 
     /* Array containing the Key-Value pair combination for Listing Columns -> STATUS & TYPE */
     const listing_status = array(1 => "Published", 2 => "Review", 3 => "Draft", 4 => "Archived", 5 => "Rejected");
-    const listing_business_type = array(11 => "Wholesaler", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
-    const listing_business_type_slug = array(11 => "wholesaler", 12 => "retailer", 13 => "manufacturer", 14 => "importer", 15 => "exporter", 16 => "service-provider");
+    const listing_business_type = array(11 => "Wholesaler/Distributor", 12 => "Retailer", 13 => "Manufacturer", 14 => "Importer", 15 => "Exporter", 16 => "Service Provider");
+    const listing_business_type_slug = array(11 => "wholesaler-distributer", 12 => "retailer", 13 => "manufacturer", 14 => "importer", 15 => "exporter", 16 => "service-provider");
 
     use Taggable;
     use FileUpload;
@@ -64,7 +64,7 @@ class Listing extends Model
     }
     public function updates()
     {
-        return $this->hasMany('App\Update', 'listing_id');
+        return $this->morphMany('App\Update', 'object');
     }
     public function categories()
     {
@@ -100,20 +100,20 @@ class Listing extends Model
     public function saveInformation($title, $type, $email, $area)
     {
         $slug  = str_slug($title);
-        $count = Listing::where('slug', $slug)->where('id','!=',$this->id)->count();
+        $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
         $i     = 1;
         $slug1 = $slug;
         if ($count > 0) {
             do {
                 $slug1 = $slug . '-' . $i;
-                $count = Listing::where('slug', $slug1)->count();
+                $count = self::where('slug', $slug1)->count();
                 $i++;
             } while ($count > 0);
         }
 
         $this->title = $title;
         $this->type  = $type;
-        if ($this->status == "3" or $this->status == null) {
+        if ($this->status == "3" or $this->status == "2" or $this->status == "5" or $this->status == null) {
             $this->slug = $slug1;
         }
 
@@ -210,15 +210,15 @@ class Listing extends Model
         if($this->payment_modes == null) return null;
         $modes =json_decode($this->payment_modes);
         $mode_name=[
-            "visa" => "Visa Card",
-            "debit" => "Debit Card",
-            "money_order" => "Money Order",
+            "online" => "Online Banking",
+            "credit" => "On Credit",
+            "cards" => "Credit/Debit Cards",
+            "wallets" => "E/Mobile Wallets",
+            "cod" => "Cash on Delivery",
+            "ussd" => "USSD/AEPS/UPI",
             "cheque" => "Cheque",
-            "credit" => "Credit Card",
-            "travelers" => "Travelers Cheque",
-            "cash" => "Cash",
-            "master" => "Master Card",
-            "diners" => "Diners Club Card",
+            "draft" => "Draft",
+            
         ];
         foreach ($modes as $mode => $value) {
              if($value == '1') $payments[] = $mode_name[$mode];

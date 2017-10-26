@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    @yield('meta') 
-    @yield('openGraph')
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
-    <title> @yield('title')</title>
-
+    <title> @yield('title')</title> 
+    @yield('openGraph')
+    @yield('meta') 
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->
@@ -34,7 +33,8 @@
     </script>
 </head>
 
-<body class="nav-md">
+<body class="overflow-hidden nav-md">
+    <div class="page-shifter animate-row">
     <!-- header -->
     <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
@@ -166,6 +166,7 @@
     <!-- content -->
     @yield('content')
 
+    </div>
     <!-- Modals -->
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())

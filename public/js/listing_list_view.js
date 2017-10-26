@@ -260,7 +260,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
+          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
           if (isMobile()) {
             $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
           } else {
@@ -400,7 +400,6 @@
       requestType: 'post',
       minLength: 0,
       cache: false,
-      selectionRequired: false,
       keywordParamName: "search",
       resultsProperty: "data",
       searchIn: ['name'],
@@ -419,13 +418,13 @@
         "city": old_values["state"],
         "category": $('input[name="category_search"]').val()
       },
+      minLength: 1,
+      cache: false,
       keywordParamName: "search",
       resultsProperty: "data",
       searchIn: ['title'],
       valueProperty: 'slug',
       visibleProperties: ["title", "area"],
-      minLength: 1,
-      cache: false,
       searchContain: true,
       searchEqual: false,
       searchDisabled: false,
@@ -539,7 +538,6 @@
     /* --- Detect <a> click for categories --- */
     $(document).on("click", ".results__body ul.contents a", function(e) {
       $(document).find(".results__body ul.contents #current_category").val($(this).attr("value"));
-      $('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"));
       if (!isMobile()) {
         setTimeout((function() {
           resetPagination();

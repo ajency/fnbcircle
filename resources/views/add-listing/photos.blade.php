@@ -103,7 +103,7 @@
         @if($listing==null)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"   />
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-size="0"  />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -125,7 +125,7 @@
             @foreach($files as $file)
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
-                    <input type="file" class="doc-upload" data-height="100" data-size="{{$file['size']}}" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-default-file="{{$file['url']}}" title="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" />
+                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M" data-size="{{$file['size']}}" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-default-file="{{$file['url']}}" title="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" />
                     <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" required>
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
@@ -147,7 +147,7 @@
             @if(count($files)==0)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"   />
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx" data-size="0"  />
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
@@ -172,7 +172,7 @@
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-uploadd" data-height="100"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx"  />
+                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="7M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx" data-size="0" />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
                 <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">

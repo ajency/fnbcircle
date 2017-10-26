@@ -164,9 +164,9 @@
                                         @endisset
                                      </div>
                                     <label class="fnb-label wholesaler flex-row text-uppercase single-cate">
-                                        <a href="#" class="secondary-link" title=" {{$data['type']}}s in {{$data['city']['name']}}">
+                                        <a href="{{$data['type']['url']}}" class="secondary-link" title=" {{$data['type']['label']}}s in {{$data['city']['name']}}">
                                         <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
-                                        {{$data['type']}}</a>
+                                        {{$data['type']['label']}}</a>
                                     </label>
                                 </div>
                                 @isset($data['operationAreas'])
@@ -364,7 +364,7 @@
                                 </div>
                                 <ul class="fnb-cat flex-row">
                                     @foreach($category['nodes'] as $node)
-                                    <li><a href="" class="fnb-cat__title" title="{{$node['name']}} businesses in {{$data['city']['name']}}">{{$node['name']}}</a></li>
+                                    <li><a href="{{$node['url']}}" class="fnb-cat__title" title="{{$node['name']}} businesses in {{$data['city']['name']}}">{{$node['name']}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -587,7 +587,7 @@
                                         </div>
                                         <div class="address">
                                             <label class="flex-row">
-                                                <p class="m-b-0 default-size text-medium">{{$similar[0]['type']}}</p>
+                                                <p class="m-b-0 default-size text-medium">{{$similar[0]['type']['label']}}</p>
                                             </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[0]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[0]['city']['area']}} {{$similar[0]['city']['name']}}</p>
@@ -652,7 +652,7 @@
                                         </div>
                                         <div class="address">
                                             <label class="flex-row">
-                                                <p class="m-b-0 default-size text-medium">{{$similar[1]['type']}}</p>
+                                                <p class="m-b-0 default-size text-medium">{{$similar[1]['type']['label']}}</p>
                                             </label>
                                             <p class="sub-title heavier ellipsis">{{$similar[1]['title']['name']}}</p>
                                             <p class="m-b-0 lighter address-title"><i class="fa fa-map-marker p-r-5" aria-hidden="true"></i>{{$similar[1]['city']['area']}} {{$similar[1]['city']['name']}}</p>
@@ -716,7 +716,7 @@
                                 <h2 class="element-title m-t-0 m-b-15">We specialise in</h2>
                                 <ul class="fnb-cat special-cat flex-row">
                                     @foreach($data['cores'] as $core)
-                                    <li><a href="" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
+                                    <li><a href="{{$core['url']}}" class="fnb-cat__title" title="{{$core['name']}} businesses in {{$data['city']['name']}}">{{$core['name']}}</a></li>
                                     @endforeach
                                 </ul>
                                 @endisset
@@ -926,7 +926,7 @@
                             <ul class="browse-cat__list m-t-20">
                                 @foreach($data['browse_categories'] as $category)
                                 <li>
-                                    <a href="" title="Browse for {{$category['name']}} category in {{$data['city']['name']}}">
+                                    <a href="{{$category['url']}}" title="Browse for {{$category['name']}} category in {{$data['city']['name']}}">
                                         <p class="m-b-0 flex-row">
                                             <span class="fnb-icons cat-icon">
                                                 <img src="{{$category['image']}}">

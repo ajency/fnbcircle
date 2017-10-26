@@ -113,7 +113,7 @@ class UpdatesController extends Controller
                 'title' => e($update->title),
                 'contents' => nl2br(e($update->contents)),
                 'images'=> $update->getImages(),
-                'updated'=>$update->updated_at->diffForHumans(),
+                'updated'=>$update->created_at->diffForHumans(),
             ];          
         }
         return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json, 'more'=>$more]]);

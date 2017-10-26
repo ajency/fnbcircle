@@ -19,6 +19,7 @@ class FnbPermission
     public function handle($request, Closure $next)
     {
 
+        
         $router = app()->make('router');
         $uriPath = $router->getCurrentRoute()->uri; 
 
@@ -34,7 +35,7 @@ class FnbPermission
             $userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
         }
         
-        
+
         if(!hasAccess($uriPath,$objectId,$tableReference)){
             if($userType == 'internal')
                 abort(403);

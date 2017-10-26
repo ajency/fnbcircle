@@ -19,10 +19,10 @@
 	*/
 	return [
 		"roles" => ['superadmin', 'listing_manager', 'customer'],
-		"permissions" => ['add_internal_user', 'edit_internal_user', 'view_internal_user_list', 'add_listing', 'edit_listing', 'manage_categories', 'manage_locations', 'listing_approval', 'add_job', 'edit_job'],
+		"permissions" => ['add_internal_user', 'edit_internal_user', 'view_internal_user_list', 'add_listing', 'edit_listing', 'manage_categories', 'manage_locations', 'listing_approval', 'add_job', 'edit_job','manage_job_status','manage_job_view','submit_for_review_job','delete_job_contact','change_job_status'],
 		"roles_permissions" => [
-            ["role" => 0, "permissions" => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
-            ["role" => 1, "permissions" => [3, 4, 7]],
+            ["role" => 0, "permissions" => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]],
+            ["role" => 1, "permissions" => [3, 4, 7, 9, 10]],
             ["role" => 2, "permissions" => []]
         ]
 	];

@@ -83,11 +83,11 @@ $('body').on 'click', '#post-update-button', ->
 
 
 $('body').on 'click', '.add-uploader', (e)->
-  max_uploads = document.head.querySelector('[property="max-file-upload"]').content
-  current_uploads =$(this).closest('.fileUpload').find('input[type="file"]').length 
+  max_uploads = parseInt(document.head.querySelector('[property="max-file-upload"]').content)
+  current_uploads =parseInt($(this).closest('.fileUpload').find('input[type="file"]').length )
   console.log max_uploads,current_uploads
   if current_uploads > max_uploads 
-    $('#more-file-error').html('Cannot upload more than '+max_uploads+' files')
+    $(this).closest('.fileUpload').find('#more-file-error').html('Cannot upload more than '+max_uploads+' files')
     # alert('You can upload maximum of '+max_uploads+' photos')
     return
   e.preventDefault()
@@ -98,6 +98,8 @@ $('body').on 'click', '.add-uploader', (e)->
   getTarget = $(this).closest('.fileUpload').find('.addCol')
   # getTarget.insertBefore(contact_group_clone)
   contact_group_clone.insertBefore(getTarget)
+  if current_uploads == max_uploads 
+    $(this).closest('.addCol').remove()
   console.log(contact_group_clone)
   newimg = contact_group_clone.find('.doc-upload').dropify messages:
     'default': 'Add photo'
@@ -175,7 +177,7 @@ loadUpdates = () ->
                       </div>
                   </div>'
           $('.update-display-section').append(html)
-          if data['data']['more'].length == true 
+          if data['data']['more'] == true 
             button = '<div class="m-t-10 text-center view-more-updates">
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
@@ -215,7 +217,7 @@ newPost = () ->
           <div class="flex-row space-between title-flex-row">
             <div class="title-icon">
               <label class="required">Title</label>
-                    <input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required>
+                    <input type="text" class="form-control fnb-input" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="Give a title to your post" name="title" data-parsley-required>
                   </div>
                   <img src="/img/post-title-icon.png" class="img-responsive">
           </div>
@@ -250,7 +252,6 @@ newPost = () ->
                 <div class="image-grid__cols uppend-uploader hidden">
                     <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
                         <input type="hidden" name="image-id" value="">
-                    <div type="button" class="removeCol"><i class="">✕</i></div>
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                               <div id="floatingBarsG">
@@ -317,7 +318,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                       <div class="flex-row space-between title-flex-row">
                         <div class="title-icon">
                           <label class="">Title</label>
-                           <input type="text" class="form-control fnb-input form-update-data1" placeholder="" name="title" data-parsley-required>
+                           <input type="text" class="form-control fnb-input form-update-data1" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="" name="title" data-parsley-required>
                         </div>
                       </div>
                     </div>
@@ -373,7 +374,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                             <div class="image-grid__cols uppend-uploader hidden">
                                 <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
                                     <input type="hidden" name="image-id" value="">
-                                <div type="button" class="removeCol"><i class="">✕</i></div>
+                               
                                 <div class="image-loader hidden">
                                     <div class="site-loader section-loader">
                                           <div id="floatingBarsG">
@@ -390,6 +391,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                                 </div>
                             </div>
                     </div>
+                    <div id="more-file-error" class="text-danger"></div>
                     </div>
                     <div class="col-sm-12">
                       <div class="text-center post-action m-t-20">

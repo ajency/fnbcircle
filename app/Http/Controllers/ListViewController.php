@@ -190,7 +190,7 @@ class ListViewController extends Controller {
     	} else if($request->has("keyword") && $request->keyword) {
     		$response_data = $this->searchData($request->keyword, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if ($request->has("load") && $request->load) {
-    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'id', ['id', 'name', 'slug', 'level'], 1, true);
+    		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'slug', ['id', 'name', 'slug', 'level'], 1, true);
     	} else { // return parent Data
     		//$is_parent = true;
     		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 1, true);
@@ -230,7 +230,7 @@ class ListViewController extends Controller {
     *	]
     */
     public function searchBusiness(Request $request) {
-    	if($request->has("search") && $request->search) { 
+    	if(($request->has("search") && $request->search) || ($request->has("load") && $request->load)) { 
     		$business_obj = Listing::where('status', 1);// new Listing;
 
     		$output = new ConsoleOutput;
@@ -270,7 +270,12 @@ class ListViewController extends Controller {
 		    	}
     		}
 
-    		$response_data = $this->searchData($request->search, $business_obj, 'title', ['id', 'title', 'slug'], 2);
+            if($request->has('load') && (strpos($request->load, '-') > -1 || strpos($request->load, '_') > -1)) {
+                $response_data = $this->searchData($request->load, $business_obj, 'slug', ['id', 'title', 'slug'], 1);
+            } else if($request->has('search') && (strpos($request->search, '-') > -1 || strpos($request->search, '_') > -1)) {
+                $response_data = $this->searchData($request->search, $business_obj, 'slug', ['id', 'title', 'slug'], 1);
+            } else if($request->has('search'))
+                $response_data = $this->searchData($request->search, $business_obj, 'title', ['id', 'title', 'slug'], 1);
     	} else {
     		$response_data = null;#Listing::where('status', 1)->get(['id', 'title', 'slug']);
     	}

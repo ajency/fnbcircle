@@ -24,7 +24,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/get-updates','UpdatesController@getUpdates');
 
-// listing
+// 
+/******
+listing
+*******/
 
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
@@ -133,7 +136,7 @@ Route::group(['namespace' => 'Ajency'], function() {
 });
 
 /* Admin dashboard routes */
-Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'admin-dashboard'], function () {
+Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashboard'], function () {
 	Route::group(['prefix' => 'config'], function() {
 		Route::get('categories','AdminConfigurationController@categoriesView');
 		Route::get('locations','AdminConfigurationController@locationView');

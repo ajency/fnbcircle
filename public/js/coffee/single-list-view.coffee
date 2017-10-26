@@ -50,7 +50,7 @@ loadUpdates = () ->
                       </div>
                   </div>'
           $('.update-display-section').append(html)
-          if data['data']['updates'].length == 5 
+          if data['data']['more'] == true
             button = '<div class="m-t-10 text-center view-more-updates">
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'

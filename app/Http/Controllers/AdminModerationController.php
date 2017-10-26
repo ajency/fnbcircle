@@ -10,8 +10,10 @@ use App\Http\Controllers\ListingController;
 use App\Listing;
 use App\ListingCategory;
 use App\ListingCommunication;
+use App\PlanAssociation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\User;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -37,11 +39,15 @@ class AdminModerationController extends Controller
                 $sort_by = 'title';
                 $order   = $request->order['0']['dir'];
                 break;
-            case '4':
-                $sort_by = "submission_date";
+            case '2':
+                $sort_by = 'id';
                 $order   = $request->order['0']['dir'];
                 break;
             case '5':
+                $sort_by = "submission_date";
+                $order   = $request->order['0']['dir'];
+                break;
+            case '6':
                 $sort_by = "updated_at";
                 $order   = $request->order['0']['dir'];
                 break;
@@ -60,6 +66,7 @@ class AdminModerationController extends Controller
             $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
             $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit">' . $listing['name'] . '</a>';
             $listing['#']          = "";
+
             // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
             $i    = 0;
@@ -112,6 +119,27 @@ class AdminModerationController extends Controller
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
         }
+        if(isset($filters["updated_by"])){
+            $users  = User::whereIn('type',$filters["updated_by"]['user_type'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('last_updated_by',$users);
+        }
+        if(isset($filters["premium"])){
+            $request_senders = array_unique(PlanAssociation::where('premium_type','App\\Listing')->pluck('premium_id')->toArray());
+           $prem = [];
+           if(count($filters["premium"]) == 1){
+            if($filters["premium"][0] == 1) $listings->whereIn('id',$request_senders);
+            if($filters["premium"][0] == 0) $listings->whereNotIn('id',$request_senders);
+           } 
+        }
+        if(isset($filters['type'])){
+            $listings = $listings->where(function ($listings) use ($filters){
+                foreach($filters['type'] as $type ){
+                    $listings->whereNull('id');
+                    if($type == 'orphan') $listings->orWhereNull('owner_id');
+                    if($type == 'verified') $listings->orWhereNotNull('owner_id');
+                }
+            });
+        }
         if (isset($filters['category_nodes'])) {
             $category = ListingCategory::whereIn('category_id',$filters['category_nodes'])->select('listing_id')->distinct()->pluck('listing_id')->toArray();
             $listings = $listings->whereIn('id',$category);
@@ -162,8 +190,10 @@ class AdminModerationController extends Controller
             // }
             $dup                                  = $this->getDuplicateCount($listing->id, $listing->title);
             $response[$listing->id]['duplicates'] = $dup['phone'] . ',' . $dup['email'] . ',' . $dup['title'];
-            $response[$listing->id]['premium']    = 'No';
+            $response[$listing->id]['premium']    = (count($listing->premium()->get())>0)? "Yes":"No";
             $response[$listing->id]['categories'] = ListingCategory::getCategories($listing->id);
+            if($listing->owner == null) $response[$listing->id]['type'] = 'orphan';
+            else $response[$listing->id]['type'] = 'verified';
         }
         $response1 = array();
         foreach ($response as $resp) {
@@ -210,6 +240,7 @@ class AdminModerationController extends Controller
                 if ($change->status == (string) Listing::REVIEW) {
                     if ($listing->isReviewable()) {
                         $listing->status = Listing::REVIEW;
+                        $listing->submission_date = Carbon::now();
                         $listing->save();
                         $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     } else {
@@ -223,6 +254,7 @@ class AdminModerationController extends Controller
             } else if ($listing->status == Listing::REVIEW) {
                 if ($change->status == (string) Listing::PUBLISHED) {
                     $listing->status = Listing::PUBLISHED;
+                    $listing->published_on = Carbon::now();
                     $listing->save();
                     $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     if ($request->sendmail == "1") {

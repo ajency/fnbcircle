@@ -21,7 +21,8 @@ class FnbAuthController extends Controller {
     	if ($type == 'website') {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
-                
+
+
              //    if(!$redirect_url) { // If redirect URL is Empty
 	            //     if ($user->hasPermissionTo('add_internal_user')) {
 	            //     	$redirect_url = "/admin-dashboard/users/internal-users";
@@ -29,10 +30,17 @@ class FnbAuthController extends Controller {
 	            //     	$redirect_url = "/listing/create";
 	            //     }
 
+
 	            //     /*if(!$required_field_status["filled_required"]) {
 	            //     	$redirect_url .= "/?required_field=true";
 	            //     }*/ 
 	            // }
+
+
+                if($redirect_url == "")
+                    $redirect_url = '/';
+
+                $redirect_url = isFirstTimeLoginRedirect($redirect_url);
 
             	return redirect($redirect_url);
             } else if ($user->status == 'inactive') {

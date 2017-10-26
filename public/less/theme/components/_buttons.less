@@ -51,6 +51,15 @@
     		border: 2px solid;
     	}
 	}
+    &.secondary-btn{
+        background-color: @accent-secondary;
+        color: #fff;
+        &:hover{
+            background-color: #fff;
+            color: @accent-secondary;
+            border: 2px solid;
+        }
+    }
 	&.full{
     	padding: 0.85em 1.8em;
 	}
@@ -100,6 +109,17 @@
         border: 1px solid #fff;
         color: #fff;
         background-color: transparent;
+    }
+    &.link-btn.btn.link-btn{
+        background-color: transparent;
+        color: @accent-primary;
+        border: 0;
+        box-shadow: none;
+        &:hover{
+            background-color: transparent;
+            color: lighten(@accent-primary,10%);
+            border: 0;
+        }
     }
 }
 

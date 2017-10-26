@@ -72,7 +72,13 @@
       validateBusinessDetails();
     }
     if (step === 'business-photos-documents') {
-      return validatePhotosDocuments();
+      validatePhotosDocuments();
+    }
+    if (step === 'business-premium') {
+      validatePremium();
+    }
+    if (step === 'business-updates') {
+      return updateActions();
     }
   };
 
@@ -108,6 +114,11 @@
   if ($(window).width() > 769) {
     getID = $('.gs-form .tab-pane').attr('id');
     $('.gs-steps .form-toggle').each(function() {
+      if ($(this).attr('id') === getID) {
+        $(this).parent().addClass('active');
+      }
+    });
+    $('.edit-steps .form-toggle').each(function() {
       if ($(this).attr('id') === getID) {
         $(this).parent().addClass('active');
       }

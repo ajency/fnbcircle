@@ -248,10 +248,16 @@
 				color: @accent-secondary;
 			}
 		}
+
 	}
 	li:last-child{
 		a{
 			border-bottom: 0;
+		}
+	}
+	li.active.active{
+		a,i{
+			color: @accent-secondary;
 		}
 	}
 	@media(max-width: @mobile){
@@ -1454,6 +1460,13 @@ input[type='checkbox'].remove-addr{
 	// }
 }
 
+@-moz-document url-prefix() { 
+	input[type='checkbox'].remove-addr{
+		top: -4px;
+	}
+}
+
+
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
    .location-hours{
 	   	.baseline{
@@ -1812,7 +1825,7 @@ input[type='checkbox'].remove-addr{
 			content: "\f10c";
     		font-family: 'FontAwesome';
     		display: inline-block;
-    		font-size: 1.6em;
+    		font-size: 2em;
     		color: #9e9e9e;
 		}
 	}
@@ -2119,7 +2132,7 @@ input[type='checkbox'].remove-addr{
 
 @media screen and (min-width: 767px) {
     _::-webkit-full-page-media, _:future, :root .node-select .nav li {
-		margin-bottom: 3.35em;
+		// margin-bottom: 3.35em;
     }
 }
 
@@ -2676,6 +2689,9 @@ input[type='checkbox'].remove-addr{
 		padding-bottom: 80px;
 		&.edit-mode{
 		}
+		&.post-mode{
+			padding-bottom: 110px;
+		}
 	}
 
 	.content-wrapper{
@@ -2683,11 +2699,15 @@ input[type='checkbox'].remove-addr{
 		&.edit-mode{
 			// margin-top: -100px;
 		}
+		&.post-mode-shifter{
+			margin-top: -110px;
+		}
 	}
 	.listing-form-wrapper{
 		// border-left: 1px solid #d8d8d8;
 		// padding-left: 10px;
 	}
+
 }
 
 
@@ -3039,6 +3059,63 @@ input[type='checkbox'].remove-addr{
 
 
 
+.listing-plans.pricing-table{
+	@media screen and (min-width: 769px){
+		justify-content: flex-start;
+		.pricing-table__cards{
+			max-width: calc(~'33.33% - 1.5em');
+			margin-right: 2em;
+	    	margin-bottom: 2em;
+	    	margin-left: 0;
+	    	min-height: 360px;
+	    	&:last-child{
+	    		margin-right: 0;
+	    	}
+	    	&.free-plan{
+	    		.points{
+	    			margin-top: 0;
+	    		}
+	    	}
+		}
+	}
+	.pricing-table__cards{
+    	&.free-plan{
+    		.points{
+    			margin-top: 0;
+    		}
+    	}
+    	@media screen and (max-width: @mobile){
+    		min-height: auto;
+    	}
+	}
+	.points{
+		li{
+			@media screen and (min-width: 769px){
+				padding: 0.4em 1em;		
+			}
+		}
+		margin-bottom: 1.5em;
+	}
+	.selection{
+		bottom: 0;
+    	margin-top: 0;
+	}
+	.plans__fee{
+		@media screen and (min-width: 769px){
+			min-height: 50px;	
+		}
+	}
+}
+
+.plan-label{
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: space-between;
+}
+
+
 // ---------------------------
 // SINGLE VIEW JOB  -----------
 // ---------------------------
@@ -3344,12 +3421,27 @@ input[type='checkbox'].remove-addr{
     	color: #fff;
     	padding-right: 0.5em;
     }
+    &.edit-listing{
+    	color: #fff;
+    	&:hover,&:active,&:focus{
+    		color: #fff;
+    	}
+    }
 }
 
 .job-post{
 	margin-top: 2em;
 }
 
+
+.listingActions{
+	.slide-nav{
+		margin-top: 0;
+	}
+	@media screen and (max-width: @mobile){
+		margin-top: 0.5em;
+	}
+}
 
 .desc-start{
 	@media screen and (min-width: 769px){
@@ -3831,6 +3923,66 @@ input[type='checkbox'].remove-addr{
 }
 
 
+// ---------------------------
+// POST UPDATE  -----------
+// ---------------------------
+
+.imp-update{
+	i{
+		color: @accent-secondary;
+		font-size: 3em;
+	}
+}
+
+.title-icon{
+	flex: 1;
+}
+
+.fnb-btn.post-btn{
+	padding: 0.6em 2.5em;
+}
+
+.sidebar-updates{
+	&.postUpdates{
+		position: relative;
+	    transform: inherit;
+	    height: auto;
+	    box-shadow: none;
+	    margin: 0;
+	    margin-top: 2em;
+	    padding: 2em 0;
+	    width: 100%;
+	    .page-sidebar__header{
+	    	padding-bottom: 0.5em;
+	    }
+	    .page-sidebar__body{
+	    	overflow: inherit;
+	    	margin: 0;
+	    	padding: 0;
+	    }
+	    .update-sec__body{
+			padding: 1em 0;
+	    }
+	}
+}
+
+.fileUpload.post-uploads{
+	margin-bottom: 0;
+	.image-grid__cols{
+		margin-bottom: 0.5em;
+	}
+	.addCol{
+		margin-bottom: 0;
+	}
+	&.modal-uploads{
+		@media screen and (min-width: 769px){
+			.image-grid__cols{
+				width: 33.33%;
+			}
+		}
+	}
+}
+
 .jobs-table{
 	table-layout: fixed;
     word-wrap: break-word;
@@ -3873,6 +4025,30 @@ input[type='checkbox'].remove-addr{
 			}
 		}
 	}
+}
+
+
+.view-more-updates{
+	position: relative;
+	.fnb-btn.secondary-btn{
+		// background-color: #fff;
+		// position: relative;
+		// background-color: @accent-secondary;
+    	// color: #fff;
+    	padding: 0.65em 1em;
+    	text-decoration: none;
+    	font-weight: 400;
+	}
+	// &:before{
+	// 	content: '';
+	// 	display: inline-block;
+	// 	position: absolute;
+	//     top: 50%;
+	//     border-top: 1px solid #ddd;
+	//     height: 2px;
+	//     width: 100%;
+	//     left: 0;
+	// }
 }
 
 
@@ -4088,4 +4264,110 @@ input[type='checkbox'].remove-addr{
 	}
 }
 
+@media screen and (max-width: @mobile){
+	.post-card{
+		padding: 1em;
+	}
+	.post-caption{
+		font-size: 0.8em;
+    	line-height: 1.3;
+    	font-weight: 400;
+	}
+	.imp-update{
+		margin-top: 1.5em;
+		i{
+			font-size: 2em;
+		}
+		p{
+			font-size: 1em;
+		}
+	}
+	.post-img-col{
+		// width: 100%;
+	}
+	.post-action{
+		margin-top: 1em;
+	}
+	.title-flex-row{
+		flex-direction: column-reverse;
+		.title-icon{
+			width: 100%;
+		}
+		img{
+			align-self: flex-end;
+		    width: 28%;
+		    position: relative;
+		    margin-top: -1em;
+		    right: -1em;
+		}
+	}
+	.update-title{
+		font-size: 1.3em;
+	}
+	.post-uploads{
+		margin: 0 -10px;
+	}
+
+	.modal-open{
+		.edit-updates{
+			box-shadow: rgba(0, 0, 0, 0.52) 0 0 0 500px inset;
+		}
+	}
+	.no-updates{
+		&.recent-updates__content{
+			.fnb-btn{
+				text-align: left;
+			}
+		}
+	}
+}
+
+.update-actions{
+	i{
+		margin-left: 1em;
+    	font-size: 1.15em;
+    	cursor: pointer;
+	}
+}
+
+.delete-post{
+	color: #ff122e;
+}
+
+.edit-updates{
+	.modal-header{
+		padding: 0;
+	    position: relative;
+	    border-bottom: 1px solid #eee;
+	    margin-bottom: 1em;
+	    padding-bottom: 0.8em;
+	    .close{
+	    	position: absolute;
+		    right: 0;
+		    top: 0;
+		    font-size: 1em;
+		    opacity: 0.6;
+	    }
+	}
+	.post-card{
+		padding-bottom: 0;
+	}
+}
+
+.no-post-updates{
+    margin-top: 1.5em;
+    @media  screen and (min-width: 769px){
+    	font-size: 1.3em;	
+    }
+}
+
+
+.post-up-head{
+	.detach-preview{
+		top: 0;
+	}
+	.preview-header__link{
+		font-size: 0.6em;
+	}
+}
 

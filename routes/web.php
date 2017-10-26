@@ -16,7 +16,6 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
-
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
@@ -38,49 +37,69 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::resource('/listing', 'ListingController');
-Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
-Route::get('listing/create','ListingController@create');
+Route::get('/get-updates','UpdatesController@getUpdates');
 
+// 
+/******
+listing
+*******/
 
-Route::post('/list-categories','AdminConfigurationController@categConfigList');
-Route::post('/save-category','AdminConfigurationController@saveCategory');
-Route::post('/get-branches','AdminConfigurationController@getBranches');
-Route::post('/check-category-status','AdminConfigurationController@checkCategStatus');
-
-Route::post('/check-location-status','AdminConfigurationController@checkLocStatus');
-
-Route::post('/listing','ListingController@store');
-Route::post('/duplicates','ListingController@findDuplicates');
-Route::post('/contact_save','ListingController@saveContact');
-Route::post('/create_OTP','ListingController@createOTP');
-Route::post('/validate_OTP','ListingController@validateOTP');
-Route::post('/get_areas','CommonController@getAreas');
 Route::post('/get_categories','ListingController@getCategories');
 Route::get('/{type}/get-category-types','CommonController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
-
-Route::post('/has_listing','AdminConfigurationController@hasListing');
-Route::post('/get-cities','AdminConfigurationController@getCities');
-Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');
-Route::post('/save-location','AdminConfigurationController@saveLocationData');
-Route::post('/view-location','AdminConfigurationController@listLocationConfig');
-Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');
-
-Route::get('/business-premium', function(){
-    return view('premium');
-});
-
+Route::get('/get-single-post','UpdatesController@getPost');
+//view listings
+Route::post('/duplicates','ListingController@findDuplicates');
+Route::post('/get_areas','CommonController@getAreas');
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
 
 
-Route::get('admin-dashboard/moderation/listing-approval','AdminModerationController@listingApproval');
-Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
+Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
+	//add listing
+	Route::get('listing/create','ListingController@create');
+	//edit listing
+	Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
 
 
-Route::post('/all-listing','AdminModerationController@displayListingsDum');
+	//manage categories 
+	Route::post('/list-categories','AdminConfigurationController@categConfigList');
+	Route::post('/save-category','AdminConfigurationController@saveCategory');
+	Route::post('/get-branches','AdminConfigurationController@getBranches');
+	Route::post('/check-category-status','AdminConfigurationController@checkCategStatus');
 
+	//manage locations
+	Route::post('/check-location-status','AdminConfigurationController@checkLocStatus');
+	Route::post('/has_listing','AdminConfigurationController@hasListing');//manage-categories manage-locations
+	Route::post('/get-cities','AdminConfigurationController@getCities');
+	Route::post('/associated_listing','AdminConfigurationController@getAssociatedListings');//manage-categories manage-locations
+	Route::post('/save-location','AdminConfigurationController@saveLocationData');// manage-locations
+	Route::post('/view-location','AdminConfigurationController@listLocationConfig');//manage-locations
+	Route::post('/has_areas','AdminConfigurationController@hasPublishedAreas');//mmanage-locations
+
+	//managelistings
+	
+	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
+	Route::post('/all-listing','AdminModerationController@displayListingsDum');
+
+
+});
+
+Route::group( ['middleware' => ['auth']], function() { 
+	Route::post('/create_OTP','ListingController@createOTP');
+	Route::post('/validate_OTP','ListingController@validateOTP');
+
+	Route::post('/listing/review','ListingController@submitForReview');
+	Route::post('/listing/archive','ListingController@archive');
+	Route::post('/listing/publish','ListingController@publish');
+	Route::post('/listing','ListingController@store');
+	Route::post('/contact_save','ListingController@saveContact');
+	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
+	Route::post('/post-update', 'UpdatesController@postUpdate');
+	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
+	Route::post('/delete-post','UpdatesController@deletePost');
+
+});
 
  
 /******
@@ -93,6 +112,11 @@ Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-company','JobController@getCompanies');
 Route::get('/user/download-resume','UserController@downloadResume');
 
+
+/**
+logged in users group
+permission group
+*/
 Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
  
 	/**Jobs**/
@@ -100,11 +124,15 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
+
+});
+
+/**
+logged in users group
+*/
+Route::group( ['middleware' => ['auth']], function() { 
 	Route::post('/jobs/{reference_id}/applyjob','JobController@applyJob');
-
-	/**Users**/
-
-	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
+ 	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 });
@@ -127,13 +155,24 @@ Route::group(['namespace' => 'Ajency'], function() {
 	});
 });
 
+
+
+
+
+
 /* Admin dashboard routes */
-Route::group(['middleware' => ['permission:add_internal_user'], 'prefix' => 'admin-dashboard'], function () {
+
+
+Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashboard'], function () {
 	Route::group(['prefix' => 'config'], function() {
 		Route::get('categories','AdminConfigurationController@categoriesView');
 		Route::get('locations','AdminConfigurationController@locationView');
 	});
 
+	Route::group(['prefix' => 'moderation'], function() {
+		Route::get('listing-approval','AdminModerationController@listingApproval');
+	});
+	
 	Route::group(['prefix' => 'users'], function() {
 		/* Get Users */
 		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
@@ -159,8 +198,9 @@ Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
 
+ 
 /**
 USER PROFILE
 **/
 
-
+ 

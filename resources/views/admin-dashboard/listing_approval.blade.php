@@ -32,7 +32,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval <button class="btn btn-link btn-sm">+ Add Listing</button><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
+            <h5>Listing Approval <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
           </div>
         </div>
 
@@ -115,7 +115,8 @@
                     <tr>
                       <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>
                       <th style="min-width: 12%;">Listing Name</th>
-                      <th class="no-sort" data-col="2">
+                      <th style="min-width: 5%;">ID</th>
+                      <th style="min-width: 8%;" class="no-sort" data-col="3">
                         City
                         <select multiple class="form-control multi-dd" id="citySelect">
                         @foreach ($cities as $city)
@@ -132,22 +133,29 @@
                       <th class="" style="min-width: 10%;">
                           Last Updated on
                       </th>
-                      <th class="no-sort" data-col="6" style="min-width: 10%;">
+                      <th class="no-sort" data-col="7" style="min-width: 10%;">
                         Last Updated by
                         <select multiple class="form-control multi-dd" id="updateUser">
                           <option value="external" >External User</option>
                           <option value="internal" >Internal User</option>
                         </select>
                       </th>
-                      <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
                       <th class="no-sort" data-col="8" style="min-width: 10%;">
-                        Premium Request
-                        <select multiple class="form-control multi-dd">
-                          <option value="Yes">Yes</option>
-                          <option value="No">No</option>
+                        Listing Type
+                        <select multiple class="form-control multi-dd" id="listingType">
+                          <option value="orphan" >Orphan</option>
+                          <option value="verified" >Verified</option>
                         </select>
                       </th>
-                      <th class="no-sort" data-col="9" style="min-width: 10%;">
+                      <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
+                      <th class="no-sort" data-col="10" style="min-width: 10%;">
+                        Premium Request
+                        <select multiple class="form-control multi-dd" id="premiumRequest">
+                          <option value="1">Yes</option>
+                          <option value="0">No</option>
+                        </select>
+                      </th>
+                      <th class="no-sort" data-col="11" style="min-width: 10%;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
                           <option value="1" >Published</option>

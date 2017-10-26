@@ -157,7 +157,6 @@
   $('.clear-all-filters').click(function() {
     $('.clear-checkbox').click();
     $('.clear-keywords').click();
-    $('.clear-checkbox').click();
     $('.clear-salary').click();
     $('input[name="category_id"]').val('');
     $('input[name="category_id"]').attr('slug', '');
@@ -171,11 +170,13 @@
   });
 
   $('.clear-checkbox').click(function() {
+    $(this).closest('.filter-row').find('.clear').addClass('hidden');
     $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
     return filterJobs(true);
   });
 
   $('.clear-keywords').click(function() {
+    $(this).closest('.filter-row').find('.clear').addClass('hidden');
     $('.flexdatalist-multiple').find('li[class="value"]').each(function() {
       return $(this).find('.fdl-remove').click();
     });
@@ -183,6 +184,7 @@
   });
 
   $('.clear-salary').click(function() {
+    $(this).closest('.filter-row').find('.clear').addClass('hidden');
     $('select[name="salary_type"]').prop("selectedIndex", 0);
     $('input[name="salary_lower"]').val('');
     $('input[name="salary_upper"]').val('');
@@ -222,23 +224,23 @@
     displayCityText();
   });
 
-  $('input[name="area_search"]').change(function() {
+  $('input[name="area_search"]').keyup(function() {
     return displayCityText();
   });
 
   displayCityText = function() {
-    var cityId, cityObj, cityText;
+    var areaSearchTxt, cityId, cityObj, cityText;
     cityObj = $('select[name="job_city"]');
     cityText = $('option:selected', cityObj).text();
     cityId = $('option:selected', cityObj).attr('id');
     $(".serach_state_name").html(cityText);
-    console.log(cityText);
+    areaSearchTxt = $('input[name="area_search"]').val();
     return $.ajax({
       type: 'post',
       url: '/get_areas',
       data: {
         'city': cityId,
-        'area_name': $('input[name="area_search"]').val()
+        'area_name': areaSearchTxt
       },
       success: function(data) {
         var area_html, key, searchClass;
@@ -248,12 +250,16 @@
         } else {
           searchClass = 'search-job';
         }
-        console.log(data);
-        for (key in data) {
-          area_html += '<label class="sub-title flex-row text-color">';
-          area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + searchClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
-          area_html += '<span>' + data[key]['name'] + '</span>';
-          area_html += '</label>';
+        if (data.length) {
+          for (key in data) {
+            area_html += '<label class="sub-title flex-row text-color">';
+            area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + searchClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';
+            area_html += '<span>' + data[key]['name'] + '</span>';
+            area_html += '</label>';
+          }
+        } else {
+          $('input[name="area_search"]').closest('.filter-row').find('.clear').addClass('hidden');
+          area_html += 'No results found for ' + areaSearchTxt;
         }
         $(".area-list").html(area_html);
       },
@@ -270,22 +276,23 @@
     return filterJobs(false);
   });
 
-  $('.job-keywords').on('select:flexdatalist', function(event, set, options) {
+  $('.search-job-keywords').on('select:flexdatalist', function(event, set, options) {
     var inputTxt;
     inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="' + set.id + '" label="' + set.label + '">';
     $('#keyword-ids').append(inputTxt);
-    $('.job-keywords').closest('.filter-row').find('.clear').removeClass('hidden');
+    $('.search-job-keywords').closest('.filter-row').find('.clear').removeClass('hidden');
+    console.log($(window).width());
     if ($(window).width() > 769) {
       return filterJobs(true);
     }
   });
 
-  $('.job-keywords').on('before:flexdatalist.remove', function(event, set, options) {
+  $('.search-job-keywords').on('before:flexdatalist.remove', function(event, set, options) {
     var keywordlabel;
     keywordlabel = set[0]['textContent'].slice(0, -1);
     $('input[label="' + keywordlabel + '"]').remove();
     if (!$('input[name="keyword_id[]"]').length) {
-      $('.job-keywords').closest('.filter-row').find('.clear').addClass('hidden');
+      $('.search-job-keywords').closest('.filter-row').find('.clear').addClass('hidden');
     }
     if ($(window).width() > 769) {
       return filterJobs(true);
@@ -296,35 +303,39 @@
     if ($(window).width() < 769) {
       $('.serach-sidebar').find('.search-job').removeClass('search-job');
     }
-    $('.job-keywords').flexdatalist({
-      removeOnBackspace: false,
-      searchByWord: true,
-      searchContain: true,
-      minLength: 1,
-      url: '/get-keywords',
-      searchIn: ["label"]
-    });
-    $('.job-categories').flexdatalist({
+    $('.search-job-keywords').flexdatalist({
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
       minLength: 0,
+      cache: false,
+      url: '/get-keywords',
+      searchIn: ["label"]
+    });
+    return $('.search-job-categories').flexdatalist({
+      removeOnBackspace: false,
+      searchByWord: true,
+      searchContain: true,
+      minLength: 0,
+      cache: false,
       url: '/job/get-category-types',
       searchIn: ["name"]
     });
-    $('.job-categories').on('select:flexdatalist', function(event, set, options) {
-      $('input[name="category_id"]').val(set.id);
-      $('input[name="category_id"]').attr('slug', set.slug);
-      $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
-      return filterJobs(true);
-    });
-    $('.job-categories').on('change:flexdatalist', function(event, set, options) {
-      if (set.value === '') {
-        $('input[name="category_id"]').val('');
-        $('input[name="category_id"]').attr('slug', '');
-        return filterJobs(true);
-      }
-    });
+  });
+
+  $('.search-job-categories').on('select:flexdatalist', function(event, set, options) {
+    $('input[name="category_id"]').val(set.id);
+    $('input[name="category_id"]').attr('slug', set.slug);
+    $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
+    return filterJobs(true);
+  });
+
+  $('.search-job-categories').on('change:flexdatalist', function(event, set, options) {
+    if (set.value === '') {
+      $('input[name="category_id"]').val('');
+      $('input[name="category_id"]').attr('slug', '');
+      filterJobs(true);
+    }
     if ($('.area-list').attr('has-filter').trim() === 'no') {
       displayCityText();
     }

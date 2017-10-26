@@ -155,7 +155,6 @@ strSlug = (str) ->
 $('.clear-all-filters').click ->
   $('.clear-checkbox').click()
   $('.clear-keywords').click()
-  $('.clear-checkbox').click()
   $('.clear-salary').click()
   $('input[name="category_id"]').val ''
   $('input[name="category_id"]').attr 'slug',''
@@ -169,6 +168,7 @@ $('.clear-all-filters').click ->
   filterJobs(true)
 
 $('.clear-checkbox').click ->
+  $(this).closest('.filter-row').find('.clear').addClass 'hidden'
   $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
   filterJobs(true)
 
@@ -176,7 +176,7 @@ $('.clear-checkbox').click ->
 $('.clear-keywords').click ->
   # $('input[class="job-input-keywords"]').remove()
   # $('.flexdatalist-multiple').find('li[class="value"]').addClass('hidden')
-
+  $(this).closest('.filter-row').find('.clear').addClass 'hidden'
   $('.flexdatalist-multiple').find('li[class="value"]').each ->
     $(this).find('.fdl-remove').click()
 
@@ -185,6 +185,7 @@ $('.clear-keywords').click ->
 
 
 $('.clear-salary').click ->
+  $(this).closest('.filter-row').find('.clear').addClass 'hidden'
   $('select[name="salary_type"]').prop("selectedIndex", 0)
   $('input[name="salary_lower"]').val('')
   $('input[name="salary_upper"]').val('')
@@ -221,7 +222,7 @@ $('select[name="job_city"]').change ->
   displayCityText()
   return
 
-$('input[name="area_search"]').change ->
+$('input[name="area_search"]').keyup ->
   displayCityText()
 
 displayCityText = () -> 
@@ -229,14 +230,14 @@ displayCityText = () ->
   cityText = $('option:selected',cityObj).text()
   cityId = $('option:selected',cityObj).attr('id')
   $(".serach_state_name").html cityText 
-  console.log cityText
+  areaSearchTxt = $('input[name="area_search"]').val()
 
   $.ajax
     type: 'post'
     url: '/get_areas'
-    data:
+    data: 
       'city': cityId
-      'area_name': $('input[name="area_search"]').val()
+      'area_name': areaSearchTxt
     success: (data) ->
       # console.log data
       area_html = ''
@@ -246,14 +247,16 @@ displayCityText = () ->
       else
         searchClass = 'search-job'
 
-      console.log data
-      for key of data
-        area_html += '<label class="sub-title flex-row text-color">'
-        area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox '+searchClass+'" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
-        area_html += '<span>' + data[key]['name'] + '</span>'
-        area_html += '</label>'
-
-      # No results found for
+      if data.length 
+        for key of data
+          area_html += '<label class="sub-title flex-row text-color">'
+          area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox '+searchClass+'" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
+          area_html += '<span>' + data[key]['name'] + '</span>'
+          area_html += '</label>'
+      else
+          $('input[name="area_search"]').closest('.filter-row').find('.clear').addClass 'hidden'
+          area_html += 'No results found for '+areaSearchTxt
+ 
  
       $(".area-list").html area_html                        
  
@@ -268,25 +271,35 @@ $('.job-pagination').on 'click', '.paginate', ->
   $('input[name="listing_page"]').val page
   filterJobs(false)
  
-$('.job-keywords').on 'select:flexdatalist', (event, set, options) ->
+$('.search-job-keywords').on 'select:flexdatalist', (event, set, options) ->
   inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="'+set.id+'" label="'+set.label+'">'
   $('#keyword-ids').append inputTxt
-
-  $('.job-keywords').closest('.filter-row').find('.clear').removeClass 'hidden'
+  $('.search-job-keywords').closest('.filter-row').find('.clear').removeClass 'hidden'
+  console.log $(window).width()
   if $(window).width() > 769 
     filterJobs(true) 
 
-$('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
+
+$('.search-job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
   keywordlabel = (set[0]['textContent']).slice(0, -1)
   $('input[label="'+keywordlabel+'"]').remove()
   if(!$('input[name="keyword_id[]"]').length)
-    $('.job-keywords').closest('.filter-row').find('.clear').addClass 'hidden'
+    $('.search-job-keywords').closest('.filter-row').find('.clear').addClass 'hidden'
 
   if $(window).width() > 769 
     filterJobs(true) 
 
 
+# setTimeout (->
+#   $('.job-categories').flexdatalist
+#     searchByWord:true
+#     minLength: 0
+#     url: '/job/get-category-types'
+#     searchIn: ["name"] 
+# ), 500
+ 
 
+ 
  
 $(document).ready ()->
 
@@ -295,38 +308,44 @@ $(document).ready ()->
     $('.serach-sidebar').find('.search-job').removeClass('search-job')
 
 
-  $('.job-keywords').flexdatalist
-      removeOnBackspace: false
-      searchByWord:true
-      searchContain:true
-      minLength: 1
-      url: '/get-keywords'
-      searchIn: ["label"]
-
-  $('.job-categories').flexdatalist
+  $('.search-job-keywords').flexdatalist
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
       minLength: 0
+      cache: false
+      maxShownResults: 5000
+      url: '/get-keywords'
+      searchIn: ["label"]
+
+  $('.search-job-categories').flexdatalist
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      minLength: 0
+      cache: false
       url: '/job/get-category-types'
       searchIn: ["name"] 
 
-  $('.job-categories').on 'select:flexdatalist', (event, set, options) ->
-    $('input[name="category_id"]').val set.id   
-    $('input[name="category_id"]').attr 'slug',set.slug   
-    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
-    filterJobs(true) 
-
-  $('.job-categories').on 'change:flexdatalist', (event, set, options) ->
-    if set.value == ''
-      $('input[name="category_id"]').val ''
-      $('input[name="category_id"]').attr 'slug','' 
-      filterJobs(true)
-
-  # console.log $('.area-list').attr('has-filter')
+   # console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
   filterJobs(true)
+
+
+$('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
+  $('input[name="category_id"]').val set.id   
+  $('input[name="category_id"]').attr 'slug',set.slug   
+  $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
+  filterJobs(true) 
+
+$('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
+  if set.value == ''
+    $('input[name="category_id"]').val ''
+    $('input[name="category_id"]').attr 'slug','' 
+    filterJobs(true)
+
+ 
 
 
 

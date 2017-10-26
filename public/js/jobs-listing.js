@@ -309,10 +309,11 @@
       searchContain: true,
       minLength: 0,
       cache: false,
+      maxShownResults: 5000,
       url: '/get-keywords',
       searchIn: ["label"]
     });
-    return $('.search-job-categories').flexdatalist({
+    $('.search-job-categories').flexdatalist({
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
@@ -321,6 +322,10 @@
       url: '/job/get-category-types',
       searchIn: ["name"]
     });
+    if ($('.area-list').attr('has-filter').trim() === 'no') {
+      displayCityText();
+    }
+    return filterJobs(true);
   });
 
   $('.search-job-categories').on('select:flexdatalist', function(event, set, options) {
@@ -334,12 +339,8 @@
     if (set.value === '') {
       $('input[name="category_id"]').val('');
       $('input[name="category_id"]').attr('slug', '');
-      filterJobs(true);
+      return filterJobs(true);
     }
-    if ($('.area-list').attr('has-filter').trim() === 'no') {
-      displayCityText();
-    }
-    return filterJobs(true);
   });
 
 }).call(this);

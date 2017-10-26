@@ -39,7 +39,7 @@
 
                       <div class="search-area flex-row">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
+                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">

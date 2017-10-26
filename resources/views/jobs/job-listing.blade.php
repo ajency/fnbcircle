@@ -82,7 +82,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="search_category" class="form-control fnb-input job-categories flexdatalist" placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
+                                                <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
 
                                                 <input type="hidden" name="category_id" slug="@if(isset($urlFilters['category'])){{ $urlFilters['category'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
                                             </div>

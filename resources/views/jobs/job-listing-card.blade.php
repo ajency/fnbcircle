@@ -53,7 +53,7 @@
                 @endphp 
                 <div class="cat-holder">
                     <div class="core-cat m-r-5">
-                        <p class="default-size text-lighter m-t-0 m-b-5">Job Roles</p>
+                        <p class="default-size grey-darker heavier m-t-0 m-b-5">Job Roles</p>
                         <ul class="fnb-cat flex-row">
                           @foreach($keywords as $keyword)
                             <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title">{{ $keyword['label'] }}</a></li>
@@ -68,7 +68,7 @@
                 </div>
                 @endif
                 <div class="operations">
-                    <p class="operations__title default-size text-lighter m-t-0">Job Location:</p>
+                    <p class="operations__title default-size grey-darker heavier m-t-0">Job Location:</p>
                     @foreach($job->getJobLocationNames() as $city => $locAreas)
                     <div class="operations__container">
                         <div class="location flex-row">
@@ -112,16 +112,16 @@
               </div>
           </div>
           <div class="recent-updates open-border">
-            <p class="operations__title default-size text-lighter m-t-0">Job Description</p>
-            Description : {{ $job->getShortDescription() }}
+            <p class="operations__title default-size grey-darker heavier m-t-0">Job Description</p>
+            <p class="m-t-0 m-b-0 heavier text-lighter text-medium default-size">Description : {{ $job->getShortDescription() }}</p>
           </div>
            <div class="recent-updates flex-row open-border">
              <div class="off-salary">
-                <p class="operations__title default-size text-lighter m-t-0">Offered Salary</p>
+                <p class="operations__title default-size grey-darker heavier m-t-0">Offered Salary</p>
 
                 @if($job->salary_lower >="0" && $job->salary_upper > "0" )
 
-                <div class="text-color lighter">
+                <div class="text-lighter text-medium">
                   @if($job->salary_lower == $job->salary_upper )
                   <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
                   @else
@@ -130,16 +130,16 @@
                 {{ $job->getSalaryTypeShortForm()}}</div>
 
                 @else
-                <div class="text-color lighter">Not disclosed</div>
+                <div class="text-lighter text-medium">Not disclosed</div>
                 @endif
              </div>  
 
              @if(!empty($job->meta_data['experience']))
                <div class="year-exp">
-                  <p class="operations__title default-size text-lighter m-t-0">Years Of Experience</p>
+                  <p class="operations__title default-size grey-darker heavier m-t-0">Years Of Experience</p>
                   <div class="flex-row flex-wrap">
                     @foreach($job->meta_data['experience'] as $exp)
-                     <div class="text-color lighter year-exp">{{ $exp }} years</div>
+                     <div class="text-lighter text-medium year-exp">{{ $exp }} years</div>
                     @endforeach
                   </div>
                   

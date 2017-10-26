@@ -1077,8 +1077,13 @@
 		.fnb-label{
 			padding: 0.3em 0.6em;
 		}
-		.off-salary{
-			margin-right: 2em;
+		// .off-salary{
+		// 	margin-right: 2em;
+		// }
+		.year-exp{
+			&:after{
+				display: none !important;
+			}
 		}
 	}
 }
@@ -1088,6 +1093,30 @@
     margin-top: 0.5em;
     justify-content: flex-end;
     color: @accent-primary;
+}
+
+
+.searchKeyword{
+	.flexdatalist-multiple.flexdatalist-multiple{
+	    border-bottom: 0 !important;
+	    margin-top: -4px;
+	    li{
+	    	&.value{
+	    		margin: 0 0.6em 0.4em 0;
+	    	}
+	    }
+	    li.input-container input{
+	    	width: 100%;
+	    	padding-left: 0;
+	    }
+	    .input-container{
+	    	margin-top: 0;
+    		padding-left: 0;
+    		margin-left: 0;
+    		width: 100%;
+    		margin-bottom: 0;
+	    }
+	}
 }
 
 @media screen and (max-width: @mobile){

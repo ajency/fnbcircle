@@ -7,11 +7,7 @@
           <div class="body-left flex-cols">
               <div>
                   <div class="flex-row space-between">
-                    <h3 class="seller-info__title" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
-                     <div class="get-details detail-move mobile-hide">
-                        <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
-                        <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
-                      </div>
+                    <h3 class="seller-info__title ellipsis-2" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
 
                     @if(isset($showApplication) && $showApplication)
                     <div class="get-details detail-move">
@@ -20,11 +16,15 @@
                     @endif
                   
                   </div>
-                  <div class="location flex-row companyName">
+                  <div class="location flex-row companyName space-between flex-wrap">
                       <!-- <span class="fnb-icons map-icon"></span> -->
                       @if(!empty($job->getJobCompany()))
                       <p class="location__title default-size m-b-0 text-lighter">{{ $job->getJobCompany()->title }}</p>
                       @endif
+
+                      @if($job->jobPostedOn()!="")
+                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on {{ $job->jobPostedOn() }}</i></p>
+                       @endif
  
                   </div>
                   <div class="flex-row space-between flex-wrap cat-posted">
@@ -38,9 +38,6 @@
                         @endif
  
                       </div>
-                      @if($job->jobPostedOn()!="")
-                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on {{ $job->jobPostedOn() }}</i></p>
-                       @endif
                   </div>
 
                   @if(!empty($job->getJobTypes()))
@@ -91,52 +88,59 @@
                     @foreach($job->getJobLocationNames() as $city => $locAreas)
                     <div class="operations__container">
                         <div class="location flex-row">
-                            <p class="m-b-0 text-color heavier default-size">{{ $city }} <i class="fa fa-caret-right p-l-5" aria-hidden="true"></i>
+                            <p class="m-b-0 text-color heavier default-size">{{ $city }} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i>
                             </p>
+                            <ul class="cities flex-row">
+                            @php
+                                  $splitAreas =  splitJobArrayData($locAreas,2);
+                                  $areas = $splitAreas['array'];
+                                  $moreAreas = $splitAreas['moreArray'];
+                                  $moreAreaCount = $splitAreas['moreArrayCount'];
+                                  $areaCount = count($areas);
+                                  $areaInc = 0;
+                            @endphp 
+                              @foreach($areas as $area)
+                                @php
+                                     $areaInc++;
+                                @endphp 
+                              <li>
+                                  <p class="cities__title default-size">{{ $area }}
+                                    @if($areaInc != $areaCount)
+                                       , 
+                                      @endif
+                                   </p>
+                              </li>
+                              @endforeach  
+                              
+                              @if($moreAreaCount) 
+                              <li class="line">
+                                  <p class="cities__title default-size">|</p>
+                              </li>
+                              <li class="remain more-show">
+                                  <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
+                              </li>
+                            @endif
+                          </ul>
                         </div>
-                        <ul class="cities flex-row">
-                          @php
-                                $splitAreas =  splitJobArrayData($locAreas,2);
-                                $areas = $splitAreas['array'];
-                                $moreAreas = $splitAreas['moreArray'];
-                                $moreAreaCount = $splitAreas['moreArrayCount'];
-                                $areaCount = count($areas);
-                                $areaInc = 0;
-                          @endphp 
-                            @foreach($areas as $area)
-                              @php
-                                   $areaInc++;
-                              @endphp 
-                            <li>
-                                <p class="cities__title default-size">{{ $area }}
-                                  @if($areaInc != $areaCount)
-                                     , 
-                                    @endif
-                                 </p>
-                            </li>
-                            @endforeach  
+
+                       <!--  <div class="location flex-row m-t-5">
+                            <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                            </p>
+                        </div> -->
                             
-                            @if($moreAreaCount) 
-                            <li class="line">
-                                <p class="cities__title default-size">|</p>
-                            </li>
-                            <li class="remain more-show">
-                                <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
-                            </li>
-                          @endif
-                        </ul>
+
                     </div>
                     @endforeach 
                 </div>
               </div>
           </div>
  
-          <div class="recent-updates open-border">
+         <!--  <div class="recent-updates open-border">
             <p class="operations__title default-size grey-darker heavier m-t-0">Job Description</p>
             <p class="m-t-0 heavier text-lighter text-medium default-size job-list-desc">{{ $job->getShortDescription() }}</p>
-          </div>
+          </div> -->
 
-           <div class="recent-updates flex-row flex-wrap open-border">
+           <div class="recent-updates flex-row flex-wrap open-border space-between align-top">
              <div class="off-salary">
                 <p class="operations__title default-size grey-darker heavier m-t-0">Offered Salary</p>
 
@@ -166,6 +170,11 @@
                   
                </div>
                @endif
+
+              <div class="get-details detail-move mobile-hide">
+                <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
+                <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
+              </div>
           </div>
           <div class="get-details detail-move desk-hide">
             <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->

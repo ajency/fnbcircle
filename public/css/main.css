@@ -7068,8 +7068,8 @@ input[type=checkbox].custom-checkbox:before {
 .job-listings .filter-cards .fnb-label {
   padding: 0.3em 0.6em;
 }
-.job-listings .filter-cards .off-salary {
-  margin-right: 2em;
+.job-listings .filter-cards .year-exp:after {
+  display: none !important;
 }
 .top-clear-all {
   display: -webkit-box;
@@ -7082,6 +7082,24 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex-pack: end;
           justify-content: flex-end;
   color: #ec6d4b;
+}
+.searchKeyword .flexdatalist-multiple.flexdatalist-multiple {
+  border-bottom: 0 !important;
+  margin-top: -4px;
+}
+.searchKeyword .flexdatalist-multiple.flexdatalist-multiple li.value {
+  margin: 0 0.6em 0.4em 0;
+}
+.searchKeyword .flexdatalist-multiple.flexdatalist-multiple li.input-container input {
+  width: 100%;
+  padding-left: 0;
+}
+.searchKeyword .flexdatalist-multiple.flexdatalist-multiple .input-container {
+  margin-top: 0;
+  padding-left: 0;
+  margin-left: 0;
+  width: 100%;
+  margin-bottom: 0;
 }
 @media screen and (max-width: 768px) {
   .job-listings .filter-cards .seller-info__title {

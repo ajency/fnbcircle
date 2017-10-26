@@ -193,7 +193,7 @@ class ListViewController extends Controller {
     		$response_data = $this->searchData(explode("|", $request->load)[0], $category_obj, 'slug', ['id', 'name', 'slug', 'level'], 1, true);
     	} else { // return parent Data
     		//$is_parent = true;
-    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 1, true);
+    		$response_data = $this->searchData("", $category_obj->where('level', 1), 'name', ['id', 'name', 'slug', 'level'], 0, true);
     	}
 
     	$response_data = $response_data->get(['id', 'name', 'slug', 'level']);//$response_data->distinct('id')->get(['id', 'name', 'slug', 'level']);

@@ -405,8 +405,7 @@
       searchIn: ['name'],
       valueProperty: 'node_children',
       visibleProperties: ["name", "search_name"],
-      searchContain: true,
-      searchByWord: true,
+      searchDelay: 200,
       allowDuplicateValues: false,
       debug: false,
       noResultsText: 'Sorry! No categories found for "{keyword}"'
@@ -428,6 +427,7 @@
       searchContain: true,
       searchEqual: false,
       searchDisabled: false,
+      searchDelay: 200,
       searchByWord: false,
       allowDuplicateValues: false,
       noResultsText: 'Sorry! No business names found for this search criteria'
@@ -486,11 +486,11 @@
           getListContent();
         }
       }
-      return;
+      event.preventDefault();
     });
 
     /* -- Triggered every time the user selects an option -- */
-    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('select:flexdatalist', function() {
+    $('input[name="city"], input[name="category_search"], input[name="business_search"]').on('select:flexdatalist', function(event, item, options) {
       var areas, location, pushstate_url;
       key = "";
       if ($(this).prop("name") === "category_search") {
@@ -533,6 +533,7 @@
           getListContent();
         }), 500);
       }
+      event.preventDefault();
     });
 
     /* --- Detect <a> click for categories --- */
@@ -562,8 +563,19 @@
 
     /* --- On City Searchbox focusIn, copy the value in the searchbox --- */
     $(document).on("focusin", 'input[type="text"][name="flexdatalist-city"]', function(event) {
-      old_values["state"] = $('input[name="city"]').val();
-      $('input[name="city"]').flexdatalist('value', "");
+      var e, key_name, searchbox_name_linking;
+      searchbox_name_linking = {
+        "flexdatalist-city": "state",
+        "flexdatalist-category_search": "category_search",
+        "flexdatalist-business_search": "business_search"
+      };
+      key_name = $(this).attr('name');
+      key_name = key_name.split("-")[1];
+      old_values[searchbox_name_linking['flexdatalist-' + key_name]] = $('input[name="' + key_name + '"]').val();
+      $('input[name="' + key_name + '"]').flexdatalist('value', "");
+      e = $.Event('keyup');
+      e.which = 8;
+      $(this).trigger(e);
     });
 
     /* --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- */

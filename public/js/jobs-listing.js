@@ -248,6 +248,7 @@
         } else {
           searchClass = 'search-job';
         }
+        console.log(data);
         for (key in data) {
           area_html += '<label class="sub-title flex-row text-color">';
           area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox ' + searchClass + '" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">';

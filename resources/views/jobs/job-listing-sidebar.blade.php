@@ -135,7 +135,7 @@
                           @foreach($defaultExperience as $jobTypeId => $experience)
                           <label class="sub-title flex-row text-color">
                               <input type="checkbox"  name="experience[]" class="checkbox p-r-10 search-job search-checkbox" @if((isset($urlFilters['experience'])) && (!empty($urlFilters['experience'])) && in_array($experience,$urlFilters['experience'])) checked @endif value="{{ $experience }}">
-                              <span>{{ $experience }}</span>
+                              <span>{{ $experience }} Years</span>
                           </label>
                           @endforeach 
                       </div>

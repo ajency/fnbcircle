@@ -245,12 +245,14 @@ displayCityText = () ->
       else
         searchClass = 'search-job'
 
+      console.log data
       for key of data
         area_html += '<label class="sub-title flex-row text-color">'
         area_html += '<input type="checkbox" class="checkbox p-r-10  search-checkbox '+searchClass+'" name="areas[]" value="' + data[key]['id'] + '" slug="' + data[key]['slug'] + '" class="checkbox p-r-10">'
         area_html += '<span>' + data[key]['name'] + '</span>'
         area_html += '</label>'
 
+      # No results found for
  
       $(".area-list").html area_html                        
  

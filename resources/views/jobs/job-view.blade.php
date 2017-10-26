@@ -571,7 +571,7 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
             
                   @else
 
@@ -1257,7 +1257,7 @@ $additionalData = ['job'=>$job];
              </div> -->
           </div>
           <div class="page-sidebar__body">
-             <table class="table table-striped application-table m-t-20">
+             <table class="table table-striped table-responsive application-table m-t-20">
                <thead>
                  <th>Date of application</th>
                  <th>Name</th>

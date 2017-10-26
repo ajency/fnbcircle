@@ -5776,16 +5776,6 @@ input[type=checkbox].custom-checkbox:before {
     width: 160px;
   }
 }
-.download-col {
-  min-width: 100px;
-}
-.application-table.table tr td.date-repeat {
-  background-color: #fff;
-  border-top: 0;
-}
-.application-table.table tr td {
-  padding: 15px 8px;
-}
 .social-drop .dropdown-menu {
   width: 88px;
   right: 0;
@@ -5976,6 +5966,19 @@ input[type=checkbox].custom-checkbox:before {
   border-radius: 5px;
   margin-left: 0;
   border: 1px solid #ddd;
+}
+.download-col {
+  min-width: 100px;
+}
+.application-table.table tr td.date-repeat {
+  background-color: #fff;
+  border-top: 0;
+}
+.application-table.table tr td {
+  padding: 15px 8px;
+}
+.application-table.table-responsive {
+  border: 0;
 }
 .search-section {
   position: relative;

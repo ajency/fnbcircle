@@ -260,7 +260,7 @@
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
-          end = (end > parseInt(data["count"])) ? parseInt(data["count"]) : end;
+          end = end > parseInt(data["count"]) ? parseInt(data["count"]) : end;
           if (isMobile()) {
             $(".container div.addShow p.search-actions__title label#listing_filter_count").text(data["count"]);
           } else {

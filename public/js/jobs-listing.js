@@ -101,10 +101,18 @@
         $("#total_count").text(response.total_items);
         $(".job-pagination").html(response.pagination);
         if (append) {
-          return $('.job-listings').append(response.data);
+          $('.job-listings').append(response.data);
         } else {
           $('.job-listings').html('');
-          return $('.job-listings').html(response.data);
+          $('.job-listings').html(response.data);
+        }
+        if ($('.job-list-desc').length) {
+          return $('.job-list-desc').readmore({
+            speed: 25,
+            collapsedHeight: 40,
+            moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>',
+            lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
+          });
         }
       },
       error: function(request, status, error) {

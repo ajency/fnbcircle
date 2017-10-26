@@ -107,7 +107,12 @@ filterJobs = (resetPage) ->
           $('.job-listings').html '' 
           $('.job-listings').html response.data 
         
-      
+      if $('.job-list-desc').length
+        $('.job-list-desc').readmore
+          speed: 25
+          collapsedHeight: 40
+          moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>'
+          lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
     error: (request, status, error) ->
       throwError()
       return
@@ -127,8 +132,6 @@ $(document).on 'click', '.apply-filters', ->
   filterJobs(true)
   $('.back-icon').click()
   return
-
-
 
  
 strSlug = (str) ->
@@ -279,6 +282,8 @@ $('.job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
   if $(window).width() > 769 
     filterJobs(true) 
 
+
+
  
 $(document).ready ()->
 
@@ -319,3 +324,7 @@ $(document).ready ()->
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
   filterJobs(true)
+
+
+
+

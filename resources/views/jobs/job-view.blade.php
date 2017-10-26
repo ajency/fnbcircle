@@ -571,7 +571,7 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
             
                   @else
 
@@ -1257,31 +1257,31 @@ $additionalData = ['job'=>$job];
              </div> -->
           </div>
           <div class="page-sidebar__body">
-             <table>
-             <thead>
-               <th>Date of application</th>
-               <th>Name</th>
-               <th>Email</th>
-               <th>Phone</th>
-               <th>City</th>
-               <th>Resume</th>
-             </thead>
+             <table class="table table-striped table-responsive application-table m-t-20">
+               <thead>
+                 <th>Date of application</th>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th>Phone</th>
+                 <th>City</th>
+                 <th>Resume</th>
+               </thead>
              @foreach($jobApplications as $application)
               @php
               $resumeUrl = getUploadFileUrl($application->resume_id);
               @endphp
-             <tr>
-               <td>{{ $application->dateOfSubmission() }}</td>
-               <td>{{ $application->name }}</td>
-               <td>{{ $application->email }}</td>
-               <td>{{ $application->phone }}</td>
-               <td>{{ $application->city }}</td>
-               <td>
-              @if($application->resume_id && $resumeUrl!='')
-                <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">download</a>
-              @endif
-                </td>
-             </tr>
+               <tr>
+                 <td>{{ $application->dateOfSubmission() }}</td>
+                 <td>{{ $application->name }}</td>
+                 <td>{{ $application->email }}</td>
+                 <td>{{ $application->phone }}</td>
+                 <td>{{ $application->city }}</td>
+                 <td class="download-col">
+                @if($application->resume_id && $resumeUrl!='')
+                  <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @endif
+                  </td>
+               </tr>
              @endforeach
              </table> 
              

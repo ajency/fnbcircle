@@ -5967,6 +5967,19 @@ input[type=checkbox].custom-checkbox:before {
   margin-left: 0;
   border: 1px solid #ddd;
 }
+.download-col {
+  min-width: 100px;
+}
+.application-table.table tr td.date-repeat {
+  background-color: #fff;
+  border-top: 0;
+}
+.application-table.table tr td {
+  padding: 15px 8px;
+}
+.application-table.table-responsive {
+  border: 0;
+}
 .search-section {
   position: relative;
   top: 2em;
@@ -10603,7 +10616,7 @@ input[type='checkbox'].remove-addr {
   margin-right: 5px;
   font-size: 0.85em;
 }
-.year-exp:not(:last-child):after {
+.year-exp:not(.no-comma):not(:last-child):after {
   content: ',';
   display: inline-block;
   padding: 0 3px;
@@ -11061,6 +11074,165 @@ input[type='checkbox'].remove-addr {
 .detach-preview {
   position: relative;
   top: -0.5em;
+}
+.apply-jobs-modal .modal-header,
+.apply-jobs-modal .modal-body {
+  padding: 0;
+}
+.apply-jobs-modal .apply-info i {
+  font-size: 3.5em;
+}
+.apply-jobs-modal .jobDetail {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 1em;
+  background-color: #eeeeee;
+  margin: 1.5em 0;
+}
+.apply-jobs-modal .jobDetail__row {
+  width: 100%;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.apply-jobs-modal .joblogo {
+  padding-right: 1em;
+}
+.apply-jobs-modal .owner-address {
+  padding-left: 0;
+}
+.apply-jobs-modal .mapAddress {
+  cursor: inherit;
+  font-size: 0.9em;
+}
+.apply-jobs-modal .jobDetail__row {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+.app-sent {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 1.5em;
+  font-size: 1.4em;
+}
+.app-sent i {
+  font-size: 1.5em;
+}
+.J-name {
+  padding-bottom: 1em;
+}
+.open-details {
+  margin-top: 1em;
+}
+.j-container {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.jobInfo {
+  margin: 1.5em -20px;
+  padding: 0.5em 0;
+  background-color: #f7f7f7;
+}
+.jobInfo .contactD {
+  margin: 0.5em 0;
+  padding: 0.8em;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.jobInfo .contactD i {
+  font-size: 2em;
+}
+.jobInfo .contactD a {
+  font-size: 0.95em;
+  margin-top: 0.5em;
+  display: block;
+  text-decoration: none;
+}
+.jobInfo .contactD a:hover {
+  text-decoration: underline;
+}
+.jobInfo .contactD.phone {
+  border-left: 1px solid #ddd;
+}
+.jobInfo .contactD.phone a:not(:last-child):after {
+  content: ',';
+  padding: 0 0.2em;
+  display: inline-block;
+  color: #6b6b6b;
+}
+.job-alert {
+  margin: 1em 0;
+}
+.job-alert .alert-icon {
+  font-size: 2em;
+}
+.edit-criteria {
+  background-color: #f7f8f7;
+  padding: 1.5em 5px;
+  margin: 0 -20px -20px -20px;
+}
+.edit-criteria .j-role li:not(:last-child) p:after {
+  content: ',';
+  padding: 0 0.2em;
+  display: inline-block;
+  color: #6b6b6b;
+}
+.jobdata-action {
+  margin-top: 1em;
+}
+.jobdata-action .fnb-btn {
+  padding: 0.6em 1.8em;
+}
+.jobdata-action .fnb-btn:first-child {
+  padding: 0.65em 1.8em;
+  margin-right: 1em;
+}
+@media screen and (max-width: 768px) {
+  .apply-jobs-modal .jobDetail__row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  .app-sent {
+    font-size: 1.25em;
+  }
+  .app-sent i {
+    font-size: 1.3em;
+  }
+  .J-name,
+  .job-alert {
+    font-size: 0.9em;
+  }
+  .jobInfo {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .jobInfo .contactD.phone {
+    border-left: 0;
+    border-top: 1px solid #ddd;
+  }
 }
 @media screen and (max-width: 768px) {
   .post-card {

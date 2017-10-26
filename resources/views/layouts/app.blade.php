@@ -39,8 +39,6 @@
  
     <!-- header -->
     <!-- page shifter start-->
-    <div class="page-shifter">
-
     <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
             <div class="container-fluid nav-gap">

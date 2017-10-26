@@ -1,7 +1,7 @@
 (function() {
   var browsecat, catlabel, contactrow, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
 
-  $('#shareRoundIcons').jsSocials({
+  $('.shareRoundIcons').jsSocials({
     showLabel: false,
     showCount: false,
     shareIn: "popup",

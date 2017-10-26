@@ -1,4 +1,4 @@
-$('#shareRoundIcons').jsSocials
+$('.shareRoundIcons').jsSocials
   showLabel: false
   showCount: false
   shareIn: "popup",

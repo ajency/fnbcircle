@@ -3331,14 +3331,22 @@ and (max-device-width: 650px) {
 		.contact{
 			border-top: 1px solid #ddd;
     		margin-top: 0.5em;
+    		display: flex;
+    		align-items: center;
+    		padding-top: 1em;
     		&__info{
-    			width: 48%;
+    			margin: 0;
+    			width: inherit;
+    			// width: 48%;
     			justify-content: center;
-    			margin: 0 auto;
-    			margin-top: 1em;
+    			// margin: 0 auto;
+    			// margin-top: 1em;
     			.fnb-btn{
     				padding: 0.8em 1em;
     			}
+    		}
+    		.contact-social .share-btn{
+    			padding: 0.8em 1em;
     		}
 		}
 	}
@@ -3474,6 +3482,21 @@ and (max-device-width: 650px) {
 		}
 	}
 }
+
+.contact-social{
+	// background-color: @accent-secondary;
+    border-radius: 5px;
+    .share-btn{
+    	background-color: #f3f3f3;
+	    border: 0;
+	    padding: 0.8em 1.3em;
+	    border-radius: 5px;
+	    margin-left: 0;
+	    border: 1px solid #ddd;
+    }
+}
+
+
 
 
 

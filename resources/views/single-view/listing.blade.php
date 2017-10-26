@@ -62,7 +62,7 @@
                         <div class="dropdown social-drop">
                             <button type="button" class="share-btn flex-row" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share <i class="fa fa-caret-down p-l-5" aria-hidden="true"></i></button>
                             <ul class="dropdown-menu" aria-labelledby="dLabel">
-                                <div id="shareRoundIcons"></div>
+                                <div class="shareRoundIcons"></div>
                             </ul>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
                                 @endisset
                             </div>
                             <div class="seller-info__footer p-t-20 single-contact-section">
-                                <div class="contact flex-row">
+                                <div class="contact flex-row space-between flex-wrap">
                                     <div class="contact__info flex-row">
                                         <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
                                         <!-- If logged in -->
@@ -217,6 +217,14 @@
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
                                     </div> -->
+                                    @if(isset($data['publish_date']) and $data['status']['id'] == '1')
+                                    <div class="dropdown social-drop contact-social">
+                                        <button type="button" class="share-btn flex-row" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share <i class="fa fa-caret-down p-l-5" aria-hidden="true"></i></button>
+                                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                            <div class="shareRoundIcons"></div>
+                                        </ul>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@
                   <div class="results__header filter-row">
                       <h6 class="element-title text-uppercase">Show Results for</h6>
 
-                      <a href="javascript:void(0)" class="text-color clear-all-filters top-clear-all">
+                      <a href="javascript:void(0)" class="primary-link heavier clear-all-filters top-clear-all">
                          <i class="fa fa-times p-r-5" aria-hidden="true"></i>
                           <span>Clear All</span>
                       </a>
@@ -30,14 +30,14 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-area">
-                      <label class="sub-title flex-row clear @if(!isset($urlFilters['keywords'])) hidden @endif ">
-                              <a href="javascript:void(0)" class="text-color clear-keywords">
+                      <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['keywords'])) hidden @endif ">
+                              <a href="javascript:void(0)" class="secondary-link clear-keywords">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
                       </label>
 
-                      <div class="search-area flex-row">
+                      <div class="search-area searchKeyword flex-row align-top">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
                            <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
                           
@@ -70,8 +70,8 @@
                           <input type="text" class="form-control fnb-input search-input text-color" name="area_search" placeholder="Search city">
                       </div>
                       <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear @if(!isset($urlFilters['area'])) hidden @endif">
-                              <a href="javascript:void(0)" class="text-color clear-checkbox">
+                          <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['area'])) hidden @endif">
+                              <a href="javascript:void(0)" class="secondary-link clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -126,8 +126,8 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-list-status">
                       <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear @if(!isset($urlFilters['experience'])) hidden @endif">
-                              <a href="javascript:void(0)" class="text-color clear-checkbox">
+                          <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['experience'])) hidden @endif">
+                              <a href="javascript:void(0)" class="secondary-link clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -149,8 +149,8 @@
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-rating">
                       <div class="check-section">
-                          <label class="sub-title flex-row clear @if(!isset($urlFilters['salary_type'])) hidden @endif">
-                              <a href="javascript:void(0)" class="text-color clear-salary">
+                          <label class="default-size flex-row clear text-medium m-b-10 clear @if(!isset($urlFilters['salary_type'])) hidden @endif">
+                              <a href="javascript:void(0)" class="secondary-link clear-salary">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -218,8 +218,8 @@
                   <div class="advertisement flex-row m-t-20">
                       <h6 class="element-title">Advertisement</h6>
                   </div>
-                  <div class="flex-row boost-row">
-                      <div class="heavier text-color boost-row__title">
+                  <div class="boost-row text-center">
+                      <div class="heavier text-color boost-row__title m-b-5">
                           Give your marketing a boost!
                       </div>
                       <button class="btn fnb-btn s-outline full border-btn default-size"><i class="fa fa-rocket fa-rotate-180" aria-hidden="true"></i> Advertise with us</button>

@@ -27,5 +27,8 @@ return [
 	],
 	'add-listing-updates-max-photos' => 5,
 	'default-updates-number' => 5,
-	
+	'email' => [
+		'defaultID'=>'noreply@fnbcircle.com',
+		'defaultName' => 'FnB Circle'
+	],
 ];

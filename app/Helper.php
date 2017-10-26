@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use AjComm;
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -313,4 +314,38 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	}
 
 	return $url;
+}
+
+/**
+* This function is used to send email for each event
+* This function will send an email to given recipients
+* @param data can contain the following extra parameters
+*	@param template_data
+*	@param to 
+*	@param cc
+*	@param bcc
+*	@param from
+*	@param name
+* 	@param subject
+*/
+function sendEmail($event='welcome', $data=[]) {
+	$email = new \Ajency\Comm\Models\EmailRecipient();
+	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
+	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
+	$email->setFrom($from, $name);
+	if(!isset($data['to']) )
+		return false;
+	$email->setTo($data['to']);
+	if(isset($data['cc'])) $email->setCc($data['cc']);
+	if(isset($data['bcc'])) $email->setCc($data['bcc']);
+	$params = (isset($data['template_data']))? $data['template_data']:[];
+	if(!is_array($params)) $params = [$params];
+	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+	$email->setParams($params);
+	$notify = new \Ajency\Comm\Communication\Notification();
+    $notify->setEvent($event);
+    $notify->setRecipientIds([$email]);
+    // $notify->setRecipientIds([$email,$email1]);
+    AjComm::sendNotification($notify);
+
 }

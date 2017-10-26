@@ -472,13 +472,13 @@ $(document).ready () ->
 		valueProperty: 'node_children'
 		visibleProperties: ["name", "search_name"] ## Order of display & dropdown contents to display
 		
-		searchContain: true
+		# searchContain: true
 		# searchEqual: false
 		# searchDisabled: false
 
-		#searchDelay: 200
+		searchDelay: 200
 
-		searchByWord: true
+		# searchByWord: true
 		allowDuplicateValues: false
 		debug: false
 		noResultsText: 'Sorry! No categories found for "{keyword}"'
@@ -507,7 +507,7 @@ $(document).ready () ->
 		searchEqual: false
 		searchDisabled: false
 
-		#searchDelay: 200
+		searchDelay: 200
 
 		searchByWord: false
 		allowDuplicateValues: false
@@ -547,6 +547,7 @@ $(document).ready () ->
 	### --- Triggered every time the value in input changes --- ###
 	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'change:flexdatalist', (event, set, options) ->
 		### -- make a request if any one the Searchbox is cleared -- ###
+
 		key = ""
 
 		if $(this).attr("name") == "city"
@@ -574,13 +575,13 @@ $(document).ready () ->
 			## --  For mobile -- ##
 			#if key != "state" && isMobile()
 			#	$('.searchBy.fly-out').removeClass 'active'
-		return
 		# else if key == "category_search" and $(this).val().length <= 0
 		# 	updateUrlPushstate(key, "")
+		event.preventDefault()
 		return
 
 	### -- Triggered every time the user selects an option -- ###
-	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'select:flexdatalist', () ->
+	$('input[name="city"], input[name="category_search"], input[name="business_search"]').on 'select:flexdatalist', (event, item, options) ->
 		key = ""
 
 		if $(this).prop("name") == "category_search"
@@ -628,13 +629,14 @@ $(document).ready () ->
 				getListContent()
 				return
 			), 500
+		event.preventDefault()
 		return
 
 	### --- Detect <a> click for categories --- ###
 	$(document).on "click", ".results__body ul.contents a", (e) ->
 		$(document).find(".results__body ul.contents #current_category").val($(this).attr("value"))
 		# updateUrlPushstate("categories", "categories=" + $(this).attr("value"))
-		#$(document).find('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
+		# $(document).find('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
 
 		# $('#category input[name="category_search"]').prop('value', $(this).attr("value"))
 		# $('#category input[name="category_search"]').flexdatalist('value', $(this).attr("value"))
@@ -665,8 +667,20 @@ $(document).ready () ->
 
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
 	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
-		old_values["state"] = $('input[name="city"]').val()
-		$('input[name="city"]').flexdatalist 'value', ""
+		searchbox_name_linking = 
+			"flexdatalist-city": "state"
+			"flexdatalist-category_search": "category_search"
+			"flexdatalist-business_search": "business_search"
+
+		key_name = $(this).attr 'name'
+		key_name = key_name.split("-")[1]
+		old_values[searchbox_name_linking['flexdatalist-' + key_name]] = $('input[name="' + key_name + '"]').val()
+		$('input[name="' + key_name + '"]').flexdatalist 'value', ""
+
+		## -- Trigger Event 'keyup' -- ##
+		e = $.Event('keyup')
+		e.which = 8
+		$(this).trigger(e)
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###

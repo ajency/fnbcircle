@@ -113,6 +113,7 @@ filterJobs = (resetPage) ->
           collapsedHeight: 40
           moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>'
           lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
+     
     error: (request, status, error) ->
       throwError()
       return

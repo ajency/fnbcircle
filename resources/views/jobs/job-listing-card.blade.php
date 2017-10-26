@@ -8,7 +8,7 @@
               <div>
                   <div class="flex-row space-between">
                     <h3 class="seller-info__title" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
-                     <div class="get-details detail-move">
+                     <div class="get-details detail-move mobile-hide">
                         <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
                         <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                       </div>
@@ -146,7 +146,7 @@
                   @if($job->salary_lower == $job->salary_upper )
                   <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }}
                   @else
-                  <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i>{{ moneyFormatIndia($job->salary_upper) }} 
+                  <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_lower) }} - <i class="fa fa-inr text-color" aria-hidden="true"></i> {{ moneyFormatIndia($job->salary_upper) }} 
                   @endif
                 {{ $job->getSalaryTypeShortForm()}}</div>
 
@@ -166,6 +166,10 @@
                   
                </div>
                @endif
+          </div>
+          <div class="get-details detail-move desk-hide">
+            <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
+            <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
           </div>
       </div>
   </div>

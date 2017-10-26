@@ -82,7 +82,7 @@ $additionalData = ['job'=>$job];
 
  
             @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-             <a href="{{ url('/jobs/'.$job->reference_id.'/job-details') }}" class="no-decor"><button type="button" class="share-btn edit-job flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
+             <a href="{{ url('/jobs/'.$job->reference_id.'/job-details') }}" class="no-decor"><button type="button" class="share-btn edit-job edit-listing flex-row"><i class="fa fa-pencil" aria-hidden="true"></i> Edit your job</button></a>
 
             @endif                        
          </div>

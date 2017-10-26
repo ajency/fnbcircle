@@ -7100,6 +7100,16 @@ input[type=checkbox].custom-checkbox:before {
   .job-listings .filter-cards .off-salary {
     margin-bottom: 0.5em;
   }
+  .job-listings .filter-cards .get-details {
+    margin: 1em 0;
+    border-top: 1px solid #eee;
+    padding-top: 0.8em;
+  }
+  .job-listings .filter-cards .get-details .fnb-btn {
+    width: 150px;
+    margin: 0 auto;
+    padding: 0.6em 1.8em;
+  }
 }
 .home-text {
   position: relative;

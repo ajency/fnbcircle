@@ -1266,12 +1266,28 @@ $additionalData = ['job'=>$job];
                  <th>City</th>
                  <th>Resume</th>
                </thead>
-             @foreach($jobApplications as $application)
+             @foreach($jobApplications as $key => $application)
               @php
               $resumeUrl = getUploadFileUrl($application->resume_id);
+
+              if(isset($jobApplications[($key - 1)]) && $application->date_of_application == $jobApplications[($key - 1)]->date_of_application)
+              {
+                $date_of_application = '';
+                $dateRepeat = 'date-repeat';
+              }
+              else
+              {
+                $date_of_application = $application->dateOfSubmission();
+
+                if(isset($jobApplications[($key + 1)]) && $application->date_of_application == $jobApplications[($key + 1)]->date_of_application)
+                  $dateRepeat = 'date-repeat';
+                else
+                  $dateRepeat = '';
+              }
+
               @endphp
                <tr>
-                 <td>{{ $application->dateOfSubmission() }}</td>
+                 <td class="{{ $dateRepeat }}">{{ $date_of_application }} </td>
                  <td>{{ $application->name }}</td>
                  <td>{{ $application->email }}</td>
                  <td>{{ $application->phone }}</td>

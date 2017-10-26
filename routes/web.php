@@ -202,5 +202,8 @@ Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 /**
 USER PROFILE
 **/
-
+Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], function () {
+	Route::get('/','UserController@customerdashboard');
+ 
+});
  

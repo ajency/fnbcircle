@@ -227,7 +227,7 @@ class UserController extends Controller
 
     public function customerdashboard(){
         $user = Auth::user();
-        $jobPosted = $user->jobPosted()->get();
+        $jobPosted = $user->jobPosted()->get();dd($jobPosted);
         $jobApplication = $user->applications()->get();
 
         return view('users.dashboard') ->with('user', $user)

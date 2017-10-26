@@ -350,14 +350,14 @@ class JobController extends Controller
 
         $jobApplications = false;
         if($job->jobOwnerOrAdmin()){
-            $jobApplications = $job->jobApplicants()->get();
+            $jobApplications = $job->jobApplicants()->orderBy('date_of_application','desc')->get();
             
         }
        
         $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;
         $data['userProfile'] = $userProfile;
-        $data['jobApplications'] = $jobApplications;
+        $data['jobApplications'] = $jobApplications; 
          
          return view('jobs.job-view')->with($data);
     }

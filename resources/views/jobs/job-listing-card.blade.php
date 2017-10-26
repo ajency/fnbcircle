@@ -6,10 +6,10 @@
       <div class="seller-info__body filter-cards__body white-space">
           <div class="body-left flex-cols">
               <div>
-                  <div class="flex-row space-between align-top">
-                    <h3 class="seller-info__title ellipsis" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
+                  <div class="flex-row space-between">
+                    <h3 class="seller-info__title" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
                      <div class="get-details detail-move">
-                        <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                        <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
                         <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                       </div>
                   </div>
@@ -35,7 +35,7 @@
                        
                       @foreach($job->getJobTypes() as $jobType)
                        <label class="fnb-label wholesaler flex-row m-r-5">
-                          <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
+                          <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           {{ $jobType }}
                        </label>
                       @endforeach
@@ -57,11 +57,10 @@
                         <ul class="fnb-cat flex-row">
                           @foreach($keywords as $keyword)
                             <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title">{{ $keyword['label'] }}</a></li>
-
                           @endforeach
 
                           @if($moreKeywordCount) 
-                            <li class="cat-more more-show"><a href="" class="text-darker">+{{ $moreKeywordCount }} more</a></li>
+                            <li class="cat-more more-show"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link">+{{ $moreKeywordCount }} more</a></li>
                           @endif
                         </ul>
                     </div>
@@ -102,7 +101,7 @@
                                 <p class="cities__title default-size">|</p>
                             </li>
                             <li class="remain more-show">
-                                <a href="" class="cities__title remain__number default-size text-medium">more...</a>
+                                <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
                             </li>
                           @endif
                         </ul>
@@ -113,7 +112,7 @@
           </div>
           <div class="recent-updates open-border">
             <p class="operations__title default-size grey-darker heavier m-t-0">Job Description</p>
-            <p class="m-t-0 m-b-0 heavier text-lighter text-medium default-size">Description : {{ $job->getShortDescription() }}</p>
+            <p class="m-t-0 heavier text-lighter text-medium default-size job-list-desc">{{ $job->getShortDescription() }}</p>
           </div>
            <div class="recent-updates flex-row open-border">
              <div class="off-salary">

@@ -2426,6 +2426,12 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: start;
           align-items: flex-start;
 }
+.align-end {
+  -webkit-box-align: end;
+  -webkit-align-items: end;
+      -ms-flex-align: end;
+          align-items: end;
+}
 .justify-center {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -7027,9 +7033,14 @@ input[type=checkbox].custom-checkbox:before {
 }
 .job-listings .filter-cards .seller-info__title {
   margin: 0;
+  white-space: normal;
+  line-height: 1.2;
 }
 .job-listings .filter-cards .get-details {
   position: relative;
+  -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+          align-self: flex-start;
 }
 .job-listings .filter-cards .get-details .fnb-btn {
   padding: 0.5em 1.8em;
@@ -7040,7 +7051,6 @@ input[type=checkbox].custom-checkbox:before {
   right: -1.8em;
 }
 .job-listings .filter-cards .companyName {
-  margin-top: -10px;
   margin-bottom: 6px;
 }
 .job-listings .filter-cards .roles-location .cat-holder {
@@ -7054,6 +7064,12 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-flex: 0.5;
       -ms-flex: 0.5;
           flex: 0.5;
+}
+.job-listings .filter-cards .fnb-label {
+  padding: 0.3em 0.6em;
+}
+.job-listings .filter-cards .off-salary {
+  margin-right: 2em;
 }
 .home-text {
   position: relative;

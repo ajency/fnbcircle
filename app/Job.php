@@ -596,10 +596,7 @@ class Job extends Model
 
    }
 
-   public function getJobApplications(){
-        
-
-    }
+    
 
     
 }

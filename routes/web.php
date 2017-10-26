@@ -159,3 +159,8 @@ Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
 
+/**
+USER PROFILE
+**/
+
+

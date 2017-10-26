@@ -1,10 +1,10 @@
 <?php
 return [
-    "welcome" =>
+    "new-user" =>
         [
-            "mandrill" => "welcome",
             "pushcrew" => "welcome-email-new",
             "laravel" => "email.hello-user"
+            "smsgupshup" => ""
         ],
     "reset-password" => [
         "sendgrid" => "reset-password-new",

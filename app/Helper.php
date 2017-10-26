@@ -2,7 +2,9 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
-use AjComm;
+use App\Defaults;
+// use AjComm;
+
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -336,7 +338,14 @@ function sendEmail($event='welcome', $data=[]) {
 	if(!isset($data['to']) )
 		return false;
 	$email->setTo($data['to']);
-	if(isset($data['cc'])) $email->setCc($data['cc']);
+	$cc = (isset($data['cc']))? $data['cc']:[];
+	if(!is_array($cc)) $cc = [$cc];
+	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
+	if(in_array($event, $notify)){
+		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+		$cc = array_merge($cc,$notify_data);
+	}
+	$email->setCc($cc);
 	if(isset($data['bcc'])) $email->setCc($data['bcc']);
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];

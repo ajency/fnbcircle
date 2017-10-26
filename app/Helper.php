@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -182,8 +183,11 @@ function getDefaultValues($type, $arrayType=1){
 }
 
 
-function getCommunicationContactDetail($objectId,$objectType,$type){
-    $commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
+	if($mode == 'edit')
+    	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+   	else
+   		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
     
     $contactInfo = [];
     if(!empty($commObjs)){
@@ -195,7 +199,6 @@ function getCommunicationContactDetail($objectId,$objectType,$type){
 
     return $contactInfo;
 }
- 
 
 function moneyFormatIndia($amount){
     $num = floatval($amount);
@@ -242,30 +245,30 @@ function salarayTypeText($type){
 */
 function pagination($totalRecords,$currentPage,$limit){
 
-	$currentPage = (!$currentPage)? 1 : $currentPage;
+	$currentPage = (!$currentPage) ? 1 : $currentPage;
 	$totalPages = intVal(ceil($totalRecords/$limit)); 
 	$next = false;
 	$previous = false;
 	$html = '';
-	$endCounterValue = ($currentPage >= 5 )? 5 : 10-$currentPage;
+	$endCounterValue = ($currentPage >= 5 ) ? 5 : 10 - $currentPage;
 
-	if($totalPages > 1){
+	if($totalPages > 1) {
 
-		if($currentPage > 4){
+		if($currentPage > 4) {
 			$previous = true;
-			$startPage = $currentPage-4;
-		}
-		else
+			$startPage = $currentPage - 4;
+		} else
 			$startPage = 1;
 		 
 		if(($currentPage + $endCounterValue) < $totalPages){
 			$next = true;
-			$endPage = $currentPage+$endCounterValue;
-		}
-		else
-			$endPage = $currentPage+ ($totalPages-$currentPage);
+			$endPage = $currentPage + $endCounterValue;
+		} else
+			$endPage = $currentPage + ($totalPages-$currentPage);
+
+		$html = View::make('pagination')->with(compact('previous', 'next', 'currentPage', 'startPage', 'endPage'))->render();
  
-		if($previous)
+		/*if($previous)
 			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
 		for ($i=$startPage; $i <= $endPage; $i++) { 
@@ -278,7 +281,7 @@ function pagination($totalRecords,$currentPage,$limit){
 		}
 
 		if($next)
-			$html .= '| <a href="javascript:void(0)" class="paginate next" page="' . ($endPage + 1) . '">next</a>';
+			$html .= '| <a href="javascript:void(0)" class="paginate next" page="' . ($endPage + 1) . '">next</a>';*/
 	}
 
 	return $html;

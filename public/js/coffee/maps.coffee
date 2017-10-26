@@ -20,6 +20,10 @@ window.init = ->
   if $("#map").attr('map-title') != ""
     mapTextMsg = $("#map").attr('map-title')
   document.getElementById('map').style.height="300px"
+  if $("input#mapadd").val() == ""
+    inp=$("input#hidden_address").val();
+  else
+    inp=$("input#mapadd").val();
 
   if $(".mapAddress").length
     is_draggable = false
@@ -29,7 +33,7 @@ window.init = ->
   marker = new (google.maps.Marker)(
     draggable: is_draggable
   title: mapTextMsg)
-  inp=$("input#mapadd").val();
+  # inp=$("input#mapadd").val();
   lat=$('input#latitude').val()
   lng=$('input#longitude').val()
   if lat == ''

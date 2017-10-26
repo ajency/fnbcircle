@@ -44,7 +44,7 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        Common::authenticate('listing', $this);
+        // Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
@@ -505,7 +505,7 @@ class ListingController extends Controller
             'description' => 'max:65535 ',
             'highlights'  => 'required',
             'established' => 'nullable|numeric',
-            'website'     => 'nullable|url',
+            'website'     => 'nullable',
             'payment.*'   => 'required|boolean',
         ]);
         return true;
@@ -528,7 +528,8 @@ class ListingController extends Controller
         }
 
         if (isset($data->website) and !empty($data->website)) {
-            $other['website'] = $data->website;
+            if(substr($data->website,0,4) == 'http') $other['website'] = $data->website;
+            else $other['website'] = 'http://'.$data->website;
         }
         $other                  = json_encode($other);
         $listing->other_details = $other;
@@ -656,6 +657,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
+        
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -666,7 +668,25 @@ class ListingController extends Controller
         if ($id != false) {
             return response()->json(['status' => '200', 'message' => 'File Uploaded successfully', 'data' => ['id' => $id]]);
         } else {
-            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []]);
+            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []], 400 );
+        }
+    }
+
+    public function listingPremium(Request $request){
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        } elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        } elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
     }
 
@@ -693,6 +713,9 @@ class ListingController extends Controller
                     break;
                 case 'business-photos-documents':
                     return $this->listingPhotosAndDocuments($request);
+                    break;
+                case 'business-premium':
+                    return $this->listingPremium($request);
                     break;
                 default:
                     return \Redirect::back()->withErrors(array('wrong_step' => 'Something went wrong. Please try again'));
@@ -779,7 +802,7 @@ class ListingController extends Controller
         }
         if($listing->status == 1){
             $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
-            if ($step == 'business-updates'){
+            if ($step == 'post-an-update'){
                 return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
             }
         }

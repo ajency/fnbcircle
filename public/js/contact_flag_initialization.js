@@ -20,6 +20,7 @@
     $("#requirement_form .verify-container .contact-verify-link").on('click', function() {
       var parent;
       parent = "#requirement_form";
+      console.log("clicking");
       if (!$(parent + " input[type='tel'][name='contact']").val()) {
         $(parent + " #contact-error").removeClass('hidden').text("Please enter a 10 digit contact number");
       }
@@ -29,12 +30,12 @@
       /* --- Assign the flag code to the hidden input --- */
       $("#register_form input[type='hidden'][name='contact_locality']").val(countryData.dialCode);
     });
-    $('#require-modal #requirement_form').on('countrychange', 'input[name="contact"]', function(e, countryData) {
+    $(document).on('countrychange', '#require-modal #requirement_form input[name="contact"]', function(e, countryData) {
 
       /* --- Assign the flag code to the hidden input --- */
 
       /* --- If the country code is not defined i.e. if User has not entered his/her contact number, then by default the requirement's Hidden calue has to be the flag value --- */
-      $("#register_form input[type='hidden'][name='contact_locality']").val(countryData.dialCode);
+      $(document).find("#require-modal #requirement_form input[type='hidden'].contact-country-code").val(countryData.dialCode);
     });
   });
 

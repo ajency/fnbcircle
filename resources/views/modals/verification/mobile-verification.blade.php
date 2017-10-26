@@ -1,8 +1,11 @@
 <div class="m-t-40 m-b-40 business-phone business-contact contact-info contact-info-mobile" contact-type="mobile">
         <div class="flex-row space-between mobile-sp-row">
-            <label class="label-size">Enter your business mobile number</label>
+            <label class="label-size">Enter your mobile number</label>
             <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
         </div>
+        @php
+        $key = 0;
+        @endphp
         @if(!empty($contactMobile))
         @foreach($contactMobile as $mobile)
         <div class="contact-row m-t-5 contact-container">
@@ -11,10 +14,10 @@
                     <div class="input-row">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value="{{ $mobile['id'] }}"  name="contact_mobile_id[]">
                         
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif >
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" name="contact_mobile[]" value="{{ $mobile['mobile']}}"  data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile['verified']) readonly @endif data-parsley-errors-container="#mobileError{{ ($key) }}">
 
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $mobile['country_code']}}">
-                        <div class="dupError" ></div>
+                        <div class="dupError" id="mobileError{{ ($key) }}"></div>
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i>  -->
                     </div>
                 </div>
@@ -38,7 +41,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="{{ $mobile['visible'] }}">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">@if($mobile['visible']) Visible on the listing @else Not visible on the listing @endif  </p>
+                            <p class="m-b-0 text-color toggle-state">@if($mobile['visible']) Visible to the applicant @else Not visible to the applicant @endif  </p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -52,11 +55,11 @@
         <div class="contact-row m-t-5 contact-container">
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
-                    <div class="input-row">
+                    <div class="input-row test">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits.">
+                        <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-errors-container="#mobileError{{ ($key) }}">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
-                        <div class="dupError" ></div>
+                        <div class="dupError" id="mobileError{{ ($key) }}"></div>
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
@@ -77,7 +80,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible to the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>
@@ -89,15 +92,15 @@
         @endif
      
         <div class="contact-row m-t-5 contact-group hidden contact-container">
-            <div class="row no-m-b get-val phone-row ">
+            <div class="row no-m-b get-val phone-row">
                 <div class="col-sm-5">
 
                     <input type="hidden" class="contact-id" readonly  name="contact_mobile_id[]">
-
+                    <input type="hidden" class="id-generator"></input>
                     <div class="input-row">
-                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  >
+                        <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  data-parsley-errors-container="#mobileError{{ ($key+1) }}">
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
-                        <div class="dupError" ></div>
+                        <div class="dupError" id="mobileError{{ ($key+1) }}"></div>
                          <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
                 </div>
@@ -116,7 +119,7 @@
                                 <b class="track"></b>
                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
+                            <p class="m-b-0 text-color toggle-state">Not visible to the applicant</p>
                         </div>
                         <i class="fa fa-times removeRow delete-contact"></i>
                     </div>

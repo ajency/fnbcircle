@@ -39,7 +39,7 @@ class CommonController extends Controller
         $res   = array();
         
         foreach ($areas as $area) {
-            $res[] = array('id'=>$area->id,'name'=>$area->name);
+            $res[] = array('id'=>"$area->id",'name'=>$area->name);
         }
         
         return response()->json($res);
@@ -168,6 +168,7 @@ class CommonController extends Controller
 
         $plan = Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->firstOrFail();
         // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
+        $object->premium()->where('status',0)->update(['status'=>2]);
         $premium = new PlanAssociation;
         $premium->plan_id = $plan->id;
         $object->premium()->save($premium);

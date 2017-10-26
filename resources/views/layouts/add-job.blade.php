@@ -33,12 +33,17 @@
     <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
 
     <script type="text/javascript" src="{{ asset('js/jquery.custom-file-input.js') }}"></script>
+
+    <!-- Read More -->
+    <script type="text/javascript" src="{{ asset('js/readmore.min.js') }}"></script>
+
+
     <!-- Add listing -->
-    <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/add-listing.js') }}"></script> -->
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('js/custom.js') }}"></script>
 
-     <script src="{{ asset('js/AddListing.js') }}"></script>
+     <!-- <script src="{{ asset('js/AddListing.js') }}"></script> -->
     <script type="text/javascript" src="{{ asset('js/handlebars.js') }}"></script>
     <!-- <script type="text/javascript" src="/js/require.js"></script> -->
 
@@ -95,7 +100,9 @@
                 </div>
                 @if($job->isJobVisible())
                 <div class="col-sm-4 flex-col text-right mobile-hide">
-                    <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    <div class="detach-preview mobile-hide">
+                        <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="preview-header__link white btn fnb-btn white-border mini"><i class="fa fa-eye" aria-hidden="true"></i> Preview Job</a>
+                    </div>
                 </div> 
                 @endif
             </div>
@@ -116,7 +123,7 @@
                             <div class="dsk-separator edit-summary-card">
 
                                 <div class="summary-info">
-                                    <h5>{{ $job->title }}</h5>
+                                    <h5 class="word-break">{{ $job->title }}</h5>
                                     <div class="listing-status">
                                         <div class="label">STATUS</div>
                                         <div class="flex-row space-between">
@@ -125,9 +132,19 @@
                                             <i class="fa fa-info-circle text-color m-l-5 draft-status" data-toggle="tooltip" data-placement="top" title="Job will remain in draft status till submitted for review."></i>
                                             @endif
 
+
+
                                             </div>
                                             @if($job->submitForReview()) 
                                             <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                            @endif
+
+                                            @if($job->getNextActionButton())
+                                                @php
+                                                $nextActionBtn =$job->getNextActionButton();
+                                                @endphp
+                                                
+                                             <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >{{ $nextActionBtn['status'] }}</a>
                                             @endif
                                         </div>
                                     </div>
@@ -188,10 +205,10 @@
                             <div class="view-sample dsk-separator m-t-20 m-b-20">
                                 This is what your job will look like once created.
                                 <div class="m-t-10">
-                                    <a href="/pdf/sample-project.pdf" class="mobile-hide" target="_blank">
+                                    <a href="/pdf/sample-job.pdf" class="mobile-hide" target="_blank">
                                         <img src="/img/sample_listing.png" class="img-responsive">
                                     </a>
-                                    <a href="/pdf/sample-project.pdf" class="desk-hide">View the sample</a>
+                                    <a href="/pdf/sample-job.pdf" class="desk-hide">View the sample</a>
                                 </div>
                             </div>
 
@@ -206,19 +223,31 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Premium jobs get more applicants as compared to non premium.
+                                        Get 10 X times more response.
                                     </div>
-                                    <div class="first tips-row__col flex-row">
+                                    <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             2
                                         </span>
-                                        Premium jobs are displayed on top in the search results.
+                                        Get premium tag which makes your requirement stand out from rest.
                                     </div>
-                                    <div class="first tips-row__col flex-row">
+                                    <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             3
                                         </span>
-                                        Premium jobs will be indicated with a premium label!
+                                        Your job gets displayed on top of other non premium jobs and gets top priority.
+                                    </div>
+                                    <div class="first tips-row__col flex-row">
+                                        <span class="number">
+                                            4
+                                        </span>
+                                        20 extra days of visibility.
+                                    </div>
+                                    <div class="first tips-row__col flex-row align-top">
+                                        <span class="number">
+                                            5
+                                        </span>
+                                        Your job is displayed to candidates while searching for similar other jobs of other employers.
                                     </div>
                                 </div>
                             </div>
@@ -323,31 +352,9 @@
                 </button> -->
 
 
-                <!-- Modal -->
-                <!-- listing review -->
-                <div class="modal fnb-modal listing-review job-review fade modal-center" id="job-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                            </div>
-                            <div class="modal-body text-center">
-                                <div class="listing-message">
-                                    <i class="fa fa-check-circle check" aria-hidden="true"></i>
-                                    <h4 class="element-title heavier">We have sent your job for review</h4>
-                                    <p class="default-size text-color lighter list-caption">Our team will review your job and you will be notified if your job is published.</p>
-                                </div>
-                                <div class="listing-status highlight-color">
-                                    <p class="m-b-0 text-darker heavier">The current status of your job is</p>
-                                    <div class="pending text-darker heavier sub-title"><i class="fa fa-clock-o text-primary p-r-5" aria-hidden="true"></i> Pending Review <!-- <i class="fa fa-info-circle text-darker p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pending review"></i> --></div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                    <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @include('jobs.job-status-modal')
+
+
 
               
             </div>

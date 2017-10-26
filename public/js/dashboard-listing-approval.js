@@ -18,7 +18,7 @@
   approval_table = $('#datatable-listing_approval').DataTable({
     'pageLength': 25,
     'processing': true,
-    'order': [[4, 'desc']],
+    'order': [[2, 'desc']],
     'serverSide': true,
     'drawCallback': function() {
       if (filters['status'].length === 1) {
@@ -42,6 +42,8 @@
         "data": "#"
       }, {
         "data": "name"
+      }, {
+        "data": "id"
       }, {
         "data": "city"
       }, {
@@ -77,7 +79,7 @@
         'className': 'select-checkbox',
         'targets': 0
       }, {
-        'targets': [11],
+        'targets': [12],
         'visible': false,
         'searchable': false
       }
@@ -520,6 +522,11 @@
 
   $('body').on('change', 'select#listingType', function() {
     filters['type'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#premiumRequest', function() {
+    filters['premium'] = $(this).val();
     return sendRequest();
   });
 

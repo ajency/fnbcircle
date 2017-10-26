@@ -83,6 +83,13 @@ $('body').on 'click', '#post-update-button', ->
 
 
 $('body').on 'click', '.add-uploader', (e)->
+  max_uploads = parseInt(document.head.querySelector('[property="max-file-upload"]').content)
+  current_uploads =parseInt($(this).closest('.fileUpload').find('input[type="file"]').length )
+  console.log max_uploads,current_uploads
+  if current_uploads > max_uploads 
+    $(this).closest('.fileUpload').find('#more-file-error').html('Cannot upload more than '+max_uploads+' files')
+    # alert('You can upload maximum of '+max_uploads+' photos')
+    return
   e.preventDefault()
   console.log 'bxbvbbz'
   contact_group = $(this).closest('.fileUpload').find('.uppend-uploader')
@@ -91,6 +98,8 @@ $('body').on 'click', '.add-uploader', (e)->
   getTarget = $(this).closest('.fileUpload').find('.addCol')
   # getTarget.insertBefore(contact_group_clone)
   contact_group_clone.insertBefore(getTarget)
+  if current_uploads == max_uploads 
+    $(this).closest('.addCol').remove()
   console.log(contact_group_clone)
   newimg = contact_group_clone.find('.doc-upload').dropify messages:
     'default': 'Add photo'
@@ -113,6 +122,7 @@ $('body').on 'click', '.add-uploader', (e)->
 
 $('body').on 'click', '.removeCol', (e)->
   e.preventDefault()
+  $('#more-file-error').html('')
   $(this).parent().remove()
 
 
@@ -135,6 +145,7 @@ loadUpdates = () ->
     success: (data) ->
       if data['status'] == '200'
         $('.update-display-section').find('.view-more-updates').remove()
+        $('.update-display-section').find('.no-updates').remove()
         if data['data']['updates'].length != 0 
           offset+=data['data']['updates'].length
           html = ''
@@ -154,22 +165,37 @@ loadUpdates = () ->
                           <p class="update-sec__caption text-lighter">
                               '+element.contents+'
                           </p>
-                          <ul class="flex-row update-img">'
+                          <ul class="flex-row update-img align-top flex-wrap post-gallery">'
             $.each element.images, (j,item) ->
               # console.log item
-              html+='<li><img src="'+item['200x150']+'" alt="" width="80"></li>'
+              html+='<li><a href="'+item['400X300']+'"><img src="'+item['200x150']+'" alt="" width="80" class="no-height"><div class="updates-img-col" style="background-image: url('+item['200x150']+');">
+                                        </div></a></li>'
               return
                               
             html +=      '</ul>
-                          <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted on '+element.updated+'</p>
+                          <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Posted '+element.updated+'</p>
                       </div>
                   </div>'
           $('.update-display-section').append(html)
-          if data['data']['updates'].length == 5 
+          if data['data']['more'] == true 
             button = '<div class="m-t-10 text-center view-more-updates">
                             <a href="#" class="btn fnb-btn secondary-btn full border-btn default-size">+ View More</a>
                         </div>'
             $('.update-display-section').append(button)
+          if $('.post-gallery').length
+            $('.post-gallery').each ->
+              $(this).magnificPopup
+                delegate: 'a'
+                type: 'image'
+                gallery: enabled: true
+                zoom:
+                  enabled: true
+                  duration: 300
+        else
+          nothing = '<div class="m-t-10 text-center text-primary no-post-updates">
+                      No updates as of now! <i class="fa fa-frown-o p-l-5" aria-hidden="true"></i>
+                      </div>'
+          $('.update-display-section').append(nothing)
 
 $('body').on 'change','select[name="update-sort"]',()->
   order = @value
@@ -191,14 +217,14 @@ newPost = () ->
           <div class="flex-row space-between title-flex-row">
             <div class="title-icon">
               <label class="required">Title</label>
-                    <input type="text" class="form-control fnb-input" placeholder="Give a title to your post" name="title" data-parsley-required>
+                    <input type="text" class="form-control fnb-input" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="Give a title to your post" name="title" data-parsley-required>
                   </div>
                   <img src="/img/post-title-icon.png" class="img-responsive">
           </div>
         </div>
         <div class="col-sm-12 form-group c-gap">
           <label class="required">Give us some more details about your listing</label>
-               <textarea type="text" rows="2" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
+               <textarea type="text" rows="3" name="description" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe the post here" data-parsley-required></textarea>
         </div>
         <div class="col-sm-12">
           <div class="image-grid imageUpload fileUpload post-uploads">
@@ -221,12 +247,11 @@ newPost = () ->
                     </div>
           </div>
           <div class="image-grid__cols addCol">
-                    <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                    <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                 </div>
                 <div class="image-grid__cols uppend-uploader hidden">
                     <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
                         <input type="hidden" name="image-id" value="">
-                    <div type="button" class="removeCol"><i class="">✕</i></div>
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                               <div id="floatingBarsG">
@@ -243,6 +268,7 @@ newPost = () ->
                     </div>
                 </div>
         </div>
+        <div id="more-file-error" class="text-danger"></div>
         </div>
         <div class="col-sm-12">
           <div class="text-right mobile-center post-action">
@@ -292,13 +318,13 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                       <div class="flex-row space-between title-flex-row">
                         <div class="title-icon">
                           <label class="">Title</label>
-                           <input type="text" class="form-control fnb-input form-update-data1" placeholder="" name="title" data-parsley-required>
+                           <input type="text" class="form-control fnb-input form-update-data1" data-parsley-maxlength="245" data-parsley-maxlength-message="Title too long" placeholder="" name="title" data-parsley-required>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-12 form-group c-gap">
-                      <label class="">Listing description</label>
-                        <textarea type="text" rows="2" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
+                      <label class="">Give us some more details about your listing</label>
+                        <textarea type="text" rows="3" name="description" class="form-control fnb-textarea form-update-data no-m-t allow-newline" placeholder="" data-parsley-required></textarea>
                     </div>
                     <div class="col-sm-12">
                       <div class="image-grid imageUpload fileUpload post-uploads modal-uploads">'
@@ -343,12 +369,12 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                         </div>
                       </div>'
         html+=       '<div class="image-grid__cols addCol">
-                                <a href="#" class="add-uploader secondary-link text-decor">+Add more files</a>
+                                <a href="#" class="add-uploader secondary-link text-decor">+Add more photos</a>
                             </div>
                             <div class="image-grid__cols uppend-uploader hidden">
                                 <input type="file" class="list-image doc-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png gif jpeg" />
                                     <input type="hidden" name="image-id" value="">
-                                <div type="button" class="removeCol"><i class="">✕</i></div>
+                               
                                 <div class="image-loader hidden">
                                     <div class="site-loader section-loader">
                                           <div id="floatingBarsG">
@@ -365,6 +391,7 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
                                 </div>
                             </div>
                     </div>
+                    <div id="more-file-error" class="text-danger"></div>
                     </div>
                     <div class="col-sm-12">
                       <div class="text-center post-action m-t-20">
@@ -377,6 +404,9 @@ $('#edit-updates').on 'show.bs.modal', (e) ->
         $('#edit-updates .update-edit-modal').html html
         $('#edit-updates').find('input[name="title"]').val(post['title'])
         $('#edit-updates').find('textarea[name="description"]').val(post['content'])
+
+
+        
         # if post['images'].length == 0
         newmodalimg = $('#edit-updates .img-modal-upload').dropify messages:
           'default': 'Add photo'
@@ -435,6 +465,8 @@ $('#edit-updates').on 'click','#edit-update-button',()->
       newPost()
 
 $('body').on 'click','.delete-post', () ->
+  if !confirm('Are you sure you want to delete this post?')
+    return
   console.log "lllal"
   id = $(this).attr('data-delete-id')
   url = document.head.querySelector('[property="delete-post-url"]').content
@@ -449,3 +481,43 @@ $('body').on 'click','.delete-post', () ->
       offset = 0
       $('.update-display-section').html ''
       loadUpdates()
+
+window.updateActions = () ->
+  parameters = {}
+  parameters['listing_id'] = document.getElementById('listing_id').value
+  parameters['step'] = 'business-premium'
+  if window.submit ==1
+    parameters['submitReview'] = 'yes'
+  if window.archive ==1
+    parameters['archive'] = 'yes'
+  if window.publish ==1
+    parameters['publish'] = 'yes'
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", "/listing")
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  return
+
+# Gallery magnify for individual group
+
+# setTimeout (->
+#   if $('.post-gallery').length
+#     $('.post-gallery').each ->
+#       $(this).magnificPopup
+#         delegate: 'a'
+#         type: 'image'
+#         gallery: enabled: true
+#         zoom:
+#           enabled: true
+#           duration: 300
+#       return
+# ), 500

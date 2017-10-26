@@ -446,5 +446,3 @@ $('#add_newuser_modal').on('hidden.bs.modal', function (e) {
 })
 
 
-
-

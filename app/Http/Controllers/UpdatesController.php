@@ -99,7 +99,13 @@ class UpdatesController extends Controller
         }
         if($request->order == '1') $order = 'asc';
         else $order = 'desc';
-        $updates = $object->updates()->orderBy('updated_at',$order)->skip($request->offset)->take(config('tempconfig.default-updates-number'))->get();
+        $updates = $object->updates()->orderBy('updated_at',$order)->skip($request->offset)->take(config('tempconfig.default-updates-number')+1)->get();
+        if(count($updates) > config('tempconfig.default-updates-number')){
+            $more = true;
+            $updates->pop();
+        }else{
+            $more = false;
+        }
         $update_json = [];
         foreach ($updates as $update) {
             $update_json[] = [
@@ -107,10 +113,10 @@ class UpdatesController extends Controller
                 'title' => e($update->title),
                 'contents' => nl2br(e($update->contents)),
                 'images'=> $update->getImages(),
-                'updated'=>$update->updated_at->format('F j, Y'),
-            ];           
+                'updated'=>$update->created_at->diffForHumans(),
+            ];          
         }
-        return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json]]);
+        return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json, 'more'=>$more]]);
     }
 
     public function getPost(Request $request){

@@ -754,13 +754,13 @@ class JobController extends Controller
             $jobQuery->whereIn('jobs.status',$filters['job_status']);
         }
 
-        // if(isset($filters['city']) && !empty($filters['city']))
-        // {   
-        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id');
-        //     $jobQuery->whereIn('job_locations.city_id',$filters['city']);
+        if(isset($filters['city']) && !empty($filters['city']))
+        {   
+            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id');
+            $jobQuery->whereIn('job_locations.city_id',$filters['city']);
 
-        //     $jobQuery->distinct('jobs.id'); 
-        // }
+            $jobQuery->distinct('jobs.id'); 
+        }
 
         if(isset($filters['area']) && !empty($filters['area']))
         {   

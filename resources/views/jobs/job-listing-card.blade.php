@@ -124,7 +124,7 @@
                         </div>
 
                        <!--  <div class="location flex-row m-t-5">
-                            <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                            <p class="m-b-0 text-color heavier default-size"> <a href="" class="remain__number x-small secondary-link moreLink">+  more...</a>
                             </p>
                         </div> -->
                             

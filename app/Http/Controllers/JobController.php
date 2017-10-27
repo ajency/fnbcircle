@@ -107,8 +107,8 @@ class JobController extends Controller
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
-        $salaryLower = (isset($data['salary_lower']))?$data['salary_lower']:0;
-        $salaryUpper =  (isset($data['salary_upper']))?$data['salary_upper']:0;
+        $salaryLower = $data['salary_lower'];
+        $salaryUpper = $data['salary_upper'];
         $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
@@ -496,15 +496,15 @@ class JobController extends Controller
         $jobKeywords = $data['job_keyword'];
         $experience =  (isset($data['experience']))?$data['experience']:[];
         $salaryType = (isset($data['salary_type']))?$data['salary_type']:0;
-        $salaryLower = (isset($data['salary_lower']))?$data['salary_lower']:0;
-        $salaryUpper =  (isset($data['salary_upper']))?$data['salary_upper']:0;
+        $salaryLower = $data['salary_lower'];
+        $salaryUpper = $data['salary_upper'];
         $interviewLocation = $data['interview_location'];
         $latitude = $data['latitude'];
         $longitude = $data['longitude'];
         $keywordIds =  (isset($data['keyword_id']))?$data['keyword_id']:[];
         $hasChanges =  $data['has_changes'];
  
-dd($salaryLower);
+
         $metaData = [] ;
 
         if(is_array($jobTypeIds) && !empty($jobTypeIds)){
@@ -873,8 +873,8 @@ dd($salaryLower);
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
                 {
-                    $salaryQuery->where('jobs.salary_lower',0); 
-                    $salaryQuery->where('jobs.salary_upper',0); 
+                    $salaryQuery->whereNull('jobs.salary_lower'); 
+                    $salaryQuery->whereNull('jobs.salary_upper'); 
                     $salaryQuery->where('jobs.salary_type',0); 
                 });
             });

@@ -7,7 +7,7 @@
           <div class="body-left flex-cols">
               <div>
                   <div class="flex-row space-between">
-                    <h3 class="seller-info__title ellipsis-2" title="Empire cold storage &amp; chicken products">{{ $job->title }}</h3>
+                    <h3 class="seller-info__title ellipsis-2" title="Empire cold storage &amp; chicken products"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="  default-size text-medium secondary-link" target="_blank">{{ $job->title }}</a></h3>
 
                     @if(isset($showApplication) && $showApplication)
                     <div class="get-details detail-move">

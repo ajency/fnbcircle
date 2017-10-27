@@ -181,8 +181,8 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                         <div class="blockG" id="rotateG_08"></div>
                     </div>
                 </div>
+                <div class="job-pagination"></div>
             </div>
-            <div class="job-pagination"></div>
             <input type="hidden" name="listing_page" value="{{ $urlFilters['page'] }}">
         </div>
         <div class="site-overlay"></div>

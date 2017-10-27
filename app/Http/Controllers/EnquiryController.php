@@ -280,8 +280,8 @@ class EnquiryController extends Controller {
 					//$op = $session_obj->update(['payload' => $payload_data]); // Serialize & Save the Payload content
 					
 					Session::put('enquiry_data', $payload_data["enquiry_data"]);
-					Cookie::queue('user_id', '0', 120, '/', explode('://', env('APP_URL'))[1], '', false);
-					Cookie::queue('user_type', 'lead', 120, '/', explode('://', env('APP_URL'))[1], '', false);
+					Cookie::queue('user_id', '0', 120, '/', "localhost", '', false);
+					Cookie::queue('user_type', 'lead', 120, '/', "localhost", '', false);
 
 					$modal_template_html = $this->getEnquiryTemplate("step_2", $listing_obj->first()->slug, $session_id);
 					$status = 200;

@@ -11247,7 +11247,7 @@ input[type='checkbox'].remove-addr {
   cursor: inherit;
   font-size: 0.9em;
 }
-.apply-jobs-modal .jobDetail__row {
+.apply-jobs-modal .av-job-type {
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;

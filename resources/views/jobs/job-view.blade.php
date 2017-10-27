@@ -896,7 +896,7 @@ $additionalData = ['job'=>$job];
                           @endif
                           
                           @if(!empty($jobTypes))
-                          <div class="flex-row jobDetail__row">
+                          <div class="flex-row jobDetail__row av-job-type">
                              <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
                              <div class="featured-jobs__row flex-row">
                                   <div class="job-type m-t-5">
@@ -1025,7 +1025,7 @@ $additionalData = ['job'=>$job];
 
                           <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria hidden">
+                          <div class="row flex-row flex-wrap align-top edit-criteria">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))

@@ -6270,6 +6270,12 @@ input[type=checkbox].custom-checkbox:before {
 .filter-group .check-section .rating .value:before {
   font-size: 1.25em;
 }
+.filter-group .check-section.jobType span {
+  white-space: normal;
+}
+.filter-group .check-section.jobType .checkbox:before {
+  top: 0;
+}
 .filter-group:first-child {
   margin-top: 20px;
 }

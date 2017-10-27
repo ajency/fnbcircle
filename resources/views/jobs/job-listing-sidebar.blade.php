@@ -122,9 +122,9 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-business">
-                      <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear @if(!isset($urlFilters['job_type'])) hidden @endif">
-                              <a href="javascript:void(0)" class="text-color clear-checkbox">
+                      <div class="check-section filter-check jobType">
+                          <label class="default-size flex-row text-medium m-b-10 clear @if(!isset($urlFilters['job_type'])) hidden @endif">
+                              <a href="javascript:void(0)" class="secondary-link clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -133,7 +133,7 @@
                             @php
                               $jobTypeSlug = str_slug($jobType,'-');
                             @endphp
-                          <label class="sub-title flex-row text-color">
+                          <label class="sub-title align-top  flex-row text-color">
                               <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array( $jobTypeSlug,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job search-checkbox" value="{{ $jobTypeId }}" slug="{{ $jobTypeSlug }}">
                               <span>{{ $jobType }}</span>
                           </label>

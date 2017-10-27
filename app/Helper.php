@@ -365,15 +365,16 @@ function sendEmail($event='new-user', $data=[]) {
 * @param data can contain the following extra parameters
 *	@param to - array
 * 	@param message - string
+* @param override
 */
-function sendSms($event='new-user', $data=[]) {
+function sendSms($event='new-user', $data=[], $override = false) {
 	if(!isset($data['to'])) return false;
 	if(!is_array($data['to'])) $data['to'] = [$data['to']];
 	if(!isset($data['message'])) return false;
 	$sms = new \Ajency\Comm\Models\SmsRecipient();
     $sms->setTo($data['to']);
     $sms->setMessage($data['message']);
-    $sms->setOverride(true);
+    if($override) $sms->setOverride(true);
     $notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);

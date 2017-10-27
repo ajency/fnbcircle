@@ -7,7 +7,7 @@
           <div class="body-left flex-cols">
               <div>
                   <div class="flex-row space-between">
-                    <h3 class="seller-info__title ellipsis-2" title="Empire cold storage &amp; chicken products"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="  default-size text-medium secondary-link" target="_blank">{{ $job->title }}</a></h3>
+                    <h3 class="seller-info__title ellipsis-2" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="  default-size text-medium secondary-link" target="_blank">{{ $job->title }}</a></h3>
 
                     @if(isset($showApplication) && $showApplication)
                     <div class="get-details detail-move">
@@ -23,7 +23,7 @@
                       @endif
 
                       @if($job->jobPostedOn()!="")
-                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on {{ $job->jobPostedOn() }}</i></p>
+                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on: {{ $job->jobPostedOn() }}</i></p>
                        @endif
  
                   </div>
@@ -32,7 +32,7 @@
                       <i class="fa fa-tag p-r-5 text-lighter" aria-hidden="true"></i>
  
                         @if($isListing)
-                          <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}" class="primary-link">{{ $job->getJobCategoryName() }}</a>
+                          <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}" class="primary-link" title="Find all {{ $job->getJobCategoryName() }} jobs in {{ $flteredCitySlug }}">{{ $job->getJobCategoryName() }}</a>
                         @else
                            {{ $job->getJobCategoryName() }} 
                         @endif
@@ -44,7 +44,7 @@
                   <div class="stats flex-row m-t-10 flex-wrap">
                        
                       @foreach($job->getJobTypes() as $jobType)
-                       <label class="fnb-label wholesaler flex-row m-r-5">
+                       <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           {{ $jobType }}
                        </label>
@@ -69,7 +69,7 @@
                           @foreach($keywords as $keyword)
 
                           @if($isListing)
-                            <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title">{{ $keyword['label'] }}</a></li>
+                            <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title" title="Find all jobs matching {{ $keyword['label'] }} in {{ $flteredCitySlug }}">{{ $keyword['label'] }}</a></li>
                           @else
                           <li> {{ $keyword['label'] }} </li>
                           @endif
@@ -85,7 +85,15 @@
                 @endif
                 <div class="operations">
                     <p class="operations__title default-size grey-darker heavier m-t-0">Job Location:</p>
+                    @php
+                      $locCounter = 0;
+                    @endphp
                     @foreach($job->getJobLocationNames() as $city => $locAreas)
+                      @php
+                      $locCounter++;
+                      if($locCounter > 2)
+                        continue;
+                      @endphp
                     <div class="operations__container">
                         <div class="location flex-row">
                             <p class="m-b-0 text-color heavier default-size">{{ $city }} <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i>
@@ -122,15 +130,15 @@
                             @endif
                           </ul>
                         </div>
- 
-                       <!--  <div class="location flex-row m-t-5">
-                            <p class="m-b-0 text-color heavier default-size"> <a href="" class="remain__number x-small secondary-link moreLink">+  more...</a>
-                            </p>
-                        </div> -->
-                            
- 
+             
                     </div>
-                    @endforeach 
+                    @endforeach
+                    @if(count($job->getJobLocationNames()) >2)
+                     <div class="location flex-row m-t-5">
+                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="remain__number x-small secondary-link moreLink">+ {{(count($job->getJobLocationNames()) - 2)}}  more...</a>
+                        </p>
+                    </div> 
+                    @endif 
                 </div>
               </div>
           </div>

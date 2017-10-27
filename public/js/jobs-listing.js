@@ -200,6 +200,7 @@
     $('select[name="salary_type"]').prop("selectedIndex", 0);
     $('input[name="salary_lower"]').val('');
     $('input[name="salary_upper"]').val('');
+    $('.salary-range').addClass('hidden');
     return filterJobs(true);
   });
 

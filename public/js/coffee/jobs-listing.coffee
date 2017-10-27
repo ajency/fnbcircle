@@ -201,6 +201,7 @@ $('.clear-salary').click ->
   $('select[name="salary_type"]').prop("selectedIndex", 0)
   $('input[name="salary_lower"]').val('')
   $('input[name="salary_upper"]').val('')
+  $('.salary-range').addClass('hidden')
   filterJobs(true)
 
 $('select[name="salary_type"]').change ->

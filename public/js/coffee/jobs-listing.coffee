@@ -134,7 +134,16 @@ $(document).on 'click', '.apply-filters', ->
   $('.back-icon').click()
   return
 
+$('#sal-input').ionRangeSlider
+  type: 'double'
+  # grid: true
+  min: 0
+  max: 1000
+  # from: 200
+  # to: 800
+  prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
  
+
 strSlug = (str) ->
   str = str.replace(/^\s+|\s+$/g, '')
   # trim

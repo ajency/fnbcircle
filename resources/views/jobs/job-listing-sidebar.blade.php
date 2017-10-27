@@ -155,7 +155,7 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
-                           <select name="salary_type" class="search-job">
+                           <select name="salary_type" class="search-job form-control select-variant fnb-select">
                             <option value=""> -select salary- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              @php
@@ -172,6 +172,7 @@
                            </div>
                       </div>
                   </div>
+                  <input type="number" id="sal-input">
               </div>
               <!-- ratings ends -->
               <!-- why fnb -->

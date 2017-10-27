@@ -1,7 +1,7 @@
 <?php
 return [
     "email" => ["provider" => "laravel" , "password" => "" , "username" => "", 'from_address'=>'', 'from_name'=>'Example'],
-    "sms" => ["provider" => "smsgupshup" , "password" => "domainpass123" , "username" => "2000174405"],
+    "sms" => ["provider" => "smsgupshup" , "password" =>env('sms_gupshup_password','') , "username" => env('sms_gupshup_username','')],
     "web-push" => ["provider" => "pushcrew" , "password" => "" , "username" => ""],
     "email-internal" => ["provider" => false , "password" => "" , "username" => ""],
     "email-promotional" => ["provider" => false , "password" => "" , "username" => ""],

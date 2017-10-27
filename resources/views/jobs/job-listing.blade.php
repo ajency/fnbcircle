@@ -154,10 +154,33 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
 
         <div class="row m-t-25 row-margin">
             @include('jobs.job-listing-sidebar')
-            <div class="col-sm-9 custom-col-9 job-listings">
-   
-                
-                
+            <div class="col-sm-9 custom-col-9">
+                <div class="job-listings">
+                    <div class="site-loader section-loader m-t-30">
+                        <div id="floatingBarsG">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="site-loader section-loader hidden">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
             </div>
             <div class="job-pagination"></div>
             <input type="hidden" name="listing_page" value="{{ $urlFilters['page'] }}">

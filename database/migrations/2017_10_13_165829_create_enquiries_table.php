@@ -19,9 +19,8 @@ class CreateEnquiriesTable extends Migration
             $table->string('user_object_type')->comment("App\Lead / App\User")->nullable();
             $table->string('enquiry_device')->comment("desktop / mobile")->nullable();
             $table->string('enquiry_browser')->nullable();
-            $table->string('enquiry_type')->comment("direct / shared")->nullable();
-            $table->integer('enquiry_to_id')->comment("listing_id / job_id")->nullable();
-            $table->string('enquiry_to_type')->comment("App\Listing / App\Job")->nullable();
+            $table->integer('enquiry_to_id')->comment("listing_id / job_id")->nullable(); // Primary Listing / Job ID
+            $table->string('enquiry_to_type')->comment("App\Listing / App\Job")->nullable(); // Primary Listing / Job Type
             $table->text('enquiry_message')->nullable();
             $table->timestamps();
         });

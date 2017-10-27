@@ -545,8 +545,7 @@
                                             @endif
                                         </div>
 
-<!-- 
-                                        @isset($similar[0]['operationAreas'])
+                                    <!-- @isset($similar[0]['operationAreas'])
 
 
                                         <div class="operations m-t-10">
@@ -1077,7 +1076,7 @@
                     <div class="page-sidebar__footer"></div>
                 </div>  
             </div>
-        </div>
+        </div> -->
     <!-- </div> -->
 
 @if(Session::has('statusChange'))

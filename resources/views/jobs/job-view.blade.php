@@ -408,7 +408,7 @@ $additionalData = ['job'=>$job];
                   {!! $jobCompany->description !!}
                </div>
               @endif -->
-               <div class="footer-share flex-row">
+               <div class="footer-share flex-row bottom-share-section">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
                    
@@ -416,7 +416,7 @@ $additionalData = ['job'=>$job];
 
                   <!-- if applied for job -->
                   @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button">You already applied for this job.</button>
+                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
                   @else
                       @if(Auth::check())
                         <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
@@ -576,7 +576,7 @@ $additionalData = ['job'=>$job];
                   @else
 
                   @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button">You already applied for this job.</button>
+                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
                   @else
                     @if(Auth::check())
                       <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
@@ -968,13 +968,14 @@ $additionalData = ['job'=>$job];
                     <div class="open-details">
                         <div class="jobdesc">
                           
+                          
+                          
+                          @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                           <div class="text-center J-name">
                             <h6 class="text-medium">Following are the contact details of the employer</h6>
                             <p class="default-size heavier bolder">{{ $jobCompany->title }}</p>
                             <p class="text-lighter">You can now contact the employer directly</p>  
                           </div>
-                          
-                          @if(!empty($contactEmail) || !empty($contactMobile) || !empty($contactLandline))
                           <div class="j-container">
                             <div class="jobInfo text-center flex-row">
                               <div class="contactD email">
@@ -1024,7 +1025,7 @@ $additionalData = ['job'=>$job];
 
                           <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria hidden ">
+                          <div class="row flex-row flex-wrap align-top edit-criteria hidden">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))
@@ -1256,7 +1257,7 @@ $additionalData = ['job'=>$job];
                 </select>
              </div> -->
           </div>
-          <div class="page-sidebar__body">
+          <div class="page-sidebar__body JA-sidebar">
              <table class="table table-striped table-responsive application-table m-t-20">
                <thead>
                  <th>Date of application</th>

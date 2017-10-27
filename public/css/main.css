@@ -5366,6 +5366,9 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0 15px;
   padding-bottom: 4em;
 }
+.page-sidebar .JA-sidebar {
+  padding: 0;
+}
 @media screen and (max-width: 768px) {
   .page-sidebar {
     padding: 0;
@@ -11461,6 +11464,9 @@ input[type='checkbox'].remove-addr {
 }
 .post-up-head .preview-header__link {
   font-size: 0.6em;
+}
+.bottom-share-section .fnb-btn {
+  width: auto;
 }
 .profile-stats {
   color: #fff;

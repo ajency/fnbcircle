@@ -571,7 +571,7 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">{{ count($jobApplications) }}</a></p>
             
                   @else
 
@@ -918,21 +918,21 @@ $additionalData = ['job'=>$job];
                         <div class="  flex-row space-between">
                              <h6 class="m-b-20">Your details as follows:</h6> 
                         </div>
-                        <div class="row m-b-10">
-                            <div class="col-sm-6 form-group c-gap">
+                        <div class="row m-b-10 flex-row flex-wrap">
+                            <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Name: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}" data-parsley-required-message="Please enter name." data-parsley-required>
                             </div>
-                            <div class="col-sm-6 form-group c-gap">
+                            <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Email: </label>
                                 <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $userProfile->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
                             </div>
-                            <div class="col-sm-6 form-group c-gap">
+                            <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Phone number: </label>
                                 <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" >
                             </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">City: </label>
+                            <div class="col-sm-6 form-group c-gap details-fill-col">
+                                <label class="label-size">State: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $userProfile->city}}">
                             </div>
                         </div>
@@ -950,8 +950,8 @@ $additionalData = ['job'=>$job];
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf zip"  @if(!$userResume) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
- 
+                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf zip" data-parsley-errors-container="#resume-error"  @if(!$userResume) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <div id="resume-error"></div>
                             </div>
                           </div>
 

@@ -5369,8 +5369,10 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0 15px;
   padding-bottom: 4em;
 }
-.page-sidebar .JA-sidebar {
-  padding: 0;
+@media screen and (max-width: 1400px) {
+  .page-sidebar .JA-sidebar {
+    padding: 0;
+  }
 }
 @media screen and (max-width: 768px) {
   .page-sidebar {
@@ -5398,6 +5400,9 @@ input[type=checkbox].custom-checkbox:before {
     padding: 0.5em;
     font-size: 0.9em;
     margin-left: 1em;
+  }
+  .details-fill-col.details-fill-col {
+    margin-top: 1em;
   }
 }
 .sidebar-article {

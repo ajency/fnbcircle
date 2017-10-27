@@ -2865,9 +2865,11 @@ and (max-device-width: 650px) {
     	padding: 0 15px;
     	padding-bottom: 4em;
     }
-    .JA-sidebar{
-    	padding: 0;
-    }
+    @media screen and (max-width: 1400px){
+	    .JA-sidebar{
+	    	padding: 0;
+	    }
+	}
  //    @media screen and (min-width: 1605px){
 	// 	width: 30vw;
 	// 	&.jobs-applicant{
@@ -2902,6 +2904,9 @@ and (max-device-width: 650px) {
 	    	font-size: 0.9em;
 	    	margin-left: 1em;
 		}
+	}
+	.details-fill-col.details-fill-col{
+		margin-top: 1em;
 	}
 }
 

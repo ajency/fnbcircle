@@ -5401,6 +5401,9 @@ input[type=checkbox].custom-checkbox:before {
     font-size: 0.9em;
     margin-left: 1em;
   }
+  .details-fill-col.details-fill-col {
+    margin-top: 1em;
+  }
 }
 .sidebar-article {
   box-shadow: none;

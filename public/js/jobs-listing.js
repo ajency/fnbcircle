@@ -98,6 +98,7 @@
       },
       success: function(response) {
         var filter_record_str;
+        $('.section-loader').removeClass('hidden');
         if (response.total_items > 0) {
           filter_record_str = response.recordStarts + '-' + response.recordEnd;
         } else {
@@ -113,13 +114,14 @@
           $('.job-listings').html(response.data);
         }
         if ($('.job-list-desc').length) {
-          return $('.job-list-desc').readmore({
+          $('.job-list-desc').readmore({
             speed: 25,
             collapsedHeight: 40,
             moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>',
             lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
           });
         }
+        return $('.section-loader').addClass('hidden');
       },
       error: function(request, status, error) {
         throwError();

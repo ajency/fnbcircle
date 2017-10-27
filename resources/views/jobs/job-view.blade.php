@@ -932,7 +932,7 @@ $additionalData = ['job'=>$job];
                                 <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" >
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">City: </label>
+                                <label class="label-size">State: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $userProfile->city}}">
                             </div>
                         </div>

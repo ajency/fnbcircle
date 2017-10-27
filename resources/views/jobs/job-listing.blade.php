@@ -126,10 +126,10 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                 <h5 class="m-t-0"><span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs <span class="text-lighter">in</span> <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></h5>
             </div>
             <div class="col-sm-4">
-                <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title show-count-title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
+                <div class="search-actions mobile-flex ">
+                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
 
-                    <p class="sub-title text-color text-right search-actions__title show-count-title hidden">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
 
 
 
@@ -186,8 +186,8 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                         <div class="blockG" id="rotateG_08"></div>
                     </div>
                 </div>
+                <div class="job-pagination"></div>
             </div>
-            <div class="job-pagination"></div>
             <input type="hidden" name="listing_page" value="{{ $urlFilters['page'] }}">
         </div>
         <div class="site-overlay"></div>

@@ -3,7 +3,7 @@ filterJobs = (resetPage) ->
   append = false
   if (resetPage) 
     $('input[name="listing_page"]').val(1)
-  
+
   experienceValues = []
   $('input[name="experience[]"]:checked').map ->
     experienceValues.push $(this).val()
@@ -98,11 +98,13 @@ filterJobs = (resetPage) ->
       'salary_upper': salary_upper
       'append': append
     success: (response) ->
+
+      $('.section-loader').removeClass 'hidden'
+      
       if response.total_items > 0
         filter_record_str = response.recordStarts+'-'+response.recordEnd
       else
         filter_record_str = '0'
-
 
       $("#filtered_count").text filter_record_str
       $("#total_count").text response.total_items 
@@ -119,7 +121,8 @@ filterJobs = (resetPage) ->
           collapsedHeight: 40
           moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>'
           lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
-     
+      $('.section-loader').addClass 'hidden'
+
     error: (request, status, error) ->
       throwError()
       return

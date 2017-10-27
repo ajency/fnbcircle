@@ -7,7 +7,9 @@
           <div class="body-left flex-cols">
               <div>
                   <div class="flex-row space-between">
-                    <h3 class="seller-info__title ellipsis-2" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="  default-size text-medium secondary-link" target="_blank">{{ $job->title }}</a></h3>
+
+                    <h3 class="seller-info__title ellipsis-2" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class=" text-darker" target="_blank">{{ $job->title }}</a></h3>
+ 
 
                     @if(isset($showApplication) && $showApplication)
                     <div class="get-details detail-move">
@@ -48,7 +50,7 @@
                        <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           @if($isListing)
-                           <a href='?city={{ $flteredCitySlug }}&job_type=["{{ str_slug($jobType) }}"]' class="primary-link" >{{ $jobType }}</a>
+                           <a href='?city={{ $flteredCitySlug }}&job_type=["{{ str_slug($jobType) }}"]'   >{{ $jobType }}</a>
                           @else
                           {{ $jobType }} 
                           @endif

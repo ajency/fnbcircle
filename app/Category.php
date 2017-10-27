@@ -36,6 +36,12 @@ class Category extends Model
     {
         return Category::where('parent_id', $this->parent_id)->where('id', '!=', $this->id)->where('status', '1')->count();
     }
+
+    public function getNameAttribute( $value ) { 
+        $value = title_case( $value );      
+        return $value;
+    }
+
     public function isPublishable()
     {
         if ($this->status == '1') {

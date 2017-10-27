@@ -140,14 +140,7 @@ $(document).on 'click', '.apply-filters', ->
   $('.back-icon').click()
   return
 
-$('#sal-input').ionRangeSlider
-  type: 'double'
-  # grid: true
-  min: 0
-  max: 1000
-  # from: 200
-  # to: 800
-  prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+
  
 
 strSlug = (str) ->
@@ -214,6 +207,7 @@ $('select[name="salary_type"]').change ->
   if($(this).val() !='')
     minSalary = $("option:selected", this).attr("min") 
     maxSalary = $("option:selected", this).attr("max") 
+    initSalaryBar(minSalary,maxSalary,minSalary,maxSalary)
     $('input[name="salary_lower"]').val(minSalary)
     $('input[name="salary_upper"]').val(maxSalary)
     $('.salary-range').removeClass('hidden')
@@ -225,6 +219,32 @@ $('select[name="salary_type"]').change ->
     $(this).closest('.filter-row').find('.clear').addClass 'hidden'
 
   return
+
+$('#sal-input').ionRangeSlider
+    type: 'double'
+    # grid: true
+    min: 0
+    max: 1000000
+    # from: salFrom
+    # to: salTo
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    onFinish: (data) ->
+      $('input[name="salary_lower"]').val(data.from)
+      $('input[name="salary_upper"]').val(data.to)
+      filterJobs(true)
+
+salaryRangeSlider = $("#sal-input").data("ionRangeSlider");
+
+initSalaryBar = (minSal,maxSal,salFrom,salTo) ->
+ 
+  salaryRangeSlider.update
+    type: 'double'
+    # grid: true
+    min: minSal
+    max: maxSal
+    from: salFrom
+    to: salTo
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
 
 
 $('.header_city').change ->
@@ -342,6 +362,14 @@ $(document).on "click", "#section-area #moreAreaShow", (event) ->
  
  
 $(document).ready ()->
+  if($('select[name="salary_type"]').val()!='')
+    minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min") 
+    maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max") 
+    salFrom = $('input[name="salary_lower"]').val()
+    salTo = $('input[name="salary_upper"]').val()
+    initSalaryBar(minSalary,maxSalary,salFrom,salTo)
+
+
   if($('.area-list').find('.show-all-list').length)
     $('.toggle-areas').click()
 
@@ -385,6 +413,7 @@ $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
   if set.value == ''
     $('input[name="category_id"]').val ''
     $('input[name="category_id"]').attr 'slug','' 
+    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs'
     filterJobs(true)
 
  

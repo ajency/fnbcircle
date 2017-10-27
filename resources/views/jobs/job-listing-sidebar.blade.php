@@ -191,7 +191,7 @@
                              
                            </select>
                            <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
-                           <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           <input type="hidden" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job">   <input type="hidden" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
                            <input type="text" id="sal-input">
                            </div>
                       </div>

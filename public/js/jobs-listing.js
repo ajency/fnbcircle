@@ -1,5 +1,5 @@
 (function() {
-  var displayCityText, filterJobs, strSlug;
+  var displayCityText, filterJobs, initSalaryBar, salaryRangeSlider, strSlug;
 
   filterJobs = function(resetPage) {
     var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
@@ -144,13 +144,6 @@
     $('.back-icon').click();
   });
 
-  $('#sal-input').ionRangeSlider({
-    type: 'double',
-    min: 0,
-    max: 1000,
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
-  });
-
   strSlug = function(str) {
     var from, i, l, to;
     str = str.replace(/^\s+|\s+$/g, '');
@@ -215,6 +208,7 @@
     if ($(this).val() !== '') {
       minSalary = $("option:selected", this).attr("min");
       maxSalary = $("option:selected", this).attr("max");
+      initSalaryBar(minSalary, maxSalary, minSalary, maxSalary);
       $('input[name="salary_lower"]').val(minSalary);
       $('input[name="salary_upper"]').val(maxSalary);
       $('.salary-range').removeClass('hidden');
@@ -226,6 +220,31 @@
       $(this).closest('.filter-row').find('.clear').addClass('hidden');
     }
   });
+
+  $('#sal-input').ionRangeSlider({
+    type: 'double',
+    min: 0,
+    max: 1000000,
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>',
+    onFinish: function(data) {
+      $('input[name="salary_lower"]').val(data.from);
+      $('input[name="salary_upper"]').val(data.to);
+      return filterJobs(true);
+    }
+  });
+
+  salaryRangeSlider = $("#sal-input").data("ionRangeSlider");
+
+  initSalaryBar = function(minSal, maxSal, salFrom, salTo) {
+    return salaryRangeSlider.update({
+      type: 'double',
+      min: minSal,
+      max: maxSal,
+      from: salFrom,
+      to: salTo,
+      prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    });
+  };
 
   $('.header_city').change(function() {
     var cityText;
@@ -342,6 +361,14 @@
   });
 
   $(document).ready(function() {
+    var maxSalary, minSalary, salFrom, salTo;
+    if ($('select[name="salary_type"]').val() !== '') {
+      minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min");
+      maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max");
+      salFrom = $('input[name="salary_lower"]').val();
+      salTo = $('input[name="salary_upper"]').val();
+      initSalaryBar(minSalary, maxSalary, salFrom, salTo);
+    }
     if (($('.area-list').find('.show-all-list').length)) {
       $('.toggle-areas').click();
     }
@@ -384,6 +411,7 @@
     if (set.value === '') {
       $('input[name="category_id"]').val('');
       $('input[name="category_id"]').attr('slug', '');
+      $(".fnb-breadcrums li:nth-child(5)").find('p').text('All Jobs');
       return filterJobs(true);
     }
   });

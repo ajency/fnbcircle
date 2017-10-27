@@ -207,6 +207,8 @@ class User extends Authenticatable
         return $application;
     }
 
+    
+
 
 
 }

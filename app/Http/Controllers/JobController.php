@@ -1107,6 +1107,17 @@ class JobController extends Controller
 
         $jobApplicant->save();
 
+        $jobOwner = $job->createdBy;
+        $ownerDetails = $jobOwner->getUserProfileDetails();
+
+        $data = [];
+        $data['from'] = $applicantEmail;
+        $data['name'] = $applicantName;
+        $data['to'] = [ $ownerDetails['email']];
+        $data['subject'] = "New application for job ".$job->title;
+        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity];
+        sendEmail('job-application', $data);
+
             
     
         // Session::flash('success_message','Successfully applied for job');

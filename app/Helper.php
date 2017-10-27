@@ -384,7 +384,7 @@ function sendEmail($event='new-user', $data=[]) {
 	if(!is_array($cc)) $cc = [$cc];
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
 	if(in_array($event, $notify)){
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value; 
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
@@ -392,10 +392,11 @@ function sendEmail($event='new-user', $data=[]) {
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+ 
 	$email->setParams($params);
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
-    $notify->setRecipientIds([$email]);
+    $notify->setRecipientIds([$email]); 
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 

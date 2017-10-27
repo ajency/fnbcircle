@@ -14,5 +14,10 @@ return [
     "reset-password" => [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"
-    ]
+    ],
+    "job-application" => [
+        "laravel" => "email.job-application",
+        "pushcrew" => ""
+    ],
+ 
 ];

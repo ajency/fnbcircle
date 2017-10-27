@@ -248,7 +248,7 @@ class UserController extends Controller
         $jobPosted = $user->jobPosted()->get();  
         $jobApplication = $user->jobApplications(); 
         $userResume = $user->getUserJobLastApplication();
-
+ 
         return view('users.dashboard') ->with('user', $user)
                                        ->with('userResume', $userResume)
                                        ->with('jobApplication', $jobApplication)

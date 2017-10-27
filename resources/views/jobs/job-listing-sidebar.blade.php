@@ -26,7 +26,7 @@
               </div>
               <div class="filter-group keywords">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-keywords" aria-expanded="false" aria-controls="section-keywords">
-                      <h6 class="sub-title flex-row">Search by Keywords <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Search by Job Roles <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-keywords">
@@ -39,7 +39,7 @@
 
                       <div class="search-area searchKeyword flex-row align-top">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
+                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">

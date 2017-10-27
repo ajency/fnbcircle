@@ -875,7 +875,7 @@ $additionalData = ['job'=>$job];
                           @endif
                         </div>
                         <div class="jobdesc">
-                          <p class="default-size bolder m-b-0">{{ $job->title }}</p>
+                          <p class="sub-title bolder m-b-0 ellipsis-2" title="{{ $job->title }}">{{ $job->title }}</p>
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
                           </span> -->

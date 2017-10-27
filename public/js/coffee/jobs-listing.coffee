@@ -204,6 +204,7 @@ $('.clear-salary').click ->
   $('select[name="salary_type"]').prop("selectedIndex", 0)
   $('input[name="salary_lower"]').val('')
   $('input[name="salary_upper"]').val('')
+  $('.salary-range').addClass('hidden')
   filterJobs(true)
 
 $('select[name="salary_type"]').change ->
@@ -260,6 +261,8 @@ $('select[name="job_city"]').change ->
   $( ".fnb-breadcrums li:nth-child(3)" ).find('a').attr 'href', '/'+cityText+'/job-listings?city='+cityText
   $( ".fnb-breadcrums li:nth-child(3)" ).find('p').text cityText
   $(".serach_state_name").html cityText
+  if($('input[name="category_id"]').val() == '')
+    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
   console.log cityText
   displayCityText()
   return
@@ -410,13 +413,17 @@ $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
   $('input[name="category_id"]').val set.id   
   $('input[name="category_id"]').attr 'slug',set.slug   
   $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
+  $(".serach_category_name").html set.name
   filterJobs(true) 
 
 $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
   if set.value == ''
     $('input[name="category_id"]').val ''
     $('input[name="category_id"]').attr 'slug','' 
-    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs'
+    cityObj = $('select[name="job_city"]')
+    cityText = $('option:selected',cityObj).text()
+    $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
+    $(".serach_category_name").html ''
     filterJobs(true)
 
  

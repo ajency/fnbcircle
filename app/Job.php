@@ -332,11 +332,14 @@ class Job extends Model
     }
 
     public function  getJobLocationNames($getData='all'){
-        $locations = $this->hasLocations()->get()->toArray(); 
+        // $locations = $this->hasLocations()->get()->toArray(); 
         $savedLocation = [];
         $cityNames = [] ;
         $areas = [] ;
         $cityId =  $area ='';
+ 
+        $locations = JobLocation::where('job_id',$this->id)->join('cities', 'job_locations.city_id', '=', 'cities.id')->orderBy('order','asc')->get();
+
         foreach ($locations as $key => $location) {
 
             if($getData=='city' || $getData=='all'){

@@ -330,7 +330,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param name
 * 	@param subject
 */
-function sendEmail($event='welcome', $data=[]) {
+function sendEmail($event='new-user', $data=[]) {
 	$email = new \Ajency\Comm\Models\EmailRecipient();
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
@@ -357,4 +357,25 @@ function sendEmail($event='welcome', $data=[]) {
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 
+}
+
+/**
+* This function is used to send sms for each event
+* This function will send an sms to given recipients
+* @param data can contain the following extra parameters
+*	@param to - array
+* 	@param message - string
+*/
+function sendSms($event='new-user', $data=[]) {
+	if(!isset($data['to'])) return false;
+	if(!is_array($data['to'])) $data['to'] = [$data['to']];
+	if(!isset($data['message'])) return false;
+	$sms = new \Ajency\Comm\Models\SmsRecipient();
+    $sms->setTo($data['to']);
+    $sms->setMessage($data['message']);
+    $sms->setOverride(true);
+    $notify = new \Ajency\Comm\Communication\Notification();
+    $notify->setEvent($event);
+    $notify->setRecipientIds([$sms]);
+    AjComm::sendNotification($notify);
 }

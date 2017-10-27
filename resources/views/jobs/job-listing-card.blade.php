@@ -44,10 +44,16 @@
                   <div class="stats flex-row m-t-10 flex-wrap">
                        
                       @foreach($job->getJobTypes() as $jobType)
+                     
                        <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
-                          {{ $jobType }}
+                          @if($isListing)
+                           <a href='?city={{ $flteredCitySlug }}&job_type=["{{ str_slug($jobType) }}"]' class="primary-link" >{{ $jobType }}</a>
+                          @else
+                          {{ $jobType }} 
+                          @endif
                        </label>
+
                       @endforeach
                       
                   </div>

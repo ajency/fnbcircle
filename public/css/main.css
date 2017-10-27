@@ -10036,6 +10036,10 @@ input[type='checkbox'].remove-addr {
   margin-top: 10px;
   margin-left: 0;
   padding-left: 0;
+  width: 100%;
+}
+.flex-data-row.flex-data-row .flexdatalist-multiple-value input {
+  width: 100%;
 }
 .salary-range {
   margin: 1.5em 0 4em 0;

@@ -26,7 +26,7 @@ class JobListView extends Model
             if(isset($urlFilters['category_name']))
                 $this->category = breadCrumbText($urlFilters['category_name']);
 
-            $state = $urlFilters['city'];
+            $state = $urlFilters['state'];
                 $this->state = ucwords($state);
         }
  

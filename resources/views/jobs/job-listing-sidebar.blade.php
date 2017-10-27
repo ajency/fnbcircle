@@ -39,7 +39,7 @@
 
                       <div class="search-area searchKeyword flex-row align-top">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
+                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['job_roles']) && !empty($urlFilters['job_roles'])) value='{{ implode(",",$urlFilters['job_roles']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">
@@ -47,8 +47,8 @@
               
                             </datalist>
                             <div id="keyword-ids">
-                              @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords']))
-                              @foreach($urlFilters['keywords'] as $keywordId => $keyword)
+                              @if(isset($urlFilters['job_roles']) && !empty($urlFilters['job_roles']))
+                              @foreach($urlFilters['job_roles'] as $keywordId => $keyword)
                               <input type="hidden" name="keyword_id[]" class="job-input-keywords" value="{{ $keywordId }}" label="{{ $keyword }}">
                               @endforeach
                               @endif

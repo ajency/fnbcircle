@@ -34,7 +34,7 @@
                       <i class="fa fa-tag p-r-5 text-lighter" aria-hidden="true"></i>
  
                         @if($isListing)
-                          <a href="?city={{ $flteredCitySlug }}&category={{ $job->category->slug }}" class="primary-link" title="Find all {{ $job->getJobCategoryName() }} jobs in {{ $flteredCitySlug }}">{{ $job->getJobCategoryName() }}</a>
+                          <a href="?state={{ $flteredCitySlug }}&business_type={{ $job->category->slug }}" class="primary-link" title="Find all {{ $job->getJobCategoryName() }} jobs in {{ $flteredCitySlug }}">{{ $job->getJobCategoryName() }}</a>
                         @else
                            {{ $job->getJobCategoryName() }} 
                         @endif
@@ -50,7 +50,7 @@
                        <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           @if($isListing)
-                           <a href='?city={{ $flteredCitySlug }}&job_type=["{{ str_slug($jobType) }}"]'   >{{ $jobType }}</a>
+                           <a href='?state={{ $flteredCitySlug }}&job_type=["{{ str_slug($jobType) }}"]'   >{{ $jobType }}</a>
                           @else
                           {{ $jobType }} 
                           @endif
@@ -77,7 +77,7 @@
                           @foreach($keywords as $keyword)
 
                           @if($isListing)
-                            <li><a href='?city={{ $flteredCitySlug }}&keywords=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title" title="Find all jobs matching {{ $keyword['label'] }} in {{ $flteredCitySlug }}">{{ $keyword['label'] }}</a></li>
+                            <li><a href='?state={{ $flteredCitySlug }}&job_roles=["{{ $keyword['id'] }}|{{ str_slug($keyword['label']) }}"]' class="fnb-cat__title" title="Find all jobs matching {{ $keyword['label'] }} in {{ $flteredCitySlug }}">{{ $keyword['label'] }}</a></li>
                           @else
                           <li> {{ $keyword['label'] }} </li>
                           @endif

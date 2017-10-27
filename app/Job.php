@@ -339,13 +339,14 @@ class Job extends Model
         $cityId =  $area ='';
  
         $locations = JobLocation::where('job_id',$this->id)->join('cities', 'job_locations.city_id', '=', 'cities.id')->orderBy('order','asc')->get();
-
+         ;
         foreach ($locations as $key => $location) {
 
             if($getData=='city' || $getData=='all'){
 
                 if(!isset($cityNames[$location['city_id']])){
-                    $city = City::find($location['city_id'])->name;
+                    // $city = City::find($location['city_id'])->name;
+                    $city = $location->name;
                     $cityNames[$location['city_id']] = $city;
 
                     if($getData=='city')

@@ -923,13 +923,13 @@ class JobController extends Controller
         $defaultExperience  = $job->jobExperience();
         $salaryRange = salaryRange();
          
-        if(!isset($requestData['city'])){
-            $requestData['city'] = $serachCity;
+        if(!isset($requestData['state'])){
+            $requestData['state'] = $serachCity;
         }
         //get filter values
-        if(isset($requestData['category']) && $requestData['category']!=""){
+        if(isset($requestData['business_type']) && $requestData['business_type']!=""){
             // $categoryName = Category::find($requestData['category']);
-            $categoryName = Category::where('slug',$requestData['category'])->first();
+            $categoryName = Category::where('slug',$requestData['business_type'])->first();
             $requestData['category_name'] = (!empty($categoryName)) ? $categoryName->name : '';
             $requestData['category_id'] = (!empty($categoryName)) ? $categoryName->id : '';
 
@@ -951,9 +951,9 @@ class JobController extends Controller
             $requestData['city_areas'] = $city_areas;
         }
 
-        if(isset($requestData['keywords']) && $requestData['keywords']!=""){
+        if(isset($requestData['job_roles']) && $requestData['job_roles']!=""){
 
-            $keywordIdStr = json_decode($requestData['keywords']); 
+            $keywordIdStr = json_decode($requestData['job_roles']); 
             $keywordIds = [];
             foreach ($keywordIdStr as $key => $keywordstr) {
                 $keyword = explode('|', $keywordstr);
@@ -965,13 +965,13 @@ class JobController extends Controller
             foreach ($keywordData as $key => $keyword) {
                 $searchKeywords[$keyword->id] = $keyword->label;
             }
-            $requestData['keywords'] = $searchKeywords;
+            $requestData['job_roles'] = $searchKeywords;
         }
 
         if(!isset($requestData['page'])){
             $requestData['page'] = 1;
         }
-        // dd($requestData); 
+        
 
         $currentUrl = $request->fullUrl();
         $header_type = "trans-header";

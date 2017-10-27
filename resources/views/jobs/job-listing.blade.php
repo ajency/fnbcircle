@@ -59,9 +59,9 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                             $selectedCity = '';
 
                     
-                                            if(isset($urlFilters['city'])){
+                                            if(isset($urlFilters['state'])){
                                                 
-                                                if($urlFilters['city']== $city->slug)
+                                                if($urlFilters['state']== $city->slug)
                                                     $selectedCity = 'selected';
                                             } 
                                             elseif($serachCity== $city->name){
@@ -87,7 +87,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search business type..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
 
-                                                <input type="hidden" name="category_id" slug="@if(isset($urlFilters['category'])){{ $urlFilters['category'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
+                                                <input type="hidden" name="category_id" slug="@if(isset($urlFilters['business_type'])){{ $urlFilters['business_type'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
@@ -123,13 +123,13 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
         <!-- section headings -->
         <div class="row addShow">
             <div class="col-sm-8 mobile-hide">
-                <h5 class="m-t-0"><span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs <span class="text-lighter">in</span> <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></h5>
+                <h5 class="m-t-0"><span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs <span class="text-lighter">in</span> <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></h5>
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex ">
-                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
-                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
 
 

@@ -34,6 +34,7 @@
     urlParams = '';
     job_name = $('#job_name').val();
     city = $('select[name="job_city"]').val();
+    console.log(city);
     cityObj = $('select[name="job_city"]');
     cityId = $('option:selected', cityObj).attr('id');
     category_id = $('input[name="category_id"]').val();
@@ -48,7 +49,7 @@
       urlParams += 'page=' + page;
     }
     if (city !== '') {
-      urlParams += '&city=' + city;
+      urlParams += '&state=' + city;
     }
     if (salary_type !== '') {
       urlParams += '&salary_type=' + salary_type_slug;
@@ -63,7 +64,7 @@
       urlParams += '&job_name=' + job_name;
     }
     if (category_id !== '') {
-      urlParams += '&category=' + category_slug;
+      urlParams += '&business_type=' + category_slug;
     }
     if (jobTypeValues.length !== 0) {
       urlParams += '&job_type=' + JSON.stringify(jobTypeSlug);
@@ -75,7 +76,7 @@
       urlParams += '&experience=' + JSON.stringify(experienceValues);
     }
     if (keywords.length !== 0) {
-      urlParams += '&keywords=' + JSON.stringify(keywordslug);
+      urlParams += '&job_roles=' + JSON.stringify(keywordslug);
     }
     window.history.pushState("", "", "?" + urlParams);
     return $.ajax({

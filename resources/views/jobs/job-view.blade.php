@@ -929,11 +929,11 @@ $additionalData = ['job'=>$job];
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Phone number: </label>
-                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" >
+                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">State: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $userProfile->city}}">
+                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $userProfile->city}}" data-parsley-required-message="Please enter state." data-parsley-required>
                             </div>
                         </div>
                         

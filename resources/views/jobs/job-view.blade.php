@@ -950,7 +950,7 @@ $additionalData = ['job'=>$job];
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf zip" data-parsley-errors-container="#resume-error"  @if(!$userResume) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(!$userResume) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
                                 <div id="resume-error"></div>
                             </div>
                           </div>

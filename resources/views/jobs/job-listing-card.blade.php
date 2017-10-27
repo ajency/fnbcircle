@@ -122,7 +122,13 @@
                             @endif
                           </ul>
                         </div>
-
+ 
+                       <!--  <div class="location flex-row m-t-5">
+                            <p class="m-b-0 text-color heavier default-size"> <a href="" class="remain__number x-small secondary-link moreLink">+  more...</a>
+                            </p>
+                        </div> -->
+                            
+ 
                     </div>
                     @endforeach 
                 </div>

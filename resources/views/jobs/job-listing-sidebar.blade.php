@@ -178,7 +178,7 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
-                           <select name="salary_type" class="search-job form-control select-variant fnb-select">
+                           <select name="salary_type" class="search-job form-control select-variant fnb-select p-l-0">
                             <option value=""> -select salary- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              @php
@@ -192,10 +192,11 @@
                            </select>
                            <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
                            <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           <input type="text" id="sal-input">
                            </div>
                       </div>
                   </div>
-                  <input type="number" id="sal-input">
+                  
               </div>
               <!-- ratings ends -->
               <!-- why fnb -->

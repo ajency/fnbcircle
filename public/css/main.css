@@ -6255,6 +6255,9 @@ input[type=checkbox].custom-checkbox:before {
   overflow: hidden;
   width: 200px;
 }
+.filter-group .check-section .salary-range {
+  margin: 1em 0;
+}
 .filter-group .check-section .checkbox {
   margin-right: 1.2em;
   margin-top: 0;

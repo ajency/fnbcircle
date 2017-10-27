@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
+Route::get('/test','TestController@index');
 
 Auth::routes();
 

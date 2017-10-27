@@ -101,6 +101,15 @@ class UserController extends Controller
         $timestamp = Carbon::now()->timestamp;
         $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
         error_log($json); //send sms or email here
+        switch ($request->contact_type){
+            case "email": 
+                $email = [
+                    'to' => $data['contact_value'],
+                    'subject' => 'Verify your email address.',
+                    'template_data' => ['name' => Auth::user()->name , 'code' => $OTP , 'email' => $request->contact_value ],
+                ];
+                sendEmail('verification',$email);
+        }
         $request->session()->put('contact#' . $contact->id, $json);
         
         return response()->json(

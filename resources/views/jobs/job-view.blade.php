@@ -887,7 +887,7 @@ $additionalData = ['job'=>$job];
                           <div class="owner-address m-b-5">
                             <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
                             <!-- <span class="fnb-icons map-icon"></span> -->
-                            <div class="flex-row align-top">
+                            <div class="flex-row align-top no-pointer">
                               <i class="fa fa-map-marker p-r-5 loc-icon text-color" aria-hidden="true"></i>
                               <div class="text-color lighter mapAddress scroll-to-location">{{ $job->interview_location }}</div>  
                             </div>

@@ -11,7 +11,7 @@
           </div>
       </div>
       <div class="fly-out__content">
-          <div class="filter-sidebar bg-card">
+          <div class="filter-sidebar bg-card mobile-bottom">
               <!-- Results -->
               <div class="results filter-sidebar__section">
                   <div class="results__header filter-row">
@@ -26,7 +26,7 @@
               </div>
               <div class="filter-group keywords">
                   <div class="filter-group__header filter-row" data-toggle="collapse" href="#section-keywords" aria-expanded="false" aria-controls="section-keywords">
-                      <h6 class="sub-title flex-row">Search by Keywords <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                      <h6 class="sub-title flex-row">Search by Job Roles <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-keywords">
@@ -39,7 +39,7 @@
 
                       <div class="search-area searchKeyword flex-row align-top">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an keyword" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
+                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['keywords']) && !empty($urlFilters['keywords'])) value='{{ implode(",",$urlFilters['keywords']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">
@@ -122,9 +122,9 @@
                       </h6>
                   </div>
                   <div class="filter-group__body filter-row collapse in" id="section-business">
-                      <div class="check-section filter-check">
-                          <label class="sub-title flex-row clear @if(!isset($urlFilters['job_type'])) hidden @endif">
-                              <a href="javascript:void(0)" class="text-color clear-checkbox">
+                      <div class="check-section filter-check jobType">
+                          <label class="default-size flex-row text-medium m-b-10 clear @if(!isset($urlFilters['job_type'])) hidden @endif">
+                              <a href="javascript:void(0)" class="secondary-link clear-checkbox">
                                  <i class="fa fa-times" aria-hidden="true"></i>
                                   <span>Clear All</span>
                               </a>
@@ -133,7 +133,7 @@
                             @php
                               $jobTypeSlug = str_slug($jobType,'-');
                             @endphp
-                          <label class="sub-title flex-row text-color">
+                          <label class="sub-title align-top  flex-row text-color">
                               <input type="checkbox" name="job_type[]" @if((isset($urlFilters['job_type'])) && (!empty($urlFilters['job_type'])) && in_array( $jobTypeSlug,$urlFilters['job_type'])) checked @endif class="checkbox p-r-10 search-job search-checkbox" value="{{ $jobTypeId }}" slug="{{ $jobTypeSlug }}">
                               <span>{{ $jobType }}</span>
                           </label>
@@ -178,7 +178,7 @@
                                   <span>Clear All</span>
                               </a>
                           </label>
-                           <select name="salary_type" class="search-job">
+                           <select name="salary_type" class="search-job form-control select-variant fnb-select p-l-0">
                             <option value=""> -select salary- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              @php
@@ -192,9 +192,11 @@
                            </select>
                            <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
                            <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job"> - <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           <input type="text" id="sal-input">
                            </div>
                       </div>
                   </div>
+                  
               </div>
               <!-- ratings ends -->
               <!-- why fnb -->

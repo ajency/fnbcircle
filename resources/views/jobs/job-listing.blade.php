@@ -14,10 +14,13 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('js/ion-rangeslider/css/ion.rangeSlider.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('js/ion-rangeslider/css/ion.rangeSlider.skinModern.css') }}">
 @endsection
 
 @section('js')
 <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
  <script type="text/javascript" src="{{ asset('js/jobs-listing.js') }}"></script>
 @endsection    
 
@@ -82,7 +85,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search category..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
+                                                <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search business type..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
 
                                                 <input type="hidden" name="category_id" slug="@if(isset($urlFilters['category'])){{ $urlFilters['category'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
                                             </div>
@@ -124,7 +127,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex">
-                    <p class="sub-title text-color text-right search-actions__title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title">Showing <span id="filtered_count"></span> out of <span id="total_count"></span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['city']) }}</span></p>
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>
@@ -151,10 +154,33 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
 
         <div class="row m-t-25 row-margin">
             @include('jobs.job-listing-sidebar')
-            <div class="col-sm-9 custom-col-9 job-listings">
-   
-                
-                
+            <div class="col-sm-9 custom-col-9">
+                <div class="job-listings">
+                    <div class="site-loader section-loader m-t-30">
+                        <div id="floatingBarsG">
+                            <div class="blockG" id="rotateG_01"></div>
+                            <div class="blockG" id="rotateG_02"></div>
+                            <div class="blockG" id="rotateG_03"></div>
+                            <div class="blockG" id="rotateG_04"></div>
+                            <div class="blockG" id="rotateG_05"></div>
+                            <div class="blockG" id="rotateG_06"></div>
+                            <div class="blockG" id="rotateG_07"></div>
+                            <div class="blockG" id="rotateG_08"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="site-loader section-loader hidden">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
             </div>
             <div class="job-pagination"></div>
             <input type="hidden" name="listing_page" value="{{ $urlFilters['page'] }}">

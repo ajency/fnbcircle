@@ -6255,6 +6255,9 @@ input[type=checkbox].custom-checkbox:before {
   overflow: hidden;
   width: 200px;
 }
+.filter-group .check-section .salary-range {
+  margin: 1em 0;
+}
 .filter-group .check-section .checkbox {
   margin-right: 1.2em;
   margin-top: 0;
@@ -6269,6 +6272,12 @@ input[type=checkbox].custom-checkbox:before {
 .filter-group .check-section .rating .bg:before,
 .filter-group .check-section .rating .value:before {
   font-size: 1.25em;
+}
+.filter-group .check-section.jobType span {
+  white-space: normal;
+}
+.filter-group .check-section.jobType .checkbox:before {
+  top: 0;
 }
 .filter-group:first-child {
   margin-top: 20px;
@@ -7140,6 +7149,12 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
+  }
+  .mobile-bottom {
+    margin-bottom: 3.5em;
+  }
+  .show-count-title {
+    line-height: 1.3;
   }
 }
 .home-text {

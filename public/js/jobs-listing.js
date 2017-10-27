@@ -144,6 +144,13 @@
     $('.back-icon').click();
   });
 
+  $('#sal-input').ionRangeSlider({
+    type: 'double',
+    min: 0,
+    max: 1000,
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+  });
+
   strSlug = function(str) {
     var from, i, l, to;
     str = str.replace(/^\s+|\s+$/g, '');

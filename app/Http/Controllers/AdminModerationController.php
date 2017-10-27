@@ -10,6 +10,7 @@ use App\Http\Controllers\ListingController;
 use App\Listing;
 use App\ListingCategory;
 use App\ListingCommunication;
+use App\Defaults;
 use App\PlanAssociation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -324,5 +325,25 @@ class AdminModerationController extends Controller
 
         return response()->json($response);
 
+    }
+
+
+    public function emailNotification(Request $request){
+        $email_notification = Defaults::where('type','email_notification')->get();
+        return view('admin-dashboard.email_notifications')->with('rows', $email_notification);
+    }
+
+    public function setNotificationDefault(Request $request){
+        $this->validate($request,[
+            'type' =>'required',
+            'value' => 'nullable|required'
+        ]);
+
+        $default = Defaults::where('type','email_notification')->where('label',str_replace('notification-', '', $request->type))->firstOrFail();
+        $data = json_decode($default->meta_data,true);
+        $data['value'] = explode(',', $request->value);
+        $default->meta_data = json_encode($data);
+        $default->save();
+        return response()->json(['status'=>'200', 'message'=>'OK']);
     }
 }

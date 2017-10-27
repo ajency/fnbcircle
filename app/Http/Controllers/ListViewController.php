@@ -211,7 +211,7 @@ class ListViewController extends Controller {
 				$category["search_name"] = " in <b>" . $temp["name"] . "</b>";
 				//dd($category->path);
 			} else {
-				$category["search_name"] = "";
+				$category["search_name"] = " ";
 			}
 
 			$category["node_children"] = $this->getCategoryNodeArray($category["id"], "slug", true);

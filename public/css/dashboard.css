@@ -1,7 +1,7 @@
 .fnb-btn {
   font-size: 1.05em;
   -webkit-transition: all 0.6s ease;
-          transition: all 0.6s ease;
+  transition: all 0.6s ease;
   font-weight: 500;
   text-transform: capitalize;
   border-radius: 4px;
@@ -64,7 +64,8 @@
 }
 .fnb-btn:active,
 .fnb-btn:focus {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   outline: 0;
 }
 .fnb-btn.bnw {
@@ -134,12 +135,10 @@
   margin-bottom: 1em;
   position: relative;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-          justify-content: space-around;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
@@ -155,6 +154,83 @@
   position: absolute;
   left: 10px;
   font-size: 1.35em;
+}
+div.tagsinput {
+  border: 1px solid #d8d8d8;
+  background: #FFF;
+  padding: 5px;
+  width: 300px;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow-y: auto;
+}
+div.tagsinput span.tag {
+  border: 1px solid #ec6d4b;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  display: block;
+  float: left;
+  padding: 2px 5px;
+  text-decoration: none;
+  background: #ec6d4b;
+  color: #fff;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+div.tagsinput span.tag a {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+  display: inline-block;
+  position: relative;
+  width: 10px;
+}
+div.tagsinput span.tag a:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "\f00d";
+  font-family: FontAwesome;
+  background: #ec6d4b;
+  width: 10px;
+  text-align: center;
+}
+div.tagsinput input {
+  width: 80px;
+  margin: 0px;
+  font-size: 13px;
+  border: 1px solid transparent;
+  padding: 2px 5px;
+  background: transparent;
+  outline: 0px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+div.tagsinput div {
+  display: block;
+  float: left;
+}
+div.tagsinput.no-edit {
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+}
+div.tagsinput.no-edit span.tag a {
+  display: none;
+}
+div.tagsinput.no-edit input {
+  display: none;
+}
+.tags_clear {
+  clear: both;
+  width: 100%;
+  height: 0px;
+}
+.not_valid {
+  color: #fff !important;
+  color: #d0021b !important;
 }
 body {
   background: #4e4c4c;
@@ -176,13 +252,11 @@ a:hover {
 }
 .flex {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 .flex-space-between {
   -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
 }
@@ -242,7 +316,7 @@ a:hover {
   column-break-inside: avoid;
   opacity: 1;
   -webkit-transition: all .2s ease;
-          transition: all .2s ease;
+  transition: all .2s ease;
 }
 .nav > li > a {
   position: relative;
@@ -283,7 +357,8 @@ a:hover {
 }
 .nav.side-menu > li.active > a {
   text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
+          box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
 }
 .nav.child_menu {
   display: none;
@@ -341,7 +416,6 @@ a:hover {
   padding: 0;
   position: absolute;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
@@ -359,7 +433,7 @@ a:hover {
     -webkit-transform: translate3d(-500px, 0, 0);
             transform: translate3d(-500px, 0, 0);
     -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
-            transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
+    transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
   .nav-md .col-md-3.left_col .left_col {
     width: 280px;
@@ -525,7 +599,8 @@ table.dataTable thead th.select-checkbox:before {
   left: 50%;
   width: 12px;
   height: 12px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   top: auto;
   bottom: 14px;
   border-color: #686565;
@@ -603,7 +678,8 @@ table.dataTable tr th.selected.select-checkbox:after {
 .form-control.no-edit {
   padding: 0;
   border: 0;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   height: auto;
   font-size: inherit;
   pointer-events: none;
@@ -646,12 +722,10 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .bulk-failure .listings__links {
   -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
   padding-top: 1em;
   -webkit-box-align: inherit;
-  -webkit-align-items: inherit;
       -ms-flex-align: inherit;
           align-items: inherit;
   margin-bottom: -1.2em;
@@ -724,13 +798,16 @@ table.dataTable tr th.selected.select-checkbox:after {
     right: -8px;
     background-color: #fff;
     color: #000;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   }
   .parent_cat_icon .dropify-wrapper .dropify-clear {
     -webkit-transition: inherit;
-            transition: inherit;
+    transition: inherit;
   }
 }
+<<<<<<< HEAD
+=======
 .parent_cat_icon .parsley-errors-list {
   position: absolute;
   bottom: -24px;
@@ -743,3 +820,4 @@ table.dataTable tr th.selected.select-checkbox:after {
   }
 }
 /*# sourceMappingURL=dashboard.css.map */
+>>>>>>> bl-demo-2

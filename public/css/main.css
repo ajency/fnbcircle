@@ -7150,6 +7150,12 @@ input[type=checkbox].custom-checkbox:before {
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
   }
+  .mobile-bottom {
+    margin-bottom: 3.5em;
+  }
+  .show-count-title {
+    line-height: 1.3;
+  }
 }
 .home-text {
   position: relative;

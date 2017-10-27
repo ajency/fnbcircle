@@ -11,7 +11,7 @@
           </div>
       </div>
       <div class="fly-out__content">
-          <div class="filter-sidebar bg-card">
+          <div class="filter-sidebar bg-card mobile-bottom">
               <!-- Results -->
               <div class="results filter-sidebar__section">
                   <div class="results__header filter-row">

@@ -873,8 +873,8 @@ class JobController extends Controller
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
                 {
-                    $salaryQuery->where('jobs.salary_lower',0); 
-                    $salaryQuery->where('jobs.salary_upper',0); 
+                    $salaryQuery->whereNull('jobs.salary_lower'); 
+                    $salaryQuery->whereNull('jobs.salary_upper'); 
                     $salaryQuery->where('jobs.salary_type',0); 
                 });
             });

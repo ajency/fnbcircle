@@ -204,6 +204,7 @@ USER PROFILE
 **/
 Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], function () {
 	Route::get('/','UserController@customerdashboard');
+	Route::post('/users/update-resume','UserController@uploadResume');
  
 });
  

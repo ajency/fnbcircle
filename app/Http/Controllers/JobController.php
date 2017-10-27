@@ -20,6 +20,7 @@ use App\UserCommunication;
 use View;
 use \Input;
 use App\JobApplicant;
+use Ajency\User\Ajency\userauth\UserAuth;
  
 
 class JobController extends Controller
@@ -340,12 +341,9 @@ class JobController extends Controller
             $user = Auth::user();
 
             $hasAppliedForJob = $user->applications()->where('job_id',$job->id)->first(); 
-            if(!$hasAppliedForJob){
-                $userResume = $user->getUserJobLastApplication();
-                $userProfile = $user->getUserProfileDetails();
-            }
-                
-
+            $userResume = $user->getUserJobLastApplication();
+            $userProfile = $user->getUserProfileDetails();
+ 
         }
 
         $jobApplications = false;
@@ -1097,11 +1095,19 @@ class JobController extends Controller
         if(!empty($resume)){
             $resumeId = $user->uploadUserResume($resume);
             $jobApplicant->resume_updated_on  = date('Y-m-d H:i:s');
+
+            $userauth_obj = new UserAuth;
+            $request_data['resume_id'] = $resumeId;
+            $request_data['resume_updated_on'] =  date('Y-m-d H:i:s');
+            $response = $userauth_obj->updateOrCreateUserDetails($user, $request_data, "user_id", $user->id);
+
         }
          
         $jobApplicant->resume_id = $resumeId; 
 
         $jobApplicant->save();
+
+            
     
         // Session::flash('success_message','Successfully applied for job');
         Session::flash('success_apply_job','Job apply');

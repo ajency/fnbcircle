@@ -10,7 +10,8 @@ use File;
 use Illuminate\Support\Facades\Storage;
 use Aws\Laravel\AwsFacade as AWS;
 use Aws\Laravel\AwsServiceProvider;
-
+use Ajency\User\Ajency\userauth\UserAuth;
+use Session;
 
 class UserController extends Controller
 {
@@ -229,10 +230,36 @@ class UserController extends Controller
         $user = Auth::user();
         $jobPosted = $user->jobPosted()->get();  
         $jobApplication = $user->jobApplications(); 
+        $userResume = $user->getUserJobLastApplication();
 
         return view('users.dashboard') ->with('user', $user)
+                                       ->with('userResume', $userResume)
                                        ->with('jobApplication', $jobApplication)
                                        ->with('jobPosted', $jobPosted);
+    }
+
+    public function uploadResume(Request $request){
+
+ 
+        $user =  Auth::user();
+        $data = $request->all(); 
+        $resume = (isset($data['resume'])) ? $data['resume'] : [];
+ 
+        if(!empty($resume)){
+            $resumeId = $user->uploadUserResume($resume);
+             
+
+            $userauth_obj = new UserAuth;
+            $request_data['resume_id'] = $resumeId;
+            $request_data['resume_updated_on'] =  date('Y-m-d H:i:s');
+            $response = $userauth_obj->updateOrCreateUserDetails($user, $request_data, "user_id", $user->id);
+
+        }
+  
+        Session::flash('success_message','Resume Successfully Updated ');
+        
+        return redirect()->back();
+
     }
 
 }

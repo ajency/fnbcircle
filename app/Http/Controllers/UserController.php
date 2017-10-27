@@ -109,6 +109,14 @@ class UserController extends Controller
                     'template_data' => ['name' => Auth::user()->name , 'code' => $OTP , 'email' => $request->contact_value ],
                 ];
                 sendEmail('verification',$email);
+                break;
+            case "mobile":
+                $sms = [
+                    'to' => $data['country_code'].$data['contact_value'],
+                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for Phone verification. Do not share OTP for security reasons.'
+                ];
+                sendSms('verification',$sms);
+                break;
         }
         $request->session()->put('contact#' . $contact->id, $json);
         

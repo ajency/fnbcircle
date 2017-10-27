@@ -475,11 +475,12 @@
         });
       }
       if ($(this).val().length <= 0) {
-        updateUrlPushstate(key, "");
         if ($(this).prop("name") === "category_search") {
 
           /* --- update the value to null on change --- */
           $(document).find(".results__body ul.contents #current_category").val($(this).val());
+        } else {
+          updateUrlPushstate(key, "");
         }
         if (key !== "state") {
           resetPagination();

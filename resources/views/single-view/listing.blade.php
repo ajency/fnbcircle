@@ -16,11 +16,12 @@
       <script type="text/javascript" src="/bower_components/jssocials/dist/jssocials.min.js"></script>
       <script type="text/javascript" src="/js/single-list-view.js"></script>
       <!-- <script type="text/javascript" src="/js/maps.js"></script> -->
-       @if(Session::has('statusChange'))
-    <script> 
-       $('#listing-review').modal('show');
-    </script>
-    @endif
+        @if(Session::has('statusChange'))
+            <script> 
+               $('#listing-review').modal('show');
+            </script>
+        @endif
+        <!-- <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script> -->
 @endsection
 
 @section('meta')
@@ -136,6 +137,7 @@
                                     <img src="/img/power-icon.png" class="img-responsive desk-hide" width="30">
                                     @endif
                                 </div>
+
                                 <div class="location flex-row">
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title c-title"> {{$data['city']['name']}}@isset($data['location'])<span class="map-link heavier" title="Map for {{$data['title']['name']}}, {{$data['city']['area']}}, {{$data['city']['name']}}"> (Map)</span>@endisset</p>
@@ -494,6 +496,7 @@
                                 </script>
 
                                 </div>
+
                                 @endisset
                                 @isset($data['payments'])
                                 <div class="detail-4 flex-row m-t-25">
@@ -542,8 +545,7 @@
                                             @endif
                                         </div>
 
-<!-- 
-                                        @isset($similar[0]['operationAreas'])
+                                    <!-- @isset($similar[0]['operationAreas'])
 
 
                                         <div class="operations m-t-10">
@@ -723,8 +725,8 @@
                             </div> 
                             
                             <div class="contact__enquiry text-center">                                
-                                <!-- <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p> -->
-                                <!-- <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button> -->
+                                <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
+                                <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval m-t-20">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -809,6 +811,7 @@
                                 @endforeach
                             </div>
                             @endisset
+
                             @isset($data['files'])
                             @foreach($data['files'] as $file)
                             <div class="catalogue flex-row p-t-20 p-b-20">
@@ -946,8 +949,6 @@
                             <h6 class="element-title">Advertisement</h6>
                         </div>
 
-
-
                         <div class="boost-row single-boost text-center">
                             <i class="fa fa-rocket text-secondary" aria-hidden="true"></i> 
                             <div class="element-title heavier boost-row__title">
@@ -1016,7 +1017,42 @@
                     <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                     <p class="element-title heavier m-b-0">Back</p>
                 </div>
-                <div class="right">
+                <div class="right"></div>
+            </div>
+        </div>
+        
+        <!-- Enquiry modal -->
+        <input type="hidden" name="enquiry_slug" id="enquiry_slug" value="{{ $data['title']['slug'] }}">
+        <div id="updateTemplate">
+            @include('modals.listing_enquiry')
+        </div>
+        <!-- Enquiry ends -->
+
+     </div>
+     <div class="pos-fixed fly-out side-toggle">
+        <!-- <div class="mobile-back desk-hide mobile-flex">
+            <div class="left mobile-flex">
+                <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+                <p class="element-title heavier m-b-0">Back</p>
+            </div>
+            <div class="right">
+            </div>
+        </div> -->
+        <!-- <div class="fly-out__content">
+            <div class="sidebar-updates page-sidebar">
+                <div class="page-sidebar__header flex-row space-between mobile-hide">
+                    <div class="backLink flex-row">
+                        <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                        <div class="element-title bolder">Updates of {{$data['title']['name']}}</div>
+                    </div>
+                   <div class="sort flex-row">
+                       <p class="m-b-0 text-lighter default-size">Sort</p>
+                       <select name="" id="" class="fnb-select">
+                           <option>Recent</option>
+                           <option>Newer</option>
+                           <option>Older</option>
+                       </select>
+                   </div>
                 </div>
             </div>
             <div class="fly-out__content">
@@ -1040,7 +1076,7 @@
                     <div class="page-sidebar__footer"></div>
                 </div>  
             </div>
-        </div>
+        </div> -->
     <!-- </div> -->
 
 @if(Session::has('statusChange'))

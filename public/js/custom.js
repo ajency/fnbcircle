@@ -7,7 +7,7 @@ $(function(){
 		if (window.location.search && window.location.search.indexOf("login=") < 0) {
 			url = window.location.search + '&login=true';
 		} else if (!window.location.search) {
-			url = '/?login=true';
+			url = '?login=true';
 		}
 
 		if (window.location.hash) {

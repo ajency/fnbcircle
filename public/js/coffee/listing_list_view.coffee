@@ -559,11 +559,11 @@ $(document).ready () ->
 			$('input[name="business_search"]').flexdatalist('params', {'city': $('input[name="city"]').val()})
 		
 		if $(this).val().length <= 0
-			updateUrlPushstate(key, "")
-
 			if $(this).prop("name") == "category_search"
 				### --- update the value to null on change --- ###
 				$(document).find(".results__body ul.contents #current_category").val($(this).val())
+			else
+				updateUrlPushstate(key, "")
 
 			# console.log $(this).val()
 			## -- Do not make AJAX request if state is empty -- ##

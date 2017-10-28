@@ -214,10 +214,8 @@ class EnquiryController extends Controller {
    *	A JSON that will contain the Modal DOM
    */
 	public function requestTemplateEnquiry(Request $request) {
-		// dd($request->session()->get(Cookie::get('laravel_session')));
 		$session_id = Cookie::get('laravel_session');
 
-		// dd($request->fullUrl());
 		if($request->has('listing_slug')) {
 			if($request->has('enquiry_level')) {
 				$modal_template = $this->getEnquiryTemplate($request->enquiry_level, $request->listing_slug, $session_id);
@@ -266,7 +264,6 @@ class EnquiryController extends Controller {
 			}
 			
 			$template_config = config('enquiry_flow_config')[$template_name][$template_type];
-			// dd($template_name);
 		} else {
 			$template_config = "popup_level_one";
 			$listing_obj = Listing::where('slug', '')->get();
@@ -296,14 +293,9 @@ class EnquiryController extends Controller {
 					}
 
 					$verified_session = Session::get('otp_verified', []);
-					//dd($payload_data);
-					// print_r(isset($payload_data["enquiry_data"]["user_object_id"]) . '<br/>');
-					// print_r(isset($verified_session["mobile"]) . '<br/>');
-					// print_r($listing_obj->first()->premium . '<br/>');
-					//dd((isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"] && $listing_obj->first()->premium));
 					
 					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"] && $listing_obj->first()->premium) {
-						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"], "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
+						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"], "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
 
     					$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
 
@@ -320,7 +312,6 @@ class EnquiryController extends Controller {
 					$status = 200;
 				} else {
 					$status = 400;
-					//$output->writeln("No name & email");
 				}
 			} else {
 				$status = 404;
@@ -328,8 +319,6 @@ class EnquiryController extends Controller {
 		} else if($template_config == "popup_level_three") {
 			if($listing_obj && $listing_obj->count() > 0) {
 				$session_payload = Session::get('enquiry_data', []);
-
-				//dd($session_payload);
 
 				if(Auth::guest()) {
 					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
@@ -355,8 +344,8 @@ class EnquiryController extends Controller {
 
     					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
 					}
+					/*** End of 1st Enquiry flow ***/
 				}
-				/*** End of 1st Enquiry flow ***/
 
 				/*** 2nd Enquiry flow ***/
 				if($create_enq_response) {
@@ -386,14 +375,16 @@ class EnquiryController extends Controller {
 
 					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
 						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_operations_ids);
-						unset($listing_operations_ids[$pos]);
+						unset($session_payload[$pos]);
 					}
 
 					foreach ($listing_operations_ids as $op_key => $op_value) {
 						$enquiry_sent["enquiry_to_id"] = $op_value;
 						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, $enquiry_categories, $enquiry_areas);
-
 					}
+					unset($session_payload["enquiry_id"]);
+					unset($session_payload["enquiry_to_id"]);
+					unset($session_payload["enquiry_to_enquiry"]);
 				} else {
 					Session::put('second_enquiry_data', ["enquiry_data" => $enquiry_data, "enquiry_sent" => $enquiry_sent, "enquiry_category" => $enquiry_categories, "enquiry_area" => $enquiry_areas]);
 				}
@@ -453,12 +444,9 @@ class EnquiryController extends Controller {
 	    					$session_payload["enquiry_id"] = $enq_obj["enquiry"]->id;
 	    					$session_payload["user_object_id"] = $enquiry_data["user_object_id"];
 	    					$session_payload["user_object_type"] = $enquiry_data["user_object_type"];
-	    					// dd($session_payload);
-
+	    					
 	    					Session::flush('enquiry_data'); // Delete the Old enquiry_data
 	    					Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
-	    					//dd(Session::get('enquiry_data'));
-	    					// $session_payload["enquiry_id"] = $enquiry_obj->id;
 	    				} else {
 	    					$enq_obj = null;
 	    				}
@@ -480,6 +468,8 @@ class EnquiryController extends Controller {
 	    					$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
 
 	    					unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
+	    					unset($session_payload["enquiry_to_id"]);
+							unset($session_payload["enquiry_to_enquiry"]);
 	    					Session::flush('second_enquiry_data'); // Delete this key from the session
 	    				}
 	    				/*** End of 2nd Enquiry flow ***/

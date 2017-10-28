@@ -19,5 +19,9 @@ return [
         "laravel" => "email.job-application",
         "pushcrew" => ""
     ],
+    "job-submit-for-review" => [
+        "laravel" => "email.job-submit-for-review",
+        "pushcrew" => ""
+    ],
  
 ];

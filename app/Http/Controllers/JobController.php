@@ -719,9 +719,44 @@ class JobController extends Controller
     public function submitForReview($referenceId){
         $date = date('Y-m-d H:i:s');    
         $job = Job::where('reference_id',$referenceId)->first();
-        $job->status = 2; 
-        $job->date_of_submission = $date; 
-        $job->save();
+        // $job->status = 2; 
+        // $job->date_of_submission = $date; 
+        // $job->save();
+
+
+        //email data 
+
+        $jobOwner = $job->createdBy;
+        $ownerDetails = $jobOwner->getUserProfileDetails();
+
+        $templateData = [];
+        $jobCompany  = $job->getJobCompany();
+        $locations  = $job->getJobLocationNames();
+        $metaData = $job->meta_data;
+         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+        
+        $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
+        $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
+        $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline');  
+
+        $templateData['keywords'] = $jobKeywords;
+        $templateData['jobCompany'] = $jobCompany;
+        $templateData['contactEmail'] = $contactEmail;
+        $templateData['contactMobile'] = $contactMobile;
+        $templateData['contactLandline'] = $contactLandline;
+        $templateData['locations'] = $locations;
+        $templateData['job'] = $job;
+        
+
+        $data = [];
+        $data['from'] = $ownerDetails['email'];
+        $data['name'] = $jobOwner->name;
+        $data['to'] = [ 'nutan@ajency.in'];
+        $data['cc'] = 'prajay@ajency.in';
+        $data['subject'] = "A job has been submitted for review.";
+        $data['template_data'] = $templateData;
+        
+        sendEmail('job-submit-for-review', $data);
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect()->back();
@@ -1109,13 +1144,17 @@ class JobController extends Controller
 
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
+        //for testing
+        // $ownerDetails['email'] = 'nutan@ajency.in';
+         
 
         $data = [];
         $data['from'] = $applicantEmail;
         $data['name'] = $applicantName;
         $data['to'] = [ $ownerDetails['email']];
+        $data['cc'] = 'prajay@ajency.in';
         $data['subject'] = "New application for job ".$job->title;
-        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity];
+        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         sendEmail('job-application', $data);
 
             

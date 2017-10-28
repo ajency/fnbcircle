@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
-
+Route::get('/test','TestController@index');
 
 Auth::routes();
 
@@ -71,10 +71,12 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 
 });
 
+
+Route::post('/change-notification-recipients','AdminModerationController@setNotificationDefault');
+
 Route::group( ['middleware' => ['auth']], function() { 
 	Route::post('/create_OTP','ListingController@createOTP');
 	Route::post('/validate_OTP','ListingController@validateOTP');
-
 	Route::post('/listing/review','ListingController@submitForReview');
 	Route::post('/listing/archive','ListingController@archive');
 	Route::post('/listing/publish','ListingController@publish');
@@ -87,7 +89,7 @@ Route::group( ['middleware' => ['auth']], function() {
 
 });
 
- 
+
 /******
 JOBS/USERS
 *******/
@@ -143,6 +145,8 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 		Route::get('categories','AdminConfigurationController@categoriesView');
 		Route::get('locations','AdminConfigurationController@locationView');
 	});
+
+	Route::get('email-notification', 'AdminModerationController@emailNotification');
 
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');

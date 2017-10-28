@@ -97,8 +97,9 @@ class EnquiryController extends Controller {
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
 	*/
 	public function createEnquiry($enquiry_data=[], $enquiry_sent=[], $enquiry_categories=[], $enquiry_area=[]) {
-		if (sizeof($enquiry_data) > 0 && isset($enquiry_data["id"]) && $enquiry_data["id"] > 0) { // Get data if ID is passed
-			$enquiry_obj = Enquiry::find($enquiry_data["id"]);
+
+		if (sizeof($enquiry_data) > 0 && isset($enquiry_data["enquiry_id"]) && $enquiry_data["enquiry_id"] > 0) { // Get data if ID is passed
+			$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
 		} else if(sizeof($enquiry_data) > 0) { // Create data if params are passed
 			$enquiry_obj = Enquiry::create($enquiry_data);
 		} else {
@@ -277,7 +278,8 @@ class EnquiryController extends Controller {
 				// $payload_data = unserialize(base64_decode($session_obj->get()->first()->payload));
 				$payload_data = ["enquiry_data" => Session::get('enquiry_data', [])];
 				if($request->has('name') && $request->has('email')) {
-					$payload_data["enquiry_data"] = array("name" => $request->name, "email" => $request->email);
+					$payload_data["enquiry_data"]['name'] = $request->name;
+					$payload_data["enquiry_data"]['email'] = $request->email;
 					$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
 					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
@@ -345,6 +347,7 @@ class EnquiryController extends Controller {
 				$create_enq_response = null;
 
 				if(!Auth::guest()) { // If logged In user, then Save the Primary Enquiry Data
+					/*** 1st Enquiry flow ***/
 					if(sizeof($session_payload) > 0) {
     					$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
@@ -353,12 +356,13 @@ class EnquiryController extends Controller {
     					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
 					}
 				}
+				/*** End of 1st Enquiry flow ***/
 
 				/*** 2nd Enquiry flow ***/
 				if($create_enq_response) {
-					$enquiry_data = ["id" => $create_enq_response["enquiry"]['id']];
+					$enquiry_data = ["enquiry_id" => $create_enq_response["enquiry"]['id']];
 				} else if(isset($session_payload["enquiry_id"]) && $session_payload["enquiry_id"] > 0) {
-					$enquiry_data = ["id" => $session_payload["enquiry_id"]];
+					$enquiry_data = ["enquiry_id" => $session_payload["enquiry_id"]];
 				} else {
 					$enquiry_data = ["user_object_id" => isset($lead_obj['id']) ? $lead_obj->id : '', "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 				}
@@ -430,7 +434,6 @@ class EnquiryController extends Controller {
 	    			$session_payload = Session::get('enquiry_data', []);
 	    			
 	    			if(sizeof($session_payload) > 0) {
-	    				/*** 1st Enquiry flow ***/
 	    				if(Auth::guest()) {
 	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "user_details_meta" => json_encode(serialize(["describes_best" => $session_payload["describes_best"]])), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
 	    					$lead_type = "App\Lead";
@@ -439,6 +442,7 @@ class EnquiryController extends Controller {
 	    					$lead_type = "App\User";
 	    				}
 
+	    				/*** 1st Enquiry flow ***/
 	    				if(sizeof($session_payload) > 0) {
 	    					$enquiry_data = ["user_object_id" => $lead_obj->id, "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop",  "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
@@ -450,8 +454,8 @@ class EnquiryController extends Controller {
 	    					$session_payload["user_object_type"] = $enquiry_data["user_object_type"];
 	    					// dd($session_payload);
 
-	    					Session::flush('enquiry_data');
-	    					Session::put('enquiry_data', $session_payload);
+	    					Session::flush('enquiry_data'); // Delete the Old enquiry_data
+	    					Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    					//dd(Session::get('enquiry_data'));
 	    					// $session_payload["enquiry_id"] = $enquiry_obj->id;
 	    				} else {
@@ -459,7 +463,7 @@ class EnquiryController extends Controller {
 	    				}
 	    				/*** End of 1st Enquiry flow ***/
 	    			
-	    				Session::put('otp_verified', ['mobile' => true]); // Add the OTP verified flag to Session
+	    				Session::put('otp_verified', ['mobile' => true, "contact" => $session_payload["contact"]]); // Add the OTP verified flag to Session
 
 	    				/*** 2nd Enquiry flow ***/
 	    				if(Session::has('second_enquiry_data') && Session::get('second_enquiry_data')) { // If the key exist & value is not NULL

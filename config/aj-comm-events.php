@@ -11,6 +11,11 @@ return [
             "laravel" => "email.verification",
             "smsgupshup" => ""
         ],
+    "listing-submit-for-review" =>
+        [
+            "laravel" => "email.listing-submit-for-review",
+            "smsgupshup" => ""
+        ],
     "reset-password" => [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"

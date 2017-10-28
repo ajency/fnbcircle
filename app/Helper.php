@@ -335,8 +335,8 @@ function sendEmail($event='new-user', $data=[]) {
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
 	$email->setFrom($from, $name);
-	if(!isset($data['to']) )
-		return false;
+	if(!isset($data['to']) ) $data['to']= [];
+	// 	return false;
 	$email->setTo($data['to']);
 	$cc = (isset($data['cc']))? $data['cc']:[];
 	if(!is_array($cc)) $cc = [$cc];

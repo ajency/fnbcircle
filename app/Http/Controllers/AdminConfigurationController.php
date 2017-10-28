@@ -805,6 +805,33 @@ class AdminConfigurationController extends Controller
         }
         else
             $status = false;
+
+        
+
+        if($job->status == '3' || $job->status == '5'){
+
+            $jobOwner = $job->createdBy;
+            $ownerDetails = $jobOwner->getUserProfileDetails();
+
+            //for testing
+            $ownerDetails['email'] = 'nutan@ajency.in';
+
+            $templateData['job'] = $job;
+            $templateData['ownerName'] = $jobOwner->name;
+
+            $template = ($job->status == '3') ?'job-published'  : 'job-rejected';
+            $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
+     
+            $data = [];
+            $data['from'] = 'nutan@ajency.in';
+            $data['name'] = 'fnbcircles';
+            $data['to'] = [ $ownerDetails['email']];
+            $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = $subject;
+            $data['template_data'] = $templateData;
+            
+            sendEmail($template, $data);
+        }
         
         $editLink = url('jobs/'.$job->reference_id.'/job-details');
         return response()->json(array("code" => "200","status" =>$status, "name" => $job->title,"link" => $editLink));

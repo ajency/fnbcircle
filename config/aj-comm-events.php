@@ -23,5 +23,13 @@ return [
         "laravel" => "email.job-submit-for-review",
         "pushcrew" => ""
     ],
+    "job-published" => [
+        "laravel" => "email.job-published",
+        "pushcrew" => ""
+    ],
+    "job-rejected" => [
+        "laravel" => "email.job-rejected",
+        "pushcrew" => ""
+    ],
  
 ];

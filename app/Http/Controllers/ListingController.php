@@ -822,6 +822,27 @@ class ListingController extends Controller
             $listing->status          = Listing::REVIEW;
             $listing->submission_date = Carbon::now();
             $listing->save();
+            $area = Area::with('city')->find($listing->locality_id);
+            $owner = User::find($listing->owner_id);
+            $email = [
+                'subject' => "A listing has been submitted for review.",
+                'template_data' => [
+                    'listing_name' => $listing->title,
+                    'listing_link' => url('/listing/'.$listing->reference.'/edit'),
+                    'listing_type' => Listing::listing_business_type[$listing->type],
+                    'listing_city' => $area->city['name'],
+                    'listing_area' => $area->name,
+                    'listing_categories' => ListingCategory::getCategories($listing->id),
+                    'owner_name' => ($listing->owner_id!=null)? $owner->name: 'Orphan',
+                    'owner_email' => ($listing->owner_id!=null)? $owner->getPrimaryEmail(): 'Nil',
+                    'email_verified' => ($listing->owner_id!=null)? ($owner->getUserCommunications()->where('type','email')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                    'owner_phone' => ($listing->owner_id!=null)? $owner->getPrimaryContact(): 'Nil',
+                    'phone_verified' => ($listing->owner_id!=null and $owner->getUserCommunications()->count() >= 2)? ($owner->getUserCommunications()->where('type','mobile')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                ],
+                
+            ];
+            // dd($email);
+            sendEmail('listing-submit-for-review',$email);
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
             Session::flash('statusChange', 'review');
             return \Redirect::back();

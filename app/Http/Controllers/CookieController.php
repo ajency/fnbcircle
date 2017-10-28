@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use App\Helper;
+use Illuminate\Support\Facades\Cookie;
 
 class CookieController extends Controller {
 	/**
@@ -38,9 +39,9 @@ class CookieController extends Controller {
     	$status = 'success';
     	try {
 	    	$other_params = ["expires_in" => config('cookie_config.expires_in'), "path" => "/", "domain" => explode('://', env('APP_URL'))[1], "http_only" => false];
-	    	$this->set('user_id', '', $other_params);
-	    	$this->set('user_type', '', $other_params);
-	    	$this->set('is_logged_in', false, $other_params);
+	    	$this->set('user_id', Auth::guest() ? '0' : Auth::user()->id, $other_params);
+	    	$this->set('user_type', Auth::guest() ? '-' : 'user', $other_params);
+	    	$this->set('is_logged_in', Auth::guest() ? 'false' : 'true', $other_params);
 	    } catch(Exception $e) {
 	    	$status = 'failed';
 	    }

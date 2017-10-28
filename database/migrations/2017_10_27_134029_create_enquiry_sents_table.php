@@ -15,7 +15,8 @@ class CreateEnquirySentsTable extends Migration
     {
         Schema::create('enquiry_sents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('enquiry_type')->comment("direct, shared or more...")->nullable();
+            $table->integer('enquiry_id')->nullable();
+            $table->string('enquiry_type')->comment("direct, shared or more...")->nullable();
             $table->integer('enquiry_to_id')->comment("listing_id / job_id")->nullable();
             $table->string('enquiry_to_type')->comment("App\Listing / App\Job")->nullable();
             $table->timestamps();

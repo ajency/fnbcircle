@@ -16,6 +16,16 @@ return [
             "laravel" => "email.listing-submit-for-review",
             "smsgupshup" => ""
         ],
+    "listing-published" =>
+        [
+            "laravel" => "email.listing-published",
+            "smsgupshup" => ""
+        ],
+    "listing-rejected" =>
+        [
+            "laravel" => "email.listing-rejected",
+            "smsgupshup" => ""
+        ],
     "reset-password" => [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"

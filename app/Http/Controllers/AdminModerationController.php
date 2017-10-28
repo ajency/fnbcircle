@@ -259,15 +259,39 @@ class AdminModerationController extends Controller
                     $listing->save();
                     $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                     if ($request->sendmail == "1") {
-                        //sendmail('published',$listing_id);
+                        if($listing->owner_id !=null){
+                            $owner = User::find($listing->owner_id);
+                            $area = Area::with('city')->find($listing->locality_id);
+                            $email = [
+                                'to' => $owner->getPrimaryEmail(),
+                                'subject' => 'Congratulations! Your business is now live on FnB Circle',
+                                'template_data' => [
+                                    'owner_name' => $owner->name,
+                                    'listing_name' => $listing->title,
+                                    'public_link' => url('/'.$area->city['slug'].'/'.$listing->slug),
+                                ],
+                            ];
+                            sendEmail('listing-published',$email);
+                            //sendmail('published',$listing);
+                        }
                     }
                 } else if ($change->status == (string) Listing::REJECTED) {
                     $listing->status = Listing::REJECTED;
                     $listing->save();
                     $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
-                    if ($request->sendmail == "1") {
-                        //sendmail('rejected',$listing_id);
-                    }
+                    if($listing->owner_id !=null){
+                            $owner = User::find($listing->owner_id);
+                            $email = [
+                                'to' => $owner->getPrimaryEmail(),
+                                'subject' => 'Your business is not approved and hence rejected on FnB Circle',
+                                'template_data' => [
+                                    'owner_name' => $owner->name,
+                                    'listing_name' => $listing->title,
+                                ],
+                            ];
+                            sendEmail('listing-rejected',$email);
+                            //sendmail('published',$listing);
+                        }
                 } else {
                     $response['data']['error'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Pending review listing can only be changed to published or rejected', 'url' => $link);
                     $response['status']          = 'Error';

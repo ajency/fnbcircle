@@ -392,6 +392,7 @@ class EnquiryController extends Controller {
 					foreach ($listing_operations_ids as $op_key => $op_value) {
 						$enquiry_sent["enquiry_to_id"] = $op_value;
 						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, $enquiry_categories, $enquiry_areas);
+
 					}
 				} else {
 					Session::put('second_enquiry_data', ["enquiry_data" => $enquiry_data, "enquiry_sent" => $enquiry_sent, "enquiry_category" => $enquiry_categories, "enquiry_area" => $enquiry_areas]);
@@ -435,7 +436,7 @@ class EnquiryController extends Controller {
 	    			
 	    			if(sizeof($session_payload) > 0) {
 	    				if(Auth::guest()) {
-	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "user_details_meta" => json_encode(serialize(["describes_best" => $session_payload["describes_best"]])), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
+	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
 	    					$lead_type = "App\Lead";
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);

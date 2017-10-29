@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
-                    <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-required="true" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}>
+                    <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}>
                     <input type="hidden" name="contact_locality" value="">
                 </div>
             </div>
@@ -82,4 +82,22 @@
         <!-- action ends -->
     </form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(document).find("#level-one-enquiry input[name='contact']").intlTelInput({
+          initialCountry: 'auto',
+          separateDialCode: true,
+          geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+              var countryCode;
+              countryCode = resp && resp.country ? resp.country : '';
+              callback(countryCode);
+            });
+          },
+          preferredCountries: ['IN'],
+          americaMode: false,
+          formatOnDisplay: false
+        });
+    });
+</script>
 <!-- Level one ends -->

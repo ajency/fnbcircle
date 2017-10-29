@@ -19,6 +19,7 @@
       data = {
         name: $(".level-one #level-one-enquiry input[name='name']").val(),
         email: $(".level-one #level-one-enquiry input[name='email']").val(),
+        contact_locality: $(".level-one #level-one-enquiry input[name='contact']").intlTelInput("getSelectedCountryData").dialCode,
         contact: $(".level-one #level-one-enquiry input[name='contact']").val(),
         description: descr_values,
         enquiry_message: $(".level-one #level-one-enquiry #lookingfor input[name='enquiry_message']").val(),
@@ -187,6 +188,23 @@
 
     /* --- Display respective Popups on "Send Enquiry click" --- */
     if ($("#enquiry-modal").length > 0) {
+      if ($(document).find("#level-one-enquiry").length > 0) {
+        $(document).find("#level-one-enquiry input[name='contact']").intlTelInput({
+          initialCountry: 'auto',
+          separateDialCode: true,
+          geoIpLookup: function(callback) {
+            $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+              var countryCode;
+              countryCode = void 0;
+              countryCode = resp && resp.country ? resp.country : '';
+              callback(countryCode);
+            });
+          },
+          preferredCountries: ['IN'],
+          americaMode: false,
+          formatOnDisplay: false
+        });
+      }
       $(document).on("click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {
         if (getCookie('user_id').length > 0) {
           if (getCookie('user_type') === "user") {

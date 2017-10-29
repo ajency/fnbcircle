@@ -27,7 +27,7 @@
                 <div class="verify-exclamation">
                     <i class="fa fa-exclamation" aria-hidden="true"></i>
                 </div>
-                <p class="text-darker verification__text larger">Please enter the code sent to <br clear="desk-hide verify-seperator"><span class="mobile bolder">{{ isset($data["contact_code"]) ? $data["contact_code"] : '+91' }} {{ isset($data["contact"]) ? $data["contact"] : '' }} </span> <a href="#" class="heavier secondary-link text-decor">Edit</a></p>
+                <p class="text-darker verification__text larger">Please enter the code sent to <br clear="desk-hide verify-seperator"><span class="mobile bolder">{{ isset($data["contact_code"]) ? '+' . $data["contact_code"] : '+91' }} {{ isset($data["contact"]) ? $data["contact"] : '' }} </span> <a href="#" class="heavier secondary-link text-decor">Edit</a></p>
             </div>
             <div class="verification__col">
                 <div class="verification__code">

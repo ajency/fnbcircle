@@ -183,8 +183,9 @@ class EnquiryController extends Controller {
 	   				if(isset($payload_data["enquiry_data"]["contact"])) {
 	   					$data['next_page'] = $next_template_type;
 	   					$data['current_page'] = $template_type;
-		   				$this->generateContactOtp($payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
+		   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
 		   				
+		   				$data["contact_code"] = $payload_data["enquiry_data"]["contact_code"];
 		   				$data["contact"] = $payload_data["enquiry_data"]["contact"];
 			   			$response_html = View::make('modals.listing_enquiry_popup.popup_level_two')->with(compact('data'))->render();
 			   		}
@@ -277,6 +278,7 @@ class EnquiryController extends Controller {
 				if($request->has('name') && $request->has('email')) {
 					$payload_data["enquiry_data"]['name'] = $request->name;
 					$payload_data["enquiry_data"]['email'] = $request->email;
+					$payload_data["enquiry_data"]["contact_code"] = (($request->has('contact_locality')) ? $request->contact_locality : "");
 					$payload_data["enquiry_data"]["contact"] = ($request->has('contact')) ? $request->contact : "";
 					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
@@ -321,7 +323,7 @@ class EnquiryController extends Controller {
 				$session_payload = Session::get('enquiry_data', []);
 
 				if(Auth::guest()) {
-					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact]])->get();
+					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact_locality . '-' . $request->contact]])->get();
 					$lead_type = "App\Lead";
 					if($lead_obj->count() > 0) {
 						$lead_obj = $lead_obj->first();
@@ -424,10 +426,11 @@ class EnquiryController extends Controller {
 	    		if($validation_status["status"] == 200) {
 	    			$status = 200;
 	    			$session_payload = Session::get('enquiry_data', []);
+    				$secondary_enquiry_data = Session::get('second_enquiry_data', []);
 	    			
 	    			if(sizeof($session_payload) > 0) {
 	    				if(Auth::guest()) {
-	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
+	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact_code"] . '-' . $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
 	    					$lead_type = "App\Lead";
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);
@@ -455,17 +458,27 @@ class EnquiryController extends Controller {
 	    				Session::put('otp_verified', ['mobile' => true, "contact" => $session_payload["contact"]]); // Add the OTP verified flag to Session
 
 	    				/*** 2nd Enquiry flow ***/
-	    				if(Session::has('second_enquiry_data') && Session::get('second_enquiry_data')) { // If the key exist & value is not NULL
-	    					$secondary_enquiry_data = Session::get('second_enquiry_data');
-	    					if($enq_obj) {
-	    						$secondary_enquiry_data['enquiry_data']['enquiry_id'] = $enq_obj->id;
+	    				if(sizeof($secondary_enquiry_data) > 0) { // If the key exist & value is not NULL
+	    					if($enq_obj && isset($enq_obj["enquiry"])) {
+	    						$secondary_enquiry_data['enquiry_data']['enquiry_id'] = $enq_obj["enquiry"]->id;
 	    					} else if(isset($session_payload['enquiry_id']) && $session_payload['enquiry_id'] > 0) {
 	    						$secondary_enquiry_data['enquiry_data']['enquiry_id'] = $session_payload['enquiry_id'];
 	    					}
 
 	    					$secondary_enquiry_data['enquiry_data']["user_object_id"] = $lead_obj->id;
+	    					$secondary_enquiry_data['enquiry_data']["user_object_type"] = $lead_type;
 
-	    					$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
+	    					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $secondary_enquiry_data['enquiry_area'])->distinct('listing_id')->pluck('listing_id')->toArray();
+
+							if(isset($secondary_enquiry_data['enquiry_sent']['enquiry_to_id']) && $secondary_enquiry_data['enquiry_sent']['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
+								$pos = array_search($secondary_enquiry_data['enquiry_sent']['enquiry_to_id'], $listing_operations_ids);
+								unset($listing_operations_ids[$pos]);
+							}
+
+							foreach ($listing_operations_ids as $op_key => $op_value) {
+								$secondary_enquiry_data['enquiry_sent']["enquiry_to_id"] = $op_value;
+								$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
+							}
 
 	    					unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
 	    					unset($session_payload["enquiry_to_id"]);

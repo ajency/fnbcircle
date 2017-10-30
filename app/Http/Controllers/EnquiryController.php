@@ -26,6 +26,7 @@ use App\EnquiryCategory;
 use App\EnquiryArea;
 
 use App\Http\Controllers\ListingViewController;
+use App\Http\Controllers\CookieController;
 
 class EnquiryController extends Controller {
 	/**
@@ -45,9 +46,12 @@ class EnquiryController extends Controller {
             //'id'  => 'integer|min:1',
         ]);*/
 
-        if(isset($contact_values['otp']) && ($contact_values['otp'] >= 1000 && $contact_values['otp'] <= 9999)) {
+        if(isset($contact_values['otp']) && strlen($contact_values['otp']) !== 4) {
+        	$status = 404;
+        	$message = 'no_otp';
+        } else if(isset($contact_values['otp']) && ($contact_values['otp'] >= 1000 && $contact_values['otp'] <= 9999)) {
 	        $json = Session::get($key);
-
+	        
 	        if ($json == null) {
 	            $status = 404;
 	            $message = 'no_otp';
@@ -83,9 +87,13 @@ class EnquiryController extends Controller {
         $timestamp = Carbon::now()->timestamp;
         $json = json_encode(array($key => $key_value, "OTP" => $OTP, "timestamp" => $timestamp));
         error_log($json); //send sms or email here
-        //$request->session()->put('contact', $json);
-        Session::put('contact', $json);
-        Cookie::queue('mobile_otp', strVal($OTP), 120, '/', explode('://', env('APP_URL'))[1], '', false);
+        Session::put('contact_info', $json);
+        
+        if(env('APP_DEBUG')) {
+        	$cookie_cont_obj = new CookieController;
+        	$other_cookie_params = ["path" => "/", "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true];
+        	$cookie_cont_obj->set('mobile_otp', strVal($OTP), $other_cookie_params);
+        }
 
         //return ['keyword' => $key, 'value' => $key_value, 'OTP' => $OTP];
         return $json;
@@ -416,12 +424,23 @@ class EnquiryController extends Controller {
 	    	$session_id = Cookie::get('laravel_session');
 	    	$template_type = $request->has('enquiry_level') && strlen($request->enquiry_level) > 0 ? $request->enquiry_level : 'step_1';
 
-	    	if($request->has('regenerate') && $request->regenerate == "true") { // Regenerate OTP
+	    	if($request->has('new_contact') && isset($request->new_contact["country_code"]) && isset($request->new_contact["contact"])) { // New Contact Number
+    			$session_payload = Session::get('enquiry_data', []);
+    			$session_payload["contact_code"] = $request->new_contact["country_code"];
+    			$session_payload["contact"] = $request->new_contact["contact"];
+
+    			Session::flush('enquiry_data'); // Delete the Old enquiry_data
+				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
+	    		//$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
+	    		$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
+
+    			$status = 200;
+    		} else if($request->has('regenerate') && $request->regenerate == "true") { // Regenerate OTP
     			$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
     			$status = 200;
-    		} else if($request->has('otp') && strlen($request->otp) == 4) {
+    		} else if($request->has('otp')) {
 	    		$contact_data = ["contact" => $request->contact, "otp" => $request->otp];
-	    		$validation_status = $this->validateContactOtp($contact_data, "contact");
+	    		$validation_status = $this->validateContactOtp($contact_data, "contact_info");
 
 	    		if($validation_status["status"] == 200) {
 	    			$status = 200;

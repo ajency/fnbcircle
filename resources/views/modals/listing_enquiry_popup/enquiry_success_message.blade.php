@@ -16,3 +16,5 @@
 		<p class="subtitle">You will be contacted soon.</p>
 	</div>
 @endif
+
+<button class="btn fnb-btn" data-dismiss="modal" aria-label="Close">Close</button>

@@ -1,12 +1,12 @@
 (function() {
-  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification;
+  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   getFilters = function(enquiry_no, listing_slug) {
-    var areas, data, descr_values;
+    var areas, cities, data, descr_values;
     if (enquiry_no == null) {
       enquiry_no = 'step_1';
     }
@@ -27,19 +27,24 @@
         listing_slug: listing_slug
       };
     } else if (enquiry_no === 'step_2' || enquiry_no === 'step_3') {
-      console.log(enquiry_no);
       descr_values = [];
       areas = [];
-      $.each($("#level-three-enquiry input[name='categories_interested']:checked"), function() {
+      cities = [];
+      $.each($("#level-three-enquiry input[name='categories_interested[]']:checked"), function() {
         descr_values.push($(this).val());
       });
-      areas = $("#level-three-enquiry select[name='area']").val();
+      $("#level-three-enquiry select[name='city']").each(function() {
+        cities.push($(this).val());
+      });
+      $("#level-three-enquiry select[name='area']").each(function() {
+        areas = areas.concat($(this).val());
+      });
       data = {
         name: $("#level-three-enquiry #enquiry_name").text(),
         email: $("#level-three-enquiry #enquiry_email").text(),
         contact: $("#level-three-enquiry #enquiry_contact").text(),
         categories_interested: descr_values,
-        city: $("#level-three-enquiry select[name='city']").val(),
+        city: cities,
         area: areas,
         enquiry_level: enquiry_no,
         listing_slug: listing_slug
@@ -50,9 +55,7 @@
 
   getContent = function(enquiry_level, listing_slug) {
     var data;
-    console.log("calling .....");
     data = getFilters(enquiry_level, listing_slug);
-    console.log(data);
     $.ajax({
       type: 'post',
       url: '/api/send_enquiry',
@@ -61,7 +64,10 @@
       success: function(data) {
         if (data["popup_template"].length > 0) {
           $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
-          return $(document).find("div.container #enquiry-modal").modal('show');
+          $(document).find("div.container #enquiry-modal").modal('show');
+          if ($("#level-three-enquiry").length > 0) {
+            initCatSearchBox();
+          }
         }
       },
       error: function(request, status, error) {
@@ -97,7 +103,7 @@
     });
   };
 
-  getVerification = function(enquiry_level, listing_slug, regenerate) {
+  getVerification = function(enquiry_level, listing_slug, regenerate, new_contact, contact_no) {
     var data;
     if (listing_slug == null) {
       listing_slug = '';
@@ -105,13 +111,22 @@
     if (regenerate == null) {
       regenerate = false;
     }
-    console.log("get verified");
+    if (new_contact == null) {
+      new_contact = false;
+    }
+    if (contact_no == null) {
+      contact_no = '';
+    }
     data = {
       'enquiry_level': enquiry_level,
       'listing_slug': listing_slug,
-      'contact': $("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text().replace(/ /g, ""),
+      'contact': contact_no.length > 0 ? contact_no : $("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text().replace(/ /g, ""),
       'otp': $("#enquiry-modal #listing_popup_fill div.verification__row #code_otp").val(),
-      'regenerate': regenerate
+      'regenerate': regenerate,
+      'new_contact': {
+        'country_code': contact_no.indexOf('-') > -1 ? contact_no.split('-')[0] : '',
+        'contact': contact_no.indexOf('-') > -1 ? contact_no.split('-')[1] : contact_no
+      }
     };
     $.ajax({
       type: 'post',
@@ -125,13 +140,17 @@
         }
       },
       error: function(request, status, error) {
-        if (status === 410) {
+        if (request.status === 410) {
           console.log("Sorry, the OTP has expired");
-        } else if (status === 400) {
+          $("#enquiry-modal #otp-error").text("Sorry, the OTP has expired.");
+        } else if (request.status === 400) {
+          $("#enquiry-modal #otp-error").text("Incorrect OTP. Please enter valid one.");
           console.log("Please enter the Valid OTP");
-        } else if (status === 404) {
+        } else if (request.status === 404) {
+          $("#enquiry-modal #otp-error").text("Please enter the OTP.");
           console.log("Please enter OTP");
         } else {
+          $("#enquiry-modal #otp-error").text("We have met with an error. Please try after sometime.");
           console.log("Some error in OTP verification");
         }
         return console.log(error);
@@ -156,7 +175,7 @@
     return value;
   };
 
-  getArea = function(city, parent) {
+  getArea = function(city, path) {
     var html;
     html = '';
     $.ajax({
@@ -172,11 +191,78 @@
           key = key;
           html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
-        $('#' + parent + ' select[name="area"]').html(html);
+        $(path).html(html);
       },
       error: function(request, status, error) {
         throw Error();
       }
+    });
+  };
+
+  initCatSearchBox = function() {
+
+    /* --- Initialize categories search  --- */
+    $(document).find('#level-three-enquiry input[name="get_categories"]').flexdatalist({
+      url: '/api/search-category',
+      requestType: 'post',
+      params: {
+        "category_level": 3,
+        "ignore_categories": []
+      },
+      minLength: 1,
+      cache: false,
+      keywordParamName: "search",
+      resultsProperty: "data",
+      searchIn: ['name'],
+      valueProperty: 'slug',
+      visibleProperties: ["name"],
+      searchDelay: 200,
+      allowDuplicateValues: false,
+      debug: false,
+      noResultsText: 'Sorry! No categories found for "{keyword}"'
+    });
+
+    /* --- On select of search box add new core categories  --- */
+    $(document).on('change:flexdatalist', '#level-three-enquiry input[name="get_categories"]', function(event, item, options) {
+      var categories_found, key;
+      key = "";
+      categories_found = [];
+      $("#level-three-enquiry #enquiry_core_categories li input").each(function() {
+        categories_found.push($(this).val());
+      });
+      $(this).flexdatalist('params', {
+        "category_level": 3,
+        "ignore_categories": categories_found
+      });
+      event.preventDefault();
+    });
+
+    /* --- On select of search box add new core categories  --- */
+    $(document).on('select:flexdatalist', '#level-three-enquiry input[name="get_categories"]', function(event, item, options) {
+      var html, key;
+      key = "";
+      html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + item["slug"] + " \" name=\"categories_interested[]\" value=\"" + item["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + item["name"] + "</p></label> </li>";
+      $("#level-three-enquiry #enquiry_core_categories").append(html);
+      $(this).val("");
+      event.preventDefault();
+    });
+  };
+
+  initFlagDrop = function(path) {
+    $(document).find(path).intlTelInput({
+      initialCountry: 'auto',
+      separateDialCode: true,
+      geoIpLookup: function(callback) {
+        $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+          var countryCode;
+          countryCode = void 0;
+          countryCode = resp && resp.country ? resp.country : '';
+          callback(countryCode);
+        });
+      },
+      preferredCountries: ['IN'],
+      americaMode: false,
+      formatOnDisplay: false
     });
   };
 
@@ -223,36 +309,72 @@
         page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         if ($(document).find("#level-one-enquiry").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
-          console.log("true");
         } else {
           console.log("forms not complete");
         }
-        console.log("exist");
       });
 
       /* --- On click of OTP submit button --- */
       $(document).on("click", "#level-two-enquiry #level-two-form-btn", function() {
-        console.log("OTP submit");
-        getVerification($(this).data('value'), $("#enquiry_slug").val(), false);
+        getVerification($(this).data('value'), $("#enquiry_slug").val(), false, false, '');
       });
 
       /* --- On click of OTP regenerate button --- */
       $(document).on("click", "#level-two-enquiry #level-two-resend-btn", function() {
-        getVerification($(this).data('value'), $("#enquiry_slug").val(), true);
+        getVerification($(this).data('value'), $("#enquiry_slug").val(), true, true, '');
       });
       $(document).on("change", "#level-three-enquiry #area_section select[name='city']", function() {
-        console.log($(this).val());
-        getArea($(this).val(), "area_section");
+        var city_vals, i;
+        city_vals = [];
+        i = 0;
+        $("#level-three-enquiry #area_section select[name='city'] option").removeClass('hidden');
+        $("#level-three-enquiry #area_section select[name='city']").each(function() {
+          city_vals.push($(this).val());
+        });
+        while (i < city_vals.length) {
+          $("#level-three-enquiry #area_section select[name='city'] option[value='" + city_vals[i] + "']").addClass('hidden');
+          i++;
+        }
+        $("#level-three-enquiry #area_section select[name='city']").each(function() {
+          if ($.inArray($(this).val(), city_vals) > -1) {
+            $(this).find("option[value='" + $(this).val() + "']").removeClass('hidden');
+          }
+        });
+        getArea($(this).val(), $(this).closest('ul').find('select[name="area"]'));
+      });
+
+      /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
+      $(document).on("click", "#level-three-enquiry #add-city-areas", function() {
+        $("#area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo("#area_section #area_operations");
+      });
+
+      /* --- On click of close, remove the City-Area DOM --- */
+      $(document).on("click", "#level-three-enquiry #close_areas", function() {
+        $("#level-three-enquiry #area_section select[name='city'] option[value='" + $(this).val() + "']").addClass('hidden');
+        $("#level-three-enquiry #area_section select[name='city'] option[value='" + $(this).closest('ul').find("select[name='city']").val() + "']").removeClass('hidden');
+        $(this).closest("ul").remove();
       });
       $(document).on("click", "#level-three-enquiry #level-three-form-btn", function() {
         var page_level;
         page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         if ($(document).find("#level-three-enquiry").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
-          console.log("true");
         } else {
           console.log("forms not complete");
         }
+      });
+      $(document).on("click", "#level-two-enquiry", function() {
+        initFlagDrop("#level-two-enquiry #new-mobile-modal input[name='contact']");
+      });
+      $(document).on("click", "#level-two-enquiry #close-new-mobile-modal", function() {
+        $(document).find("#new-mobile-modal").modal("hide");
+      });
+
+      /* --- Change the Contact No & Regenarate OTP --- */
+      $(document).on("click", "#level-two-enquiry #new-mobile-verify-btn", function() {
+        $("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
+        $(document).find("#new-mobile-modal").modal("hide");
+        getVerification($("#level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
       });
     }
   });

@@ -14,8 +14,13 @@
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
-                    <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}>
-                    <input type="hidden" name="contact_locality" value="">
+                    @if(!Auth::guest())
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="+{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                        <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
+                    @else
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="+{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
+                        <input type="hidden" name="contact_locality" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}">
+                    @endif
                 </div>
             </div>
             <div class="col-sm-6">

@@ -27,17 +27,20 @@
                 <div class="verify-exclamation">
                     <i class="fa fa-exclamation" aria-hidden="true"></i>
                 </div>
-                <p class="text-darker verification__text larger">Please enter the code sent to <br clear="desk-hide verify-seperator"><span class="mobile bolder">{{ isset($data["contact_code"]) ? '+' . $data["contact_code"] : '+91' }} {{ isset($data["contact"]) ? $data["contact"] : '' }} </span> <a href="#" class="heavier secondary-link text-decor">Edit</a></p>
+                <p class="text-darker verification__text larger">Please enter the code sent to <br clear="desk-hide verify-seperator"><span class="mobile bolder">{{ isset($data["contact_code"]) ? '+' . $data["contact_code"] : '+91' }} {{ isset($data["contact"]) ? $data["contact"] : '' }} </span> <a href="#" class="heavier secondary-link text-decor" data-toggle="modal" data-target="#new-mobile-modal">Edit</a></p>
             </div>
             <div class="verification__col">
                 <div class="verification__code">
-                    <input type="text" id="code_otp" name="code_otp" class="form-control fnb-input" placeholder="Enter the code">
+                    <!-- OTP has expiry of 15 mins -->
+                    <input type="text" id="code_otp" name="code_otp" class="form-control fnb-input" data-parsley-trigger="change" data-parsley-minlength="3" placeholder="Enter the code"/>
+                    <div id="otp-error" class="fnb-error"></div>
                     <a href="#" class="secondary-link text-decor p-l-10 x-small" id="level-two-form-btn" data-value="{{ isset($data['next_page']) && strlen($data['next_page']) ? $data['next_page'] : ''}}">Submit</a>
                     <p class="x-small text-lighter m-b-0 m-t-10 didnt-receive">Didn't receive the code? <a href="#" class="dark-link x-small heavier" id="level-two-resend-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}"><i class="fa fa-refresh" aria-hidden="true"></i> Resend SMS</a></p>
                 </div>
             </div>
         </div>
+        @include('modals.verification.new-mobile-number')
     </div>
 </div>
 
-<!-- Level two ends -->
+<!-- Level two ends

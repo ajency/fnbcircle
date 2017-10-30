@@ -207,6 +207,50 @@ class User extends Authenticatable
         return $application;
     }
 
+    public function saveJobAlertConfig($job,$sendJobALert){
+
+        $metaData = $job->meta_data;
+        
+        //save job alert config
+        $criteria=[];
+        $criteria['job_type'] =  (isset($metaData['job_type'])) ? $metaData['job_type'] :[];
+        $criteria['job_type_text'] = $job->getJobTypes();
+        $criteria['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $criteria['salary_lower'] = $job->salary_lower;
+        $criteria['salary_upper'] = $job->salary_upper;
+        $criteria['salary_type'] = $job->salary_type;
+        $criteria['salary_type_text'] = $job->getSalaryType();
+        $criteria['category'] = $job->category_id;
+        $criteria['category_name'] = $job->getJobCategoryName();
+       
+        $criteria['job_keyword'] = implode(',', $metaData['job_keyword']);
+        $criteria['keywords'] =  array_keys($metaData['job_keyword']);
+        $criteria['keywords'] =  array_keys($metaData['job_keyword']);
+        $criteria['keywords_id'] =  $metaData['job_keyword'];
+
+        $savedJobLocations = $job->getJobLocation(); 
+        $jobLocations = $savedJobLocations['savedLocation'];
+        foreach ($jobLocations as $cityId => $areas) { 
+            $criteria['city'][] = $cityId;
+
+            foreach ($areas as $key => $area) {
+                $criteria['area'][] = $area;
+            }
+             
+        }
+        $criteria['city'] = array_unique($criteria['city']);
+        $criteria['area'] = array_unique($criteria['area']);
+        $criteria['job_location'] = $jobLocations;
+
+        $userDetails = $this->getUserDetails; 
+        $userDetails->job_alert_config = $criteria;
+        $userDetails->send_job_alerts = $sendJobALert;
+        $userDetails->save();
+
+        return $userDetails;
+
+    }
+
     
 
 

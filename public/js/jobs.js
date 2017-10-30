@@ -357,8 +357,9 @@
     });
   }
 
-  $('.add-job-areas').click(function(e) {
+  $('body').on('click', '.add-job-areas', function(e) {
     var addLocationLen, area_group, area_group_clone, locationLen;
+    console.log(12);
     locationLen = $('.location-select').length;
     addLocationLen = parseInt(locationLen) + 1;
     area_group = void 0;
@@ -395,5 +396,31 @@
       lessLink: '<a href="#">Read less</a>'
     });
   }
+
+  $(document).on('click', 'input[name="send_alert"]', function() {
+    var ref, sendAlerts;
+    sendAlerts = (ref = $(this).is(":checked")) != null ? ref : {
+      1: 0
+    };
+    return $.ajax({
+      type: 'get',
+      url: '/user/send-job-alerts',
+      data: {
+        'send_alert': sendAlerts
+      },
+      success: function(data) {
+        $('.edit-criteria').removeClass('hidden');
+      },
+      error: function(request, status, error) {
+        throwError();
+      }
+    });
+  });
+
+  $('body').on('click', '.removelocRow', function() {
+    if ($(this).closest('.job-areas').find('.location-select').length === 2) {
+      return $(this).closest('.job-areas').find('.add-job-areas').click();
+    }
+  });
 
 }).call(this);

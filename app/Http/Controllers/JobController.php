@@ -20,6 +20,7 @@ use App\UserCommunication;
 use View;
 use \Input;
 use App\JobApplicant;
+use App\UserDetail;
 use Ajency\User\Ajency\userauth\UserAuth;
  
 
@@ -265,7 +266,7 @@ class JobController extends Controller
      */
     public function show($jobSlug)
     {
-        
+        $this->sendJobAlert();
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
         
@@ -336,6 +337,7 @@ class JobController extends Controller
         $userProfile = false;
         $userResume = false;
         $hasAppliedForJob = false;
+        $sendJobAlerts = false;
  
         if(Auth::check()){
             $user = Auth::user();
@@ -343,6 +345,11 @@ class JobController extends Controller
             $hasAppliedForJob = $user->applications()->where('job_id',$job->id)->first(); 
             $userResume = $user->getUserJobLastApplication();
             $userProfile = $user->getUserProfileDetails();
+
+            $userDetails = $user->getUserDetails;  
+            if(!empty($userDetails)){
+                $sendJobAlerts = $userDetails->send_job_alerts;  
+            }
  
         }
 
@@ -352,6 +359,7 @@ class JobController extends Controller
             
         }
        
+        $data['sendJobAlerts'] = $sendJobAlerts;
         $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;
         $data['userProfile'] = $userProfile;
@@ -768,12 +776,12 @@ class JobController extends Controller
         $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id'); 
 
 
-        if($filters['job_name']!="")
+        if(isset($filters['job_name']) && $filters['job_name']!="")
         {
             $jobQuery->where('jobs.title','like','%'.$filters['job_name'].'%');
         }
 
-        if($filters['company_name']!="")
+        if(isset($filters['job_name']) && $filters['company_name']!="")
         {
             $jobIds = Company:: where('title','like','%'.$filters['company_name'].'%')
                       ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
@@ -824,14 +832,14 @@ class JobController extends Controller
 
             $jobQuery->distinct('jobs.id');
         }
-
+ 
         if(isset($filters['published_date_from']) && !empty($filters['published_date_from']) && !empty($filters['published_date_to']))
         { 
 
             $jobQuery->where('jobs.published_on','>=',$filters['published_date_from'].' 00:00:00'); 
             $jobQuery->where('jobs.published_on','<=',$filters['published_date_to'].' 23:59:59');
         }
-
+ 
         if(isset($filters['submission_date_from']) && !empty($filters['submission_date_from']) &&  !empty($filters['submission_date_to']))
         {
             $jobQuery->where('jobs.date_of_submission','>=',$filters['submission_date_from'].' 00:00:00'); 
@@ -1144,18 +1152,26 @@ class JobController extends Controller
 
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
+         
+
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+            $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+        }
+        
+    
         //for testing
         // $ownerDetails['email'] = 'nutan@ajency.in';
          
 
-        $data = [];
-        $data['from'] = $applicantEmail;
-        $data['name'] = $applicantName;
-        $data['to'] = [ $ownerDetails['email']];
-        $data['cc'] = 'prajay@ajency.in';
-        $data['subject'] = "New application for job ".$job->title;
-        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
-        sendEmail('job-application', $data);
+        // $data = [];
+        // $data['from'] = $applicantEmail;
+        // $data['name'] = $applicantName;
+        // $data['to'] = [ $ownerDetails['email']];
+        // $data['cc'] = 'prajay@ajency.in';
+        // $data['subject'] = "New application for job ".$job->title;
+        // $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
+        // sendEmail('job-application', $data);
 
             
     
@@ -1163,6 +1179,75 @@ class JobController extends Controller
         Session::flash('success_apply_job','Job apply');
         return redirect()->back();
 
+    }
+
+    public function changeSendJobAlertsFlag(Request $request){
+        $this->validate($request, [
+            'send_alert' => 'required',
+        ]);
+        
+        $results = false;
+        $sendAlert = ($request->send_alert == 'true')? 1 :0; 
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+            $userDetails->send_job_alerts = $sendAlert;
+            $userDetails->save();
+
+            $results = true;
+        }
+        
+        return response()->json(['results' => $results]);
+    }
+
+    public function sendJobsToUser($referenceId){
+        $job = Job::where('reference_id',$referenceId)->first();
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+                    $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+        }
+
+        Session::flash('success_message','Job Alert Configuration Successfully Updated.');
+        Session::flash('success_apply_job','Job Alert Configuration Successfully Updated.');
+        return redirect(url('/job/'.$job->getJobSlug())); 
+    }
+
+
+    public function sendJobAlert(){
+        $userDetails = UserDetail::where('send_job_alerts',1)->get();
+        foreach ($userDetails as $key => $userDetail) {
+            $user = $userDetail->user;
+            $jobFilters = $userDetail->job_alert_config;
+            $jobFilters['published_date_from'] = config('constants.job_alert_published_date_from');  
+            $jobFilters['published_date_to']= config('constants.job_alert_published_date_to');
+            $category[] =  $jobFilters['category']; 
+            $jobFilters['category'] = $category;
+            $jobFilters['job_status'] = [3];
+
+            $length = 5;
+            $skip = 0;
+            $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+            $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy);
+            $jobs = $filterJobs['jobs']; 
+            $totalJobs = $filterJobs['totalJobs'];  
+
+            $userCommDetails = $user->getUserProfileDetails();
+            $userCommDetails['email'] = 'prajay@ajency.in';
+            
+            $data = [];
+            $data['from'] = 'nutan@ajency.in';
+            $data['name'] = 'Nutan';
+            $data['to'] = [ $userCommDetails['email'] ];
+            $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = "Jobs matching your job alert criteria";
+            $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters];
+            sendEmail('job-alert', $data);
+
+
+            // exit;
+            
+        }
     }
  
 

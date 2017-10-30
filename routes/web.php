@@ -140,6 +140,11 @@ Route::group( ['middleware' => ['auth']], function() {
  	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
+
+	Route::get('/user/send-job-alerts','JobController@changeSendJobAlertsFlag');
+	Route::get('/users/send-alert-for-job/{reference_id}','JobController@sendJobsToUser');
+ 
+	
 });
 
 
@@ -212,6 +217,7 @@ USER PROFILE
 Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], function () {
 	Route::get('/','UserController@customerdashboard');
 	Route::post('/users/update-resume','UserController@uploadResume');
+	Route::post('/users/set-job-alert','UserController@setJobAlert');
  
 });
- 
+

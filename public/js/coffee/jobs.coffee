@@ -368,8 +368,9 @@ if $(window).width() > 769
     return 
 
 
+$('body').on 'click', '.add-job-areas', (e) ->
+  console.log 12
 
-$('.add-job-areas').click (e) ->
   locationLen = $('.location-select').length
   addLocationLen = parseInt(locationLen)+1
   area_group = undefined
@@ -404,6 +405,28 @@ if $('.readMore').length
     speed: 75
     collapsedHeight: 40
     lessLink: '<a href="#">Read less</a>'
+
+
+$(document).on 'click', 'input[name="send_alert"]', ->
+  sendAlerts = ($(this).is(":checked")) ? 1 : 0
+  $.ajax
+    type: 'get'
+    url: '/user/send-job-alerts'
+    data:
+      'send_alert': sendAlerts
+    success: (data) ->
+      $('.edit-criteria').removeClass 'hidden'
+      # console.log data
+      
+      return
+    error: (request, status, error) ->
+      throwError()
+      return
+
+$('body').on 'click', '.removelocRow', ->
+  
+  if $(this).closest('.job-areas').find('.location-select').length == 2
+    $(this).closest('.job-areas').find('.add-job-areas').click()
 
 
 

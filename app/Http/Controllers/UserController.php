@@ -12,6 +12,12 @@ use Aws\Laravel\AwsFacade as AWS;
 use Aws\Laravel\AwsServiceProvider;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Session;
+use App\Job;
+use App\City;
+use App\Area;
+use App\Defaults;
+use App\Category;
+
 
 class UserController extends Controller
 {
@@ -248,10 +254,43 @@ class UserController extends Controller
         $jobPosted = $user->jobPosted()->get();  
         $jobApplication = $user->jobApplications(); 
         $userResume = $user->getUserJobLastApplication();
+        $userDetails = $user->getUserDetails; 
+        $jobAlertConfig =  $userDetails->job_alert_config;//dd($jobAlertConfig);
+        $sendJobAlerts = $userDetails->send_job_alerts;
+        $areas = [];
+
+        if(isset($jobAlertConfig['job_location']) && !empty($jobAlertConfig['job_location'])){
+            foreach ($jobAlertConfig['job_location'] as $cityId => $location) {
  
+                $areas[$cityId] = Area::where('status', 1)->where('city_id', $cityId)->orderBy('name')->get()->toArray();             
+            }
+        }
+
+        dd($jobAlertConfig);
+
+        $salaryRange = salaryRange();
+        $cities  = City::where('status', 1)->orderBy('name')->get();
+
+        $job    = new Job;
+        $jobTypes  = $job->jobTypes();
+        $salaryTypes  = $job->salaryTypes();
+        $defaultExperience  = $job->jobExperience();
+        $defaultKeywords  = $job->jobKeywords();
+        $jobCategories = $job->jobCategories();
+
         return view('users.dashboard') ->with('user', $user)
+                                       ->with('salaryRange', $salaryRange)
+                                       ->with('cities', $cities)
+                                       ->with('areas', $areas)
                                        ->with('userResume', $userResume)
+                                       ->with('jobAlertConfig', $jobAlertConfig)
+                                       ->with('sendJobAlerts', $sendJobAlerts)
                                        ->with('jobApplication', $jobApplication)
+                                       ->with('jobCategories', $jobCategories)
+                                        ->with('defaultExperience', $defaultExperience) 
+                                        ->with('salaryTypes', $salaryTypes) 
+                                        ->with('defaultKeywords', $defaultKeywords) 
+                                        ->with('jobTypes', $jobTypes)
                                        ->with('jobPosted', $jobPosted);
     }
 
@@ -274,6 +313,67 @@ class UserController extends Controller
         }
   
         Session::flash('success_message','Resume Successfully Updated ');
+        
+        return redirect()->back();
+
+    }
+
+    public function setJobAlert(Request $request){
+
+        $user =  Auth::user();
+        $data = $request->all(); //dd($data);
+            
+        $criteria=[];
+        $criteria['job_type'] =  (isset($data['job_type'])) ? $data['job_type'] :[];
+        $criteria['job_type_text']='';
+        if(isset($data['job_type']) && !empty($data['job_type']))
+            $criteria['job_type_text'] = Defaults::whereIn("id",$data['job_type'])->pluck('label')->toArray();
+
+        $criteria['experience'] = (isset($data['experience'])) ? $data['experience'] :[];
+        $criteria['salary_lower'] = $data['salary_lower'];
+        $criteria['salary_upper'] = $data['salary_upper'];
+        $criteria['salary_type'] =  (isset($data['salary_type'])) ? $data['salary_type'] :0; 
+
+        $criteria['salary_type_text']='';
+        if(isset($data['salary_type']) && !empty($data['salary_type']))
+            $criteria['salary_type_text'] = Defaults::find($data['salary_type'])->label;
+
+        $criteria['category'] = $data['category'];
+        $criteria['category_name']='';
+        if(isset($data['category']) && !empty($data['category']))
+            $criteria['category_name'] = Category::find($data['category'])->name;
+
+        $criteria['job_keyword'] = $data['job_keyword'];
+        $criteria['keywords_id'] = $data['keyword_id'];
+        $criteria['keywords'] =  (!empty($data['keyword_id'])) ? array_keys($data['keyword_id']) :[];
+        // $criteria['city'] = (!empty($data['job_city'])) ? array_keys($data['job_city']) :[];
+        $jobArea  = (!empty($data['job_area'])) ? $data['job_area'] :[];
+        $criteria['job_location'] = $jobArea;
+
+        $criteria['area'] = [];
+        $criteria['city'] = [];
+        $areas = [];
+        foreach ($jobArea as $cityId => $areas) { 
+            $criteria['city'][] = $cityId;
+
+            foreach ($areas as $key => $area) {
+                $criteria['area'][] = $area;
+            }
+             
+        }
+        $criteria['city'] = array_unique($criteria['city']);
+        $criteria['area'] = array_unique($criteria['area']);
+
+        $sendJobAlerts = (isset($data['send_job_alerts'])) ? true :false;
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+            $userDetails->job_alert_config = $criteria;
+            $userDetails->send_job_alerts = $sendJobAlerts;
+            $userDetails->save();
+        }
+ 
+  
+        Session::flash('success_message','Job Alert Configuaration Successfully Updated ');
         
         return redirect()->back();
 

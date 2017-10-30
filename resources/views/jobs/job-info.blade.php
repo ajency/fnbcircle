@@ -113,7 +113,7 @@
                 <div id="city-errors{{ $i }}" class="city-errors fnb-errors"></div>
             </div>
             
-            <div class=" remove-select-col flex-row ">
+            <div class=" remove-select-col flex-row removelocRow ">
                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
             </div>
             
@@ -162,7 +162,7 @@
                 </select>
                <div id="city-errors" class="city-errors fnb-errors"></div>
             </div>
-            <div class=" remove-select-col flex-row">
+            <div class=" remove-select-col removelocRow flex-row">
                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
             </div>
         </div>

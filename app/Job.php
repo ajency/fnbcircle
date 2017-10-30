@@ -106,6 +106,15 @@ class Job extends Model
     	return $jobTypes;
     }
 
+    public function getJobTypeIds(){
+        if(!empty($this->hasJobTypes()))
+            $jobTypeIds = $this->hasJobTypes()->pluck('type_ids');
+        else
+            $jobTypeIds = [];
+          
+        return $jobTypeIds;
+    }
+
     public function jobExperience(){
     	$experience = ['0-1','1-3','3-5','5-7','7-10','10+'];
 

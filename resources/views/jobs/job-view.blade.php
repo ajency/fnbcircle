@@ -45,6 +45,10 @@ $additionalData = ['job'=>$job];
     </script> 
     @endif 
 
+ 
+
+    
+
     {!! getPageLdJson('App\Seo\JobSingleView',$additionalData) !!}
 
 @endsection
@@ -587,7 +591,14 @@ $additionalData = ['job'=>$job];
                       </a>
                   @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
-                  <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+
+                  @if(Auth::check())
+                      <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert">
+                    @else
+                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                    @endif
+                      
+                  <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
                   @endif
                </div>
               @if($job->isPublished()) 
@@ -1029,8 +1040,10 @@ $additionalData = ['job'=>$job];
   
 
                           <!-- <hr> -->
-
-                          <div class="row flex-row flex-wrap align-top edit-criteria">
+                          <div>
+                          Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
+                          </div>
+                          <div class="row flex-row flex-wrap align-top edit-criteria {{ ($sendJobAlerts) ? '' : 'hidden' }}">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))
@@ -1152,8 +1165,8 @@ $additionalData = ['job'=>$job];
                             </div>
                             <div class="col-sm-12">
                               <div class="text-center jobdata-action">
-                                  <button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button>
-                                  <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button> 
+                                  <a href="{{ url('customer-dashboard') }}"><button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button></a>
+                                  <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
                               </div>
                                
                             </div>

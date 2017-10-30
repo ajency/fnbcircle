@@ -32,7 +32,7 @@ return [
         "pushcrew" => ""
     ],
     "job-alert" => [
-        "laravel" => "email.job-alerts",
+        "laravel" => "email.job-alert",
         "pushcrew" => ""
     ],
  

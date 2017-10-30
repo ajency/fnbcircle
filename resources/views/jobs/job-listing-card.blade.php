@@ -47,7 +47,7 @@
                        
                       @foreach($job->getJobTypes() as $jobType)
                      
-                       <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
+                       <label class="fnb-label wholesaler flex-row m-r-5" @if($isListing) title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" @endif >
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           @if($isListing)
  

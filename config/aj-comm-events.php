@@ -31,5 +31,9 @@ return [
         "laravel" => "email.job-rejected",
         "pushcrew" => ""
     ],
+    "job-alert" => [
+        "laravel" => "email.job-alerts",
+        "pushcrew" => ""
+    ],
  
 ];

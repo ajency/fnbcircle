@@ -21,6 +21,10 @@ class Enquiry extends Model
     	return $this->morphTo();
     }
 
+    public function enquiry_to(){
+        return $this->morphTo();
+    }
+
     public function categories(){
     	return $this->hasMany('App\EnquiryCategory');
     }
@@ -28,4 +32,5 @@ class Enquiry extends Model
     public function areas(){
     	return $this->hasMany('App\EnquiryArea');
     }
+
 }

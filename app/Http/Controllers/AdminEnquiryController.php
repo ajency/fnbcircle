@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Listing;
+use App\Category;
+use App\City;
 use App\Enquiry;
+use App\EnquiryCategory;
 
 class AdminEnquiryController extends Controller
 {
+    public function manageEnquiries(Request $request){
+        $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
+        $cities       = City::where('status', '1')->get();
+        return view('admin-dashboard.manage_enquiries')->with('parents', $parent_categ)->with('cities', $cities);
+    }
     public function displayEnquiriesDum(Request $request)
     {
         $filters  = $request->filters;
@@ -46,10 +54,18 @@ class AdminEnquiryController extends Controller
 
             $response[$enquiry->id]['message'] = $enquiry->enquiry_message;
             $response[$enquiry->id]['areas'] = $enquiry->areas()->with('area')->with('city')->get()->groupBy('city_id');
+            $response[$enquiry->id]['categories'] = EnquiryCategory::getCategories($enquiry->id);
+            $response[$enquiry->id]['made_against'] = $enquiry->enquiry_to()->first();
+            $response[$enquiry->id]['sent_to'] = [];
+            $sentTo = $enquiry->sentTo()->get();
 
+            foreach ($sentTo as $to) {
+                $object = $to->enquiry_to()->first();
+                $response[$enquiry->id]['sent_to'][$object->id] = $object;
+            }
 
 
     	}
-        dd($response);
+        return $response;
     }
 }

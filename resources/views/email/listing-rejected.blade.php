@@ -1,5 +1,5 @@
 @extends('layouts.email')
-@section('email_content')
+@section('content')
 Hi {{$owner_name}},</br>
 </br>
 We regret to inform you that your business {{$listing_name}} which was sent for review has been rejected by our team.<br/>

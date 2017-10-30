@@ -32,7 +32,7 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval<button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
+            <h5>Manage Enquiries<button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
           </div>
         </div>
 
@@ -76,60 +76,50 @@
 
                 <hr>
 
-                <table id="datatable-listing_approval" class="table table-striped" cellspacing="0" width="100%">
+                <table id="datatable-manage_enquiries" class="table table-striped" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>
-                      <th style="min-width: 12%;">Listing Name</th>
-                      <th style="min-width: 5%;">ID</th>
-                      <th style="min-width: 8%;" class="no-sort" data-col="3">
-                        City
-                        <select multiple class="form-control multi-dd" id="citySelect">
-                        @foreach ($cities as $city)
-                          <option value="{{$city->id}}">{{$city->name}}</option>
-                        @endforeach
+                      <th style="min-width: 8%;" class="no-sort">Enquiry Type
+                        <select multiple class="form-control multi-dd" id="updateType">
+                          <option value="direct" >Direct Enquiry</option>
+                          <option value="shared" >Shared Enquiry</option>
                         </select>
+                      </th>
+                      <th style="min-width: 5%;" class="no-sort">Enquirer Type
+                        <select multiple class="form-control multi-dd" id="updateUser">
+                          <option value="user" >User</option>
+                          <option value="lead" >Lead</option>
+                        </select>
+                      </th>
+                      <th style="min-width: 8%;">
+                        Request Date
                       </th>
                       <th class="no-sort">
-                        Node Categories
+                        Name
                       </th>
-                      <th class="" style="min-width: 10%;">
-                        Date of Submission
+                      <th class="no-sort" style="min-width: 10%;">
+                        Email
                       </th>
-                      <th class="" style="min-width: 10%;">
-                          Last Updated on
+                      <th class="no-sort" style="min-width: 10%;">
+                        Phone
                       </th>
-                      <th class="no-sort" data-col="7" style="min-width: 10%;">
-                        Last Updated by
+                      <th class="no-sort" style="min-width: 10%;">
+                        What describes you Best
                         <select multiple class="form-control multi-dd" id="updateUser">
-                          <option value="external" >External User</option>
-                          <option value="internal" >Internal User</option>
+                          <option value="a" >A</option>
+                          <option value="b" >B</option>
                         </select>
                       </th>
-                      <th class="no-sort" data-col="8" style="min-width: 10%;">
-                        Listing Type
-                        <select multiple class="form-control multi-dd" id="listingType">
-                          <option value="orphan" >Orphan</option>
-                          <option value="verified" >Verified</option>
-                        </select>
+                      <th class="no-sort" style="min-width: 10%;">
+                        Message
                       </th>
-                      <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
-                      <th class="no-sort" data-col="10" style="min-width: 10%;">
-                        Premium Request
-                        <select multiple class="form-control multi-dd" id="premiumRequest">
-                          <option value="1">Yes</option>
-                          <option value="0">No</option>
-                        </select>
+                      <th class="no-sort">Categories</th>
+                      <th class="no-sort" style="min-width: 10%;">Areas</th>
+                      <th class="no-sort" style="min-width: 10%;">
+                        Enquiry Made to
                       </th>
-                      <th class="no-sort" data-col="11" style="min-width: 10%;">
-                        Status
-                        <select multiple class="form-control multi-dd" id="status-filter">
-                          <option value="1" >Published</option>
-                           <option value="2" >Pending Review</option>
-                        <option value="4" >Archived</option>
-                       
-                        <option value="5" >Rejected</option>
-                        </select>
+                      <th class="no-sort" style="min-width: 10%;">
+                        Enquiry Sent to
                       </th>
                     </tr>
                   </thead>

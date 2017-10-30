@@ -12,51 +12,53 @@
           
         </div>
 
-        <!-- Tips -->
+       
+     <!-- Tips -->
 
         <div style="margin-top: 2em;">
          
 
           <div style="margin-bottom: 0.8em;">
         
-            <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
 
-					Please review “Job”. {{ url('/job/'.$job->getJobSlug()) }}. <br> <br>
+          Please review “Job”. <span style="color: #ec6d4b;">{{ url('/job/'.$job->getJobSlug()) }}.</span> <br> <br>
 
-          Details of the job: <br> <br>
-          Title: <a href="{{ url('/job/'.$job->getJobSlug()) }}"  target="_blank">{{ $job->title }}</a> <br>
-          Business Type: {{ $job->getJobCategoryName() }} <br>
-          Job Role: {{ implode(',',$keywords) }} <br>
+          <div style="text-align: left;">
+          <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job:</div>
+          <b>Title:</b> <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">{{ $job->title }}</a> <br>
+          <b>Business Type:</b> {{ $job->getJobCategoryName() }} <br>
+          <b>Job Role:</b> {{ implode(',',$keywords) }} <br>
           @foreach($locations as $city => $locAreas)
-            State : {{ $city }}<br>
-            Area:  {{ implode(',',$locAreas) }}<br><br>
+            <b>State:</b> {{ $city }}<br>
+            <b>Area:</b>  {{ implode(',',$locAreas) }}<br>
           @endforeach
-          Company: {{ $jobCompany->title }} <br>
+          <b>Company:</b> {{ $jobCompany->title }} <br><br>
 
 
           @if(!empty($contactEmail) || !empty($contactMobile))
-          Details of the job owner:<br><br>
+          <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job owner:</div>
          
           
           @if(!empty($contactEmail))
-          Email :
+          <b>Email:</b>
             @foreach($contactEmail as $email)
-              {{ $email['email'] }} (@if($email['verified']) verified @else unverified  @endif) <br>
+              {{ $email['email'] }} (@if($email['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
             @endforeach
           @endif
-            <br> <br> <br>
+            <br>
           
           @if(!empty($contactMobile))
-          Phone: 
+          <b>Phone:</b>
             @foreach($contactMobile as $mobile)
-              {{ $mobile['mobile'] }} (@if($mobile['verified']) verified @else unverified  @endif) <br>
+              {{ $mobile['mobile'] }} (@if($mobile['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
             @endforeach
           @endif
 
           @endif
 
-
+          </div>
 
             </div>
             <div style="clear: both;display:table;"></div>

@@ -58,7 +58,7 @@
                     <div class="input-row test">
                         <input type="hidden" class="contact_landline_id contact-id" readonly value=""  name="contact_landline_id[]">
                         <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number "  name="contact_landline[]" data-parsley-length-message="Landline number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="landline number should be 10 digits."  data-parsley-errors-container="#landlineError{{ ($key+1) }}">
-                        <input type="hidden" class="contact-country-code" name="contact_ll_country_code[]" value="">
+                        <input type="hidden" class="contact-country-code" name="contact_ll_country_code[]" value="91">
                         <div class="dupError" id="landlineerror{{ ($key+1) }}"></div>
                         <!-- <i class="fa fa-landline" aria-hidden="true"></i> -->
                     </div>
@@ -99,7 +99,7 @@
                     <input type="hidden" class="id-generator"></input>
                     <div class="input-row">
                         <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_landline[]" data-parsley-length-message="Landline number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"   data-parsley-errors-container="#landlineError{{ ($key+1) }}">
-                        <input type="hidden" class="contact-country-code" name="contact_ll_country_code[]" value="">
+                        <input type="hidden" class="contact-country-code" name="contact_ll_country_code[]" value="91">
                         <div class="dupError" id="landlineError{{ ($key+1) }}"></div>
                          <!-- <i class="fa fa-landline" aria-hidden="true"></i> -->
                     </div>

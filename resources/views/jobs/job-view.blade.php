@@ -990,27 +990,32 @@ $additionalData = ['job'=>$job];
 
                                  
                               </div>
+                              @if(!empty($contactMobile))
                               <div class="contactD phone">
                                 <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
                                 <div class="flex-row flex-wrap">
-                                @if(!empty($contactMobile))
+                                
                                   @foreach($contactMobile as $mobile)
                                     @if($mobile['visible'])
                                       <a class="dark-link" href="tel:+{{ $mobile['country_code']}}{{ $mobile['mobile']}}">+({{ $mobile['country_code']}}) {{ $mobile['mobile']}}</a>
                                     @endif
                                   @endforeach  
-                                @endif
-
-                                @if(!empty($contactLandline))
-                                  @foreach($contactLandline as $landline)
-                                  @if($landline['visible'])
-                                    <a class="dark-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}">({{ $landline['country_code']}}) {{ $landline['landline']}}</a>
-                                  @endif
-                                  @endforeach  
-                                @endif
-   
                                 </div>
                               </div>
+                              @endif
+                              @if(!empty($contactLandline))
+                              <div class="contactD phone">
+                                <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
+                                <div class="flex-row flex-wrap">
+                                 @foreach($contactLandline as $landline)
+                                  @if($landline['visible'])
+                                    <a class="dark-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}">+({{ $landline['country_code']}}) {{ $landline['landline']}}</a>
+                                  @endif
+                                  @endforeach                          
+
+                                </div>
+                              </div>
+                              @endif
                             </div>  
                           </div>
                           @endif

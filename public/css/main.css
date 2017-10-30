@@ -5983,6 +5983,12 @@ input[type=checkbox].custom-checkbox:before {
 .application-table.table tr td {
   padding: 15px 8px;
 }
+@media screen and (max-width: 1400px) {
+  .application-table.table tr td:nth-child(3) {
+    min-width: 80px;
+    word-break: break-all;
+  }
+}
 .application-table.table-responsive {
   border: 0;
 }

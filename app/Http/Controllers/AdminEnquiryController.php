@@ -7,7 +7,10 @@ use App\Listing;
 use App\Category;
 use App\City;
 use App\Enquiry;
+use App\EnquirySent;
 use App\EnquiryCategory;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AdminEnquiryController extends Controller
 {
@@ -21,12 +24,17 @@ class AdminEnquiryController extends Controller
         $filters  = $request->filters;
         $order   = $request->order['0']['dir'];
         $response = $this->displayEnquiries($request->length, $request->start, $order, $filters);
+        $enquiry_type = [
+            'direct' => 'Direct Enquiry',
+            'shared' => 'Shared Enquiry',
+        ];
         $enquirer_type = [
             'App\\User' => 'User',
             'App\\Lead' => 'Lead',
         ];
         foreach ($response['data'] as &$enquiry) {
             //get data in correct text format here
+            $enquiry['type'] = $enquiry_type[$enquiry['type']];
             $enquiry['enquirer_type'] = $enquirer_type[$enquiry['enquirer_type']];
             $enquiry['request_date'] = $enquiry['request_date']->toDateString();
             if($enquiry['enquirer_email']['is_verified']){
@@ -82,6 +90,120 @@ class AdminEnquiryController extends Controller
     	$listing = new Listing();
 
     	$enquiries = Enquiry::where('enquiry_to_type',get_class($listing));
+
+        if(isset($filters['categories'])){
+            $filter_nodes = [];
+            foreach($filters['categories'] as $category_id){
+                $category = Category::find($category_id);
+                if($category->level == 3){
+                    $filter_nodes[] = $category->id;
+                }else{
+                    $nodes = Category::where('path',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT))->pluck('id')->toArray();
+                    $filter_nodes = array_merge($filter_nodes,$nodes);
+                }
+            }
+            $filter_enquiries = array_unique(EnquiryCategory::whereIn('category_id',$filter_nodes)->pluck('enquiry_id')->toArray());
+            $enquiries = $enquiries->whereIn($filter_enquiries);
+        }
+        if(isset($filter['city']) or isset($filter['area'])){
+            $filter_cities = [];
+            $filter_areas = [];
+            if(isset($filter['city'])) $filter_cities = EnquiryArea::whereIn('city_id',$filter['city'])->pluck('enquiry_id')->toArray();
+            if(isset($filter['area'])) $filter_areas = EnquiryArea::whereIn('area_id',$filter['area'])->pluck('enquiry_id')->toArray();
+            $filter_enquiries = array_unique(array_merge($filter_cities,$filter_areas));
+            $enquiries = $enquiries->whereIn($filter_enquiries);
+        }
+        if(isset($filters['request_date']) and isset($filters['request_date']['start']) and isset($filters['request_date']['end'])){
+            $end = new Carbon($filters['request_date']['end']);
+            $start_date = new Carbon($filters['request_date']['start']);
+            $enquiries = $enquiries->where('created_at', '>', $start_date->toDateTimeString())->where('created_at', '<', $end->addDay()->toDateTimeString());
+        }
+        if(isset($filters['enquiry_type'])){
+            if(count($filters['enquiry_type']) == 1){
+               $direct = EnquirySent::select('enquiry_id',DB::raw('count(*) as count'))->groupBy('enquiry_id')->having('count',1)->pluck('enquiry_id')->toArray();
+                if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct);
+                else $enquiries = $enquiries->whereNotIn('id',$direct);
+            }
+        }
+        if(isset($filters['enquirer_type'])){
+            if(count($filters['enquirer_type']) == 1){
+                if($filters['enquirer_type'][0] == 'user') $enquiries = $enquiries->where('user_object_type','App\\User');
+                if($filters['enquirer_type'][0] == 'lead') $enquiries = $enquiries->where('user_object_type','App\\Lead');
+            }
+        }
+        if(isset($filters['enquirer_details'])){
+            $users = UserDetail::where(function ($sql) use ($filters) {
+                $i=0;
+                foreach ($filters['enquirer_details'] as $detail) {
+                    if($i!=0)$sql->orWhere('subtype','like','%'.$detail.'%');
+                    else $sql->where('subtype','like','%'.$detail.'%');
+                    $i++;
+                }
+            })->pluck('user_id')->toArray();
+            $leads = Leads::where(function ($sql) use ($filters) {
+                $i=0;
+                foreach ($filters['enquirer_details'] as $detail) {
+                    if($i!=0)$sql->orWhere('user_details_meta','like','%'.$detail.'%');
+                    else $sql->where('user_details_meta','like','%'.$detail.'%');
+                    $i++;
+                }
+            })->pluck('id')->toArray();
+            $enquiries->where(function ($sql) use ($users,$leads) {
+                $sql->where(function ($sql) use ($users) {
+                   $sql->where('user_object_type','App\\User')->whereIn('user_object_id',$users); 
+                });
+                $sql->orWhere(function ($sql) use ($leads) {
+                   $sql->where('user_object_type','App\\Lead')->whereIn('user_object_id',$leads); 
+                });       
+            });
+        }
+        if(isset($filters['enquirer_name'])){
+            $users = User::where('name','like','%'.$filters['enquirer_name'].'%')->pluck('id')->toArray();
+            $leads = User::where('name','like','%'.$filters['enquirer_name'].'%')->pluck('id')->toArray();
+            $enquiries->where(function ($sql) use ($users,$leads) {
+                $sql->where(function ($sql) use ($users) {
+                   $sql->where('user_object_type','App\\User')->whereIn('user_object_id',$users); 
+                });
+                $sql->orWhere(function ($sql) use ($leads) {
+                   $sql->where('user_object_type','App\\Lead')->whereIn('user_object_id',$leads); 
+                });       
+            });
+        }
+        if(isset($filters['enquirer_email'])){
+            $users = UserCommunication::where('value','like','%'.$filters['enquirer_email'].'%')->where('is_primary',1)->where('type','email')->where('object_type','App\\User')->pluck('object_id')->toArray();
+            $leads = User::where('email','like','%'.$filters['enquirer_email'].'%')->pluck('id')->toArray();
+            $enquiries->where(function ($sql) use ($users,$leads) {
+                $sql->where(function ($sql) use ($users) {
+                   $sql->where('user_object_type','App\\User')->whereIn('user_object_id',$users); 
+                });
+                $sql->orWhere(function ($sql) use ($leads) {
+                   $sql->where('user_object_type','App\\Lead')->whereIn('user_object_id',$leads); 
+                });       
+            });
+
+        }
+        if(isset($filters['enquirer_contact'])){
+            $users = UserCommunication::where('value','like','%'.$filters['enquirer_contact'].'%')->where('is_primary',1)->where('type','mobile')->where('object_type','App\\User')->pluck('object_id')->toArray();
+            $leads = User::where('mobile','like','%'.$filters['enquirer_contact'].'%')->pluck('id')->toArray();
+            $enquiries->where(function ($sql) use ($users,$leads) {
+                $sql->where(function ($sql) use ($users) {
+                   $sql->where('user_object_type','App\\User')->whereIn('user_object_id',$users); 
+                });
+                $sql->orWhere(function ($sql) use ($leads) {
+                   $sql->where('user_object_type','App\\Lead')->whereIn('user_object_id',$leads); 
+                });       
+            });
+        }
+        if(isset($filters['enquiree'])){
+            $listings = Lisitng::where('title','like','%'.$filters['enquiree'].'%')->pluck('id')->toArray();
+            $enquiries->whereIn('enquiry_to_id',$listings);
+        }
+        if(isset($filters['sent_to'])){
+            $listings = Lisitng::where('title','like','%'.$filters['enquiree'].'%')->pluck('id')->toArray();
+            $enquiry_ids = EnquirySent::whereIn('enquiry_to_id',$listings)->pluck('enquiry_id')->toArray();
+            $enquiries->whereIn('id',$enquiry_ids);
+        }
+        $enquiries = $enquiries->skip($start)->take($display_limit)->orderBy('created_at',$order);
         $filtered = $enquiries->count();
         $enquiries = $enquiries->get();
     	// dd($enquiries);

@@ -1,3 +1,4 @@
+filters = {}
 enquiry_table = $('#datatable-manage_enquiries').DataTable(
   'pageLength': 25
   'processing': true
@@ -10,11 +11,11 @@ enquiry_table = $('#datatable-manage_enquiries').DataTable(
     'url': '/get-enquiries'
     'type':'post'
     'data': (d) ->
-
-      # datavar = d;
+      datavar = d;
       # datavar.search['value'] = $('#listingNameSearch').val()
-      # datavar.filters = filters
-      # return datavar
+      datavar.filters = filters
+      console.log datavar
+      return datavar
   "columns": [
     {"data": "type"}
     {"data": "enquirer_type"}
@@ -47,3 +48,23 @@ enquiry_table.columns().iterator 'column', (ctx, idx) ->
   $(enquiry_table.column(idx).header()).append '<span class="sort-icon"/>'
   return
 
+$('body').on 'change','select#updateType', ->
+  filters['enquiry_type'] = $(this).val()
+  enquiry_table.ajax.reload()
+
+$('body').on 'change','select#updateUser', ->
+  filters['enquirer_type'] = $(this).val()
+  enquiry_table.ajax.reload()
+
+$('body').on 'click','a#clearSubDate', ->
+  $('#submissionDate').val('')
+  filters['request_date'] = []
+  enquiry_table.ajax.reload()
+
+$('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
+  filters['request_date'] = {}
+  filters['request_date']['start'] = picker.startDate.format('YYYY-MM-DD')
+  filters['request_date']['end'] = picker.endDate.format('YYYY-MM-DD')
+  $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
+  enquiry_table.ajax.reload()
+  return

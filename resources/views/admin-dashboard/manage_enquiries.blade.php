@@ -106,8 +106,12 @@
                       <th class="no-sort" style="min-width: 10%;">
                         What describes you Best
                         <select multiple class="form-control multi-dd" id="updateUser">
-                          <option value="a" >A</option>
-                          <option value="b" >B</option>
+                          <option value="hospitality" >Hospitality</option>
+                          <option value="professional" >Professional</option>
+                          <option value="vendor" >Vendor</option>
+                          <option value="student" >Student</option>
+                          <option value="enterpreneur" >Enterpreneur</option>
+                          <option value="others" >Others</option>
                         </select>
                       </th>
                       <th class="no-sort" style="min-width: 10%;">

@@ -1,5 +1,7 @@
 (function() {
-  var enquiry_table;
+  var enquiry_table, filters;
+
+  filters = {};
 
   enquiry_table = $('#datatable-manage_enquiries').DataTable({
     'pageLength': 25,
@@ -9,7 +11,13 @@
     'ajax': {
       'url': '/get-enquiries',
       'type': 'post',
-      'data': function(d) {}
+      'data': function(d) {
+        var datavar;
+        datavar = d;
+        datavar.filters = filters;
+        console.log(datavar);
+        return datavar;
+      }
     },
     "columns": [
       {
@@ -52,6 +60,30 @@
 
   enquiry_table.columns().iterator('column', function(ctx, idx) {
     $(enquiry_table.column(idx).header()).append('<span class="sort-icon"/>');
+  });
+
+  $('body').on('change', 'select#updateType', function() {
+    filters['enquiry_type'] = $(this).val();
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('change', 'select#updateUser', function() {
+    filters['enquirer_type'] = $(this).val();
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('click', 'a#clearSubDate', function() {
+    $('#submissionDate').val('');
+    filters['request_date'] = [];
+    return enquiry_table.ajax.reload();
+  });
+
+  $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['request_date'] = {};
+    filters['request_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['request_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+    enquiry_table.ajax.reload();
   });
 
 }).call(this);

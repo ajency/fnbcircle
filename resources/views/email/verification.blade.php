@@ -1,5 +1,5 @@
 @extends('layouts.email')
-@section('email_content')
+@section('content')
 Hi {{$name}},<br/>
 <br/>
 Please use the following code to verify {{$email}}.<br/>

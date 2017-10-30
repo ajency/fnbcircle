@@ -1,5 +1,5 @@
 @extends('layouts.email')
-@section('email_content')
+@section('content')
 Hi {{$owner_name}},</br>
 </br>
 Congratulations!</br>

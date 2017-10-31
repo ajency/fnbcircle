@@ -210,6 +210,25 @@
                   
               </div>
               <!-- ratings ends -->
+
+              <hr>
+              <!-- Post job -->
+
+              <div class="business-listing businessListing p-t-10 p-b-30 text-center">
+                  <!-- <span class="fnb-icons note"></span> -->
+                  <div class="bl-top">
+                      <img src="/img/jobs.png" class="img-responsive center-block">
+                      <div class="business-listing__content m-b-15">
+                          <h6 class="sub-title business-listing__title">Post a job on Fnb Circle for free</h6>
+                          <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
+                      </div>
+                  </div>
+                  <a href="/jobs/create" class="btn fnb-btn outline border-btn default-size">Post your job</a>
+              </div>
+
+              <!-- Post job ends -->
+
+
               <!-- why fnb -->
               <div class="filter-group whyFnb no-gap mobile-hide">
                   <div class="filter-group__header filter-row">
@@ -237,7 +256,7 @@
                   </div>
               </div>
               <!-- why fnb ends -->
-              <div class="business-listing businessListing p-t-30 p-b-30 text-center">
+              <div class="business-listing businessListing p-t-30 p-b-30 text-center mobile-hide">
                   <!-- <span class="fnb-icons note"></span> -->
                   <div class="bl-top">
                       <img src="{{ asset('/img/business-graph.png') }}" class="img-responsive center-block">
@@ -246,7 +265,7 @@
                           <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
                       </div>
                   </div>
-                  <button class="btn fnb-btn outline full border-btn default-size">Learn more</button>
+                  <button class="btn fnb-btn outline border-btn default-size">Learn more</button>
               </div>
               <!-- why fnb ends -->
               <!-- Advertisement -->

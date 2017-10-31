@@ -67,11 +67,13 @@
               <div class="flex-row space-between roles-location open-border align-top">
                 @if(!empty($job->getJobSavedKeywords(2)))
                 @php
-                $splitKeywords =  splitJobArrayData($job->getJobSavedKeywords(2),5);
+                $splitKeywords =  splitJobArrayData($job->getJobSavedKeywords(2),4);
                 $keywords = $splitKeywords['array'];
                 $moreKeywords = $splitKeywords['moreArray'];
                 $moreKeywordCount = $splitKeywords['moreArrayCount'];
+               
                 @endphp 
+
                 <div class="cat-holder">
                     <div class="core-cat m-r-5">
                         <p class="default-size grey-darker heavier m-t-0 m-b-5">Job Roles</p>

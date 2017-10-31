@@ -868,6 +868,7 @@ class JobController extends Controller
                     });
                 });
 
+                 
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
                 {
@@ -941,11 +942,11 @@ class JobController extends Controller
             $requestData['experience'] = json_decode($requestData['experience']);
         }
 
-        if(isset($requestData['area']) && $requestData['area']!=""){
-            $cityId  = City::where('slug', $request->city)->first()->id;
+        if(isset($requestData['city']) && $requestData['city']!=""){
+            $cityId  = City::where('slug', $request->state)->first()->id;
             $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
-        
-            $requestData['area'] = json_decode($requestData['area']);
+            
+            $requestData['area'] = json_decode($requestData['city']);
             $requestData['city_areas'] = $city_areas;
         }
 

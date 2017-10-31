@@ -266,7 +266,7 @@ class UserController extends Controller
             }
         }
 
-        dd($jobAlertConfig);
+        // dd($jobAlertConfig);
 
         $salaryRange = salaryRange();
         $cities  = City::where('status', 1)->orderBy('name')->get();

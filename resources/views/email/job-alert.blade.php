@@ -48,6 +48,14 @@
               <br><br>
               @endif
 
+              @if(isset($filters['loaction_text']) && !empty($filters['loaction_text']))
+                @foreach($filters['loaction_text'] as $location)
+                State : {{ $location['city_name'] }} <br>
+                City : {{ implode(",",$location['areas']) }}<br><br>
+                @endforeach
+              <br><br>
+              @endif
+
               Here are new job(s) matching the your job alert criteria.<br>
               
               @foreach($jobs as $job)
@@ -69,8 +77,15 @@
               <hr>
               </div>
               @endforeach
-               
+              <br><br>
+              Search jobs in states :<br><br>
 
+              
+              @foreach($searchUrls as $url)
+                <a href="{{ $url['url'] }}">{{ $url['state'] }}<br><br>
+              @endforeach
+               
+<br><br>
               Looking for a different kind of job?  <br>
               Modify your job search criteria <a href="{{ url('customer-dashboard') }}">modify</a><br><br>
                

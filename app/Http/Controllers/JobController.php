@@ -832,6 +832,7 @@ class JobController extends Controller
 
             $jobQuery->distinct('jobs.id');
         }
+
  
         if(isset($filters['published_date_from']) && !empty($filters['published_date_from']) && !empty($filters['published_date_to']))
         { 
@@ -839,7 +840,7 @@ class JobController extends Controller
             $jobQuery->where('jobs.published_on','>=',$filters['published_date_from'].' 00:00:00'); 
             $jobQuery->where('jobs.published_on','<=',$filters['published_date_to'].' 23:59:59');
         }
- 
+
         if(isset($filters['submission_date_from']) && !empty($filters['submission_date_from']) &&  !empty($filters['submission_date_to']))
         {
             $jobQuery->where('jobs.date_of_submission','>=',$filters['submission_date_from'].' 00:00:00'); 
@@ -957,7 +958,7 @@ class JobController extends Controller
     public function jobListing(Request $request,$serachCity){ 
 
         $cities  = City::where('status', 1)->orderBy('name')->get();
-        $requestData = $request->all();  
+        $requestData = $request->all();   
         $job    = new Job;
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();
@@ -985,7 +986,7 @@ class JobController extends Controller
         }
 
         if(isset($requestData['area']) && $requestData['area']!=""){
-            $cityId  = City::where('slug', $request->city)->first()->id;
+            $cityId  = City::where('slug', $request->state)->first()->id;
             $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
         
             $requestData['area'] = json_decode($requestData['area']);
@@ -994,11 +995,14 @@ class JobController extends Controller
 
         if(isset($requestData['job_roles']) && $requestData['job_roles']!=""){
 
-            $keywordIdStr = json_decode($requestData['job_roles']); 
+            $keywordIdStr = json_decode($requestData['job_roles']);
             $keywordIds = [];
             foreach ($keywordIdStr as $key => $keywordstr) {
-                $keyword = explode('|', $keywordstr);
-                $keywordIds[] = $keyword[0];
+                if($keywordstr!=""){
+                    $keyword = explode('|', $keywordstr);
+                    $keywordIds[] = $keyword[0];
+                }
+                
             }
 
             $keywordData = Defaults::whereIn("id",$keywordIds)->get();
@@ -1234,15 +1238,33 @@ class JobController extends Controller
 
             $userCommDetails = $user->getUserProfileDetails();
             $userCommDetails['email'] = 'prajay@ajency.in';
-            
-            $data = [];
-            $data['from'] = 'nutan@ajency.in';
-            $data['name'] = 'Nutan';
-            $data['to'] = [ $userCommDetails['email'] ];
-            $data['cc'] = 'prajay@ajency.in';
-            $data['subject'] = "Jobs matching your job alert criteria";
-            $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters];
-            sendEmail('job-alert', $data);
+
+            $searchUrls =[];
+            $jobFilters['loaction_text'] = [];
+             if(isset($jobFilters['city'])){
+                foreach($jobFilters['city'] as $cityId){
+                    $jobFilters['state'] = $cityId;
+                    $genUrl = generateJobListUrl($jobFilters,0,$user); 
+                    $locationText = $genUrl['loactiontext'];
+                    $searchUrls[] = ['url'=>$genUrl['url'],'state'=>$locationText['city_name']];
+                    $jobFilters['loaction_text'][] = $locationText;
+
+                }
+             }
+             
+             
+            if($jobs->count()){
+                $data = [];
+                $data['from'] = config('constants.email_from');
+                $data['name'] = config('constants.email_from_name');
+                $data['to'] = [ $userCommDetails['email'] ];
+                $data['cc'] = 'prajay@ajency.in';
+                $data['subject'] = "Jobs matching your job alert criteria";
+                $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
+                sendEmail('job-alert', $data);
+
+            }
+           
 
 
             // exit;

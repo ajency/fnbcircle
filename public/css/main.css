@@ -11430,10 +11430,14 @@ input[type='checkbox'].remove-addr {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .jobInfo .contactD {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .jobInfo .contactD.phone {
     border-left: 0;
     border-top: 1px solid #ddd;
-    width: 90%;
   }
 }
 @media screen and (max-width: 768px) {

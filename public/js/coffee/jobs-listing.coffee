@@ -145,6 +145,12 @@ $(document).on 'click', '.apply-filters', ->
   return
 
 
+$(document).on 'click', '.job-pagination a.paginate:not(.active)', ->
+  setTimeout (->
+    $('html,body').animate { scrollTop: 0 }, 1500
+    return    
+  ), 500
+
  
 
 strSlug = (str) ->

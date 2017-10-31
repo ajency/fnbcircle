@@ -220,8 +220,10 @@ class User extends Authenticatable
         $criteria['salary_upper'] = $job->salary_upper;
         $criteria['salary_type'] = $job->salary_type;
         $criteria['salary_type_text'] = $job->getSalaryType();
+        $criteria['salary_type_slug'] = str_slug($job->getSalaryType());
         $criteria['category'] = $job->category_id;
         $criteria['category_name'] = $job->getJobCategoryName();
+        $criteria['category_slug'] = $job->$this->category->slug;
        
         $criteria['job_keyword'] = implode(',', $metaData['job_keyword']);
         $criteria['keywords'] =  array_keys($metaData['job_keyword']);

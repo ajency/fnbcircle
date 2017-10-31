@@ -425,3 +425,41 @@ function sendSms($event='new-user', $data=[], $override = false) {
 }
 
 
+function generateJobListUrl($params,$urlCity,$userObj){
+
+	if($userObj){
+		$userDetails = $userObj->getUserDetails;
+		$urlCity = City::find($userDetails->city)->slug
+
+	}
+	$url = url($urlCity.'/job-listings?');
+
+	if(isset($params['state'])){
+		$state = City::find($params['state'])->slug
+		$url .='&state'=$state;
+	}
+
+	if(isset($params['salary_type_text'])){
+		$url .='&salary_type'= str_slug($params['salary_type_text']);
+	}
+
+	if(isset($params['salary_lower'])){
+		$url .='&salary_lower'= $params['salary_lower'];
+	}
+
+	if(isset($params['salary_upper'])){
+		$url .='&salary_upper'= $params['salary_upper'];
+	}
+
+	if(isset($params['category_slug'])){
+		$url .='&business_type'= $params['category_slug'];
+	}
+
+	if(isset($params['job_type'])){
+		$url .='&job_type'= '["'.$params['job_type'].'"]';
+	}
+
+	http://fnbcircle.dev/pune/job-listings?page=1&state=mumbai&salary_type=annually&salary_lower=0&salary_upper=300000000&business_type=club-banquet-catering-unit&job_type=[%22full-time%22]&area=[%22andheri%22]&experience=[%220-1%22]&job_roles=[%2228|assistant-kitchen-manager%22]
+}
+
+

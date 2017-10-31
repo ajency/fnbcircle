@@ -12,40 +12,41 @@
           
         </div>
 
-        <!-- Tips -->
+ <!-- Tips -->
 
-        <div style="margin-top: 2em;">
-         
+            <div style="margin-top: 2em;">
+             
 
-          <div style="margin-bottom: 0.8em;">
-        
-            <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+              <div style="margin-bottom: 0.8em;">
+            
+                <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+              
+
           
+              
+              We regret to inform you that your job <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;" target="_blank">{{ $job->title }}</a> which was sent for review has been rejected by our team.<br><br>
 
-			
-          
-          We regret to inform you that your job <a href="{{ url('/job/'.$job->getJobSlug()) }}"  target="_blank">{{ $job->title }}</a> which was sent for review has been rejected by our team.<br><br>
+              <div style="font-weight: 600;"><span style="color: #27b7b0; font-weight: 600;">NOTE:</span> Rejected jobs can be submitted for review again.</div><br>
 
-          NOTE: Rejected jobs can be submitted for review again.<br><br>
+              Please contact us for any queries or concerns.<br><br>
 
-          Please contact us for any queries or concerns.<br><br>
-
-
-          Regards,<br>
-          Team FnB Circle<br>
-
+              <div style="text-align: left;">
+                Regards,<br>
+                Team FnB Circle<br>
+              </div>
 
 
 
+
+
+                </div>
+                <div style="clear: both;display:table;"></div>
+              </div>
+     
 
             </div>
-            <div style="clear: both;display:table;"></div>
-          </div>
- 
 
-        </div>
-
-      <!-- Tips ends -->
+          <!-- Tips ends -->
 
       </td>
     </tr>

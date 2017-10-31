@@ -12,29 +12,33 @@
           
         </div>
 
-        <!-- Tips -->
+        
+<!-- Tips -->
+        
+        <img src="/img/note.png" style="margin: 2em auto;display:block;">
 
         <div style="margin-top: 2em;">
          
 
           <div style="margin-bottom: 0.8em;">
         
-            <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
 
-					You just received an application for your job {{$job_name}}.<br><br>
-					Details of the applicant:<br><br>
-					Name: {{$applicant_name}}<br>
-					Email: {{$applicant_email}}<br>
-					Number {{$applicant_phone}}<br>
-					City {{$applicant_city}}<br>
+          You just received an application for your job <span style="color: #27b7b0;">{{$job_name}}.</span><br><br>
+          Details of the applicant:<br>
+          <b>Name:</b> {{$applicant_name}}<br>
+          <b>Email:</b> {{$applicant_email}}<br>
+          <b>Number: </b>{{$applicant_phone}}<br>
+          <b>City: </b>{{$applicant_city}}<br>
 
-					<br><br>
-					Copy of the CV of the applicant is attached with this email.<br><br>
-
-					Regards,
-					Team FnB Circle
-
+          <br>
+          Copy of the CV of the applicant is attached with this email.<br><br>
+          <br>
+          <div style="text-align: left;">
+          Regards,<br>
+          Team FnB Circle
+          </div>
 
             </div>
             <div style="clear: both;display:table;"></div>

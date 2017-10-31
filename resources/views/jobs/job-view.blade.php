@@ -988,9 +988,10 @@ $additionalData = ['job'=>$job];
                             <p class="text-lighter">You can now contact the employer directly</p>  
                           </div>
                           <div class="j-container">
-                            <div class="jobInfo text-center flex-row">
+                            <div class="jobInfo text-center flex-row align-top">
                               <div class="contactD email">
                                 <i class="fa fa-envelope-o text-primary dis-block" aria-hidden="true"></i>
+                                <div class="flex-row flex-wrap content-center">
                                 @if(!empty($contactEmail))
                                   @foreach($contactEmail as $email)
                                     @if($email['visible'])
@@ -999,12 +1000,12 @@ $additionalData = ['job'=>$job];
                                   @endforeach
                                 @endif
 
-                                 
+                                </div>
                               </div>
                               @if(!empty($contactMobile))
                               <div class="contactD phone">
-                                <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
-                                <div class="flex-row flex-wrap">
+                                <i class="fa fa-mobile text-primary dis-block" aria-hidden="true"></i>
+                                <div class="flex-row flex-wrap content-center">
                                 
                                   @foreach($contactMobile as $mobile)
                                     @if($mobile['visible'])
@@ -1015,9 +1016,9 @@ $additionalData = ['job'=>$job];
                               </div>
                               @endif
                               @if(!empty($contactLandline))
-                              <div class="contactD phone">
+                              <div class="contactD phone c-landline">
                                 <i class="fa fa-phone text-primary dis-block" aria-hidden="true"></i>
-                                <div class="flex-row flex-wrap">
+                                <div class="flex-row flex-wrap content-center">
                                  @foreach($contactLandline as $landline)
                                   @if($landline['visible'])
                                     <a class="dark-link" href="tel:+{{ $landline['country_code']}}{{ $landline['landline']}}">+({{ $landline['country_code']}}) {{ $landline['landline']}}</a>

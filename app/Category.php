@@ -38,7 +38,7 @@ class Category extends Model
     }
 
     public function getNameAttribute( $value ) { 
-        $value = title_case( $value );      
+        $value = ucwords( $value );      
         return $value;
     }
 

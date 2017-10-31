@@ -83,3 +83,24 @@ $('body').on 'click','button#applyLocFilter', ->
   filters['city'] = loc_city_array
   filters['area'] = loc_area_array
   enquiry_table.ajax.reload()
+
+$('body').on 'change','input#namefilter', ->
+  filters['enquirer_name'] = @value
+  enquiry_table.ajax.reload()
+
+$('body').on 'change','input#emailfilter', ->
+  filters['enquirer_email'] = @value
+  enquiry_table.ajax.reload()
+
+$('body').on 'change','input#phonefilter', ->
+  filters['enquirer_contact'] = @value
+  enquiry_table.ajax.reload()
+
+$('body').on 'change','input#senttofilter', ->
+  filters['sent_to'] = @value
+  enquiry_table.ajax.reload()
+
+$('body').on 'change','input#madetofilter', ->
+  filters['enquiree'] = @value
+  enquiry_table.ajax.reload()
+

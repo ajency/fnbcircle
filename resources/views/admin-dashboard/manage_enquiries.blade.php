@@ -102,12 +102,15 @@
                       </th>
                       <th class="no-sort">
                         Name
+                        <input id="namefilter">
                       </th>
                       <th class="no-sort" style="min-width: 10%;">
                         Email
+                        <input id="emailfilter">
                       </th>
                       <th class="no-sort" style="min-width: 10%;">
                         Phone
+                        <input id="phonefilter">
                       </th>
                       <th class="no-sort" style="min-width: 10%;">
                         What describes you Best
@@ -127,9 +130,11 @@
                       <th class="no-sort" style="min-width: 10%;">Areas</th>
                       <th class="no-sort" style="min-width: 10%;">
                         Enquiry Made to
+                        <input id="madetofilter">
                       </th>
                       <th class="no-sort" style="min-width: 10%;">
                         Enquiry Sent to
+                        <input id="senttofilter">
                       </th>
                     </tr>
                   </thead>

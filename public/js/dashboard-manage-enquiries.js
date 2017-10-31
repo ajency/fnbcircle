@@ -106,4 +106,29 @@
     return enquiry_table.ajax.reload();
   });
 
+  $('body').on('change', 'input#namefilter', function() {
+    filters['enquirer_name'] = this.value;
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#emailfilter', function() {
+    filters['enquirer_email'] = this.value;
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#phonefilter', function() {
+    filters['enquirer_contact'] = this.value;
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#senttofilter', function() {
+    filters['sent_to'] = this.value;
+    return enquiry_table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#madetofilter', function() {
+    filters['enquiree'] = this.value;
+    return enquiry_table.ajax.reload();
+  });
+
 }).call(this);

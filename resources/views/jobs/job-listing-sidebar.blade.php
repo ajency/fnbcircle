@@ -197,11 +197,11 @@
                            <div class="row flex-row m-t-10 input-sal-filter">
                               <div class="col-sm-6">
                                 <label class="text-medium text-color x-small m-b-0">Min</label>
-                                 <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job fnb-input form-control x-small">
+                                 <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job fnb-input form-control x-small salary-filter">
                               </div>
                               <div class="col-sm-6">
                                 <label class="text-medium text-color x-small m-b-0">Max</label>
-                                <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job fnb-input form-control x-small">
+                                <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job fnb-input form-control x-small salary-filter">
                               </div>
                            </div>
                            </div>

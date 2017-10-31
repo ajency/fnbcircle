@@ -850,25 +850,61 @@ class JobController extends Controller
             $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
                 $salaryQry->where('jobs.salary_type',$salaryType); 
-                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
-                {
+                // $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                // {
                     
-                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
-                    {
-                        $query->where('jobs.salary_lower','>=',$salaryLower); 
-                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
-                    });
+                //     $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                //     {
+                //         $query->where('jobs.salary_lower','>=',$salaryLower); 
+                //         $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                //     });
 
                 
-                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
-                    {
+                //     $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                //     {
      
-                        $query->where('jobs.salary_upper','>=',$salaryLower); 
-                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
-                    });
-                });
+                //         $query->where('jobs.salary_upper','>=',$salaryLower); 
+                //         $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                //     });
+                // });
 
-                 
+                if($salaryLower == $salaryUpper){
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        $salaryQuery->where('jobs.salary_lower','<=',$salaryLower); 
+                        $salaryQuery->where('jobs.salary_upper','>=',$salaryLower); 
+                    });
+                }
+                else{
+
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        
+                        $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','>=',$salaryLower); 
+                            $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                        });
+
+                    
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+         
+                            $query->where('jobs.salary_upper','>=',$salaryLower); 
+                            $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                        });
+
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','<=',$salaryLower); 
+                            $query->where('jobs.salary_upper','>=',$salaryUpper); 
+                        });
+                    });
+
+                }
+                
+
+
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
                 {

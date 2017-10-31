@@ -89,7 +89,7 @@
  
 
                           @if($moreKeywordCount) 
-                            <li class="cat-more more-show"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link">+{{ $moreKeywordCount }} more</a></li>
+                            <li class="cat-more more-show"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link" target="_blank">+{{ $moreKeywordCount }} more</a></li>
                           @endif
                         </ul>
                     </div>
@@ -137,7 +137,7 @@
                                   <p class="cities__title default-size">|</p>
                               </li>
                               <li class="remain more-show">
-                                  <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
+                                  <a href="{{ url('/job/'.$job->getJobSlug()) }}"  target="_blank" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
                               </li>
                             @endif
                           </ul>
@@ -147,7 +147,7 @@
                     @endforeach
                     @if(count($job->getJobLocationNames()) >2)
                      <div class="location flex-row m-t-5">
-                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="remain__number x-small secondary-link moreLink">+ {{(count($job->getJobLocationNames()) - 2)}}  more...</a>
+                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="remain__number x-small secondary-link moreLink"  target="_blank">+ {{(count($job->getJobLocationNames()) - 2)}}  more...</a>
                         </p>
                     </div> 
                     @endif 

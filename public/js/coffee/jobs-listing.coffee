@@ -109,7 +109,7 @@ filterJobs = (resetPage) ->
         filter_record_str = '0'
 
       $("#filtered_count").text filter_record_str
-      $("#total_count").text response.total_items 
+      $(".total_count").text response.total_items 
       $(".job-pagination").html response.pagination 
       if(append) 
           $('.job-listings').append response.data 
@@ -145,6 +145,13 @@ $(document).on 'click', '.apply-filters', ->
   $('.back-icon').click()
   return
 
+
+$(document).on 'change', '.salary-filter', ->
+  minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min") 
+  maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max") 
+  salFrom = $('input[name="salary_lower"]').val()
+  salTo = $('input[name="salary_upper"]').val()
+  initSalaryBar(minSalary,maxSalary,salFrom,salTo)
 
  
 

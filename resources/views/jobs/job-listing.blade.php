@@ -41,9 +41,9 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                 <p class="element-title heavier m-b-0">Search By</p>
                             </div>
-                            <div class="right">
+                            <!-- <div class="right">
                                 <a href="" class="text-primary heavier element-title">Clear All</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="fly-out__content">
                             <div class="search-section">
@@ -127,9 +127,9 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex ">
-                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span class="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
-                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span class="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
 
 

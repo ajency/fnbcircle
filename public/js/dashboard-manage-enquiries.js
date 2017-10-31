@@ -86,4 +86,24 @@
     enquiry_table.ajax.reload();
   });
 
+  $('body').on('click', 'button#applyLocFilter', function() {
+    var entry, i, j, loc_area_array, loc_city_array;
+    loc_city_array = [];
+    loc_area_array = [];
+    for (entry in cities['cities']) {
+      j = 0;
+      for (i in cities['cities'][entry]['areas']) {
+        console.log;
+        loc_area_array.push(cities['cities'][entry]['areas'][i]['id']);
+        j++;
+      }
+      if (j === 0) {
+        loc_city_array.push(cities['cities'][entry]['id']);
+      }
+    }
+    filters['city'] = loc_city_array;
+    filters['area'] = loc_area_array;
+    return enquiry_table.ajax.reload();
+  });
+
 }).call(this);

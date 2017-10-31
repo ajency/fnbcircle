@@ -68,3 +68,18 @@ $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
   enquiry_table.ajax.reload()
   return
+
+$('body').on 'click','button#applyLocFilter', ->
+  loc_city_array = []
+  loc_area_array = []
+  for entry of cities['cities']
+      j=0
+      for i of cities['cities'][entry]['areas']
+        console.log 
+        loc_area_array.push(cities['cities'][entry]['areas'][i]['id'])
+        j++
+      if j == 0
+        loc_city_array.push(cities['cities'][entry]['id'])
+  filters['city'] = loc_city_array
+  filters['area'] = loc_area_array
+  enquiry_table.ajax.reload()

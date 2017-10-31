@@ -59,9 +59,14 @@
                   <div class="col-sm-8">
                     <div class="cat-filter__wrapper">
                       <label>Category Filter</label>
-                      <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm">Filter based on node categories</a>
+                      <a href="#category-select"  class="btn btn-link btn-sm">Filter based on node categories</a>
                       <div id="categories" class="node-list"></div>
                       
+                    </div>
+                    <div class="cat-filter__wrapper">
+                      <label>Location Filter</label>
+                      <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link text-decor heavier addArea" id="area-modal-link">Filter based on Locations</a>
+                      @include('modals.location_select.display')
                     </div>
                   </div>
                 </div>
@@ -69,6 +74,7 @@
                 <div class="filter-actions m-t-10">
                   <div class="pull-right">
                     <button class="btn primary-btn border-btn fnb-btn" id="applyCategFilter">Apply Category</button>
+                    <button class="btn primary-btn border-btn fnb-btn" id="applyLocFilter">Apply Location</button>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -140,101 +146,8 @@
 
         </div>
 
-        <!-- Category Filter -->
-        <div class="modal fnb-modal category-modal multilevel-modal fade list-app-modal" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="level-one mobile-hide firstStep">
-                            <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
-                        </div>
-                        <div class="mobile-back flex-row">
-                            <div class="back">
-                                <button class="desk-hide btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
-                                <button class="btn fnb-btn outline border-btn no-border category-back mobile-hide" type="button"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back to Category</button>
-                            </div>
-                            <div class="level-two">
-                                <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">✕</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="main-category level-one m-l-30 m-r-30 m-b-30">
-                            <!-- <div class="mobile-hide">
-                                <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-                                <div class="clearfix"></div>
-                            </div> -->
-                            <!-- <div class="desk-hide mobile-back">
-                                <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
-                            </div> -->
-                            <div class="add-container text-center">
-                                <h5 class="text-medium">Select a Category</h5>
-                                <div class="text-lighter">
-                                    One category at a time
-                                </div>
-                            </div>
-                            <ul class="interested-options catOptions cat-select flex-row m-t-45">
-                                @foreach($parents as $parent)
-                                <li>
-                                    <input type="radio" class="radio level-two-toggle" name="categories" data-name="{{$parent->name}}" value="{{$parent->id}}">
-                                    <div class="option flex-row">
-                                        <img class="fnb-icons cat-icon " src="{{$parent->icon_url}}"></span>
-                                    </div>
-                                    <div class="interested-label">
-                                        {{$parent->name}}
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="sub-category level-two">
-                            <!-- <div class="mobile-back flex-row m-b-10">
-                                <div class="back">
-                                     <button class="btn fnb-btn outline border-btn no-border sub-category-back"><i class="fa fa-arrow-left p-r-5" aria-hidden="true"></i> Back</button>
-                                </div>
-                                <button class="btn fnb-btn outline border-btn">save</button>
-                            </div> -->
 
-                            <div class="instructions flex-row space-between">
-                                <div class="cat-name flex-row"><img class="import-icon cat-icon m-r-15" src="http://icons.iconarchive.com/icons/xaml-icon-studio/agriculture/256/Fruits-Vegetables-icon.png">
-                                    <div>
-                                        <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name"></span>"</p>
-                                        <h5 class="sub-title cat-title bat-color main-cat-name"></h5>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button id="category-select" class="btn fnb-btn outline border-btn re-save" type="button" data-dismiss="modal">save</button>
-                                </div>
-                            </div>
-
-                            <div class="node-select flex-row">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist">
-                                    
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content cat-dataHolder mobile-categories relative">
-                                    <!-- mobile collapse -->
-                                    
-                                </div>
-                            </div>
-
-                            <div class="footer-actions mobile-hide text-right">
-                                <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
-                                <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer mobile-hide">
-                        <div class="sub-category hidden">
-                            <button class="btn fnb-btn outline full border-btn">save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-       
+       @include('modals.location_select.popup')
 
 
         

@@ -9,6 +9,7 @@ use App\City;
 use App\Enquiry;
 use App\EnquirySent;
 use App\EnquiryCategory;
+use App\EnquiryArea;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -105,13 +106,15 @@ class AdminEnquiryController extends Controller
             $filter_enquiries = array_unique(EnquiryCategory::whereIn('category_id',$filter_nodes)->pluck('enquiry_id')->toArray());
             $enquiries = $enquiries->whereIn($filter_enquiries);
         }
-        if(isset($filter['city']) or isset($filter['area'])){
+        if(isset($filters['city']) or isset($filters['area'])){
+            if(!isset($filters['city'])) $filters['city'] = [];
+            if(!isset($filters['area'])) $filters['area'] = [];
             $filter_cities = [];
             $filter_areas = [];
-            if(isset($filter['city'])) $filter_cities = EnquiryArea::whereIn('city_id',$filter['city'])->pluck('enquiry_id')->toArray();
-            if(isset($filter['area'])) $filter_areas = EnquiryArea::whereIn('area_id',$filter['area'])->pluck('enquiry_id')->toArray();
+            if(isset($filters['city'])) $filter_cities = EnquiryArea::whereIn('city_id',$filters['city'])->pluck('enquiry_id')->toArray();
+            if(isset($filters['area'])) $filter_areas = EnquiryArea::whereIn('area_id',$filters['area'])->pluck('enquiry_id')->toArray();
             $filter_enquiries = array_unique(array_merge($filter_cities,$filter_areas));
-            $enquiries = $enquiries->whereIn($filter_enquiries);
+            $enquiries = $enquiries->whereIn('id',$filter_enquiries);
         }
         if(isset($filters['request_date']) and isset($filters['request_date']['start']) and isset($filters['request_date']['end'])){
             $end = new Carbon($filters['request_date']['end']);

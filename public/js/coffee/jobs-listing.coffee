@@ -17,6 +17,7 @@ filterJobs = (resetPage) ->
   areaValues = []
   areaSlugs = []
   $('input[name="areas[]"]:checked').map ->
+    console.log $(this).val()
     areaValues.push $(this).val()
     areaSlugs.push $(this).attr('slug')
 
@@ -71,7 +72,7 @@ filterJobs = (resetPage) ->
     urlParams +='&job_type='+JSON.stringify(jobTypeSlug)
 
   if(areaValues.length != 0)
-    urlParams +='&area='+JSON.stringify(areaSlugs)
+    urlParams +='&city='+JSON.stringify(areaSlugs)
 
   if(experienceValues.length != 0)
     urlParams +='&experience='+JSON.stringify(experienceValues)
@@ -264,7 +265,8 @@ $('select[name="job_city"]').change ->
   $(".serach_state_name").html cityText
   if($('input[name="category_id"]').val() == '')
     $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
-  console.log cityText
+  
+  $(".clear-area").click();
   displayCityText()
   return
 
@@ -296,6 +298,7 @@ displayCityText = () ->
       else
         searchClass = 'search-job'
 
+      $('.toggle-areas').addClass('hidden')
       totalareafiltered = parseInt(data.length) 
       if totalareafiltered
         for key of data

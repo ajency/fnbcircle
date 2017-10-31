@@ -978,19 +978,18 @@ $additionalData = ['job'=>$job];
                           </div>
                           <div class="j-container">
                             <div class="jobInfo text-center flex-row align-top">
+                            @if(!empty($contactEmail))
                               <div class="contactD email">
                                 <i class="fa fa-envelope-o text-primary dis-block" aria-hidden="true"></i>
                                 <div class="flex-row flex-wrap content-center">
-                                @if(!empty($contactEmail))
                                   @foreach($contactEmail as $email)
                                     @if($email['visible'])
                                     <a class="dark-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
                                     @endif
                                   @endforeach
-                                @endif
-
                                 </div>
                               </div>
+                               @endif
                               @if(!empty($contactMobile))
                               <div class="contactD phone">
                                 <i class="fa fa-mobile text-primary dis-block" aria-hidden="true"></i>

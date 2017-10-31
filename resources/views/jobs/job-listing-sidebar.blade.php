@@ -179,7 +179,7 @@
                               </a>
                           </label>
                            <select name="salary_type" class="search-job form-control select-variant fnb-select p-l-0">
-                            <option value=""> -select salary- </option>
+                            <option value=""> --Select Salary-- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              @php
                               $minSal = (isset($salaryRange[$salaryTypeId]['min'])) ? $salaryRange[$salaryTypeId]['min'] : 0;

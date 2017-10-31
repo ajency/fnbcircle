@@ -232,7 +232,7 @@ $('#sal-input').ionRangeSlider
     max: 1000000
     # from: salFrom
     # to: salTo
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     onFinish: (data) ->
       $('input[name="salary_lower"]').val(data.from)
       $('input[name="salary_upper"]').val(data.to)
@@ -249,7 +249,7 @@ initSalaryBar = (minSal,maxSal,salFrom,salTo) ->
     max: maxSal
     from: salFrom
     to: salTo
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
 
 
 $('.header_city').change ->

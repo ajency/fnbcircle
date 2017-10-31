@@ -933,7 +933,13 @@ $additionalData = ['job'=>$job];
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">State: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter state"  value="{{ $userProfile->city}}" data-parsley-required-message="Please enter state." data-parsley-required>
+                                <!-- <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter state"  value="{{ $userProfile->city}}" data-parsley-required-message="Please enter state." data-parsley-required> -->
+                                <select name="applicant_city" class="form-control fnb-input">
+                                <option value=""></option>
+                                  @foreach(getCities() as $city)
+                                    <option value="{{ $city->id}}" @if($userProfile->city == $city->id) selected @endif>{{ $city->name}}</option>
+                                  @endforeach
+                                </select>
                             </div>
                         </div>
                         

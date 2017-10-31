@@ -1145,8 +1145,10 @@ class JobController extends Controller
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
         //for testing
-        // $ownerDetails['email'] = 'nutan@ajency.in';
+        $ownerDetails['email'] = 'nutan@ajency.in';
          
+        $filePath = getUploadFileUrl($resumeId);
+        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
 
         $data = [];
         $data['from'] = $applicantEmail;
@@ -1154,6 +1156,15 @@ class JobController extends Controller
         $data['to'] = [ $ownerDetails['email']];
         $data['cc'] = 'prajay@ajency.in';
         $data['subject'] = "New application for job ".$job->title;
+        
+        $mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+        $mimeType = $mimeTypes[$ext];
+        
+
+        $file = $user->getSingleFile($resumeId);
+        $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
+
         $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         sendEmail('job-application', $data);
 

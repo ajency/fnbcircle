@@ -1304,7 +1304,7 @@ $additionalData = ['job'=>$job];
                  <td class="{{ $dateRepeat }}">{{ $date_of_application }} </td>
                  <td>{{ $application->name }}</td>
                  <td>{{ $application->email }}</td>
-                 <td>{{ $application->phone }}</td>
+                 <td> +({{ $application->country_code}}) {{ $application->phone }}</td>
 
                  <td>@if($application->city_id) {{ $application->applicantCity->name }} @endif</td>
                  <td class="download-col">

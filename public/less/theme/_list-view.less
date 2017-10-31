@@ -399,6 +399,9 @@
     	border-bottom: 1px solid #eee;
     	align-items: inherit;
 	}
+	.seller-info__footer{
+		background-color: #fff0d4;
+	}
 	.flex-cols{
 		flex: 1 0 55%;
 		max-width: 55%;
@@ -648,6 +651,8 @@
 			margin: 0 -15px;
     		padding: 8px 15px 0;
     		border-top: 1px solid #ddd;
+    		margin-top: 0.8em;
+    		padding-top: 0;
 		}
 		.seller-info__title{
 			font-size: 1.15em;
@@ -733,7 +738,8 @@
 			display: none;
 		}
 		.recent-updates{
-			margin-bottom: 0.5em;
+			margin-bottom: 0;
+    		padding: 1em 0;
 			&__text{
 				flex: 0.6;
 				.sub-title{
@@ -771,13 +777,21 @@
 				.fnb-btn{
 					padding: 0.5em 0.5em;
     				border: 0;
-    				font-size: 1.05em;
-    				text-align: right;
+    				font-size: 1em;
+    				// text-align: right;
+    				background-color: @accent-primary;
+    				color: #fff;
+    				text-align: center;
     				&:active,&:focus{
     					background-color: transparent;
     					border: 0;
     					outline: 0;
     					color: @accent-primary;
+    				}
+    				&:hover{
+    					background-color: #fff;
+    					color: @accent-primary;
+    					box-shadow: 0px 0px 0px 2px #ec6d4b;
     				}
 				}
 			}
@@ -787,6 +801,13 @@
 			display: none;
     		margin: 0.5em -14px 0 -14px;
     		background-color: @highlight;
+		}
+		.no-updates{
+			&.recent-updates__content{
+				.fnb-btn{
+					text-align: center;
+				}
+			}		
 		}
 	}
 	.sticky-bottom{
@@ -1067,7 +1088,7 @@
 		}
 		.get-details{
 			position: relative;
-			align-self: flex-start;
+			align-self: center;
 			.fnb-btn{
 				padding: 0.5em 1.8em;
 			}
@@ -1097,6 +1118,19 @@
 		.year-exp{
 			&:after{
 				// display: none !important;
+			}
+		}
+		.recent-updates{
+			@media screen and (min-width: 769px){
+				margin: 1em -21px -17px -21px;
+    			padding: 1em 20px 20px 20px;
+    			background-color: #fff0d4;
+    			.fnb-btn{
+					border: 0;
+					&:hover{
+						box-shadow: 0px 0px 0px 2px rgb(236, 109, 75);
+					}
+				}
 			}
 		}
 	}
@@ -1169,13 +1203,20 @@
 				margin-bottom: 0.5em;
 			}
 			.get-details{
-				margin: 1em 0;
+				// margin: 1em 0;
     			border-top: 1px solid #eee;
-    			padding-top: 0.8em;
+    			// padding-top: 0.8em;
+    			margin: 0 -14px 0 -14px;
+    			padding: 15px;
+    			background-color: #fff0d4;
     			.fnb-btn{
     				width: 150px;
     				margin: 0 auto;
     				padding: 0.6em 1.8em;
+    				border: 0;
+					&:hover{
+						box-shadow: 0px 0px 0px 2px rgb(236, 109, 75);
+					}
     			}
 			}
 			.seller-info .cities.cities{

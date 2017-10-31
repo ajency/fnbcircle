@@ -874,7 +874,7 @@ $additionalData = ['job'=>$job];
                             <img src="/img/company-placeholder.jpg" width="60">
                           @endif
                         </div>
-                        <div class="jobdesc">
+                        <div class="jobdesc mobile-center">
                           <p class="sub-title bolder m-b-0 ellipsis-2" title="{{ $job->title }}">{{ $job->title }}</p>
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
@@ -1142,7 +1142,7 @@ $additionalData = ['job'=>$job];
                                              </li> -->
                
                                           <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                
                                             @endif
                                          </ul>

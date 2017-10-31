@@ -11288,6 +11288,11 @@ input[type='checkbox'].remove-addr {
 .apply-jobs-modal .joblogo {
   padding-right: 1em;
 }
+@media screen and (max-width: 768px) {
+  .apply-jobs-modal .joblogo {
+    padding-bottom: 0.5em;
+  }
+}
 .apply-jobs-modal .owner-address {
   padding-left: 0;
 }

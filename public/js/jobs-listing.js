@@ -107,7 +107,7 @@
           filter_record_str = '0';
         }
         $("#filtered_count").text(filter_record_str);
-        $("#total_count").text(response.total_items);
+        $(".total_count").text(response.total_items);
         $(".job-pagination").html(response.pagination);
         if (append) {
           $('.job-listings').append(response.data);
@@ -146,6 +146,15 @@
   $(document).on('click', '.apply-filters', function() {
     filterJobs(true);
     $('.back-icon').click();
+  });
+
+  $(document).on('change', '.salary-filter', function() {
+    var maxSalary, minSalary, salFrom, salTo;
+    minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min");
+    maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max");
+    salFrom = $('input[name="salary_lower"]').val();
+    salTo = $('input[name="salary_upper"]').val();
+    return initSalaryBar(minSalary, maxSalary, salFrom, salTo);
   });
 
   $(document).on('click', '.job-pagination a.paginate:not(.active)', function() {

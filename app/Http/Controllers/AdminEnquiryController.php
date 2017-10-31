@@ -214,7 +214,7 @@ class AdminEnquiryController extends Controller
             $enquiries->whereIn('enquiry_to_id',$listings);
         }
         if(isset($filters['sent_to'])){
-            $listings = Listing::where('title','like','%'.$filters['enquiree'].'%')->pluck('id')->toArray();
+            $listings = Listing::where('title','like','%'.$filters['sent_to'].'%')->pluck('id')->toArray();
             $enquiry_ids = EnquirySent::whereIn('enquiry_to_id',$listings)->pluck('enquiry_id')->toArray();
             $enquiries->whereIn('id',$enquiry_ids);
         }

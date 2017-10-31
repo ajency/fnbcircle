@@ -7139,6 +7139,10 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .stats {
     margin-top: 0.6em;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
   .job-listings .filter-cards .fnb-label {
     margin-bottom: 0.5em;
@@ -7171,6 +7175,22 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
+  }
+  .job-listings .filter-cards .companyName {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .job-listings .filter-cards .companyName .published-date {
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
   }
   .mobile-bottom {
     margin-bottom: 3.5em;

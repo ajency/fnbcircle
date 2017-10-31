@@ -191,8 +191,19 @@
                              
                            </select>
                            <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
-                           <input type="hidden" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job">   <input type="hidden" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           
                            <input type="text" id="sal-input">
+                            <p class="text-darker salary-separator"><span>OR</span></p>
+                           <div class="row flex-row m-t-10 input-sal-filter">
+                              <div class="col-sm-6">
+                                <label class="text-medium text-color x-small m-b-0">Min</label>
+                                 <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job fnb-input form-control x-small">
+                              </div>
+                              <div class="col-sm-6">
+                                <label class="text-medium text-color x-small m-b-0">Max</label>
+                                <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job fnb-input form-control x-small">
+                              </div>
+                           </div>
                            </div>
                       </div>
                   </div>

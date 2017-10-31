@@ -7174,6 +7174,35 @@ input[type=checkbox].custom-checkbox:before {
     line-height: 1.3;
   }
 }
+.salary-separator {
+  margin: 0.8em 0;
+  text-align: center;
+  position: relative;
+}
+.salary-separator:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  border-top: 4px double #ddd;
+  top: 50%;
+  position: absolute;
+  left: 0;
+}
+.salary-separator span {
+  padding: 0 10px;
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+  .salary-separator span {
+    background-color: #f7f7f7;
+  }
+}
+.input-sal-filter .fnb-input {
+  font-size: 0.9em;
+}
 .home-text {
   position: relative;
   top: 3em;

@@ -482,7 +482,7 @@
   });
 
   $('.bulk-status-update').on('click', 'button#bulkupdate', function() {
-    var base, instance, key, l, len, selected_rows, sm;
+    var instance, key, l, len, selected_rows, sm;
     $('button#bulkupdate').prop('disabled', true);
     instance = $('.bulk-status-update #bulkupdateform').parsley();
     if (!instance.validate()) {
@@ -502,9 +502,7 @@
     selected_listings.forEach(function(listing) {
       return listing['status'] = $('.bulk-status-update select.status-select').val();
     });
-    sm = typeof (base = $($('.bulk-status-update input[type="checkbox"]')[0]).prop('checked')) === "function" ? base({
-      "1": "0"
-    }) : void 0;
+    sm = $($('.bulk-status-update input[type="checkbox"]')[0]).prop('checked');
     return changeStatusAPI(sm);
   });
 
@@ -565,7 +563,7 @@
   });
 
   $('#updateStatusModal').on('click', 'button#change_status', function() {
-    var base, instance, sm;
+    var instance, sm;
     $('button#change_status').prop('disabled', true);
     instance = $('#updateStatusModal #singlestatus').parsley();
     if (!instance.validate()) {
@@ -577,16 +575,19 @@
       return listing['status'] = $('#updateStatusModal select.status-select').val();
     });
     console.log(selected_listings);
-    sm = typeof (base = $('#updateStatusModal input[type="checkbox"]').prop('checked')) === "function" ? base({
-      "1": "0"
-    }) : void 0;
+    sm = $('#updateStatusModal input[type="checkbox"]').prop('checked');
     return changeStatusAPI(sm);
   });
 
   changeStatusAPI = function(sm) {
     var url;
     url = document.head.querySelector('[property="status-url"]').content;
-    console.log(sm);
+    if (sm) {
+      sm = "1";
+    } else {
+      sm = "0";
+    }
+    console.log('sm = ' + sm);
     return $.ajax({
       type: 'post',
       url: url,

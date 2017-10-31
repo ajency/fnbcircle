@@ -666,7 +666,7 @@ $(document).ready () ->
 		return
 
 	### --- On City Searchbox focusIn, copy the value in the searchbox --- ###
-	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"]', (event) ->
+	$(document).on "focusin", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
 		searchbox_name_linking = 
 			"flexdatalist-city": "state"
 			"flexdatalist-category_search": "category_search"
@@ -674,6 +674,7 @@ $(document).ready () ->
 
 		key_name = $(this).attr 'name'
 		key_name = key_name.split("-")[1]
+		
 		old_values[searchbox_name_linking['flexdatalist-' + key_name]] = $('input[name="' + key_name + '"]').val()
 		$('input[name="' + key_name + '"]').flexdatalist 'value', ""
 
@@ -684,10 +685,20 @@ $(document).ready () ->
 		return
 
 	### --- On City Searchbox focusOut, if the textbox is NULL, then restore old value in the searchbox --- ###
-	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"]', (event) ->
+	$(document).on "focusout", 'input[type="text"][name="flexdatalist-city"], input[type="text"][name="flexdatalist-category_search"], input[type="text"][name="flexdatalist-business_search"]', (event) ->
+		searchbox_name_linking = 
+			"flexdatalist-city": "state"
+			"flexdatalist-category_search": "category_search"
+			"flexdatalist-business_search": "business_search"
+
+		key_name = $(this).attr 'name'
+		key_name = key_name.split("-")[1] # remove 'flexdatalist-'
+
+		console.log old_values
+		
 		setTimeout (->
-			if $('input[name="city"]').val().length <= 0
-				$('input[name="city"]').flexdatalist 'value', old_values["state"]
+			if $('input[name="' + key_name + '"]').val().length <= 0
+				$('input[name="' + key_name + '"]').flexdatalist 'value', old_values[searchbox_name_linking["flexdatalist-" + key_name]]
 		), 200
 		return
 

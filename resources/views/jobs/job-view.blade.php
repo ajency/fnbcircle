@@ -410,7 +410,7 @@ $additionalData = ['job'=>$job];
               @endif -->
                <div class="footer-share flex-row bottom-share-section">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
                    
                   @else
 
@@ -874,7 +874,7 @@ $additionalData = ['job'=>$job];
                             <img src="/img/company-placeholder.jpg" width="60">
                           @endif
                         </div>
-                        <div class="jobdesc">
+                        <div class="jobdesc mobile-center">
                           <p class="sub-title bolder m-b-0 ellipsis-2" title="{{ $job->title }}">{{ $job->title }}</p>
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
@@ -1141,7 +1141,7 @@ $additionalData = ['job'=>$job];
                                              </li> -->
                
                                           <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                
                                             @endif
                                          </ul>

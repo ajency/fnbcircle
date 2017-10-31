@@ -77,8 +77,8 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                     </div>
 
                                     <ul class="nav nav-tabs desk-hide mobile-flex" role="tablist">
-                                        <li role="presentation" class="active"><a href="#category" aria-controls="home" role="ab" data-toggle="tab">Category</a></li>
-                                        <li role="presentation"><a href="#business" aria-controls="profile" role="tab" data-toggle="tab">Business Name</a></li>
+                                        <li role="presentation" class="active"><a href="#category" aria-controls="home" role="ab" data-toggle="tab">Business Type</a></li>
+                                        <li role="presentation"><a href="#business" aria-controls="profile" role="tab" data-toggle="tab">Job Title</a></li>
                                     </ul>
 
                                       <div class="tab-con flex-row">

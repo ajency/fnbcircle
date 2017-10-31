@@ -230,7 +230,7 @@
     type: 'double',
     min: 0,
     max: 1000000,
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>',
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> ',
     onFinish: function(data) {
       $('input[name="salary_lower"]').val(data.from);
       $('input[name="salary_upper"]').val(data.to);
@@ -247,7 +247,7 @@
       max: maxSal,
       from: salFrom,
       to: salTo,
-      prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+      prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     });
   };
 

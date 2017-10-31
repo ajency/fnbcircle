@@ -5369,7 +5369,7 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0 15px;
   padding-bottom: 4em;
 }
-@media screen and (max-width: 1400px) {
+@media screen and (min-width: 769px) and (max-width: 1400px) {
   .page-sidebar .JA-sidebar {
     padding: 0;
   }
@@ -5960,6 +5960,11 @@ input[type=checkbox].custom-checkbox:before {
   }
   .postActions a:first-child {
     margin-left: 0;
+  }
+  .footer-share .applicantTitle .update-sec__link {
+    margin-top: 0;
+    padding-left: 0.3em;
+    padding-top: 0.15em;
   }
 }
 .contact-social {
@@ -7134,6 +7139,10 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .stats {
     margin-top: 0.6em;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
   .job-listings .filter-cards .fnb-label {
     margin-bottom: 0.5em;
@@ -7167,12 +7176,57 @@ input[type=checkbox].custom-checkbox:before {
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
   }
+  .job-listings .filter-cards .companyName {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .job-listings .filter-cards .companyName .published-date {
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
+  }
   .mobile-bottom {
     margin-bottom: 3.5em;
   }
   .show-count-title {
     line-height: 1.3;
   }
+}
+.salary-separator {
+  margin: 0.8em 0;
+  text-align: center;
+  position: relative;
+}
+.salary-separator:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  border-top: 4px double #ddd;
+  top: 50%;
+  position: absolute;
+  left: 0;
+}
+.salary-separator span {
+  padding: 0 10px;
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+  .salary-separator span {
+    background-color: #f7f7f7;
+  }
+}
+.input-sal-filter .fnb-input {
+  font-size: 0.9em;
 }
 .home-text {
   position: relative;
@@ -11254,6 +11308,11 @@ input[type='checkbox'].remove-addr {
 .apply-jobs-modal .joblogo {
   padding-right: 1em;
 }
+@media screen and (max-width: 768px) {
+  .apply-jobs-modal .joblogo {
+    padding-bottom: 0.5em;
+  }
+}
 .apply-jobs-modal .owner-address {
   padding-left: 0;
 }
@@ -11391,10 +11450,14 @@ input[type='checkbox'].remove-addr {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .jobInfo .contactD {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .jobInfo .contactD.phone {
     border-left: 0;
     border-top: 1px solid #ddd;
-    width: 90%;
   }
 }
 @media screen and (max-width: 768px) {

@@ -157,6 +157,14 @@
     return initSalaryBar(minSalary, maxSalary, salFrom, salTo);
   });
 
+  $(document).on('click', '.job-pagination a.paginate:not(.active)', function() {
+    return setTimeout((function() {
+      $('html,body').animate({
+        scrollTop: 0
+      }, 1500);
+    }), 500);
+  });
+
   strSlug = function(str) {
     var from, i, l, to;
     str = str.replace(/^\s+|\s+$/g, '');

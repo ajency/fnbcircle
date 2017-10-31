@@ -146,12 +146,20 @@ $(document).on 'click', '.apply-filters', ->
   return
 
 
+ 
 $(document).on 'change', '.salary-filter', ->
   minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min") 
   maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max") 
   salFrom = $('input[name="salary_lower"]').val()
   salTo = $('input[name="salary_upper"]').val()
   initSalaryBar(minSalary,maxSalary,salFrom,salTo)
+ 
+$(document).on 'click', '.job-pagination a.paginate:not(.active)', ->
+  setTimeout (->
+    $('html,body').animate { scrollTop: 0 }, 1500
+    return    
+  ), 500
+ 
 
  
 

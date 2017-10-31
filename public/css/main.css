@@ -7112,6 +7112,15 @@ input[type=checkbox].custom-checkbox:before {
           justify-content: flex-end;
   color: #ec6d4b;
 }
+.searchKeyword {
+  position: relative;
+}
+.searchKeyword .search-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  z-index: 2;
+}
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple {
   border-bottom: 0 !important;
   margin-top: -4px;
@@ -7121,7 +7130,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple li.input-container input {
   width: 100%;
-  padding-left: 0;
+  padding-left: 1.5em;
 }
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple .input-container {
   margin-top: 0;

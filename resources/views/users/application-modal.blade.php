@@ -68,19 +68,21 @@
                         <div class="row m-b-10">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Name: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $job->application->name}}" data-parsley-required-message="Please enter name." data-parsley-required>
+                                {{ $job->application->name}}
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Email: </label>
-                                <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $job->application->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
+                                {{ $job->application->email}}
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Phone number: </label>
-                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $job->application->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" >
+                                +({{ $job->application->country_code}}) {{ $job->application->phone}}
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">City: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $job->application->city}}">
+                                @if($job->application->city_id)
+                                {{ $job->application->applicantCity->name}}
+                                @endif
                             </div>
                         </div>
                         

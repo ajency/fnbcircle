@@ -1116,6 +1116,7 @@ class JobController extends Controller
         $applicantEmail = $data['applicant_email'];
         $applicantPhone = $data['applicant_phone'];
         $applicantCity = $data['applicant_city'];
+        $applicantCountryCode = $data['country_code'];
         $resume = (isset($data['resume'])) ? $data['resume'] : [];
         $resumeId =(isset($data['resume_id'])) ? $data['resume_id'] : 0;
 
@@ -1125,7 +1126,8 @@ class JobController extends Controller
         $jobApplicant->name = $applicantName;
         $jobApplicant->email = $applicantEmail;
         $jobApplicant->phone = $applicantPhone;
-        $jobApplicant->city = $applicantCity;
+        $jobApplicant->city_id = $applicantCity;
+        $jobApplicant->country_code = $applicantCountryCode;
         
         $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
 

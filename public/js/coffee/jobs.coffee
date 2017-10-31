@@ -405,6 +405,29 @@ if $('.readMore').length
     collapsedHeight: 40
     lessLink: '<a href="#">Read less</a>'
 
+# $('.applicant-phone').intlTelInput
+#   # initialCountry: country
+#   separateDialCode: true
+#   geoIpLookup: (callback) ->
+#     $.get('https://ipinfo.io', (->
+#     ), 'jsonp').always (resp) ->
+#       countryCode = if resp and resp.country then resp.country else ''
+#       callback 91
+#       return
+#     return
+#   preferredCountries: [ 'IN' ]
+#   americaMode: false
+#   formatOnDisplay:false
+
+# $(document).ready ()->
+#   mobileNo = $('.applicant-phone').val()
+#   countryCode = $('input[name="country_code"]').val()
+#   $('.applicant-phone').intlTelInput("setNumber", "+"+countryCode).val mobileNo
+
+# $(document).on 'countrychange', '.applicant-phone', (e, countryData)->  
+#   $('input[name="country_code"]').val countryData.dialCode
+    
+
 
 
 

@@ -23,6 +23,7 @@ $additionalData = ['job'=>$job];
     <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
     @endif
     <script type="text/javascript" src="{{ asset('js/whatsapp-button.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script> 
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
     @if(Session::has('job_review_pending')) 
      <script type="text/javascript">
@@ -918,7 +919,7 @@ $additionalData = ['job'=>$job];
                         <div class="  flex-row space-between">
                              <h6 class="m-b-20">Your details as follows:</h6> 
                         </div>
-                        <div class="row m-b-10 flex-row flex-wrap">
+                        <div class="row m-b-10 flex-row flex-wrap contact-info">
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Name: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}" data-parsley-required-message="Please enter name." data-parsley-required>
@@ -927,9 +928,10 @@ $additionalData = ['job'=>$job];
                                 <label class="label-size">Email: </label>
                                 <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $userProfile->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
                             </div>
-                            <div class="col-sm-6 form-group c-gap details-fill-col">
+                            <div class="col-sm-6 form-group c-gap details-fill-col contact-container">
                                 <label class="label-size">Phone number: </label>
-                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                                <input text="tel" class="form-control fnb-input contact-input contact-mobile-input contact-mobile-number" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                                <input type="hidden" class="contact-country-code" name="country_code" value="@if(!empty($userProfile->phone_code)) {{ $userProfile->phone_code }} @else 91 @endif">
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">State: </label>
@@ -1303,7 +1305,8 @@ $additionalData = ['job'=>$job];
                  <td>{{ $application->name }}</td>
                  <td>{{ $application->email }}</td>
                  <td>{{ $application->phone }}</td>
-                 <td>{{ $application->city }}</td>
+
+                 <td>@if($application->city_id) {{ $application->applicantCity->name }} @endif</td>
                  <td class="download-col">
                 @if($application->resume_id && $resumeUrl!='')
                   <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">Download <i class="fa fa-download" aria-hidden="true"></i></a>

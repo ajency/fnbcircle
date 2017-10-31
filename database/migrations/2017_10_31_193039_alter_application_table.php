@@ -13,7 +13,15 @@ class AlterApplicationTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('job_applicants', function (Blueprint $table) {
+            $table->integer('city_id')->unsigned()->nullable();
+            $table->string('country_code')->nullable(); 
+
+            $table->foreign( 'city_id' )
+                  ->references( 'id' )
+                  ->on( 'cities' )
+                  ->onDelete( 'cascade' );
+        });
     }
 
     /**

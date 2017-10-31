@@ -5961,6 +5961,11 @@ input[type=checkbox].custom-checkbox:before {
   .postActions a:first-child {
     margin-left: 0;
   }
+  .footer-share .applicantTitle .update-sec__link {
+    margin-top: 0;
+    padding-left: 0.3em;
+    padding-top: 0.15em;
+  }
 }
 .contact-social {
   border-radius: 5px;

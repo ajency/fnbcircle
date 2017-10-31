@@ -1269,7 +1269,7 @@ $additionalData = ['job'=>$job];
                  <th>Name</th>
                  <th>Email</th>
                  <th>Phone</th>
-                 <th>City</th>
+                 <th>State</th>
                  <th>Resume</th>
                </thead>
              @foreach($jobApplications as $key => $application)

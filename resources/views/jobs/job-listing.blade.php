@@ -131,8 +131,6 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
 
                     <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
-
-
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">
                             <i class="fa fa-search" aria-hidden="true"></i>

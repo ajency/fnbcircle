@@ -175,7 +175,7 @@ class JobListView extends Model
  
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
-        $breadcrumbs[] = ['url'=>url($this->state.'/job-listings?city='.$this->state), 'name'=>  $this->state];
+        $breadcrumbs[] = ['url'=>url($this->state.'/job-listings?state='.$this->state), 'name'=>  $this->state];
         if(!$this->category)
             $breadcrumbs[] = ['url'=>'', 'name'=> 'All Jobs In '.ucwords($this->state)];
         else{

@@ -5983,6 +5983,12 @@ input[type=checkbox].custom-checkbox:before {
 .application-table.table tr td {
   padding: 15px 8px;
 }
+@media screen and (max-width: 1400px) {
+  .application-table.table tr td:nth-child(3) {
+    min-width: 80px;
+    word-break: break-all;
+  }
+}
 .application-table.table-responsive {
   border: 0;
 }
@@ -11316,6 +11322,12 @@ input[type='checkbox'].remove-addr {
   display: inline-block;
   color: #6b6b6b;
 }
+.jobInfo .contactD .content-center {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .job-alert {
   margin: 1em 0;
 }
@@ -11359,6 +11371,9 @@ input[type='checkbox'].remove-addr {
         -ms-flex-align: center;
             align-items: center;
   }
+  .apply-jobs-modal .edit-criteria .c-gap {
+    margin-top: 1em;
+  }
   .app-sent {
     font-size: 1.25em;
   }
@@ -11379,6 +11394,7 @@ input[type='checkbox'].remove-addr {
   .jobInfo .contactD.phone {
     border-left: 0;
     border-top: 1px solid #ddd;
+    width: 90%;
   }
 }
 @media screen and (max-width: 768px) {

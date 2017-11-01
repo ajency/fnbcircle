@@ -424,8 +424,8 @@ if $('.readMore').length
 #   countryCode = $('input[name="country_code"]').val()
 #   $('.applicant-phone').intlTelInput("setNumber", "+"+countryCode).val mobileNo
 
-# $(document).on 'countrychange', '.applicant-phone', (e, countryData)->  
-#   $('input[name="country_code"]').val countryData.dialCode
+$(document).on 'countrychange', 'input[name="applicant_phone"]', (e, countryData)->  
+  $('input[name="country_code"]').val countryData.dialCode
     
 
 

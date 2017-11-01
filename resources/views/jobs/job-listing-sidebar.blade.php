@@ -227,7 +227,13 @@
                           <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
                       </div>
                   </div>
-                  <a href="/jobs/create" class="btn fnb-btn outline border-btn default-size">Post your job</a>
+                  
+                  @if(Auth::check())
+                    <a href="/jobs/create" class="btn fnb-btn outline border-btn default-size">
+                  @else
+                    <a href="#" class="btn fnb-btn outline border-btn default-size" data-toggle="modal" data-target="#login-modal">
+                  @endif
+                  Post your job</a>
               </div>
 
               <!-- Post job ends -->

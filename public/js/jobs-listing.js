@@ -275,8 +275,9 @@
   });
 
   $('select[name="job_city"]').change(function() {
-    var cityText;
+    var categoryId, cityId, cityText;
     cityText = $('option:selected', this).text();
+    cityId = $('option:selected', this).attr('id');
     $(".fnb-breadcrums li:nth-child(3)").find('a').attr('href', '/' + cityText + '/job-listings?city=' + cityText);
     $(".fnb-breadcrums li:nth-child(3)").find('p').text(cityText);
     $(".serach_state_name").html(cityText);
@@ -285,6 +286,11 @@
     }
     $(".clear-area").click();
     displayCityText();
+    categoryId = $('input[name="category_id"]').val();
+    $('.search-job-title').flexdatalist('params', {
+      'state': cityId,
+      "category": categoryId
+    });
   });
 
   $('input[name="area_search"]').keyup(function() {
@@ -467,7 +473,7 @@
       minLength: 0,
       cache: false,
       searchDelay: 200,
-      url: '/get-job-titles?id=' + $('input[name="category_id"]').val(),
+      url: '/get-job-titles',
       searchIn: ["title"]
     });
     if ($('.area-list').attr('has-filter').trim() === 'no') {
@@ -477,6 +483,12 @@
   });
 
   $('.search-job-categories').on('select:flexdatalist', function(event, set, options) {
+    var stateId;
+    stateId = $('option:selected', $('select[name="job_city"]')).attr('id');
+    $('.search-job-title').flexdatalist('params', {
+      'state': stateId,
+      "category": set.id
+    });
     $('input[name="category_id"]').val(set.id);
     $('input[name="category_id"]').attr('slug', set.slug);
     $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
@@ -496,8 +508,13 @@
   });
 
   $('.search-job-categories').on('change:flexdatalist', function(event, set, options) {
-    var cityObj, cityText;
+    var cityObj, cityText, stateId;
     if (set.value === '') {
+      stateId = $('option:selected', $('select[name="job_city"]')).attr('id');
+      $('.search-job-title').flexdatalist('params', {
+        'state': stateId,
+        "category": ''
+      });
       $('input[name="category_id"]').val('');
       $('input[name="category_id"]').attr('slug', '');
       cityObj = $('select[name="job_city"]');
@@ -508,5 +525,15 @@
       return filterJobs(true);
     }
   });
+
+  setTimeout((function() {
+    return $('.search-job-title').keyup(function(e) {
+      console.log($(window).width());
+      if ($(window).width() < 769 && e.keyCode === 13) {
+        $('.flexdatalist-results').remove();
+        $('.back-icon').click();
+      }
+    });
+  }), 1000);
 
 }).call(this);

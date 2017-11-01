@@ -7235,6 +7235,13 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-item-align: end;
             align-self: flex-end;
   }
+  .job-listings .filter-cards .recent-updates {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
   .mobile-bottom {
     margin-bottom: 3.5em;
   }

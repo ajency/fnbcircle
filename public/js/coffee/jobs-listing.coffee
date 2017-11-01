@@ -274,7 +274,8 @@ $('.header_city').change ->
   return
 
 $('select[name="job_city"]').change ->
-  cityText = $('option:selected',this).text();
+  cityText = $('option:selected',this).text()
+  cityId = $('option:selected',this).attr('id')
   $( ".fnb-breadcrums li:nth-child(3)" ).find('a').attr 'href', '/'+cityText+'/job-listings?city='+cityText
   $( ".fnb-breadcrums li:nth-child(3)" ).find('p').text cityText
   $(".serach_state_name").html cityText
@@ -283,6 +284,8 @@ $('select[name="job_city"]').change ->
   
   $(".clear-area").click();
   displayCityText()
+  categoryId = $('input[name="category_id"]').val()
+  $('.search-job-title').flexdatalist('params', {'state':cityId,"category": categoryId})
   return
 
 $('input[name="area_search"]').keyup ->
@@ -478,7 +481,7 @@ $(document).ready ()->
       minLength: 0
       cache: false
       searchDelay: 200
-      url: '/get-job-titles?id='+$('input[name="category_id"]').val()
+      url: '/get-job-titles'
       searchIn: ["title"] 
 
    # console.log $('.area-list').attr('has-filter')
@@ -488,6 +491,8 @@ $(document).ready ()->
 
 
 $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
+  stateId = $('option:selected',$('select[name="job_city"]')).attr('id')
+  $('.search-job-title').flexdatalist('params', {'state':stateId,"category": set.id})
   $('input[name="category_id"]').val set.id   
   $('input[name="category_id"]').attr 'slug',set.slug   
   $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
@@ -503,8 +508,10 @@ $(document).on "focusin", '.search-job-title', (event) ->
   return
 
 $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
+
   if set.value == ''
-    
+    stateId = $('option:selected',$('select[name="job_city"]')).attr('id')
+    $('.search-job-title').flexdatalist('params', {'state':stateId,"category": ''})
     $('input[name="category_id"]').val ''
     $('input[name="category_id"]').attr 'slug','' 
     cityObj = $('select[name="job_city"]')

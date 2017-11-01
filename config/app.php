@@ -183,7 +183,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 
-        Aws\Laravel\AwsServiceProvider::class,
+        // Aws\Laravel\AwsServiceProvider::class,
         Ajency\User\LaravelAjUserServiceProvider::class,
 
     ],
@@ -237,7 +237,7 @@ return [
         'AjFileUpload' => Ajency\FileUpload\FileUploadServiceProvider::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'AWS' => Aws\Laravel\AwsFacade::class,
+        // 'AWS' => Aws\Laravel\AwsFacade::class,
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
         'Role' => Spatie\Permission\Models\Role::class,
     ],

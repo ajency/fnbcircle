@@ -39,6 +39,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/get-updates','UpdatesController@getUpdates');
 
+
+/*/*/
+Route::get('/test-code', function () {
+    return view('errors.error');
+});
+
+/*/*/ 
 // 
 /******
 listing

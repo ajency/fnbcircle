@@ -128,8 +128,11 @@ class RegisterController extends Controller
         }
 
         $request_data["user_comm"]["object_id"] = $user_obj->id;
+
         if($request->has('contact_id') && $request->contact_id) {
             $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], $request->contact_id);
+        } else {
+            $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], '');
         }
 
         // if(isset($request_data["user_comm"]["contact"])) {

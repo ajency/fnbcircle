@@ -2698,6 +2698,9 @@ input[type=checkbox].custom-checkbox:before {
 .editable {
   background-color: #eee;
 }
+.intl-tel-input {
+  z-index: 10;
+}
 .slide-nav {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
@@ -5981,18 +5984,17 @@ input[type=checkbox].custom-checkbox:before {
 .download-col {
   min-width: 100px;
 }
+.application-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 .application-table.table tr td.date-repeat {
   background-color: #fff;
   border-top: 0;
 }
 .application-table.table tr td {
   padding: 15px 8px;
-}
-@media screen and (max-width: 1400px) {
-  .application-table.table tr td:nth-child(3) {
-    min-width: 80px;
-    word-break: break-all;
-  }
 }
 .application-table.table-responsive {
   border: 0;
@@ -11393,10 +11395,6 @@ input[type='checkbox'].remove-addr {
 .open-details {
   margin-top: 1em;
 }
-.j-container {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-}
 .jobInfo {
   margin: 1.5em -20px;
   padding: 0.5em 0;
@@ -11507,6 +11505,9 @@ input[type='checkbox'].remove-addr {
   }
   .jobInfo .contactD.phone {
     border-left: 0;
+  }
+  .jobInfo .contactD:nth-child(2n),
+  .jobInfo .contactD:last-child:not(:first-child) {
     border-top: 1px solid #ddd;
   }
 }

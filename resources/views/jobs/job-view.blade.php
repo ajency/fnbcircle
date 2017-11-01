@@ -411,7 +411,7 @@ $additionalData = ['job'=>$job];
               @endif -->
                <div class="footer-share flex-row bottom-share-section">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link p-l-5  secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">{{ count($jobApplications) }}</a></p>
                    
                   @else
 
@@ -929,7 +929,7 @@ $additionalData = ['job'=>$job];
                                 <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $userProfile->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col contact-container">
-                                <label class="label-size">Phone number: </label>
+                                <label class="label-size dis-block">Phone number: </label>
                                 <input text="tel" class="form-control fnb-input contact-input contact-mobile-input contact-mobile-number" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
                                 <input type="hidden" class="contact-country-code" name="country_code" value="@if(!empty($userProfile->phone_code)) {{ $userProfile->phone_code }} @else 91 @endif">
                             </div>
@@ -1038,7 +1038,7 @@ $additionalData = ['job'=>$job];
 
                           <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria">
+                          <div class="row flex-row flex-wrap align-top edit-criteria hidden">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))

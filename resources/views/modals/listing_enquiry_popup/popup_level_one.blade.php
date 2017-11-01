@@ -3,7 +3,7 @@
     <p class="content-title text-darker m-b-0 text-medium">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
       <!-- form -->
     <form method="post" action="" id="level-one-enquiry" data-parsley-validate="">
-        <div class="formFields p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
+        <div class="formFields flex-row flex-wrap p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
-                    <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
+                    <label class="m-b-0 text-lighter float-label required filled lab-color" for="number">Phone</label>
                     @if(!Auth::guest())
                         <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="+{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                         <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
@@ -82,7 +82,7 @@
         <!-- looking for ends -->
         <!-- action -->
         <div class="send-action">
-            <button class="btn fnb-btn primary-btn full border-btn" type="button" id="level-one-form-btn" data-value="step_1">Send</button>
+            <button class="btn fnb-btn primary-btn full border-btn" type="button" id="level-one-form-btn" data-value="step_1">Send <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
         </div>
         <!-- action ends -->
     </form>

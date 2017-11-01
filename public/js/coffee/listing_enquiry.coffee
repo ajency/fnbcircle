@@ -277,6 +277,38 @@ $(document).ready () ->
 					$(this).val($(this).intlTelInput("getNumber"))
 					return
 
+				# value checking floating label
+
+				checkForInput = (element) ->
+				  # element is passed to the function ^
+				  $label = $(element).siblings('label')
+				  if $(element).val().length > 0
+				    $label.addClass 'filled lab-color'
+				  else
+				    $label.removeClass 'filled lab-color'
+				  return
+
+				$('.float-input').on 'focus', ->
+				  $(this).siblings('.float-label').addClass 'filled focused'
+				  return
+				$('.float-input').on 'blur', ->
+				  $(this).siblings('.float-label').removeClass 'focused'
+				  if @value == ''
+				    $(this).siblings('.float-label').removeClass 'filled'
+				  return
+				$('.floatInput').on 'focus', ->
+				  $(this).parent().closest('.form-group').find('.float-label').addClass 'filled focused'
+				  return
+				$('.floatInput').on 'blur', ->
+				  $(this).parent().closest('.form-group').find('.float-label').removeClass 'focused'
+				  if @value == ''
+				    $(this).parent().closest('.form-group').find('.float-label').removeClass 'filled'
+				  return
+				# The lines below are executed on page load
+				$('.float-input').each ->
+				  checkForInput this
+				  return
+				  
 			if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
 				$("#level-one-enquiry input[name='contact']").val("")
 

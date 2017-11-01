@@ -7148,7 +7148,7 @@ input[type=checkbox].custom-checkbox:before {
   position: absolute;
   bottom: 10px;
   left: 0;
-  z-index: 2;
+  z-index: 1;
 }
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple {
   border-bottom: 0 !important;

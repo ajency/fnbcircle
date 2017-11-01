@@ -231,7 +231,7 @@
                   @if(Auth::check())
                     <a href="/jobs/create" class="btn fnb-btn outline border-btn default-size">
                   @else
-                    <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                    <a href="#" class="btn fnb-btn outline border-btn default-size" data-toggle="modal" data-target="#login-modal">
                   @endif
                   Post your job</a>
               </div>

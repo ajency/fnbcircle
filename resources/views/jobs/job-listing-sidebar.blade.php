@@ -77,6 +77,7 @@
                               </a>
                           </label>
                         <span class="area-list" has-filter="@if(isset($urlFilters['area']) && !empty($urlFilters['area'])) yes @else no @endif">
+
                         @php
                         $cityareaCount = 0;
                         @endphp
@@ -107,11 +108,14 @@
                           @if($cityareaCount > 6)
 
                             </div>
+
                           @endif
                         @endif
                         </span>   
-                          
-                          <div class="text-right"><p id="moreAreaShow" data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary toggle-areas heavier text-right more-area m-b-0 default-size dis-inline  @if($cityareaCount < 6) hidden @endif">+ {{ ($cityareaCount - 6) }} more</p></div>
+                        <span class="no-result-city  hidden">No results found for   </span>
+                        
+
+                          <div class="text-right"><p id="moreAreaShow" data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary toggle-areas heavier text-right more-area m-b-0 default-size dis-inline  @if($cityareaCount < 6) hidden @endif"> {{ ($cityareaCount - 6) }} more</p></div>
                       </div>
                   </div>
               </div>

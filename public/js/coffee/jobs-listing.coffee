@@ -289,6 +289,8 @@ $('input[name="area_search"]').keyup ->
   # displayCityText()
   search_key = $(this).val()
   areas_found = 0
+ 
+  $('.no-result-city').addClass('hidden')
 
   if not ($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') == "true")
     $(this).closest("#section-area").find("#moreDown").collapse 'show'
@@ -301,6 +303,11 @@ $('input[name="area_search"]').keyup ->
         areas_found += 1
         $(this).parent().removeClass "hidden"
       return
+ 
+    if $("input[name='areas[]']").length == $('.area-list').find('label.hidden').length
+      $('.no-result-city').removeClass('hidden').html('No results found for '+search_key)
+ 
+
     
     ## -- Hide other cities & display the "area found" count -- ##
     # if areas_found > 0 and areas_found - parseInt($(this).closest("#section-area").find("#areas_hidden").val()) > 0
@@ -310,13 +317,17 @@ $('input[name="area_search"]').keyup ->
     $(this).closest("#section-area").find("#moreAreaShow").addClass 'hidden'
   else
     ## -- If the areas are greater than 0, then hide "other areas" section -- ##
-    if $(this).closest("#section-area").find("#areas_hidden").val() > 0
+     
+    if $('.area-list').find('label.hidden').length > 0
       $(this).closest("#section-area").find("#moreDown").collapse 'hide'
-    $(this).closest("#section-area").find("#moreAreaShow").removeClass 'hidden'
+
+    if $("input[type='checkbox'][name='areas[]']").length > 6  
+      $(this).closest("#section-area").find("#moreAreaShow").removeClass 'hidden'
+
     $("input[type='checkbox'][name='areas[]']").parent().removeClass 'hidden'
   return
 
-$('input[name="job_name"]').keyup ->
+$('input[name="job_name"]').change ->
   filterJobs(false)
 
 displayCityText = () -> 
@@ -371,6 +382,9 @@ displayCityText = () ->
       throwError()
       return
 
+
+$('.title-search-btn').click ->
+  $('.back-icon').click()
 
 $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
@@ -450,6 +464,15 @@ $(document).ready ()->
       url: '/job/get-category-types'
       searchIn: ["name"] 
 
+  $('.search-job-title').flexdatalist
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      minLength: 0
+      cache: false
+      url: '/get-job-titles'
+      searchIn: ["title"] 
+
    # console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
@@ -462,6 +485,10 @@ $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
   $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
   $(".serach_category_name").html set.name
   filterJobs(true) 
+  if $(window).width() < 769 
+    $('.back-icon').click()
+
+ 
 
 $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
   if set.value == ''

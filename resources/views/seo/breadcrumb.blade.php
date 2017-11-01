@@ -24,7 +24,7 @@
     @foreach($breadcrumbs as $position => $item)
     @if($loop->first)
     <li class="fnb-breadcrums__section">
-        <a href="/" title="Home">
+        <a href="/" title="Home" target="_blank">
             <i class="fa fa-home home-icon" aria-hidden="true"></i>
         </a>
     </li>
@@ -34,7 +34,7 @@
     </li>
     @else
     <li class="fnb-breadcrums__section">
-        <a href="{{$item['url']}}" title="{{$item['name']}}">
+        <a href="{{$item['url']}}" title="{{$item['name']}}" target="_blank">
             <p class="fnb-breadcrums__title">{{$item['name']}}</p>
         </a>
     </li>

@@ -39,6 +39,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/get-updates','UpdatesController@getUpdates');
 
+
+/*/*/
+Route::get('/test-code', function () {
+    return view('errors.error');
+});
+
+/*/*/ 
 // 
 /******
 listing
@@ -108,9 +115,11 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+
 Route::get('/get-keywords','JobController@getKeywords');
+Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
-Route::get('/user/download-resume','UserController@downloadResume');
+
 
 
 /**
@@ -135,6 +144,8 @@ Route::group( ['middleware' => ['auth']], function() {
  	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
+
+	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
 });
 
 

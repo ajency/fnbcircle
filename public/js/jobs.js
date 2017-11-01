@@ -396,4 +396,8 @@
     });
   }
 
+  $(document).on('countrychange', 'input[name="applicant_phone"]', function(e, countryData) {
+    return $('input[name="country_code"]').val(countryData.dialCode);
+  });
+
 }).call(this);

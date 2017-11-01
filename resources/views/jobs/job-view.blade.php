@@ -182,7 +182,7 @@ $additionalData = ['job'=>$job];
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
  
-                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
+                       <a href="{{ url(getSinglePopularCity()->slug.'/job-listings') }}?state={{ getSinglePopularCity()->slug }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
  
                     </div>
                     <!-- publish date -->
@@ -218,9 +218,9 @@ $additionalData = ['job'=>$job];
                           <h2 class="operations__title sub-title m-t-5">Job Role</h2>
                           <ul class="j-role flex-row">
 
-                            @foreach($keywords as $keyword)
+                            @foreach($keywords as $keywordId=> $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link" title="Find all jobs matching {{ $keyword }}"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCity()->slug."/job-listings") }}?state={{ getSinglePopularCity()->slug }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach
@@ -416,16 +416,18 @@ $additionalData = ['job'=>$job];
                   @else
 
                   <!-- if applied for job -->
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                      @if(Auth::check())
-                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
-                      @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                      @endif
-                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                        </a>
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
+                    @else
+                        @if(Auth::check())
+                          <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                        @else
+                          <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        @endif
+                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                          </a>
+                    @endif
                   @endif
 
                   @endif
@@ -576,16 +578,18 @@ $additionalData = ['job'=>$job];
             
                   @else
 
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                    @if(Auth::check())
-                      <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
                     @else
-                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @if(Auth::check())
+                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                      @else
+                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @endif
+                            <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                        </a>
                     @endif
-                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                      </a>
                   @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
                   <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
@@ -949,7 +953,7 @@ $additionalData = ['job'=>$job];
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}">download</a>
                             @else
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
                             Please upload your resume
@@ -1308,8 +1312,8 @@ $additionalData = ['job'=>$job];
 
                  <td>@if($application->city_id) {{ $application->applicantCity->name }} @endif</td>
                  <td class="download-col">
-                @if($application->resume_id && $resumeUrl!='')
-                  <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @if($application->resume_id)
+                  <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
                 @endif
                   </td>
                </tr>

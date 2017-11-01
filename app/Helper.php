@@ -338,6 +338,10 @@ function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
 
+function getSinglePopularCity() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
+}
+
 /**
 * This function is used to generate URL from city_name & 1 or more slugs
 * This function will @return
@@ -355,4 +359,12 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	}
  
 	return $url;
+}
+
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
 }

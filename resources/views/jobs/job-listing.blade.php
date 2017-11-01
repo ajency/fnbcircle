@@ -93,7 +93,11 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
+                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input search-job-title" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
+
+                                                <div class="right desk-hide">
+                                                    <a href="javascript:void(0)" class="text-primary heavier element-title title-search-btn ">Search</a>
+                                                </div>
                                             </div>
                                         </div>
                                       </div>

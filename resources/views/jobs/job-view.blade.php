@@ -949,7 +949,7 @@ $additionalData = ['job'=>$job];
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}">download</a>
                             @else
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
                             Please upload your resume
@@ -1308,8 +1308,8 @@ $additionalData = ['job'=>$job];
 
                  <td>@if($application->city_id) {{ $application->applicantCity->name }} @endif</td>
                  <td class="download-col">
-                @if($application->resume_id && $resumeUrl!='')
-                  <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @if($application->resume_id)
+                  <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
                 @endif
                   </td>
                </tr>

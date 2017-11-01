@@ -86,10 +86,8 @@
                             </div>
                         </div>
                         
-                          @php
-                            $resumeUrl = getUploadFileUrl($job->application->resume_id);
-                          @endphp
-                            <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">download resume</a>
+                          
+                            <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}">download resume</a>
                               
  
                          

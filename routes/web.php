@@ -152,8 +152,19 @@ Route::group(['namespace' => 'Ajency'], function() {
 	Route::group(['prefix' => 'api'], function () {
 		Route::get('/login/{provider}', 'User\SocialAuthController@apiSocialAuth');
 		//Route::get('/logout/{provider}', 'User\SocialAuthController@logout');
+
+
 	});
 });
+
+
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-listview-data', 'ListViewController@getListViewData');
+	Route::post('/search-city', 'ListViewController@searchCity');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});
+
 
 
 

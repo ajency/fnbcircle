@@ -15,13 +15,14 @@
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required filled lab-color" for="number">Phone</label>
                     @if(!Auth::guest())
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="+{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="+{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                         <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
                     @else
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" value="+{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="+{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
                         <input type="hidden" name="contact_locality" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}">
                     @endif
                 </div>
+                <div id="errorfield" class="fnb-errors"></div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
@@ -56,16 +57,17 @@
                         $describes_best_html = generateHTML("listing_enquiry_description");
                     }
                 @endphp
-
-                @foreach($describes_best_html as $keyContent => $valueContent)
                     <div class="col-sm-12">
+                    @foreach($describes_best_html as $keyContent => $valueContent)
                         <label class="flex-row points">
                             {!! $valueContent["html"] !!}
                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
                         </label>
+                    @endforeach
                     </div>
-                @endforeach
-                <div id="describes-best-error" class="fnb-error"></div>
+                    <div class="col-sm-12">
+                        <div id="describes-best-error" class="fnb-error"></div>
+                    </div>
             </div>
         </div>
         <!-- describes best ends -->

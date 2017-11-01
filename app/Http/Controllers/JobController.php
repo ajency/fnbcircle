@@ -1155,8 +1155,33 @@ class JobController extends Controller
     }
 
     public function getJobTitles(Request $request){ 
- 
+        $data = $request->all();
+      
         $jobTitles = \DB::select('select id,title  from  jobs where  title like "%'.$request->keyword.'%" order by title asc');
+
+        // $query = "select distinct(`jobs`.`id`),`jobs`.`title`  from  jobs";
+        // if(isset($data['state']) && $data['state']!='' ){
+        //     $query .= " inner join `job_locations` on `jobs`.`id` = `job_locations`.`job_id`";
+        // }
+        // $query .= " where `jobs`.`status`=3";
+        // $query .= " and `jobs`.`title` like '".$request->keyword."%'";
+        
+        // if(isset($data['state']) && $data['state']!='' ){
+        //     $query .= " and `job_locations`.`city_id` = '".$request->state."'";
+        // }
+
+        // if(isset($data['category']) && $data['category']!=''){ 
+        //     $query .= " and `jobs`.`category_id` = '".$request->category."'";
+        // }
+
+        // $query .= " order by `jobs`.`title` asc";
+                 
+        
+    
+        // $jobTitles = \DB::select($query);
+        
+        
+        
         
         return response()->json(['results' => $jobTitles, 'options' => []]);
     }

@@ -801,9 +801,13 @@ class ListingController extends Controller
             return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
         if($listing->status == 1){
-            $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
             if ($step == 'post-an-update'){
+                $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
                 return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
+            }
+            if ($step == 'manage-leads'){
+                $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+                return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents',$parent_categ);
             }
         }
         abort(404);

@@ -53,7 +53,7 @@ format = (d) ->
 	    <div class="col-sm-6">
 	    <div class="operations m-b-20">
 	        <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">City - areas</p>
-	          <<<<<< Cities go here >>>>>>>>>
+	          '+d.areas+'
 	        </div>
 	        <div class="operations">
 	        <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p>

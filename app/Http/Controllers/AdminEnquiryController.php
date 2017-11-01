@@ -13,6 +13,7 @@ use App\EnquiryArea;
 use App\User;
 use App\Lead;
 use App\UserCommunication;
+use App\Area;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -80,11 +81,12 @@ class AdminEnquiryController extends Controller
                 $areas[] = $city;               
             }
             $enquiry['areas'] = implode('<br/>',$areas);
-
-            $enquiry['made_against'] = $enquiry['made_against']->title;
+            $against_city = Area::with('city')->find($enquiry['made_against']->locality_id);
+            $enquiry['made_against'] = '<a href="'.url('/'.$against_city->city['slug'].'/'.$enquiry['made_against']->slug).'"  target="_blank" >'.$enquiry['made_against']->title;
             $sendTo = [];
             foreach ($enquiry['sent_to'] as $listing) {
-                $sendTo[] = $listing->title;
+                // $sendTo[] = $listing->title;
+                $sendTo[] = '<a href="'.url('/'.$listing->location()->first()->city()->first()->slug.'/'.$listing->slug).'"  target="_blank" >'.$listing->title;
             }
             $enquiry['sent_to'] = implode('<br/>',$sendTo);
 
@@ -155,16 +157,21 @@ class AdminEnquiryController extends Controller
 
             $areas = [];
             foreach($enquiry['areas'] as $city_id => $cities){
-                $city = $cities[0]->city()->first()->name.' > ';
+                // $city = $cities[0]->city()->first()->name.' > ';
+                $city = '<div class="ca-holder">
+                          <div class="location flex-row align-top">
+                              <p class="m-b-0 text-color heavier default-size state-name"><i class="fa fa-map-marker text-lighter" aria-hidden="true"></i> '.$cities[0]->city()->first()->name.' <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i>
+                              </p>
+                              <ul class="cities flex-row flex-wrap">';
                 $area = [];
                 foreach($cities as $city_area_ref){
                     $city_area = $city_area_ref->area()->first();
-                    $area[] = $city_area->name; 
+                    $city .= '<li><p class="cities__title default-size m-b-0">'.$city_area->name.'</p></li>';
                 }
-                $city .= implode(', ',$area);
+                $city .= '</ul></div></div>';
                 $areas[] = $city;               
             }
-            $enquiry['areas'] = implode('<br/>',$areas);
+            $enquiry['areas'] = implode('',$areas);
         }
         return response()->json($response);
     }

@@ -382,4 +382,24 @@ class AdminEnquiryController extends Controller
         }
         return array('draw' => "1", 'sEcho' => 0, "recordsTotal" => $all, "recordsFiltered" => $filtered, 'data' => $response1);
     }
+
+    public function archiveEnquiry(Request $request){
+        $this->validate($request, [
+            'listing_id' => 'required',
+            'enquiry_id' =>'integer|required',
+        ]);
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        Enquiry::find($request->enquiry_id)->sentTo()->where('enquiry_to_type','App\\Listing')->where('enquiry_to_id',$listing->id)->update(['is_archived'=>1]);
+        return response()->json(['status'=>200, 'message'=>'Updated successfully'],200);
+    }
+
+    public function unarchiveEnquiry(Request $request){
+        $this->validate($request, [
+            'listing_id' => 'required',
+            'enquiry_id' =>'integer|required',
+        ]);
+        $listing = Listing::where('reference',$request->listing_id)->first();
+        Enquiry::find($request->enquiry_id)->sentTo()->where('enquiry_to_type','App\\Listing')->where('enquiry_to_id',$listing->id)->update(['is_archived'=>0]);
+        return response()->json(['status'=>200, 'message'=>'Updated successfully'],200);
+    }
 }

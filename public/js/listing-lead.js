@@ -16,7 +16,7 @@
     'processing': true,
     'serverSide': true,
     'ajax': {
-      'url': '/get-listing-enquiries',
+      'url': document.head.querySelector('[property="listing-enquiry"]').content,
       'type': 'post',
       'data': function(d) {
         var datavar;
@@ -41,8 +41,14 @@
       }, {
         "className": 'text-secondary cursor-pointer',
         "orderable": false,
-        "data": '',
-        "defaultContent": '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
+        "data": 'archive',
+        "render": function(d) {
+          if (d === 0) {
+            return '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+          } else {
+            return '<a href="#" class="unarchiveaction">unarchive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+          }
+        }
       }
     ]
   });
@@ -102,7 +108,50 @@
 
   $('#enquiryarchive').on('click', 'a.archive-enquiry-confirmed', function() {
     var id;
-    return id = $(this).attr('data-enquiry-id');
+    id = $(this).attr('data-enquiry-id');
+    return $.ajax({
+      type: 'post',
+      url: document.head.querySelector('[property="listing-enquiry-archive"]').content,
+      data: {
+        'listing_id': document.getElementById('listing_id').value,
+        'enquiry_id': id
+      },
+      success: function(data) {
+        if (data['status'] === 200) {
+          table.ajax.reload();
+          $('.alert-success span.message').html('enquiry archived successfully');
+          $('.alert-success').addClass('active');
+          return setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 5000);
+        }
+      }
+    });
+  });
+
+  $('body').on('click', '.unarchiveaction', function() {
+    var editrow, enquiry;
+    editrow = $(this).closest('td');
+    enquiry = table.row(editrow).data();
+    console.log(enquiry);
+    return $.ajax({
+      type: 'post',
+      url: document.head.querySelector('[property="listing-enquiry-unarchive"]').content,
+      data: {
+        'listing_id': document.getElementById('listing_id').value,
+        'enquiry_id': enquiry['id']
+      },
+      success: function(data) {
+        if (data['status'] === 200) {
+          table.ajax.reload();
+          $('.alert-success span.message').html('enquiry unarchived successfully');
+          $('.alert-success').addClass('active');
+          return setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 5000);
+        }
+      }
+    });
   });
 
 }).call(this);

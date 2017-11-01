@@ -16,11 +16,23 @@
     <script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script type="text/javascript" src="/js/listing-lead.js"></script>
 @endsection
-@section('form-data')
 
 @section('meta')
   <meta property="listing-enquiry" content="{{action('AdminEnquiryController@displaylistingEnquiries')}}">
+  <meta property="listing-enquiry-archive" content="{{action('AdminEnquiryController@archiveEnquiry')}}">
+  <meta property="listing-enquiry-unarchive" content="{{action('AdminEnquiryController@unarchiveEnquiry')}}">
 @endsection
+
+
+@section('form-data')
+
+<div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <div class="flex-row">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+        <span class="message"></span>
+    </div>
+</div>
 
 <div class="business-info  post-update tab-pane fade in active business-leads" id="my-leads">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
@@ -233,7 +245,7 @@
                   <h4 class="element-title text-medium text-left text-color">Are you sure you want to archive this enquiry?</h4>
               </div>  
               <div class="confirm-actions text-right">
-                  <a href="#" class="archive-enquiry-confirmed" > <button class="btn fnb-btn text-primary border-btn no-border" >Archive</button></a>
+                  <a href="#" class="archive-enquiry-confirmed" > <button class="btn fnb-btn text-primary border-btn no-border"  data-dismiss="modal">Archive</button></a>
                     <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal" id="cancelenquiryarchive">Cancel</button>
               </div>
           </div>

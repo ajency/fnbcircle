@@ -84,7 +84,7 @@ table = $('#listing-leads').DataTable(
   'processing': true
   'serverSide':true
   'ajax':
-    'url': '/get-listing-enquiries'#document.head.querySelector('[property="listing-enquiry"]').content
+    'url': document.head.querySelector('[property="listing-enquiry"]').content
     'type':'post'
     'data': (d) ->
       datavar = d;
@@ -101,8 +101,12 @@ table = $('#listing-leads').DataTable(
     {
         "className":      'text-secondary cursor-pointer',
         "orderable":      false,
-        "data":           '',
-        "defaultContent": '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
+        "data":           'archive',
+        "render": (d) ->
+        	if d == 0 
+        		return '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>' 
+        	else 
+        		return '<a href="#" class="unarchiveaction">unarchive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
     }
   ]
 )
@@ -156,3 +160,38 @@ $('body').on 'click','#cancelenquiryarchive', ->
 $('#enquiryarchive').on 'click','a.archive-enquiry-confirmed', ->
 	id = $(this).attr('data-enquiry-id')
 	# ajax call here
+	$.ajax 
+		type: 'post'
+		url: document.head.querySelector('[property="listing-enquiry-archive"]').content
+		data: 
+			'listing_id' : document.getElementById('listing_id').value
+			'enquiry_id': id
+		success: (data) ->
+			if data['status'] == 200
+				table.ajax.reload()
+				$('.alert-success span.message').html 'enquiry archived successfully'
+				$('.alert-success').addClass 'active'
+				setTimeout (->
+		          $('.alert-success').removeClass 'active'
+		          return
+		        ), 5000
+
+$('body').on 'click','.unarchiveaction', ->
+	editrow = $(this).closest('td')
+	enquiry = table.row(editrow).data()
+	console.log enquiry
+	$.ajax 
+		type: 'post'
+		url: document.head.querySelector('[property="listing-enquiry-unarchive"]').content
+		data: 
+			'listing_id' : document.getElementById('listing_id').value
+			'enquiry_id': enquiry['id']
+		success: (data) ->
+			if data['status'] == 200
+				table.ajax.reload()
+				$('.alert-success span.message').html 'enquiry unarchived successfully'
+				$('.alert-success').addClass 'active'
+				setTimeout (->
+					$('.alert-success').removeClass 'active'
+					return
+				), 5000

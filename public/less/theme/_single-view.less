@@ -3533,6 +3533,9 @@ and (max-device-width: 650px) {
 }
 
 .application-table{
+	display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 	&.table{
 		tr{
 			td.date-repeat{
@@ -3544,8 +3547,8 @@ and (max-device-width: 650px) {
 				@media screen and (max-width: 1400px){
 					// word-break: break-all;
 					&:nth-child(3){
-						min-width: 80px;
-						word-break: break-all;
+						// min-width: 80px;
+						// word-break: break-all;
 					}
 					&:nth-child(4){
 						// min-width: 100px;

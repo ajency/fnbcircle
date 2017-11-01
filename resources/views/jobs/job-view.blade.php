@@ -1038,7 +1038,7 @@ $additionalData = ['job'=>$job];
 
                           <!-- <hr> -->
 
-                          <div class="row flex-row flex-wrap align-top edit-criteria">
+                          <div class="row flex-row flex-wrap align-top edit-criteria hidden">
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))

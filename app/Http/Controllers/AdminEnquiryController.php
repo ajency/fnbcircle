@@ -334,11 +334,14 @@ class AdminEnquiryController extends Controller
             }
             else {
                 if($listing_id!=''){
-                    $response[$enquiry->id]['type'] = $enquiry->sentTo()->where('enquiry_to_id',$listing_id)->first()->enquiry_type;
+                    $det = $enquiry->sentTo()->where('enquiry_to_id',$listing_id)->first();
+                    $response[$enquiry->id]['type'] = $det->enquiry_type;
+                    $response[$enquiry->id]['archive'] = $det->is_archived;
                 }
             }
 
             $response[$enquiry->id]['request_date'] = $enquiry->created_at;
+            $response[$enquiry->id]['id'] = $enquiry->id;
 
             $response[$enquiry->id]['enquirer_type'] = $enquiry->user_object_type;
 

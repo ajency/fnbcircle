@@ -39,15 +39,15 @@
       }, {
         "data": "enquirer_details"
       }, {
-        "className": 'details-control text-secondary cursor-pointer',
+        "className": 'text-secondary cursor-pointer',
         "orderable": false,
         "data": '',
-        "defaultContent": '<div class="rating"><div class="bg"></div><div class="value" style=""></div></div><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i>'
+        "defaultContent": '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
       }
     ]
   });
 
-  $('#listing-leads tbody').on('click', 'td.details-control', function() {
+  $('#listing-leads tbody').on('click', '.details-control', function() {
     var row, tr;
     console.log('sadfs');
     tr = $(this).closest('tr');
@@ -85,6 +85,24 @@
       filters['archive'] = 0;
     }
     return table.ajax.reload();
+  });
+
+  $('body').on('click', '.archiveaction', function() {
+    var editrow, enquiry;
+    editrow = $(this).closest('td');
+    enquiry = table.row(editrow).data();
+    console.log(enquiry);
+    $('#enquiryarchive a.archive-enquiry-confirmed').attr('data-enquiry-id', enquiry['id']);
+    return $('#enquiryarchive').modal('show');
+  });
+
+  $('body').on('click', '#cancelenquiryarchive', function() {
+    return $('#enquiryarchive a.archive-enquiry-confirmed').removeAttr('data-enquiry-id');
+  });
+
+  $('#enquiryarchive').on('click', 'a.archive-enquiry-confirmed', function() {
+    var id;
+    return id = $(this).attr('data-enquiry-id');
   });
 
 }).call(this);

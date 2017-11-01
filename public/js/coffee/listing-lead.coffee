@@ -99,16 +99,16 @@ table = $('#listing-leads').DataTable(
     {"data": "enquirer_phone"}
     {"data": "enquirer_details"}
     {
-        "className":      'details-control text-secondary cursor-pointer',
+        "className":      'text-secondary cursor-pointer',
         "orderable":      false,
         "data":           '',
-        "defaultContent": '<div class="rating"><div class="bg"></div><div class="value" style=""></div></div><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i>'
+        "defaultContent": '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
     }
   ]
 )
 
 # Add event listener for opening and closing details
-$('#listing-leads tbody').on 'click', 'td.details-control', ->
+$('#listing-leads tbody').on 'click', '.details-control', ->
 	console.log 'sadfs'
 	tr = $(this).closest('tr')
 	row = table.row(tr)
@@ -142,3 +142,17 @@ $('body').on 'change','input#archivefilter', ->
   else
   	filters['archive'] = 0
   table.ajax.reload()
+
+$('body').on 'click','.archiveaction', ->
+  editrow = $(this).closest('td')
+  enquiry = table.row(editrow).data()
+  console.log enquiry
+  $('#enquiryarchive a.archive-enquiry-confirmed').attr('data-enquiry-id', enquiry['id']);
+  $('#enquiryarchive').modal('show')
+
+$('body').on 'click','#cancelenquiryarchive', ->
+	$('#enquiryarchive a.archive-enquiry-confirmed').removeAttr('data-enquiry-id');
+
+$('#enquiryarchive').on 'click','a.archive-enquiry-confirmed', ->
+	id = $(this).attr('data-enquiry-id')
+	# ajax call here

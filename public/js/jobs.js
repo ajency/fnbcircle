@@ -242,6 +242,15 @@
     }
   });
 
+  $('.resume-already-upload').dropify({
+    messages: {
+      'default': 'Upload new resume',
+      'replace': 'Replace resume',
+      'remove': '<i class="">&#10005;</i>',
+      'error': ''
+    }
+  });
+
   if ($(window).width() > 769) {
     if ($('.comp-logo').length) {
       companyLogo = $('.comp-logo').dropify({

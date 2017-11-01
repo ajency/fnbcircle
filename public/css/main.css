@@ -4662,7 +4662,7 @@ input[type=checkbox].custom-checkbox:before {
           align-items: baseline;
 }
 .verification-modal .flex-points .checkbox {
-  top: 3px;
+  top: -3px;
 }
 .verification-modal .flex-points .checkbox:checked + .flex-points__text {
   font-weight: 500;

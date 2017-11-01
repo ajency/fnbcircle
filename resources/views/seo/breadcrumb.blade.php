@@ -29,13 +29,13 @@
         </a>
     </li>
     @elseif($loop->last)
-    <li class="fnb-breadcrums__section">
-            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+    <li class="fnb-breadcrums__section ellipsis">
+            <p class="fnb-breadcrums__title ellipsis" title="{{$item['name']}}">{{$item['name']}}</p>
     </li>
     @else
-    <li class="fnb-breadcrums__section">
+    <li class="fnb-breadcrums__section ellipsis">
         <a href="{{$item['url']}}" title="{{$item['name']}}" target="_blank">
-            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+            <p class="fnb-breadcrums__title ellipsis" title="{{$item['name']}}">{{$item['name']}}</p>
         </a>
     </li>
     @endif

@@ -18,14 +18,16 @@
 @endsection
 @section('form-data')
 
-
+@section('meta')
+  <meta property="listing-enquiry" content="{{action('AdminEnquiryController@displaylistingEnquiries')}}">
+@endsection
 
 <div class="business-info  post-update tab-pane fade in active business-leads" id="my-leads">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
     <div class="flex-row space-between">
         <img src="/img/post-update.png" class="img-responsive mobile-hide m-r-15" width="60">
         <div>My Leads
-            <span class="dis-block xxx-small lighter m-t-10 post-caption">List of all contact requests and enquiries to VML Enterprises.</span>
+            <span class="dis-block xxx-small lighter m-t-10 post-caption">List of all contact requests and enquiries to {{$listing->title}}.</span>
         </div>
         
     </div>

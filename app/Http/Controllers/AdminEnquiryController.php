@@ -51,6 +51,10 @@ class AdminEnquiryController extends Controller
             }else{
                 $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-times"></i>';
             }
+            $config = config('helper_generate_html_config.enquiry_popup_display');
+            foreach ($enquiry['enquirer_details'] as &$detail) {
+                $detail = $config[$detail]['title'];
+            }
             $enquiry['enquirer_details'] = implode(', ',$enquiry['enquirer_details']);
             $categories = [];
             foreach($enquiry['categories'] as $branch){
@@ -100,8 +104,8 @@ class AdminEnquiryController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->first();
         $response = $this->displayEnquiries($request->length, $request->start, $order, $filters, 'listing', $listing->id);
         $enquiry_type = [
-            'direct' => 'Direct Enquiry',
-            'shared' => 'Shared Enquiry',
+            'direct' => '<label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>',
+            'shared' => '<label class="fnb-label text-primary m-b-5">Shared Enquiry</label><br>',
         ];
         $enquirer_type = [
             'App\\User' => 'User',
@@ -109,7 +113,47 @@ class AdminEnquiryController extends Controller
         ];
         foreach ($response['data'] as &$enquiry) {
             //get data in correct text format here
-            
+            $enquiry['type'] = $enquiry_type[$enquiry['type']].' Request sent '.$enquiry['request_date']->diffForHumans();
+            if($enquiry['enquirer_email']['is_verified']){
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].'<img src="/img/verified.png" class="lead-verify" width="12">';
+            }else{
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' ';
+            }
+            if($enquiry['enquirer_phone']['is_verified']==1){
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <img src="/img/verified.png" class="lead-verify" width="12">';
+            }else{
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' ';
+            }
+            $config = config('helper_generate_html_config.enquiry_popup_display');
+            foreach ($enquiry['enquirer_details'] as &$detail) {
+                $detail = $config[$detail]['title'];
+            }
+            $enquiry['enquirer_details'] = implode(', ',$enquiry['enquirer_details']);
+
+            $categories = [];
+            foreach($enquiry['categories'] as $branch){
+                $category = $branch['parent'].' > '.$branch['branch'].' > ';
+                $nodes = [];
+                foreach ($branch['nodes'] as $node) {
+                    $nodes[] = $node['name'];
+                }
+                $category .= implode(', ',$nodes);
+                $categories[] = $category;
+            }
+            $enquiry['categories'] = implode('<br/>',$categories);
+
+            $areas = [];
+            foreach($enquiry['areas'] as $city_id => $cities){
+                $city = $cities[0]->city()->first()->name.' > ';
+                $area = [];
+                foreach($cities as $city_area_ref){
+                    $city_area = $city_area_ref->area()->first();
+                    $area[] = $city_area->name; 
+                }
+                $city .= implode(', ',$area);
+                $areas[] = $city;               
+            }
+            $enquiry['areas'] = implode('<br/>',$areas);
         }
         return response()->json($response);
     }
@@ -120,8 +164,8 @@ class AdminEnquiryController extends Controller
     	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing));
         else {
             if($listing_id!=''){
-                $listing_enquiry = EnquirySent::where('enquiry_to_id',$listings_id)->pluck('enquiry_id')->toArray();
-                $enquiries->whereIn('id',$listing_enquiry);
+                $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();
+                $enquiries = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
             }
         }
         if(isset($filters['categories'])){
@@ -290,7 +334,13 @@ class AdminEnquiryController extends Controller
         foreach ($response as $resp) {
             $response1[] = $resp;
         }
-        $all = Enquiry::where('enquiry_to_type',get_class($listing))->count();
+        if($type=='admin') $all = Enquiry::where('enquiry_to_type',get_class($listing))->count();
+        else {
+            if($listing_id!=''){
+                $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();
+                $all = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry)->count();
+            }
+        }
         return array('draw' => "1", 'sEcho' => 0, "recordsTotal" => $all, "recordsFiltered" => $filtered, 'data' => $response1);
     }
 }

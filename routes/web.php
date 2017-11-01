@@ -89,6 +89,8 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 	Route::post('/delete-post','UpdatesController@deletePost');
+	Route::post('/get-listing-enquiries','AdminEnquiryController@displaylistingEnquiries');
+
 
 });
 

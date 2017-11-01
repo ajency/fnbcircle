@@ -386,6 +386,10 @@ displayCityText = () ->
 $('.title-search-btn').click ->
   $('.back-icon').click()
 
+$('.clear-input-text').click ->
+  $(this).closest('div').find('input').val ''
+  filterJobs(false)
+
 $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
   $('input[name="listing_page"]').val page
@@ -465,12 +469,16 @@ $(document).ready ()->
       searchIn: ["name"] 
 
   $('.search-job-title').flexdatalist
+      params:  
+        "state": $('option:selected',$('select[name="job_city"]')).attr('id')
+        "category": $('input[name="category_id"]').val()
       removeOnBackspace: false
       searchByWord:true
       searchContain:true
       minLength: 0
       cache: false
-      url: '/get-job-titles'
+      searchDelay: 200
+      url: '/get-job-titles?id='+$('input[name="category_id"]').val()
       searchIn: ["title"] 
 
    # console.log $('.area-list').attr('has-filter')
@@ -488,16 +496,22 @@ $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
   if $(window).width() < 769 
     $('.back-icon').click()
 
- 
+
+$(document).on "focusin", '.search-job-title', (event) ->
+  console.log $('input[name="category_id"]').val()
+  $('.search-job-title').flexdatalist('params', {'state': $('option:selected',$('select[name="job_city"]')).attr('id'),"category": $('input[name="category_id"]').val() })
+  return
 
 $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
   if set.value == ''
+    
     $('input[name="category_id"]').val ''
     $('input[name="category_id"]').attr 'slug','' 
     cityObj = $('select[name="job_city"]')
     cityText = $('option:selected',cityObj).text()
     $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
     $(".serach_category_name").html ''
+    console.log $('input[name="category_id"]').val()
     filterJobs(true)
 
  

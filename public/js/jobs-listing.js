@@ -378,6 +378,11 @@
     return $('.back-icon').click();
   });
 
+  $('.clear-input-text').click(function() {
+    $(this).closest('div').find('input').val('');
+    return filterJobs(false);
+  });
+
   $('.job-pagination').on('click', '.paginate', function() {
     var page;
     page = $(this).attr('page');
@@ -452,12 +457,17 @@
       searchIn: ["name"]
     });
     $('.search-job-title').flexdatalist({
+      params: {
+        "state": $('option:selected', $('select[name="job_city"]')).attr('id'),
+        "category": $('input[name="category_id"]').val()
+      },
       removeOnBackspace: false,
       searchByWord: true,
       searchContain: true,
       minLength: 0,
       cache: false,
-      url: '/get-job-titles',
+      searchDelay: 200,
+      url: '/get-job-titles?id=' + $('input[name="category_id"]').val(),
       searchIn: ["title"]
     });
     if ($('.area-list').attr('has-filter').trim() === 'no') {
@@ -477,6 +487,14 @@
     }
   });
 
+  $(document).on("focusin", '.search-job-title', function(event) {
+    console.log($('input[name="category_id"]').val());
+    $('.search-job-title').flexdatalist('params', {
+      'state': $('option:selected', $('select[name="job_city"]')).attr('id'),
+      "category": $('input[name="category_id"]').val()
+    });
+  });
+
   $('.search-job-categories').on('change:flexdatalist', function(event, set, options) {
     var cityObj, cityText;
     if (set.value === '') {
@@ -486,6 +504,7 @@
       cityText = $('option:selected', cityObj).text();
       $(".fnb-breadcrums li:nth-child(5)").find('p').text('All Jobs In ' + cityText);
       $(".serach_category_name").html('');
+      console.log($('input[name="category_id"]').val());
       return filterJobs(true);
     }
   });

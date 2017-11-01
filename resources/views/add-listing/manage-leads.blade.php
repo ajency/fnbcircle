@@ -152,19 +152,19 @@
                 <th class="width-control" style="min-width: 80px;width: 80px !important;">
                     <div class="tableSearch">
                         <i class="fa fa-search text-lighter" aria-hidden="true"></i>
-                        <input type="text" class="form-control fnb-input" placeholder="Search">
+                        <input type="text" class="form-control fnb-input" placeholder="Search" id="namefilter">
                     </div>
                 </th>
                 <th class="width-control" style="min-width: 80px;">
                     <div class="tableSearch">
                         <i class="fa fa-search text-lighter" aria-hidden="true"></i>
-                        <input type="text" class="form-control fnb-input" placeholder="Search">
+                        <input type="text" class="form-control fnb-input" placeholder="Search" id="emailfilter">
                     </div>
                 </th>
                 <th class="width-control" style="min-width: 80px;">
                     <div class="tableSearch">
                         <i class="fa fa-search text-lighter" aria-hidden="true"></i>
-                        <input type="text" class="form-control fnb-input" placeholder="Search">
+                        <input type="text" class="form-control fnb-input" placeholder="Search" id="phonefilter">
                     </div>
                 </th>
                 <th style="min-width: 80px;"></th>

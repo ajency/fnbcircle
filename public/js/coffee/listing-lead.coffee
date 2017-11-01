@@ -77,9 +77,10 @@ filters = {}
 table = $('#listing-leads').DataTable(
   # 'paging': false
   'ordering': false
+  "searching": false
   # 'info': false
   # "dom": 'ilrtp'
-  'pageLength': 25
+  'pageLength': 10
   'processing': true
   'serverSide':true
   'ajax':
@@ -123,4 +124,14 @@ $('#listing-leads tbody').on 'click', 'td.details-control', ->
 		$(this).find('.more-less-text').text 'Less details'
 	return
 
-	
+$('body').on 'change','input#namefilter', ->
+  filters['enquirer_name'] = @value
+  table.ajax.reload()
+
+$('body').on 'change','input#emailfilter', ->
+  filters['enquirer_email'] = @value
+  table.ajax.reload()
+
+$('body').on 'change','input#phonefilter', ->
+  filters['enquirer_contact'] = @value
+  table.ajax.reload()

@@ -11,7 +11,8 @@
 
   table = $('#listing-leads').DataTable({
     'ordering': false,
-    'pageLength': 25,
+    "searching": false,
+    'pageLength': 10,
     'processing': true,
     'serverSide': true,
     'ajax': {
@@ -60,6 +61,21 @@
       tr.addClass('shown');
       $(this).find('.more-less-text').text('Less details');
     }
+  });
+
+  $('body').on('change', 'input#namefilter', function() {
+    filters['enquirer_name'] = this.value;
+    return table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#emailfilter', function() {
+    filters['enquirer_email'] = this.value;
+    return table.ajax.reload();
+  });
+
+  $('body').on('change', 'input#phonefilter', function() {
+    filters['enquirer_contact'] = this.value;
+    return table.ajax.reload();
   });
 
 }).call(this);

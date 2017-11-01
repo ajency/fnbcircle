@@ -8,8 +8,8 @@ use Auth;
 use App\UserCommunication;
 use File;
 use Illuminate\Support\Facades\Storage;
-use Aws\Laravel\AwsFacade as AWS;
-use Aws\Laravel\AwsServiceProvider;
+// use Aws\Laravel\AwsFacade as AWS;
+// use Aws\Laravel\AwsServiceProvider;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Session;
 

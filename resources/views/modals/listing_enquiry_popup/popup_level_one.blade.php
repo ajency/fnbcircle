@@ -38,7 +38,7 @@
         <!-- form ends -->
         <!-- describes best -->
         <div class="describes gap-separator {{ !Auth::guest() ? 'hidden' : '' }}">
-            <p class="text-darker describes__title text-medium">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
+            <p class="text-darker describes__title text-medium required">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
             <div class="row">
                 <!-- <div class="col-sm-6">
                     <select class="fnb-select select-variant multi-select" multiple="multiple">
@@ -57,7 +57,7 @@
                         $describes_best_html = generateHTML("listing_enquiry_description");
                     }
                 @endphp
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 flex-row flex-wrap describe-section">
                     @foreach($describes_best_html as $keyContent => $valueContent)
                         <label class="flex-row points">
                             {!! $valueContent["html"] !!}

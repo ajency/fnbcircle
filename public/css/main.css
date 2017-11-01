@@ -4597,6 +4597,13 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .direction-down {
   margin-left: auto;
 }
+.verification-modal .describe-section label {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 50%;
+      -ms-flex: 1 0 50%;
+          flex: 1 0 50%;
+  margin-bottom: 0;
+}
 .verification-modal .h-i-w .points li {
   padding-bottom: 1.8em;
   position: relative;

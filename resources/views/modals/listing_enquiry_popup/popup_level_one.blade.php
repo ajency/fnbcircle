@@ -1,6 +1,6 @@
 <!-- level one starts -->
 <div class="level-one">
-    <p class="content-title text-darker m-b-0 text-medium">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+    <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
       <!-- form -->
     <form method="post" action="" id="level-one-enquiry" data-parsley-validate="">
         <div class="formFields flex-row flex-wrap p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
@@ -38,7 +38,7 @@
         <!-- form ends -->
         <!-- describes best -->
         <div class="describes gap-separator {{ !Auth::guest() ? 'hidden' : '' }}">
-            <p class="text-darker describes__title text-medium required">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
+            <p class="text-darker describes__title heavier required">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></p>
             <div class="row">
                 <!-- <div class="col-sm-6">
                     <select class="fnb-select select-variant multi-select" multiple="multiple">
@@ -75,7 +75,7 @@
         <div class="looking-for gap-separator">
             <a class="secondary-link text-decor desk-hide looking-for__toggle" data-toggle="collapse" href="#lookingfor" aria-expanded="false" aria-controls="lookingfor">Add a note</a>
             <div class="collapse in" id="lookingfor">
-                <p class="text-darker describes__title text-medium">Tell the business owner what you're looking for</p>
+                <p class="text-darker describes__title heavier">Tell the business owner what you're looking for</p>
                 <div class="form-group">
                     <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="Type here....">
                 </div>

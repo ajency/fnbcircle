@@ -169,7 +169,7 @@
                 </th>
                 <th style="min-width: 80px;"></th>
                 <th style="min-width: 90px;">
-                    <label class="flex-row show-archive"><input type="checkbox" class="checkbox"> Show archive</label>
+                    <label class="flex-row show-archive"><input type="checkbox" class="checkbox" id="archivefilter"> Show archive</label>
                 </th>
             </tr>
         </thead>

@@ -182,7 +182,8 @@ class AdminEnquiryController extends Controller
     	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing));
         else {
             if($listing_id!=''){
-                $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();
+                if(!isset($filters['archive']) or $filters['archive'] == 0 ) $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->where('is_archived',0)->pluck('enquiry_id')->toArray();
+                else $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();
                 $enquiries = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
             }
         }
@@ -198,7 +199,7 @@ class AdminEnquiryController extends Controller
                 }
             }
             $filter_enquiries = array_unique(EnquiryCategory::whereIn('category_id',$filter_nodes)->pluck('enquiry_id')->toArray());
-            $enquiries = $enquiries->whereIn($filter_enquiries);
+            $enquiries = $enquiries->whereIn('id',$filter_enquiries);
         }
         if(isset($filters['city']) or isset($filters['area'])){
             if(!isset($filters['city'])) $filters['city'] = [];

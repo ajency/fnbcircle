@@ -78,4 +78,13 @@
     return table.ajax.reload();
   });
 
+  $('body').on('change', 'input#archivefilter', function() {
+    if (this.checked) {
+      filters['archive'] = 1;
+    } else {
+      filters['archive'] = 0;
+    }
+    return table.ajax.reload();
+  });
+
 }).call(this);

@@ -135,3 +135,10 @@ $('body').on 'change','input#emailfilter', ->
 $('body').on 'change','input#phonefilter', ->
   filters['enquirer_contact'] = @value
   table.ajax.reload()
+
+$('body').on 'change','input#archivefilter', ->
+  if @checked
+    filters['archive'] = 1
+  else
+  	filters['archive'] = 0
+  table.ajax.reload()

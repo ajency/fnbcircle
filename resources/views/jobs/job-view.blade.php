@@ -416,16 +416,18 @@ $additionalData = ['job'=>$job];
                   @else
 
                   <!-- if applied for job -->
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                      @if(Auth::check())
-                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
-                      @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                      @endif
-                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                        </a>
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
+                    @else
+                        @if(Auth::check())
+                          <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                        @else
+                          <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        @endif
+                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                          </a>
+                    @endif
                   @endif
 
                   @endif
@@ -576,16 +578,18 @@ $additionalData = ['job'=>$job];
             
                   @else
 
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                    @if(Auth::check())
-                      <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
                     @else
-                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @if(Auth::check())
+                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                      @else
+                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @endif
+                            <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                        </a>
                     @endif
-                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                      </a>
                   @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
                   <a href="#" class="secondary-link p-l-20 dis-block" title="Get Email Alert"><i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>

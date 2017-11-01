@@ -1153,6 +1153,14 @@ class JobController extends Controller
         return redirect()->back();
 
     }
+
+    public function getJobTitles(Request $request){ 
+ 
+        $jobTitles = \DB::select('select id,title  from  jobs where  title like "%'.$request->keyword.'%" order by title asc');
+        
+        return response()->json(['results' => $jobTitles, 'options' => []]);
+    }
+
  
 
 

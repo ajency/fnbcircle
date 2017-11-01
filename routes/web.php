@@ -108,7 +108,9 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
+
 Route::get('/get-keywords','JobController@getKeywords');
+Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
 Route::get('/user/download-resume','UserController@downloadResume');
 

@@ -41,9 +41,9 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
                                 <p class="element-title heavier m-b-0">Search By</p>
                             </div>
-                            <div class="right">
+                            <!-- <div class="right">
                                 <a href="" class="text-primary heavier element-title">Clear All</a>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="fly-out__content">
                             <div class="search-section">
@@ -77,8 +77,8 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                     </div>
 
                                     <ul class="nav nav-tabs desk-hide mobile-flex" role="tablist">
-                                        <li role="presentation" class="active"><a href="#category" aria-controls="home" role="ab" data-toggle="tab">Category</a></li>
-                                        <li role="presentation"><a href="#business" aria-controls="profile" role="tab" data-toggle="tab">Business Name</a></li>
+                                        <li role="presentation" class="active"><a href="#category" aria-controls="home" role="ab" data-toggle="tab">Business Type</a></li>
+                                        <li role="presentation"><a href="#business" aria-controls="profile" role="tab" data-toggle="tab">Job Title</a></li>
                                     </ul>
 
                                       <div class="tab-con flex-row">
@@ -88,12 +88,18 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                                 <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search business type..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
 
                                                 <input type="hidden" name="category_id" slug="@if(isset($urlFilters['business_type'])){{ $urlFilters['business_type'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
+                                                <a href="javascript:void(0)" class="clear-input-text desk-hide">clear</a>
                                             </div>
                                         </div>
                                         <div role="tabpanel" class="tab-pane" id="business">
                                             <div class="business search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
+                                                <input type="text" id="job_name" name="job_name" class="form-control fnb-input search-job-title" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
+                                                <a href="javascript:void(0)" class="clear-input-text desk-hide">clear</a>
+                                                <div class="right desk-hide hidden">
+                                                     | 
+                                                    <a href="javascript:void(0)" class="text-primary heavier element-title title-search-btn ">Search</a>
+                                                </div>
                                             </div>
                                         </div>
                                       </div>
@@ -127,11 +133,9 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
             </div>
             <div class="col-sm-4">
                 <div class="search-actions mobile-flex ">
-                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
+                    <p class="sub-title text-color text-right search-actions__title show-count-title mobile-hide">Showing <span id="filtered_count"></span> out of <span class="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
-                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span id="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
-
-
+                    <p class="sub-title text-color text-right search-actions__title show-count-title desk-hide">Showing  <span class="total_count"></span>  <span class="serach_category_name">@if(isset($urlFilters['category_name'])){{ ucwords($urlFilters['category_name']) }}@endif</span> Jobs in <span class="serach_state_name">{{ ucwords($urlFilters['state']) }}</span></p>
 
                     <div class="desk-hide flex-row search-actions__btn">
                         <div class="search-by sub-title trigger-section heavier">

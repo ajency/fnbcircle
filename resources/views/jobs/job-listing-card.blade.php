@@ -47,7 +47,7 @@
                        
                       @foreach($job->getJobTypes() as $jobType)
                      
-                       <label class="fnb-label wholesaler flex-row m-r-5" title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" >
+                       <label class="fnb-label wholesaler flex-row m-r-5" @if($isListing) title="Find all {{ $jobType }} jobs in {{ $flteredCitySlug }}" @endif>
                           <!-- <i class="fa fa-user user p-r-5" aria-hidden="true"></i> -->
                           @if($isListing)
  
@@ -67,11 +67,13 @@
               <div class="flex-row space-between roles-location open-border align-top">
                 @if(!empty($job->getJobSavedKeywords(2)))
                 @php
-                $splitKeywords =  splitJobArrayData($job->getJobSavedKeywords(2),5);
+                $splitKeywords =  splitJobArrayData($job->getJobSavedKeywords(2),4);
                 $keywords = $splitKeywords['array'];
                 $moreKeywords = $splitKeywords['moreArray'];
                 $moreKeywordCount = $splitKeywords['moreArrayCount'];
+               
                 @endphp 
+
                 <div class="cat-holder">
                     <div class="core-cat m-r-5">
                         <p class="default-size grey-darker heavier m-t-0 m-b-5">Job Roles</p>
@@ -87,7 +89,7 @@
  
 
                           @if($moreKeywordCount) 
-                            <li class="cat-more more-show"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link">+{{ $moreKeywordCount }} more</a></li>
+                            <li class="cat-more more-show"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class="secondary-link" target="_blank">+{{ $moreKeywordCount }} more</a></li>
                           @endif
                         </ul>
                     </div>
@@ -135,7 +137,7 @@
                                   <p class="cities__title default-size">|</p>
                               </li>
                               <li class="remain more-show">
-                                  <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
+                                  <a href="{{ url('/job/'.$job->getJobSlug()) }}"  target="_blank" class="cities__title remain__number default-size text-medium secondary-link">more...</a>
                               </li>
                             @endif
                           </ul>
@@ -145,7 +147,7 @@
                     @endforeach
                     @if(count($job->getJobLocationNames()) >2)
                      <div class="location flex-row m-t-5">
-                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="remain__number x-small secondary-link moreLink">+ {{(count($job->getJobLocationNames()) - 2)}}  more...</a>
+                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ url('/job/'.$job->getJobSlug()) }}" class="remain__number x-small secondary-link moreLink"  target="_blank">+ {{(count($job->getJobLocationNames()) - 2)}}  more...</a>
                         </p>
                     </div> 
                     @endif 

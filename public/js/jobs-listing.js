@@ -20,6 +20,7 @@
     areaValues = [];
     areaSlugs = [];
     $('input[name="areas[]"]:checked').map(function() {
+      console.log($(this).val());
       areaValues.push($(this).val());
       return areaSlugs.push($(this).attr('slug'));
     });
@@ -70,7 +71,7 @@
       urlParams += '&job_type=' + JSON.stringify(jobTypeSlug);
     }
     if (areaValues.length !== 0) {
-      urlParams += '&area=' + JSON.stringify(areaSlugs);
+      urlParams += '&city=' + JSON.stringify(areaSlugs);
     }
     if (experienceValues.length !== 0) {
       urlParams += '&experience=' + JSON.stringify(experienceValues);
@@ -106,7 +107,7 @@
           filter_record_str = '0';
         }
         $("#filtered_count").text(filter_record_str);
-        $("#total_count").text(response.total_items);
+        $(".total_count").text(response.total_items);
         $(".job-pagination").html(response.pagination);
         if (append) {
           $('.job-listings').append(response.data);
@@ -145,6 +146,23 @@
   $(document).on('click', '.apply-filters', function() {
     filterJobs(true);
     $('.back-icon').click();
+  });
+
+  $(document).on('change', '.salary-filter', function() {
+    var maxSalary, minSalary, salFrom, salTo;
+    minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min");
+    maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max");
+    salFrom = $('input[name="salary_lower"]').val();
+    salTo = $('input[name="salary_upper"]').val();
+    return initSalaryBar(minSalary, maxSalary, salFrom, salTo);
+  });
+
+  $(document).on('click', '.job-pagination a.paginate:not(.active)', function() {
+    return setTimeout((function() {
+      $('html,body').animate({
+        scrollTop: 0
+      }, 1500);
+    }), 500);
   });
 
   strSlug = function(str) {
@@ -229,7 +247,7 @@
     type: 'double',
     min: 0,
     max: 1000000,
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>',
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> ',
     onFinish: function(data) {
       $('input[name="salary_lower"]').val(data.from);
       $('input[name="salary_upper"]').val(data.to);
@@ -246,7 +264,7 @@
       max: maxSal,
       from: salFrom,
       to: salTo,
-      prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+      prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     });
   };
 
@@ -257,23 +275,56 @@
   });
 
   $('select[name="job_city"]').change(function() {
-    var cityText;
+    var categoryId, cityId, cityText;
     cityText = $('option:selected', this).text();
+    cityId = $('option:selected', this).attr('id');
     $(".fnb-breadcrums li:nth-child(3)").find('a').attr('href', '/' + cityText + '/job-listings?city=' + cityText);
     $(".fnb-breadcrums li:nth-child(3)").find('p').text(cityText);
     $(".serach_state_name").html(cityText);
     if ($('input[name="category_id"]').val() === '') {
       $(".fnb-breadcrums li:nth-child(5)").find('p').text('All Jobs In ' + cityText);
     }
-    console.log(cityText);
+    $(".clear-area").click();
     displayCityText();
+    categoryId = $('input[name="category_id"]').val();
+    $('.search-job-title').flexdatalist('params', {
+      'state': cityId,
+      "category": categoryId
+    });
   });
 
   $('input[name="area_search"]').keyup(function() {
-    return displayCityText();
+    var areas_found, search_key;
+    search_key = $(this).val();
+    areas_found = 0;
+    $('.no-result-city').addClass('hidden');
+    if (!($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') === "true")) {
+      $(this).closest("#section-area").find("#moreDown").collapse('show');
+    }
+    if (search_key.length > 0) {
+      $("input[type='checkbox'][name='areas[]']").parent().addClass('hidden');
+      $("input[type='checkbox'][name='areas[]']").each(function() {
+        if ($(this).parent().text().toLowerCase().indexOf(search_key.toLowerCase()) > -1) {
+          areas_found += 1;
+          $(this).parent().removeClass("hidden");
+        }
+      });
+      if ($("input[name='areas[]']").length === $('.area-list').find('label.hidden').length) {
+        $('.no-result-city').removeClass('hidden').html('No results found for ' + search_key);
+      }
+      $(this).closest("#section-area").find("#moreAreaShow").addClass('hidden');
+    } else {
+      if ($('.area-list').find('label.hidden').length > 0) {
+        $(this).closest("#section-area").find("#moreDown").collapse('hide');
+      }
+      if ($("input[type='checkbox'][name='areas[]']").length > 6) {
+        $(this).closest("#section-area").find("#moreAreaShow").removeClass('hidden');
+      }
+      $("input[type='checkbox'][name='areas[]']").parent().removeClass('hidden');
+    }
   });
 
-  $('input[name="job_name"]').keyup(function() {
+  $('input[name="job_name"]').change(function() {
     return filterJobs(false);
   });
 
@@ -299,6 +350,7 @@
         } else {
           searchClass = 'search-job';
         }
+        $('.toggle-areas').addClass('hidden');
         totalareafiltered = parseInt(data.length);
         if (totalareafiltered) {
           for (key in data) {
@@ -327,6 +379,15 @@
       }
     });
   };
+
+  $('.title-search-btn').click(function() {
+    return $('.back-icon').click();
+  });
+
+  $('.clear-input-text').click(function() {
+    $(this).closest('div').find('input').val('');
+    return filterJobs(false);
+  });
 
   $('.job-pagination').on('click', '.paginate', function() {
     var page;
@@ -401,6 +462,20 @@
       url: '/job/get-category-types',
       searchIn: ["name"]
     });
+    $('.search-job-title').flexdatalist({
+      params: {
+        "state": $('option:selected', $('select[name="job_city"]')).attr('id'),
+        "category": $('input[name="category_id"]').val()
+      },
+      removeOnBackspace: false,
+      searchByWord: true,
+      searchContain: true,
+      minLength: 0,
+      cache: false,
+      searchDelay: 200,
+      url: '/get-job-titles',
+      searchIn: ["title"]
+    });
     if ($('.area-list').attr('has-filter').trim() === 'no') {
       displayCityText();
     }
@@ -408,24 +483,57 @@
   });
 
   $('.search-job-categories').on('select:flexdatalist', function(event, set, options) {
+    var stateId;
+    stateId = $('option:selected', $('select[name="job_city"]')).attr('id');
+    $('.search-job-title').flexdatalist('params', {
+      'state': stateId,
+      "category": set.id
+    });
     $('input[name="category_id"]').val(set.id);
     $('input[name="category_id"]').attr('slug', set.slug);
     $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
     $(".serach_category_name").html(set.name);
-    return filterJobs(true);
+    filterJobs(true);
+    if ($(window).width() < 769) {
+      return $('.back-icon').click();
+    }
+  });
+
+  $(document).on("focusin", '.search-job-title', function(event) {
+    console.log($('input[name="category_id"]').val());
+    $('.search-job-title').flexdatalist('params', {
+      'state': $('option:selected', $('select[name="job_city"]')).attr('id'),
+      "category": $('input[name="category_id"]').val()
+    });
   });
 
   $('.search-job-categories').on('change:flexdatalist', function(event, set, options) {
-    var cityObj, cityText;
+    var cityObj, cityText, stateId;
     if (set.value === '') {
+      stateId = $('option:selected', $('select[name="job_city"]')).attr('id');
+      $('.search-job-title').flexdatalist('params', {
+        'state': stateId,
+        "category": ''
+      });
       $('input[name="category_id"]').val('');
       $('input[name="category_id"]').attr('slug', '');
       cityObj = $('select[name="job_city"]');
       cityText = $('option:selected', cityObj).text();
       $(".fnb-breadcrums li:nth-child(5)").find('p').text('All Jobs In ' + cityText);
       $(".serach_category_name").html('');
+      console.log($('input[name="category_id"]').val());
       return filterJobs(true);
     }
   });
+
+  setTimeout((function() {
+    return $('.search-job-title').keyup(function(e) {
+      console.log($(window).width());
+      if ($(window).width() < 769 && e.keyCode === 13) {
+        $('.flexdatalist-results').remove();
+        $('.back-icon').click();
+      }
+    });
+  }), 1000);
 
 }).call(this);

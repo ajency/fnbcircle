@@ -42,4 +42,8 @@ class JobApplicant extends Model
     public function jobAppliedBy() {
         return $this->belongsTo( 'App\User');
     }
+
+    public function applicantCity() { 
+        return $this->belongsTo('App\City','city_id');
+    }
 }

@@ -242,6 +242,15 @@
     }
   });
 
+  $('.resume-already-upload').dropify({
+    messages: {
+      'default': 'Upload new resume',
+      'replace': 'Replace resume',
+      'remove': '<i class="">&#10005;</i>',
+      'error': ''
+    }
+  });
+
   if ($(window).width() > 769) {
     if ($('.comp-logo').length) {
       companyLogo = $('.comp-logo').dropify({
@@ -395,5 +404,9 @@
       lessLink: '<a href="#">Read less</a>'
     });
   }
+
+  $(document).on('countrychange', 'input[name="applicant_phone"]', function(e, countryData) {
+    return $('input[name="country_code"]').val(countryData.dialCode);
+  });
 
 }).call(this);

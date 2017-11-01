@@ -885,23 +885,60 @@ class JobController extends Controller
             $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
                 $salaryQry->where('jobs.salary_type',$salaryType); 
-                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
-                {
+                // $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                // {
                     
-                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
-                    {
-                        $query->where('jobs.salary_lower','>=',$salaryLower); 
-                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
-                    });
+                //     $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                //     {
+                //         $query->where('jobs.salary_lower','>=',$salaryLower); 
+                //         $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                //     });
 
                 
-                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
-                    {
+                //     $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                //     {
      
-                        $query->where('jobs.salary_upper','>=',$salaryLower); 
-                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                //         $query->where('jobs.salary_upper','>=',$salaryLower); 
+                //         $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                //     });
+                // });
+
+                if($salaryLower == $salaryUpper){
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        $salaryQuery->where('jobs.salary_lower','<=',$salaryLower); 
+                        $salaryQuery->where('jobs.salary_upper','>=',$salaryLower); 
                     });
-                });
+                }
+                else{
+
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        
+                        $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','>=',$salaryLower); 
+                            $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                        });
+
+                    
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+         
+                            $query->where('jobs.salary_upper','>=',$salaryLower); 
+                            $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                        });
+
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','<=',$salaryLower); 
+                            $query->where('jobs.salary_upper','>=',$salaryUpper); 
+                        });
+                    });
+
+                }
+                
+
 
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
@@ -976,11 +1013,11 @@ class JobController extends Controller
             $requestData['experience'] = json_decode($requestData['experience']);
         }
 
-        if(isset($requestData['area']) && $requestData['area']!=""){
-            $cityId  = City::where('slug', $request->city)->first()->id;
+        if(isset($requestData['city']) && $requestData['city']!=""){
+            $cityId  = City::where('slug', $request->state)->first()->id;
             $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
-        
-            $requestData['area'] = json_decode($requestData['area']);
+            
+            $requestData['area'] = json_decode($requestData['city']);
             $requestData['city_areas'] = $city_areas;
         }
 
@@ -1114,6 +1151,7 @@ class JobController extends Controller
         $applicantEmail = $data['applicant_email'];
         $applicantPhone = $data['applicant_phone'];
         $applicantCity = $data['applicant_city'];
+        $applicantCountryCode = $data['country_code'];
         $resume = (isset($data['resume'])) ? $data['resume'] : [];
         $resumeId =(isset($data['resume_id'])) ? $data['resume_id'] : 0;
 
@@ -1123,7 +1161,8 @@ class JobController extends Controller
         $jobApplicant->name = $applicantName;
         $jobApplicant->email = $applicantEmail;
         $jobApplicant->phone = $applicantPhone;
-        $jobApplicant->city = $applicantCity;
+        $jobApplicant->city_id = $applicantCity;
+        $jobApplicant->country_code = $applicantCountryCode;
         
         $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
 
@@ -1175,6 +1214,39 @@ class JobController extends Controller
         return redirect()->back();
 
     }
+
+    public function getJobTitles(Request $request){ 
+        $data = $request->all();
+      
+        // $jobTitles = \DB::select('select id,title  from  jobs where  title like "%'.$request->keyword.'%" order by title asc');
+
+        $query = "select distinct(`jobs`.`id`),`jobs`.`title`  from  jobs";
+        if(isset($data['state']) && $data['state']!='' ){
+            $query .= " inner join `job_locations` on `jobs`.`id` = `job_locations`.`job_id`";
+        }
+        $query .= " where `jobs`.`status`=3";
+        $query .= " and `jobs`.`title` like '".$request->keyword."%'";
+        
+        if(isset($data['state']) && $data['state']!='' ){
+            $query .= " and `job_locations`.`city_id` = '".$request->state."'";
+        }
+
+        if(isset($data['category']) && $data['category']!=''){ 
+            $query .= " and `jobs`.`category_id` = '".$request->category."'";
+        }
+
+        $query .= " order by `jobs`.`title` asc";
+                 
+        
+    
+        $jobTitles = \DB::select($query);
+        
+        
+        
+        
+        return response()->json(['results' => $jobTitles, 'options' => []]);
+    }
+
  
 
 

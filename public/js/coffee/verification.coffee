@@ -30,13 +30,11 @@ $(document).ready ()->
 
 
   $('.contact-info').on 'countrychange', '.contact-mobile-input', (e, countryData)->
-     
     if $(this).closest('.modal').length
       $('.under-review').find('.contact-country-code').val countryData.dialCode
       $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryData.dialCode)
       $('.under-review').find('.contact-mobile-input').val ''
     else
- 
       $(this).closest('.contact-container').find('.contact-country-code').val countryData.dialCode
     return
 

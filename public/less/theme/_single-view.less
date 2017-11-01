@@ -2865,7 +2865,7 @@ and (max-device-width: 650px) {
     	padding: 0 15px;
     	padding-bottom: 4em;
     }
-    @media screen and (max-width: 1400px){
+    @media screen and (min-width: 769px) and (max-width: 1400px){
 	    .JA-sidebar{
 	    	padding: 0;
 	    }
@@ -3497,6 +3497,15 @@ and (max-device-width: 650px) {
 			}
 		}
 	}
+	.footer-share{
+		.applicantTitle{
+			.update-sec__link{
+				margin-top: 0;
+				padding-left: 0.3em;
+    			padding-top: 0.15em;
+			}
+		}
+	}
 }
 
 .contact-social{
@@ -3524,6 +3533,9 @@ and (max-device-width: 650px) {
 }
 
 .application-table{
+	display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 	&.table{
 		tr{
 			td.date-repeat{
@@ -3535,8 +3547,8 @@ and (max-device-width: 650px) {
 				@media screen and (max-width: 1400px){
 					// word-break: break-all;
 					&:nth-child(3){
-						min-width: 80px;
-						word-break: break-all;
+						// min-width: 80px;
+						// word-break: break-all;
 					}
 					&:nth-child(4){
 						// min-width: 100px;

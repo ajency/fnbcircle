@@ -341,6 +341,10 @@ function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
 
+function getSinglePopularCity() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
+}
+
 /**
 * This function is used to generate URL from city_name & 1 or more slugs
 * This function will @return
@@ -360,6 +364,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	return $url;
 }
 
+ 
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
@@ -429,4 +434,14 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
+ 
+}
+
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
+ 
 }

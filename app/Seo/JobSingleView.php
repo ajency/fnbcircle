@@ -102,9 +102,11 @@ class JobSingleView extends Model
 
     public function getBreadcrum(){
     	$jobState = $this->job->getJobSingleState();
+
+
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
-        $breadcrumbs[] = ['url'=>url($jobState->name.'/job-listings?city='.$jobState->slug.'&category='.$this->job->category->slug), 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
+        $breadcrumbs[] = ['url'=>url(getSinglePopularCity()->slug.'/job-listings') .'?state='.getSinglePopularCity()->slug.'&business_type='.$this->job->category->slug, 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
         $breadcrumbs[] = ['url'=>'', 'name'=> $this->job->title];
 
         return $breadcrumbs;

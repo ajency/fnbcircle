@@ -39,7 +39,7 @@
 
                       <div class="search-area searchKeyword flex-row align-top">
                           <i class="fa fa-search p-r-10 search-icon" aria-hidden="true"></i>
-                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search an role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['job_roles']) && !empty($urlFilters['job_roles'])) value='{{ implode(",",$urlFilters['job_roles']) }}' @endif>
+                           <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search job role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['job_roles']) && !empty($urlFilters['job_roles'])) value='{{ implode(",",$urlFilters['job_roles']) }}' @endif>
                           
                       </div>
                       <div class="check-section ">
@@ -77,6 +77,7 @@
                               </a>
                           </label>
                         <span class="area-list" has-filter="@if(isset($urlFilters['area']) && !empty($urlFilters['area'])) yes @else no @endif">
+
                         @php
                         $cityareaCount = 0;
                         @endphp
@@ -107,11 +108,14 @@
                           @if($cityareaCount > 6)
 
                             </div>
+
                           @endif
                         @endif
                         </span>   
-                          
-                          <p id="moreAreaShow" data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary toggle-areas heavier text-right more-area m-b-0 default-size  @if($cityareaCount < 6) hidden @endif">+ {{ ($cityareaCount - 6) }} more</p>
+                        <span class="no-result-city  hidden">No results found for   </span>
+                        
+
+                          <div class="text-right"><p id="moreAreaShow" data-toggle="collapse" href="#moreDown" aria-expanded="false" aria-controls="moreDown" class="text-primary toggle-areas heavier text-right more-area m-b-0 default-size dis-inline  @if($cityareaCount < 6) hidden @endif"> {{ ($cityareaCount - 6) }} more</p></div>
                       </div>
                   </div>
               </div>
@@ -179,7 +183,7 @@
                               </a>
                           </label>
                            <select name="salary_type" class="search-job form-control select-variant fnb-select p-l-0">
-                            <option value=""> -select salary- </option>
+                            <option value=""> --Select Salary-- </option>
                              @foreach($salaryTypes as $salaryTypeId => $salaryType)
                              @php
                               $minSal = (isset($salaryRange[$salaryTypeId]['min'])) ? $salaryRange[$salaryTypeId]['min'] : 0;
@@ -191,14 +195,50 @@
                              
                            </select>
                            <div class="salary-range @if(isset($urlFilters['salary_type']) && $urlFilters['salary_type']!='') @else hidden @endif">
-                           <input type="hidden" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job">   <input type="hidden" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job">
+                           
                            <input type="text" id="sal-input">
+                            <p class="text-darker salary-separator"><span>OR</span></p>
+                           <div class="row flex-row m-t-10 input-sal-filter">
+                              <div class="col-sm-6">
+                                <label class="text-medium text-color x-small m-b-0">Min</label>
+                                 <input type="text" name="salary_lower" value="@if(isset($urlFilters['salary_lower'])){{ $urlFilters['salary_lower'] }}@endif" class="search-job fnb-input form-control x-small salary-filter">
+                              </div>
+                              <div class="col-sm-6">
+                                <label class="text-medium text-color x-small m-b-0">Max</label>
+                                <input type="text" name="salary_upper" value="@if(isset($urlFilters['salary_upper'])){{ $urlFilters['salary_upper'] }}@endif" class="search-job fnb-input form-control x-small salary-filter">
+                              </div>
+                           </div>
                            </div>
                       </div>
                   </div>
                   
               </div>
               <!-- ratings ends -->
+
+              <hr>
+              <!-- Post job -->
+
+              <div class="business-listing businessListing p-t-10 p-b-30 text-center">
+                  <!-- <span class="fnb-icons note"></span> -->
+                  <div class="bl-top">
+                      <img src="/img/jobs.png" class="img-responsive center-block">
+                      <div class="business-listing__content m-b-15">
+                          <h6 class="sub-title business-listing__title">Post a job on Fnb Circle for free</h6>
+                          <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
+                      </div>
+                  </div>
+                  
+                  @if(Auth::check())
+                    <a href="/jobs/create" class="btn fnb-btn outline border-btn default-size">
+                  @else
+                    <a href="#" class="btn fnb-btn outline border-btn default-size" data-toggle="modal" data-target="#login-modal">
+                  @endif
+                  Post your job</a>
+              </div>
+
+              <!-- Post job ends -->
+
+
               <!-- why fnb -->
               <div class="filter-group whyFnb no-gap mobile-hide">
                   <div class="filter-group__header filter-row">
@@ -226,7 +266,7 @@
                   </div>
               </div>
               <!-- why fnb ends -->
-              <div class="business-listing businessListing p-t-30 p-b-30 text-center">
+              <div class="business-listing businessListing p-t-30 p-b-30 text-center mobile-hide">
                   <!-- <span class="fnb-icons note"></span> -->
                   <div class="bl-top">
                       <img src="{{ asset('/img/business-graph.png') }}" class="img-responsive center-block">
@@ -235,7 +275,7 @@
                           <!-- <p class="default-size">Post your listing on F&amp;BCircle for free</p> -->
                       </div>
                   </div>
-                  <button class="btn fnb-btn outline full border-btn default-size">Learn more</button>
+                  <button class="btn fnb-btn outline border-btn default-size">Learn more</button>
               </div>
               <!-- why fnb ends -->
               <!-- Advertisement -->

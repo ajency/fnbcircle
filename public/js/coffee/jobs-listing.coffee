@@ -17,6 +17,7 @@ filterJobs = (resetPage) ->
   areaValues = []
   areaSlugs = []
   $('input[name="areas[]"]:checked').map ->
+    console.log $(this).val()
     areaValues.push $(this).val()
     areaSlugs.push $(this).attr('slug')
 
@@ -71,7 +72,7 @@ filterJobs = (resetPage) ->
     urlParams +='&job_type='+JSON.stringify(jobTypeSlug)
 
   if(areaValues.length != 0)
-    urlParams +='&area='+JSON.stringify(areaSlugs)
+    urlParams +='&city='+JSON.stringify(areaSlugs)
 
   if(experienceValues.length != 0)
     urlParams +='&experience='+JSON.stringify(experienceValues)
@@ -108,7 +109,7 @@ filterJobs = (resetPage) ->
         filter_record_str = '0'
 
       $("#filtered_count").text filter_record_str
-      $("#total_count").text response.total_items 
+      $(".total_count").text response.total_items 
       $(".job-pagination").html response.pagination 
       if(append) 
           $('.job-listings').append response.data 
@@ -144,6 +145,21 @@ $(document).on 'click', '.apply-filters', ->
   $('.back-icon').click()
   return
 
+
+ 
+$(document).on 'change', '.salary-filter', ->
+  minSalary = $("option:selected", $('select[name="salary_type"]')).attr("min") 
+  maxSalary = $("option:selected", $('select[name="salary_type"]')).attr("max") 
+  salFrom = $('input[name="salary_lower"]').val()
+  salTo = $('input[name="salary_upper"]').val()
+  initSalaryBar(minSalary,maxSalary,salFrom,salTo)
+ 
+$(document).on 'click', '.job-pagination a.paginate:not(.active)', ->
+  setTimeout (->
+    $('html,body').animate { scrollTop: 0 }, 1500
+    return    
+  ), 500
+ 
 
  
 
@@ -232,7 +248,7 @@ $('#sal-input').ionRangeSlider
     max: 1000000
     # from: salFrom
     # to: salTo
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     onFinish: (data) ->
       $('input[name="salary_lower"]').val(data.from)
       $('input[name="salary_upper"]').val(data.to)
@@ -249,7 +265,7 @@ initSalaryBar = (minSal,maxSal,salFrom,salTo) ->
     max: maxSal
     from: salFrom
     to: salTo
-    prefix: '<i class="fa fa-inr" aria-hidden="true"></i>'
+    prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
 
 
 $('.header_city').change ->
@@ -258,20 +274,63 @@ $('.header_city').change ->
   return
 
 $('select[name="job_city"]').change ->
-  cityText = $('option:selected',this).text();
+  cityText = $('option:selected',this).text()
+  cityId = $('option:selected',this).attr('id')
   $( ".fnb-breadcrums li:nth-child(3)" ).find('a').attr 'href', '/'+cityText+'/job-listings?city='+cityText
   $( ".fnb-breadcrums li:nth-child(3)" ).find('p').text cityText
   $(".serach_state_name").html cityText
   if($('input[name="category_id"]').val() == '')
     $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
-  console.log cityText
+  
+  $(".clear-area").click();
   displayCityText()
+  categoryId = $('input[name="category_id"]').val()
+  $('.search-job-title').flexdatalist('params', {'state':cityId,"category": categoryId})
   return
 
 $('input[name="area_search"]').keyup ->
-  displayCityText()
+  # displayCityText()
+  search_key = $(this).val()
+  areas_found = 0
+ 
+  $('.no-result-city').addClass('hidden')
 
-$('input[name="job_name"]').keyup ->
+  if not ($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') == "true")
+    $(this).closest("#section-area").find("#moreDown").collapse 'show'
+  
+  if search_key.length > 0
+    $("input[type='checkbox'][name='areas[]']").parent().addClass 'hidden'
+
+    $("input[type='checkbox'][name='areas[]']").each ->
+      if($(this).parent().text().toLowerCase().indexOf(search_key.toLowerCase()) > -1)
+        areas_found += 1
+        $(this).parent().removeClass "hidden"
+      return
+ 
+    if $("input[name='areas[]']").length == $('.area-list').find('label.hidden').length
+      $('.no-result-city').removeClass('hidden').html('No results found for '+search_key)
+ 
+
+    
+    ## -- Hide other cities & display the "area found" count -- ##
+    # if areas_found > 0 and areas_found - parseInt($(this).closest("#section-area").find("#areas_hidden").val()) > 0
+    #   $(this).closest("#section-area").find("#moreAreaShow").text("+ " + areas_found - parseInt($(this).closest("#section-area").find("#areas_hidden").val()) + " more")
+
+    ## -- Hide "+'n' more" areas TEXT on search -- ##
+    $(this).closest("#section-area").find("#moreAreaShow").addClass 'hidden'
+  else
+    ## -- If the areas are greater than 0, then hide "other areas" section -- ##
+     
+    if $('.area-list').find('label.hidden').length > 0
+      $(this).closest("#section-area").find("#moreDown").collapse 'hide'
+
+    if $("input[type='checkbox'][name='areas[]']").length > 6  
+      $(this).closest("#section-area").find("#moreAreaShow").removeClass 'hidden'
+
+    $("input[type='checkbox'][name='areas[]']").parent().removeClass 'hidden'
+  return
+
+$('input[name="job_name"]').change ->
   filterJobs(false)
 
 displayCityText = () -> 
@@ -296,6 +355,7 @@ displayCityText = () ->
       else
         searchClass = 'search-job'
 
+      $('.toggle-areas').addClass('hidden')
       totalareafiltered = parseInt(data.length) 
       if totalareafiltered
         for key of data
@@ -325,6 +385,13 @@ displayCityText = () ->
       throwError()
       return
 
+
+$('.title-search-btn').click ->
+  $('.back-icon').click()
+
+$('.clear-input-text').click ->
+  $(this).closest('div').find('input').val ''
+  filterJobs(false)
 
 $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
@@ -404,6 +471,19 @@ $(document).ready ()->
       url: '/job/get-category-types'
       searchIn: ["name"] 
 
+  $('.search-job-title').flexdatalist
+      params:  
+        "state": $('option:selected',$('select[name="job_city"]')).attr('id')
+        "category": $('input[name="category_id"]').val()
+      removeOnBackspace: false
+      searchByWord:true
+      searchContain:true
+      minLength: 0
+      cache: false
+      searchDelay: 200
+      url: '/get-job-titles'
+      searchIn: ["title"] 
+
    # console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
@@ -411,23 +491,49 @@ $(document).ready ()->
 
 
 $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
+  stateId = $('option:selected',$('select[name="job_city"]')).attr('id')
+  $('.search-job-title').flexdatalist('params', {'state':stateId,"category": set.id})
   $('input[name="category_id"]').val set.id   
   $('input[name="category_id"]').attr 'slug',set.slug   
   $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
   $(".serach_category_name").html set.name
   filterJobs(true) 
+  if $(window).width() < 769 
+    $('.back-icon').click()
+
+
+$(document).on "focusin", '.search-job-title', (event) ->
+  console.log $('input[name="category_id"]').val()
+  $('.search-job-title').flexdatalist('params', {'state': $('option:selected',$('select[name="job_city"]')).attr('id'),"category": $('input[name="category_id"]').val() })
+  return
 
 $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
+
   if set.value == ''
+    stateId = $('option:selected',$('select[name="job_city"]')).attr('id')
+    $('.search-job-title').flexdatalist('params', {'state':stateId,"category": ''})
     $('input[name="category_id"]').val ''
     $('input[name="category_id"]').attr 'slug','' 
     cityObj = $('select[name="job_city"]')
     cityText = $('option:selected',cityObj).text()
     $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
     $(".serach_category_name").html ''
+    console.log $('input[name="category_id"]').val()
     filterJobs(true)
 
- 
+
+
+
+setTimeout (->
+  $('.search-job-title').keyup (e) ->
+    console.log $(window).width() 
+    if $(window).width() < 769 and e.keyCode == 13
+      $('.flexdatalist-results').remove()
+      $('.back-icon').click()
+    return 
+), 1000
+
+
 
 
 

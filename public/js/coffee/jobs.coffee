@@ -245,6 +245,13 @@ $('.resume-upload').dropify messages:
   'remove': '<i class="">&#10005;</i>'
   'error': ''
 
+
+$('.resume-already-upload').dropify messages:
+  'default': 'Upload new resume'
+  'replace': 'Replace resume'
+  'remove': '<i class="">&#10005;</i>'
+  'error': ''  
+
 if $(window).width() > 769  
   if $('.comp-logo').length 
     companyLogo = $('.comp-logo').dropify messages:
@@ -404,6 +411,29 @@ if $('.readMore').length
     speed: 75
     collapsedHeight: 40
     lessLink: '<a href="#">Read less</a>'
+
+# $('.applicant-phone').intlTelInput
+#   # initialCountry: country
+#   separateDialCode: true
+#   geoIpLookup: (callback) ->
+#     $.get('https://ipinfo.io', (->
+#     ), 'jsonp').always (resp) ->
+#       countryCode = if resp and resp.country then resp.country else ''
+#       callback 91
+#       return
+#     return
+#   preferredCountries: [ 'IN' ]
+#   americaMode: false
+#   formatOnDisplay:false
+
+# $(document).ready ()->
+#   mobileNo = $('.applicant-phone').val()
+#   countryCode = $('input[name="country_code"]').val()
+#   $('.applicant-phone').intlTelInput("setNumber", "+"+countryCode).val mobileNo
+
+$(document).on 'countrychange', 'input[name="applicant_phone"]', (e, countryData)->  
+  $('input[name="country_code"]').val countryData.dialCode
+    
 
 
 

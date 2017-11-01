@@ -96,7 +96,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
                                                 <input type="text" id="job_name" name="job_name" class="form-control fnb-input search-job-title" placeholder="Search for a specific job" value="@if(isset($urlFilters['job_name'])){{ $urlFilters['job_name'] }}@endif">
                                                 <a href="javascript:void(0)" class="clear-input-text desk-hide">clear</a>
-                                                <div class="right desk-hide">
+                                                <div class="right desk-hide hidden">
                                                      | 
                                                     <a href="javascript:void(0)" class="text-primary heavier element-title title-search-btn ">Search</a>
                                                 </div>

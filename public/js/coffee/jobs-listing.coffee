@@ -521,7 +521,19 @@ $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
     console.log $('input[name="category_id"]').val()
     filterJobs(true)
 
- 
+
+
+
+setTimeout (->
+  $('.search-job-title').keyup (e) ->
+    console.log $(window).width() 
+    if $(window).width() < 769 and e.keyCode == 13
+      $('.flexdatalist-results').remove()
+      $('.back-icon').click()
+    return 
+), 1000
+
+
 
 
 

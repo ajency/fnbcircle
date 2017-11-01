@@ -526,4 +526,14 @@
     }
   });
 
+  setTimeout((function() {
+    return $('.search-job-title').keyup(function(e) {
+      console.log($(window).width());
+      if ($(window).width() < 769 && e.keyCode === 13) {
+        $('.flexdatalist-results').remove();
+        $('.back-icon').click();
+      }
+    });
+  }), 1000);
+
 }).call(this);

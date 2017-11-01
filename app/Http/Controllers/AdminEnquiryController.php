@@ -129,18 +129,29 @@ class AdminEnquiryController extends Controller
                 $detail = $config[$detail]['title'];
             }
             $enquiry['enquirer_details'] = implode(', ',$enquiry['enquirer_details']);
-
+            // dd($enquiry);
             $categories = [];
             foreach($enquiry['categories'] as $branch){
-                $category = $branch['parent'].' > '.$branch['branch'].' > ';
-                $nodes = [];
+                // $category = $branch['parent'].' > '.$branch['branch'].' > ';
+                $category = '<div class="ca-holder m-b-10">
+                                <div class="location flex-row align-top">
+                                    <p class="m-b-0 text-color heavier default-size state-name">'.$branch['parent'].' <i class="fa fa-caret-right p-l-5 p-r-5" aria-hidden="true"></i>
+                                    </p>
+                                    <ul class="cities flex-row flex-wrap">
+                                      <li>
+                                          <p class="cities__title default-size m-b-0 text-color">'.$branch['branch'].'</p>
+                                      </li>
+                                     </ul>
+                                </div>
+                                <div class="ca-holder m-b-5">
+                                    <ul class="cities flex-row flex-wrap m-t-5">';
                 foreach ($branch['nodes'] as $node) {
-                    $nodes[] = $node['name'];
+                    $category .= '<li><p class="cities__title default-size m-b-0 text-color">'.$node['name'].'</p></li>';
                 }
-                $category .= implode(', ',$nodes);
+                $category .= '</ul></div></div>';
                 $categories[] = $category;
             }
-            $enquiry['categories'] = implode('<br/>',$categories);
+            $enquiry['categories'] = implode('',$categories);
 
             $areas = [];
             foreach($enquiry['areas'] as $city_id => $cities){
@@ -318,9 +329,6 @@ class AdminEnquiryController extends Controller
                     $response[$enquiry->id]['type'] = $enquiry->sentTo()->where('enquiry_to_id',$listing_id)->first()->enquiry_type;
                 }
             }
-
-    		if($enquiry->sentTo()->count() > 1) $response[$enquiry->id]['type'] = 'shared';
-            else $response[$enquiry->id]['type'] = 'direct';
 
             $response[$enquiry->id]['request_date'] = $enquiry->created_at;
 

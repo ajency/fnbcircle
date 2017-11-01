@@ -65,7 +65,7 @@ format = (d) ->
 		 <div class="col-sm-6">
 		    <div class="operations cate-list">
 		        <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>
-				<<<<<<<<<<<<<<< Categories go here >>>>>>>>>>>>		          
+				'+d.categories+'	          
 	        </div>
 	    </div>
 

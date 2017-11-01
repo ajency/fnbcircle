@@ -2698,6 +2698,9 @@ input[type=checkbox].custom-checkbox:before {
 .editable {
   background-color: #eee;
 }
+.intl-tel-input {
+  z-index: 10;
+}
 .slide-nav {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
@@ -11392,10 +11395,6 @@ input[type='checkbox'].remove-addr {
 .open-details {
   margin-top: 1em;
 }
-.j-container {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-}
 .jobInfo {
   margin: 1.5em -20px;
   padding: 0.5em 0;
@@ -11506,6 +11505,9 @@ input[type='checkbox'].remove-addr {
   }
   .jobInfo .contactD.phone {
     border-left: 0;
+  }
+  .jobInfo .contactD:nth-child(2n),
+  .jobInfo .contactD:last-child:not(:first-child) {
     border-top: 1px solid #ddd;
   }
 }

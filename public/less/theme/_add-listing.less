@@ -4164,8 +4164,8 @@ input[type='checkbox'].remove-addr{
 }
 
 .j-container{
-	border-top: 1px solid #eee;
-	border-bottom: 1px solid #eee;
+	// border-top: 1px solid #eee;
+	// border-bottom: 1px solid #eee;
 }
 
 .jobInfo{
@@ -4276,8 +4276,11 @@ input[type='checkbox'].remove-addr{
     		margin-right: auto;
 			&.phone{
 				border-left: 0;
-    			border-top: 1px solid #ddd;
+    			// border-top: 1px solid #ddd;
     			// width: 90%;
+			}
+			&:nth-child(2n),&:last-child:not(:first-child){
+				border-top: 1px solid #ddd;
 			}
 		}
 	}

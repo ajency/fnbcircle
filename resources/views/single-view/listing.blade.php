@@ -3,6 +3,7 @@
 @section('css')
     @parent
     <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials.css" />
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials-theme-minima.css" />
 @endsection

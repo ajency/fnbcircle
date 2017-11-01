@@ -288,7 +288,28 @@
   });
 
   $('input[name="area_search"]').keyup(function() {
-    return displayCityText();
+    var areas_found, search_key;
+    search_key = $(this).val();
+    areas_found = 0;
+    if (!($(this).closest("#section-area").find("#moreDown").attr('aria-expanded') === "true")) {
+      $(this).closest("#section-area").find("#moreDown").collapse('show');
+    }
+    if (search_key.length > 0) {
+      $("input[type='checkbox'][name='areas[]']").parent().addClass('hidden');
+      $("input[type='checkbox'][name='areas[]']").each(function() {
+        if ($(this).parent().text().toLowerCase().indexOf(search_key.toLowerCase()) > -1) {
+          areas_found += 1;
+          $(this).parent().removeClass("hidden");
+        }
+      });
+      $(this).closest("#section-area").find("#moreAreaShow").addClass('hidden');
+    } else {
+      if ($(this).closest("#section-area").find("#areas_hidden").val() > 0) {
+        $(this).closest("#section-area").find("#moreDown").collapse('hide');
+      }
+      $(this).closest("#section-area").find("#moreAreaShow").removeClass('hidden');
+      $("input[type='checkbox'][name='areas[]']").parent().removeClass('hidden');
+    }
   });
 
   $('input[name="job_name"]').keyup(function() {

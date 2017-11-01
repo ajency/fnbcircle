@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
+  var capitalize, getArea, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -266,6 +266,27 @@
     });
   };
 
+  getNodeCategories = function(path, parent_id) {
+    var html;
+    html = '';
+    $.ajax({
+      type: 'post',
+      url: '/api/get_listing_categories',
+      data: {
+        'parent': [parent_id]
+      },
+      success: function(data) {
+        var key;
+        key = void 0;
+        console.log(data["modal_template"]);
+        $(path).html(data["modal_template"]);
+      },
+      error: function(request, status, error) {
+        throw Error();
+      }
+    });
+  };
+
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
@@ -275,21 +296,15 @@
     /* --- Display respective Popups on "Send Enquiry click" --- */
     if ($("#enquiry-modal").length > 0) {
       if ($(document).find("#level-one-enquiry").length > 0) {
-        $(document).find("#level-one-enquiry input[name='contact']").intlTelInput({
-          initialCountry: 'auto',
-          separateDialCode: true,
-          geoIpLookup: function(callback) {
-            $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
-              var countryCode;
-              countryCode = void 0;
-              countryCode = resp && resp.country ? resp.country : '';
-              callback(countryCode);
-            });
-          },
-          preferredCountries: ['IN'],
-          americaMode: false,
-          formatOnDisplay: false
+        $('#enquiry-modal').on('shown.bs.modal', function() {
+          initFlagDrop("#level-one-enquiry input[name='contact']");
+          return $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function() {
+            $(this).val($(this).intlTelInput("getNumber"));
+          });
         });
+        if ($("#level-one-enquiry input[name='contact']").length <= 1 && $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
+          $("#level-one-enquiry input[name='contact']").val("");
+        }
       }
       $(document).on("click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {
         if (getCookie('user_id').length > 0) {
@@ -323,6 +338,23 @@
       $(document).on("click", "#level-two-enquiry #level-two-resend-btn", function() {
         getVerification($(this).data('value'), $("#enquiry_slug").val(), true, true, '');
       });
+
+      /* --- initialize the Flag in Popup 2 --- */
+      $(document).on("click", "#level-two-enquiry", function() {
+        initFlagDrop("#level-two-enquiry #new-mobile-modal input[name='contact']");
+      });
+
+      /* --- On click of 'x', close the Popup 2 modal --- */
+      $(document).on("click", "#level-two-enquiry #close-new-mobile-modal", function() {
+        $(document).find("#new-mobile-modal").modal("hide");
+      });
+
+      /* --- Change the Contact No & Regenarate OTP --- */
+      $(document).on("click", "#level-two-enquiry #new-mobile-verify-btn", function() {
+        $("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
+        $(document).find("#new-mobile-modal").modal("hide");
+        getVerification($("#level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
+      });
       $(document).on("change", "#level-three-enquiry #area_section select[name='city']", function() {
         var city_vals, i;
         city_vals = [];
@@ -354,27 +386,48 @@
         $("#level-three-enquiry #area_section select[name='city'] option[value='" + $(this).closest('ul').find("select[name='city']").val() + "']").removeClass('hidden');
         $(this).closest("ul").remove();
       });
+
+      /* --- On click of Popup 3 'Save / Send' --- */
       $(document).on("click", "#level-three-enquiry #level-three-form-btn", function() {
         var page_level;
         page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
-        if ($(document).find("#level-three-enquiry").parsley().validate()) {
+        if ($(document).find("#level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find("#level-three-enquiry #area_operations").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
         } else {
           console.log("forms not complete");
         }
       });
-      $(document).on("click", "#level-two-enquiry", function() {
-        initFlagDrop("#level-two-enquiry #new-mobile-modal input[name='contact']");
-      });
-      $(document).on("click", "#level-two-enquiry #close-new-mobile-modal", function() {
-        $(document).find("#new-mobile-modal").modal("hide");
-      });
 
-      /* --- Change the Contact No & Regenarate OTP --- */
-      $(document).on("click", "#level-two-enquiry #new-mobile-verify-btn", function() {
-        $("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
-        $(document).find("#new-mobile-modal").modal("hide");
-        getVerification($("#level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
+      /* --- On click of "Add More" categories --- */
+      $(document).on("click", "#level-three-enquiry #select-more-categories", function() {
+        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
+        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
+        $("#level-three-enquiry #category-select #level-one-category input[type='radio']").prop("checked", false);
+      });
+      $(document).on("click", "#level-three-enquiry #category-select #level-one-category input[name='categories']", function() {
+        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
+        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
+      });
+      $(document).on("click", "#level-three-enquiry #category-select #back_to_categories", function() {
+        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
+        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
+      });
+      $(document).on("click", "#level-three-enquiry #category-select #category-select-close", function() {
+        $(this).closest("div#category-select").modal('hide');
+      });
+      $(document).on("change", "#level-three-enquiry #category-select #level-one-category input[name='select-categories']", function() {
+        if ($(this).prop('checked')) {
+          $("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").attr('disabled', 'true');
+        } else {
+          $("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled');
+        }
+      });
+      $(document).on("change", "#level-three-enquiry #category-select #level-one-category input[type='radio'][name='parent-categories']", function() {
+        getNodeCategories("#level-three-enquiry #category-select #level-two-category-dom", $(this).val());
+        $(this).closest("div#level-one-category").addClass("hidden");
+      });
+      $(document).on("click", "#level-three-enquiry #category-select #level-two-category ul#branch_categories li.presentation", function() {
+        console.log($(this).find('a').attr("aria-controls"));
       });
     }
   });

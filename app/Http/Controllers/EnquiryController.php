@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Category;
 use App\Area;
 use App\Listing;
+use App\ListingCategory;
 use App\ListingAreasOfOperation;
 use App\Job;
 use App\Lead;
@@ -204,7 +205,9 @@ class EnquiryController extends Controller {
 
 		   			if(isset($payload_data["enquiry_data"]["contact"])) {
 		   				$enquiry_data = $payload_data["enquiry_data"];
-		   				$response_html = View::make('modals.listing_enquiry_popup.popup_level_three')->with(compact('data', 'enquiry_data'))->render();
+		   				$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+            			$categories = ListingCategory::getCategories($listing->id);
+		   				$response_html = View::make('modals.listing_enquiry_popup.popup_level_three')->with(compact('data', 'enquiry_data', 'parents', 'categories'))->render();
 			   		}
 
 		   		} else {
@@ -521,5 +524,100 @@ class EnquiryController extends Controller {
 	    }
 
 	    return response()->json(["popup_template" => $modal_template_html], $status);
+    }
+
+    /**
+    * This function is used to Get all the Children of a category
+    */
+    public function getCategories($type='listing', $parents = [], $statuses=[]) {
+    	$parent_array = [];
+        foreach ($parents as $parent) {
+            if(sizeof($statuses) > 0) {
+            	$children = Category::where('type', $type)->where('parent_id', $parent)->whereIn('status', $statuses)->orderBy('order')->orderBy('name')->get();
+            } else {
+            	$children = Category::where('type', $type)->where('parent_id', $parent)->where('status', 1)->orderBy('order')->orderBy('name')->get();
+            }
+            
+            $child_array = array();
+
+            foreach ($children as $child_index => $child) {
+            	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug));
+            }
+
+            $parent_obj = Category::find($parent);
+
+            if ($parent_obj->parent_id != null) {
+                $grandparent = Category::findorFail($parent_obj->parent_id);
+            } else {
+                $grandparent = new Category;
+            }
+
+            //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
+            array_push($parent_array, array('id' => $parent_obj->id, 'name' => $parent_obj->name, 'slug' => $parent_obj->slug, 'children' => $child_array, 'parent' => $grandparent));
+        }
+        return $parent_array;
+    }
+
+    /**
+    * This function will return a DOM having Branch & node categories
+    */
+    public function getListingCategories(Request $request) {
+    	$this->validate($request, [
+            'parent' => 'required',
+        ]);
+
+    	$sub_categories = [];
+    	$statuses = $request->has('statuses') ? $request->statuses : [];
+
+    	if(is_array($request->parent)) {
+        	$sub_categories = $this->getCategories('listing', $request->parent, $statuses);
+        } else if(strpos(" " . $request->parent, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
+        	$sub_categories = $this->getCategories('listing', json_decode($request->parent), $statuses);
+        } else {
+        	$sub_categories = $this->getCategories('listing', [$request->parent], $statuses);
+        }
+
+        // Take the 1st Parent Category
+        $sub_categories = $sub_categories[0];
+
+        // If Children (Branch) Category exist, then get the child of that 1st Branch category i.e. Grand child of parent Category
+        if(isset($sub_categories["children"]) && sizeof($sub_categories["children"]) > 0) {
+        	$node_children = $this->getCategories('listing', [$sub_categories["children"][0]["id"]], []);
+        	if(sizeof($node_children) > 0 && isset($node_children[0]["children"])) {
+        		$sub_categories["children"][0]["node_children"] = $node_children[0]["children"];
+        	} else {
+        		$sub_categories["children"][0]["node_children"] = [];
+        	}
+        }
+
+        $view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories'))->render();
+
+        return response()->json(array("modal_template" => $view_blade), 200);
+    }
+
+    /**
+    * This function will return an array of children (node) of a Branch category
+    */
+    public function getNodeCategories(Request $request) {
+    	$this->validate($request, [
+            'branch' => 'required',
+        ]);
+
+        $node_categories = [];
+        $statuses = $request->has('statuses') ? $request->statuses : [];
+
+    	if(is_array($request->branch)) {
+        	$node_categories = $this->getCategories('listing', $request->branch, $statuses);
+        } else if(strpos(" " . $request->branch, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
+        	$node_categories = $this->getCategories('listing', json_decode($request->branch), $statuses);
+        } else {
+        	$node_categories = $this->getCategories('listing', [$request->branch], $statuses);
+        }
+
+        dd($node_categories);
+        //$node_categories = $node_categories[0];
+
+        return response()->json(array("data" => $node_categories), 200);
     }
 }

@@ -7119,7 +7119,7 @@ input[type=checkbox].custom-checkbox:before {
 @media screen and (min-width: 769px) {
   .job-listings .filter-cards .recent-updates {
     margin: 1em -21px -17px -21px;
-    padding: 1em 20px 20px 20px;
+    padding: 1em 20px 1em 20px;
     background-color: #fff0d4;
   }
   .job-listings .filter-cards .recent-updates .fnb-btn {

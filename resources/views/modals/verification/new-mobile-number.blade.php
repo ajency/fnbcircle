@@ -1,3 +1,4 @@
+<!-- Edit current Number i.e. add new number -->
 <div class="modal fnb-modal new-mobile-modal modal-center fade" id="new-mobile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" modal-type="mobile">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

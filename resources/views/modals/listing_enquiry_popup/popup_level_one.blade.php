@@ -87,7 +87,8 @@
         <!-- action ends -->
     </form>
 </div>
-<script type="text/javascript">
+
+<!-- <script type="text/javascript">
     $(document).ready(function(){
         $(document).find("#level-one-enquiry input[name='contact']").intlTelInput({
           initialCountry: 'auto',
@@ -103,6 +104,11 @@
           americaMode: false,
           formatOnDisplay: false
         });
+
+        $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function(){
+            $(this).val($(this).intlTelInput("getNumber"));
+        });
     });
-</script>
+</script> -->
+
 <!-- Level one ends -->

@@ -1,6 +1,6 @@
 <!-- Level three starts -->
 
-<div class="level-three levels" id="level-three-enquiry">
+<div class="level-three levels" id="level-three-enquiry" data-parsley-validate="">
     <div class="mobile-hide">
         <h5 class="text-darker">We can help you get the best deals on F&amp;B Circle.</h2>
         @if(Auth::guest())
@@ -58,28 +58,33 @@
         <!-- categories -->
         <div class="categories-select gap-separator">
             <p class="text-darker describes__title text-medium">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p>
-            <ul class="categories__points flex-points flex-row flex-wrap" id="enquiry_core_categories">
-                <!-- <li>
-                    <label class="flex-row">
-                        <input type="checkbox" class="checkbox" for="chicken">
-                        <p class="text-medium categories__text flex-points__text text-color" id="chicken">Chicken</p>
-                    </label>
-                </li> -->
-                @foreach($data["cores"] as $core_key => $core_value)
-                    <li>
+            @if(sizeof($data["cores"]) > 0)
+                <ul class="categories__points flex-points flex-row flex-wrap" id="enquiry_core_categories">
+                    <!-- <li>
                         <label class="flex-row">
-                            <input type="checkbox" class="checkbox" for="{{ $core_value['slug'] }}" name="categories_interested[]" value="{{ $core_value['slug'] }}" data-parsley-trigger="change" data-parsley-mincheck="1" data-required="true" required="true">
-                            <p class="text-medium categories__text flex-points__text text-color" id="">{{ $core_value['name'] }}</p>
+                            <input type="checkbox" class="checkbox" for="chicken">
+                            <p class="text-medium categories__text flex-points__text text-color" id="chicken">Chicken</p>
                         </label>
-                    </li>
-                @endforeach
+                    </li> -->
+                    @foreach($data["cores"] as $core_key => $core_value)
+                        <li>
+                            <label class="flex-row">
+                                <input type="checkbox" class="checkbox" for="{{ $core_value['slug'] }}" name="categories_interested[]" value="{{ $core_value['slug'] }}" data-parsley-trigger="change" data-parsley-mincheck="1" data-required="true" required="true">
+                                <p class="text-medium categories__text flex-points__text text-color" id="">{{ $core_value['name'] }}</p>
+                            </label>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+            <ul class="categories__points flex-points flex-row flex-wrap" id="more_added_core_categories">
             </ul>
             <div class="add-more-cat text-right m-t-5">
-                <!-- <a href="#" class="more-show secondary-link text-decor">+ Add more</a> -->
+                <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor" id="select-more-categories">+ Add more</a>
                 <!-- <div class="form-group m-t-5 m-b-0 add-more-cat__input"> -->
-                <div class="form-group m-t-5 m-b-0">
+                @include('modals.categories_list')
+                <!-- <div class="form-group m-t-5 m-b-0">
                     <input type="text" class="form-control fnb-input flexdatalist cat-add-data" name="get_categories" placeholder="Type to select more categories">
-                </div>
+                </div> -->
             </div>
 
         </div>
@@ -99,7 +104,7 @@
                 <ul class="areas-select__selection flex-row flex-wrap">
                     <li>
                         <div class="required left-star flex-row">
-                            <select class="form-control fnb-select select-variant" name="city">
+                            <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-required>
                                 <option option="0">Select State</option>
                                 @foreach(App\City::where('status', 1)->get() as $key => $value)
                                     @if($data["city"]["slug"] == $value->slug)
@@ -114,7 +119,7 @@
                     </li>
                     <li>
                         <div class="required left-star flex-row">
-                            <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-minlength="1">
+                            <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-required data-parsley-mincheck="1">
                                 @if(isset($data["city"]) && isset($data["city"]["id"]))
                                     <!-- @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
                                         <option value="{{ $key_value->id }}">{{ $key_value->name }}</option>
@@ -138,7 +143,7 @@
                 </li>
                 <li>
                     <div class="required left-star flex-row">
-                        <select class="fnb-select select-variant areas-appended" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-minlength="1">
+                        <select class="fnb-select select-variant areas-appended" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-required data-parsley-mincheck="1">
                             <!-- <option>Bandra</option>
                             <option>Andheri</option>
                             <option>Dadar</option>

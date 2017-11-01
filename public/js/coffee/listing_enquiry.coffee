@@ -237,6 +237,29 @@ initFlagDrop = (path) ->
 		preferredCountries: [ 'IN' ]
 		americaMode: false
 		formatOnDisplay: false
+
+	# $(document).find(path).on "countrychange", () ->
+	# 	$(this).val($(this).intlTelInput("getNumber"))
+	# 	return
+	return
+
+getNodeCategories = (path, parent_id) ->
+	html = ''
+
+	$.ajax
+		type: 'post'
+		url: '/api/get_listing_categories'
+		data: 
+			'parent': [parent_id]
+		success: (data) ->
+			key = undefined
+			#$('#' + path + ' select[name="area"]').html html
+			console.log data["modal_template"]
+			$(path).html data["modal_template"]
+			return
+		error: (request, status, error) ->
+			throw Error()
+			return
 	return
 
 $(document).ready () ->
@@ -245,21 +268,17 @@ $(document).ready () ->
 
 	### --- Display respective Popups on "Send Enquiry click" --- ###
 	if $("#enquiry-modal").length > 0
+
 		if $(document).find("#level-one-enquiry").length > 0
-			$(document).find("#level-one-enquiry input[name='contact']").intlTelInput
-				initialCountry: 'auto'
-				separateDialCode: true
-				geoIpLookup: (callback) ->
-					$.get('https://ipinfo.io', (->
-					), 'jsonp').always (resp) ->
-						countryCode = undefined
-						countryCode = if resp and resp.country then resp.country else ''
-						callback countryCode
-						return
+			$('#enquiry-modal').on 'shown.bs.modal', () ->
+				initFlagDrop("#level-one-enquiry input[name='contact']")
+			
+				$(document).on "countrychange", "#level-one-enquiry input[name='contact']", () ->
+					$(this).val($(this).intlTelInput("getNumber"))
 					return
-				preferredCountries: [ 'IN' ]
-				americaMode: false
-				formatOnDisplay: false
+
+			if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
+				$("#level-one-enquiry input[name='contact']").val("")
 
 		$(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			if getCookie('user_id').length > 0
@@ -296,6 +315,22 @@ $(document).ready () ->
 			getVerification($(this).data('value'), $("#enquiry_slug").val(), true, true, '')
 			return
 
+		### --- initialize the Flag in Popup 2 --- ###
+		$(document).on "click", "#level-two-enquiry", () ->
+			initFlagDrop("#level-two-enquiry #new-mobile-modal input[name='contact']")
+			return
+
+		### --- On click of 'x', close the Popup 2 modal --- ###
+		$(document).on "click", "#level-two-enquiry #close-new-mobile-modal", () ->
+			$(document).find("#new-mobile-modal").modal "hide"
+			return
+
+		### --- Change the Contact No & Regenarate OTP --- ###
+		$(document).on "click", "#level-two-enquiry #new-mobile-verify-btn", () ->
+			$("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+			$(document).find("#new-mobile-modal").modal "hide"
+			getVerification($("#level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+			return
 
 		$(document).on "change", "#level-three-enquiry #area_section select[name='city']", () ->
 			city_vals = []
@@ -330,29 +365,55 @@ $(document).ready () ->
 			$(this).closest("ul").remove()
 			return
 
+		### --- On click of Popup 3 'Save / Send' --- ###
 		$(document).on "click", "#level-three-enquiry #level-three-form-btn", () ->
 			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 
-			if $(document).find("#level-three-enquiry").parsley().validate()
+			if $(document).find("#level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find("#level-three-enquiry #area_operations").parsley().validate()
 				getContent(page_level, $("#enquiry_slug").val())
 			else
 				console.log "forms not complete"
-
 			return
 
-		$(document).on "click", "#level-two-enquiry", () ->
-			initFlagDrop("#level-two-enquiry #new-mobile-modal input[name='contact']")
+		### --- On click of "Add More" categories --- ###
+		$(document).on "click", "#level-three-enquiry #select-more-categories", () ->
+			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
+			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
+			$("#level-three-enquiry #category-select #level-one-category input[type='radio']").prop "checked", false
 			return
 
-		$(document).on "click", "#level-two-enquiry #close-new-mobile-modal", () ->
-			$(document).find("#new-mobile-modal").modal "hide"
+		$(document).on "click", "#level-three-enquiry #category-select #level-one-category input[name='categories']", () ->
+			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
+			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
+			# parent_category = $(this).parent().find("div.interested-label").text().replace(/\n/g, '').replace(/  /g, '')
+			# $("#level-three-enquiry #category-select #level-two-category span#main-cat-name").text(parent_category)
+			# $("#level-three-enquiry #category-select #level-two-category h5#main-cat-title").text(parent_category)
+			# $("#level-three-enquiry #category-select #level-two-category").removeClass "hidden"
+			# $("#level-three-enquiry #category-select #level-one-category").addClass "hidden"
 			return
 
-		### --- Change the Contact No & Regenarate OTP --- ###
-		$(document).on "click", "#level-two-enquiry #new-mobile-verify-btn", () ->
-			$("#enquiry-modal #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
-			$(document).find("#new-mobile-modal").modal "hide"
-			getVerification($("#level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+		$(document).on "click", "#level-three-enquiry #category-select #back_to_categories", () ->
+			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
+			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
 			return
 
+		$(document).on "click", "#level-three-enquiry #category-select #category-select-close", () ->
+			$(this).closest("div#category-select").modal 'hide'
+			return
+
+		$(document).on "change", "#level-three-enquiry #category-select #level-one-category input[name='select-categories']", () ->
+			if $(this).prop('checked')
+				$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").attr('disabled', 'true')
+			else
+				$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled')
+			return
+
+		$(document).on "change", "#level-three-enquiry #category-select #level-one-category input[type='radio'][name='parent-categories']", () ->
+			getNodeCategories("#level-three-enquiry #category-select #level-two-category-dom", $(this).val()) # add DOM to this level
+			$(this).closest("div#level-one-category").addClass "hidden"
+			return
+
+		$(document).on "click", "#level-three-enquiry #category-select #level-two-category ul#branch_categories li.presentation", () ->
+			console.log $(this).find('a').attr("aria-controls")
+			return
 	return

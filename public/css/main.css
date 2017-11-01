@@ -2319,6 +2319,9 @@ input[type="checkbox"].toggle__check {
 .text-secondary {
   color: #27b7b0;
 }
+.fnb-info-text {
+  color: #337ab7;
+}
 .text-danger {
   color: #d0021b;
 }
@@ -2338,6 +2341,15 @@ input[type="checkbox"].toggle__check {
 .secondary-link:active,
 .secondary-link:focus {
   color: #3cd5ce;
+  text-decoration: none;
+}
+.clear-link {
+  color: #6b6b6b;
+}
+.clear-link:hover,
+.clear-link:active,
+.clear-link:focus {
+  color: #858585;
   text-decoration: none;
 }
 .dark-link {
@@ -2425,6 +2437,12 @@ input[type="checkbox"].toggle__check {
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
+}
+.align-equal {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
 }
 .justify-center {
   -webkit-box-pack: center;
@@ -11153,6 +11171,226 @@ input[type='checkbox'].remove-addr {
 }
 .post-up-head .preview-header__link {
   font-size: 0.6em;
+}
+.lead-filter {
+  background-color: #f8f8f8;
+  padding: 1em 0;
+}
+.lead-filter .tab-filter {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
+.lead-filter .tab-filter .nav {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border-bottom: 0;
+}
+.lead-filter .tab-filter .nav li {
+  width: 100%;
+}
+.lead-filter .tab-filter .nav li a {
+  border: 0;
+  border-right: 1px solid #ddd;
+  border-radius: 0;
+  color: #827e7e;
+  font-weight: 500;
+  background-color: transparent;
+  text-transform: uppercase;
+  font-size: 0.85em;
+}
+.lead-filter .tab-filter .nav li a:hover,
+.lead-filter .tab-filter .nav li a:focus {
+  color: #ec6d4b;
+  background-color: transparent;
+}
+.lead-filter .tab-filter .nav li.active a {
+  color: #ec6d4b;
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+}
+.lead-filter .tab-filter .nav li.active a:active {
+  color: #ec6d4b;
+}
+.lead-filter .tab-filter .tab-content {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 0.8em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.lead-filter .tab-filter .tab-content .tab-pane.active {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 100%;
+}
+.listing-lead .fnb-label {
+  padding: 0.3em 0.5em;
+}
+.listing-lead .tableSearch {
+  position: relative;
+  background-color: #fff;
+  width: 130px;
+}
+.listing-lead .tableSearch i {
+  position: absolute;
+  left: 5px;
+  top: 32%;
+  font-size: 0.8em;
+}
+.listing-lead .tableSearch .fnb-input {
+  padding-left: 1.45em;
+  font-size: 0.9em;
+  width: 130px;
+  font-weight: 400;
+}
+.listing-lead .search-row {
+  background-color: #e5e5e5;
+}
+.listing-lead .search-row td {
+  padding: 6px 8px;
+}
+.listing-lead .width-control {
+  width: 130px !important;
+}
+.listing-lead td {
+  font-size: 0.95em;
+  word-break: break-word;
+}
+.listing-lead .show-archive {
+  font-size: 0.9em;
+  font-weight: 500;
+  position: relative;
+  top: -3px;
+}
+.listing-lead .show-archive .checkbox:before {
+  width: auto;
+  height: 16px;
+  top: -7px;
+}
+.listing-lead .shown {
+  background-color: #fff !important;
+  box-shadow: 0px -5px 20px 0px rgba(0, 0, 0, 0.17);
+}
+.listing-lead .shown td {
+  padding: 15px 8px 10px 8px;
+}
+.listing-lead .shown + tr td {
+  border-top: 0;
+}
+.listing-lead .shown .details-control i {
+  -webkit-transform: rotate(-180deg);
+      -ms-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+.listing-lead .lead-verify {
+  vertical-align: text-top;
+}
+.listing-lead .rating {
+  overflow: hidden;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  vertical-align: inherit;
+}
+.listing-lead .rating .bg:before,
+.listing-lead .rating .value:before {
+  font-size: 1em;
+}
+.business-leads .dataTables_info.dataTables_info {
+  text-align: right;
+  display: inline-block;
+  width: 78%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  color: #827e89;
+  padding-right: 1em;
+  margin-right: 1em;
+  border-right: 1px solid #ddd;
+  position: relative;
+}
+.business-leads .dataTables_length {
+  text-align: right;
+  float: right;
+  color: #827e89;
+}
+.business-leads .dataTables_length select {
+  border-radius: 0;
+}
+.business-leads .pagination {
+  padding-top: 1em;
+}
+.business-leads .pagination li.active a {
+  background-color: #ec6d4b;
+  border-color: #ec6d4b;
+}
+.business-leads .pagination li a {
+  font-size: 0.9em;
+}
+.details-control i {
+  -webkit-transition: all .5s ease;
+          transition: all .5s ease;
+}
+.leads-filter-action {
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+.add-filter-actions a:not(:last-child) {
+  border-right: 1px solid #ddd;
+  margin-right: 0.5em;
+  padding-right: 0.5em;
+}
+.leads-drop {
+  padding: 1.2em 0;
+  background-color: #fff;
+  margin: -7px -8px 0 -8px;
+  box-shadow: 0px 2px 18px 0px rgba(0, 0, 0, 0.17);
+}
+.leads-drop .state-name {
+  min-width: 80px;
+}
+.leads-drop .cities li:not(:last-child) p:after {
+  content: ',';
+  display: inline-block;
+  padding: 0 5px;
+  color: #9b9ea0;
+}
+.leads-drop .cate-list .state-name {
+  min-width: 60px;
+}
+.leads-drop .cate-list .cities li:not(:last-child) p:after {
+  padding: 0 3px;
+}
+.leads-drop .cate-list > .ca-holder {
+  background-color: #f7f7f7;
+  padding: 8px;
 }
 .profile-stats {
   color: #fff;

@@ -953,7 +953,7 @@ $additionalData = ['job'=>$job];
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}">download</a>
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a>
                             @else
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
                             Please upload your resume
@@ -962,7 +962,7 @@ $additionalData = ['job'=>$job];
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
                                 <div id="resume-error"></div>
                             </div>
                           </div>

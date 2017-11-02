@@ -1196,9 +1196,9 @@ class JobController extends Controller
         $data['cc'] = 'prajay@ajency.in';
         $data['subject'] = "New application for job ".$job->title;
         
-        $mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+         
 
-        $mimeType = $mimeTypes[$ext];
+        $mimeType = getFileMimeType($ext);
         
 
         $file = $user->getSingleFile($resumeId);

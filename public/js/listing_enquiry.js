@@ -489,7 +489,9 @@
         $.each($("#level-three-enquiry input[name='categories_interested[]']:checked"), function() {
           main_page_categories.push($(this).val());
         });
+        $("#enquiry-modal").modal("hide");
         $(document).on("shown.bs.modal", "#category-select", function(event) {
+          console.log(main_page_categories);
           $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
         });
       });
@@ -497,17 +499,19 @@
       /* --- On Categories Modal close, update the Level 3 with checkboxes --- */
       $(document).on("hidden.bs.modal", "#category-select", function(event) {
         var checked_categories, html, index;
+        $("#enquiry-modal").modal("show");
         checked_categories = [];
         index = 0;
         html = "";
         if ($("#level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0) {
           checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val());
         }
+        console.log(checked_categories);
         while (index < checked_categories.length) {
           if ($("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
             $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", "true");
           } else {
-            html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
+            html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
           }
           index++;
         }

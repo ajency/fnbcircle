@@ -267,8 +267,7 @@ class JobController extends Controller
      */
     public function show($jobSlug)
     {
-        // $this->sendJobAlert();
-        sendNotifications();
+
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
         
@@ -1375,10 +1374,7 @@ class JobController extends Controller
         
     
         $jobTitles = \DB::select($query);
-        
-        
-        
-        
+ 
         return response()->json(['results' => $jobTitles, 'options' => []]);
     }
 

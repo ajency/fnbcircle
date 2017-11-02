@@ -579,7 +579,7 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif"> {{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link no-pointer"> {{ count($jobApplications) }}</a></p>
                     @if(count($jobApplications))
                     <div class="view-applicant m-t-5">
                       <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications</a>

@@ -20,6 +20,7 @@ use App\UserCommunication;
 use View;
 use \Input;
 use App\JobApplicant;
+use App\NotificationQueue;
 use App\UserDetail;
 use Ajency\User\Ajency\userauth\UserAuth;
  
@@ -266,7 +267,8 @@ class JobController extends Controller
      */
     public function show($jobSlug)
     {
-        $this->sendJobAlert();
+        // $this->sendJobAlert();
+        sendNotifications();
         $referenceId = getReferenceIdFromSlug($jobSlug);
         $job = Job::where('reference_id',$referenceId)->first();
         
@@ -1222,7 +1224,7 @@ class JobController extends Controller
         // sendEmail('job-application', $data);
  
         $data = [];
-        $data['from'] = $applicantEmail;
+        $data['from'] = 'prajay@ajency.in';
         $data['name'] = $applicantName;
         $data['to'] = [ $ownerDetails['email']];
         $data['cc'] = 'prajay@ajency.in';
@@ -1302,38 +1304,49 @@ class JobController extends Controller
             $totalJobs = $filterJobs['totalJobs'];  
 
             $userCommDetails = $user->getUserProfileDetails();
-            $userCommDetails['email'] = 'prajay@ajency.in';
+            // $userCommDetails['email'] = 'prajay@ajency.in';
 
             $searchUrls =[];
-            $jobFilters['loaction_text'] = [];
+            $jobFilters['location_text'] = [];
              if(isset($jobFilters['city'])){
                 foreach($jobFilters['city'] as $cityId){
                     $jobFilters['state'] = $cityId;
                     $genUrl = generateJobListUrl($jobFilters,0,$user); 
-                    $locationText = $genUrl['loactiontext'];
+                    $locationText = $genUrl['locationtext'];
                     $searchUrls[] = ['url'=>$genUrl['url'],'state'=>$locationText['city_name']];
-                    $jobFilters['loaction_text'][] = $locationText;
+                    $jobFilters['location_text'][] = $locationText;
 
                 }
              }
              
              
             if($jobs->count()){
-                $data = [];
-                $data['from'] = config('constants.email_from');
-                $data['name'] = config('constants.email_from_name');
-                $data['to'] = [ $userCommDetails['email'] ];
-                $data['cc'] = 'prajay@ajency.in';
-                $data['subject'] = "Jobs matching your job alert criteria";
-                $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
-                sendEmail('job-alert', $data);
+                // $data = [];
+                // $data['from'] = config('constants.email_from');
+                // $data['name'] = config('constants.email_from_name');
+                // $data['to'] = [ $userCommDetails['email'] ];
+                // $data['cc'] = 'prajay@ajency.in';
+                // $data['subject'] = "Jobs matching your job alert criteria";
+                // $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
+                // sendEmail('job-alert', $data);
+
+                $notification = new NotificationQueue();
+                $notification->notification_type = 'email';
+                $notification->event_type = 'job-alert';
+                $notification->subject = "Jobs matching your job alert criteria";
+                $notification->to = [ $userCommDetails['email'] ];
+                $notification->cc = ['prajay@ajency.in'];
+                $notification->bcc = [];
+                $notification->from_name = config('constants.email_from_name');
+                $notification->from_email = config('constants.email_from');
+                $notification->send_at = date('Y-m-d H:i:s');
+                $notification->template_data = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
+                $notification->processed = 0;
+                $notification->save();
 
             }
            
 
-
-            // exit;
-            
         }
     }
 

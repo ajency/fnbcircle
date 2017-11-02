@@ -224,7 +224,7 @@ class User extends Authenticatable
         $criteria['salary_type_slug'] = str_slug($job->getSalaryType());
         $criteria['category'] = $job->category_id;
         $criteria['category_name'] = $job->getJobCategoryName();
-        $criteria['category_slug'] = $job->$this->category->slug;
+        $criteria['category_slug'] = $job->category->slug;
        
         $criteria['job_keyword'] = implode(',', $metaData['job_keyword']);
         $criteria['keywords'] =  array_keys($metaData['job_keyword']);

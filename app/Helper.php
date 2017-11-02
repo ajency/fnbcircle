@@ -522,7 +522,7 @@ function generateJobListUrl($params,$urlCity,$userObj){
 		$url .= ']';
 	}
 
-	return ['url'=>$url,'loactiontext'=>$stateCity];
+	return ['url'=>$url,'locationtext'=>$stateCity];
 
 	// http://fnbcircle.dev/pune/job-listings?page=1&state=mumbai&salary_type=annually&salary_lower=0&salary_upper=300000000&business_type=club-banquet-catering-unit&job_type=[%22full-time%22]&area=[%22andheri%22]&experience=[%220-1%22]&job_roles=[%2228|assistant-kitchen-manager%22]
 }
@@ -536,4 +536,31 @@ function getFileMimeType($ext){
 	return $mimeType;
  
 }
- 
+
+function sendNotifications(){
+	$pendingNotifications = App\NotificationQueue::where('processed', 0)->orderBy('created_at', 'asc')->get();
+
+	if(!empty($pendingNotifications)){
+		foreach ($pendingNotifications as $key => $pendingNotification) {
+
+			if($pendingNotification->notification_type == 'email'){
+				$data = [];
+                $data['from'] = $pendingNotification->from_email;
+                $data['name'] = $pendingNotification->from_name;
+                $data['to'] = $pendingNotification->to;
+                $data['cc'] = $pendingNotification->cc;
+                $data['subject'] = $pendingNotification->subject;
+                $data['template_data'] = $pendingNotification->template_data;
+                $emailResponse = sendEmail($pendingNotification->event_type, $data);
+
+                // $response = ($emailResponse) ? 1 : 2;
+			}
+	 
+			$pendingNotification->processed = 1;
+			$pendingNotification->processed_at = date('Y-m-d H:i:s');
+			$pendingNotification->save();
+
+
+		}
+	}
+ }

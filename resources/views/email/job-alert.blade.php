@@ -48,8 +48,8 @@
               <br><br>
               @endif
 
-              @if(isset($filters['loaction_text']) && !empty($filters['loaction_text']))
-                @foreach($filters['loaction_text'] as $location)
+              @if(isset($filters['location_text']) && !empty($filters['location_text']))
+                @foreach($filters['location_text'] as $location)
                 State : {{ $location['city_name'] }} <br>
                 City : {{ implode(",",$location['areas']) }}<br><br>
                 @endforeach

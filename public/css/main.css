@@ -2490,6 +2490,13 @@ input[type="checkbox"].toggle__check {
   white-space: nowrap;
   overflow: hidden;
 }
+@media screen and (min-width: 769px) {
+  .ellipsis-desk {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
 .ellipsis-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -10852,6 +10859,15 @@ input[type='checkbox'].remove-addr {
   border-color: #ec6d4b;
   margin-bottom: 1em;
 }
+@media screen and (min-width: 769px) {
+  .applyJob .view-applicant__btn {
+    width: 60%;
+    font-size: 1em;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0.65em 1.2em;
+  }
+}
 .job-location .map-icon {
   -webkit-transform: scale(0.6);
       -ms-transform: scale(0.6);
@@ -11049,6 +11065,10 @@ input[type='checkbox'].remove-addr {
   }
   .contact__info.applyJob .fnb-btn {
     width: 80%;
+  }
+  .contact__info.applyJob .view-applicant__btn {
+    width: 60%;
+    padding-left: 1.8em;
   }
   .contact__info.applyJob a {
     padding-left: 0;

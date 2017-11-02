@@ -522,18 +522,41 @@ $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
     filterJobs(true)
 
 
+hideKeyboard = ->
+  #this set timeout 
+  setTimeout (->
+    field = document.createElement('input')
+    field.setAttribute 'type', 'text'
+    field.setAttribute 'style', 'position:absolute; top: 0px; -webkit-transform: translateY(-9999px); -webkit-user-modify: read-write-plaintext-only; left:0px;'
+    document.body.appendChild field
+
+    field.onfocus = ->
+      setTimeout (->
+        field.setAttribute 'style', 'display:none;'
+        setTimeout (->
+          document.body.removeChild field
+          document.body.focus()
+          return
+        ), 14
+        return
+      ), 200
+      return
+
+    field.focus()
+    return
+  ), 50
+  return
+
 
 
 setTimeout (->
   $('.search-job-title').keyup (e) ->
-    console.log $(window).width() 
     if $(window).width() < 769 and e.keyCode == 13
       $('.flexdatalist-results').remove()
       $('.back-icon').click()
+      hideKeyboard()
     return 
 ), 1000
-
-
 
 
 

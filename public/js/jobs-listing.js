@@ -1,5 +1,5 @@
 (function() {
-  var displayCityText, filterJobs, initSalaryBar, salaryRangeSlider, strSlug;
+  var displayCityText, filterJobs, hideKeyboard, initSalaryBar, salaryRangeSlider, strSlug;
 
   filterJobs = function(resetPage) {
     var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
@@ -526,12 +526,32 @@
     }
   });
 
+  hideKeyboard = function() {
+    setTimeout((function() {
+      var field;
+      field = document.createElement('input');
+      field.setAttribute('type', 'text');
+      field.setAttribute('style', 'position:absolute; top: 0px; -webkit-transform: translateY(-9999px); -webkit-user-modify: read-write-plaintext-only; left:0px;');
+      document.body.appendChild(field);
+      field.onfocus = function() {
+        setTimeout((function() {
+          field.setAttribute('style', 'display:none;');
+          setTimeout((function() {
+            document.body.removeChild(field);
+            document.body.focus();
+          }), 14);
+        }), 200);
+      };
+      field.focus();
+    }), 50);
+  };
+
   setTimeout((function() {
     return $('.search-job-title').keyup(function(e) {
-      console.log($(window).width());
       if ($(window).width() < 769 && e.keyCode === 13) {
         $('.flexdatalist-results').remove();
         $('.back-icon').click();
+        hideKeyboard();
       }
     });
   }), 1000);

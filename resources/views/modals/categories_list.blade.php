@@ -47,5 +47,5 @@
 </div>
 
 @section('js')
-    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script> -->
 @endsection

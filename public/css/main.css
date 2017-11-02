@@ -7262,6 +7262,9 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .job-listings .site-loader {
+    margin-top: 0;
+  }
   .mobile-bottom {
     margin-bottom: 3.5em;
   }

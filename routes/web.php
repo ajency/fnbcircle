@@ -196,4 +196,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('/get_enquiry_template', 'EnquiryController@requestTemplateEnquiry');
 	Route::post('/send_enquiry', 'EnquiryController@getEnquiry');
 	Route::post('/verify_enquiry_otp', 'EnquiryController@verifyOtp');
+
+	Route::post('/get_listing_categories', 'EnquiryController@getListingCategories');
+	Route::post('/get_node_listing_categories', 'EnquiryController@getNodeCategories');
 });

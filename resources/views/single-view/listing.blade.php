@@ -3,6 +3,7 @@
 @section('css')
     @parent
     <link rel="stylesheet" type="text/css" href="/css/jquery.flexdatalist.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials.css" />
     <link rel="stylesheet" type="text/css" href="/bower_components/jssocials/dist/jssocials-theme-minima.css" />
 @endsection
@@ -912,7 +913,7 @@
                                                 <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
-                                                <button class="btn fnb-btn primary-btn full border-btn">Send an Enquiry</button>
+                                                <button class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
                                             </div>
                                         </div>
                                     </form>

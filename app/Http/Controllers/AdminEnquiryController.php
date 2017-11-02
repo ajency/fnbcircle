@@ -108,6 +108,7 @@ class AdminEnquiryController extends Controller
         $enquiry_type = [
             'direct' => '<label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>',
             'shared' => '<label class="fnb-label text-primary m-b-5">Shared Enquiry</label><br>',
+            'contact' => '<label class="fnb-label fnb-info-text m-b-5">Contact Enquiry</label><br>',
         ];
         $enquirer_type = [
             'App\\User' => 'User',
@@ -179,7 +180,7 @@ class AdminEnquiryController extends Controller
     {
     	$listing = new Listing();
 
-    	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing));
+    	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing))->where('type','enquiry');
         else {
             if($listing_id!=''){
                 if(!isset($filters['archive']) or $filters['archive'] == 0 ) $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->where('is_archived',0)->pluck('enquiry_id')->toArray();
@@ -373,7 +374,7 @@ class AdminEnquiryController extends Controller
         foreach ($response as $resp) {
             $response1[] = $resp;
         }
-        if($type=='admin') $all = Enquiry::where('enquiry_to_type',get_class($listing))->count();
+        if($type=='admin') $all = Enquiry::where('enquiry_to_type',get_class($listing))->where('type','enquiry')->count();
         else {
             if($listing_id!=''){
                 $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();

@@ -1,6 +1,9 @@
-filterJobs = (resetPage) ->
+filterJobs = (resetPage,showLoader) ->
   # console.log resetPage
-  $('.full-page-loader').removeClass 'hidden'
+  if showLoader
+    console.log 121
+    $('.full-page-loader').removeClass 'hidden'
+
   append = false
   if (resetPage) 
     $('input[name="listing_page"]').val(1)
@@ -129,7 +132,7 @@ filterJobs = (resetPage) ->
       return
 
 $(document).on 'change', '.search-job', ->
-  filterJobs(true)
+  filterJobs(true,true)
   return
 
 $(document).on 'change', '.search-checkbox', ->
@@ -140,7 +143,7 @@ $(document).on 'change', '.search-checkbox', ->
 
 
 $(document).on 'click', '.apply-filters', ->
-  filterJobs(true)
+  filterJobs(true,true)
   $('.back-icon').click()
   return
 
@@ -192,12 +195,12 @@ $('.clear-all-filters').click ->
   else
     $('.back-icon').click()
 
-  filterJobs(true)
+  filterJobs(true,true)
 
 $('.clear-checkbox').click ->
   $(this).closest('.filter-row').find('.clear').addClass 'hidden'
   $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked',false)
-  filterJobs(true)
+  filterJobs(true,true)
 
 $('.clear-area').click ->
   if($('.toggle-areas').attr('aria-expanded') == "true")
@@ -211,7 +214,7 @@ $('.clear-keywords').click ->
   $('.flexdatalist-multiple').find('li[class="value"]').each ->
     $(this).find('.fdl-remove').click()
 
-  filterJobs(true)
+  filterJobs(true,true)
 
 
 
@@ -221,7 +224,7 @@ $('.clear-salary').click ->
   $('input[name="salary_lower"]').val('')
   $('input[name="salary_upper"]').val('')
   $('.salary-range').addClass('hidden')
-  filterJobs(true)
+  filterJobs(true,true)
 
 $('select[name="salary_type"]').change ->
   if($(this).val() !='')
@@ -249,11 +252,11 @@ $('#sal-input').ionRangeSlider
     # to: salTo
     prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     onChange: (data) ->
-      $('.full-page-loader').removeClass 'hidden'
+      # $('.full-page-loader').removeClass 'hidden'
     onFinish: (data) ->
       $('input[name="salary_lower"]').val(data.from)
       $('input[name="salary_upper"]').val(data.to)
-      filterJobs(true)
+      filterJobs(true,true)
 
 salaryRangeSlider = $("#sal-input").data("ionRangeSlider");
 
@@ -332,7 +335,7 @@ $('input[name="area_search"]').keyup ->
   return
 
 $('input[name="job_name"]').change ->
-  filterJobs(false)
+  filterJobs(false,true)
 
 displayCityText = () -> 
   cityObj = $('select[name="job_city"]')
@@ -392,12 +395,12 @@ $('.title-search-btn').click ->
 
 $('.clear-input-text').click ->
   $(this).closest('div').find('input').val ''
-  filterJobs(false)
+  filterJobs(false,true)
 
 $('.job-pagination').on 'click', '.paginate', ->
   page = $(this).attr 'page'
   $('input[name="listing_page"]').val page
-  filterJobs(false)
+  filterJobs(false,true)
  
 $('.search-job-keywords').on 'select:flexdatalist', (event, set, options) ->
   inputTxt = '<input type="hidden" name="keyword_id[]" class="job-input-keywords" value="'+set.id+'" label="'+set.label+'">'
@@ -405,7 +408,7 @@ $('.search-job-keywords').on 'select:flexdatalist', (event, set, options) ->
   $('.search-job-keywords').closest('.filter-row').find('.clear').removeClass 'hidden'
   console.log $(window).width()
   if $(window).width() > 769 
-    filterJobs(true) 
+    filterJobs(true,true) 
 
 
 $('.search-job-keywords').on 'before:flexdatalist.remove', (event, set, options) ->
@@ -415,7 +418,7 @@ $('.search-job-keywords').on 'before:flexdatalist.remove', (event, set, options)
     $('.search-job-keywords').closest('.filter-row').find('.clear').addClass 'hidden'
 
   if $(window).width() > 769 
-    filterJobs(true) 
+    filterJobs(true,true) 
 
 
 # setTimeout (->
@@ -488,7 +491,8 @@ $(document).ready ()->
    # console.log $('.area-list').attr('has-filter')
   if $('.area-list').attr('has-filter').trim() == 'no'
     displayCityText()
-  filterJobs(true)
+  
+  filterJobs(true,false)
 
 
 $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
@@ -498,7 +502,7 @@ $('.search-job-categories').on 'select:flexdatalist', (event, set, options) ->
   $('input[name="category_id"]').attr 'slug',set.slug   
   $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'Jobs for '+set.name
   $(".serach_category_name").html set.name
-  filterJobs(true) 
+  filterJobs(true,true)
   if $(window).width() < 769 
     $('.back-icon').click()
 
@@ -520,7 +524,7 @@ $('.search-job-categories').on 'change:flexdatalist', (event, set, options) ->
     $( ".fnb-breadcrums li:nth-child(5)" ).find('p').text 'All Jobs In '+cityText
     $(".serach_category_name").html ''
     console.log $('input[name="category_id"]').val()
-    filterJobs(true)
+    filterJobs(true,true)
 
 
 hideKeyboard = ->

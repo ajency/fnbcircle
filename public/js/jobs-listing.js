@@ -1,9 +1,12 @@
 (function() {
   var displayCityText, filterJobs, hideKeyboard, initSalaryBar, salaryRangeSlider, strSlug;
 
-  filterJobs = function(resetPage) {
+  filterJobs = function(resetPage, showLoader) {
     var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
-    $('.full-page-loader').removeClass('hidden');
+    if (showLoader) {
+      console.log(121);
+      $('.full-page-loader').removeClass('hidden');
+    }
     append = false;
     if (resetPage) {
       $('input[name="listing_page"]').val(1);
@@ -132,7 +135,7 @@
   };
 
   $(document).on('change', '.search-job', function() {
-    filterJobs(true);
+    filterJobs(true, true);
   });
 
   $(document).on('change', '.search-checkbox', function() {
@@ -144,7 +147,7 @@
   });
 
   $(document).on('click', '.apply-filters', function() {
-    filterJobs(true);
+    filterJobs(true, true);
     $('.back-icon').click();
   });
 
@@ -193,13 +196,13 @@
     } else {
       $('.back-icon').click();
     }
-    return filterJobs(true);
+    return filterJobs(true, true);
   });
 
   $('.clear-checkbox').click(function() {
     $(this).closest('.filter-row').find('.clear').addClass('hidden');
     $(this).closest('.filter-check').find('input[type="checkbox"]').prop('checked', false);
-    return filterJobs(true);
+    return filterJobs(true, true);
   });
 
   $('.clear-area').click(function() {
@@ -213,7 +216,7 @@
     $('.flexdatalist-multiple').find('li[class="value"]').each(function() {
       return $(this).find('.fdl-remove').click();
     });
-    return filterJobs(true);
+    return filterJobs(true, true);
   });
 
   $('.clear-salary').click(function() {
@@ -222,7 +225,7 @@
     $('input[name="salary_lower"]').val('');
     $('input[name="salary_upper"]').val('');
     $('.salary-range').addClass('hidden');
-    return filterJobs(true);
+    return filterJobs(true, true);
   });
 
   $('select[name="salary_type"]').change(function() {
@@ -248,13 +251,11 @@
     min: 0,
     max: 1000000,
     prefix: '<i class="fa fa-inr" aria-hidden="true"></i> ',
-    onChange: function(data) {
-      return $('.full-page-loader').removeClass('hidden');
-    },
+    onChange: function(data) {},
     onFinish: function(data) {
       $('input[name="salary_lower"]').val(data.from);
       $('input[name="salary_upper"]').val(data.to);
-      return filterJobs(true);
+      return filterJobs(true, true);
     }
   });
 
@@ -328,7 +329,7 @@
   });
 
   $('input[name="job_name"]').change(function() {
-    return filterJobs(false);
+    return filterJobs(false, true);
   });
 
   displayCityText = function() {
@@ -389,14 +390,14 @@
 
   $('.clear-input-text').click(function() {
     $(this).closest('div').find('input').val('');
-    return filterJobs(false);
+    return filterJobs(false, true);
   });
 
   $('.job-pagination').on('click', '.paginate', function() {
     var page;
     page = $(this).attr('page');
     $('input[name="listing_page"]').val(page);
-    return filterJobs(false);
+    return filterJobs(false, true);
   });
 
   $('.search-job-keywords').on('select:flexdatalist', function(event, set, options) {
@@ -406,7 +407,7 @@
     $('.search-job-keywords').closest('.filter-row').find('.clear').removeClass('hidden');
     console.log($(window).width());
     if ($(window).width() > 769) {
-      return filterJobs(true);
+      return filterJobs(true, true);
     }
   });
 
@@ -418,7 +419,7 @@
       $('.search-job-keywords').closest('.filter-row').find('.clear').addClass('hidden');
     }
     if ($(window).width() > 769) {
-      return filterJobs(true);
+      return filterJobs(true, true);
     }
   });
 
@@ -482,7 +483,7 @@
     if ($('.area-list').attr('has-filter').trim() === 'no') {
       displayCityText();
     }
-    return filterJobs(true);
+    return filterJobs(true, false);
   });
 
   $('.search-job-categories').on('select:flexdatalist', function(event, set, options) {
@@ -496,7 +497,7 @@
     $('input[name="category_id"]').attr('slug', set.slug);
     $(".fnb-breadcrums li:nth-child(5)").find('p').text('Jobs for ' + set.name);
     $(".serach_category_name").html(set.name);
-    filterJobs(true);
+    filterJobs(true, true);
     if ($(window).width() < 769) {
       return $('.back-icon').click();
     }
@@ -525,7 +526,7 @@
       $(".fnb-breadcrums li:nth-child(5)").find('p').text('All Jobs In ' + cityText);
       $(".serach_category_name").html('');
       console.log($('input[name="category_id"]').val());
-      return filterJobs(true);
+      return filterJobs(true, true);
     }
   });
 

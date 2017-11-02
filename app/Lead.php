@@ -15,7 +15,7 @@ class Lead extends Model
 
 
     public function getPrimaryEmail($return_array = false){
-    	return  ($return_array)? $this->email : ['email' => $this->email, 'is_verified' => false];
+    	return  (!$return_array)? $this->email : ['email' => $this->email, 'is_verified' => false];
     }
 
     public function getPrimaryContact(){

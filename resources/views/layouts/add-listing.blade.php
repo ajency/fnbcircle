@@ -56,7 +56,7 @@
 
     <div class="profile-stats breadcrums-row no-shadow">
         <div class="container">
-            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates') post-mode @endif ">
+            <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container listing-breadcrum @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates' or $step == 'manage-leads' ) post-mode @endif ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
                     <ul class="fnb-breadcrums flex-row">
@@ -110,7 +110,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates') post-mode-shifter @endif">
+            <div class="col-xs-12 content-wrapper @if($listing->reference!=null) edit-mode @endif @if($step == 'business-updates' or $step=='manage-leads') post-mode-shifter @endif">
                 <div class="flex-row note-row top-head m-b-15 m-t-15">
                     <h3 class="main-heading m-b-0 m-t-0 white">@if($listing->reference==null)Let's get started! @endif</h3>
                     <!-- <div class="flex-row">
@@ -266,7 +266,7 @@
                                             @if($listing->status!="1")
                                             <div class="links inactive">
                                             @else
-                                            <a href="#" class="links enabled">
+                                            <a href="@if($listing->reference!=null and $step != 'manage-leads') /listing/{{$listing->reference}}/edit/manage-leads?step=true @else # @endif" id="manage-leads" class="links enabled form-toggle">
                                             @endif
                                                 <div>
                                                     My Leads
@@ -402,7 +402,7 @@
                                         </div>
                                         @endif
                                         <!-- content navigation -->
-                                        @if($step!= 'business-updates')
+                                        @if($step!= 'business-updates' and $step!='manage-leads')
                                         <div class="gs-form__footer flex-row m-t-30">
                                             @if($step != 'business-information')<a class="btn fnb-btn outline no-border gs-prev" href="/listing/{{$listing->reference}}/edit/{{$back}}?step=true"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a> @endif
 

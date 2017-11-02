@@ -68,12 +68,12 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 	Route::post('/all-listing','AdminModerationController@displayListingsDum');
 
-	// Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
+	Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
 
 
 });
 
-Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');//remove this
+// Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');//remove this
 
 Route::post('/change-notification-recipients','AdminModerationController@setNotificationDefault');
 
@@ -89,7 +89,9 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 	Route::post('/delete-post','UpdatesController@deletePost');
-
+	Route::post('/get-listing-enquiries','AdminEnquiryController@displaylistingEnquiries');
+	Route::post('/listing-enquiry-archive','AdminEnquiryController@archiveEnquiry');
+	Route::post('/listing-enquiry-unarchive','AdminEnquiryController@unarchiveEnquiry');
 });
 
 
@@ -153,6 +155,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
+		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
 	});
 	
 	Route::group(['prefix' => 'users'], function() {

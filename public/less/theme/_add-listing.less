@@ -3570,10 +3570,24 @@ input[type='checkbox'].remove-addr{
 			width: 60%;
 			font-size: 1em;
     		margin-bottom: 0;
-    		border-radius: 0;
-    		padding: 0.65em 1.2em;
+    		// border-radius: 0;
+    		padding: 0.6em 1.2em;
 		}
 	}
+}
+
+.Btn-status{
+	width: 60%;
+    text-align: center;
+    .fnb-btn{
+    	width: 100%;
+    	background-color: rgba(90, 90, 90, 0.77);
+    	&:hover{
+    		background-color: lighten(#5a5a5a,5%);
+    		color: #fff;
+    		border-color: transparent;
+    	}
+    }
 }
 
 
@@ -3788,6 +3802,7 @@ input[type='checkbox'].remove-addr{
 		flex-direction: column;
 		.fnb-btn{
 			width: 80%;
+			padding: 0.65em 1.8em;
 		}
 		.share-job{
 			text-align: center;
@@ -4098,9 +4113,9 @@ input[type='checkbox'].remove-addr{
     .upgrade{
     	border-color: transparent;
 	    font-size: 1em;
-	    margin-top: 0.6em;
-    	border-radius: 0;
-    	padding: 0.4em 1.2em;
+	    margin-top: 0.4em;
+    	// border-radius: 0;
+    	padding: 0.6em 1.2em;
     }
     &.pending-no-action{
     	padding: 0;

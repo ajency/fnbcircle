@@ -107,7 +107,7 @@ $additionalData = ['job'=>$job];
    </div>
    <!-- pending review -->
    @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-   <div class="row">
+   <div class="row desk-hide">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -413,7 +413,7 @@ $additionalData = ['job'=>$job];
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
                       @if(count($jobApplications))
                       <div class="view-applicant">
-                        <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications</a>
+                        <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications <span class="x-small">({{ count($jobApplications) }})</span></a>
                       </div>
                       @else
                       <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row">Number of job applicants :<a href="javascript:void(0)" class="text-secondary update-sec__link p-l-5  secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif"> {{ count($jobApplications) }}</a></p>
@@ -557,7 +557,7 @@ $additionalData = ['job'=>$job];
                               @php
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
-                        <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+                        <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
                         <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
                           
                            
@@ -582,7 +582,7 @@ $additionalData = ['job'=>$job];
                     <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link no-pointer"> {{ count($jobApplications) }}</a></p>
                     @if(count($jobApplications))
                     <div class="view-applicant m-t-5">
-                      <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications</a>
+                      <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications  <span class="x-small">({{ count($jobApplications) }})</span></a>
                     </div>
                     @endif
             

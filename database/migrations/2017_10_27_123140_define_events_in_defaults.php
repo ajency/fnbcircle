@@ -19,7 +19,7 @@ class DefineEventsInDefaults extends Migration
             $defaults = [
                 'new-user'=> ['name'=>'notification-new-user', 'title'=>'New User Registration', 'value'=>[]],
                 'verification'=> ['name'=>'notification-verification', 'title'=>'Email verification OTP generated', 'value'=>[]],
-                'submit-for-review'=> ['name'=>'notification-submit-for-review', 'title'=>'Business listing submitted for review', 'value'=>[]],
+                'listing-submit-for-review'=> ['name'=>'notification-listing-submit-for-review', 'title'=>'Business listing submitted for review', 'value'=>[]],
                 'listing-published'=> ['name'=>'notification-listing-published', 'title'=>'Lisitng Published', 'value'=>[]],
                 'listing-rejected'=> ['name'=>'notification-listing-rejected', 'title'=>'Lisitng Rejected', 'value'=>[]],
             ];

@@ -341,6 +341,10 @@ function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
 
+function getSinglePopularCity() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
+}
+
 /**
 * This function is used to generate URL from city_name & 1 or more slugs
 * This function will @return
@@ -360,6 +364,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	return $url;
 }
 
+ 
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
@@ -371,14 +376,18 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param from
 *	@param name
 * 	@param subject
+*	@param attach - An Array of arrays each containing the following parameters:
+*			@param file - base64 encoded raw file
+*			@param as - filename to be given to the attachment
+*			@param mime - mime of the attachment
 */
 function sendEmail($event='new-user', $data=[]) {
 	$email = new \Ajency\Comm\Models\EmailRecipient();
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
 	$email->setFrom($from, $name);
-	if(!isset($data['to']) )
-		return false;
+	if(!isset($data['to']) ) $data['to']= [];
+	// 	return false;
 	$email->setTo($data['to']);
 	$cc = (isset($data['cc']))? $data['cc']:[];
 	if(!is_array($cc)) $cc = [$cc];
@@ -394,6 +403,9 @@ function sendEmail($event='new-user', $data=[]) {
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
  
 	$email->setParams($params);
+
+	if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$email]); 
@@ -422,6 +434,7 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
+ 
 }
 
 
@@ -513,5 +526,14 @@ function generateJobListUrl($params,$urlCity,$userObj){
 
 	// http://fnbcircle.dev/pune/job-listings?page=1&state=mumbai&salary_type=annually&salary_lower=0&salary_upper=300000000&business_type=club-banquet-catering-unit&job_type=[%22full-time%22]&area=[%22andheri%22]&experience=[%220-1%22]&job_roles=[%2228|assistant-kitchen-manager%22]
 }
+ 
 
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
+ 
+}
+ 

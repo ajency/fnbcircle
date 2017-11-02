@@ -23,6 +23,7 @@ $additionalData = ['job'=>$job];
     <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
     @endif
     <script type="text/javascript" src="{{ asset('js/whatsapp-button.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script> 
     <!-- <script type="text/javascript" src="/js/custom.js"></script> -->
     @if(Session::has('job_review_pending')) 
      <script type="text/javascript">
@@ -185,7 +186,7 @@ $additionalData = ['job'=>$job];
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
  
-                       <a href="#" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}">{{ $job->getJobCategoryName() }}</a>
+                       <a href="{{ url(getSinglePopularCity()->slug.'/job-listings') }}?state={{ getSinglePopularCity()->slug }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
  
                     </div>
                     <!-- publish date -->
@@ -221,9 +222,9 @@ $additionalData = ['job'=>$job];
                           <h2 class="operations__title sub-title m-t-5">Job Role</h2>
                           <ul class="j-role flex-row">
 
-                            @foreach($keywords as $keyword)
+                            @foreach($keywords as $keywordId=> $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href="#" class="primary-link" title="Find all jobs matching {{ $keyword }}"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCity()->slug."/job-listings") }}?state={{ getSinglePopularCity()->slug }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach
@@ -414,21 +415,23 @@ $additionalData = ['job'=>$job];
               @endif -->
                <div class="footer-share flex-row bottom-share-section">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary update-sec__link secondary-link @if(count($jobApplications)) open-sidebar @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row"><a href="javascript:void(0)" class="text-secondary update-sec__link p-l-5  secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">Number of job applicants : {{ count($jobApplications) }}</a></p>
                    
                   @else
 
                   <!-- if applied for job -->
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                      @if(Auth::check())
-                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
-                      @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
-                      @endif
-                        <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                        </a>
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
+                    @else
+                        @if(Auth::check())
+                          <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                        @else
+                          <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        @endif
+                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                          </a>
+                    @endif
                   @endif
 
                   @endif
@@ -575,20 +578,22 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">{{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder"><a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">Number of job applicants : {{ count($jobApplications) }}</a></p>
             
                   @else
 
-                  @if($hasAppliedForJob)
-                    <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
-                  @else
-                    @if(Auth::check())
-                      <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                  @if($job->isPublished())
+                    @if($hasAppliedForJob)
+                      <button class="btn fnb-btn primary-btn full border-btn" type="button" disabled>You already applied for this job.</button>
                     @else
-                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @if(Auth::check())
+                        <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
+                      @else
+                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      @endif
+                            <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
+                        </a>
                     @endif
-                          <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
-                      </a>
                   @endif
                   <!-- <h1 class="m-b-0">20</h1> -->
 
@@ -872,7 +877,7 @@ $additionalData = ['job'=>$job];
                 @if($userProfile)
                 <div class="apply-job-form">
                   <div class="apply-info text-center">
-                    <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
+                    <i class="fa fa-briefcase text-primary" aria-hidden="true"></i>
                     <h6>You are applying for the following job.</h6>
                   </div>
                     <!-- <p class="text-lighter x-small"> -->
@@ -885,7 +890,7 @@ $additionalData = ['job'=>$job];
                             <img src="/img/company-placeholder.jpg" width="60">
                           @endif
                         </div>
-                        <div class="jobdesc">
+                        <div class="jobdesc mobile-center">
                           <p class="sub-title bolder m-b-0 ellipsis-2" title="{{ $job->title }}">{{ $job->title }}</p>
                          <!--  <span class="x-small text-color fnb-label">
                           {{ $job->getJobCategoryName() }}
@@ -895,7 +900,7 @@ $additionalData = ['job'=>$job];
                           </span>
                           <!-- interview address -->
                           @if($job->interview_location!="")
-                          <div class="owner-address m-b-5">
+                          <div class="owner-address m-b-5 hidden">
                             <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
                             <!-- <span class="fnb-icons map-icon"></span> -->
                             <div class="flex-row align-top no-pointer">
@@ -907,7 +912,7 @@ $additionalData = ['job'=>$job];
                           @endif
                           
                           @if(!empty($jobTypes))
-                          <div class="flex-row jobDetail__row av-job-type">
+                          <div class="flex-row jobDetail__row av-job-type hidden">
                              <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
                              <div class="featured-jobs__row flex-row">
                                   <div class="job-type m-t-5">
@@ -929,7 +934,7 @@ $additionalData = ['job'=>$job];
                         <div class="  flex-row space-between">
                              <h6 class="m-b-20">Your details as follows:</h6> 
                         </div>
-                        <div class="row m-b-10 flex-row flex-wrap">
+                        <div class="row m-b-10 flex-row flex-wrap contact-info">
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Name: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}" data-parsley-required-message="Please enter name." data-parsley-required>
@@ -938,13 +943,20 @@ $additionalData = ['job'=>$job];
                                 <label class="label-size">Email: </label>
                                 <input text="email" class="form-control fnb-input" name="applicant_email" readonly placeholder="Enter email" value="{{ $userProfile->email}}" data-parsley-required-message="Please enter email." data-parsley-required>
                             </div>
-                            <div class="col-sm-6 form-group c-gap details-fill-col">
-                                <label class="label-size">Phone number: </label>
-                                <input text="tel" class="form-control fnb-input" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                            <div class="col-sm-6 form-group c-gap details-fill-col contact-container">
+                                <label class="label-size dis-block">Phone number: </label>
+                                <input text="tel" class="form-control fnb-input contact-input contact-mobile-input contact-mobile-number" name="applicant_phone" placeholder="Enter phone"  value="{{ $userProfile->phone}}" data-parsley-length-message="Phone number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required>
+                                <input type="hidden" class="contact-country-code" name="country_code" value="@if(!empty($userProfile->phone_code)) {{ $userProfile->phone_code }} @else 91 @endif">
                             </div>
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">State: </label>
-                                <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter city"  value="{{ $userProfile->city}}" data-parsley-required-message="Please enter state." data-parsley-required>
+                                <!-- <input text="text" class="form-control fnb-input" name="applicant_city" placeholder="Enter state"  value="{{ $userProfile->city}}" data-parsley-required-message="Please enter state." data-parsley-required> -->
+                                <select name="applicant_city" class="form-control fnb-input">
+                                <option value="">-Select State-</option>
+                                  @foreach(getCities() as $city)
+                                    <option value="{{ $city->id}}" @if($userProfile->city == $city->id) selected @endif>{{ $city->name}}</option>
+                                  @endforeach
+                                </select>
                             </div>
                         </div>
                         
@@ -952,7 +964,7 @@ $additionalData = ['job'=>$job];
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a>
                             @else
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
                             Please upload your resume
@@ -961,7 +973,7 @@ $additionalData = ['job'=>$job];
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
                                 <div id="resume-error"></div>
                             </div>
                           </div>
@@ -989,19 +1001,18 @@ $additionalData = ['job'=>$job];
                           </div>
                           <div class="j-container">
                             <div class="jobInfo text-center flex-row align-top">
+                            @if(!empty($contactEmail))
                               <div class="contactD email">
                                 <i class="fa fa-envelope-o text-primary dis-block" aria-hidden="true"></i>
                                 <div class="flex-row flex-wrap content-center">
-                                @if(!empty($contactEmail))
                                   @foreach($contactEmail as $email)
                                     @if($email['visible'])
                                     <a class="dark-link" href="mailto:{{ $email['email'] }}">{{ $email['email'] }}</a>
                                     @endif
                                   @endforeach
-                                @endif
-
                                 </div>
                               </div>
+                               @endif
                               @if(!empty($contactMobile))
                               <div class="contactD phone">
                                 <i class="fa fa-mobile text-primary dis-block" aria-hidden="true"></i>
@@ -1041,10 +1052,12 @@ $additionalData = ['job'=>$job];
   
 
                           <!-- <hr> -->
+
                           <div>
                           Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
                           </div>
                           <div class="row flex-row flex-wrap align-top edit-criteria {{ ($sendJobAlerts) ? '' : 'hidden' }}">
+
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))
@@ -1155,7 +1168,7 @@ $additionalData = ['job'=>$job];
                                              </li> -->
                
                                           <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                
                                             @endif
                                          </ul>
@@ -1283,7 +1296,7 @@ $additionalData = ['job'=>$job];
                  <th>Name</th>
                  <th>Email</th>
                  <th>Phone</th>
-                 <th>City</th>
+                 <th>State</th>
                  <th>Resume</th>
                </thead>
              @foreach($jobApplications as $key => $application)
@@ -1310,11 +1323,12 @@ $additionalData = ['job'=>$job];
                  <td class="{{ $dateRepeat }}">{{ $date_of_application }} </td>
                  <td>{{ $application->name }}</td>
                  <td>{{ $application->email }}</td>
-                 <td>{{ $application->phone }}</td>
-                 <td>{{ $application->city }}</td>
+                 <td> +({{ $application->country_code}}) {{ $application->phone }}</td>
+
+                 <td>@if($application->city_id) {{ $application->applicantCity->name }} @endif</td>
                  <td class="download-col">
-                @if($application->resume_id && $resumeUrl!='')
-                  <a href="{{ url('/user/download-resume')}}?resume={{ $resumeUrl }}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @if($application->resume_id)
+                  <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
                 @endif
                   </td>
                </tr>

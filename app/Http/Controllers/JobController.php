@@ -894,23 +894,60 @@ class JobController extends Controller
             $jobQuery->where(function($salaryQry)use($salaryLower,$salaryUpper,$salaryType)
             {
                 $salaryQry->where('jobs.salary_type',$salaryType); 
-                $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
-                {
+                // $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                // {
                     
-                    $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
-                    {
-                        $query->where('jobs.salary_lower','>=',$salaryLower); 
-                        $query->where('jobs.salary_lower','<=',$salaryUpper); 
-                    });
+                //     $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                //     {
+                //         $query->where('jobs.salary_lower','>=',$salaryLower); 
+                //         $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                //     });
 
                 
-                    $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
-                    {
+                //     $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                //     {
      
-                        $query->where('jobs.salary_upper','>=',$salaryLower); 
-                        $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                //         $query->where('jobs.salary_upper','>=',$salaryLower); 
+                //         $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                //     });
+                // });
+
+                if($salaryLower == $salaryUpper){
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        $salaryQuery->where('jobs.salary_lower','<=',$salaryLower); 
+                        $salaryQuery->where('jobs.salary_upper','>=',$salaryLower); 
                     });
-                });
+                }
+                else{
+
+                    $salaryQry->where(function($salaryQuery)use($salaryLower,$salaryUpper,$salaryType)
+                    {
+                        
+                        $salaryQuery->where(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','>=',$salaryLower); 
+                            $query->where('jobs.salary_lower','<=',$salaryUpper); 
+                        });
+
+                    
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+         
+                            $query->where('jobs.salary_upper','>=',$salaryLower); 
+                            $query->where('jobs.salary_upper','<=',$salaryUpper); 
+                        });
+
+                        $salaryQuery->orWhere(function($query)use($salaryLower,$salaryUpper)
+                        {
+                            $query->where('jobs.salary_lower','<=',$salaryLower); 
+                            $query->where('jobs.salary_upper','>=',$salaryUpper); 
+                        });
+                    });
+
+                }
+                
+
 
                 //for not disclosed salary
                 $salaryQry->orWhere(function($salaryQuery)use($salaryLower,$salaryUpper)
@@ -985,11 +1022,13 @@ class JobController extends Controller
             $requestData['experience'] = json_decode($requestData['experience']);
         }
 
-        if(isset($requestData['area']) && $requestData['area']!=""){
+ 
+        if(isset($requestData['city']) && $requestData['city']!=""){
+ 
             $cityId  = City::where('slug', $request->state)->first()->id;
             $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
-        
-            $requestData['area'] = json_decode($requestData['area']);
+            
+            $requestData['area'] = json_decode($requestData['city']);
             $requestData['city_areas'] = $city_areas;
         }
 
@@ -1126,6 +1165,7 @@ class JobController extends Controller
         $applicantEmail = $data['applicant_email'];
         $applicantPhone = $data['applicant_phone'];
         $applicantCity = $data['applicant_city'];
+        $applicantCountryCode = $data['country_code'];
         $resume = (isset($data['resume'])) ? $data['resume'] : [];
         $resumeId =(isset($data['resume_id'])) ? $data['resume_id'] : 0;
 
@@ -1135,7 +1175,8 @@ class JobController extends Controller
         $jobApplicant->name = $applicantName;
         $jobApplicant->email = $applicantEmail;
         $jobApplicant->phone = $applicantPhone;
-        $jobApplicant->city = $applicantCity;
+        $jobApplicant->city_id = $applicantCity;
+        $jobApplicant->country_code = $applicantCountryCode;
         
         $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
 
@@ -1165,9 +1206,12 @@ class JobController extends Controller
         
     
         //for testing
-        // $ownerDetails['email'] = 'nutan@ajency.in';
+        $ownerDetails['email'] = 'nutan@ajency.in';
          
+        $filePath = getUploadFileUrl($resumeId);
+        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
 
+ 
         // $data = [];
         // $data['from'] = $applicantEmail;
         // $data['name'] = $applicantName;
@@ -1176,15 +1220,31 @@ class JobController extends Controller
         // $data['subject'] = "New application for job ".$job->title;
         // $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         // sendEmail('job-application', $data);
+ 
+        $data = [];
+        $data['from'] = $applicantEmail;
+        $data['name'] = $applicantName;
+        $data['to'] = [ $ownerDetails['email']];
+        $data['cc'] = 'prajay@ajency.in';
+        $data['subject'] = "New application for job ".$job->title;
+ 
+        $mimeType = getFileMimeType($ext);
+ 
+        $file = $user->getSingleFile($resumeId);
+        $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
 
-            
-    
-        // Session::flash('success_message','Successfully applied for job');
+        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
+        sendEmail('job-application', $data);
+ 
+         // Session::flash('success_message','Successfully applied for job');
         Session::flash('success_apply_job','Job apply');
         return redirect()->back();
 
     }
 
+    /****
+    mark send alert true/false
+    *****/
     public function changeSendJobAlertsFlag(Request $request){
         $this->validate($request, [
             'send_alert' => 'required',
@@ -1204,6 +1264,9 @@ class JobController extends Controller
         return response()->json(['results' => $results]);
     }
 
+    /****
+    update user alert config  as per job details
+    *****/
     public function sendJobsToUser($referenceId){
         $job = Job::where('reference_id',$referenceId)->first();
         $user =  Auth::user();
@@ -1217,7 +1280,9 @@ class JobController extends Controller
         return redirect(url('/job/'.$job->getJobSlug())); 
     }
 
-
+    /****
+    Cron job
+    *****/
     public function sendJobAlert(){
         $userDetails = UserDetail::where('send_job_alerts',1)->get();
         foreach ($userDetails as $key => $userDetail) {
@@ -1271,6 +1336,39 @@ class JobController extends Controller
             
         }
     }
+
+    public function getJobTitles(Request $request){ 
+        $data = $request->all();
+      
+        // $jobTitles = \DB::select('select id,title  from  jobs where  title like "%'.$request->keyword.'%" order by title asc');
+
+        $query = "select distinct(`jobs`.`id`),`jobs`.`title`  from  jobs";
+        if(isset($data['state']) && $data['state']!='' ){
+            $query .= " inner join `job_locations` on `jobs`.`id` = `job_locations`.`job_id`";
+        }
+        $query .= " where `jobs`.`status`=3";
+        $query .= " and `jobs`.`title` like '".$request->keyword."%'";
+        
+        if(isset($data['state']) && $data['state']!='' ){
+            $query .= " and `job_locations`.`city_id` = '".$request->state."'";
+        }
+
+        if(isset($data['category']) && $data['category']!=''){ 
+            $query .= " and `jobs`.`category_id` = '".$request->category."'";
+        }
+
+        $query .= " order by `jobs`.`title` asc";
+                 
+        
+    
+        $jobTitles = \DB::select($query);
+        
+        
+        
+        
+        return response()->json(['results' => $jobTitles, 'options' => []]);
+    }
+
  
 
 

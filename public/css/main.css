@@ -2698,6 +2698,9 @@ input[type=checkbox].custom-checkbox:before {
 .editable {
   background-color: #eee;
 }
+.intl-tel-input {
+  z-index: 10;
+}
 .slide-nav {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
@@ -5369,7 +5372,7 @@ input[type=checkbox].custom-checkbox:before {
   padding: 0 15px;
   padding-bottom: 4em;
 }
-@media screen and (max-width: 1400px) {
+@media screen and (min-width: 769px) and (max-width: 1400px) {
   .page-sidebar .JA-sidebar {
     padding: 0;
   }
@@ -5961,6 +5964,11 @@ input[type=checkbox].custom-checkbox:before {
   .postActions a:first-child {
     margin-left: 0;
   }
+  .footer-share .applicantTitle .update-sec__link {
+    margin-top: 0;
+    padding-left: 0.3em;
+    padding-top: 0.15em;
+  }
 }
 .contact-social {
   border-radius: 5px;
@@ -5976,18 +5984,17 @@ input[type=checkbox].custom-checkbox:before {
 .download-col {
   min-width: 100px;
 }
+.application-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 .application-table.table tr td.date-repeat {
   background-color: #fff;
   border-top: 0;
 }
 .application-table.table tr td {
   padding: 15px 8px;
-}
-@media screen and (max-width: 1400px) {
-  .application-table.table tr td:nth-child(3) {
-    min-width: 80px;
-    word-break: break-all;
-  }
 }
 .application-table.table-responsive {
   border: 0;
@@ -6382,6 +6389,9 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex-align: inherit;
           align-items: inherit;
 }
+.filter-cards .seller-info__footer {
+  background-color: #fff0d4;
+}
 .filter-cards .flex-cols {
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 55%;
@@ -6637,6 +6647,8 @@ input[type=checkbox].custom-checkbox:before {
     margin: 0 -15px;
     padding: 8px 15px 0;
     border-top: 1px solid #ddd;
+    margin-top: 0.8em;
+    padding-top: 0;
   }
   .filter-cards .seller-info__title {
     font-size: 1.15em;
@@ -6732,7 +6744,8 @@ input[type=checkbox].custom-checkbox:before {
     display: none;
   }
   .filter-cards .recent-updates {
-    margin-bottom: 0.5em;
+    margin-bottom: 0;
+    padding: 1em 0;
   }
   .filter-cards .recent-updates__text {
     -webkit-box-flex: 0.6;
@@ -6778,8 +6791,10 @@ input[type=checkbox].custom-checkbox:before {
   .filter-cards .recent-updates__content .fnb-btn {
     padding: 0.5em 0.5em;
     border: 0;
-    font-size: 1.05em;
-    text-align: right;
+    font-size: 1em;
+    background-color: #ec6d4b;
+    color: #fff;
+    text-align: center;
   }
   .filter-cards .recent-updates__content .fnb-btn:active,
   .filter-cards .recent-updates__content .fnb-btn:focus {
@@ -6788,11 +6803,19 @@ input[type=checkbox].custom-checkbox:before {
     outline: 0;
     color: #ec6d4b;
   }
+  .filter-cards .recent-updates__content .fnb-btn:hover {
+    background-color: #fff;
+    color: #ec6d4b;
+    box-shadow: 0px 0px 0px 2px #ec6d4b;
+  }
   .filter-cards .updates-dropDown {
     padding: 1em 15px;
     display: none;
     margin: 0.5em -14px 0 -14px;
     background-color: #f9f9f9;
+  }
+  .filter-cards .no-updates.recent-updates__content .fnb-btn {
+    text-align: center;
   }
   .sticky-bottom {
     position: fixed;
@@ -7065,9 +7088,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .job-listings .filter-cards .get-details {
   position: relative;
-  -webkit-align-self: flex-start;
-      -ms-flex-item-align: start;
-          align-self: flex-start;
+  -webkit-align-self: center;
+      -ms-flex-item-align: center;
+          align-self: center;
 }
 .job-listings .filter-cards .get-details .fnb-btn {
   padding: 0.5em 1.8em;
@@ -7095,6 +7118,19 @@ input[type=checkbox].custom-checkbox:before {
 .job-listings .filter-cards .fnb-label {
   padding: 0.3em 0.6em;
 }
+@media screen and (min-width: 769px) {
+  .job-listings .filter-cards .recent-updates {
+    margin: 1em -21px -17px -21px;
+    padding: 1em 20px 1em 20px;
+    background-color: #fff0d4;
+  }
+  .job-listings .filter-cards .recent-updates .fnb-btn {
+    border: 0;
+  }
+  .job-listings .filter-cards .recent-updates .fnb-btn:hover {
+    box-shadow: 0px 0px 0px 2px #ec6d4b;
+  }
+}
 .top-clear-all {
   display: -webkit-box;
   display: -webkit-flex;
@@ -7107,6 +7143,15 @@ input[type=checkbox].custom-checkbox:before {
           justify-content: flex-end;
   color: #ec6d4b;
 }
+.searchKeyword {
+  position: relative;
+}
+.searchKeyword .search-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  z-index: 1;
+}
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple {
   border-bottom: 0 !important;
   margin-top: -4px;
@@ -7115,8 +7160,8 @@ input[type=checkbox].custom-checkbox:before {
   margin: 0 0.6em 0.4em 0;
 }
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple li.input-container input {
-  width: 100%;
-  padding-left: 0;
+  width: 100% !important;
+  padding-left: 1.5em;
 }
 .searchKeyword .flexdatalist-multiple.flexdatalist-multiple .input-container {
   margin-top: 0;
@@ -7134,6 +7179,10 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .stats {
     margin-top: 0.6em;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
   }
   .job-listings .filter-cards .fnb-label {
     margin-bottom: 0.5em;
@@ -7155,17 +7204,45 @@ input[type=checkbox].custom-checkbox:before {
     margin-bottom: 0.5em;
   }
   .job-listings .filter-cards .get-details {
-    margin: 1em 0;
     border-top: 1px solid #eee;
-    padding-top: 0.8em;
+    margin: 0 -14px 0 -14px;
+    padding: 15px;
+    background-color: #fff0d4;
   }
   .job-listings .filter-cards .get-details .fnb-btn {
     width: 150px;
     margin: 0 auto;
     padding: 0.6em 1.8em;
+    border: 0;
+  }
+  .job-listings .filter-cards .get-details .fnb-btn:hover {
+    box-shadow: 0px 0px 0px 2px #ec6d4b;
   }
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
+  }
+  .job-listings .filter-cards .companyName {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .job-listings .filter-cards .companyName .published-date {
+    -webkit-align-self: flex-end;
+        -ms-flex-item-align: end;
+            align-self: flex-end;
+  }
+  .job-listings .filter-cards .recent-updates {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .mobile-bottom {
     margin-bottom: 3.5em;
@@ -7173,6 +7250,35 @@ input[type=checkbox].custom-checkbox:before {
   .show-count-title {
     line-height: 1.3;
   }
+}
+.salary-separator {
+  margin: 0.8em 0;
+  text-align: center;
+  position: relative;
+}
+.salary-separator:before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  border-top: 4px double #ddd;
+  top: 50%;
+  position: absolute;
+  left: 0;
+}
+.salary-separator span {
+  padding: 0 10px;
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+}
+@media screen and (max-width: 768px) {
+  .salary-separator span {
+    background-color: #f7f7f7;
+  }
+}
+.input-sal-filter .fnb-input {
+  font-size: 0.9em;
 }
 .home-text {
   position: relative;
@@ -11241,7 +11347,7 @@ input[type='checkbox'].remove-addr {
       -ms-flex-pack: center;
           justify-content: center;
   padding: 1em;
-  background-color: #eeeeee;
+  background-color: rgba(255, 240, 212, 0.72);
   margin: 1.5em 0;
 }
 .apply-jobs-modal .jobDetail__row {
@@ -11253,6 +11359,11 @@ input[type='checkbox'].remove-addr {
 }
 .apply-jobs-modal .joblogo {
   padding-right: 1em;
+}
+@media screen and (max-width: 768px) {
+  .apply-jobs-modal .joblogo {
+    padding-bottom: 0.5em;
+  }
 }
 .apply-jobs-modal .owner-address {
   padding-left: 0;
@@ -11283,10 +11394,6 @@ input[type='checkbox'].remove-addr {
 }
 .open-details {
   margin-top: 1em;
-}
-.j-container {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
 }
 .jobInfo {
   margin: 1.5em -20px;
@@ -11391,10 +11498,17 @@ input[type='checkbox'].remove-addr {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .jobInfo .contactD {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .jobInfo .contactD.phone {
     border-left: 0;
+  }
+  .jobInfo .contactD:nth-child(2n),
+  .jobInfo .contactD:last-child:not(:first-child) {
     border-top: 1px solid #ddd;
-    width: 90%;
   }
 }
 @media screen and (max-width: 768px) {

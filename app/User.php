@@ -165,12 +165,13 @@ class User extends Authenticatable
      
         if((!empty($this->getUserDetails()->first())) && !empty($this->getUserDetails()->first()->city)){
             $city = $this->getUserDetails()->first()->city;
-            $user['city'] = City::find($city)->name;
+            $user['city'] = $city;
         }
 
         if((!empty($this->getUserCommunications()->where('type','mobile')->first()->value))){
-            $mobile = $this->getUserCommunications()->where('type','mobile')->first()->value;
-            $user['phone'] = $mobile;
+            $mobile = $this->getUserCommunications()->where('type','mobile')->first();
+            $user['phone'] = $mobile->value;
+            $user['phone_code'] = $mobile->country_code;
         }
 
         if((!empty($this->getUserCommunications()->where('type','email')->first()->value))){

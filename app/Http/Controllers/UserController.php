@@ -8,8 +8,8 @@ use Auth;
 use App\UserCommunication;
 use File;
 use Illuminate\Support\Facades\Storage;
-use Aws\Laravel\AwsFacade as AWS;
-use Aws\Laravel\AwsServiceProvider;
+// use Aws\Laravel\AwsFacade as AWS;
+// use Aws\Laravel\AwsServiceProvider;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Session;
 use App\Job;
@@ -187,67 +187,81 @@ class UserController extends Controller
              'status' => true]);
     }
 
-    public function downloadResume(){
-        if(isset($_GET['resume'])){
-            $file = $_GET['resume'];
-            $this->getUserResume($file);
-        }
-        else
-            abort(404);
+    public function downloadResume($resumeId){
+        // if(isset($_GET['resume'])){
+        //     $file = $_GET['resume'];
+        //     $this->getUserResume($file);
+        // }
+        // else
+        //     abort(404);
+
+        $filePath = getUploadFileUrl($resumeId);
+        $ext = pathinfo($filePath, PATHINFO_EXTENSION);      
+        $mimeType = getFileMimeType($ext);
+        $file = Auth::user()->getSingleFile($resumeId);
+        $name = 'resume.'.$ext;
+
+        return response($file)
+          ->header('Content-Type', $mimeType)
+          ->header('Content-Description', 'File Transfer')
+          ->header('Content-Disposition', "attachment; filename={$name}")
+          ->header('Filename', $name);
         
     }
 
-    public function getUserResume($doc_url,$download =true){
 
-        $source = pathinfo($doc_url); 
-        $filename = $source['filename'];
-        $extension = $source['extension'];
-        $basename = $source['basename'];
 
-        $s3 = AWS::createClient('s3');
+    // public function getUserResume($doc_url,$download =true){
 
-        $getKey = explode('user', $doc_url);
+    //     $source = pathinfo($doc_url); 
+    //     $filename = $source['filename'];
+    //     $extension = $source['extension'];
+    //     $basename = $source['basename'];
 
-        $bucket = env('AWS_BUCKET');
-        $keyname = 'user'.$getKey[1]; 
-        $localPath = public_path().'/tmp/'.$basename;
+    //     $s3 = AWS::createClient('s3');
+
+    //     $getKey = explode('user', $doc_url);
+
+    //     $bucket = env('AWS_BUCKET');
+    //     $keyname = 'user'.$getKey[1]; 
+    //     $localPath = public_path().'/tmp/'.$basename;
         
-        if(!File::exists(public_path().'/tmp/')) { 
-            File::makeDirectory(public_path().'/tmp/', 0777, true);
-        }
+    //     if(!File::exists(public_path().'/tmp/')) { 
+    //         File::makeDirectory(public_path().'/tmp/', 0777, true);
+    //     }
  
-        // Save object to a file.
-        $result = $s3->getObject(array(
-            'Bucket' => $bucket,
-            'Key'    => $keyname,
-            'SaveAs' => $localPath
-        ));
+    //     // Save object to a file.
+    //     $result = $s3->getObject(array(
+    //         'Bucket' => $bucket,
+    //         'Key'    => $keyname,
+    //         'SaveAs' => $localPath
+    //     ));
 
  
-        if($download){
-            //NOW comes the action, this statement would say that WHATEVER output given by the script is given in form of an octet-stream, or else to make it easy an application or downloadable
-            header('Content-type: application/octet-stream');
-            header('Content-Length: ' . filesize($localPath));
-            //This would be the one to rename the file
-            header('Content-Disposition: attachment; filename='.$basename.'');
-            //clean all levels of output buffering
-            while (ob_get_level()) {
-                ob_end_clean();
-            }
-            readfile($localPath);
+    //     if($download){
+    //         //NOW comes the action, this statement would say that WHATEVER output given by the script is given in form of an octet-stream, or else to make it easy an application or downloadable
+    //         header('Content-type: application/octet-stream');
+    //         header('Content-Length: ' . filesize($localPath));
+    //         //This would be the one to rename the file
+    //         header('Content-Disposition: attachment; filename='.$basename.'');
+    //         //clean all levels of output buffering
+    //         while (ob_get_level()) {
+    //             ob_end_clean();
+    //         }
+    //         readfile($localPath);
 
 
-            //Remove the local original file once all sizes are generated and uploaded
-            if (File::exists($localPath)){
-                File::delete($localPath);
-            }
+    //         //Remove the local original file once all sizes are generated and uploaded
+    //         if (File::exists($localPath)){
+    //             File::delete($localPath);
+    //         }
 
-             exit();
-        }
-        else
-            return $localPath;
+    //          exit();
+    //     }
+    //     else
+    //         return $localPath;
  
-    }
+    // }
 
     public function customerdashboard(){
         $user = Auth::user();

@@ -146,6 +146,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
+	Route::post('/user/remove-resume','UserController@removeResume');
 });
 
 

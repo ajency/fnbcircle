@@ -2687,6 +2687,11 @@ input[type=checkbox].custom-checkbox:before {
     left: 0;
     overflow-y: auto;
     height: 100%;
+    bottom: 0;
+  }
+  .filterBy .mobile-bottom {
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
 @media screen and (min-width: 769px) {
@@ -4021,7 +4026,7 @@ input[type=checkbox].custom-checkbox:before {
             transform: translateX(0);
   }
   .fly-out__content {
-    height: 100vh;
+    height: calc(100% - 25px);
     overflow-y: auto;
     padding-top: 50px;
   }
@@ -6612,6 +6617,9 @@ input[type=checkbox].custom-checkbox:before {
     position: fixed;
     bottom: 0;
     width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
   }
   .filter-sidebar .apply-btn .fnb-btn {
     width: 100%;

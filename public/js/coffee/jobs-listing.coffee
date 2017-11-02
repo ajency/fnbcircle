@@ -1,6 +1,6 @@
 filterJobs = (resetPage) ->
   # console.log resetPage
-  $('.section-loader').removeClass 'hidden'
+  $('.full-page-loader').removeClass 'hidden'
   append = false
   if (resetPage) 
     $('input[name="listing_page"]').val(1)
@@ -122,7 +122,7 @@ filterJobs = (resetPage) ->
           collapsedHeight: 40
           moreLink: '<a href="#" class="more-open more x-small secondary-link">View more</a>'
           lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
-      $('.section-loader').addClass 'hidden'
+      $('.full-page-loader').addClass 'hidden'
 
     error: (request, status, error) ->
       throwError()
@@ -249,7 +249,7 @@ $('#sal-input').ionRangeSlider
     # to: salTo
     prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
     onChange: (data) ->
-      $('.section-loader').removeClass 'hidden'
+      $('.full-page-loader').removeClass 'hidden'
     onFinish: (data) ->
       $('input[name="salary_lower"]').val(data.from)
       $('input[name="salary_upper"]').val(data.to)

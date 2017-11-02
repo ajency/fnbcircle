@@ -3,7 +3,7 @@
 
   filterJobs = function(resetPage) {
     var append, areaSlugs, areaValues, category_id, category_slug, city, cityId, cityObj, experienceValues, jobTypeSlug, jobTypeValues, job_name, keywords, keywordslug, page, salary_lower, salary_type, salary_type_obj, salary_type_slug, salary_upper, urlParams;
-    $('.section-loader').removeClass('hidden');
+    $('.full-page-loader').removeClass('hidden');
     append = false;
     if (resetPage) {
       $('input[name="listing_page"]').val(1);
@@ -123,7 +123,7 @@
             lessLink: '<a href="#" class="more-open x-small less secondary-link">View less</a>'
           });
         }
-        return $('.section-loader').addClass('hidden');
+        return $('.full-page-loader').addClass('hidden');
       },
       error: function(request, status, error) {
         throwError();
@@ -249,7 +249,7 @@
     max: 1000000,
     prefix: '<i class="fa fa-inr" aria-hidden="true"></i> ',
     onChange: function(data) {
-      return $('.section-loader').removeClass('hidden');
+      return $('.full-page-loader').removeClass('hidden');
     },
     onFinish: function(data) {
       $('input[name="salary_lower"]').val(data.from);

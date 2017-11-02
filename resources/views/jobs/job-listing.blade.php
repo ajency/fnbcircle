@@ -178,7 +178,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                         </div>
                     </div>
                 </div>
-                <div class="site-loader section-loader hidden">
+                <div class="site-loader full-page-loader section-loader hidden">
                     <div id="floatingBarsG">
                         <div class="blockG" id="rotateG_01"></div>
                         <div class="blockG" id="rotateG_02"></div>

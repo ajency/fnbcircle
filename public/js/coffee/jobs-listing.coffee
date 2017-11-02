@@ -1,5 +1,6 @@
 filterJobs = (resetPage) ->
   # console.log resetPage
+  $('.section-loader').removeClass 'hidden'
   append = false
   if (resetPage) 
     $('input[name="listing_page"]').val(1)
@@ -100,9 +101,7 @@ filterJobs = (resetPage) ->
       'salary_upper': salary_upper
       'append': append
     success: (response) ->
-
-      $('.section-loader').removeClass 'hidden'
-      
+ 
       if response.total_items > 0
         filter_record_str = response.recordStarts+'-'+response.recordEnd
       else
@@ -249,6 +248,8 @@ $('#sal-input').ionRangeSlider
     # from: salFrom
     # to: salTo
     prefix: '<i class="fa fa-inr" aria-hidden="true"></i> '
+    onChange: (data) ->
+      $('.section-loader').removeClass 'hidden'
     onFinish: (data) ->
       $('input[name="salary_lower"]').val(data.from)
       $('input[name="salary_upper"]').val(data.to)

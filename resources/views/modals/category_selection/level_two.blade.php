@@ -24,9 +24,9 @@
                 <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist" id="branch_categories">
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <li role="presentation" class="active"><a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation" class="active"><input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['slug'] }}"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
                         @else
-                            <li role="presentation"><a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation"><input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['slug'] }}"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
                         @endif
                     @endforeach
                 </ul>
@@ -35,14 +35,14 @@
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @else
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @endif
                     @endforeach
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div role="tabpanel" class="tab-pane collapse active" id="{{ $sub_value['id'] }}">
+                            <div role="tabpanel" class="tab-pane collapse active" id="{{ $sub_value['slug'] }}">
                                 @if(isset($sub_value["node_children"]))
                                     <ul class="nodes">
                                         @foreach($sub_value["node_children"] as $node_index => $node_value)
@@ -59,7 +59,7 @@
                                 @endif
                             </div>
                         @else
-                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['id'] }}"></div>
+                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['slug'] }}"></div>
                         @endif
                     @endforeach
                     <!-- <div id="node-skeleton" class="hidden">

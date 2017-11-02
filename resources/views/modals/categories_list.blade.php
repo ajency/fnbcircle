@@ -1,4 +1,4 @@
-<div class="modal fnb-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <input type="hidden" name="previously_available_categories" id="previously_available_categories" value=""/>
@@ -19,7 +19,7 @@
             </div>
             <div class="modal-body">
                 <div id="level-one-category-dom">
-                    @include('modals.category_selection.level_one')
+                    
                 </div>
                 <div id="level-two-category-dom">
                     

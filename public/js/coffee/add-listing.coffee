@@ -24,7 +24,6 @@ window.slugify = (string) ->
 
 
 
-
 # Tips Toggle
 $('body').on 'click', '.tips', ->
 	$(this).toggleClass 'open'
@@ -94,6 +93,10 @@ submitForm = (e) ->
     validateBusinessDetails()
   if step == 'business-photos-documents'
     validatePhotosDocuments()
+  if step == 'business-premium'
+    validatePremium()
+  if step == 'business-updates'
+    updateActions()
 
 
 
@@ -132,6 +135,13 @@ if $(window).width() > 769
     if $(this).attr('id') == getID
       $(this).parent().addClass 'active'
     return
+  $('.edit-steps .form-toggle').each ->
+    if $(this).attr('id') == getID
+      $(this).parent().addClass 'active'
+    return
+
+
+
 
 
 $('body').on 'click', '.review-submit', (e)->
@@ -140,6 +150,9 @@ $('body').on 'click', '.review-submit', (e)->
   $('.draft-status').attr('data-original-title','Listing is under process')
   $(this).addClass('hidden')
 
+
+previewL = $('.detach-preview').detach()
+$('.preview-detach').append previewL
 
 
 # mondayValue = $('.monday').prop('selectedIndex')

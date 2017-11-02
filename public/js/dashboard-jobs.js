@@ -6,6 +6,7 @@
     'processing': true,
     'serverSide': true,
     'bAutoWidth': false,
+    'aaSorting': [[0, 'desc']],
     'drawCallback': function() {
       return displayCheckbox();
     },
@@ -21,6 +22,10 @@
         filters.city = $('select[name="job_city"]').val();
         filters.category = $('select[name="job_category"]').val();
         filters.keywords = $('select[name="job_keywords"]').val();
+        filters.published_date_from = $('input[name="published_from"]').val();
+        filters.published_date_to = $('input[name="published_to"]').val();
+        filters.submission_date_from = $('input[name="submission_from"]').val();
+        filters.submission_date_to = $('input[name="submission_to"]').val();
         data.filters = filters;
         return data;
       },
@@ -28,13 +33,13 @@
     },
     'columns': [
       {
-        'data': '#',
-        "orderable": false
+        'data': 'id'
       }, {
         'data': 'city',
         "orderable": false
       }, {
-        'data': 'title'
+        'data': 'title',
+        "orderable": false
       }, {
         'data': 'business_type',
         "orderable": false
@@ -51,24 +56,71 @@
       }, {
         'data': 'last_updated'
       }, {
-        'data': 'last_updated_by'
+        'data': 'last_updated_by',
+        "orderable": false
       }, {
-        'data': 'status'
+        'data': 'status',
+        "orderable": false
+      }
+    ],
+    "columnDefs": [
+      {
+        "width": "60px",
+        "targets": 0
+      }, {
+        "width": "60px",
+        "targets": 1
+      }, {
+        "width": "90px",
+        "targets": 2
+      }, {
+        "width": "100px",
+        "targets": 3
+      }, {
+        "width": "120px",
+        "targets": 4
+      }, {
+        "width": "80px",
+        "targets": 5
+      }, {
+        "width": "100px",
+        "targets": 6
+      }, {
+        "width": "80px",
+        "targets": 7
+      }, {
+        "width": "80px",
+        "targets": 8
+      }, {
+        "width": "80px",
+        "targets": 9
+      }, {
+        "width": "70px",
+        "targets": 10
       }
     ]
+  });
+
+  jobsTable.columns().iterator('column', function(ctx, idx) {
+    $(jobsTable.column(idx).header()).append('<span class="sort-icon"/>');
   });
 
   $('.jobsearchinput').change(function() {
     jobsTable.ajax.reload();
   });
 
+  $('.jobstrsearchinput').keyup(function() {
+    jobsTable.ajax.reload();
+  });
+
   $('#datatable-jobs').on('click', '.update_status', function() {
-    var id, job_name, status_id;
+    var id, job_link, job_name, status_id;
     id = $(this).attr('job-id');
     status_id = $(this).attr('job-status');
     job_name = $(this).attr('job-name');
+    job_link = $(this).attr('job-link');
     $("#job_id").val(id);
-    $("span[id='job-title']").text(job_name);
+    $("span[id='job-title']").html('<a  href="' + job_link + '"  target="_blank" >' + job_name + '</a>');
     $(".update-error").text('');
     $(".job-status").val('');
     updateStatusValues(status_id, 'update-job-status');
@@ -97,8 +149,14 @@
     $('#company_name').val('');
     $('select[name="job_status"]').val('');
     $('select[name="job_city"]').val('');
+    $('.date-from').val('');
+    $('.date-to').val('');
+    $('.date-range').val('');
     $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
+      $(this).multiselect('deselectAll', false).change();
+      return $('.admin-job-role-search').each(function() {
+        return $(this).multiselect('deselectAll', false).change();
+      });
     });
     jobsTable.ajax.reload();
   });
@@ -165,7 +223,6 @@
             setTimeout((function() {
               $('.alert-success').removeClass('active');
             }), 2000);
-            $('.bulk-status-update').addClass('hidden');
             return jobsTable.ajax.reload();
           } else {
             $('.alert-failure #message').html("Failed to updated job status.");
@@ -185,13 +242,11 @@
     if (serachStatus.length === 1) {
       $('input[name="job_check[]"]').removeClass('hidden').prop('checked', false);
       $('input[name="job_check_all"]').removeClass('hidden').prop('checked', false);
-      $(".bulk-status-update").removeClass('hidden');
       status_id = parseInt(serachStatus[0]);
       return updateStatusValues(status_id, 'bulk-update-job-status');
     } else {
       $('input[name="job_check[]"]').addClass('hidden').prop('checked', false);
-      $('input[name="job_check_all"]').addClass('hidden').prop('checked', false);
-      return $(".bulk-status-update").addClass('hidden');
+      return $('input[name="job_check_all"]').addClass('hidden').prop('checked', false);
     }
   };
 
@@ -217,6 +272,7 @@
             $('a[job-id="' + jobId + '"]').attr('job-status', jobstatus);
             $('.alert-success #message').html("Job status updated successfully.");
             $('.alert-success').addClass('active');
+            jobsTable.ajax.reload();
             setTimeout((function() {
               $('.alert-success').removeClass('active');
             }), 2000);
@@ -226,6 +282,9 @@
             setTimeout((function() {
               $('.alert-failure').removeClass('active');
             }), 2000);
+            $("#status-failure").modal('show');
+            $("#status-failure").find('.job-title').attr('href', data.link);
+            $("#status-failure").find('.job-title').html(data.name);
           }
           $('#updateStatusModal').modal('hide');
         },
@@ -234,6 +293,45 @@
         }
       });
     }
+  });
+
+  $('.date_range_picker').on('apply.daterangepicker', function(ev, picker) {
+    $(this).closest('date-range-picker').find('.date_from').val(picker.startDate.format('YYYY-MM-DD'));
+    $(this).closest('date-range-picker').find('.date_to').val(picker.endDate.format('YYYY-MM-DD'));
+    $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+    return jobsTable.ajax.reload();
+  });
+
+  $('.jobs-table').closest('.row').addClass('overflow-table');
+
+  $('.admin-job-role-search').multiselect({
+    buttonContainer: '<span></span>',
+    buttonClass: '',
+    maxHeight: 200,
+    templates: {
+      button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+    },
+    enableFiltering: true,
+    enableCaseInsensitiveFiltering: true
+  });
+
+  $('.date-range').daterangepicker({
+    autoUpdateInput: false,
+    maxDate: moment()
+  });
+
+  $('.date-range').on('apply.daterangepicker', function(ev, picker) {
+    $(this).closest('.date-range-picker').find('.date-from').val(picker.startDate.format('YYYY-MM-DD'));
+    $(this).closest('.date-range-picker').find('.date-to').val(picker.endDate.format('YYYY-MM-DD'));
+    $(this).val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
+    return jobsTable.ajax.reload();
+  });
+
+  $('body').on('click', '.clear-date', function() {
+    $(this).closest('div').find('.date-from').val('');
+    $(this).closest('div').find('.date-to').val('');
+    $(this).closest('div').find('.date-range').val('');
+    return jobsTable.ajax.reload();
   });
 
 }).call(this);

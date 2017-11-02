@@ -15,9 +15,11 @@
 @endif
 
 <div class="location-hours tab-pane fade active in" id="business_location">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Location &amp; Hours of Operation</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Location &amp; Hours of Operation</h5>
+    </div>
     <div class="m-t-30 c-gap">
-        <label class="label-size">Please provide the google map address for your business</label>
+        <label class="label-size">Please provide the google map address for your business <span class="text-lighter">(optional)</span></label>
 <!--         <div class="location-select flex-row flex-wrap">
             <div class="select-col city">
                 <select class="fnb-select select-variant form-control text-lighter">
@@ -41,16 +43,18 @@
         </div>
     </div>
     <div class="m-t-20 c-gap">
-        <input id="mapadd" type="text" class="form-control fnb-input location-val blur" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address == null) {{$listing->location['name']}} @else {{$listing->map_address}} @endif">
+        <input id="mapadd" type="text" class="form-control fnb-input location-val blur" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->map_address != null){{$listing->map_address}}@endif">
         <div class="m-t-10" id="map">
 
         </div>
+
         <input type="hidden" id=latitude name=latitude value="{{$listing->latitude}}">
         <input type="hidden" id=longitude name=longitude value="{{$listing->longitude}}">
+        <input type="hidden" id=hidden_address name=hidden_address value="{{$listing->location['name']}}, {{$cityy->name}}">
 
     </div>
     <div class="m-t-40 c-gap">
-        <label class="label-size">What is the address that you want to be displayed to the users?</label>
+        <label class="label-size">What is the address that you want to be displayed to the users? <span class="text-lighter">(optional)</span></label>
         <label class="dis-block text-medium baseline m-t-5">
             <input type="checkbox" class="checkbox remove-addr save-addr" id="" @if($listing->map_address !== null and $listing->map_address == $listing->display_address) checked="" @endif> Is the display address same as the map address?
             <input type="text" class="another-address form-control fnb-input m-t-10" placeholder="Ex: Shop no 4, Aarey Milk Colony, Mumbai" value="@if($listing->display_address == null) @else {{$listing->display_address}} @endif" @if($listing->map_address != null and $listing->map_address == $listing->display_address) disabled="disabled" @endif>
@@ -58,7 +62,7 @@
     </div>
     <!-- <hr class="m-t-50 m-b-50 separate"> -->
     <div class="m-t-40 c-gap">
-        <label class="label-size">Mention the area(s) where you provide your products/services.</label>
+        <label class="label-size">Mention the area(s) where you provide your products/services. <span class="text-lighter">(optional)</span></label>
         <div id="disp-operation-areas" class="node-list">
 
             @foreach($areas as $city)
@@ -88,7 +92,7 @@
     </div>
 
     <div class="m-t-40 c-gap operation-hours">
-        <label class="label-size">Enter the hours of operation for your business</label>
+        <label class="label-size">Enter the hours of operation for your business <span class="text-lighter">(optional)</span></label>
         <div class="flex-row flex-wrap">
             <div class="m-t-5 m-r-20">
                 <label class="flex-row text-medium m-t-5">

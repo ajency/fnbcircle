@@ -499,6 +499,28 @@ table.dataTable tr th.selected.select-checkbox:after {
 		left: -75px;
 	}
 }
+
+.city-select{
+	.multiselect-container{
+		padding: 0.5em;
+		&.dropdown-menu{
+			left: inherit;
+		}
+	}
+	.sort-icon{
+		display: none;
+	}
+}
+
+.man-status-col{
+	.multiselect-container{
+		&.dropdown-menu{
+			left: -108px;
+		}
+	}
+}
+
+
 .multiselect{
 	&.multiselect{
 		border: 0;
@@ -673,3 +695,38 @@ table.dataTable tr th.selected.select-checkbox:after {
 	}
 }
 
+
+
+
+.parent_cat_icon{
+	@media screen and (min-width: 769px){
+		.dropify-wrapper{
+			overflow: inherit;
+			&:hover{
+				.dropify-clear{
+	    			top: -10px;
+	    			right: -8px;
+	    			background-color: #fff;
+	    			color: #000;
+	    			box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+				}
+			}
+			.dropify-clear{
+				transition: inherit;
+			}
+		}
+	}
+	.parsley-errors-list{
+		position: absolute;
+    	bottom: -24px;
+    	left: 0;
+	}
+}
+
+
+.form-inline .manage-search-box{
+	@media screen and (min-width: 769px){
+		width: 38%;
+    	margin-left: 1em;
+	}
+}

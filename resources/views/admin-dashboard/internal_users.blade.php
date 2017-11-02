@@ -98,8 +98,8 @@ Internal Users
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>
-	                      <th class="">Name </th>
-	                      <th class="">Email </th>
+	                      <th class="">Name <span class="sort-icon"/></th>
+	                      <th class="">Email <span class="sort-icon"/></th>
 	                      <th class="no-sort ">Roles
 	                        <select multiple class="form-control multi-dd">
 	                          <!-- <option value="yes">Yes</option>
@@ -248,7 +248,8 @@ Internal Users
 	                <div class="modal-footer">
 	                  <button type="button" class="btn fnb-btn outline no-border" data-dismiss="modal">Cancel</button>
 	                  <!-- <button type="submit" class="btn primary-btn fnb-btn border-btn">Save <i class="fa fa-circle-o-notch fa-spin"></i></button> -->
-	                  <button type="button" class="btn primary-btn fnb-btn border-btn" id="add_newuser_modal_btn">Create <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn createSave" id="add_newuser_modal_btn">Create <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+	                  <button type="button" class="btn primary-btn fnb-btn border-btn hidden editSave" id="add_newuser_modal_btn">Save <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
 	                </div>
 	              </form>
 	            </div>

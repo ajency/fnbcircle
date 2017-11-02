@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    @yield('meta') 
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
     <!-- <title>Homepage</title> -->
-    <title> @yield('title')</title>
-
+    <title> @yield('title')</title> 
+    @yield('openGraph')
+    @yield('meta') 
     <!-- Google font cdn -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Font awesome cdn -->
@@ -18,13 +18,23 @@
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Internationalization CSS -->
-    <link rel="stylesheet" href="{{ asset('/node_modules/intl-tel-input/build/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "{{env('APP_NAME')}}",
+        "url": "{{env('APP_URL')}}"
+    }
+    </script>
 </head>
 
-<body class="nav-md">
+<body class="overflow-hidden nav-md">
+    <div class="page-shifter animate-row">
     <!-- header -->
     <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
@@ -62,12 +72,11 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
-                            <select class="form-control fnb-select nav-color">
-                                <option>--Change city--</option>
-                                <option selected="">Pune</option>
-                                <option>Delhi</option>
-                                <option>Mumbai</option>
-                                <option>Goa</option>
+                            <select class="form-control fnb-select nav-color" onchange="location = this.value;">
+                                <option>--Change State--</option>
+                                @foreach(getPopularCities() as $city_index => $city_value)
+                                    <option title="{{ $city_value->slug }}" value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                @endforeach
                             </select>
                         </li>
                     </ul>
@@ -157,6 +166,7 @@
     <!-- content -->
     @yield('content')
 
+    </div>
     <!-- Modals -->
     <!-- Email / Social Signin Popup -->
     @if(Auth::guest())
@@ -193,7 +203,7 @@
     <!-- Parsley text validation -->
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- Internationalization plugin -->
-    <script type="text/javascript" src="{{ asset('/node_modules/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>

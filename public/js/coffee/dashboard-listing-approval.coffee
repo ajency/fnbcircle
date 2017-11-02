@@ -23,7 +23,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
   'pageLength': 25
   'processing': true
   'order': [ [
-    4
+    2
     'desc'
   ] ]
   'serverSide':true
@@ -44,11 +44,13 @@ approval_table = $('#datatable-listing_approval').DataTable(
   "columns": [
     {"data": "#"}
     {"data": "name"}
+    {"data": "id"}
     {"data": "city"}
     {"data": "categories"}
     {"data": "submission_date"}
     {"data": "updated_on"}
     {"data": "last_updated_by"}
+    {"data": "type"}
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
@@ -69,7 +71,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     }
     {
       'targets': [
-        10
+        12
       ]
       'visible': false
       'searchable': false
@@ -322,7 +324,15 @@ $('body').on 'click','button#applyCategFilter', (e)->
   applyCategFilter()
 
 $('body').on 'click','button#resetAll', (e)->
-  filters =
+  $('div#categories.node-list').html ''
+  $('input#draftstatus').prop('checked',false)
+  $('select#status-filter').multiselect('rebuild')
+  $('#submissionDate').val('')
+  $('#listingNameSearch').val('')
+  $('.multi-dd').each ->
+    # console.log this
+    $(this).multiselect('deselectAll',false)
+  window.filters =
     'submission_date':
       'start': ''
       'end': ''
@@ -337,15 +347,6 @@ $('body').on 'click','button#resetAll', (e)->
         'internal'
         'external'
       ]
-  $('div#categories.node-list').html ''
-  $('input#draftstatus').prop('checked',false).change()
-  $('select#status-filter').multiselect('rebuild').change()
-  $('#submissionDate').val('')
-  $('#listingNameSearch').val('')
-  $('.multi-dd').each ->
-    # console.log this
-    $(this).multiselect('deselectAll',false).change()
-  
   sendRequest()
   return
 
@@ -459,6 +460,14 @@ $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
 
 $('body').on 'change','select#updateUser', ->
   filters['updated_by']['user_type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#listingType', ->
+  filters['type'] = $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#premiumRequest', ->
+  filters['premium'] = $(this).val()
   sendRequest()
 
 $('body').on 'change','select#citySelect', ->

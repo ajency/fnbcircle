@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -182,8 +183,11 @@ function getDefaultValues($type, $arrayType=1){
 }
 
 
-function getCommunicationContactDetail($objectId,$objectType,$type){
-    $commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
+	if($mode == 'edit')
+    	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
+   	else
+   		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
     
     $contactInfo = [];
     if(!empty($commObjs)){
@@ -196,18 +200,117 @@ function getCommunicationContactDetail($objectId,$objectType,$type){
     return $contactInfo;
 }
 
-function isAdmin()
-{
-    $roleId = App\Role::where('name','superadmin')->first()->id;
-    if(Auth::check() && Auth::user()->role_id==$roleId)
-    {
-        return true;
+function moneyFormatIndia($amount){
+    $num = floatval($amount);
+    $splitNum = explode('.', $amount);
+    $num = $splitNum[0];
+    $decimalValue = (isset($splitNum[1]))? '.'.$splitNum[1] : '';
+
+
+    $explrestunits = "" ;
+    if(strlen($num)>3){
+        $lastthree = substr($num, strlen($num)-3, strlen($num));
+        $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+        $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+        $expunit = str_split($restunits, 2);
+        for($i=0; $i<sizeof($expunit); $i++){
+            // creates each of the 2's group and adds a comma to the end
+            if($i==0)
+            {
+                $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+            }else{
+                $explrestunits .= $expunit[$i].",";
+            }
+        }
+        $thecash = $explrestunits.$lastthree;
+    } else {
+        $thecash = $num;
     }
-    else
-    {
-        return false;
-    }
+    return $thecash.$decimalValue; // writes the final format where $currency is the currency symbol.
 }
+
+function salarayTypeText($type){
+   $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
+
+   return $salaryTpes[$type];
+}
+
+/**
+* This function will return DOM for the pagination
+* This function will @return
+* 	$html = < page 1 > | < page 2 > | ....... | < page n >
+*
+* Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
+*		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
+*/
+function pagination($totalRecords,$currentPage,$limit){
+
+	$currentPage = (!$currentPage) ? 1 : $currentPage;
+	$totalPages = intVal(ceil($totalRecords/$limit)); 
+	$next = false;
+	$previous = false;
+	$html = '';
+	$endCounterValue = ($currentPage >= 5 ) ? 5 : 10 - $currentPage;
+
+	if($totalPages > 1) {
+
+		if($currentPage > 4) {
+			$previous = true;
+			$startPage = $currentPage - 4;
+		} else
+			$startPage = 1;
+		 
+		if(($currentPage + $endCounterValue) < $totalPages){
+			$next = true;
+			$endPage = $currentPage + $endCounterValue;
+		} else
+			$endPage = $currentPage + ($totalPages-$currentPage);
+
+		$html = View::make('pagination')->with(compact('previous', 'next', 'currentPage', 'startPage', 'endPage'))->render();
  
+		/*if($previous)
+			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
+		for ($i=$startPage; $i <= $endPage; $i++) { 
+			$active = ($i == $currentPage) ? 'active' : '';
+			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a>';
 
+			if($i !== $endPage) {
+				$html .= ' | ';
+			}
+		}
+
+		if($next)
+			$html .= '| <a href="javascript:void(0)" class="paginate next" page="' . ($endPage + 1) . '">next</a>';*/
+	}
+
+	return $html;
+}
+
+/**
+* This function is used to get Popular city object that will be used in Every page dropdown -> Header page
+* This function will @return
+*	Filtered <City_obj> which has "is_popular_city" applied & ordered by "order"
+*/
+function getPopularCities() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+}
+
+/**
+* This function is used to generate URL from city_name & 1 or more slugs
+* This function will @return
+*	url => /<city>/<slug1>/<slug2>/.......
+*/
+function generateUrl($city, $slug, $slug_extra = []) {
+
+	//str_slug('Laravel 5 Framework', '-');
+
+	$url = "/" . $city . "/" . $slug;
+	if(sizeof($slug_extra) > 0) {
+		foreach ($slug_extra as $slug_key => $slug_value) {
+			$url .= "/" . str_slug($slug_value, '-');
+		}
+	}
+
+	return $url;
+}

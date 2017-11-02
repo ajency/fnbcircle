@@ -18,11 +18,14 @@
   <meta property="photo-upload-url" content="{{action('ListingController@uploadListingPhotos')}}">
   <meta property="file-upload-url" content="{{action('ListingController@uploadListingFiles')}}">
   <meta property="max-file-upload" content="{{config('tempconfig.add-listing-files-maxnumber')}}">
+  <meta property="max-file-size" content="{{config('tempconfig.add-listing-files-totalsize')}}">
 @endsection
 <div class="photos tab-pane fade active in" id="business_photos">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Photos &amp; Documents</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Photos &amp; Documents</h5>
+    </div>
     <div class="m-t-30 add-container c-gap">
-        <label class="label-size">Add some images for your listing (optional)</label>
+        <label class="label-size">Add some images for your listing <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Tip: Photos are the most important feature of your listing. Listing with images in general get 5x more responses.
         </div>
@@ -40,7 +43,9 @@
             <div class="image-grid__cols @if($i == 0) main-image @endif">
 
             <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="{{basename($images[$img]['200x150'])}}" data-default-file="{{$images[$img]['200x150']}}"/>
+
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="{{basename($images[$img][config('tempconfig.listing-photo-thumb')])}}" data-default-file="{{$images[$img][config('tempconfig.listing-photo-thumb')]}}"/>
+
             <div class="image-loader hidden">
                 <div class="site-loader section-loader">
                 <div id="floatingBarsG">
@@ -85,9 +90,9 @@
         </div>
     </div>
     <div class="m-t-10 upload-container c-gap">
-        <label class="label-size">Do you have some files which you would like to upload for the listing?</label>
+        <label class="label-size">Do you have some files which you would like to upload for the listing? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
-            Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx &amp; .png with a maximum size of 1mb is allowed
+            Only .jpg, .jpeg, .doc, .docx, .xls, .xlsx, .png &amp; .ppt with total maximum size of 25mb is allowed
         </div>
         <!-- <div class="m-t-20">
             <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-2" data-multiple-caption="{count} files selected" multiple />
@@ -98,8 +103,8 @@
         @if($listing==null)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"   />
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-size="0"  />
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                         <div id="floatingBarsG">
@@ -116,12 +121,12 @@
                 </div>
             </div>
         @else
-            @php $files = $listing->getFiles(); @endphp
+            @php $files = $listing->getFiles(); $file_total =0; @endphp
             @foreach($files as $file)
                 <div class="image-grid__cols">
                     <input type="hidden" name="file-id" value="{{$file['id']}}">
-                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf"  data-default-file="{{$file['url']}}" />
-                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif">
+                    <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M" data-size="{{$file['size']}}" data-allowed-file-extensions="jpg jpeg doc docx xls xlsx png pdf ppt pptx pps ppsx"  data-default-file="{{$file['url']}}" title="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" />
+                    <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name"  value="@if($file['name']!=""){{$file['name']}} @else {{basename($file['url'])}} @endif" required>
                     <div class="image-loader hidden">
                         <div class="site-loader section-loader">
                             <div id="floatingBarsG">
@@ -137,12 +142,13 @@
                         </div>
                     </div>
                 </div>
+                @php $file_total +=  $file['size']; @endphp
             @endforeach
             @if(count($files)==0)
             <div class="image-grid__cols">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-upload" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"   />
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="file" class="doc-upload" data-height="100" data-max-file-size="7M"  data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx" data-size="0"  />
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                         <div id="floatingBarsG">
@@ -166,9 +172,9 @@
             </div>
             <div class="image-grid__cols uppend-uploader hidden">
                 <input type="hidden" name="file-id" value="">
-                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="1M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png"  />
+                <input type="file" class="doc-uploadd" data-height="100" data-max-file-size="7M" data-allowed-file-extensions="doc docx pdf jpg jpeg xls xlsx png ppt pptx pps ppsx" data-size="0" />
                 <div type="button" class="removeCol"><i class="">✕</i></div>
-                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name">
+                <input type="text" class="fnb-input title-input doc-name" placeholder="Enter file name to display">
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                             <div id="floatingBarsG">
@@ -188,5 +194,7 @@
         <div id="more-file-error" class="text-danger"></div>
     </div>
 </div>
+
+<script type="text/javascript"> window.current_file_total_size = {{$file_total}}</script>
 
 @endsection

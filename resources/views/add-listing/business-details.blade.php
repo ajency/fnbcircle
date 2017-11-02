@@ -12,13 +12,15 @@
 @endif
 
 <div class="business-details tab-pane fade in active" id="business_details">
-    <h5 class="no-m-t main-heading white m-t-0 margin-btm">Business Details</h5>
+    <div class="flex-row space-between preview-detach">
+        <h5 class="no-m-t main-heading white m-t-0">Business Details</h5>
+    </div>    
     <div class="m-t-30 c-gap">
-        <label class="label-size">Give us some more details about your listing</label>
+        <label class="label-size">Give us some more details about your listing <span class="text-lighter">(optional)</span></label>
         <textarea type="text" rows="4" class="form-control fnb-textarea no-m-t allow-newline" placeholder="Describe your business here">{{$listing->description}}</textarea>
     </div>
     <div class="m-t-30 c-gap">
-        <label class="label-size">What are the highlights of your business?</label>
+        <label class="label-size">What are the highlights of your business? <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Mention your business strengths, advantages over competition, top customers/clients, etc to get more leads.
         </div>
@@ -55,18 +57,18 @@
         <div class="row">
             <div class="col-sm-6">
 
-                <label class="label-size">When was your business established?</label>
+                <label class="label-size">When was your business established? <span class="text-lighter">(optional)</span></label>
                 <input type="text" class="form-control fnb-input" placeholder="Eg: 1988" data-parsley-type="digits" data-parsley-length="[4,4]" id="established-year" data-parsley-type-message="Please enter valid year" data-parsley-length-message="Please enter valid year" data-parsley-max-message="Business established cannot be a future date" value="@isset($details->established){{$details->established}}@endisset">
 
             </div>
             <div class="col-sm-6 c-gap">
-                <label>Do you have a business website?</label>
-                <input type="text" class="form-control fnb-input" id="business-website" placeholder="http://" data-parsley-urlstrict value="@isset($details->website){{$details->website}}@endisset">
+                <label>Do you have a business website? <span class="text-lighter">(optional)</span></label>
+                <input type="text" class="form-control fnb-input" id="business-website" data-parsley-type="url" value="@isset($details->website){{$details->website}}@endisset">
             </div>
         </div>
     </div>
     <div class="m-t-30 c-gap">
-        <label class="label-size">Payment modes accepted by you:</label>
+        <label class="label-size">Payment modes accepted by you: <span class="text-lighter">(optional)</span></label>
         <div class="text-lighter">
             Select from the list below or add your own mode
         </div>
@@ -80,17 +82,32 @@
         <ul class="flex-row payment-modes m-t-10">
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="visa" @if($payment!=null and $payment->visa) checked @endif> <span class="text-color">Visa cards</span>
+                    <input type="checkbox" class="checkbox" id="online" @if($payment!=null and $payment->online) checked @endif> <span class="text-color">Online Banking</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="debit" @if($payment!=null and $payment->debit) checked @endif > <span class="text-color">Debit Card</span>
+                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > <span class="text-color">On Credit</span>
                 </label>
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="money_order" @if($payment!=null and $payment->money_order) checked @endif > <span class="text-color">Money Order</span>
+                    <input type="checkbox" class="checkbox" id="cards" @if($payment!=null and $payment->cards) checked @endif > <span class="text-color">Credit/Debit Cards</span>
+                </label>
+            </li>
+            <li>
+                <label class="flex-row text-medium">
+                    <input type="checkbox" class="checkbox" id="wallets" @if($payment!=null and $payment->wallets) checked @endif > <span class="text-color">E/Mobile Wallets</span>
+                </label>
+            </li>
+            <li>
+                <label class="flex-row text-medium">
+                    <input type="checkbox" class="checkbox" id="cod" @if($payment!=null and $payment->cod) checked @endif > <span class="text-color">Cash on Delivery</span>
+                </label>
+            </li>
+            <li>
+                <label class="flex-row text-medium">
+                    <input type="checkbox" class="checkbox" id="ussd" @if($payment!=null and $payment->ussd) checked @endif > <span class="text-color">USSD/AEPS/UPI</span>
                 </label>
             </li>
             <li>
@@ -100,29 +117,10 @@
             </li>
             <li>
                 <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="credit" @if($payment!=null and $payment->credit) checked @endif > <span class="text-color">Credit Card</span>
+                    <input type="checkbox" class="checkbox" id="draft" @if($payment!=null and $payment->draft) checked @endif > <span class="text-color">Draft</span>
                 </label>
             </li>
-            <li>
-                <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="travelers" @if($payment!=null and $payment->travelers) checked @endif > <span class="text-color">Travelers Cheque</span>
-                </label>
-            </li>
-            <li>
-                <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="cash" @if($payment!=null and $payment->cash) checked @endif > <span class="text-color">Cash</span>
-                </label>
-            </li>
-            <li>
-                <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="master" @if($payment!=null and $payment->master) checked @endif > <span class="text-color">Master Card</span>
-                </label>
-            </li>
-            <li>
-                <label class="flex-row text-medium">
-                    <input type="checkbox" class="checkbox" id="diners" @if($payment!=null and $payment->diners) checked @endif > <span class="text-color">Diner's Club</span>
-                </label>
-            </li>
+           
         </ul>
     </div>
     <div class="m-t-20 c-gap">
@@ -135,9 +133,18 @@
                 echo '<option value="'.$mode->slug.'">'.$mode->name.'</option>';
                 }
             @endphp
-            <option value="visa">Visa cards</option><option value="debit">Debit Card</option><option value="money_order">Money Order</option><option value="cheque">Cheque</option><option value="credit">Credit Card</option><option value="travelers">Travelers Cheque</option><option value="cash">Cash</option><option value="masters">Master Card</option><option value="diners">Diner's Club</option>
+            <option value="online">Online Banking</option>
+            <option value="credit">On Credit</option>
+            <option value="cards">Credit/Debit Cards</option>
+            <option value="wallets">E/Mobile Wallets</option>
+            <option value="cod">Cash on Delivery</option>
+            <option value="ussd">USSD/AEPS/UPI</option>
+            <option value="cheque">Cheque</option>
+            <option value="draft">Draft</option>
+            <option value="diners">Diner's Club</option>
         </datalist>
     </div>
 </div>
 
 @endsection
+

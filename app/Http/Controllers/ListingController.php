@@ -14,7 +14,10 @@ use App\ListingOperationTime;
 use App\User;
 use App\UserCommunication;
 use Auth;
+use Session;
 use Carbon\Carbon;
+use App\Plan;
+use App\PlanAssociation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -41,13 +44,14 @@ class ListingController extends Controller
 
     public function __construct()
     {
-        Common::authenticate('listing', $this);
+        // Common::authenticate('listing', $this);
     }
 
     //-----------------------------------Step 1-----------------------
 
     public function listingInformation($data)
     {
+        
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,16',
@@ -191,7 +195,7 @@ class ListingController extends Controller
             $listing           = new Listing;
             $listing->title    = $request->title;
             $contacts          = json_decode($request->contacts, true);
-            $listing->owner_id = Auth::user()->id;
+            if(Auth::user()->type == 'external') $listing->owner_id = Auth::user()->id;
         }
         $alltitles = Listing::where('status', "1")->where('id', '!=', $listing->id)->pluck('title', 'reference')->toArray();
         $similar   = array();
@@ -206,12 +210,19 @@ class ListingController extends Controller
                 $titles[$key]  = array('id' => $key, 'title' => $value);
             }
         }
+
+        $check_emails = [];
+        foreach ($contacts as $value) {
+            if($value['type'] == 'email') $check_emails[] = $value['value'];
+        }
+
         // dd($output);
         $owner = User::find($listing->owner_id);
         $query = UserCommunication::where('object_type', 'App\\Listing')->whereNotNull('object_id')->where('object_id','!=',$listing->id);
         $query = $query->where(function ($query) use ($contacts, $owner) {
             $query->where(function ($query) use ($owner) {
-                $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                else $query->whereNull('value');
             });
             foreach ($contacts as $value) {
                 $query->orWhere(function ($query) use ($value) {
@@ -224,10 +235,7 @@ class ListingController extends Controller
         $dup_com = $query->get();
         // dd($dup_com);
 
-        $check_emails = [];
-        foreach ($contacts as $value) {
-            if($value['type'] == 'email') $check_emails[] = $value['value'];
-        }
+        
         $userauth_obj = new UserAuth;
         //create an array of only emails
         $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_emails,'email',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
@@ -278,7 +286,7 @@ class ListingController extends Controller
                 // dd($similar);
             }
         }
-        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar));
+        return response()->json(array('matches' => array('title' => $titles, 'email' => $emails, 'phones' => $phones), 'similar' => $similar, 'type' => Auth::user()->type));
 
     }
     public function getAreas(Request $request)
@@ -304,6 +312,7 @@ class ListingController extends Controller
             $category->listing_id  = $listing_id;
             $category->category_id = $id;
             $category->core        = $core;
+            $category->category_slug = Category::find($id)->slug;
             $category->save();
         }
     }
@@ -496,7 +505,7 @@ class ListingController extends Controller
             'description' => 'max:65535 ',
             'highlights'  => 'required',
             'established' => 'nullable|numeric',
-            'website'     => 'nullable|url',
+            'website'     => 'nullable',
             'payment.*'   => 'required|boolean',
         ]);
         return true;
@@ -519,7 +528,8 @@ class ListingController extends Controller
         }
 
         if (isset($data->website) and !empty($data->website)) {
-            $other['website'] = $data->website;
+            if(substr($data->website,0,4) == 'http') $other['website'] = $data->website;
+            else $other['website'] = 'http://'.$data->website;
         }
         $other                  = json_encode($other);
         $listing->other_details = $other;
@@ -647,6 +657,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
+        
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -657,7 +668,25 @@ class ListingController extends Controller
         if ($id != false) {
             return response()->json(['status' => '200', 'message' => 'File Uploaded successfully', 'data' => ['id' => $id]]);
         } else {
-            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []]);
+            return response()->json(['status' => '400', 'message' => 'File Upload Failed', 'data' => []], 400 );
+        }
+    }
+
+    public function listingPremium(Request $request){
+        $this->validate($request, [
+            'listing_id' => 'required',
+        ]);
+        
+        $change = "";
+        if (isset($request->change) and $request->change == "1") {
+            $change = "&success=true";
+        }
+        if (isset($request->submitReview) and $request->submitReview == 'yes') {
+            return ($this->submitForReview($request));
+        } elseif (isset($request->archive) and $request->archive == 'yes') {
+            return ($this->archive($request));
+        } elseif (isset($request->publish) and $request->publish == 'yes') {
+            return ($this->publish($request));
         }
     }
 
@@ -685,6 +714,9 @@ class ListingController extends Controller
                 case 'business-photos-documents':
                     return $this->listingPhotosAndDocuments($request);
                     break;
+                case 'business-premium':
+                    return $this->listingPremium($request);
+                    break;
                 default:
                     return \Redirect::back()->withErrors(array('wrong_step' => 'Something went wrong. Please try again'));
                     break;
@@ -698,12 +730,27 @@ class ListingController extends Controller
         $listing = new Listing;
         $cities  = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
         $user    = Auth::user();
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user);
+        $details = $user->getUserDetails()->first();
+        if($user->type == 'internal') $areas = [];
+        else    {
+            if($details==null){
+                $areas = [];
+                $listing->locality_id = null;
+            }
+            else{
+                $areas  = Area::where('city_id', $details->city)->get();
+                $listing->locality_id = $details->area;
+            }
+        }
+        if($user->type == 'external') $listing->owner_id = $user->id;
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
     }
     public function edit($reference, $step = 'business-information')
     {
+        $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
+        $cityy = City::find($listing->location['city_id']);
         if ($step == 'business-information') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
+            
             $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
             $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
             // dd($mobiles);
@@ -712,45 +759,63 @@ class ListingController extends Controller
             $areas  = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
             })->where('status', '1')->orderBy('order')->orderBy('name')->get();
-            $user = User::find($listing->owner_id);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user);
+            if($listing->owner_id != null)
+                $user = User::find($listing->owner_id);
+            else
+                $user = Auth::user();
+            // dd($cityy);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
         }
         if ($step == 'business-categories') {
-            $listing       = Listing::where('reference', $reference)->firstorFail();
             $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
             $category_json = ListingCategory::getCategories($listing->id);
-            return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information');
+            return view('add-listing.business-categories')->with('listing', $listing)->with('step', 'business-categories')->with('parents', $parent_categ)->with('categories', $category_json)->with('brands', array())->with('back', 'business-information')->with('cityy',$cityy);
             // dd($category_json);
         }
         if ($step == 'business-location-hours') {
-            $listing        = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
             $operationAreas = ListingAreasOfOperation::city($listing->id);
+            
             $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
-            return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas);
+            return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas)->with('cityy',$cityy);
         }
         if ($step == 'business-details') {
             $listing = Listing::where('reference', $reference)->firstorFail();
 
-            return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours');
+            return view('add-listing.business-details')->with('listing', $listing)->with('step', 'business-details')->with('back', 'business-location-hours')->with('cityy',$cityy);
         }
         if ($step == 'business-photos-documents') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
-
-            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details');
+            return view('add-listing.photos')->with('listing', $listing)->with('step', 'business-photos-documents')->with('back', 'business-details')->with('cityy',$cityy);
         }
         if ($step == 'business-premium') {
-            $listing = Listing::where('reference', $reference)->firstorFail();
-
-            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents');
+            $plans = Plan::where('type','listing')->get();
+            $requests = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->orderBy('created_at','desc')->get();
+            $now = Carbon::now();
+            $active = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->whereNotNull('approval_date')->where('billing_start', '<', $now->toDateTimeString())->where('billing_end', '>', $now->toDateTimeString())->where('status',1)->first();
+            if($active == null) {
+                $current = ['id'=>0];
+            } else {
+                $current = ['id'=>$active->plan_id];
+            }
+            $pending = PlanAssociation::where('premium_type','App\\Listing')->where('premium_id', $listing->id)->where('status',0)->first();
+            return view('add-listing.premium')->with('listing', $listing)->with('step', 'business-premium')->with('back', 'business-photos-documents')->with('cityy',$cityy)->with('plans',$plans)->with('current',$current)->with('pending',$pending);
         }
+        if($listing->status == 1){
+            $latest = $listing->updates()->orderBy('updated_at', 'desc')->first();
+            if ($step == 'post-an-update'){
+                return view('add-listing.post-updates')->with('listing', $listing)->with('step', 'business-updates')->with('back', 'business-premium')->with('cityy',$cityy)->with('post',$latest);
+            }
+        }
+        abort(404);
     }
 
     public function submitForReview(Request $request)
     {
+
         $this->validate($request, [
             'listing_id' => 'required',
         ]);
+        // dd($request);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
@@ -758,7 +823,9 @@ class ListingController extends Controller
             $listing->submission_date = Carbon::now();
             $listing->save();
             // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true&review=success');
+            Session::flash('statusChange', 'review');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
         }
@@ -773,7 +840,8 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "1") {
             $listing->status = Listing::ARCHIVED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'archive');
+            return \Redirect::back();
         } else {
             return \Redirect::back()->withErrors(array('archive' => 'Only Published listings can be archived'));
         }
@@ -788,7 +856,9 @@ class ListingController extends Controller
         if ($listing->isReviewable() and $listing->status == "4") {
             $listing->status = Listing::PUBLISHED;
             $listing->save();
-            return redirect('/listing/' . $listing->reference . '/edit/' . $request->step . '?step=true');
+            Session::flash('statusChange', 'published');
+            return \Redirect::back();
+
         } else {
             return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }

@@ -6,9 +6,14 @@ $(document).ready ()->
     contact_group_clone = contact_group.clone()
     contact_group_clone.removeClass 'contact-group hidden'
     input = contact_group_clone.find('.fnb-input')
+    
+    # set error counter id
+    errorLenCount = $(this).closest('.business-contact').find('.contact-container').length
+    contact_group.find('.contact-input').attr('data-parsley-errors-container','#landlineError'+errorLenCount)
+    contact_group.find('.dupError').attr('id','landlineError'+errorLenCount)
+ 
     # input.attr('data-parsley-required',true)
     contact_group_clone.insertBefore(contact_group)
-     
     contact_group.prev().find('.contact-mobile-input').intlTelInput
       initialCountry: 'auto'
       separateDialCode: true
@@ -104,8 +109,8 @@ $(document).ready ()->
     contactType = $('.under-review').closest('.contact-info').attr('contact-type')
     contactId = $('.under-review').find('.contact-id').val()
     countryCode = $('.under-review').find('.contact-country-code').val()
-    objectType = $('input[name="object_type"]').val()
-    objectId = $('input[name="object_id"]').val()
+    objectType = $('.under-review').parents(".verification-content").find('input[name="object_type"]').val()
+    objectId = $('.under-review').parents(".verification-content").find('input[name="object_id"]').val()
     isVisible = $('.under-review').find('.contact-visible').val()
     contactValueObj.closest('.contact-container').find('.dupError').html ''
     $('.validationError').html ''
@@ -114,8 +119,8 @@ $(document).ready ()->
     if(!contactValueObj.parsley().isValid())
       contactValueObj.parsley().validate()
       
-    # console.log contactValueObj.parsley().isValid()
-    # console.log contactValue
+    console.log contactValueObj.parsley().isValid()
+    console.log contactValue
     if contactValue != '' && contactValueObj.parsley().isValid()
       
       if(showModal)
@@ -135,6 +140,7 @@ $(document).ready ()->
           'object_id': objectId
           'object_type': objectType
           'is_visible': isVisible
+          'country_code': countryCode
         success: (data) ->
           $('.under-review').find('.contact-id').val(data['id']) 
           return
@@ -154,19 +160,24 @@ $(document).ready ()->
     else
       if contactValue == ''
         contactValueObj.closest('.contact-container').find('.dupError').html 'Please enter '+contactType 
+      else
+        contactValueObj.closest('.contact-container').find('.dupError').html 'Please enter valid '+contactType
       $('#'+contactType+'-modal').modal 'hide'
 
   $('.contact-info').on 'change', '.contact-input', (event) ->
     contactObj = $(this)
     contactval = contactObj.val()
-    # console.log contactval
+    console.log contactObj.parsley().isValid()
+    contactType = contactObj.closest('.contact-info').attr('contact-type')
+    contactObj.closest('.contact-container').find('.dupError').html ''
     if !checkDuplicateEntries(contactObj) && contactval!= ""
-      contactObj.closest('.contact-container').find('.dupError').html contactval+' already added to list.'
+      # contactObj.closest('.contact-container').find('.dupError').html contactval+' already added to list.'
+      contactObj.closest('.contact-container').find('.dupError').html 'Same contact detail has been added multiple times.'
       contactObj.val ''
-    else 
-      contactObj.closest('.contact-container').find('.dupError').html ''
-
-    return
+    else if !contactObj.parsley().isValid()
+      contactObj.closest('.contact-container').find('.dupError').html 'Please enter valid '+contactType
+      
+ 
 
   checkDuplicateEntries = (contactObj) ->
     contactval = contactObj.val()
@@ -184,6 +195,8 @@ $(document).ready ()->
 
   $('.contact-verification-modal').on 'click', '.edit-number', (e)->
     $('.value-enter').val('')
+    $('.contact-verify-steps').find('.customError').html ''
+    $(this).closest('.number-code').find('.validationError').html ''
     $('.default-state').addClass 'hidden'
     $('.add-number').removeClass 'hidden'
     $('.verificationFooter').addClass 'no-bg'
@@ -214,7 +227,7 @@ $(document).ready ()->
       if !checkDuplicateEntries(oldContactObj)
    
         oldContactObj.val oldContactValue
-        $(this).closest('.contact-verify-steps').find('.customError').text changedValue+' already added to list.'
+        $(this).closest('.contact-verify-steps').find('.customError').text 'Same contact detail has been added multiple times.'
       else 
         $(this).closest('.contact-verify-steps').find('.customError').text ''
         $(this).closest('.modal').find('.contact-input-value').text(changedValue)
@@ -240,6 +253,7 @@ $(document).ready ()->
     # $('.processing').removeClass 'hidden'
     errordiv=$(this).closest('.number-code').find('.validationError')
     otpObj=$(this).closest('.code-submit').find('.fnb-input')
+    otpObjType=$(this).closest('.modal').attr('modal-type')
     otpObj.attr('data-parsley-required','true')
     otpObj.attr('data-parsley-type','digits')
     otpObj.attr('data-parsley-length','[4,4]')
@@ -248,7 +262,10 @@ $(document).ready ()->
     if validator.isValid() != true
       # console.log 'gandu'
       if otpObj.val()==''
-        errordiv.html 'Please enter OTP sent'
+        if otpObjType == 'email'
+          errordiv.html 'Please enter the OTP sent via email'
+        else
+          errordiv.html 'Please enter the OTP sent via sms'
       else
         errordiv.html('Sorry! The entered OTP is invalid. Please try again.');
       otpObj.val('')
@@ -277,7 +294,7 @@ $(document).ready ()->
           $('.default-state,.add-number,.verificationFooter').addClass 'hidden'
           $('.processing').addClass 'hidden'
           $('.step-success').removeClass 'hidden'
-          $('.under-review').find('.verified').html '<span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>'
+          $('.under-review').find('.verified').html '<span class="fnb-icons verified-icon ver-icon"></span><p class="c-title">Verified</p>'
           $('.under-review').find('.contact-input').attr('readonly',true)
         else
           $('.processing').addClass('hidden')
@@ -312,13 +329,21 @@ $(document).ready ()->
     return
 
 
-  #$(document).on 'change', '.business-contact .toggle__check', ->
-  $(".contact-info").on 'change', '.toggle__check', ->
-  # $('.business-contact .toggle__check').change ->
-    if $(this).is(':checked')
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing')
-      $(this).closest('.toggle').find('.contact-visible').val 1
-    else
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing')
-      $(this).closest('.toggle').find('.contact-visible').val 0
-    return
+if $(window).width() <= 768
+  $('.get-val').each ->
+    removeRow = $(this).find('.fnb-input')
+    addRow = $(this).find('.removeRow').detach()
+    $(removeRow).after addRow
+
+
+
+#$(document).on 'change', '.business-contact .toggle__check', ->
+$(".contact-info").on 'change', '.toggle__check', ->
+# $('.business-contact .toggle__check').change ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible to the applicant')
+    $(this).closest('.toggle').find('.contact-visible').val 1
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not visible to the applicant')
+    $(this).closest('.toggle').find('.contact-visible').val 0
+  return

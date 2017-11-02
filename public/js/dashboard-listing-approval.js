@@ -18,7 +18,7 @@
   approval_table = $('#datatable-listing_approval').DataTable({
     'pageLength': 25,
     'processing': true,
-    'order': [[4, 'desc']],
+    'order': [[2, 'desc']],
     'serverSide': true,
     'drawCallback': function() {
       if (filters['status'].length === 1) {
@@ -43,6 +43,8 @@
       }, {
         "data": "name"
       }, {
+        "data": "id"
+      }, {
         "data": "city"
       }, {
         "data": "categories"
@@ -52,6 +54,8 @@
         "data": "updated_on"
       }, {
         "data": "last_updated_by"
+      }, {
+        "data": "type"
       }, {
         "data": "duplicates"
       }, {
@@ -75,7 +79,7 @@
         'className': 'select-checkbox',
         'targets': 0
       }, {
-        'targets': [10],
+        'targets': [12],
         'visible': false,
         'searchable': false
       }
@@ -367,8 +371,15 @@
   });
 
   $('body').on('click', 'button#resetAll', function(e) {
-    var filters;
-    filters = {
+    $('div#categories.node-list').html('');
+    $('input#draftstatus').prop('checked', false);
+    $('select#status-filter').multiselect('rebuild');
+    $('#submissionDate').val('');
+    $('#listingNameSearch').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false);
+    });
+    window.filters = {
       'submission_date': {
         'start': '',
         'end': ''
@@ -381,14 +392,6 @@
         'user_type': ['internal', 'external']
       }
     };
-    $('div#categories.node-list').html('');
-    $('input#draftstatus').prop('checked', false).change();
-    $('select#status-filter').multiselect('rebuild').change();
-    $('#submissionDate').val('');
-    $('#listingNameSearch').val('');
-    $('.multi-dd').each(function() {
-      return $(this).multiselect('deselectAll', false).change();
-    });
     sendRequest();
   });
 
@@ -514,6 +517,16 @@
 
   $('body').on('change', 'select#updateUser', function() {
     filters['updated_by']['user_type'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#listingType', function() {
+    filters['type'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#premiumRequest', function() {
+    filters['premium'] = $(this).val();
     return sendRequest();
   });
 

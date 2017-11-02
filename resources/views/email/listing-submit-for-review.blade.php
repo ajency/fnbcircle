@@ -1,5 +1,5 @@
 @extends('layouts.email')
-@section('email_content')
+@section('content')
 Hi,<br/>
 <br/>
 Please review “{{$listing_name}}”. ({{$listing_link}}).<br/>

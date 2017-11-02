@@ -276,7 +276,7 @@
                             </div>
                         </div>
                         <!-- premium details ends -->
-                        <div class="h-i-w mobile-hide">
+                        <div class="h-i-w mobile-hide m-t-35">
                             <p class="sub-title bolder text-darker m-b-20">How it works</p>
                             <ul class="points">
                                 <li><p class="m-b-0 points__container flex-row"><span class="points__number">1</span> <span class="points__text text-color">Submit your details.</span></p></li>
@@ -309,5 +309,6 @@
 <!-- Enquiry ends -->
 
 @section('js')
+    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script>
 @endsection

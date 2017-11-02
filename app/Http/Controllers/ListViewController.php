@@ -185,6 +185,16 @@ class ListViewController extends Controller {
 
 		$output = new ConsoleOutput;
 
+        if($request->has('category_level') && $request->category_level) {
+            $category_obj = $category_obj->where('level', $request->category_level);
+        }
+
+        if($request->has("ignore_categories") && is_array($request->ignore_categories) && sizeof($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->whereNotIn('slug', $request->ignore_categories);
+        } else if ($request->has('ignore_categories') && !is_array($request->ignore_categories) && strlen($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->where('slug', '<>', $request->ignore_categories);
+        }
+
 		if($request->has("search") && $request->search) {
 			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
     	} else if($request->has("keyword") && $request->keyword) {

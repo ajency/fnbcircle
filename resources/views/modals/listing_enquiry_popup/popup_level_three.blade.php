@@ -80,6 +80,7 @@
             </ul>
             <div class="add-more-cat text-right m-t-5">
                 <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor" id="select-more-categories">+ Add more</a>
+                <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
                 <!-- <div class="form-group m-t-5 m-b-0 add-more-cat__input"> -->
                 @include('modals.categories_list')
                 <!-- <div class="form-group m-t-5 m-b-0">

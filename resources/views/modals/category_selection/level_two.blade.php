@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div>
-                <button id="category-select" class="btn fnb-btn outline border-btn re-save" type="button" data-dismiss="modal">save</button>
+                <button id="category-select-btn" class="btn fnb-btn outline border-btn re-save" type="button">add selected</button>
             </div>
         </div>
         @if(sizeof($sub_categories["children"]) > 0)
@@ -24,42 +24,52 @@
                 <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist" id="branch_categories">
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <li role="presentation" class="active"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation" class="active"><a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
                         @else
-                            <li role="presentation"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation"><a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
                         @endif
                     @endforeach
                 </ul>
                 <!-- Tab panes -->
-                <div class="tab-content cat-dataHolder mobile-categories relative">
+                <div class="tab-content cat-dataHolder mobile-categories relative" id="cat-dataHolder">
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @else
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @endif
                     @endforeach
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div role="tabpanel" class="tab-pane active collapse" id="{{ $sub_value['slug'] }}">
+                            <div role="tabpanel" class="tab-pane collapse active" id="{{ $sub_value['id'] }}">
                                 @if(isset($sub_value["node_children"]))
                                     <ul class="nodes">
                                         @foreach($sub_value["node_children"] as $node_index => $node_value)
                                             <li>
                                                 <label class="flex-row">
-                                                    <input type="checkbox" class="checkbox" for="{{ $node_value['slug'] }}">
+                                                    <input type="checkbox" class="checkbox" for="{{ $node_value['slug'] }}" value="{{ $node_value['slug'] }}">
                                                     <p class="lighter nodes__text" id="{{ $node_value['slug'] }}">{{ $node_value["name"] }}</p>
                                                 </label>
                                             </li>
                                         @endforeach
                                     </ul>
+                                @else
+                                    Sorry! No Categories found under <b>$sub_value["name"]</b>.
                                 @endif
                             </div>
                         @else
-                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['slug'] }}">{{ $sub_value['name'] }}</div>
+                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['id'] }}"></div>
                         @endif
                     @endforeach
+                    <!-- <div id="node-skeleton" class="hidden">
+                        <ul class="nodes">
+                            <li>
+                                <input type="checkbox" class="checkbox" for="" value=""/>
+                                <p class="lighter nodes__text" id=""></p>
+                            </li>
+                        </ul>
+                    </div> -->
                 </div>
             </div>
         @endif

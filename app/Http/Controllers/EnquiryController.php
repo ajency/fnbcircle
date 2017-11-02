@@ -564,18 +564,18 @@ class EnquiryController extends Controller {
     */
     public function getListingCategories(Request $request) {
     	$this->validate($request, [
-            'parent' => 'required',
+            'category_id' => 'required',
         ]);
 
     	$sub_categories = [];
     	$statuses = $request->has('statuses') ? $request->statuses : [];
 
-    	if(is_array($request->parent)) {
-        	$sub_categories = $this->getCategories('listing', $request->parent, $statuses);
-        } else if(strpos(" " . $request->parent, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$sub_categories = $this->getCategories('listing', json_decode($request->parent), $statuses);
+    	if(is_array($request->category_id)) {
+        	$sub_categories = $this->getCategories('listing', $request->category_id, $statuses);
+        } else if(strpos(" " . $request->category_id, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
+        	$sub_categories = $this->getCategories('listing', json_decode($request->category_id), $statuses);
         } else {
-        	$sub_categories = $this->getCategories('listing', [$request->parent], $statuses);
+        	$sub_categories = $this->getCategories('listing', [$request->category_id], $statuses);
         }
 
         // Take the 1st Parent Category
@@ -615,7 +615,6 @@ class EnquiryController extends Controller {
         	$node_categories = $this->getCategories('listing', [$request->branch], $statuses);
         }
 
-        dd($node_categories);
         //$node_categories = $node_categories[0];
 
         return response()->json(array("data" => $node_categories), 200);

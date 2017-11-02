@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
+  var capitalize, getArea, getBranchNodeCategories, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -266,20 +266,67 @@
     });
   };
 
-  getNodeCategories = function(path, parent_id) {
+  getBranchNodeCategories = function(path, parent_id) {
     var html;
     html = '';
     $.ajax({
       type: 'post',
       url: '/api/get_listing_categories',
       data: {
-        'parent': [parent_id]
+        'category_id': [parent_id]
       },
       success: function(data) {
         var key;
         key = void 0;
-        console.log(data["modal_template"]);
         $(path).html(data["modal_template"]);
+      },
+      error: function(request, status, error) {
+        throw Error();
+      }
+    });
+  };
+
+  getNodeCategories = function(path, parent_id, checked_values) {
+    var html;
+    html = '';
+    if (checked_values.length <= 0) {
+      $.each($(path + " input[type='checkbox']:checked"), function() {
+        checked_values.push($(this).val());
+      });
+    }
+    console.log(checked_values);
+    $.ajax({
+      type: 'post',
+      url: '/api/get_node_listing_categories',
+      data: {
+        'branch': [parent_id]
+      },
+      success: function(data) {
+        var html_upload, index, key, node_children;
+        key = void 0;
+
+        /* --- The HTML skeleton is defined under a <div id="node-skeleton"> --- */
+        node_children = data["data"][0]["children"];
+        $(path + "div#" + data["data"][0]["id"]);
+        if (node_children.length > 0) {
+          index = 0;
+          html_upload = "<ul class=\"nodes\">";
+          while (index < node_children.length) {
+            html_upload += "<li><label class=\"flex-row\">";
+            if (checked_values.length > 0 && $.inArray(node_children[index]['slug'], checked_values) !== -1) {
+              html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\"" + node_children[index]['slug'] + "\" checked=\"checked\">";
+            } else {
+              html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\"" + node_children[index]['slug'] + "\">";
+            }
+            html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['slug'] + "\">" + node_children[index]['name'] + "</p>";
+            html_upload += "</label></li>";
+            index++;
+          }
+          html_upload += "</ul>";
+        } else {
+          html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>.";
+        }
+        $(path + "div#" + data["data"][0]["id"]).html(html_upload);
       },
       error: function(request, status, error) {
         throw Error();
@@ -400,34 +447,36 @@
 
       /* --- On click of "Add More" categories --- */
       $(document).on("click", "#level-three-enquiry #select-more-categories", function() {
-        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
-        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
-        $("#level-three-enquiry #category-select #level-one-category input[type='radio']").prop("checked", false);
+        var main_page_categories;
+        main_page_categories = [];
+        $.each($("#level-three-enquiry input[name='categories_interested[]']:checked"), function() {
+          main_page_categories.push($(this).val());
+        });
+        $(document).on("shown.bs.modal", "#category-select", function(event) {
+          $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
+        });
       });
-      $(document).on("click", "#level-three-enquiry #category-select #level-one-category input[name='categories']", function() {
-        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
-        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
-      });
-      $(document).on("click", "#level-three-enquiry #category-select #back_to_categories", function() {
-        $("#level-three-enquiry #category-select #level-two-category").addClass("hidden");
-        $("#level-three-enquiry #category-select #level-one-category").removeClass("hidden");
-      });
-      $(document).on("click", "#level-three-enquiry #category-select #category-select-close", function() {
-        $(this).closest("div#category-select").modal('hide');
-      });
-      $(document).on("change", "#level-three-enquiry #category-select #level-one-category input[name='select-categories']", function() {
-        if ($(this).prop('checked')) {
-          $("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").attr('disabled', 'true');
-        } else {
-          $("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled');
+
+      /* --- On Categories Modal close, update the Level 3 with checkboxes --- */
+      $(document).on("hidden.bs.modal", "#category-select", function(event) {
+        var checked_categories, html, index;
+        checked_categories = [];
+        index = 0;
+        html = "";
+        if ($("#level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0) {
+          checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val());
         }
-      });
-      $(document).on("change", "#level-three-enquiry #category-select #level-one-category input[type='radio'][name='parent-categories']", function() {
-        getNodeCategories("#level-three-enquiry #category-select #level-two-category-dom", $(this).val());
-        $(this).closest("div#level-one-category").addClass("hidden");
-      });
-      $(document).on("click", "#level-three-enquiry #category-select #level-two-category ul#branch_categories li.presentation", function() {
-        console.log($(this).find('a').attr("aria-controls"));
+        while (index < checked_categories.length) {
+          if ($("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
+            $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", "true");
+          } else {
+            html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
+          }
+          index++;
+        }
+        if (html.length > 0) {
+          $("#level-three-enquiry #enquiry_core_categories").append(html);
+        }
       });
     }
   });

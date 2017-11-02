@@ -48,7 +48,7 @@
 		"listing_enquiry_description" => [
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "hospitality", "for" => "hospitality", "title" => "Hospitality Business Owner",
-					"content" => "If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business"
+					"content" => "If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business", "parsley" => ["data-parsley-mincheck" => "1", "data-required" => "true", "data-parsley-errors-container" => "#describes-best-error"]
 				),
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "professional", "for" => "professional", "title" => "Working Professional",
@@ -68,13 +68,13 @@
 				),
 			array(
 					"type" => "checkbox", "css_classes" => "checkbox", "id" => "", "name" => "description[]", "value" => "others", "for" => "others", "title" => "Others",
-					"content" => "Consultants, Media, Investors, Foodie, etc", "required" => "true", "parsley" => ["data-parsley-mincheck" => "1", "data-required" => "true", "data-parsley-errors-container" => "#describes-best-error"]
+					"content" => "Consultants, Media, Investors, Foodie, etc", "required" => "true"
 				)
 		],
 		"enquiry_popup_display" => [
 			"hospitality" => array(
 					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "hospitality", "title" => "Hospitality Business Owner",
-					"content" => "If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business"
+					"content" => "If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business", "parsley" => ["data-parsley-mincheck" => "1", "data-required" => "true", "data-parsley-errors-container" => "#describes-best-error"]
 				),
 			"professional" => array(
 					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "professional", "title" => "Working Professional",
@@ -94,7 +94,7 @@
 				),
 			"others" => array(
 					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "others", "title" => "Others",
-					"content" => "Consultants, Media, Investors, Foodie, etc", "required" => "true", "parsley" => ["data-parsley-mincheck" => "1", "data-required" => "true", "data-parsley-errors-container" => "#describes-best-error"]
+					"content" => "Consultants, Media, Investors, Foodie, etc", "required" => "true"
 				)
 		],
 	];

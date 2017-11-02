@@ -131,8 +131,8 @@ $additionalData = ['job'=>$job];
                 @php
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
-          <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-          <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+          <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+          <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -558,7 +558,7 @@ $additionalData = ['job'=>$job];
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
                         <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                        <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
                           
                            
                           @endif
@@ -971,7 +971,7 @@ $additionalData = ['job'=>$job];
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
                             <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a> 
-                            <a href="javascript:void(0)" class="remove_resume">Remove</a>
+                            <a href="javascript:void(0)" class="remove_resume"><i class="fa fa-times" aria-hidden="true"></i></a>
                             </div>
 
                             <div class="no_resume @if(!empty($userResume['resume_id'])) hidden @endif">

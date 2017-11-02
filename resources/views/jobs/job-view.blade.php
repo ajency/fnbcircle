@@ -965,16 +965,20 @@ $additionalData = ['job'=>$job];
                             </div>
                         </div>
                         
-                            @if(!empty($userResume['resume_id']))
+                             
+                            <div class="has_resume @if(empty($userResume['resume_id'])) hidden @endif">
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a>
-                            @else
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a> 
+                            <a href="javascript:void(0)" class="remove_resume">Remove</a>
+                            </div>
+
+                            <div class="no_resume @if(!empty($userResume['resume_id'])) hidden @endif">
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
-                            Please upload your resume
-                             
-                            @endif
+                            Please upload your resume (optional)
+                            </div>  
+                            
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
@@ -1331,6 +1335,8 @@ $additionalData = ['job'=>$job];
                  <td class="download-col">
                 @if($application->resume_id)
                   <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @else
+                -
                 @endif
                   </td>
                </tr>

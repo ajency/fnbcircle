@@ -1,6 +1,7 @@
 <div class="modal fnb-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <input type="hidden" name="previously_available_categories" id="previously_available_categories" value=""/>
             <div class="modal-header">
                 <div class="level-one mobile-hide firstStep">
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button> -->
@@ -44,3 +45,7 @@
             </div>
     </div>
 </div>
+
+@section('js')
+    <!-- <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script> -->
+@endsection

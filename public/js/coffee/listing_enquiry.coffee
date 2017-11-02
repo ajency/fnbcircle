@@ -86,10 +86,12 @@ getTemplate = (modal_template, listing_slug = '') ->
 			if data["modal_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["modal_template"]
 				$(document).find("div.container #enquiry-modal").modal 'show'
+				return
 		error: (request, status, error) ->
 			## -- Show the enquiry content -- ##
 			$("div.container #enquiry-modal").modal 'show'
 			console.log error
+			return
 	return
 
 getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_contact = false, contact_no = '') ->
@@ -115,6 +117,7 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_con
 			if data["popup_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
 				$(document).find("div.container #enquiry-modal").modal 'show'
+				return
 		error: (request, status, error) ->
 			#$("div.container #enquiry-modal").modal 'show'
 			if request.status == 410
@@ -130,6 +133,7 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_con
 				$("#enquiry-modal #otp-error").text("We have met with an error. Please try after sometime.")
 				console.log "Some error in OTP verification"
 			console.log error
+			return
 	return
 
 getCookie = (key) ->
@@ -243,19 +247,90 @@ initFlagDrop = (path) ->
 	# 	return
 	return
 
-getNodeCategories = (path, parent_id) ->
+getBranchNodeCategories = (path, parent_id) ->
 	html = ''
 
 	$.ajax
 		type: 'post'
 		url: '/api/get_listing_categories'
 		data: 
-			'parent': [parent_id]
+			'category_id': [parent_id]
 		success: (data) ->
 			key = undefined
 			#$('#' + path + ' select[name="area"]').html html
-			console.log data["modal_template"]
+			# console.log data["modal_template"]
 			$(path).html data["modal_template"]
+			return
+		error: (request, status, error) ->
+			throw Error()
+			return
+	return
+
+getNodeCategories = (path, parent_id, checked_values) ->
+	html = ''
+
+	if checked_values.length <= 0
+		$.each $(path + " input[type='checkbox']:checked"), ->
+			checked_values.push $(this).val()
+			return
+
+	console.log checked_values
+
+	$.ajax
+		type: 'post'
+		url: '/api/get_node_listing_categories'
+		data: 
+			'branch': [parent_id]
+		success: (data) ->
+			key = undefined
+			### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
+			# if $(document).find(path + " #node-skeleton").length > 0
+			# 	html = $(path + " #node-skeleton").clone().removeClass('hidden').html()
+			# 	html = html.replace(/\n/g, "").replace(/  /g, "") # Remove '\n' && '<space><space>' (Double spaces)
+			# 	parser = new DOMParser()
+			# 	html_dom = parser.parseFromString(html, "text/xml")
+
+			# 	html_upload = ''
+
+			# 	node_children = data["data"][0]["children"]
+			# 	console.log html_dom
+			# 	html_sub_dom = $(html_dom).find('ul li')
+			# 	$(path + "div#" + data["data"][0]["id"])
+
+			# 	if node_children.length > 0
+			# 		index = 0
+			# 		html_upload = "<ul class=\"nodes\">"
+			# 		while index < node_children.length
+			# 			# $(html_sub_dom).find("input[type='checkbox']").val(node_children[index]["id"])
+			# 			# $(html_sub_dom).find("input[type='checkbox']").attr("for", node_children[index]["id"])
+			# 			# $(html_sub_dom).find("p").val(node_children[index]["id"])
+			# 			# $(html_sub_dom).find("p").text(node_children[index]["name"])
+			# 			# $(html_dom).find('ul').append html_sub_dom
+			# 			index++
+			# 		html_upload += "</ul>"
+			# 	else
+			# 		html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
+			#	$(path + "div#" + data["data"][0]["id"]).append html_upload
+			
+			node_children = data["data"][0]["children"]
+			$(path + "div#" + data["data"][0]["id"])
+
+			if node_children.length > 0
+				index = 0
+				html_upload = "<ul class=\"nodes\">"
+				while index < node_children.length
+					html_upload += "<li><label class=\"flex-row\">"
+					if checked_values.length > 0 and $.inArray(node_children[index]['slug'], checked_values) != -1
+						html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\""+ node_children[index]['slug'] + "\" checked=\"checked\">"
+					else
+						html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\""+ node_children[index]['slug'] + "\">"
+					html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['slug'] + "\">" + node_children[index]['name'] + "</p>"
+					html_upload += "</label></li>"
+					index++
+				html_upload += "</ul>"
+			else
+				html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
+			$(path + "div#" + data["data"][0]["id"]).html html_upload
 			return
 		error: (request, status, error) ->
 			throw Error()
@@ -315,8 +390,9 @@ $(document).ready () ->
 					$(this).val($(this).intlTelInput("getNumber"))
 					return
 
-			if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
-				$("#level-one-enquiry input[name='contact']").val("")
+				if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
+					$("#level-one-enquiry input[name='contact']").val ""
+					return
 
 		$(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			if getCookie('user_id').length > 0
@@ -415,43 +491,110 @@ $(document).ready () ->
 
 		### --- On click of "Add More" categories --- ###
 		$(document).on "click", "#level-three-enquiry #select-more-categories", () ->
-			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
-			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
-			$("#level-three-enquiry #category-select #level-one-category input[type='radio']").prop "checked", false
+			main_page_categories = []
+			$.each $("#level-three-enquiry input[name='categories_interested[]']:checked"), ->
+				main_page_categories.push $(this).val()
+				return
+
+			$(document).on "shown.bs.modal", "#category-select", (event) ->
+				$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
+				return
 			return
 
-		$(document).on "click", "#level-three-enquiry #category-select #level-one-category input[name='categories']", () ->
-			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
-			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
-			# parent_category = $(this).parent().find("div.interested-label").text().replace(/\n/g, '').replace(/  /g, '')
-			# $("#level-three-enquiry #category-select #level-two-category span#main-cat-name").text(parent_category)
-			# $("#level-three-enquiry #category-select #level-two-category h5#main-cat-title").text(parent_category)
-			# $("#level-three-enquiry #category-select #level-two-category").removeClass "hidden"
-			# $("#level-three-enquiry #category-select #level-one-category").addClass "hidden"
+		### --- On Categories Modal close, update the Level 3 with checkboxes --- ###
+		$(document).on "hidden.bs.modal", "#category-select", (event) ->
+			checked_categories = []
+			index = 0
+			html = ""
+			
+			if $("#level-three-enquiry #modal_categories_chosen").val().length > 2 and JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0
+				checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val())
+
+			while index < checked_categories.length
+				if $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0
+					$("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", "true"
+				else
+					html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
+						<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
+							</li>"
+				index++
+
+			if html.length > 0
+				$("#level-three-enquiry #enquiry_core_categories").append html
+			
 			return
 
-		$(document).on "click", "#level-three-enquiry #category-select #back_to_categories", () ->
-			$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
-			$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
-			return
+		# $(document).on "click", "#level-three-enquiry #category-select #level-one-category input[name='categories']", () ->
+		# 	$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
+		# 	$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
+		# 	# parent_category = $(this).parent().find("div.interested-label").text().replace(/\n/g, '').replace(/  /g, '')
+		# 	# $("#level-three-enquiry #category-select #level-two-category span#main-cat-name").text(parent_category)
+		# 	# $("#level-three-enquiry #category-select #level-two-category h5#main-cat-title").text(parent_category)
+		# 	# $("#level-three-enquiry #category-select #level-two-category").removeClass "hidden"
+		# 	# $("#level-three-enquiry #category-select #level-one-category").addClass "hidden"
+		# 	return
 
-		$(document).on "click", "#level-three-enquiry #category-select #category-select-close", () ->
-			$(this).closest("div#category-select").modal 'hide'
-			return
+		# ### --- On click of "Back to Categories", display "Category-One" & hide "Category-Two" --- ###
+		# $(document).on "click", "#level-three-enquiry #category-select #back_to_categories", () ->
+		# 	$("#level-three-enquiry #category-select #level-two-category").addClass "hidden"
+		# 	$("#level-three-enquiry #category-select #level-one-category").removeClass "hidden"
+		# 	return
 
-		$(document).on "change", "#level-three-enquiry #category-select #level-one-category input[name='select-categories']", () ->
-			if $(this).prop('checked')
-				$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").attr('disabled', 'true')
-			else
-				$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled')
-			return
+		# $(document).on "click", "#level-three-enquiry #category-select #category-select-close", () ->
+		# 	$(this).closest("div#category-select").modal 'hide'
+		# 	return
 
-		$(document).on "change", "#level-three-enquiry #category-select #level-one-category input[type='radio'][name='parent-categories']", () ->
-			getNodeCategories("#level-three-enquiry #category-select #level-two-category-dom", $(this).val()) # add DOM to this level
-			$(this).closest("div#level-one-category").addClass "hidden"
-			return
+		# $(document).on "change", "#level-three-enquiry #category-select #level-one-category input[name='select-categories']", () ->
+		# 	if $(this).prop('checked')
+		# 		$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").attr('disabled', 'true')
+		# 	else
+		# 		$("#level-three-enquiry #category-select #level-one-category input[type='radio'][value='" + $(this).val() + "']").removeAttr('disabled')
+		# 	return
 
-		$(document).on "click", "#level-three-enquiry #category-select #level-two-category ul#branch_categories li.presentation", () ->
-			console.log $(this).find('a').attr("aria-controls")
-			return
+		# $(document).on "change", "#level-three-enquiry #category-select #level-one-category input[type='radio'][name='parent-categories']", () ->
+		# 	getBranchNodeCategories("#level-three-enquiry #category-select #level-two-category-dom", $(this).val()) # add DOM to this level
+		# 	$(this).closest("div#level-one-category").addClass "hidden"
+		# 	get_core_cat_checked = []
+
+		# 	$.each $("#level-three-enquiry input[type='checkbox'][name='categories_interested[]']:checked"), ->
+		# 		get_core_cat_checked.push $(this).val()
+		# 		return
+
+		# 	setTimeout ( ->
+		# 		console.log $("#level-three-enquiry #category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls")
+		# 		getNodeCategories("#level-three-enquiry #category-select #level-two-category ", $("#level-three-enquiry #category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked)
+		# 	), 200
+		# 	return
+
+		# $(document).on "click", "#level-three-enquiry #category-select #level-two-category ul#branch_categories li", () ->
+		# 	getNodeCategories("#level-three-enquiry #category-select #level-two-category ", $(this).find('a').attr("aria-controls"), [])
+		# 	return
+
+		# $(document).on "click", "#level-three-enquiry #category-select #level-two-category button#category-select-btn", () ->
+		# 	checked_categories = []
+		# 	main_page_categories = []
+
+		# 	$.each $("#level-three-enquiry input[name='categories_interested[]']"), ->
+		# 		main_page_categories.push $(this).val()
+		# 		return
+
+		# 	$.each $("#level-three-enquiry #category-select #level-two-category  #cat-dataHolder input[type='checkbox']:checked"), ->
+		# 		if main_page_categories.length > 0 and $.inArray($(this).val(), main_page_categories) != -1
+		# 			## -- If checkbox exist in the Enquiry popup, then just enable that checkbox -- ##
+		# 			$("#level-three-enquiry input[name='categories_interested[]'][value='" + $(this).val() + "']").prop "checked", "true"
+		# 		else
+		# 			## -- else get the slug & name of the Node Categories -- ##
+		# 			checked_categories.push {"slug": $(this).val(), "name": $(this).parent().find('p#' + $(this).val()).text() }
+		# 		return
+			
+		# 	index = 0	
+		# 	while index < checked_categories.length
+		# 		html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
+		# 		<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
+		# 			</li>"
+		# 		index++
+
+		# 	$("#level-three-enquiry #enquiry_core_categories").append html
+		# 	$("#level-three-enquiry #category-select").modal "hide"
+		# 	return
 	return

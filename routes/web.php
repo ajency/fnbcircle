@@ -142,13 +142,7 @@ Route::group( ['middleware' => ['auth']], function() {
 });
 
 
-/* List View of Listing */
-Route::group(['prefix' => '{city}'], function() {
-	Route::get('/business-listings', 'ListViewController@listView');
-	Route::get('/job-listings', 'JobController@jobListing');
-	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-	Route::get('/{listing_slug}', 'ListingViewController@index');
-});
+
 
 
 /*************/
@@ -229,5 +223,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], funct
 	Route::get('/','UserController@customerdashboard');
 	Route::post('/users/update-resume','UserController@uploadResume');
  
+});
+
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
+	Route::get('/{listing_slug}', 'ListingViewController@index');
 });
  

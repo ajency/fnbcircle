@@ -1335,6 +1335,8 @@ $additionalData = ['job'=>$job];
                  <td class="download-col">
                 @if($application->resume_id)
                   <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @else
+                -
                 @endif
                   </td>
                </tr>

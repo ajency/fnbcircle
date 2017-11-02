@@ -8,7 +8,7 @@
 @endsection
 @section('js')
     @parent
-    <script type="text/javascript" src="/js/categories.js"></script>
+    <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <!-- Datatables -->
     <script src="{{ asset('/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
@@ -62,17 +62,17 @@
         <div class="m-b-20">
             <p class="text-color x-small text-uppercase">Type</p>
             <div class="flex-row flex-wrap m-t-20">
-                <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox"> <div class="">Direct Enquiry</div></label>
-                <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox"> <div class="">Shared Enquiry</div></label>
-                <label class="flex-row text-lighter text-medium cursor-pointer"><input type="checkbox" class="checkbox"> <div class="">Contact Request</div></label>
+                <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="direct"> <div class="">Direct Enquiry</div></label>
+                <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="shared"> <div class="">Shared Enquiry</div></label>
+                <label class="flex-row text-lighter text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="contact"> <div class="">Contact Request</div></label>
             </div>
         </div>
         
     </div>
     <div class="col-sm-6">
         <div>
-            <p class="text-color x-small text-uppercase">Request send date</p>
-            <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date">
+            <p class="text-color x-small text-uppercase">Request send date  <a id="clearSubDate" href="#">Clear date filter</a> </p>
+            <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
         </div>
     </div>
     <div class="col-sm-12">
@@ -113,7 +113,7 @@
         <div>
             <p class="text-color x-small text-uppercase">Location</p>
             <div class="category-listing m-b-10">
-                <div class="single-category gray-border add-more-cat m-t-15">
+                <!-- <div class="single-category gray-border add-more-cat m-t-15">
                     <div class="row flex-row categoryContainer corecat-container">
                         <div class="col-sm-2 flex-row">
                             <div class="branch-row">
@@ -130,18 +130,19 @@
                     <div class="delete-cat">
                         <span class="fa fa-times remove"></span>
                     </div>
-                </div>
+                </div> -->
+                @include('modals.location_select.display')
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-                <a href="#" class="secondary-link x-small m-r-5">+ Add State</a>    
-                <a href="#" class="secondary-link x-small m-r-5">+ Add City</a>      
+                <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link x-small m-r-5" id="area-modal-link">+ Add Location</a>    
             </div>
         </div>
     </div>
     <div class="col-sm-12 m-t-10">
         <div class="leads-filter-action flex-row">
             <a href="#" class="clear-link dis-block text-decor m-r-15">Clear All</a>
-            <button class="btn primary-btn border-btn fnb-btn" type="button" id="">Apply Category</button>
+            <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyLocFilter">Apply Location</button>
+            <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyCatFilter">Apply Category</button>
         </div>
     </div>
 </div>
@@ -231,6 +232,9 @@
     
 
 </div>
+
+@include('modals.location_select.popup')
+
 
 <!-- archive confirmation modal -->
 

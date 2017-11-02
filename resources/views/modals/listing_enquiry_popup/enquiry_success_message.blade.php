@@ -17,4 +17,4 @@
 	</div>
 @endif
 
-<button class="btn fnb-btn" data-dismiss="modal" aria-label="Close">Close</button>
+<button class="btn fnb-btn" data-dismiss="modal" aria-label="Close">Ok, got it!</button>

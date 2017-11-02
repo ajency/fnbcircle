@@ -76,7 +76,7 @@
                     @foreach($data["cores"] as $core_key => $core_value)
                         <li>
                             <label class="flex-row">
-                                <input type="checkbox" class="checkbox" for="{{ $core_value['slug'] }}" name="categories_interested[]" value="{{ $core_value['slug'] }}" data-parsley-trigger="change" data-parsley-mincheck="1" data-required="true" required="true">
+                                <input type="checkbox" class="checkbox" for="{{ $core_value['id'] }}" name="categories_interested[]" value="{{ $core_value['id'] }}" data-parsley-trigger="change" data-parsley-mincheck="1" data-required="true" required="true">
                                 <p class="text-medium categories__text flex-points__text text-color" id="">{{ $core_value['name'] }}</p>
                             </label>
                         </li>
@@ -87,7 +87,8 @@
             </ul>
             <div class="add-more-cat text-right m-t-5">
                 <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor" id="select-more-categories">+ Add more</a>
-                <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"/>
+                <input type="hidden" id="modal_categories_hierarchy_chosen" name="modal_categories_hierarchy_chosen" value="[]"/>
                 
                 <!-- <div class="form-group m-t-5 m-b-0 add-more-cat__input"> -->
                 <!-- <div class="form-group m-t-5 m-b-0">

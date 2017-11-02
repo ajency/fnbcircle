@@ -489,6 +489,7 @@
         $.each($("#level-three-enquiry input[name='categories_interested[]']:checked"), function() {
           main_page_categories.push($(this).val());
         });
+        $("#enquiry-modal").modal("hide");
         $(document).on("shown.bs.modal", "#category-select", function(event) {
           console.log(main_page_categories);
           $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
@@ -498,6 +499,7 @@
       /* --- On Categories Modal close, update the Level 3 with checkboxes --- */
       $(document).on("hidden.bs.modal", "#category-select", function(event) {
         var checked_categories, html, index;
+        $("#enquiry-modal").modal("show");
         checked_categories = [];
         index = 0;
         html = "";

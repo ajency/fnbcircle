@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use App\Category;
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -333,4 +334,27 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	}
 
 	return $url;
+}
+
+function generateCategoryHierarchy($category_id) {
+	$cat_obj = Category::find($category_id);
+	$position = ["parent", "branch", "node"];
+	$value = [];
+
+	if($cat_obj->path) {
+		$id_arr = str_split($cat_obj->path, 5);
+		$id_arr = array_reverse($id_arr);
+
+		$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
+		
+		foreach ($id_arr as $id_key => $id_value) {
+			$cat_temp = Category::find($id_value);
+			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
+		}
+	} else {
+		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
+		$value["branch"] = []; $value["node"] = [];
+	}
+
+	return $value;
 }

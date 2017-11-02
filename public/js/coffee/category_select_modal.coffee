@@ -1,11 +1,11 @@
-getBranchNodeCategories = (path, parent_slug) ->
+getBranchNodeCategories = (path, parent_id) ->
 	html = ''
 
 	$.ajax
 		type: 'post'
 		url: '/api/get_listing_categories'
 		data: 
-			'category': [parent_slug]
+			'category': [parent_id]
 		success: (data) ->
 			key = undefined
 			#$('#' + path + ' select[name="area"]').html html
@@ -17,7 +17,7 @@ getBranchNodeCategories = (path, parent_slug) ->
 			return
 	return
 
-getNodeCategories = (path, parent_slug, checked_values, is_all_checked) ->
+getNodeCategories = (path, parent_id, checked_values, is_all_checked) ->
 	html = ''
 
 	if checked_values.length <= 0
@@ -25,13 +25,11 @@ getNodeCategories = (path, parent_slug, checked_values, is_all_checked) ->
 			checked_values.push $(this).val()
 			return
 
-	console.log checked_values
-
 	$.ajax
 		type: 'post'
 		url: '/api/get_node_listing_categories'
 		data: 
-			'branch': [parent_slug]
+			'branch': [parent_id]
 		success: (data) ->
 			key = undefined
 			### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
@@ -62,9 +60,8 @@ getNodeCategories = (path, parent_slug, checked_values, is_all_checked) ->
 			# 	else
 			# 		html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
 			#	$(path + "div#" + data["data"][0]["id"]).append html_upload
-			
 			node_children = data["data"][0]["children"]
-			$(path + "div#" + data["data"][0]["slug"])
+			$(path + "div#" + data["data"][0]["id"])
 
 			if node_children.length > 0
 				index = 0
@@ -72,19 +69,20 @@ getNodeCategories = (path, parent_slug, checked_values, is_all_checked) ->
 				while index < node_children.length
 					html_upload += "<li><label class=\"flex-row\">"
 					if is_all_checked
-						html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\""+ node_children[index]['slug'] + "\" checked=\"checked\">"
+						html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\" checked=\"checked\">"
 					else
-						if checked_values.length > 0 and $.inArray(node_children[index]['slug'], checked_values) != -1
-							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\""+ node_children[index]['slug'] + "\" checked=\"checked\">"
+						if checked_values.length > 0 and $.inArray(node_children[index]['id'].toString(), checked_values) != -1
+							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\" checked=\"checked\">"
 						else
-							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\""+ node_children[index]['slug'] + "\">"
-					html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['slug'] + "\">" + node_children[index]['name'] + "</p>"
+							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\">"
+					html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value=\"" + JSON.stringify(node_children[index]["hierarchy"]) + "\">"
+					html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>"
 					html_upload += "</label></li>"
 					index++
 				html_upload += "</ul>"
 			else
 				html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
-			$(path + "div#" + data["data"][0]["slug"]).html html_upload
+			$(path + "div#" + data["data"][0]["id"]).html html_upload
 			return
 		error: (request, status, error) ->
 			throw Error()
@@ -245,14 +243,11 @@ $(document).ready () ->
 		return
 
 	### --- On click of Branch Categories, Get it's children --- ###
-	$(document).on "click", "#category-select #level-two-category ul#branch_categories li", () ->
+	$(document).on "click", "#category-select #level-two-category ul#branch_categories li a", () ->
 		get_core_cat_checked = []
-		if $("#category-select #level-two-category div#" + $(this).find('a').attr("aria-controls") + " input[type='checkbox']").length < 1
+		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1
 			get_core_cat_checked = getPreviouslyAvailableCategories()
-			getNodeCategories("#category-select #level-two-category ", $(this).find('a').attr("aria-controls"), get_core_cat_checked, false)
-
-
-
+			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
 		return
 
 	### -- If a branch category is selected, then select all the core categories --- ###

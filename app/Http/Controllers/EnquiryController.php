@@ -550,7 +550,7 @@ class EnquiryController extends Controller {
 
             foreach ($children as $child_index => $child) {
             	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
-            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug));
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, "hierarchy" => generateCategoryHierarchy($child['id'])));
             }
 
             $parent_obj = Category::find($parent);
@@ -558,7 +558,7 @@ class EnquiryController extends Controller {
             if ($parent_obj->parent_id != null) {
                 $grandparent = Category::findorFail($parent_obj->parent_id);
             } else {
-                $grandparent = new Category;
+                $grandparent = null;
             }
 
             //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
@@ -579,11 +579,11 @@ class EnquiryController extends Controller {
     	$statuses = $request->has('statuses') ? $request->statuses : [];
 
     	if(is_array($request->category)) {
-        	$sub_categories = $this->getCategories('listing', $request->category, 'slug', $statuses);
+        	$sub_categories = $this->getCategories('listing', $request->category, 'id', $statuses);
         } else if(strpos(" " . $request->category, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$sub_categories = $this->getCategories('listing', json_decode($request->category), 'slug', $statuses);
+        	$sub_categories = $this->getCategories('listing', json_decode($request->category), 'id', $statuses);
         } else {
-        	$sub_categories = $this->getCategories('listing', [$request->category], 'slug', $statuses);
+        	$sub_categories = $this->getCategories('listing', [$request->category], 'id', $statuses);
         }
 
         // Take the 1st Parent Category
@@ -616,18 +616,24 @@ class EnquiryController extends Controller {
         $statuses = $request->has('statuses') ? $request->statuses : [];
 
     	if(is_array($request->branch)) {
-        	$node_categories = $this->getCategories('listing', $request->branch, 'slug', $statuses);
+        	$node_categories = $this->getCategories('listing', $request->branch, 'id', $statuses);
         } else if(strpos(" " . $request->branch, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$node_categories = $this->getCategories('listing', json_decode($request->branch), 'slug', $statuses);
+        	$node_categories = $this->getCategories('listing', json_decode($request->branch), 'id', $statuses);
         } else {
-        	$node_categories = $this->getCategories('listing', [$request->branch], 'slug', $statuses);
+        	$node_categories = $this->getCategories('listing', [$request->branch], 'id', $statuses);
         }
 
+        /*if(isset($node_categories["parent"]) && $node_categories["parent"]) {
+        	$node_categories["parent"] = $node_categories["parent"]->toArray();
+        }*/
         //$node_categories = $node_categories[0];
 
         return response()->json(array("data" => $node_categories), 200);
     }
 
+    /**
+    * This function will return a Template Modal based on Level
+    */
     public function getCategoryModalDom(Request $request) {
 		$this->validate($request, [
             'level' => 'required',

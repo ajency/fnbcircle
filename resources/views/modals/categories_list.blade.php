@@ -2,6 +2,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <input type="hidden" name="previously_available_categories" id="previously_available_categories" value=""/>
+            <input type="hidden" name="selected_hierarchy_values" id="selected_hierarchy_values" value=""/>
             <div class="modal-header">
                 <div class="level-one mobile-hide firstStep">
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button> -->

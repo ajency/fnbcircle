@@ -495,6 +495,7 @@ $(document).ready () ->
 			$.each $("#level-three-enquiry input[name='categories_interested[]']:checked"), ->
 				main_page_categories.push $(this).val()
 				return
+			$("#enquiry-modal").modal "hide"
 
 			$(document).on "shown.bs.modal", "#category-select", (event) ->
 				console.log main_page_categories
@@ -504,6 +505,7 @@ $(document).ready () ->
 
 		### --- On Categories Modal close, update the Level 3 with checkboxes --- ###
 		$(document).on "hidden.bs.modal", "#category-select", (event) ->
+			$("#enquiry-modal").modal "show"
 			checked_categories = []
 			index = 0
 			html = ""

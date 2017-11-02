@@ -24,9 +24,17 @@
                 <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist" id="branch_categories">
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <li role="presentation" class="active"><input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['slug'] }}"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation" class="active">
+                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
+                            </li>
                         @else
-                            <li role="presentation"><input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['slug'] }}"><a href="#{{ $sub_value['slug'] }}" aria-controls="{{ $sub_value['slug'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a></li>
+                            <li role="presentation">
+                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
+                            </li>
                         @endif
                     @endforeach
                 </ul>
@@ -35,21 +43,22 @@
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @else
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['slug'] }}" aria-expanded="false" aria-controls="{{ $sub_value['slug'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
                         @endif
                     @endforeach
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div role="tabpanel" class="tab-pane collapse active" id="{{ $sub_value['slug'] }}">
+                            <div role="tabpanel" class="tab-pane collapse active" id="{{ $sub_value['id'] }}">
                                 @if(isset($sub_value["node_children"]))
                                     <ul class="nodes">
                                         @foreach($sub_value["node_children"] as $node_index => $node_value)
                                             <li>
                                                 <label class="flex-row">
-                                                    <input type="checkbox" class="checkbox" for="{{ $node_value['slug'] }}" value="{{ $node_value['slug'] }}">
-                                                    <p class="lighter nodes__text" id="{{ $node_value['slug'] }}">{{ $node_value["name"] }}</p>
+                                                    <input type="checkbox" class="checkbox" for="{{ $node_value['id'] }}" value="{{ $node_value['id'] }}">
+                                                    <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($node_value['id'])) }}">
+                                                    <p class="lighter nodes__text" id="{{ $node_value['id'] }}">{{ $node_value["name"] }}</p>
                                                 </label>
                                             </li>
                                         @endforeach
@@ -59,7 +68,7 @@
                                 @endif
                             </div>
                         @else
-                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['slug'] }}"></div>
+                            <div role="tabpanel" class="tab-pane collapse" id="{{ $sub_value['id'] }}"></div>
                         @endif
                     @endforeach
                     <!-- <div id="node-skeleton" class="hidden">
@@ -75,7 +84,7 @@
         @endif
         <div class="footer-actions mobile-hide text-right">
             <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
-            <button id="category-select" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
+            <button id="category-select-btn" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
         </div>
     @endif
 </div>

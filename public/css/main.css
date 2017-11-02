@@ -2452,6 +2452,9 @@ input[type="checkbox"].toggle__check {
 .overflow-hidden {
   overflow-x: hidden;
 }
+.full-overflow {
+  overflow: hidden;
+}
 .required:after {
   content: '*';
   font-size: 1.1em;

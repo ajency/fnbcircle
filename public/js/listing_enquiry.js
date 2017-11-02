@@ -93,12 +93,12 @@
       success: function(data) {
         if (data["modal_template"].length > 0) {
           $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["modal_template"]);
-          return $(document).find("div.container #enquiry-modal").modal('show');
+          $(document).find("div.container #enquiry-modal").modal('show');
         }
       },
       error: function(request, status, error) {
         $("div.container #enquiry-modal").modal('show');
-        return console.log(error);
+        console.log(error);
       }
     });
   };
@@ -136,7 +136,7 @@
       success: function(data) {
         if (data["popup_template"].length > 0) {
           $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
-          return $(document).find("div.container #enquiry-modal").modal('show');
+          $(document).find("div.container #enquiry-modal").modal('show');
         }
       },
       error: function(request, status, error) {
@@ -153,7 +153,7 @@
           $("#enquiry-modal #otp-error").text("We have met with an error. Please try after sometime.");
           console.log("Some error in OTP verification");
         }
-        return console.log(error);
+        console.log(error);
       }
     });
   };
@@ -385,9 +385,9 @@
           $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function() {
             $(this).val($(this).intlTelInput("getNumber"));
           });
-        }
-        if ($("#level-one-enquiry input[name='contact']").length <= 1 && $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
-          return $("#level-one-enquiry input[name='contact']").val("");
+          if ($("#level-one-enquiry input[name='contact']").length <= 1 && $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
+            $("#level-one-enquiry input[name='contact']").val("");
+          }
         }
       });
       $(document).on("click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {

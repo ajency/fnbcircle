@@ -86,10 +86,12 @@ getTemplate = (modal_template, listing_slug = '') ->
 			if data["modal_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["modal_template"]
 				$(document).find("div.container #enquiry-modal").modal 'show'
+				return
 		error: (request, status, error) ->
 			## -- Show the enquiry content -- ##
 			$("div.container #enquiry-modal").modal 'show'
 			console.log error
+			return
 	return
 
 getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_contact = false, contact_no = '') ->
@@ -115,6 +117,7 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_con
 			if data["popup_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
 				$(document).find("div.container #enquiry-modal").modal 'show'
+				return
 		error: (request, status, error) ->
 			#$("div.container #enquiry-modal").modal 'show'
 			if request.status == 410
@@ -130,6 +133,7 @@ getVerification = (enquiry_level, listing_slug = '', regenerate = false, new_con
 				$("#enquiry-modal #otp-error").text("We have met with an error. Please try after sometime.")
 				console.log "Some error in OTP verification"
 			console.log error
+			return
 	return
 
 getCookie = (key) ->
@@ -386,8 +390,9 @@ $(document).ready () ->
 					$(this).val($(this).intlTelInput("getNumber"))
 					return
 
-			if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
-				$("#level-one-enquiry input[name='contact']").val("")
+				if $("#level-one-enquiry input[name='contact']").length <= 1 and $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1
+					$("#level-one-enquiry input[name='contact']").val ""
+					return
 
 		$(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			if getCookie('user_id').length > 0

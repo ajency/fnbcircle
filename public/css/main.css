@@ -10878,9 +10878,21 @@ input[type='checkbox'].remove-addr {
     width: 60%;
     font-size: 1em;
     margin-bottom: 0;
-    border-radius: 0;
-    padding: 0.65em 1.2em;
+    padding: 0.6em 1.2em;
   }
+}
+.Btn-status {
+  width: 60%;
+  text-align: center;
+}
+.Btn-status .fnb-btn {
+  width: 100%;
+  background-color: rgba(90, 90, 90, 0.77);
+}
+.Btn-status .fnb-btn:hover {
+  background-color: #676767;
+  color: #fff;
+  border-color: transparent;
 }
 .job-location .map-icon {
   -webkit-transform: scale(0.6);
@@ -11099,6 +11111,7 @@ input[type='checkbox'].remove-addr {
   }
   .footer-share .fnb-btn {
     width: 80%;
+    padding: 0.65em 1.8em;
   }
   .footer-share .share-job {
     text-align: center;
@@ -11357,9 +11370,8 @@ input[type='checkbox'].remove-addr {
 .job-pending-review .upgrade {
   border-color: transparent;
   font-size: 1em;
-  margin-top: 0.6em;
-  border-radius: 0;
-  padding: 0.4em 1.2em;
+  margin-top: 0.4em;
+  padding: 0.6em 1.2em;
 }
 .job-pending-review.pending-no-action {
   padding: 0;

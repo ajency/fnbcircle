@@ -10,52 +10,58 @@
             </div>    
               <!-- form -->
             <div class="collapse formFields gap-separator row" id="personalDetailsCollapse" style="box-shadow: 0px 5px 10px #f0f0f0 inset, 0px -5px 10px #f0f0f0 inset;">
-                <div class="col-sm-4">
-                    <div class="form-group m-b-0">
-                        <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
-                        <!-- <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
-                        <input type="text" class="form-control fnb-input float-input" id="name" value=""> -->
-                        <p class="flex-row align-top"><label>Name:</label> <span class="p-l-5" id="enquiry_name">{{ !Auth::guest() ? Auth::user()->name : (isset($enquiry_data) && isset($enquiry_data['name']) ? $enquiry_data['name'] : '') }}</span></p>
+                <div class="fornDetails flex-row flex-wrap">
+                    <div class="formDetails__cols">
+                        <div class="form-group m-b-0">
+                            <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
+                            <!-- <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
+                            <input type="text" class="form-control fnb-input float-input" id="name" value=""> -->
+                            <label>Name:</label>
+                            <p class="x-small" id="enquiry_name">{{ !Auth::guest() ? Auth::user()->name : (isset($enquiry_data) && isset($enquiry_data['name']) ? $enquiry_data['name'] : '') }}</p>
+                        </div>
+                    </div>
+                    <div class="formDetails__cols">
+                        <div class="form-group m-b-0">
+                            <!-- <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
+                            <input type="text" class="form-control fnb-input float-input" id="email" value="sunil773@gmail.com"> -->
+                            <label>Email: </label> 
+                            <p class="x-small" id="enquiry_email">{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}</p>
+                        </div>
+                    </div>
+                    <div class="formDetails__cols">
+                        <div class="form-group m-b-0">
+                            <!-- <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
+                            <input type="tel" class="form-control fnb-input float-input" id="number" value="9876543200"> -->
+                            <label>Phone:</label>
+                            <p class="x-small" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}</p>
+                        </div>
+                    </div>
+                    <div class="formDetails__cols">
+                        <label>What describes you the best: </label>
+                        @if(isset($enquiry_data['describes_best']) && sizeof($enquiry_data['describes_best']) > 0)
+                            <ul>
+                                @php
+                                    if(isset($enquiry_data) && isset($enquiry_data['describes_best'])) {
+                                        $describes_best_html = generateHTML("enquiry_popup_display", $enquiry_data['describes_best']);
+                                    } else {
+                                        $describes_best_html = generateHTML("enquiry_popup_display", []);
+                                    }
+                                @endphp
+                                @foreach($describes_best_html as $index_best => $value_best)
+                                    {!! $value_best["html"] !!}
+                                @endforeach
+                            </ul>
+                        @else
+                            None
+                        @endif
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <div class="form-group m-b-0">
-                        <!-- <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                        <input type="text" class="form-control fnb-input float-input" id="email" value="sunil773@gmail.com"> -->
-                        <p class="flex-row align-top"><label>Email: </label> <span class="p-l-5" id="enquiry_email">{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}</span></p>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="form-group m-b-0">
-                        <!-- <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
-                        <input type="tel" class="form-control fnb-input float-input" id="number" value="9876543200"> -->
-                        <p class="flex-row align-top"><label>Phone:</label> <span class="p-l-5" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}</span></p>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <label>What describes you the best: </label>
-                    @if(isset($enquiry_data['describes_best']) && sizeof($enquiry_data['describes_best']) > 0)
-                        <ul>
-                            @php
-                                if(isset($enquiry_data) && isset($enquiry_data['describes_best'])) {
-                                    $describes_best_html = generateHTML("enquiry_popup_display", $enquiry_data['describes_best']);
-                                } else {
-                                    $describes_best_html = generateHTML("enquiry_popup_display", []);
-                                }
-                            @endphp
-                            @foreach($describes_best_html as $index_best => $value_best)
-                                {!! $value_best["html"] !!}
-                            @endforeach
-                        </ul>
-                    @else
-                        None
-                    @endif
-                </div>
+
             </div>
             <!-- form ends -->
         @endif
 
-        <p class="text-darker heavier m-t-10">Please give us details of the categories that you are interested in and also the areas of operation.</p>
+        <p class="text-darker heavier m-t-20">Please give us details of the categories that you are interested in and also the areas of operation.</p>
         <!-- categories -->
         <div class="categories-select gap-separator">
             <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p>

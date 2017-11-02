@@ -4986,6 +4986,13 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .vendor-contact-details .vendor-label {
   font-size: 1.15em;
 }
+.formDetails__cols {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+  padding: 0 15px;
+}
 @media screen and (max-width: 768px) {
   .verification-modal p,
   .verification-modal label,

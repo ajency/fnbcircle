@@ -768,7 +768,13 @@ $additionalData = ['job'=>$job];
            <!-- <span class="fnb-icons exclamation"></span> -->
            <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
            <div class="contact__enquiry text-center m-t-15">    
-              <a href="{{ url('jobs/create') }}"><button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
+               
+              @if(Auth::check())
+                <a href="/jobs/create" >
+              @else
+                <a href="#" data-toggle="modal" data-target="#login-modal">
+              @endif  
+              <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
            </div>
         </div>
 
@@ -962,7 +968,8 @@ $additionalData = ['job'=>$job];
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  /> 
+                                <!-- @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif -->
                                 <div id="resume-error"></div>
                             </div>
                           </div>

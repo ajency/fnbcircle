@@ -976,7 +976,7 @@ $additionalData = ['job'=>$job];
 
                             <div class="no_resume @if(!empty($userResume['resume_id'])) hidden @endif">
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
-                            Please upload your resume
+                            Please upload your resume (optional)
                             </div>  
                             
 

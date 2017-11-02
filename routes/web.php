@@ -16,13 +16,6 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
-/* List View of Listing */
-Route::group(['prefix' => '{city}'], function() {
-	Route::get('/business-listings', 'ListViewController@listView');
-	Route::get('/job-listings', 'JobController@jobListing');
-	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-	Route::get('/{listing_slug}', 'ListingViewController@index');
-});
 
 /****
 api
@@ -116,11 +109,9 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
-
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
-
 
 
 /**
@@ -150,6 +141,14 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/remove-resume','UserController@removeResume');
 });
 
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
+	Route::get('/{listing_slug}', 'ListingViewController@index');
+});
 
 
 /*************/

@@ -538,7 +538,8 @@ function getFileMimeType($ext){
 }
 
 function sendNotifications(){
-	$pendingNotifications = App\NotificationQueue::where('processed', 0)->orderBy('created_at', 'asc')->get();
+	$today = date('Y-m-d H:i:s');
+	$pendingNotifications = App\NotificationQueue::where('processed', 0)->where('send_at','<=',$today)->orderBy('created_at', 'asc')->get();
 
 	if(!empty($pendingNotifications)){
 		foreach ($pendingNotifications as $key => $pendingNotification) {
@@ -557,7 +558,7 @@ function sendNotifications(){
 			}
 	 
 			$pendingNotification->processed = 1;
-			$pendingNotification->processed_at = date('Y-m-d H:i:s');
+			$pendingNotification->processed_at = $today;
 			$pendingNotification->save();
 
 

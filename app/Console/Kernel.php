@@ -31,6 +31,10 @@ class Kernel extends ConsoleKernel
             $jobController = new JobController();
             $jobController->sendJobAlert();
         })->everyFiveMinutes();  
+
+        $schedule->call(function () {
+            sendNotifications();
+        })->everyTenMinutes();  
     }
 
     /**

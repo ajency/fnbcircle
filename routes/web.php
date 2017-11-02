@@ -21,7 +21,6 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
 	Route::get('/job-listings', 'JobController@jobListing');
 	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-	Route::get('/business-listings', 'ListViewController@listView');
 	Route::get('/{listing_slug}', 'ListingViewController@index');
 });
 

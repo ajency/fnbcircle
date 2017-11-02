@@ -77,19 +77,19 @@
 					"content" => "If you are an Owner/Founder/Director/C.E.O of a Restaurant, Catering business, Hotel, Food or Beverage Manufacturing/Processing unit or any other Hospitality business", "parsley" => ["data-parsley-mincheck" => "1", "data-required" => "true", "data-parsley-errors-container" => "#describes-best-error"]
 				),
 			"professional" => array(
-					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "professional", "title" => "Working Professional",
+					"type" => "li_label", "css_classes" => "", "id" => "", "name" => "", "value" => "", "for" => "professional", "title" => "Working Professional",
 					"content" => "If you are a chef, senior Manager, mid level Manager, Supervisor, Order Taker, Customer Representative, etc"
 				),
 			"vendor" => array(
-					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "vendor", "title" => "Vendor/Supplier/Service provider",
+					"type" => "li_label", "css_classes" => "", "id" => "", "name" => "", "value" => "", "for" => "vendor", "title" => "Vendor/Supplier/Service provider",
 					"content" => "If you or your company trades in or supplies/provides anything to the Hospitality Industry. This category includes Food &amp; Beverage Traders, Manufacturers, Importers, Exporters, Service/Solution Providers"
 				),
 			"student" => array(
-					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "student", "title" => "Hospitality Student",
+					"type" => "li_label", "css_classes" => "", "id" => "", "name" => "", "value" => "", "for" => "student", "title" => "Hospitality Student",
 					"content" => "If you are pursuing your education in hospitality sector currently"
 				),
 			"enterpreneur" => array(
-					"type" => "li_label", "css_classes" => "checkbox", "id" => "", "name" => "", "value" => "", "for" => "enterpreneur", "title" => "Prospective Entrepreneur",
+					"type" => "li_label", "css_classes" => "", "id" => "", "name" => "", "value" => "", "for" => "enterpreneur", "title" => "Prospective Entrepreneur",
 					"content" => "If you see yourself becoming a part of the awesome Hospitality Industry in the near or distant future"
 				),
 			"others" => array(

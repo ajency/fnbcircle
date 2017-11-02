@@ -2460,6 +2460,11 @@ input[type="checkbox"].toggle__check {
   position: absolute;
   left: -5px;
 }
+.required.with-flag {
+  position: relative;
+  top: -6px;
+  left: -6px;
+}
 .disable {
   pointer-events: none;
   opacity: 0.3;
@@ -4592,6 +4597,13 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .direction-down {
   margin-left: auto;
 }
+.verification-modal .describe-section label {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 50%;
+      -ms-flex: 1 0 50%;
+          flex: 1 0 50%;
+  margin-bottom: 0;
+}
 .verification-modal .h-i-w .points li {
   padding-bottom: 1.8em;
   position: relative;
@@ -4650,7 +4662,7 @@ input[type=checkbox].custom-checkbox:before {
           align-items: baseline;
 }
 .verification-modal .flex-points .checkbox {
-  top: 3px;
+  top: -3px;
 }
 .verification-modal .flex-points .checkbox:checked + .flex-points__text {
   font-weight: 500;
@@ -4729,9 +4741,6 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .verification hr {
   margin: 1.2em 0;
   border-width: 2px;
-}
-.verification-modal .verification__row {
-  margin: 0.5em;
 }
 .verification-modal .verification__detail {
   -webkit-box-flex: 0.7;

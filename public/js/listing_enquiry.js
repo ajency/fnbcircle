@@ -342,17 +342,54 @@
 
     /* --- Display respective Popups on "Send Enquiry click" --- */
     if ($("#enquiry-modal").length > 0) {
-      if ($(document).find("#level-one-enquiry").length > 0) {
-        $('#enquiry-modal').on('shown.bs.modal', function() {
+      $('#enquiry-modal').on('shown.bs.modal', function() {
+        var checkForInput;
+        checkForInput = function(element) {
+          var $label;
+          $label = $(element).siblings('label');
+          if ($(element).val().length > 0) {
+            $label.addClass('filled lab-color');
+          } else {
+            $label.removeClass('filled lab-color');
+          }
+        };
+        $('.float-input').on('focus', function() {
+          $(this).siblings('.float-label').addClass('filled focused');
+        });
+        $('.float-input').on('blur', function() {
+          $(this).siblings('.float-label').removeClass('focused');
+          if (this.value === '') {
+            $(this).siblings('.float-label').removeClass('filled');
+          }
+        });
+        $('.floatInput').on('focus', function() {
+          $(this).parent().closest('.form-group').find('.float-label').addClass('filled focused');
+        });
+        $('.floatInput').on('blur', function() {
+          $(this).parent().closest('.form-group').find('.float-label').removeClass('focused');
+          if (this.value === '') {
+            $(this).parent().closest('.form-group').find('.float-label').removeClass('filled');
+          }
+        });
+        $('.float-input').each(function() {
+          checkForInput(this);
+        });
+        $('.default-area-select').multiselect({
+          includeSelectAllOption: true,
+          numberDisplayed: 5,
+          delimiterText: ',',
+          nonSelectedText: 'Select City'
+        });
+        if ($(document).find("#level-one-enquiry").length > 0) {
           initFlagDrop("#level-one-enquiry input[name='contact']");
-          return $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function() {
+          $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function() {
             $(this).val($(this).intlTelInput("getNumber"));
           });
-        });
-        if ($("#level-one-enquiry input[name='contact']").length <= 1 && $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
-          $("#level-one-enquiry input[name='contact']").val("");
         }
-      }
+        if ($("#level-one-enquiry input[name='contact']").length <= 1 && $("#level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
+          return $("#level-one-enquiry input[name='contact']").val("");
+        }
+      });
       $(document).on("click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", function() {
         if (getCookie('user_id').length > 0) {
           if (getCookie('user_type') === "user") {

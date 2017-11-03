@@ -19,9 +19,9 @@
 
     <!-- Autosize textarea -->
     <script src="/bower_components/autosize/dist/autosize.min.js"></script>
-    
-    <script type="text/javascript" src="/js/dashboard-manage-enquiries.js"></script>
     <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
+    <script type="text/javascript" src="/js/dashboard-manage-enquiries.js"></script>
 @endsection
 @section('meta')
   <meta property="status-url" content="{{action('AdminModerationController@setStatus')}}">
@@ -154,9 +154,9 @@
         </div>
 
 
-       @include('modals.location_select.popup')
+        @include('modals.location_select.popup')
 
-        
+        @include('modals.categories_list')
 
 
 

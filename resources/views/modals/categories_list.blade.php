@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <div class="level-one mobile-hide firstStep">
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button> -->
-                    <button class="close" id="category-select-close" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <button type="button" class="close" id="category-select-close" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="mobile-back flex-row">
                     <div class="back">
@@ -47,6 +47,3 @@
     </div>
 </div>
 
-@section('js')
-    <!-- <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script> -->
-@endsection

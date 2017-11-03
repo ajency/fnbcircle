@@ -1,3 +1,4 @@
+
 @extends('layouts.add-listing')
 @section('css')
     @parent
@@ -14,6 +15,7 @@
     <script src="{{ asset('/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
     <script type="text/javascript" src="/js/listing-lead.js"></script>
 @endsection
 
@@ -235,7 +237,7 @@
 
 @include('modals.location_select.popup')
 
-
+@include('modals.categories_list')
 <!-- archive confirmation modal -->
 
 <div class="modal fnb-modal confirm-box fade modal-center" id="enquiryarchive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -144,16 +144,10 @@
   });
 
   $('body').on('click', '.fnb-cat .remove', function() {
-    var item, list, pid;
+    var item, list;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();
-    item.remove();
-    if (list.children().length === 0) {
-      pid = parseInt(list.closest('.single-category').attr('data-city-id'));
-      delete cities['cities'][pid];
-      list.closest('.single-category').remove();
-      return $('.city-list a#checkbox-' + pid).prop('checked', false).change();
-    }
+    return item.remove();
   });
 
   $('body').on('change', '.city-list input[type="checkbox"]', function() {

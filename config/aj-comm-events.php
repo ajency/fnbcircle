@@ -29,5 +29,17 @@ return [
     "reset-password" => [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"
-    ]
+    ],
+    "user-register" => [
+        "laravel" => "email.user-register",
+        "pushcrew" => ""
+    ],
+    "user-verify" => [
+        "laravel" => "email.user-verify",
+        "pushcrew" => ""
+    ],
+    "welcome-user" => [
+        "laravel" => "email.welcome-user",
+        "pushcrew" => ""
+    ],
 ];

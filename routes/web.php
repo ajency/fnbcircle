@@ -96,6 +96,8 @@ JOBS/USERS
 Route::get('/job/{slug}','JobController@show');
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-company','JobController@getCompanies');
+Route::get('user-confirmation/{token}', 'Auth\RegisterController@userConfirmation');
+Route::get('send-confirmation-link', 'Auth\RegisterController@sendConfirmationLink');
 
 /**
 logged in users group

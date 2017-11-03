@@ -27,6 +27,7 @@ use App\EnquiryCategory;
 use App\EnquiryArea;
 
 use App\Http\Controllers\ListingViewController;
+use App\Http\Controllers\ListViewController;
 use App\Http\Controllers\CookieController;
 
 class EnquiryController extends Controller {
@@ -219,10 +220,47 @@ class EnquiryController extends Controller {
 
 		   			if(isset($session_data["enquiry_id"])) {
 		   				$enq_obj = Enquiry::find($session_data["enquiry_id"]);
-		   				// $area_ids = $enq_obj->areas()->pluck('area_id')->toArray();
-		   				// $core_ids = $enq_obj->categories()->pluck('category_id')->toArray();
+		   				$area_ids = $enq_obj->areas()->pluck('area_id')->toArray();
+		   				$core_ids = $enq_obj->categories()->pluck('category_id')->toArray();
+
+		   				$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $area_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
+						$listing_cat_ids = ListingCategory::whereIn('category_id', $core_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
+
+						if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+							$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+							if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
+								$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+							}
+						} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
+							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+						} else {
+							$listing_final_ids = [];
+						}
+
+						if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) {
+							// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
+							$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+							unset($listing_final_ids[$pos]);
+						}
+
+						if (sizeof($listing_final_ids) > 0)  {
+							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+
+							if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
+								$listing_final_ids = $temp_listing_ids;
+							}
+						}
+
+						$listviewObj = new ListViewController;
+						$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
+						$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
+						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+		   			} else {
+		   				$listing_data = [];
 		   			}
-		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('data'))->render();
+		   			//dd($listing_data);
+		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
 		   		$response_html = abort(404);
@@ -396,18 +434,33 @@ class EnquiryController extends Controller {
 				
 				if($listing_obj->first()->premium || !Auth::guest()) { // If premium or (not guest User) then save the data
 					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
-					ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
+					$listing_cat_ids = ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
 
-					print_r($enquiry_sent['enquiry_to_id']);
-					print_r(json_encode($listing_operations_ids));
-					dd($listing_operations_ids);
-
-					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
-						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_operations_ids);
-						unset($session_payload[$pos]);
+					if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) {
+						$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+						if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
+							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+						}
+					} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
+						$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+					} else {
+						$listing_final_ids = [];
 					}
 
-					foreach ($listing_operations_ids as $op_key => $op_value) {
+					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
+						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+						unset($listing_final_ids[$pos]);
+					}
+
+					if (sizeof($listing_final_ids) > 0)  {
+						$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+
+						if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
+							$listing_final_ids = $temp_listing_ids;
+						}
+					}
+
+					foreach ($listing_final_ids as $op_key => $op_value) {
 						$enquiry_sent["enquiry_to_id"] = $op_value;
 						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
 					}

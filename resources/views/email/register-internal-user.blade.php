@@ -24,7 +24,7 @@
         
             <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
-             You are now added as the *role_name* on FnB Circle. <br><br>
+             You are now added as the {{ implode(', ',$userRoles)}} on FnB Circle. <br><br>
 
             Please use the following credentials to login. <br><br>
             Email: {{ $request['email'] }}<br>

@@ -631,6 +631,7 @@ class AdminConfigurationController extends Controller
         if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
             
+            $userRoles = $create_response['user']->getRoleNames()->toArray();
           
             $userEmail = $request["email"];
             $userEmail = 'prajay@ajency.in';
@@ -640,7 +641,7 @@ class AdminConfigurationController extends Controller
             $data['to'] = [$userEmail];
             $data['cc'] = 'prajay@ajency.in';
             $data['subject'] = "You are added as internal user on FnB Circle.";
-            $data['template_data'] = ['request' => $request];
+            $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
             sendEmail('register-internal-user', $data);
 
             $output->writeln(json_encode($create_response));

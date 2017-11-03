@@ -65,6 +65,7 @@ getContent = (enquiry_level, listing_slug) ->
 				$(document).find("div.container #enquiry-modal").modal 'show'
 				if $("#level-three-enquiry").length > 0
 					initCatSearchBox()
+					multiSelectInit("#level-three-enquiry", false)
 					return
 		error: (request, status, error) ->
 			#$("div.container #enquiry-modal").modal 'show'
@@ -163,6 +164,8 @@ getArea = (city, path) ->
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
+			$("#level-three-enquiry" + ' .default-area-select').multiselect('destroy')
+			multiSelectInit("#level-three-enquiry", false)
 			return
 		error: (request, status, error) ->
 			throw Error()
@@ -337,6 +340,18 @@ getNodeCategories = (path, parent_id, checked_values) ->
 			return
 	return
 
+multiSelectInit = (path, reinit = false) ->
+	if reinit
+		$(path + ' .default-area-select').multiselect()
+	else
+		$(path + ' .default-area-select').multiselect
+			includeSelectAllOption: true
+			numberDisplayed: 5
+			delimiterText: ','
+			nonSelectedText: 'Select City'
+
+	return
+
 $(document).ready () ->
 	### --- This object is used to store old values -> Mainly for search-boxes --- ###
 	old_values = {}
@@ -377,12 +392,6 @@ $(document).ready () ->
 			  checkForInput this
 			  return
 			  
-			$('.default-area-select').multiselect
-			  includeSelectAllOption: true
-			  numberDisplayed: 5
-			  delimiterText: ','
-			  nonSelectedText: 'Select City'
-
 			if $(document).find("#level-one-enquiry").length > 0
 				initFlagDrop("#level-one-enquiry input[name='contact']")
 			
@@ -411,6 +420,7 @@ $(document).ready () ->
 		### --- On click of "Send Enquiry 1" button --- ###
 		$(document).on "click", "#level-one-enquiry #level-one-form-btn", () ->
 			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+			$(this).find("i.fa-circle-o-notch").removeClass "hidden"
 			if $(document).find("#level-one-enquiry").parsley().validate()
 				getContent(page_level, $("#enquiry_slug").val())
 			else

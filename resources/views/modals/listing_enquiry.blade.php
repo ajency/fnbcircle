@@ -258,7 +258,12 @@
                                 </div>
                             </h5>
                             <div class="seller-enquiry">
-                                <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title"><span class="brand-name"> {{ $data['title']['name'] }} </span> <span class="fnb-icons verified-icon"></span></p>
+                                <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title">
+                                    <span class="brand-name"> {{ $data['title']['name'] }} </span>
+                                    @if(isset($data['verified']) && $data['verified'])
+                                        <span class="fnb-icons verified-icon"></span>
+                                    @endif
+                                </p>
                                 <div class="location flex-row mobile-hide">
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title m-b-0 text-lighter">{{$data['city']['name']}}</p>

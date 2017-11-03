@@ -349,10 +349,14 @@ function generateCategoryHierarchy($category_id) {
 		
 		foreach ($id_arr as $id_key => $id_value) {
 			$cat_temp = Category::find($id_value);
-			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
+			if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
+				$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
+			} else {
+				$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
+			}
 		}
 	} else {
-		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
+		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_temp->icon_url);
 		$value["branch"] = []; $value["node"] = [];
 	}
 

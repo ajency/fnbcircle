@@ -164,8 +164,6 @@ $(document).ready () ->
 	      return
 	    ), 100
 
-
-
 	# detaching sections
 	if $(window).width() <= 768
 	  $('.single-category').each ->
@@ -178,14 +176,14 @@ $(document).ready () ->
 	    addRow = $(this).find('.removeRow').detach()
 	    $(removeRow).after addRow
 
-	setTimeout (->
-	  $('.brand-list').flexdatalist
-	    removeOnBackspace: false
-	    minLength: 1
-	    url: '/get_brands'
-	    searchIn: ["name"]
-	  return
-	), 500
+	# setTimeout (->
+	#   $('.brand-list').flexdatalist
+	#     removeOnBackspace: false
+	#     minLength: 1
+	#     url: '/get_brands'
+	#     searchIn: ["name"]
+	#   return
+	# ), 500
 
 	$('body').on 'click', '#category-select .delete-cat', ->
 	  $(this).closest('.single-category').remove()

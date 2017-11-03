@@ -127,12 +127,12 @@ $(document).ready () ->
 
 	getCategoryDom("#category-select #level-one-category-dom", "level_1")
 
-	$('body').on 'click', '.sub-category-back', ->
+	$('body').on 'click', '#category-select .sub-category-back', ->
 	  $('.main-category').removeClass 'hidden'
 	  $('.sub-category').removeClass 'shown'
 
 
-	$('body').on 'click', '.category-back', ->
+	$('body').on 'click', '#category-select .category-back', ->
 	  $('.main-category').removeClass 'hidden'
 	  $('.sub-category').removeClass 'shown'
 	  $('.desk-level-two').addClass 'hidden'
@@ -140,13 +140,13 @@ $(document).ready () ->
 	  $('.interested-options .radio').prop 'checked', false
 
 
-	$('.topSelect').click ->
+	$('#category-select .topSelect').click ->
 	  setTimeout (->
-	    $('.category-back').addClass 'hidden'
+	    $('#category-select .category-back').addClass 'hidden'
 	    return
 	  ), 100
 
-	$('.catSelect-click').click ->
+	$('#category-select .catSelect-click').click ->
 	  $('.category-back').removeClass 'hidden'
 
 
@@ -187,11 +187,11 @@ $(document).ready () ->
 	  return
 	), 500
 
-	$('body').on 'click', '.delete-cat', ->
+	$('body').on 'click', '#category-select .delete-cat', ->
 	  $(this).closest('.single-category').remove()
 	  change_view()
 
-	$('body').on 'click', '.fnb-cat .remove', ->
+	$('body').on 'click', '#category-select .fnb-cat .remove', ->
 	  item = $(this).closest('.fnb-cat__title').parent()
 	  list= item.parent()
 	  item.remove()

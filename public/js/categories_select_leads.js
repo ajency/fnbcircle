@@ -14,11 +14,9 @@
       selected_categ_id.push($(this).val());
       selected_categ.push(JSON.parse($(this).parent().find('input[type="hidden"]#hierarchy').val()));
     });
-    console.log(selected_categ);
     selected_categ.forEach(function(element) {
       var branchID, nodeID, parentID;
       parentID = element['parent']['id'];
-      console.log(parentID);
       if (!categories['parents'].hasOwnProperty(parentID)) {
         categories['parents'][parentID] = {
           'id': element['parent']['id'],
@@ -50,12 +48,10 @@
             };
           }
         } else {
-          categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
-          return console.log(element);
+          return categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
         }
       } else {
-        categories['parents'][parentID]['selected'] = 1;
-        return console.log('parent select ', element);
+        return categories['parents'][parentID]['selected'] = 1;
       }
     });
     console.log(categories);
@@ -64,11 +60,71 @@
 
   populate = function() {
     var source, template;
-    source = '{{#parents}} <div class="single-category gray-border add-more-cat m-t-15"> <div class="row flex-row categoryContainer corecat-container"> <div class="col-sm-4 flex-row"> <img class="import-icon cat-icon" src="{{image-url}}"> <div class="branch-row"> <div class="cat-label"> {{name}} <input type=hidden name="categories" value="{{id}}" data-item-name="{{slug}}"> </div> </div> </div> <div class="col-sm-8"> {{#branches}} <div class="m-b-20 row"> <div class="col-sm-4"> <strong class="branch">{{name}}</strong> <input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> </div> <div class="col-sm-8"> <ul class="fnb-cat small flex-row" id="view-categ-node"> {{#nodes}} <li> <span class="fnb-cat__title"> {{name}} <input data-item-name="{{name}}" name="categories" type="hidden" value="{{id}}"> <span class="fa fa-times remove"></span> </span> </li> {{/nodes}} </ul> </div> </div> {{/branches}} </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div> {{/parents}}';
+    source = '{{#parents}} <div class="single-category gray-border add-more-cat m-t-15" data-categ-id="{{id}}"> <div class="row flex-row categoryContainer corecat-container"> <div class="col-sm-4 flex-row"> <img class="import-icon cat-icon" src="{{image-url}}"> <div class="branch-row"> <div class="cat-label"> {{name}} <input type=hidden name="categories" value="{{id}}" data-item-name="{{slug}}"> </div> </div> </div> <div class="col-sm-8"> {{#branches}} <div class="m-b-20 row branch-container" data-categ-id={{id}}> <div class="col-sm-4"> <strong class="branch">{{name}}</strong><span class="fa fa-times remove branch-remove"></span> <input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> </div> <div class="col-sm-8"> <ul class="fnb-cat small flex-row" id="view-categ-node"> {{#nodes}} <li class="node-container"> <span class="fnb-cat__title"> {{name}} <input data-item-name="{{name}}" name="categories" type="hidden" value="{{id}}"> <span class="fa fa-times remove node-remove"></span> </span> </li> {{/nodes}} </ul> </div> </div> {{/branches}} </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div> {{/parents}}';
     template = Handlebars.compile(source, {
       noEscape: true
     });
     $('div#categories.node-list').html(template(categories));
   };
+
+  $('#categories.node-list').on('click', '.delete-cat', function() {
+    var pid;
+    pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
+    console.log(pid);
+    delete categories['parents'][pid];
+    return $(this).closest('.single-category').remove();
+  });
+
+  $('#categories.node-list').on('click', '.branch-remove', function() {
+    var bid, item, pid;
+    item = $(this).closest('.branch-container');
+    pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
+    bid = parseInt($(this).closest('.branch-container').attr('data-categ-id'));
+    delete categories['parents'][pid]['branches'][bid];
+    return item.remove();
+  });
+
+  $('#categories.node-list').on('click', '.fnb-cat .node-remove', function() {
+    var bid, item, list, nid, pid;
+    item = $(this).closest('.fnb-cat__title').parent();
+    list = item.parent();
+    pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
+    bid = parseInt($(this).closest('.branch-container').attr('data-categ-id'));
+    nid = parseInt(item.find('input[type="hidden"]').val());
+    delete categories['parents'][pid]['branches'][bid]['nodes'][nid];
+    return item.remove();
+  });
+
+  window.getLeafNodes = function() {
+    var branch, i, j, leaf_nodes, node, parent;
+    leaf_nodes = [];
+    for (parent in categories['parents']) {
+      i = 0;
+      for (branch in categories['parents'][parent]['branches']) {
+        i++;
+        j = 0;
+        for (node in categories['parents'][parent]['branches'][branch]['nodes']) {
+          j++;
+          leaf_nodes.push(categories['parents'][parent]['branches'][branch]['nodes'][node]['id']);
+        }
+        if (j === 0) {
+          leaf_nodes.push(categories['parents'][parent]['branches'][branch]['id']);
+        }
+      }
+      if (i === 0) {
+        leaf_nodes.push(categories['parents'][parent]['id']);
+      }
+    }
+    return leaf_nodes;
+  };
+
+  $(document).ready(function() {
+    $(document).on("shown.bs.modal", "#category-select", function(event) {
+      var enquiry_categories;
+      enquiry_categories = getLeafNodes();
+      console.log(enquiry_categories);
+      $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories));
+    });
+  });
 
 }).call(this);

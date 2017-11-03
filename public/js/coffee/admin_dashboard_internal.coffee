@@ -148,8 +148,8 @@ requestData = (table_id) ->
 			{ mData: "edit", sWidth: "5%", bSearchable: false, bSortable: false, bVisible: true }
 			{ mData: "name", sWidth: "20%", className: "sorting_1", bSearchable: true, bSortable: true }
 			{ mData: "email", sWidth: "20%", className: "text-center", bSearchable: false, bSortable: true }
-			{ mData: "roles", sWidth: "30%", className: "text-center", bSearchable: false, bSortable: false }
-			{ mData: "status", sWidth: "20%", className: "text-center", bSearchable: false, bSortable: false }
+			{ mData: "roles", sWidth: "30%", className: "text-center", bSearchable: true, bSortable: false }
+			{ mData: "status", sWidth: "20%", className: "text-center", bSearchable: true, bSortable: false }
 		]
 		'bSort': true
 		'order': [get_sort_order()]#[[ 2, "desc" ]]
@@ -205,10 +205,46 @@ requestData = (table_id) ->
 			return
 	return internal_user_table
 
+init_Multiselect = ->
+	console.log "Initialize"
+	$('.multi-ddd').multiselect
+		# buttonContainer: '<span></span>'
+		# buttonClass: ''
+		maxHeight: 200
+		# templates: 
+		# 	button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+		includeSelectAllOption: true
+		numberDisplayed: 5
+		# delimiterText: ','
+		#nonSelectedText: 'Select City'
+		onChange: (element, checked) ->
+			console.log "checked"
+			categories = $(this)[0]['$select'].find('option:selected')
+			selected = []
+			$(categories).each (index, city) ->
+				selected.push $(this).val()
+				return
+		
+			search = selected.join('|')
+			col = $(this)[0]['$select'].closest('th').data('col')
+			$('#datatable-internal-users').DataTable().column(col).search(search, true, false).draw()
+			# Show/hide first column for Listing Approval table
+			# if (selected == "Pending Review") {
+			#     $(".select-checkbox").css("display", "table-cell");
+			#     $(".bulk-status-update").removeClass('hidden');
+			# } else {
+			#     $(".select-checkbox").css("display", "none");
+			#     $(".bulk-status-update").addClass('hidden');
+			# }
+			return
+	return
+
 $(document).ready () ->
 
 	#get_filters()
+	### --- Initialize the Table for 1st time, as the filters will be on Client-Side --- ### 
 	table = requestData("datatable-internal-users")
+	init_Multiselect()
 	
 	$("#add_newuser_modal #add_newuser_modal_form input[type='email'][name='email']").on 'keyup change', () ->
 		form_obj = $("#add_newuser_modal #add_newuser_modal_form")

@@ -524,7 +524,8 @@ class AdminConfigurationController extends Controller
     }
 
     public function internalUserView(Request $request) {
-        return view('admin-dashboard.internal_users');
+        $status = User::userStatuses();
+        return view('admin-dashboard.internal_users')->with(compact('status'));
     }
 
     public function registeredUserView(Request $request) {

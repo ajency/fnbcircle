@@ -120,4 +120,13 @@ class User extends Authenticatable
 
         return $object;
     }
+
+    /**
+    * This function is used to return the list of User Account Status
+    *
+    * @return array
+    */
+    public static function userStatuses() {
+        return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
+    }
 }

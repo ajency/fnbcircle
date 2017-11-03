@@ -155,7 +155,8 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::group(['prefix' => 'users'], function() {
 		/* Get Users */
 		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
-		Route::get('registered-users', 'AdminConfigurationController@registeredUserView'); // Get Registered / External Users
+		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
+		Route::post('get-registered-users', 'AdminConfigurationController@getRegisteredUsers');  // Get Registered / External Users
 
 		Route::post('get-users', 'AdminConfigurationController@getUserData'); // Get all the User Data
 

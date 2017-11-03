@@ -5,8 +5,8 @@
     </div>
 <!-- enquiry success ends -->
 
-@if(isset($data))
-	<div class="seller-info bg-card filter-cards">
+@if(isset($listing_data))
+	<!-- <div class="seller-info bg-card filter-cards">
         <div class="seller-info__body filter-cards__body white-space">
             <div class="flex-row suppliers-title-head">
                 <div class="suppliers-title">
@@ -49,7 +49,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
+    @include('list-view.single-card.listing_card')
 @endif
 
 <button class="btn fnb-btn" data-dismiss="modal" aria-label="Close">Ok, got it!</button>

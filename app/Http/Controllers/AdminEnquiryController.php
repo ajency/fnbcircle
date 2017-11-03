@@ -190,17 +190,20 @@ class AdminEnquiryController extends Controller
         }
         if(isset($filters['categories'])){
             $filter_nodes = [];
-            foreach($filters['categories'] as $category_id){
-                $category = Category::find($category_id);
-                if($category->level == 3){
-                    $filter_nodes[] = $category->id;
-                }else{
-                    $nodes = Category::where('path',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT))->pluck('id')->toArray();
-                    $filter_nodes = array_merge($filter_nodes,$nodes);
+            $filters['categories'] = json_decode($filters['categories']);
+            if(count($filters['categories'])!=0){
+                foreach($filters['categories'] as $category_id){
+                    $category = Category::find($category_id);
+                    if($category->level == 3){
+                        $filter_nodes[] = $category->id;
+                    }else{
+                        $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                        $filter_nodes = array_merge($filter_nodes,$nodes);
+                    }
                 }
+                $filter_enquiries = array_unique(EnquiryCategory::whereIn('category_id',$filter_nodes)->pluck('enquiry_id')->toArray());
+                $enquiries = $enquiries->whereIn('id',$filter_enquiries);
             }
-            $filter_enquiries = array_unique(EnquiryCategory::whereIn('category_id',$filter_nodes)->pluck('enquiry_id')->toArray());
-            $enquiries = $enquiries->whereIn('id',$filter_enquiries);
         }
         if(isset($filters['city']) or isset($filters['area'])){
             if(!isset($filters['city'])) $filters['city'] = [];

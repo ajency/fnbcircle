@@ -422,7 +422,7 @@ function generateCategoryHierarchy($category_id) {
 			}
 		}
 	} else {
-		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_temp->icon_url);
+		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
 		$value["branch"] = []; $value["node"] = [];
 	}
 

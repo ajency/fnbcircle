@@ -128,6 +128,28 @@ $('#listing-leads tbody').on 'click', '.details-control', ->
 		$(this).find('.more-less-text').text 'Less details'
 	return
 
+$('body').on 'click','a#clearSubDate', (e) ->
+  e.preventDefault()
+  $('#submissionDate').val('')
+  filters['request_date'] = []
+  table.ajax.reload()
+
+$('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
+  filters['request_date'] = {}
+  filters['request_date']['start'] = picker.startDate.format('YYYY-MM-DD')
+  filters['request_date']['end'] = picker.endDate.format('YYYY-MM-DD')
+  $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
+  console.log filters
+  table.ajax.reload()
+  return
+
+$('body').on 'change', '.type-filter', -> 
+  array = []
+  $('.type-filter:checked').each (index,element) ->
+  	array.push $(element).val()
+  filters['enquiry_type'] = array
+  table.ajax.reload()
+
 $('body').on 'change','input#namefilter', ->
   filters['enquirer_name'] = @value
   table.ajax.reload()
@@ -138,6 +160,21 @@ $('body').on 'change','input#emailfilter', ->
 
 $('body').on 'change','input#phonefilter', ->
   filters['enquirer_contact'] = @value
+  table.ajax.reload()
+
+$('body').on 'click','button#applyLocFilter', ->
+  loc_city_array = []
+  loc_area_array = []
+  for entry of cities['cities']
+      j=0
+      for i of cities['cities'][entry]['areas']
+        console.log 
+        loc_area_array.push(cities['cities'][entry]['areas'][i]['id'])
+        j++
+      if j == 0
+        loc_city_array.push(cities['cities'][entry]['id'])
+  filters['city'] = loc_city_array
+  filters['area'] = loc_area_array
   table.ajax.reload()
 
 $('body').on 'change','input#archivefilter', ->

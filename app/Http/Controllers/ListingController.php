@@ -807,7 +807,8 @@ class ListingController extends Controller
             }
             if ($step == 'manage-leads'){
                 $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
-                return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents',$parent_categ);
+                $cities       = City::where('status', '1')->get();
+                return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents', $parent_categ)->with('cities', $cities);
             }
         }
         abort(404);

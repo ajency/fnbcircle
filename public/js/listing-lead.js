@@ -69,6 +69,32 @@
     }
   });
 
+  $('body').on('click', 'a#clearSubDate', function(e) {
+    e.preventDefault();
+    $('#submissionDate').val('');
+    filters['request_date'] = [];
+    return table.ajax.reload();
+  });
+
+  $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+    filters['request_date'] = {};
+    filters['request_date']['start'] = picker.startDate.format('YYYY-MM-DD');
+    filters['request_date']['end'] = picker.endDate.format('YYYY-MM-DD');
+    $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+    console.log(filters);
+    table.ajax.reload();
+  });
+
+  $('body').on('change', '.type-filter', function() {
+    var array;
+    array = [];
+    $('.type-filter:checked').each(function(index, element) {
+      return array.push($(element).val());
+    });
+    filters['enquiry_type'] = array;
+    return table.ajax.reload();
+  });
+
   $('body').on('change', 'input#namefilter', function() {
     filters['enquirer_name'] = this.value;
     return table.ajax.reload();
@@ -81,6 +107,26 @@
 
   $('body').on('change', 'input#phonefilter', function() {
     filters['enquirer_contact'] = this.value;
+    return table.ajax.reload();
+  });
+
+  $('body').on('click', 'button#applyLocFilter', function() {
+    var entry, i, j, loc_area_array, loc_city_array;
+    loc_city_array = [];
+    loc_area_array = [];
+    for (entry in cities['cities']) {
+      j = 0;
+      for (i in cities['cities'][entry]['areas']) {
+        console.log;
+        loc_area_array.push(cities['cities'][entry]['areas'][i]['id']);
+        j++;
+      }
+      if (j === 0) {
+        loc_city_array.push(cities['cities'][entry]['id']);
+      }
+    }
+    filters['city'] = loc_city_array;
+    filters['area'] = loc_area_array;
     return table.ajax.reload();
   });
 

@@ -108,6 +108,7 @@ class AdminEnquiryController extends Controller
         $enquiry_type = [
             'direct' => '<label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>',
             'shared' => '<label class="fnb-label text-primary m-b-5">Shared Enquiry</label><br>',
+            'contact' => '<label class="fnb-label fnb-info-text m-b-5">Contact Enquiry</label><br>',
         ];
         $enquirer_type = [
             'App\\User' => 'User',
@@ -179,7 +180,7 @@ class AdminEnquiryController extends Controller
     {
     	$listing = new Listing();
 
-    	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing));
+    	if($type=='admin') $enquiries = Enquiry::where('enquiry_to_type',get_class($listing))->where('type','enquiry');
         else {
             if($listing_id!=''){
                 if(!isset($filters['archive']) or $filters['archive'] == 0 ) $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->where('is_archived',0)->pluck('enquiry_id')->toArray();
@@ -217,20 +218,25 @@ class AdminEnquiryController extends Controller
             $enquiries = $enquiries->where('created_at', '>', $start_date->toDateTimeString())->where('created_at', '<', $end->addDay()->toDateTimeString());
         }
         if(isset($filters['enquiry_type'])){
-            if(count($filters['enquiry_type']) == 1){
-                if($type=='admin') {
+            if($type=='admin') {
+                if(count($filters['enquiry_type']) == 1){
                     $direct = EnquirySent::select('enquiry_id',DB::raw('count(*) as count'))->groupBy('enquiry_id')->having('count',1)->pluck('enquiry_id')->toArray();
                     if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct);
                     else $enquiries = $enquiries->whereNotIn('id',$direct);
                 }
-                else {
-                    if($listing_id!=''){
-                        $direct = EnquirySent::where('enquiry_type','direct')->pluck('enquiry_id')->toArray();
-                        if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct);
-                        else $enquiries = $enquiries->whereNotIn('id',$direct);
-                    }
+            }
+            else {
+                if($listing_id!=''){
+                    $direct = EnquirySent::where(function($sql) use ($filters){
+                        $i=0;
+                        foreach($filters['enquiry_type'] as $type){
+                            if($i==0) $sql->where('enquiry_type',$type);
+                            else $sql->orWhere('enquiry_type',$type);
+                            $i++;
+                        }
+                    })->where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();
+                    $enquiries = $enquiries->whereIn('id',$direct);
                 }
-               
             }
         }
         if(isset($filters['enquirer_type'])){
@@ -373,7 +379,7 @@ class AdminEnquiryController extends Controller
         foreach ($response as $resp) {
             $response1[] = $resp;
         }
-        if($type=='admin') $all = Enquiry::where('enquiry_to_type',get_class($listing))->count();
+        if($type=='admin') $all = Enquiry::where('enquiry_to_type',get_class($listing))->where('type','enquiry')->count();
         else {
             if($listing_id!=''){
                 $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing_id)->pluck('enquiry_id')->toArray();

@@ -19,7 +19,8 @@
 
     <!-- Autosize textarea -->
     <script src="/bower_components/autosize/dist/autosize.min.js"></script>
-
+    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
     <script type="text/javascript" src="/js/dashboard-manage-enquiries.js"></script>
 @endsection
 @section('meta')
@@ -59,7 +60,8 @@
                   <div class="col-sm-8">
                     <div class="cat-filter__wrapper">
                       <label>Category Filter</label>
-                      <a href="#category-select"  class="btn btn-link btn-sm">Filter based on node categories</a>
+                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
+                      <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
                       <div id="categories" class="node-list"></div>
                       
                     </div>
@@ -152,10 +154,9 @@
         </div>
 
 
-       @include('modals.location_select.popup')
+        @include('modals.location_select.popup')
 
-
-        
+        @include('modals.categories_list')
 
 
 

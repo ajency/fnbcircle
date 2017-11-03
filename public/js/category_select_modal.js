@@ -117,23 +117,23 @@
 
   $(document).ready(function() {
     getCategoryDom("#category-select #level-one-category-dom", "level_1");
-    $('body').on('click', '.sub-category-back', function() {
+    $('body').on('click', '#category-select .sub-category-back', function() {
       $('.main-category').removeClass('hidden');
       return $('.sub-category').removeClass('shown');
     });
-    $('body').on('click', '.category-back', function() {
+    $('body').on('click', '#category-select .category-back', function() {
       $('.main-category').removeClass('hidden');
       $('.sub-category').removeClass('shown');
       $('.desk-level-two').addClass('hidden');
       $('.firstStep').removeClass('hidden');
       return $('.interested-options .radio').prop('checked', false);
     });
-    $('.topSelect').click(function() {
+    $('#category-select .topSelect').click(function() {
       return setTimeout((function() {
-        $('.category-back').addClass('hidden');
+        $('#category-select .category-back').addClass('hidden');
       }), 100);
     });
-    $('.catSelect-click').click(function() {
+    $('#category-select .catSelect-click').click(function() {
       return $('.category-back').removeClass('hidden');
     });
     $('#category-select').on('hidden.bs.modal', function(e) {
@@ -162,19 +162,11 @@
         return $(removeRow).after(addRow);
       });
     }
-    setTimeout((function() {
-      $('.brand-list').flexdatalist({
-        removeOnBackspace: false,
-        minLength: 1,
-        url: '/get_brands',
-        searchIn: ["name"]
-      });
-    }), 500);
-    $('body').on('click', '.delete-cat', function() {
+    $('body').on('click', '#category-select .delete-cat', function() {
       $(this).closest('.single-category').remove();
       return change_view();
     });
-    $('body').on('click', '.fnb-cat .remove', function() {
+    $('body').on('click', '#category-select .fnb-cat .remove', function() {
       var item, list;
       item = $(this).closest('.fnb-cat__title').parent();
       list = item.parent();

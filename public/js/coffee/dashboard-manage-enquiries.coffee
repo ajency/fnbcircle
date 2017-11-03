@@ -48,6 +48,8 @@ enquiry_table.columns().iterator 'column', (ctx, idx) ->
   $(enquiry_table.column(idx).header()).append '<span class="sort-icon"/>'
   return
 
+
+
 $('body').on 'change','select#updateType', ->
   filters['enquiry_type'] = $(this).val()
   enquiry_table.ajax.reload()
@@ -103,4 +105,5 @@ $('body').on 'change','input#senttofilter', ->
 $('body').on 'change','input#madetofilter', ->
   filters['enquiree'] = @value
   enquiry_table.ajax.reload()
+
 

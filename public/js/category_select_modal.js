@@ -56,7 +56,7 @@
                 html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\">";
               }
             }
-            html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value=\"" + JSON.stringify(node_children[index]["hierarchy"]) + "\">";
+            html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value='" + JSON.stringify(node_children[index]["hierarchy"]) + "'>";
             html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>";
             html_upload += "</label></li>";
             index++;

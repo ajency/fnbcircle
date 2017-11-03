@@ -184,6 +184,13 @@ $('body').on 'change','input#archivefilter', ->
   	filters['archive'] = 0
   table.ajax.reload()
 
+
+$('body').on 'click','button#applyCategFilter', ->
+  console.log 'worls'
+  filters['categories'] = JSON.stringify(getLeafNodes())
+  table.ajax.reload()
+
+
 $('body').on 'click','.archiveaction', ->
   editrow = $(this).closest('td')
   enquiry = table.row(editrow).data()

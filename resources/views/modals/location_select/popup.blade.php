@@ -65,7 +65,7 @@
             </div>
             <div class="footer-actions mobile-hide text-right">
                 <!-- <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button> -->
-                <button id="category-select" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">Save</button>
+                <!-- <button id="category-select" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">Save</button> -->
             </div>
         </div>
     </div>

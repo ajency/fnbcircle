@@ -406,25 +406,33 @@ function generateCategoryHierarchy($category_id) {
 	$cat_obj = Category::find($category_id);
 	$position = ["parent", "branch", "node"];
 	$value = [];
+	$categ = $cat_obj;
+	$level = $cat_obj->level;
 
-	if($cat_obj->path) {
-		$id_arr = str_split($cat_obj->path, 5);
-		$id_arr = array_reverse($id_arr);
+	do{
+		if($level!=$cat_obj->level) $categ = Category::find($categ->parent_id);
+		$value[$position[$categ->level - 1]] = array("id" => $categ->id, "name" => $categ->name, "slug" => $categ->slug, "level" => $categ->level, "icon_url" => $categ->icon_url);
+		$level--;
+	}while($level > 0);
 
-		$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
+	// if($cat_obj->path) {
+	// 	$id_arr = str_split($cat_obj->path, 5);
+	// 	$id_arr = array_reverse($id_arr);
+
+	// 	$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
 		
-		foreach ($id_arr as $id_key => $id_value) {
-			$cat_temp = Category::find($id_value);
-			if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
-				$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
-			} else {
-				$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
-			}
-		}
-	} else {
-		$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
-		$value["branch"] = []; $value["node"] = [];
-	}
+	// 	foreach ($id_arr as $id_key => $id_value) {
+	// 		$cat_temp = Category::find($id_value);
+	// 		if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
+	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
+	// 		} else {
+	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
+	// 		}
+	// 	}
+	// } else {
+	// 	$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
+	// 	$value["branch"] = []; $value["node"] = [];
+	// }
 
 	return $value;
 }

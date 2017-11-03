@@ -726,8 +726,10 @@
                             </div> 
                             
                             <div class="contact__enquiry text-center">                                
+                                @if($data['status']['id']==1)
                                 <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                 <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
+                                @endif
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval m-t-20">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -1021,7 +1023,7 @@
                 <div class="right"></div>
             </div>
         </div>
-        
+        @if($data['status']['id']==1)
         <!-- Enquiry modal -->
         <input type="hidden" name="enquiry_slug" id="enquiry_slug" value="{{ $data['title']['slug'] }}">
         <div id="updateTemplate">
@@ -1030,7 +1032,7 @@
         <!-- <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"> -->
         @include('modals.categories_list')
         <!-- Enquiry ends -->
-
+        @endif
      </div>
      <div class="pos-fixed fly-out side-toggle">
         <!-- <div class="mobile-back desk-hide mobile-flex">

@@ -565,3 +565,31 @@ require get_parent_theme_file_path( '/inc/customizer.php' );
  * SVG icons functions and filters.
  */
 require get_parent_theme_file_path( '/inc/icon-functions.php' );
+
+
+
+
+
+function fix_slash( $string, $type )
+{
+global $wp_rewrite;
+if ( $wp_rewrite->use_trailing_slashes == false )
+{
+    if ( $type != 'single' && $type != 'category' )
+        return trailingslashit( $string );
+
+    if ( $type == 'single' && ( strpos( $string, '.html/' ) !== false ) )
+        return trailingslashit( $string );
+
+    if ( $type == 'category' && ( strpos( $string, 'category' ) !== false ) )
+    {
+        $aa_g = str_replace( "/category/", "/", $string );
+        return trailingslashit( $aa_g );
+    }
+    if ( $type == 'category' )
+        return trailingslashit( $string );
+}
+return $string;
+}
+
+//add_filter( 'user_trailingslashit', 'fix_slash', 55, 2 );

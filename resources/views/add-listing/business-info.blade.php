@@ -1,11 +1,11 @@
 @extends('layouts.add-listing')
 @section('css')
     @parent
-    <link rel="stylesheet" href="/node_modules/intl-tel-input/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
 @endsection
 @section('js')
     @parent
-    <script type="text/javascript" src="/node_modules/intl-tel-input/build/js/intlTelInput.min.js"></script>
+    <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <script type="text/javascript" src="/js/add-listing-info.js"></script>
 @endsection
 @section('form-data')

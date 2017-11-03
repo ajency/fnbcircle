@@ -116,12 +116,16 @@ class EnquiryController extends Controller {
 		}
 
 		if($enquiry_obj) { // If enquiry object exist, then add other data
-			$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
-			$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
+			if (sizeof($enquiry_sent) > 0) {
+				$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
+				$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
+			} else {
+				$enquiry_sent_obj = [];
+			}
 
 			if(sizeof($enquiry_categories) > 0) {
 				foreach ($enquiry_categories as $cat_key => $cat_value) {
-					$category_obj = Category::where('slug', $cat_value)->first();
+					$category_obj = Category::where('id', $cat_value)->first();
 					$enquiry_cat_obj = EnquiryCategory::create(["enquiry_id" => $enquiry_obj["id"], "category_id" => $category_obj->id]);
 				}
 			} else {
@@ -211,7 +215,14 @@ class EnquiryController extends Controller {
 			   		}
 
 		   		} else {
-		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('data', 'enquiry_data'))->render();
+		   			$session_data = Session::get('enquiry_data');
+
+		   			if(isset($session_data["enquiry_id"])) {
+		   				$enq_obj = Enquiry::find($session_data["enquiry_id"]);
+		   				// $area_ids = $enq_obj->areas()->pluck('area_id')->toArray();
+		   				// $core_ids = $enq_obj->categories()->pluck('category_id')->toArray();
+		   			}
+		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('data'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
 		   		$response_html = abort(404);
@@ -385,6 +396,11 @@ class EnquiryController extends Controller {
 				
 				if($listing_obj->first()->premium || !Auth::guest()) { // If premium or (not guest User) then save the data
 					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
+					ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
+
+					print_r($enquiry_sent['enquiry_to_id']);
+					print_r(json_encode($listing_operations_ids));
+					dd($listing_operations_ids);
 
 					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
 						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_operations_ids);
@@ -393,8 +409,11 @@ class EnquiryController extends Controller {
 
 					foreach ($listing_operations_ids as $op_key => $op_value) {
 						$enquiry_sent["enquiry_to_id"] = $op_value;
-						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, $enquiry_categories, $enquiry_areas);
+						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
 					}
+
+					$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas);
+
 					unset($session_payload["enquiry_id"]);
 					unset($session_payload["enquiry_to_id"]);
 					unset($session_payload["enquiry_to_enquiry"]);

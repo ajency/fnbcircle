@@ -162,14 +162,6 @@
         return $(removeRow).after(addRow);
       });
     }
-    setTimeout((function() {
-      $('.brand-list').flexdatalist({
-        removeOnBackspace: false,
-        minLength: 1,
-        url: '/get_brands',
-        searchIn: ["name"]
-      });
-    }), 500);
     $('body').on('click', '#category-select .delete-cat', function() {
       $(this).closest('.single-category').remove();
       return change_view();

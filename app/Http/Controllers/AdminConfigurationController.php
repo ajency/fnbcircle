@@ -630,6 +630,19 @@ class AdminConfigurationController extends Controller
 
         if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
+            
+          
+            $userEmail = $request["email"];
+            $userEmail = 'prajay@ajency.in';
+            $data = [];
+            $data['from'] = config('constants.email_from'); 
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [$userEmail];
+            $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = "You are added as internal user on FnB Circle.";
+            $data['template_data'] = ['request' => $request];
+            sendEmail('register-internal-user', $data);
+
             $output->writeln(json_encode($create_response));
             $status = 201;
         } else {
@@ -638,6 +651,9 @@ class AdminConfigurationController extends Controller
                 $response_data = array("message" => "email_exist");
             }
         }
+
+        
+
 
         return response()->json($response_data, $status);
     }

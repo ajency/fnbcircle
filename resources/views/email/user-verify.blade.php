@@ -7,15 +7,12 @@
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;">Admin </b></p>
+          <p>Hi <b style="color: #7f7f7f;">{{ $name}} </b></p>
          
           
         </div>
 
         <!-- Tips -->
-
- 
-
  
         <div style="margin-top: 2em;">
          
@@ -23,17 +20,10 @@
           <div style="margin-bottom: 0.8em;">
         
             <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-          
-             There is a new user registration on FnB Circle.<br><br>
+ 
+          To finish setting up this FnB Circle account, we need to make sure this email address is yours.<br><br>
 
-            Please find below user details:<br><br>
-            Name: {{ $user->name}}<br>
-            Email: {{ $user->getPrimaryEmail()}} <br>
-            Phone number: +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
-            What describes you the best?<br>
-            City: {{ $user->getUserDetails->userCity->name}} <br>
-            Area: {{ $user->getUserDetails->userArea->name}} <br>
-
+            <a href="{{ $confirmationLink }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Verify email</a> or copy and paste this link into your browser : {{ $confirmationLink }}
  <br><br>
 
            

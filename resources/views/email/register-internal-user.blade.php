@@ -7,7 +7,7 @@
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;">Admin </b></p>
+          <p>Hi <b style="color: #7f7f7f;">{{ $request['name'] }} </b></p>
          
           
         </div>
@@ -24,15 +24,14 @@
         
             <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
-             There is a new user registration on FnB Circle.<br><br>
+             You are now added as the *role_name* on FnB Circle. <br><br>
 
-            Please find below user details:<br><br>
-            Name: {{ $user->name}}<br>
-            Email: {{ $user->getPrimaryEmail()}} <br>
-            Phone number: +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
-            What describes you the best?<br>
-            City: {{ $user->getUserDetails->userCity->name}} <br>
-            Area: {{ $user->getUserDetails->userArea->name}} <br>
+            Please use the following credentials to login. <br><br>
+            Email: {{ $request['email'] }}<br>
+            Password: {{ $request['password'] }}<br><br>
+
+            If you wish to change the password, please <a href="#">click here</a>.
+
 
  <br><br>
 

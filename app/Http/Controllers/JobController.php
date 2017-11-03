@@ -41,9 +41,6 @@ class JobController extends Controller
      */
     public function create()
     {
-
-        
-
         
         $cities  = City::where('status', 1)->orderBy('name')->get();
 

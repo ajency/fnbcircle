@@ -34,6 +34,10 @@ return [
         "laravel" => "email.user-register",
         "pushcrew" => ""
     ],
+    "register-internal-user" => [
+        "laravel" => "email.register-internal-user",
+        "pushcrew" => ""
+    ],
     "user-verify" => [
         "laravel" => "email.user-verify",
         "pushcrew" => ""

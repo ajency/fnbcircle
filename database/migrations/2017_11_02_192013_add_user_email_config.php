@@ -18,7 +18,8 @@ class AddUserEmailConfig extends Migration
             Defaults::where('type','email_notification')->delete();
             $defaults = [
                 'user-register'=> ['name'=>'notification-user-register', 'title'=>'New User Registration', 'value'=>[]],
-                'user-verify'=> ['name'=>'notification-user-verify', 'title'=>'User Verify', 'value'=>[]],
+                'register-internal-user'=> ['name'=>'notification-register-internal-user', 'title'=>'New Internal User Registration', 'value'=>[]],
+                'user-verify'=> ['name'=>'notification-user-verify', 'title'=>'User Verification', 'value'=>[]],
                 'welcome-user'=> ['name'=>'notification-welcome-user', 'title'=>'Welcome User', 'value'=>[]],
             ];
             foreach($defaults as $default_key => $default_value){

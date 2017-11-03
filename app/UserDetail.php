@@ -22,4 +22,12 @@ class UserDetail extends Model
 	public function getUser() { 
 		return $this->belongsTo('App\User', 'user_id');
 	}
+
+    public function userCity() {
+        return $this->belongsTo( 'App\City' ,'city');
+    }
+
+    public function userArea() {
+        return $this->belongsTo( 'App\Area' ,'area');
+    }
 }

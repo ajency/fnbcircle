@@ -7,9 +7,7 @@
     'serverSide': true,
     'bAutoWidth': false,
     'aaSorting': [[0, 'desc']],
-    'drawCallback': function() {
-      return displayCheckbox();
-    },
+    'drawCallback': function() {},
     'ajax': {
       url: '/admin-dashboard/users/get-registered-users',
       type: 'post',
@@ -117,7 +115,7 @@
   });
 
   registeredUserTable.columns().iterator('column', function(ctx, idx) {
-    $(jobsTable.column(idx).header()).append('<span class="sort-icon"/>');
+    $(registeredUserTable.column(idx).header()).append('<span class="sort-icon"/>');
   });
 
   $('.usersearchinput').change(function() {
@@ -173,7 +171,7 @@
         return $(this).multiselect('deselectAll', false).change();
       });
     });
-    jobsTable.ajax.reload();
+    registeredUserTable.ajax.reload();
   });
 
   $('body').on('click', 'input[name="job_check_all"]', function() {
@@ -238,7 +236,7 @@
             setTimeout((function() {
               $('.alert-success').removeClass('active');
             }), 2000);
-            return jobsTable.ajax.reload();
+            return registeredUserTable.ajax.reload();
           } else {
             $('.alert-failure #message').html("Failed to updated job status.");
             $('.alert-failure').addClass('active');
@@ -287,7 +285,7 @@
             $('a[job-id="' + jobId + '"]').attr('job-status', jobstatus);
             $('.alert-success #message').html("Job status updated successfully.");
             $('.alert-success').addClass('active');
-            jobsTable.ajax.reload();
+            registeredUserTable.ajax.reload();
             setTimeout((function() {
               $('.alert-success').removeClass('active');
             }), 2000);
@@ -314,7 +312,7 @@
     $(this).closest('date-range-picker').find('.date_from').val(picker.startDate.format('YYYY-MM-DD'));
     $(this).closest('date-range-picker').find('.date_to').val(picker.endDate.format('YYYY-MM-DD'));
     $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
-    return jobsTable.ajax.reload();
+    return registeredUserTable.ajax.reload();
   });
 
   $('.jobs-table').closest('.row').addClass('overflow-table');
@@ -339,14 +337,14 @@
     $(this).closest('.date-range-picker').find('.date-from').val(picker.startDate.format('YYYY-MM-DD'));
     $(this).closest('.date-range-picker').find('.date-to').val(picker.endDate.format('YYYY-MM-DD'));
     $(this).val(picker.startDate.format('DD-MM-YYYY') + ' to ' + picker.endDate.format('DD-MM-YYYY'));
-    return jobsTable.ajax.reload();
+    return registeredUserTable.ajax.reload();
   });
 
   $('body').on('click', '.clear-date', function() {
     $(this).closest('div').find('.date-from').val('');
     $(this).closest('div').find('.date-to').val('');
     $(this).closest('div').find('.date-range').val('');
-    return jobsTable.ajax.reload();
+    return registeredUserTable.ajax.reload();
   });
 
 }).call(this);

@@ -5,7 +5,7 @@ registeredUserTable = $('#datatable-registration').DataTable(
   'bAutoWidth': false
   'aaSorting': [[0,'desc']]
   'drawCallback': () ->
-    displayCheckbox()
+    # displayCheckbox()
   'ajax':
     url: '/admin-dashboard/users/get-registered-users'
     type: 'post'
@@ -63,7 +63,7 @@ registeredUserTable = $('#datatable-registration').DataTable(
  
 
 registeredUserTable.columns().iterator 'column', (ctx, idx) ->
-  $(jobsTable.column(idx).header()).append '<span class="sort-icon"/>'
+  $(registeredUserTable.column(idx).header()).append '<span class="sort-icon"/>'
   return
 
 $('.usersearchinput').change ->
@@ -122,7 +122,7 @@ $('body').on 'click', '.reset-filters', ->
     $('.admin-job-role-search').each ->
       $(this).multiselect('deselectAll',false).change()
  
-  jobsTable.ajax.reload()
+  registeredUserTable.ajax.reload()
   return
   
 # $('#datatable-jobs').on 'change', 'select[name="job_status"]', ->
@@ -188,7 +188,7 @@ $('body').on 'click', '#bulkupdate', ->
           ), 2000
           # $('.bulk-status-update').addClass('hidden')
 
-          jobsTable.ajax.reload()
+          registeredUserTable.ajax.reload()
 
         else
           $('.alert-failure #message').html "Failed to updated job status."
@@ -234,7 +234,7 @@ $('#updateStatusModal').on 'click', '#change_status', ->
           $('a[job-id="'+jobId+'"]').attr 'job-status',jobstatus
           $('.alert-success #message').html "Job status updated successfully."
           $('.alert-success').addClass 'active'
-          jobsTable.ajax.reload()
+          registeredUserTable.ajax.reload()
           setTimeout (->
             $('.alert-success').removeClass 'active'
             
@@ -263,13 +263,13 @@ $('.date_range_picker').on 'apply.daterangepicker', (ev, picker) ->
   $(this).closest('date-range-picker').find('.date_from').val picker.startDate.format('YYYY-MM-DD')
   $(this).closest('date-range-picker').find('.date_to').val picker.endDate.format('YYYY-MM-DD')
   $(this).val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
-  jobsTable.ajax.reload()
+  registeredUserTable.ajax.reload()
 
 # $('#publishDate').on 'apply.daterangepicker', (ev, picker) ->
 #   $('input[name="date_pub_from"]').val picker.startDate.format('YYYY-MM-DD')
 #   $('input[name="date_pub_to"]').val picker.endDate.format('YYYY-MM-DD')
 #   $('#publishDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
-#   jobsTable.ajax.reload()
+#   registeredUserTable.ajax.reload()
 
 
 $('.jobs-table').closest('.row').addClass 'overflow-table'
@@ -292,12 +292,12 @@ $('.date-range').on 'apply.daterangepicker', (ev, picker) ->
   $(this).closest('.date-range-picker').find('.date-from').val picker.startDate.format('YYYY-MM-DD')
   $(this).closest('.date-range-picker').find('.date-to').val picker.endDate.format('YYYY-MM-DD')
   $(this).val(picker.startDate.format('DD-MM-YYYY')+' to '+picker.endDate.format('DD-MM-YYYY'))
-  jobsTable.ajax.reload()
+  registeredUserTable.ajax.reload()
 
 
 $('body').on 'click', '.clear-date', ->
   $(this).closest('div').find('.date-from').val ''
   $(this).closest('div').find('.date-to').val ''
   $(this).closest('div').find('.date-range').val ''
-  jobsTable.ajax.reload()
+  registeredUserTable.ajax.reload()
 

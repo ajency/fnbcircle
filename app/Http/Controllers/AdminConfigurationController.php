@@ -717,7 +717,7 @@ class AdminConfigurationController extends Controller
                                         );
 
         
-        $userQuery = User::select('users.*')->join('user_details', 'user_details.user_id', '=', 'users.id');
+        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id');
 
 
         // if($requestData['filters']['user_name']!="")
@@ -818,8 +818,8 @@ class AdminConfigurationController extends Controller
                             'describe' => '',
                             'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
-                            'date_created' => '',
-                            'last_login' =>'',
+                            'date_created' => $user->userCreated(),
+                            'last_login' => $userDetails->lastLogin(),
                             'total_listing' => '' ,
                             'published_listing' =>  '',
                             'total_jobs' =>  '',

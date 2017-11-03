@@ -76,8 +76,9 @@
 	                      <th class="text-center" rowspan="2" >Name</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="2">Registration Type
 	                        <select multiple class="form-control multi-dd" name="user_type">
-	                          <option value="internal">Internal</option>
-	                          <option value="external">External</option>
+	                          <option value="email_signup">Email signup</option>
+	                          <option value="google">Google</option>
+	                          <option value="facebook">Facebook</option>
 	                        </select>
 	                      </th>
 	                      <th class="text-center" rowspan="2">Email</th>
@@ -127,26 +128,7 @@
 	                  </thead>
 
 	                  <tbody>
-	                     	<tr>
-	                      <td class="text-center">Amit Adav</td>
-	                      <td class="text-center">Email</td>
-	                      <td class="text-center">amit@ajency.in</td>
-	                      <td class="text-center">8087854125</td>
-	                      <td class="text-center">Others</td>
-	                      <td class="text-center">Goa</td>
-	                      <td class="text-center">Panjim</td>
-	                      
-	                      <td class="text-center">12/01/2017</td>
-	                      <td class="text-center">21/06/2017</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	               
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">1</td>
-	                      <td class="text-center">0</td>
-	                      <td class="text-center">N</td>
-	                      <td class="text-center">Active</td>
-	                    </tr>
+	                     	 
 	                  </tbody>
 	                </table>
 

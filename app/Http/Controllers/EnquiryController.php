@@ -529,8 +529,16 @@ class EnquiryController extends Controller {
     /**
     * This function is used to Get all the Children of a category
     */
-    public function getCategories($type='listing', $parents = [], $statuses=[]) {
+    public function getCategories($type='listing', $parent_values = [], $column_search = 'id', $statuses=[]) {
     	$parent_array = [];
+    	$parents = [];
+
+    	if($column_search !== "id") {
+    		$parents = Category::whereIn('slug', $parent_values)->pluck('id')->toArray();
+    	} else {
+    		$parents = $parent_values;
+    	}
+
         foreach ($parents as $parent) {
             if(sizeof($statuses) > 0) {
             	$children = Category::where('type', $type)->where('parent_id', $parent)->whereIn('status', $statuses)->orderBy('order')->orderBy('name')->get();
@@ -542,7 +550,7 @@ class EnquiryController extends Controller {
 
             foreach ($children as $child_index => $child) {
             	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
-            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug));
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, "hierarchy" => generateCategoryHierarchy($child['id'])));
             }
 
             $parent_obj = Category::find($parent);
@@ -550,7 +558,7 @@ class EnquiryController extends Controller {
             if ($parent_obj->parent_id != null) {
                 $grandparent = Category::findorFail($parent_obj->parent_id);
             } else {
-                $grandparent = new Category;
+                $grandparent = null;
             }
 
             //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
@@ -564,18 +572,18 @@ class EnquiryController extends Controller {
     */
     public function getListingCategories(Request $request) {
     	$this->validate($request, [
-            'category_id' => 'required',
+            'category' => 'required',
         ]);
 
     	$sub_categories = [];
     	$statuses = $request->has('statuses') ? $request->statuses : [];
 
-    	if(is_array($request->category_id)) {
-        	$sub_categories = $this->getCategories('listing', $request->category_id, $statuses);
-        } else if(strpos(" " . $request->category_id, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$sub_categories = $this->getCategories('listing', json_decode($request->category_id), $statuses);
+    	if(is_array($request->category)) {
+        	$sub_categories = $this->getCategories('listing', $request->category, 'id', $statuses);
+        } else if(strpos(" " . $request->category, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
+        	$sub_categories = $this->getCategories('listing', json_decode($request->category), 'id', $statuses);
         } else {
-        	$sub_categories = $this->getCategories('listing', [$request->category_id], $statuses);
+        	$sub_categories = $this->getCategories('listing', [$request->category], 'id', $statuses);
         }
 
         // Take the 1st Parent Category
@@ -608,15 +616,34 @@ class EnquiryController extends Controller {
         $statuses = $request->has('statuses') ? $request->statuses : [];
 
     	if(is_array($request->branch)) {
-        	$node_categories = $this->getCategories('listing', $request->branch, $statuses);
+        	$node_categories = $this->getCategories('listing', $request->branch, 'id', $statuses);
         } else if(strpos(" " . $request->branch, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$node_categories = $this->getCategories('listing', json_decode($request->branch), $statuses);
+        	$node_categories = $this->getCategories('listing', json_decode($request->branch), 'id', $statuses);
         } else {
-        	$node_categories = $this->getCategories('listing', [$request->branch], $statuses);
+        	$node_categories = $this->getCategories('listing', [$request->branch], 'id', $statuses);
         }
 
+        /*if(isset($node_categories["parent"]) && $node_categories["parent"]) {
+        	$node_categories["parent"] = $node_categories["parent"]->toArray();
+        }*/
         //$node_categories = $node_categories[0];
 
         return response()->json(array("data" => $node_categories), 200);
+    }
+
+    /**
+    * This function will return a Template Modal based on Level
+    */
+    public function getCategoryModalDom(Request $request) {
+		$this->validate($request, [
+            'level' => 'required',
+        ]);
+		$modal_template = "";
+		$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+
+		if($request->level == "level_1") {
+			$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+		}
+		return response()->json(array("modal_template" => $modal_template), 200);
     }
 }

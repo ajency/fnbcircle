@@ -1027,6 +1027,8 @@
         <div id="updateTemplate">
             @include('modals.listing_enquiry')
         </div>
+        <!-- <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"> -->
+        @include('modals.categories_list')
         <!-- Enquiry ends -->
 
      </div>

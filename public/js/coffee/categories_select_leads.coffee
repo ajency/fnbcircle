@@ -3,7 +3,7 @@ window.categories = 'parents': []
 
 $('body').on 'click','#category-select-btn', ()->
   selected_categ = []
-  selected_categ_id = []
+  # categories = 'parents': []
   $('#category-select input[type="checkbox"]:checked').each ->
     selected_categ_id.push $(this).val()
     selected_categ.push JSON.parse $(this).parent().find('input[type="hidden"]#hierarchy').val()
@@ -18,24 +18,33 @@ $('body').on 'click','#category-select-btn', ()->
       'image-url': element['parent']['icon_url']
       'name': element['parent']['name']
       'slug': element['parent']['slug']
+      'selected': 0
       'branches': []
-    if element.hasOwnProperty 'branch'
+    if element.hasOwnProperty('branch') and categories['parents'][parentID]['selected'] == 0
       branchID = element['branch']['id']
       if !categories['parents'][parentID]['branches'].hasOwnProperty branchID
         categories['parents'][parentID]['branches'][branchID] =
         'id': element['branch']['id']
         'name': element['branch']['name']
         'slug': element['branch']['slug']
+        'selected': 0
         'nodes': []
-    if element.hasOwnProperty 'node'
-      nodeID = element['node']['id']
-      if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
-        categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
-        'id': element['node']['id']
-        'name': element['node']['name']
-        'slug': element['node']['slug']
-    console.log categories
+      if element.hasOwnProperty('node') and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
+        nodeID = element['node']['id']
+        if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
+          categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
+          'id': element['node']['id']
+          'name': element['node']['name']
+          'slug': element['node']['slug']
+      else
+        categories['parents'][parentID]['branches'][branchID]['selected'] = 1
+        console.log element
+    else
+      categories['parents'][parentID]['selected'] = 1
+      console.log 'parent select ', element
   )
+  console.log categories
+  populate()
   
 
 populate = () ->
@@ -64,7 +73,7 @@ populate = () ->
              {{#nodes}}
             <li>
               <span class="fnb-cat__title">
-                Crabs
+                {{name}}
                 <input data-item-name="{{name}}" name="categories" type="hidden" value="{{id}}"> 
                 <span class="fa fa-times remove"></span>
               </span>

@@ -527,9 +527,7 @@ class AdminConfigurationController extends Controller
         return view('admin-dashboard.internal_users');
     }
 
-    public function registeredUserView(Request $request) {
-        return view('admin-dashboard.registered_users');
-    }
+    
 
     /**
     * This function is a GET request & is used to get the Internal / External User data
@@ -630,6 +628,20 @@ class AdminConfigurationController extends Controller
 
         if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
+            
+            $userRoles = $create_response['user']->getRoleNames()->toArray();
+          
+            $userEmail = $request["email"];
+            $userEmail = 'prajay@ajency.in';
+            $data = [];
+            $data['from'] = config('constants.email_from'); 
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [$userEmail];
+            $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = "You are added as internal user on FnB Circle.";
+            $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
+            sendEmail('register-internal-user', $data);
+
             $output->writeln(json_encode($create_response));
             $status = 201;
         } else {
@@ -638,6 +650,9 @@ class AdminConfigurationController extends Controller
                 $response_data = array("message" => "email_exist");
             }
         }
+
+        
+
 
         return response()->json($response_data, $status);
     }
@@ -648,7 +663,7 @@ class AdminConfigurationController extends Controller
     * This function @return
     * 
     */
-    public function editCurrentUser(Request $request, $username) {
+    public function editCurrentUser(Request $request, $username) { 
         $status = 200; $response_data = [];
         $userauth_obj = new UserAuth;
         $request = $request->all();
@@ -677,6 +692,154 @@ class AdminConfigurationController extends Controller
         return response()->json($response_data, $status);
     }
 
+
+    public function registeredUserView() {
+        $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
+        return view('admin-dashboard.registered_users')->with('cities', $cities);
+    }
+
+    public function getRegisteredUsers(Request $request){
+        $requestData = $request->all(); 
+        $data =[];
+        $skip = $requestData['start'];
+        $length = $requestData['length'];
+        $orderValue = $requestData['order'][0];
+      
+       
+        $columnOrder = array( 
+                                        '0'=> 'jobs.id',
+                                        '2'=> 'jobs.title',
+                                        '3'=> 'categories.name',
+                                        '5'=> 'companies.title',
+                                        '6'=> 'jobs.date_of_submission',
+                                        '7'=> 'jobs.published_on',
+                                        '8'=> 'jobs.updated_at'
+                                        );
+
+        
+        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id');
+
+
+        // if($requestData['filters']['user_name']!="")
+        // {
+  
+        //     $jobQuery->where('jobs.title','like','%'.$requestData['filters']['job_name'].'%');
+        // }
+
+        // if($requestData['filters']['company_name']!="")
+        // {
+        //     $jobIds = Company:: where('title','like','%'.$requestData['filters']['company_name'].'%')
+        //               ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
+        //               ->pluck('job_companies.job_id')->toArray(); 
+
+        //     $jobQuery->whereIn('jobs.id',$jobIds);
+        // }
+
+        // if(isset($requestData['filters']['job_status']) && !empty($requestData['filters']['job_status']))
+        // {
+        //     $jobQuery->whereIn('jobs.status',$requestData['filters']['job_status']);
+        // }
+
+        // if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
+        // {
+        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+
+        //     $jobQuery->whereIn('job_locations.city_id',$requestData['filters']['city']);
+
+        //     $jobQuery->distinct('jobs.id');
+        // }
+
+        // if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
+        // {
+        //     $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
+
+        //     $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
+
+        //     $jobQuery->distinct('jobs.id');
+        // }
+
+        // if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
+        // {
+        //     $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
+        // }
+
+        // if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
+        // { 
+        //     $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
+        //     $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
+        // }
+
+        // if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
+        // {
+        //     $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
+        //     $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
+        // }
+
+         
+
+        $columnName = 'users.created_at';
+        $orderBy = 'desc';
+        
+        // if($orderValue['column'] == 5){ 
+        //     $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
+        //     $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
+
+        // }
+        
+        // if(isset($columnOrder[$orderValue['column']]))
+        // {   
+        //     $columnName = $columnOrder[$orderValue['column']];
+        //     $orderBy = $orderValue['dir'];
+        // }
+
+
+        if($length>1)
+        {  
+            $totalUsers = $userQuery->get()->count(); 
+            $users = $userQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
+        }
+        else
+        {
+            $users    = $userQuery->orderBy($columnName,$orderBy)->get();  
+            $totalUsers = $users->count();  
+        }
+
+
+        $usersData = [];
+        foreach ($users as $key => $user) {
+         
+            $userDetails = $user->getUserDetails; 
+            
+            $usersData[] = [ 
+                            'name' => $user->name,
+                            'type' => $user->type,
+                            'email' => $user->getPrimaryEmail(),
+                            'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
+                            'describe' => '',
+                            'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
+                            'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
+                            'date_created' => $user->userCreated(),
+                            'last_login' => $userDetails->lastLogin(),
+                            'total_listing' => '' ,
+                            'published_listing' =>  '',
+                            'total_jobs' =>  '',
+                            'published_jobs' =>  '',
+                            'job_applied' =>  '',
+                            'resume_uploaded' =>  '',
+                            'status' =>  '',
+                            ];
+            
+        }
+
+        $json_data = array(
+                "draw"            => intval( $requestData['draw'] ),
+                "recordsTotal"    => intval( $totalUsers ),
+                "recordsFiltered" => intval( $totalUsers ),
+                "data"            => $usersData,
+            );
+              
+        return response()->json($json_data);
+    }
 
     public function manageJobs(){
         $job = new Job;

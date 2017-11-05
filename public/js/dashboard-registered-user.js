@@ -19,7 +19,8 @@
         filters.user_phone = $('#user_phone').val();
         filters.user_status = $('select[name="user_status"]').val();
         filters.state = $('select[name="user_state"]').val();
-        filters.type = $('select[name="user_type"]').val();
+        filters.city = $('select[name="user_city"]').val();
+        filters.registration_type = $('select[name="registration_type"]').val();
         filters.user_created_from = $('input[name="user_created_from"]').val();
         filters.user_created_to = $('input[name="user_created_to"]').val();
         filters.last_login_from = $('input[name="last_login_from"]').val();
@@ -31,7 +32,8 @@
     },
     'columns': [
       {
-        'data': 'name'
+        'data': 'name',
+        "orderable": false
       }, {
         'data': 'type',
         "orderable": false
@@ -48,11 +50,14 @@
         'data': 'state',
         "orderable": false
       }, {
-        'data': 'city'
+        'data': 'city',
+        "orderable": false
       }, {
-        'data': 'date_created'
+        'data': 'date_created',
+        "orderable": false
       }, {
-        'data': 'last_login'
+        'data': 'last_login',
+        "orderable": false
       }, {
         'data': 'total_listing',
         "orderable": false

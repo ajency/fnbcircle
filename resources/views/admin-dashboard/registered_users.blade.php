@@ -75,7 +75,7 @@
 	                    <tr>
 	                      <th class="text-center" rowspan="2" >Name</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="2">Registration Type
-	                        <select multiple class="form-control multi-dd" name="user_type">
+	                        <select multiple class="form-control multi-dd usersearchinput" name="registration_type">
 	                          <option value="email_signup">Email signup</option>
 	                          <option value="google">Google</option>
 	                          <option value="facebook">Facebook</option>
@@ -98,7 +98,9 @@
 	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
 	                          City
 	                          <select multiple class="form-control multi-dd usersearchinput" id="filterCity" name="user_city">
-	                             
+	                             @foreach ($areas as $area)
+	                            <option value="{{$area->id}}">{{$area->name}}</option>
+	                          @endforeach
 	                          </select>
 	                      </th>
 	                      
@@ -111,7 +113,7 @@
 	                      <th class="text-center" rowspan="2" style="min-width: 100px;">Resume Uploaded (Y/N)</th>
 	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
 	                        Status
-	                        <select multiple class="form-control multi-dd" id="user_status" name="user_status">
+	                        <select multiple class="form-control multi-dd usersearchinput" id="user_status" name="user_status">
 	                          <option value="active">Active</option>
 	                          <option value="inactive">Inactive</option>
 	                          <option value="suspended">Suspended</option>

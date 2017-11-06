@@ -11,6 +11,7 @@
 
   table = $('#listing-leads').DataTable({
     'ordering': false,
+    "dom": 'ilrtp',
     "searching": false,
     'pageLength': 10,
     'processing': true,

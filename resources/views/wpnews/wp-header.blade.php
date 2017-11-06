@@ -1,5 +1,5 @@
 <!-- header -->
-<?php var_dump(Auth::check()); ?>
+
 <?php $htype = !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : ''; ?>
     <header class="fnb-header <?php echo $htype ?>">
         <nav class="navbar navbar-default">

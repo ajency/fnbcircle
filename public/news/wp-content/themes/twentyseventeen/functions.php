@@ -598,7 +598,7 @@ function fnbcircleWpScripts(){
 
 	
 	wp_enqueue_script('wpnews', get_template_directory_uri() . '/assets/js/news.js', array('jquery'), true, true);
-	wp_localize_script('wpnews', 'LARAURL', 'http://localhost71:8071');
+	wp_localize_script('wpnews', 'LARAURL', LARAVELURL);
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
 

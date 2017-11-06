@@ -24,6 +24,12 @@
 </head>
 
 <body <?php body_class(); ?>>
+
+<!-- -->	
+<div id="laravel-header-container"></div>
+<?php //require_once("inc/laravel/lara-libs.php") ;?>	
+
+
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentyseventeen' ); ?></a>
 

@@ -71,7 +71,7 @@
     </div>
     <div class="col-sm-6">
         <div>
-            <p class="text-color x-small text-uppercase">Request send date  <a id="clearSubDate" href="#">Clear date filter</a> </p>
+            <p class="text-color x-small text-uppercase flex-row space-between">Request send date  <a id="clearSubDate" href="#" class="primary-link">Clear</a> </p>
             <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
         </div>
     </div>
@@ -103,9 +103,9 @@
                 </div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-                <a href="#" class="secondary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
-                <a href="#" class="secondary-link x-small m-r-5">+ AddBranch</a>
-                <a href="#" class="secondary-link x-small">+ Add Node</a>    
+                <a href="#" class="primary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
+                <a href="#" class="primary-link x-small m-r-5">+ AddBranch</a>
+                <a href="#" class="primary-link x-small">+ Add Node</a>    
             </div>
         </div>
     </div>

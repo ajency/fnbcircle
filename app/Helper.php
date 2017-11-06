@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\View;
 use App\Category;
 use App\Defaults;
 // use AjComm;
+use App\Category;
 
 
 function getOperationTime($info=null,$type= "from",$diff=30){
@@ -350,6 +351,10 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param from
 *	@param name
 * 	@param subject
+*	@param attach - An Array of arrays each containing the following parameters:
+*			@param file - base64 encoded raw file
+*			@param as - filename to be given to the attachment
+*			@param mime - mime of the attachment
 */
 function sendEmail($event='new-user', $data=[]) {
 	$email = new \Ajency\Comm\Models\EmailRecipient();
@@ -372,6 +377,9 @@ function sendEmail($event='new-user', $data=[]) {
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
 	$email->setParams($params);
+
+	if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$email]);

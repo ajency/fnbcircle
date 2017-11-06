@@ -40,11 +40,8 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-
-        
-
-        
+    {   
+ 
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
         $job    = new Job;

@@ -18,11 +18,14 @@
                         <h6 class="instructions__title bat-color sub-title">Select your area(s) of operation.</h6>
                         <button id="" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">save</button>
                     </div>
-                    <div class="node-select flex-row">
+                    <div class="node-select flex-row custom-node-select">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs flex-row mobile-hide city-list" role="tablist">
                             @foreach($cities as $city)
-                            <li role="presentation" class="@if($loop->first) active @endif"><a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab" name="{{$city->id}}">{{$city->name}}</a><input type="checkbox" id="checkbox-{{$city->id}}" class="city-checkbox"></li>
+                            <li role="presentation" class="@if($loop->first) active @endif">
+                                <input type="checkbox" id="checkbox-{{$city->id}}" class="city-checkbox">
+                                <a href="#{{$city->slug}}" aria-controls="{{$city->slug}}" role="tab" data-toggle="tab" name="{{$city->id}}">{{$city->name}}</a>
+                            </li>
                             @endforeach
                         </ul>
                         <!-- Tab panes -->

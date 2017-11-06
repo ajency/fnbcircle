@@ -46,6 +46,7 @@ getAreas = (cityID) ->
 array = []
         
 $('#area-select').on 'show.bs.modal', (e) ->
+  $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
   array=[]
   $('.city-list li').each (index,item)->
     if index == 0
@@ -152,11 +153,17 @@ $('#disp-operation-areas').on 'click', '.fnb-cat .remove', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
+
+
 $('body').on 'change', '.city-list input[type="checkbox"]', ->
   city_link = $(this).parent().find('a')
   city_link.click()
   if @checked
     $('.tab-pane.active .nodes').addClass 'disable-section'
+    setTimeout (->
+      $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+      return
+    ), 100
     cityID = city_link.attr 'name'
     $('div[name="'+cityID+'"].tab-pane input[type="checkbox"]').prop "checked",false
     #//////////////////////////////////////////////Disable the div
@@ -171,6 +178,7 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
         id: cityID
         areas: []
   else
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
     $('.tab-pane.active .nodes').removeClass 'disable-section'
     console.log 'unchecked'
     cityID = city_link.attr 'name'

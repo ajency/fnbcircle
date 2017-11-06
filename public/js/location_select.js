@@ -60,6 +60,7 @@
 
   $('#area-select').on('show.bs.modal', function(e) {
     var cityID;
+    $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
     array = [];
     $('.city-list li').each(function(index, item) {
       if (index === 0) {
@@ -163,6 +164,9 @@
     city_link.click();
     if (this.checked) {
       $('.tab-pane.active .nodes').addClass('disable-section');
+      setTimeout((function() {
+        $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+      }), 100);
       cityID = city_link.attr('name');
       $('div[name="' + cityID + '"].tab-pane input[type="checkbox"]').prop("checked", false);
       cityValue = $('div[name="' + cityID + '"].tab-pane input[type="hidden"][name="city"]').val();
@@ -178,6 +182,7 @@
         areas: []
       };
     } else {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", false);
       $('.tab-pane.active .nodes').removeClass('disable-section');
       console.log('unchecked');
       cityID = city_link.attr('name');

@@ -11411,12 +11411,15 @@ input[type='checkbox'].remove-addr {
           flex: 1;
 }
 .custom-node-select .nav input[type="checkbox"] {
-  margin-right: 5px;
+  margin-right: 0;
+  padding: 0 5px;
   -webkit-box-flex: 0.2;
   -webkit-flex: 0.2;
       -ms-flex: 0.2;
           flex: 0.2;
   margin-top: 0;
+  border: 1px solid #ddd;
+  border-right: 0;
 }
 .custom-node-select .nav input[type="checkbox"]:before {
   display: -webkit-box;

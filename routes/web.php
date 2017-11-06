@@ -94,7 +94,6 @@ JOBS/USERS
 Route::get('/job/{slug}','JobController@show');
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-company','JobController@getCompanies');
-
 /**
 logged in users group
 permission group
@@ -171,11 +170,19 @@ Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
 
+Route::get('/wp-laravel-header','WpNewsController@getLaravelHeaderForWp');
+Route::get('/wp-laravel-footer','WpNewsController@getLaravelFooterForWp');
+Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCategoryCard');
+
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
 	Route::get('/{listing_slug}', 'ListingViewController@index');
+
+	//Route::get('/business-listings-card','ListingViewController@getBusinessCategoryCard');
 });
+
+
 
 Route::group(['prefix' => 'api'], function() {
 	Route::post('/get-listview-data', 'ListViewController@getListViewData');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Category;
+use App\City;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
@@ -312,5 +313,20 @@ class ListingViewController extends Controller
             ];
         }
         return $categories;
+    }
+
+
+    public function getBusinessCategoryCard($city)
+    {
+
+        $city_data = City::where('slug', $city)->firstorFail();
+
+        $area = Area::with('city')->find($city_data->id);
+        if ($area->city['slug'] != $city) {abort(404);die();}
+        $browse_categories         = $this->getPopularParentCategories($area);
+        $data['city']              = $city_data;
+        $data['browse_categories'] = $browse_categories;
+
+        return view('single-view.businesss_categories_card')->with('data', $data);
     }
 }

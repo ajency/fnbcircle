@@ -10,6 +10,7 @@
 
 ?>
 <div class="custom-header">
+		<div id="laravel-header-container"></div>
 
 		<div class="custom-header-media">
 			<?php the_custom_header_markup(); ?>

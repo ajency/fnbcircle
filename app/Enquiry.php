@@ -12,4 +12,12 @@ class Enquiry extends Model
      * @var array
      */
     protected $fillable = ['user_object_id', 'user_object_type', 'enquiry_device', 'enquiry_browser', 'enquiry_type', 'enquiry_to_id', 'enquiry_to_type', 'enquiry_message'];
+
+    public function categories(){
+    	return $this->hasMany('App\EnquiryCategory');
+    }
+    
+    public function areas(){
+    	return $this->hasMany('App\EnquiryArea');
+    }
 }

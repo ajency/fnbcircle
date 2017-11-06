@@ -15,6 +15,7 @@ use Auth;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 use App\Category;
+use App\City;
 use App\Area;
 use App\Listing;
 use App\ListingCategory;
@@ -29,6 +30,8 @@ use App\EnquiryArea;
 use App\Http\Controllers\ListingViewController;
 use App\Http\Controllers\ListViewController;
 use App\Http\Controllers\CookieController;
+use App\Http\Controllers\Auth\RegisterController;
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class EnquiryController extends Controller {
 	/**
@@ -36,6 +39,11 @@ class EnquiryController extends Controller {
 	*/
 	public function isMobile() {
     	return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+	}
+
+	public function getSessionData($key) {
+		$session_data = Session::get($key);
+		return $session_data;
 	}
 
 	/**
@@ -102,11 +110,54 @@ class EnquiryController extends Controller {
 	}
 
 	/**
+	* This function is used to Send Enquiry Emails
+	*/
+	public function sendEnquiryEmail($enquiry_type=’direct’, $is_premium=false, $email_details = [], $email_content=[], $send_seeker_email = true) {
+		$data = [];
+		$data['from'] = config('constants.email_from');
+		$data['name'] = config('constants.email_from_name');
+		$data['to'] = $email_details['to'];
+
+		$data['cc'] = isset($email_details['cc']) ? $email_details['cc'] : ["sharath@ajency.in"];
+		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
+		$data['subject'] = 'Your enquiry has been sent successfully';
+
+		if($send_seeker_email) { // Send Seeker, the mail only if the Flag is true
+			if($is_premium) { // Send mail to the seeker with only that enquiry
+				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "is_premium" => true];
+			}  else { // Send email to the seeker with other enquiries
+				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "cancel_other_enquiry_contacts" => "", "is_premium" => false];
+			}
+			sendEmail("seeker-email-enquiry", $data);
+		}
+
+		if($enquiry_type = 'direct') {
+			$data['to'] = "sharath@ajency.in";//$email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['subject'] = 'You just received an enquiry for your listing';
+			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
+			
+			if($is_premium) {
+				sendEmail('direct-listing-email', $data);
+			} else {
+				$data['delay'] = 60;
+				sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
+			}
+		} else {
+			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
+
+			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
+
+			sendEmail('shared-listing-email', $data);
+		}
+	}
+
+	/**
 	* This function is used to create Enquiry data
 	* This function will @return the following Enquiry objects
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
 	*/
-	public function createEnquiry($enquiry_data=[], $enquiry_sent=[], $enquiry_categories=[], $enquiry_area=[]) {
+	public function createEnquiry($enquiry_data=[], $enquiry_sent=[], $enquiry_categories=[], $enquiry_area=[], $send_seeker_email = false) {
 
 		if (sizeof($enquiry_data) > 0 && isset($enquiry_data["enquiry_id"]) && $enquiry_data["enquiry_id"] > 0) { // Get data if ID is passed
 			$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
@@ -117,13 +168,7 @@ class EnquiryController extends Controller {
 		}
 
 		if($enquiry_obj) { // If enquiry object exist, then add other data
-			if (sizeof($enquiry_sent) > 0) {
-				$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
-				$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
-			} else {
-				$enquiry_sent_obj = [];
-			}
-
+			
 			if(sizeof($enquiry_categories) > 0) {
 				foreach ($enquiry_categories as $cat_key => $cat_value) {
 					$category_obj = Category::where('id', $cat_value)->first();
@@ -140,6 +185,119 @@ class EnquiryController extends Controller {
 				}
 			} else {
 				$enquiry_area_obj = [];
+			}
+
+			if (sizeof($enquiry_sent) > 0) {
+				$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
+				$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
+
+				$listing_obj = Listing::find($enquiry_sent["enquiry_to_id"]);
+				/*$comm_obj = UserCommunication::where([['object_type', 'App\Listing'], ['object_id', $enquiry_sent["enquiry_to_id"]], ['type', 'email']]);
+
+				if($comm_obj->count() > 0) {
+					$listing_email = $comm_obj->where('is_primary', 1)->count() ? $comm_obj->where('is_primary', 1)->get()->first() : $comm_obj->get()->first();
+					$email_details = ["to" => [$listing_email], ]
+				}*/
+				if($listing_obj) {
+					if($listing_obj->owner_id) { // If owner ID !== NULL
+						$user_id = $listing_obj->owner_id;
+					} else {
+						$user_id = $listing_obj->created_by;
+					}
+						
+					$userauth_obj = new UserAuth;
+					$owner_data = $userauth_obj->getUserData($user_id, true);
+
+					$listing_owner = [
+						"name" => $owner_data["user"]->name, 
+						"email" => ($owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->count() > 0) ? $owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->first()->value : $owner_data["user_comm"]->where('type', 'email')->first()->value
+					];
+					$listing_url = env('APP_URL') . "/" . Area::find($listing_obj->locality_id)->city()->first()->slug . "/" . $listing_obj->slug;
+					$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => $listing_owner, "listing_url" => $listing_url, "listing_data" => []];
+
+					if($listing_obj->premium && $enquiry_sent_obj->enquiry_type == "direct") { // If enquiry is of "Premium" listing & is Direct enquiry, then send that Mail to Customer regarding that Direct Enquiry
+						$listing_content = array("name" => $listing_obj->title, "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
+						$listing_content["type"] = ['name' => Listing::listing_business_type[$listing_obj["type"]], 'slug' => Listing::listing_business_type_slug[$listing_obj["type"]]];
+
+						$listing_content["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $listing_obj->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+								$listViewCont_obj = new ListViewController;
+                        		$cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+                		})->toArray();
+
+						$areas_operation_id = ListingAreasOfOperation::where("listing_id", $listing_obj->id)->pluck('area_id')->toArray();
+			    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+			    		$areas_operation = [];
+			    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+			    			array_push($areas_operation, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => $city_areas->toArray()));
+			    		}
+			    		$listing_content["operation_areas"] = $areas_operation; // Array of cities & areas under that city
+			    		array_push($email_content["listing_data"], $listing_content);
+					} else {
+						$listing_ids = EnquirySent::where([['enquiry_to_type', 'App\Listing'], ['enquiry_to_id', $enquiry_obj->id]])->pluck('enquiry_to_id')->toArray();
+
+						$enq_data_obj = Listing::whereIn('id', $listing_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) {
+							$listing_content = array("name" => $listing_obj->name, "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
+							$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
+							
+							$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+				    		$city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+				    		$areas_operation = [];
+				    		foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+				    			array_push($areas_operation, 
+				    				array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(),
+				    				"areas" => $city_areas->toArray()
+				    			));
+				    		}
+
+				    		$list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+				    		$list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+									$listViewCont_obj = new ListViewController;
+			                        $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+			                });
+
+			                array_push($email_content["listing_data"], $listing_content);
+						});
+					}
+
+
+					$customer_dashboard_url = env('APP_URL');
+					if($enquiry_obj->user_object_type == "App\User") {
+						$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
+						$email_details = [
+							"name" => $customer_data["user"]->name, 
+							"email" => ($customer_data["user_comm"]->where([['type', 'email'],['is_primary', 1]])->count() > 0) ? $customer_data["user_comm"]->where([['type', 'email'],['is_primary', 1]])->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
+							"contact" => ($customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->count() > 0) ? '+' . $customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->first()->country_code . $customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
+							"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
+							"message" => $enquiry_obj->enquiry_message,
+							"dashboard_url" => $customer_dashboard_url
+						];
+
+						$email_details["to"] = $email_details["email"];
+						$email_details["listing_to"] = $email_details["email"];
+					} else {
+						$lead_obj = Lead::find($enquiry_obj->user_object_id);
+						$email_details = [
+							"name" => $lead_obj->name, 
+							"email" => $lead_obj->email, 
+							"contact" => '+' . implode(explode("-", $lead_obj->mobile)), 
+							"describes_best" => unserialize($lead_obj->user_details_meta)["describes_best"], 
+							"message" => $enquiry_obj->enquiry_message,
+							"dashboard_url" => $customer_dashboard_url,
+							"to" => $lead_obj->email
+						];
+					}
+
+					if($listing_obj->premium && $enquiry_sent["enquiry_type"] == "direct") { // If Premium & Direct, then send a mail to the Seeker saying that specific Enquiry is sent
+						$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, true);
+					} else {
+						$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, $send_seeker_email);
+					}
+				}
+
+			} else {
+				$enquiry_sent_obj = [];
 			}
 		} else {
 			$enquiry_obj = null;
@@ -158,8 +316,10 @@ class EnquiryController extends Controller {
    		$response_html = ''; $template_name = '';
    		$listing_view_controller = new ListingViewController;
    		$output = new ConsoleOutput;
-
-   		if(strlen($listing_slug) > 0) {
+		
+		$session_data = $this->getSessionData('enquiry_data');
+		
+		if(strlen($listing_slug) > 0) {
    			$listing_obj = Listing::where('slug', $listing_slug)->get();
 
     		if($listing_obj->count() > 0 && $listing_obj->first()->premium) { // If premium
@@ -176,7 +336,7 @@ class EnquiryController extends Controller {
 	    	
 	    	$template_config = config('enquiry_flow_config')[$template_name];
    			$listing = Listing::where('slug',$listing_slug)->get();
-   			
+
    			if($listing->count() > 0) {
    				$listing = $listing->first();
 	   			$data = $listing_view_controller->getListingData($listing); // Get the data for the Enquiry Modal template
@@ -216,8 +376,6 @@ class EnquiryController extends Controller {
 			   		}
 
 		   		} else {
-		   			$session_data = Session::get('enquiry_data');
-
 		   			if(isset($session_data["enquiry_id"])) {
 		   				$enq_obj = Enquiry::find($session_data["enquiry_id"]);
 		   				$area_ids = $enq_obj->areas()->pluck('area_id')->toArray();
@@ -259,7 +417,6 @@ class EnquiryController extends Controller {
 		   			} else {
 		   				$listing_data = [];
 		   			}
-		   			//dd($listing_data);
 		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
@@ -467,9 +624,9 @@ class EnquiryController extends Controller {
 
 					$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas);
 
-					unset($session_payload["enquiry_id"]);
+					/*unset($session_payload["enquiry_id"]);
 					unset($session_payload["enquiry_to_id"]);
-					unset($session_payload["enquiry_to_enquiry"]);
+					unset($session_payload["enquiry_to_enquiry"]);*/
 				} else {
 					Session::put('second_enquiry_data', ["enquiry_data" => $enquiry_data, "enquiry_sent" => $enquiry_sent, "enquiry_category" => $enquiry_categories, "enquiry_area" => $enquiry_areas]);
 				}
@@ -525,6 +682,11 @@ class EnquiryController extends Controller {
 	    			if(sizeof($session_payload) > 0) {
 	    				if(Auth::guest()) {
 	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact_code"] . '-' . $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
+
+	    					$register_cont_obj = new RegisterController;
+	    					$lead_data = array("id" => $lead_obj->id, "name" => $lead_obj->name, "email" => $lead_obj->email, "user_type" => "lead");
+	    					$register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
+
 	    					$lead_type = "App\Lead";
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);
@@ -569,15 +731,20 @@ class EnquiryController extends Controller {
 								unset($listing_operations_ids[$pos]);
 							}
 
+							$this->createEnquiry($secondary_enquiry_data['enquiry_data'], [], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
 							foreach ($listing_operations_ids as $op_key => $op_value) {
 								$secondary_enquiry_data['enquiry_sent']["enquiry_to_id"] = $op_value;
-								$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], $secondary_enquiry_data['enquiry_category'], $secondary_enquiry_data['enquiry_area']);
+								if($op_key === sizeof($listing_operations_ids)) {
+									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], true);
+								} else {
+									$this->createEnquiry($secondary_enquiry_data['enquiry_data'], $secondary_enquiry_data['enquiry_sent'], [], [], false);
+								}
 							}
 
-	    					unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
+	    					/*unset($session_payload["enquiry_id"]); // Remove the Enquiry ID after save of the data
 	    					unset($session_payload["enquiry_to_id"]);
-							unset($session_payload["enquiry_to_enquiry"]);
-	    					Session::flush('second_enquiry_data'); // Delete this key from the session
+							unset($session_payload["enquiry_to_enquiry"]);*/
+	    					//Session::flush('second_enquiry_data'); // Delete this key from the session
 	    				}
 	    				/*** End of 2nd Enquiry flow ***/
 

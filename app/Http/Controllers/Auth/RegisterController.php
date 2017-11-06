@@ -247,32 +247,42 @@ class RegisterController extends Controller
         }
     }
 
+    public function confirmEmail($token_type = 'register', $user_data = [], $email_template_key = 'user-verify') {
+        if(sizeof($user_data) > 0 && isset($user_data["id"]) && isset($user_data["email"])) {
+            $token = str_random(50);
+            if(!isset($user_data["user_type"]) || $user_data["user_type"] !== "lead") {
+                $userToken = new UserToken();
+                $userToken->user_id = $user_data["id"];
+                $userToken->token = $token;
+                $userToken->token_type = $token_type;
+                $userToken->token_expiry_date = date("Y-m-d H:i:s", strtotime('+2 hours'));
+                $userToken->status = 'sent';
+                $userToken->save();
+            }
 
-    public function registerConfirmEmail($user)
-    {
-    
-        $token = str_random(50);
-        $userToken = new UserToken();
-        $userToken->user_id = $user->id;
-        $userToken->token = $token;
-        $userToken->token_type = 'register';
-        $userToken->token_expiry_date = date("Y-m-d H:i:s", strtotime('+2 hours'));
-        $userToken->status = 'sent';
-        $userToken->save();
+            $confirmationLink = url('/user-confirmation/' . $token);
+            $userEmail = $user_data["email"];
+            $userEmail = "sharath@ajency.in";
+            $data = [];
+            $data['from'] = config('constants.email_from'); 
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [$userEmail];
+            $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = "Verify your email address!";
+            $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
+            sendEmail($email_template_key, $data);
 
-        $confirmationLink =url('/user-confirmation/'.$token);
-        $userEmail = $user->getPrimaryEmail();
-        $data = [];
-        $data['from'] = config('constants.email_from'); 
-        $data['name'] = config('constants.email_from_name');
-        $data['to'] = [$userEmail];
-        $data['cc'] = 'prajay@ajency.in';
-        $data['subject'] = "Verify your email address!";
-        $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
-        sendEmail('user-verify', $data);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-                 
-        return true;    
+    public function registerConfirmEmail($user) {
+
+        $user_data = array("id" => $user->id, "name" => $user->name, "email" => $user->getPrimaryEmail());
+
+        return $this->confirmEmail("register", $user_data, 'user-verify');
     }
 
 

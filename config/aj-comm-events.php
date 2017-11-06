@@ -46,4 +46,20 @@ return [
         "laravel" => "email.welcome-user",
         "pushcrew" => ""
     ],
+    "welcome-lead" => [
+        "laravel" => "email.welcome-lead",
+        "pushcrew" => ""
+    ],
+    "seeker-email-enquiry" => [
+        "laravel" => "email.success_seeker_enquiry",
+        "pushcrew" => ""
+    ],
+    "direct-listing-email" => [
+        "laravel" => "email.listing_owner_direct",
+        "pushcrew" => ""
+    ],
+    "shared-listing-email" => [
+        "laravel" => "email.listing_owner_shared",
+        "pushcrew" => ""
+    ],
 ];

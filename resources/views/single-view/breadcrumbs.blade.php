@@ -32,7 +32,7 @@
     </li>
     @else
     <li class="fnb-breadcrums__section">
-        <a href="{{$item['url']}}" title="{{$item['title']}}">
+        <a href="{{$item['url']}}" title="{{$item['title']}}" class="breadcrum-link">
             <p class="fnb-breadcrums__title">{{$item['name']}}</p>
         </a>
     </li>

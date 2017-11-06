@@ -123,7 +123,7 @@ populate = () ->
   source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}">
               <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
-                    <strong class="branch">{{name}}</strong>
+                    <strong class="branch text-secondary">{{name}}</strong>
                 </div>
                 <div class="col-sm-9">
                     <ul class="fnb-cat small flex-row">

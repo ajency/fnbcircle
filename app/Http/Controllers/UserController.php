@@ -119,7 +119,7 @@ class UserController extends Controller
             case "mobile":
                 $sms = [
                     'to' => $data['country_code'].$data['contact_value'],
-                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for Phone verification. Do not share OTP for security reasons.'
+                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for number verification. Do not share OTP for security reasons.'
                 ];
                 sendSms('verification',$sms);
                 break;

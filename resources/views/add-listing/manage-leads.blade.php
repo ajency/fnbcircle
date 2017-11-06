@@ -86,11 +86,6 @@
                       <div id="categories" class="node-list"></div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-<!-- <<<<<<< HEAD
-                <a href="#" class="primary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
-                <a href="#" class="primary-link x-small m-r-5">+ AddBranch</a>
-                <a href="#" class="primary-link x-small">+ Add Node</a>    
-======= -->
                  <a href="#category-select" data-toggle="modal" data-target="#category-select" class="primary-link x-small" id="select-more-categories">+ Filter based on Categories</a>
             </div>
         </div>

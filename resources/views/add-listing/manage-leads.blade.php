@@ -52,7 +52,7 @@
 
 
 <div class="row">
-    <div class="col-sm-2">
+    <div class="col-sm-2 p-l-0">
         <div class="filter-trigger">
             <button class="btn fnb-btn primary-btn border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
@@ -129,7 +129,7 @@
 </div>
 
 
-    <div class="m-t-50">
+    <div class="m-t-50 relative">
 
     <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
         <thead>

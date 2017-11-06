@@ -23,7 +23,6 @@
                     <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($category['id'])) }}">    
                 </label>
             </div>
-            
         </li>
 
        @endforeach

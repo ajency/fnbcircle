@@ -11393,6 +11393,55 @@ input[type='checkbox'].remove-addr {
 .interested-options .leads-selection .interested-label {
   max-width: 100%;
 }
+.custom-node-select .nav li {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-align: initial;
+  -webkit-align-items: initial;
+      -ms-flex-align: initial;
+          align-items: initial;
+}
+.custom-node-select .nav li a {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.custom-node-select .nav input[type="checkbox"] {
+  margin-right: 5px;
+  -webkit-box-flex: 0.2;
+  -webkit-flex: 0.2;
+      -ms-flex: 0.2;
+          flex: 0.2;
+  margin-top: 0;
+}
+.custom-node-select .nav input[type="checkbox"]:before {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.5em;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+}
+.custom-node-select .disable-section {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
+  pointer-events: none;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

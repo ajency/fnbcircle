@@ -19,7 +19,7 @@
             </div>
         </div>
         @if(sizeof($sub_categories["children"]) > 0)
-            <div class="node-select flex-row">
+            <div class="node-select flex-row custom-node-select">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs flex-row mobile-hide categ-list" role="tablist" id="branch_categories">
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)

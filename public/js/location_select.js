@@ -60,7 +60,9 @@
 
   $('#area-select').on('show.bs.modal', function(e) {
     var cityID;
-    $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+    setTimeout((function() {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+    }), 500);
     array = [];
     $('.city-list li').each(function(index, item) {
       if (index === 0) {
@@ -85,6 +87,12 @@
         return $(this).prop("checked", false);
       }
     });
+  });
+
+  $('#category-select').on('show.bs.modal', function(e) {
+    return setTimeout((function() {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+    }), 500);
   });
 
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
@@ -171,11 +179,6 @@
       $('div[name="' + cityID + '"].tab-pane input[type="checkbox"]').prop("checked", false);
       cityValue = $('div[name="' + cityID + '"].tab-pane input[type="hidden"][name="city"]').val();
       console.log(cityID, cityValue);
-      if ($('.tab-pane').attr('class') === 'active') {
-        $(this).addClass('darkcontrols');
-      } else {
-        $(this).removeClass('darkcontrols');
-      }
       cities['cities'][cityID] = {
         name: cityValue,
         id: cityID,

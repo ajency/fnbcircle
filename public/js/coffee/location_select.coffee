@@ -46,7 +46,10 @@ getAreas = (cityID) ->
 array = []
         
 $('#area-select').on 'show.bs.modal', (e) ->
-  $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+  setTimeout (->
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+    return
+  ), 500
   array=[]
   $('.city-list li').each (index,item)->
     if index == 0
@@ -67,6 +70,14 @@ $('#area-select').on 'show.bs.modal', (e) ->
     else
       $(this).prop("checked",false)
   return
+
+
+$('#category-select').on 'show.bs.modal', (e) ->
+  setTimeout (->
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+    return
+  ), 500
+
 
 
 $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', ->
@@ -169,10 +180,6 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
     #//////////////////////////////////////////////Disable the div
     cityValue = $('div[name="'+cityID+'"].tab-pane input[type="hidden"][name="city"]').val()
     console.log cityID, cityValue
-    if $('.tab-pane').attr('class') == 'active'
-      $(this).addClass 'darkcontrols'
-    else
-      $(this).removeClass 'darkcontrols'
     cities['cities'][cityID] =
         name: cityValue
         id: cityID
@@ -185,4 +192,23 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
     #//////////////////////////////////////Enable the div
     delete(cities['cities'][cityID])
   return
+
+
+# $('body').on 'change', '.categ-list input[type="checkbox"]', ->
+#   city_link = $(this).parent().find('a')
+#   city_link.click()
+#   if @checked
+#     $('.tab-pane.active .nodes').addClass 'disable-section'
+#     setTimeout (->
+#       $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+#       return
+#     ), 100
+#   else
+#     console.log 'test'
+#     $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
+#     $('.tab-pane.active .nodes').removeClass 'disable-section'
+#   return
+
+
+
 

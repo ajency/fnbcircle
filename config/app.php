@@ -170,7 +170,7 @@ return [
         Conner\Tagging\Providers\TaggingServiceProvider::class,
         Ajency\FileUpload\FileUploadServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        // Ajency\Comm\CommServiceProvider::class,
+        Ajency\Comm\CommServiceProvider::class,
 
         /*
          * Application Service Providers...

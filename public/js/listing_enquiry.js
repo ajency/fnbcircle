@@ -488,7 +488,7 @@
       /* --- On click of Popup 3 'Save / Send' --- */
       $(document).on("click", "#level-three-enquiry #level-three-form-btn", function() {
         var page_level;
-        page_level = ($(this).data('value') && $(this).data('value').length > 0) ? $(this).data('value') : 'step_1';
+        page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         if ($(document).find("#level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find("#level-three-enquiry #area_operations").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
         } else {

@@ -29,5 +29,37 @@ return [
     "reset-password" => [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"
-    ]
+    ],
+    "user-register" => [
+        "laravel" => "email.user-register",
+        "pushcrew" => ""
+    ],
+    "register-internal-user" => [
+        "laravel" => "email.register-internal-user",
+        "pushcrew" => ""
+    ],
+    "user-verify" => [
+        "laravel" => "email.user-verify",
+        "pushcrew" => ""
+    ],
+    "welcome-user" => [
+        "laravel" => "email.welcome-user",
+        "pushcrew" => ""
+    ],
+    "welcome-lead" => [
+        "laravel" => "email.welcome-lead",
+        "pushcrew" => ""
+    ],
+    "seeker-email-enquiry" => [
+        "laravel" => "email.success_seeker_enquiry",
+        "pushcrew" => ""
+    ],
+    "direct-listing-email" => [
+        "laravel" => "email.listing_owner_direct",
+        "pushcrew" => ""
+    ],
+    "shared-listing-email" => [
+        "laravel" => "email.listing_owner_shared",
+        "pushcrew" => ""
+    ],
 ];

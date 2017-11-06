@@ -103,6 +103,8 @@ JOBS/USERS
 Route::get('/job/{slug}','JobController@show');
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-company','JobController@getCompanies');
+Route::get('user-confirmation/{token}', 'Auth\RegisterController@userConfirmation');
+Route::get('send-confirmation-link', 'Auth\RegisterController@sendConfirmationLink');
 
 /**
 logged in users group
@@ -161,7 +163,8 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::group(['prefix' => 'users'], function() {
 		/* Get Users */
 		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
-		Route::get('registered-users', 'AdminConfigurationController@registeredUserView'); // Get Registered / External Users
+		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
+		Route::post('get-registered-users', 'AdminConfigurationController@getRegisteredUsers');  // Get Registered / External Users
 
 		Route::post('get-users', 'AdminConfigurationController@getUserData'); // Get all the User Data
 

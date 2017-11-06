@@ -120,10 +120,14 @@
 
   $(document).ready(function() {
     $(document).on("shown.bs.modal", "#category-select", function(event) {
-      var enquiry_categories;
+      var enquiry_categories, enquiry_categories_string;
       enquiry_categories = getLeafNodes();
-      console.log(enquiry_categories);
-      $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories));
+      enquiry_categories_string = [];
+      enquiry_categories.forEach(function(element) {
+        enquiry_categories_string.push(element.toString());
+      });
+      console.log(enquiry_categories_string);
+      $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories_string));
     });
   });
 

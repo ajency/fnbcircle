@@ -120,4 +120,26 @@ class User extends Authenticatable
 
         return $object;
     }
+
+    public function userCreated($format=1){
+        $date = '';
+
+        if(!empty($this->created_at)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->created_at)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->created_at)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
+
+            }
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->created_at)));
+
+        }
+
+        return $date;
+      
+    }
 }

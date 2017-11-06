@@ -83,7 +83,7 @@ $('body').on 'click', '.fnb-modal button.operation-save', ->
     pid = undefined
     pval = undefined
     parent = $(this).closest('div').find('input[name="city"]')
-    pid = parent.attr('id')
+    pid = parent.attr('data-city-id')
     pval = parent.val()
     # console.log(!cities['cities'].hasOwnProperty(pid))
     if !cities['cities'].hasOwnProperty(pid)
@@ -93,13 +93,13 @@ $('body').on 'click', '.fnb-modal button.operation-save', ->
         id: pid
         areas: []
     if $(this)[0].checked
-      cities['cities'][parent.attr('id')]['areas'][$(this).val()] ={
+      cities['cities'][pid]['areas'][$(this).val()] ={
         'name': $(this).attr('name')
         'id': $(this).val()
       }
     else
       # console.log $(this).val()
-      delete cities['cities'][parent.attr('id')]['areas'][$(this).val()]
+      delete cities['cities'][pid]['areas'][$(this).val()]
     return
   populate()
   return

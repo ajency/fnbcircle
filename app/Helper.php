@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\View;
 use App\Category;
 use App\Defaults;
 // use AjComm;
-use App\Category;
 
 
 function getOperationTime($info=null,$type= "from",$diff=30){

@@ -44,7 +44,11 @@
                             </div>
                             <!-- mobile collapse -->
                             @foreach($cities as $city)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">{{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            <div class="flex-row mobile-custom-child">
+                                <input type="checkbox" name="branch_categories_select" id="" value="" class="mobile-child-selection">
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">
+                                    {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
                             </div>
                             <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}" name={{$city->id}} >
                                 <input type=hidden name="city" value="{{$city->name}}" id="city-{{$city->slug}}" data-city-id="{{$city->id}}">

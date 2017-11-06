@@ -194,6 +194,24 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
   return
 
 
+$('body').on 'change', '.mobile-child-selection', ->
+  city_link = $(this).siblings('.toggle-collapse')
+  city_link.click()
+  if @checked
+    setTimeout (->
+      $('.tab-pane.in .nodes').addClass 'disable-section'
+      $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+      return
+    ), 500
+  else
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
+    $('.tab-pane.in .nodes').removeClass 'disable-section'
+  return
+
+
+
+
+
 # $('body').on 'change', '.categ-list input[type="checkbox"]', ->
 #   city_link = $(this).parent().find('a')
 #   city_link.click()

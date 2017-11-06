@@ -11440,10 +11440,90 @@ input[type='checkbox'].remove-addr {
   text-align: center;
   width: 100%;
 }
+.mobile-custom-child {
+  border: 1px solid #eee;
+}
+.mobile-custom-child .mobile-child-selection {
+  -webkit-box-flex: 0.1;
+  -webkit-flex: 0.1;
+      -ms-flex: 0.1;
+          flex: 0.1;
+  margin-right: 0;
+  padding: 0 5px;
+  margin-top: 0;
+}
+.mobile-custom-child input[type="checkbox"]:before {
+  width: 100%;
+}
+.mobile-custom-child .toggle-collapse {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border: 0;
+  border-left: 1px solid #eee;
+}
 .disable-section {
   -webkit-filter: grayscale(1);
           filter: grayscale(1);
   pointer-events: none;
+}
+@media screen and (max-width: 768px) {
+  .listing-lead {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  .filter-trigger {
+    width: 50%;
+    margin: 1em auto 0 auto;
+  }
+  .leads-filter-action {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+  .leads-filter-action a {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    -webkit-flex-basis: 100%;
+        -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
+    margin-right: 0;
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+    margin-top: 1em;
+  }
+  .business-leads .dataTables_info.dataTables_info {
+    width: auto;
+    border-right: 0;
+    display: block;
+    text-align: center;
+    margin-right: 0;
+  }
+  .business-leads .dataTables_length {
+    float: none;
+    margin: 1.5em 0;
+  }
+  .multi-label-select label {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    text-align: center;
+  }
+  .multi-label-select .checkbox {
+    margin: 1em 0;
+  }
 }
 .profile-stats {
   color: #fff;

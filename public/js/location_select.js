@@ -193,4 +193,19 @@
     }
   });
 
+  $('body').on('change', '.mobile-child-selection', function() {
+    var city_link;
+    city_link = $(this).siblings('.toggle-collapse');
+    city_link.click();
+    if (this.checked) {
+      setTimeout((function() {
+        $('.tab-pane.in .nodes').addClass('disable-section');
+        $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+      }), 500);
+    } else {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", false);
+      $('.tab-pane.in .nodes').removeClass('disable-section');
+    }
+  });
+
 }).call(this);

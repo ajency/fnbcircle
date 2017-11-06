@@ -43,9 +43,17 @@
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="flex-row mobile-custom-child">
+                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}" class="mobile-child-selection">
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">
+                                {{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            </div>
+                            
                         @else
-                            <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            <div class="flex-row mobile-custom-child">
+                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}" class="mobile-child-selection">
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                            </div>
                         @endif
                     @endforeach
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)

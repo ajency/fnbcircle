@@ -2,17 +2,23 @@
 
 namespace App\Helpers;
 
+/**
+ * Class for Fetching news posts rom wordpress.
+ */
 class WpNewsHelper
 {
 
     public function __construct($params = array())
     {
-        /*if (isset($param['filepath'])) {
-    $this->file_path = $param['filepath'];
-    }
-     */
+       
     }
 
+    /**
+     * 
+     * @param      <type>  $params  The parameters array("category"=>"goa,pune,mumbai","num_of_items"=>2)
+     *
+     * @return     array   The news by categories.
+     */
     public function getNewsByCategories($params)
     {
 

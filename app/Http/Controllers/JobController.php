@@ -15,6 +15,8 @@ use App\JobCompany;
 use Auth;
 use Session;
 use App\UserCommunication;
+use App\Helpers\WpNewsHelper;
+
 
 class JobController extends Controller
 {
@@ -308,6 +310,11 @@ class JobController extends Controller
         $data['contactEmail'] = $contactEmail;
         $data['contactMobile'] = $contactMobile;
         $data['contactLandline'] = $contactLandline;
+
+        $news = new WpNewsHelper();
+        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
+        $news_items = $news->getNewsByCategories($news_args);        
+        $data['news_items'] = $news_items;
         
          return view('jobs.job-view')->with($data);
     }

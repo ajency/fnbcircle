@@ -50,7 +50,7 @@
             </div>
         </div>
     </div> -->
-    @include('list-view.single-card.listing_card')
+    @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 @endif
 
 <button class="btn fnb-btn" data-dismiss="modal" aria-label="Close">Ok, got it!</button>

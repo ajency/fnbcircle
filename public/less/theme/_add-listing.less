@@ -4492,8 +4492,82 @@ input[type='checkbox'].remove-addr{
 }
 
 
+.mobile-custom-child{
+	border: 1px solid #eee;
+	.mobile-child-selection{
+		flex: 0.1;
+	    margin-right: 0;
+	    padding: 0 5px;
+	    margin-top: 0;
+	}
+	input[type="checkbox"]{
+		&:before{
+			width: 100%;	
+		}
+	}
+	.toggle-collapse{
+		flex: 1;
+		border: 0;
+    	border-left: 1px solid #eee;
+	}
+}
+
 .disable-section{
 	filter: grayscale(1); 
 	pointer-events: none; 
 }
+
+
+@media screen and (max-width: @mobile){
+	.listing-lead{
+		overflow-x: auto;
+    	display: block;
+    	white-space: nowrap;
+	}
+	.filter-trigger{
+		width: 50%;
+    	margin: 1em auto 0 auto;
+	}
+	.leads-filter-action{
+		justify-content: flex-start;
+		flex-wrap: wrap;
+		a{
+			flex: 1;
+		    flex-basis: 100%;
+		    margin-right: 0;
+		    order: 2;
+		    margin-top: 1em;
+		}
+	}
+	.business-leads{
+		.dataTables_info.dataTables_info{
+			width: auto;
+    		border-right: 0;
+    		display: block;
+    		text-align: center;
+    		margin-right: 0;
+		}
+		.dataTables_length{
+			float: none;
+    		margin: 1.5em 0;
+		}
+	}
+	.multi-label-select{
+		label{
+			flex-direction: column;
+    		text-align: center;
+		}
+		.checkbox{
+			margin: 1em 0;
+		}
+	}
+}
+
+
+
+
+
+
+
+
 

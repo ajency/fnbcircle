@@ -72,13 +72,13 @@
         </div>
         
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 c-gap">
         <div>
             <p class="text-color x-small text-uppercase flex-row space-between">Request send date  <a id="clearSubDate" href="#" class="primary-link">Clear</a> </p>
             <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
         </div>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-12 c-gap">
         <div>
             <p class="text-color x-small text-uppercase">Categories</p>
             <div class="category-listing m-b-10">
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 m-t-20">
+    <div class="col-sm-12 c-gap m-t-20">
         <div>
             <p class="text-color x-small text-uppercase">Location</p>
             <div class="category-listing m-b-10">
@@ -119,7 +119,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 m-t-10">
+    <div class="col-sm-12 c-gap m-t-10">
         <div class="leads-filter-action flex-row">
             <a href="#" class="dark-link dis-block text-decor m-r-15">Clear All</a>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyLocFilter">Apply Location</button>

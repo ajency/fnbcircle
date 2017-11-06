@@ -266,4 +266,8 @@ body .submit {
 .comments-area .icon {
   color: #ec6d4b !important;
 }
+/* line 77, news.less */
+.page-template-blog .single-featured-image-header {
+  display: none!important;
+}
 /*# sourceMappingURL=news.css.map */

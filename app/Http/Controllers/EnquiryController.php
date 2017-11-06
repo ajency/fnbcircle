@@ -27,6 +27,7 @@ use App\EnquiryCategory;
 use App\EnquiryArea;
 
 use App\Http\Controllers\ListingViewController;
+use App\Http\Controllers\ListViewController;
 use App\Http\Controllers\CookieController;
 
 class EnquiryController extends Controller {
@@ -116,12 +117,16 @@ class EnquiryController extends Controller {
 		}
 
 		if($enquiry_obj) { // If enquiry object exist, then add other data
-			$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
-			$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
+			if (sizeof($enquiry_sent) > 0) {
+				$enquiry_sent["enquiry_id"] = $enquiry_obj["id"];
+				$enquiry_sent_obj = EnquirySent::create($enquiry_sent);
+			} else {
+				$enquiry_sent_obj = [];
+			}
 
 			if(sizeof($enquiry_categories) > 0) {
 				foreach ($enquiry_categories as $cat_key => $cat_value) {
-					$category_obj = Category::where('slug', $cat_value)->first();
+					$category_obj = Category::where('id', $cat_value)->first();
 					$enquiry_cat_obj = EnquiryCategory::create(["enquiry_id" => $enquiry_obj["id"], "category_id" => $category_obj->id]);
 				}
 			} else {
@@ -211,7 +216,51 @@ class EnquiryController extends Controller {
 			   		}
 
 		   		} else {
-		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('data', 'enquiry_data'))->render();
+		   			$session_data = Session::get('enquiry_data');
+
+		   			if(isset($session_data["enquiry_id"])) {
+		   				$enq_obj = Enquiry::find($session_data["enquiry_id"]);
+		   				$area_ids = $enq_obj->areas()->pluck('area_id')->toArray();
+		   				$core_ids = $enq_obj->categories()->pluck('category_id')->toArray();
+
+		   				$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $area_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
+						$listing_cat_ids = ListingCategory::whereIn('category_id', $core_ids)->distinct('listing_id')->pluck('listing_id')->toArray();
+
+						if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) { // If both have value > 0, then
+							$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+							if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
+								$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+							}
+						} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
+							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+						} else {
+							$listing_final_ids = [];
+						}
+
+						if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) {
+							// Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
+							$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+							unset($listing_final_ids[$pos]);
+						}
+
+						if (sizeof($listing_final_ids) > 0)  {
+							$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+
+							if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
+								$listing_final_ids = $temp_listing_ids;
+							}
+						}
+
+						$listviewObj = new ListViewController;
+						$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
+						$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
+						$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
+						$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+		   			} else {
+		   				$listing_data = [];
+		   			}
+		   			//dd($listing_data);
+		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
 		   		$response_html = abort(404);
@@ -385,16 +434,39 @@ class EnquiryController extends Controller {
 				
 				if($listing_obj->first()->premium || !Auth::guest()) { // If premium or (not guest User) then save the data
 					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
+					$listing_cat_ids = ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
+
+					if(sizeof($listing_operations_ids) > 0 && sizeof($listing_cat_ids) > 0) {
+						$listing_final_ids = array_intersect($listing_operations_ids, $listing_cat_ids); // INTERSECTION of 2 Arrays
+						if(sizeof($listing_final_ids) < 5) { // If size is < 5, then do UNION of 2 arrays
+							$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids)); // Get unique IDs of the Arrays
+						}
+					} else if (sizeof($listing_operations_ids) > 0 || sizeof($listing_cat_ids) > 0) { // If either 1 array is not Empty, then
+						$listing_final_ids = array_unique(array_merge($listing_operations_ids, $listing_cat_ids));
+					} else {
+						$listing_final_ids = [];
+					}
 
 					if(isset($enquiry_sent['enquiry_to_id']) && $enquiry_sent['enquiry_to_id'] > 0) { // Remove the Primary Enquiry's Listing ID if the Listing ID exist in the Array
-						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_operations_ids);
-						unset($session_payload[$pos]);
+						$pos = array_search($enquiry_sent['enquiry_to_id'], $listing_final_ids);
+						unset($listing_final_ids[$pos]);
 					}
 
-					foreach ($listing_operations_ids as $op_key => $op_value) {
-						$enquiry_sent["enquiry_to_id"] = $op_value;
-						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, $enquiry_categories, $enquiry_areas);
+					if (sizeof($listing_final_ids) > 0)  {
+						$temp_listing_ids = Listing::whereIn('id', $listing_final_ids)->where('premium', 1)->pluck('id')->toArray();
+
+						if(sizeof($temp_listing_ids) > 0) { // If premium account exist then
+							$listing_final_ids = $temp_listing_ids;
+						}
 					}
+
+					foreach ($listing_final_ids as $op_key => $op_value) {
+						$enquiry_sent["enquiry_to_id"] = $op_value;
+						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
+					}
+
+					$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas);
+
 					unset($session_payload["enquiry_id"]);
 					unset($session_payload["enquiry_to_id"]);
 					unset($session_payload["enquiry_to_enquiry"]);
@@ -529,8 +601,16 @@ class EnquiryController extends Controller {
     /**
     * This function is used to Get all the Children of a category
     */
-    public function getCategories($type='listing', $parents = [], $statuses=[]) {
+    public function getCategories($type='listing', $parent_values = [], $column_search = 'id', $statuses=[]) {
     	$parent_array = [];
+    	$parents = [];
+
+    	if($column_search !== "id") {
+    		$parents = Category::whereIn('slug', $parent_values)->pluck('id')->toArray();
+    	} else {
+    		$parents = $parent_values;
+    	}
+
         foreach ($parents as $parent) {
             if(sizeof($statuses) > 0) {
             	$children = Category::where('type', $type)->where('parent_id', $parent)->whereIn('status', $statuses)->orderBy('order')->orderBy('name')->get();
@@ -542,7 +622,7 @@ class EnquiryController extends Controller {
 
             foreach ($children as $child_index => $child) {
             	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
-            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug));
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, "hierarchy" => generateCategoryHierarchy($child['id'])));
             }
 
             $parent_obj = Category::find($parent);
@@ -550,7 +630,7 @@ class EnquiryController extends Controller {
             if ($parent_obj->parent_id != null) {
                 $grandparent = Category::findorFail($parent_obj->parent_id);
             } else {
-                $grandparent = new Category;
+                $grandparent = null;
             }
 
             //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
@@ -564,18 +644,18 @@ class EnquiryController extends Controller {
     */
     public function getListingCategories(Request $request) {
     	$this->validate($request, [
-            'category_id' => 'required',
+            'category' => 'required',
         ]);
 
     	$sub_categories = [];
     	$statuses = $request->has('statuses') ? $request->statuses : [];
 
-    	if(is_array($request->category_id)) {
-        	$sub_categories = $this->getCategories('listing', $request->category_id, $statuses);
-        } else if(strpos(" " . $request->category_id, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$sub_categories = $this->getCategories('listing', json_decode($request->category_id), $statuses);
+    	if(is_array($request->category)) {
+        	$sub_categories = $this->getCategories('listing', $request->category, 'id', $statuses);
+        } else if(strpos(" " . $request->category, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
+        	$sub_categories = $this->getCategories('listing', json_decode($request->category), 'id', $statuses);
         } else {
-        	$sub_categories = $this->getCategories('listing', [$request->category_id], $statuses);
+        	$sub_categories = $this->getCategories('listing', [$request->category], 'id', $statuses);
         }
 
         // Take the 1st Parent Category
@@ -608,15 +688,34 @@ class EnquiryController extends Controller {
         $statuses = $request->has('statuses') ? $request->statuses : [];
 
     	if(is_array($request->branch)) {
-        	$node_categories = $this->getCategories('listing', $request->branch, $statuses);
+        	$node_categories = $this->getCategories('listing', $request->branch, 'id', $statuses);
         } else if(strpos(" " . $request->branch, '[')){ // Adding <space> before the string coz if the indexOf '[' == 0, then it returns index i.e. '0' & if not found, then 'false' i.e. 0 { 'true' => 1, 'false' => 0)
-        	$node_categories = $this->getCategories('listing', json_decode($request->branch), $statuses);
+        	$node_categories = $this->getCategories('listing', json_decode($request->branch), 'id', $statuses);
         } else {
-        	$node_categories = $this->getCategories('listing', [$request->branch], $statuses);
+        	$node_categories = $this->getCategories('listing', [$request->branch], 'id', $statuses);
         }
 
+        /*if(isset($node_categories["parent"]) && $node_categories["parent"]) {
+        	$node_categories["parent"] = $node_categories["parent"]->toArray();
+        }*/
         //$node_categories = $node_categories[0];
 
         return response()->json(array("data" => $node_categories), 200);
+    }
+
+    /**
+    * This function will return a Template Modal based on Level
+    */
+    public function getCategoryModalDom(Request $request) {
+		$this->validate($request, [
+            'level' => 'required',
+        ]);
+		$modal_template = "";
+		$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
+
+		if($request->level == "level_1") {
+			$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+		}
+		return response()->json(array("modal_template" => $modal_template), 200);
     }
 }

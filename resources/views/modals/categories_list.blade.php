@@ -1,11 +1,12 @@
-<div class="modal fnb-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <input type="hidden" name="previously_available_categories" id="previously_available_categories" value=""/>
+            <input type="hidden" name="selected_hierarchy_values" id="selected_hierarchy_values" value=""/>
             <div class="modal-header">
                 <div class="level-one mobile-hide firstStep">
                     <!-- <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button> -->
-                    <button class="close" id="category-select-close" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    <button type="button" class="close" id="category-select-close" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="mobile-back flex-row">
                     <div class="back">
@@ -19,7 +20,7 @@
             </div>
             <div class="modal-body">
                 <div id="level-one-category-dom">
-                    @include('modals.category_selection.level_one')
+                    
                 </div>
                 <div id="level-two-category-dom">
                     
@@ -46,6 +47,3 @@
     </div>
 </div>
 
-@section('js')
-    <!-- <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script> -->
-@endsection

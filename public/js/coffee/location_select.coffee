@@ -113,7 +113,7 @@ populate = () ->
                 </div>
                 <div class="col-sm-9">
                     <ul class="fnb-cat small flex-row">
-                        {{#areas}}<li><span class="fnb-cat__title"><input type=hidden name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span>
+                        {{#areas}}<li><span class="fnb-cat__title"><input type="hidden" name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span>
                         </li>{{/areas}}
                     </ul>
                 </div>
@@ -125,7 +125,7 @@ populate = () ->
   template = Handlebars.compile(source)
   $('div#disp-operation-areas.node-list').html template(cities)
     
-$('body').on 'click', '.delete-cat', ->
+$('#disp-operation-areas').on 'click', '.delete-cat', ->
   pid = parseInt($(this).closest('.single-category').attr('data-city-id'))
   console.log pid
   delete(cities['cities'][pid])
@@ -134,15 +134,19 @@ $('body').on 'click', '.delete-cat', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
-$('body').on 'click', '.fnb-cat .remove', ->
+$('#disp-operation-areas').on 'click', '.fnb-cat .remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
   list= item.parent()
+  cid = parseInt($(this).closest('.single-category').attr('data-city-id'))
+  aid = parseInt(item.find('input[type="hidden"]').val())
+  console.log cid,aid
+  delete(cities['cities'][cid]['areas'][aid])
   item.remove()
-  if list.children().length == 0
-    pid = parseInt(list.closest('.single-category').attr('data-city-id'))
-    delete(cities['cities'][pid])
-    list.closest('.single-category').remove()
-    $('.city-list a#checkbox-'+pid).prop('checked', false).change()
+  # if list.children().length == 0
+  #   pid = parseInt(list.closest('.single-category').attr('data-city-id'))
+  #   delete(cities['cities'][pid])
+  #   list.closest('.single-category').remove()
+  #   $('.city-list a#checkbox-'+pid).prop('checked', false).change()
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 

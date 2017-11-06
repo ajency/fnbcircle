@@ -218,10 +218,10 @@ class RegisterController extends Controller
                     $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
                 }
-
+                
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm
                 $required_fields_check = $userauth_obj->updateRequiredFields($user_resp["user"]);
-
+                
                 if($user_resp["user"]) {
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {

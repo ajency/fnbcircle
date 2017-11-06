@@ -139,6 +139,12 @@
     return table.ajax.reload();
   });
 
+  $('body').on('click', 'button#applyCategFilter', function() {
+    console.log('worls');
+    filters['categories'] = JSON.stringify(getLeafNodes());
+    return table.ajax.reload();
+  });
+
   $('body').on('click', '.archiveaction', function() {
     var editrow, enquiry;
     editrow = $(this).closest('td');

@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getBranchNodeCategories, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop;
+  var capitalize, getArea, getBranchNodeCategories, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -67,6 +67,7 @@
           $(document).find("div.container #enquiry-modal").modal('show');
           if ($("#level-three-enquiry").length > 0) {
             initCatSearchBox();
+            multiSelectInit("#level-three-enquiry", false);
           }
         }
       },
@@ -192,6 +193,8 @@
           html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
+        $("#level-three-enquiry" + ' .default-area-select').multiselect('destroy');
+        multiSelectInit("#level-three-enquiry", false);
       },
       error: function(request, status, error) {
         throw Error();
@@ -334,6 +337,22 @@
     });
   };
 
+  multiSelectInit = function(path, reinit) {
+    if (reinit == null) {
+      reinit = false;
+    }
+    if (reinit) {
+      $(path + ' .default-area-select').multiselect();
+    } else {
+      $(path + ' .default-area-select').multiselect({
+        includeSelectAllOption: true,
+        numberDisplayed: 5,
+        delimiterText: ',',
+        nonSelectedText: 'Select City'
+      });
+    }
+  };
+
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
@@ -374,12 +393,6 @@
         $('.float-input').each(function() {
           checkForInput(this);
         });
-        $('.default-area-select').multiselect({
-          includeSelectAllOption: true,
-          numberDisplayed: 5,
-          delimiterText: ',',
-          nonSelectedText: 'Select City'
-        });
         if ($(document).find("#level-one-enquiry").length > 0) {
           initFlagDrop("#level-one-enquiry input[name='contact']");
           $(document).on("countrychange", "#level-one-enquiry input[name='contact']", function() {
@@ -405,7 +418,8 @@
       /* --- On click of "Send Enquiry 1" button --- */
       $(document).on("click", "#level-one-enquiry #level-one-form-btn", function() {
         var page_level;
-        page_level = ($(this).data('value') && $(this).data('value').length > 0) ? $(this).data('value') : 'step_1';
+        page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+        $(this).find("i.fa-circle-o-notch").removeClass("hidden");
         if ($(document).find("#level-one-enquiry").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
         } else {
@@ -489,7 +503,9 @@
         $.each($("#level-three-enquiry input[name='categories_interested[]']:checked"), function() {
           main_page_categories.push($(this).val());
         });
+        $("#enquiry-modal").modal("hide");
         $(document).on("shown.bs.modal", "#category-select", function(event) {
+          console.log(main_page_categories);
           $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
         });
       });
@@ -497,17 +513,19 @@
       /* --- On Categories Modal close, update the Level 3 with checkboxes --- */
       $(document).on("hidden.bs.modal", "#category-select", function(event) {
         var checked_categories, html, index;
+        $("#enquiry-modal").modal("show");
         checked_categories = [];
         index = 0;
         html = "";
         if ($("#level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0) {
           checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val());
         }
+        console.log(checked_categories);
         while (index < checked_categories.length) {
           if ($("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
             $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", "true");
           } else {
-            html = "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
+            html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
           }
           index++;
         }

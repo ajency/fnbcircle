@@ -1,7 +1,7 @@
 <!-- Enquiry modal -->
 
 <div class="modal fnb-modal enquiry-modal verification-modal multilevel-modal fade" id="enquiry-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width:95%">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close mobile-hide" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
@@ -258,7 +258,12 @@
                                 </div>
                             </h5>
                             <div class="seller-enquiry">
-                                <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title"><span class="brand-name"> {{ $data['title']['name'] }} </span> <span class="fnb-icons verified-icon"></span></p>
+                                <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title">
+                                    <span class="brand-name"> {{ $data['title']['name'] }} </span>
+                                    @if(isset($data['verified']) && $data['verified'])
+                                        <span class="fnb-icons verified-icon"></span>
+                                    @endif
+                                </p>
                                 <div class="location flex-row mobile-hide">
                                     <span class="fnb-icons map-icon"></span>
                                     <p class="location__title m-b-0 text-lighter">{{$data['city']['name']}}</p>

@@ -129,12 +129,12 @@
   populate = function() {
     var k, source, template;
     k = 0;
-    source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}"> <div class="row flex-row areaContainer corecat-container"> <div class="col-sm-3"> <strong class="branch">{{name}}</strong> </div> <div class="col-sm-9"> <ul class="fnb-cat small flex-row"> {{#areas}}<li><span class="fnb-cat__title"><input type=hidden name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span> </li>{{/areas}} </ul> </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div>{{/cities}}';
+    source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}"> <div class="row flex-row areaContainer corecat-container"> <div class="col-sm-3"> <strong class="branch">{{name}}</strong> </div> <div class="col-sm-9"> <ul class="fnb-cat small flex-row"> {{#areas}}<li><span class="fnb-cat__title"><input type="hidden" name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span> </li>{{/areas}} </ul> </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div>{{/cities}}';
     template = Handlebars.compile(source);
     return $('div#disp-operation-areas.node-list').html(template(cities));
   };
 
-  $('body').on('click', '.delete-cat', function() {
+  $('#disp-operation-areas').on('click', '.delete-cat', function() {
     var pid;
     pid = parseInt($(this).closest('.single-category').attr('data-city-id'));
     console.log(pid);
@@ -143,17 +143,15 @@
     return $('.city-list a#checkbox-' + pid).prop('checked', false).change();
   });
 
-  $('body').on('click', '.fnb-cat .remove', function() {
-    var item, list, pid;
+  $('#disp-operation-areas').on('click', '.fnb-cat .remove', function() {
+    var aid, cid, item, list;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();
-    item.remove();
-    if (list.children().length === 0) {
-      pid = parseInt(list.closest('.single-category').attr('data-city-id'));
-      delete cities['cities'][pid];
-      list.closest('.single-category').remove();
-      return $('.city-list a#checkbox-' + pid).prop('checked', false).change();
-    }
+    cid = parseInt($(this).closest('.single-category').attr('data-city-id'));
+    aid = parseInt(item.find('input[type="hidden"]').val());
+    console.log(cid, aid);
+    delete cities['cities'][cid]['areas'][aid];
+    return item.remove();
   });
 
   $('body').on('change', '.city-list input[type="checkbox"]', function() {

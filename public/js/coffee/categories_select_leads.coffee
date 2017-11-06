@@ -139,7 +139,11 @@ window.getLeafNodes = () ->
 $(document).ready ()->
   $(document).on "shown.bs.modal", "#category-select", (event) ->
     enquiry_categories = getLeafNodes()
-    console.log enquiry_categories
-    $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories))
+    enquiry_categories_string = []
+    enquiry_categories.forEach (element) ->
+      enquiry_categories_string.push(element.toString())
+      return
+    console.log enquiry_categories_string
+    $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories_string))
     return
   return

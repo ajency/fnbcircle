@@ -105,7 +105,7 @@
       pid = void 0;
       pval = void 0;
       parent = $(this).closest('div').find('input[name="city"]');
-      pid = parent.attr('id');
+      pid = parent.attr('data-city-id');
       pval = parent.val();
       if (!cities['cities'].hasOwnProperty(pid)) {
         cities['cities'][pid] = {
@@ -115,12 +115,12 @@
         };
       }
       if ($(this)[0].checked) {
-        cities['cities'][parent.attr('id')]['areas'][$(this).val()] = {
+        cities['cities'][pid]['areas'][$(this).val()] = {
           'name': $(this).attr('name'),
           'id': $(this).val()
         };
       } else {
-        delete cities['cities'][parent.attr('id')]['areas'][$(this).val()];
+        delete cities['cities'][pid]['areas'][$(this).val()];
       }
     });
     populate();

@@ -44,7 +44,7 @@
                             <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">{{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </div>
                             <div role="tabpanel" class="tab-pane @if($loop->first) active @endif collapse" id="{{$city->slug}}" name={{$city->id}} >
-                                <input type=hidden name="city" value="{{$city->name}}" id="{{$city->id}}">
+                                <input type=hidden name="city" value="{{$city->name}}" id="city-{{$city->slug}}" data-city-id="{{$city->id}}">
                                 <!-- <div class="highlight-color p-t-10 p-l-10 p-r-5 p-b-10 m-b-20 select-all operate-all">
                                 </div> -->
                                 <ul class="nodes">

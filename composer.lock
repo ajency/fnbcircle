@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e490ce99be7b765eec5ee6f09bc4dd4b",
+    "hash": "655280d55178859f2e26b9ba450829fd",
     "content-hash": "ca1c57e4ee282d566e5eb311e2f1f7aa",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.34",
+            "version": "3.36.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a"
+                "reference": "a6d7fd9f32c63d018a6603a36174b4cb971fccd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/adc4e9928730cb65b9b7914084cbf1d8c988419a",
-                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a6d7fd9f32c63d018a6603a36174b4cb971fccd9",
+                "reference": "a6d7fd9f32c63d018a6603a36174b4cb971fccd9",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-10-26 20:45:00"
+            "time": "2017-11-03 16:39:35"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1246,16 +1246,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a"
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a1e8e1a30e1352f118feff1a8481066ddc2f234a",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/08131e7ff29de6bb9f12275c7d35df71f25f4d89",
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89",
                 "shasum": ""
             },
             "require": {
@@ -1293,7 +1293,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-09-02 17:10:46"
+            "time": "2017-11-04 11:48:34"
         },
         {
             "name": "paragonie/random_compat",
@@ -1442,16 +1442,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.13",
+            "version": "v0.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d"
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/91e53c16560bdb8b9592544bb38429ae00d6baee",
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee",
                 "shasum": ""
             },
             "require": {
@@ -1511,7 +1511,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-10-19 06:13:20"
+            "time": "2017-11-04 16:06:49"
         },
         {
             "name": "ramsey/uuid",

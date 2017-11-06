@@ -236,27 +236,67 @@
         }
       } else {
         if ($(this).prop('checked')) {
-          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", "true");
+          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", true);
         } else {
-          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", "false");
+          $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", false);
         }
+      }
+    });
+
+    /* --- If a node Category is selected, & if all are selected, then check the Branch --- */
+    $(document).on("change", "#category-select #level-two-category #cat-dataHolder input[type='checkbox']", function() {
+      var branch_id, main_page_categories, path;
+      branch_id = $(this).closest('div.tab-pane').attr('id');
+      path = "#category-select #level-two-category ";
+      if ($(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']").length === $(path + "#cat-dataHolder #" + branch_id + " input[type='checkbox']:checked").length) {
+        $(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop("checked", true);
+      } else {
+        $(path + "#branch_categories input[type='checkbox'][value='" + branch_id + "']").prop("checked", false);
+      }
+      main_page_categories = getPreviouslyAvailableCategories();
+      if (main_page_categories.indexOf($(this).val()) > -1) {
+        main_page_categories.pop(main_page_categories.indexOf($(this).val()));
+        $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
       }
     });
 
     /* --- On Click of "Add Selected", add those Checked values & close the Popup --- */
     $(document).on("click", "#category-select #level-two-category button#category-select-btn", function() {
-      var checked_categories, main_page_categories;
+      var checked_categories, checked_hierarchy_categories, index, main_page_categories;
       checked_categories = [];
       main_page_categories = [];
+      index = 0;
+      checked_hierarchy_categories = [];
       main_page_categories = getPreviouslyAvailableCategories();
+
+      /* ---- Share only the child values ---- */
       $.each($("#category-select #level-two-category #cat-dataHolder input[type='checkbox']:checked"), function() {
+        if (main_page_categories.indexOf($(this).val()) <= -1) {
+          checked_categories.push({
+            "slug": $(this).val(),
+            "name": $(this).parent().find('p#' + $(this).val()).text()
+          });
+        }
+      });
+      while (index < main_page_categories.length) {
         checked_categories.push({
+          "slug": main_page_categories[index]
+        });
+        index++;
+      }
+      if ($(document).find("input[type='hidden']#modal_categories_chosen").length > 0) {
+        $(document).find("input[type='hidden']#modal_categories_chosen").val(JSON.stringify(checked_categories));
+      }
+
+      /* --- Share even the Branch value --- */
+      $.each($("#category-select input[type='checkbox']:checked"), function() {
+        checked_hierarchy_categories.push({
           "slug": $(this).val(),
           "name": $(this).parent().find('p#' + $(this).val()).text()
         });
       });
-      if ($(document).find("input[type='hidden']#modal_categories_chosen").length > 0) {
-        $(document).find("input[type='hidden']#modal_categories_chosen").val(JSON.stringify(checked_categories));
+      if ($(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").length > 0) {
+        $(document).find("input[type='hidden']#modal_categories_hierarchy_chosen").val(JSON.stringify(checked_hierarchy_categories));
       }
       $("#category-select").modal("hide");
     });

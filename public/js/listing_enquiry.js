@@ -188,9 +188,10 @@
       success: function(data) {
         var key;
         key = void 0;
+        $(path).addClass("default-area-select");
         for (key in data) {
           key = key;
-          html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
+          html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
         $("#level-three-enquiry" + ' .default-area-select').multiselect('destroy');
@@ -520,10 +521,10 @@
         if ($("#level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0) {
           checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val());
         }
-        console.log(checked_categories);
+        $("#level-three-enquiry input[name='categories_interested[]']").prop("checked", false);
         while (index < checked_categories.length) {
           if ($("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
-            $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", "true");
+            $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", true);
           } else {
             html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
           }

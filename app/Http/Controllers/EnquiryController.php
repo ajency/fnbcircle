@@ -41,11 +41,6 @@ class EnquiryController extends Controller {
     	return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 	}
 
-	public function getSessionData($key) {
-		$session_data = Session::get($key);
-		return $session_data;
-	}
-
 	/**
 	* This function will validate the OTP
 	*/
@@ -317,7 +312,7 @@ class EnquiryController extends Controller {
    		$listing_view_controller = new ListingViewController;
    		$output = new ConsoleOutput;
 		
-		$session_data = $this->getSessionData('enquiry_data');
+		$session_data = Session::get('enquiry_data');
 		
 		if(strlen($listing_slug) > 0) {
    			$listing_obj = Listing::where('slug', $listing_slug)->get();

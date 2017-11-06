@@ -12,50 +12,42 @@
 
 get_header(); ?>
 
-<div class="wrap">
+	<div id="content">
 
-	<?php if ( have_posts() ) : ?>
-		<header class="page-header">
-			<?php
-				the_archive_title( '<h1 class="page-title">', '</h1>' );
-				the_archive_description( '<div class="taxonomy-description">', '</div>' );
-			?>
-		</header><!-- .page-header -->
-	<?php endif; ?>
+        <?php query_posts('post_type=post&post_status=publish&posts_per_page=10&paged='. get_query_var('paged')); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+	<?php if( have_posts() ): ?>
 
-		<?php
-		if ( have_posts() ) : ?>
-			<?php
-			/* Start the Loop */
-			while ( have_posts() ) : the_post();
+        <?php while( have_posts() ): the_post(); ?>
 
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/post/content', get_post_format() );
+	    <div id="post-<?php get_the_ID(); ?>" <?php post_class(); ?>>
 
-			endwhile;
+        	<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array(200,220) ); ?></a>
 
-			the_posts_pagination( array(
-				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
-				'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
-				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
-			) );
+                <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-		else :
+                <span class="meta"><?php author_profile_avatar_link(48); ?> <strong><?php the_time('F jS, Y'); ?></strong> / <strong><?php the_author_link(); ?></strong> / <span class="comments"><?php comments_popup_link(__('0 comments','example'),__('1 comment','example'),__('% comments','example')); ?></span></span>
 
-			get_template_part( 'template-parts/post/content', 'none' );
+		<?php the_excerpt(__('Continue reading »','example')); ?>
 
-		endif; ?>
+            </div><!-- /#post-<?php get_the_ID(); ?> -->
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
-	<?php get_sidebar(); ?>
-</div><!-- .wrap -->
+        <?php endwhile; ?>
 
-<?php get_footer();
+		<div class="navigation">
+			<span class="newer"><?php previous_posts_link(__('« Newer','example')) ?></span> <span class="older"><?php next_posts_link(__('Older »','example')) ?></span>
+		</div><!-- /.navigation -->
+
+	<?php else: ?>
+
+		<div id="post-404" class="noposts">
+
+		    <p><?php _e('None found.','example'); ?></p>
+
+	    </div><!-- /#post-404 -->
+
+	<?php endif; wp_reset_query(); ?>
+
+	</div><!-- /#content -->
+
+<?php get_footer(); ?>

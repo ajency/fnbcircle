@@ -78,15 +78,19 @@ function twentyseventeen_entry_footer() {
 			if ( 'post' === get_post_type() ) {
 				if ( ( $categories_list && twentyseventeen_categorized_blog() ) || $tags_list ) {
 					echo '<span class="cat-tags-links">';
+					echo "By &nbsp;";
+					 echo $author_id=$post->post_author;
+					 echo the_author_meta( 'user_nicename' , $author_id ); 
+					 echo "&nbsp; on &nbsp;";
+					echo get_the_date();
+						// // Make sure there's more than one category before displaying.
+						// if ( $categories_list && twentyseventeen_categorized_blog() ) {
+						// 	echo '<span class="cat-links">' . twentyseventeen_get_svg( array( 'icon' => 'folder-open' ) ) . '<span class="screen-reader-text">' . __( 'Categories', 'twentyseventeen' ) . '</span>' . $categories_list . '</span>';
+						// }
 
-						// Make sure there's more than one category before displaying.
-						if ( $categories_list && twentyseventeen_categorized_blog() ) {
-							echo '<span class="cat-links">' . twentyseventeen_get_svg( array( 'icon' => 'folder-open' ) ) . '<span class="screen-reader-text">' . __( 'Categories', 'twentyseventeen' ) . '</span>' . $categories_list . '</span>';
-						}
-
-						if ( $tags_list ) {
-							echo '<span class="tags-links">' . twentyseventeen_get_svg( array( 'icon' => 'hashtag' ) ) . '<span class="screen-reader-text">' . __( 'Tags', 'twentyseventeen' ) . '</span>' . $tags_list . '</span>';
-						}
+						// if ( $tags_list ) {
+						// 	echo '<span class="tags-links">' . twentyseventeen_get_svg( array( 'icon' => 'hashtag' ) ) . '<span class="screen-reader-text">' . __( 'Tags', 'twentyseventeen' ) . '</span>' . $tags_list . '</span>';
+						// }
 
 					echo '</span>';
 				}
@@ -95,6 +99,7 @@ function twentyseventeen_entry_footer() {
 			twentyseventeen_edit_link();
 
 		echo '</footer> <!-- .entry-footer -->';
+		
 	}
 }
 endif;

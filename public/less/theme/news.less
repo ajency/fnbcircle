@@ -1,0 +1,75 @@
+@import "_var";
+@import "components/_buttons";
+
+
+.single-featured-image-header{
+	background-image: url(../news/wp-content/themes/twentyseventeen/assets/images/banner-default.jpg) ;
+	min-height: 490px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding:60px 20%;
+   	position: relative;
+   	@media screen and (max-width: @mobile) {
+   		min-height:290px;
+   		padding: 20px 10%;
+   	}
+    
+	  .overlay{
+	        width: 100%;
+		    background: #0000005c;
+		    height: 100%;
+		    position: absolute;
+		    top: 0px;
+		    right: 0px;
+		    z-index: 1;
+   	 	}
+}	
+   
+.title-content{
+    	z-index: 999;
+    	position: relative;
+    	padding-top: 8%;
+    	 text-align:center;
+    h1{
+        color: #fff;
+    	font-weight: 800;
+    	font-size: 3em !important;
+    	@media screen and (max-width: @mobile) {
+	   		font-size: 1.5em !important;
+   		}
+    }
+    h4{
+    	color: #fff;
+    	font-weight: 400;
+    }
+}
+
+
+	.breadcrumb{
+		width: 100%;
+		color: #fff;
+		z-index: 999;
+		text-align: center;
+		position: relative;
+		z-index: 999;
+		a{
+			color: #fff;
+		}
+	}
+
+body .submit{
+	background-color: @accent-primary !important;
+}
+
+.comments-area{
+	.comments-title{
+		    font-size: 1rem;
+    		font-weight: 600;
+	}
+	a{
+		color:@accent-primary;
+	}
+	.icon{
+		color:@accent-primary !important;
+	}
+}

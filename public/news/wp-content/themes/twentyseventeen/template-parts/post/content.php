@@ -18,7 +18,7 @@
 		echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
 	endif;
 	?>
-	<header class="entry-header">
+<!-- 	<header class="entry-header">
 		<?php
 		if ( 'post' === get_post_type() ) {
 			echo '<div class="entry-meta">';
@@ -28,7 +28,7 @@
 					echo twentyseventeen_time_link();
 					twentyseventeen_edit_link();
 				};
-			echo '</div><!-- .entry-meta -->';
+			echo '</div>';
 		};
 
 		if ( is_single() ) {
@@ -39,7 +39,7 @@
 			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 		}
 		?>
-	</header><!-- .entry-header -->
+	</header> --><!-- .entry-header -->
 
 	<?php if ( '' !== get_the_post_thumbnail() && ! is_single() ) : ?>
 		<div class="post-thumbnail">

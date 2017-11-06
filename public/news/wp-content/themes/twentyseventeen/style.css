@@ -2536,7 +2536,7 @@ h2.widget-title {
 .widget ul li,
 .widget ol li {
 	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #ddd;
+	/*border-top: 1px solid #ddd;*/
 	padding: 0.5em 0;
 }
 
@@ -3324,7 +3324,7 @@ object {
 	/* Layout */
 
 	.wrap {
-		max-width: 1000px;
+		max-width: 1200px;
 		padding-left: 3em;
 		padding-right: 3em;
 	}
@@ -3760,7 +3760,7 @@ object {
 	.single-post .entry-title,
 	.page .entry-title {
 		font-size: 26px;
-		font-size: 1.625rem;
+		font-size: 1rem;
 	}
 
 	.comments-pagination,

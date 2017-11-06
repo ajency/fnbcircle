@@ -26,13 +26,17 @@
                         @if($sub_index == 0)
                             <li role="presentation" class="active">
                                 <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
-                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
+                                    <p class="lighter nodes__text" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
+                                </a>
                                 <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
                             </li>
                         @else
                             <li role="presentation">
                                 <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
-                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
+                                    <p class="lighter nodes__text" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
+                                </a>
                                 <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
                             </li>
                         @endif

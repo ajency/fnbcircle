@@ -8,6 +8,7 @@ use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\User;
+use App\Helpers\WpNewsHelper;
 // use App\ListingCategory;
 
 class ListingViewController extends Controller
@@ -23,6 +24,11 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
+        $news = new WpNewsHelper();
+        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
+        $news_items = $news->getNewsByCategories($news_args);        
+        $pagedata['news_items'] = $news_items;
+
         return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
     }
 

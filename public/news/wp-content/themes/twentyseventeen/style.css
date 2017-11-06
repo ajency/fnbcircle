@@ -3758,7 +3758,7 @@ object {
 	}
 
 	.single-post .entry-title,
-	.page .entry-title {
+	.page .entry-title{
 		font-size: 26px;
 		font-size: 1rem;
 	}

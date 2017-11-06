@@ -539,4 +539,14 @@ body .submit {
 .header-image .search-container .search-form .search-submit {
   bottom: 11px;
 }
+/* line 302, news.less */
+.page-header .page-title {
+  color: #fff;
+  font-weight: 500;
+  text-align: center;
+  font-size: 2.3em;
+  padding-top: 50px !important;
+  text-transform: capitalize;
+  letter-spacing: 0px;
+}
 /*# sourceMappingURL=news.css.map */

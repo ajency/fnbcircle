@@ -106,4 +106,8 @@ $('body').on 'change','input#madetofilter', ->
   filters['enquiree'] = @value
   enquiry_table.ajax.reload()
 
+$('body').on 'click','button#applyCategFilter', ->
+  console.log 'worls'
+  filters['categories'] = JSON.stringify(getLeafNodes())
+  enquiry_table.ajax.reload()
 

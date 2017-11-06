@@ -16,6 +16,7 @@
     <script src="{{ asset('/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
     <script type="text/javascript" src="/js/listing-lead.js"></script>
 @endsection
 
@@ -81,33 +82,11 @@
         <div>
             <p class="text-color x-small text-uppercase">Categories</p>
             <div class="category-listing m-b-10">
-                <div class="single-category gray-border add-more-cat m-t-15">
-                    <div class="row flex-row categoryContainer corecat-container">
-                        <div class="col-sm-4 flex-row">
-                            <img class="import-icon cat-icon" src="https://fnbcircle.s3.ap-south-1.amazonaws.com/Categories/1/images/1507374184/1-65x65.png">
-                            <div class="branch-row">
-                                <div class="cat-label">Fish&amp;Meat</div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <strong class="branch">Meat</strong>
-                        </div>
-                        <div class="col-sm-6">
-                            <ul class="fnb-cat small flex-row" id="view-categ-node">
-                                <li><span class="fnb-cat__title">Lamb Mutton<input type="hidden" name="categories" value="10" data-item-name="Lamb Mutton"> <span class="fa fa-times remove"></span></span></li>
-                                <li><span class="fnb-cat__title">Mutton<input type="hidden" name="categories" value="11" data-item-name="Mutton"> <span class="fa fa-times remove"></span></span></li>
-                            </ul>
-                        </div> 
-                    </div>
-                    <div class="delete-cat">
-                        <span class="fa fa-times remove"></span>
-                    </div>
-                </div>
+                 <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                      <div id="categories" class="node-list"></div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-                <a href="#" class="secondary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
-                <a href="#" class="secondary-link x-small m-r-5">+ AddBranch</a>
-                <a href="#" class="secondary-link x-small">+ Add Node</a>    
+                 <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
             </div>
         </div>
     </div>
@@ -144,7 +123,7 @@
         <div class="leads-filter-action flex-row">
             <a href="#" class="clear-link dis-block text-decor m-r-15">Clear All</a>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyLocFilter">Apply Location</button>
-            <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyCatFilter">Apply Category</button>
+            <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyCategFilter">Apply Category</button>
         </div>
     </div>
 </div>

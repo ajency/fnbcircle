@@ -131,4 +131,10 @@
     return enquiry_table.ajax.reload();
   });
 
+  $('body').on('click', 'button#applyCategFilter', function() {
+    console.log('worls');
+    filters['categories'] = JSON.stringify(getLeafNodes());
+    return enquiry_table.ajax.reload();
+  });
+
 }).call(this);

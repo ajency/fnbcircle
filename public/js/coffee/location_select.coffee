@@ -75,6 +75,8 @@ $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', -
   else
     if $(this).closest('.tab-pane').find('input#throughout_city').prop('checked')
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
+    cityID =  $(this).closest('div').find('input[name="city"]').attr('data-city-id');
+    delete cities['cities'][cityID]['areas'][$(this).val()]
   return
 
 $('body').on 'click', '.fnb-modal button.operation-save', ->

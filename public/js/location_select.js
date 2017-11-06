@@ -87,6 +87,7 @@
   });
 
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
+    var cityID;
     if (this.checked) {
       if ($(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length === $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length) {
         $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', true);
@@ -95,6 +96,8 @@
       if ($(this).closest('.tab-pane').find('input#throughout_city').prop('checked')) {
         $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', false);
       }
+      cityID = $(this).closest('div').find('input[name="city"]').attr('data-city-id');
+      delete cities['cities'][cityID]['areas'][$(this).val()];
     }
   });
 

@@ -17,7 +17,6 @@ class DefineEventsInDefaults extends Migration
         Schema::table('defaults', function (Blueprint $table) {
             Defaults::where('type','email_notification')->delete();
             $defaults = [
-                'new-user'=> ['name'=>'notification-new-user', 'title'=>'New User Registration', 'value'=>[]],
                 'verification'=> ['name'=>'notification-verification', 'title'=>'Email verification OTP generated', 'value'=>[]],
                 'listing-submit-for-review'=> ['name'=>'notification-listing-submit-for-review', 'title'=>'Business listing submitted for review', 'value'=>[]],
                 'listing-published'=> ['name'=>'notification-listing-published', 'title'=>'Lisitng Published', 'value'=>[]],

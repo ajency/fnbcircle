@@ -11,10 +11,7 @@
  */
 
 get_header(); ?>
-
-<div class="wrap">
-
-	<header class="page-header">
+	<header class="header-image page-header">
 		<?php if ( have_posts() ) : ?>
 			<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 		<?php else : ?>
@@ -22,21 +19,41 @@ get_header(); ?>
 		<?php endif; ?>
 	</header><!-- .page-header -->
 
+<div class="wrap">
+
+
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
-
+<ul class="list-layout">
 		<?php
 		if ( have_posts() ) :
 			/* Start the Loop */
 			while ( have_posts() ) : the_post();
 
-				/**
-				 * Run the loop for the search to output the results.
-				 * If you want to overload this in a child theme then include a file
-				 * called content-search.php and that will be used instead.
-				 */
-				get_template_part( 'template-parts/post/content', 'excerpt' );
+				// get_template_part( 'template-parts/post/content', 'excerpt' );
+			?>
+ <li>
+    
+      <div class="list-post">
+<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+          
+  
+  <div class="featured-content">
+  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
+    <?php the_excerpt(15); ?>
+<div class="featured-meta">
+	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+</div>   
+   </div>
+   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <div class="clear"></div>
+</div>
+   
+</li>
+<?php
 			endwhile; // End of the loop.
 
 			the_posts_pagination( array(
@@ -53,7 +70,7 @@ get_header(); ?>
 
 		endif;
 		?>
-
+</ul>
 		</main><!-- #main -->
 	</div><!-- #primary -->
 	<?php get_sidebar(); ?>

@@ -12,34 +12,51 @@
 
 get_header(); ?>
 
-<div class="wrap">
-
 	<?php if ( have_posts() ) : ?>
-		<header class="page-header">
+		<header class="page-header header-image">
 			<?php
 				the_archive_title( '<h1 class="page-title">', '</h1>' );
 				the_archive_description( '<div class="taxonomy-description">', '</div>' );
 			?>
 		</header><!-- .page-header -->
 	<?php endif; ?>
+<div class="wrap">
+
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
+	<ul class="list-layout">
 		<?php
-		if ( have_posts() ) : ?>
-			<?php
+		if ( have_posts() ) :
 			/* Start the Loop */
 			while ( have_posts() ) : the_post();
 
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/post/content', get_post_format() );
+				// get_template_part( 'template-parts/post/content', 'excerpt' );
+			?>
+ <li>
+    
+      <div class="list-post">
+<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+          
+  
+  <div class="featured-content">
+  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
+    <?php the_excerpt(15); ?>
+<div class="featured-meta">
+	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-			endwhile;
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+</div>   
+   </div>
+   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <div class="clear"></div>
+</div>
+   
+</li>
+<?php
+			endwhile; // End of the loop.
 
 			the_posts_pagination( array(
 				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',

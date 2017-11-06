@@ -8,6 +8,10 @@ use App\Plan;
 use App\Job;
 use App\Listing;
 use App\PlanAssociation;
+use App\ListingCategory;
+use Carbon\Carbon;
+use App\User;
+use Session;
 use Illuminate\Http\Request;
 
 class CommonController extends Controller
@@ -181,6 +185,40 @@ class CommonController extends Controller
 
         if($request->type == 'listing'){
             $object = Listing::where($config['listing']['id'],$request->id)->firstOrFail();
+            if ($object->status == 3 or $object->status == 5) {
+                if ($object->isReviewable()) {
+                    $object->status          = Listing::REVIEW;
+                    $object->submission_date = Carbon::now();
+                    $object->save();
+                    $area = Area::with('city')->find($object->locality_id);
+                    $owner = User::find($object->owner_id);
+                    $email = [
+                        'subject' => "A listing has been submitted for review.",
+                        'template_data' => [
+                            'listing_name' => $object->title,
+                            'listing_link' => url('/listing/'.$object->reference.'/edit'),
+                            'listing_type' => Listing::listing_business_type[$object->type],
+                            'listing_city' => $area->city['name'],
+                            'listing_area' => $area->name,
+                            'listing_categories' => ListingCategory::getCategories($object->id),
+                            'owner_name' => ($object->owner_id!=null)? $owner->name: 'Orphan',
+                            'owner_email' => ($object->owner_id!=null)? $owner->getPrimaryEmail(): 'Nil',
+                            'email_verified' => ($object->owner_id!=null)? ($owner->getUserCommunications()->where('type','email')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                            'owner_phone' => ($object->owner_id!=null)? $owner->getPrimaryContact(): 'Nil',
+                            'phone_verified' => ($object->owner_id!=null and $owner->getUserCommunications()->count() >= 2)? ($owner->getUserCommunications()->where('type','mobile')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
+                        ],
+                        
+                    ];
+                    // dd($email);
+                    sendEmail('listing-submit-for-review',$email);
+                    // return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+                    Session::flash('statusChange', 'review');
+                    
+
+                } else {
+                    return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
+                }
+            }
         }elseif($request->type == 'jobs'){
             $object = Job::where($config['jobs']['id'],$request->id)->firstOrFail();
         }else{
@@ -194,6 +232,6 @@ class CommonController extends Controller
         $premium->plan_id = $plan->id;
         $object->premium()->save($premium);
 
-        return response()->json(array('status'=>'200'));
+        return \Redirect::back();
     }
 }

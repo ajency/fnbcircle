@@ -50,5 +50,21 @@ return [
         "laravel" => "email.job-alerts",
         "pushcrew" => ""
     ],
+    "user-register" => [
+        "laravel" => "email.user-register",
+        "pushcrew" => ""
+    ],
+    "register-internal-user" => [
+        "laravel" => "email.register-internal-user",
+        "pushcrew" => ""
+    ],
+    "user-verify" => [
+        "laravel" => "email.user-verify",
+        "pushcrew" => ""
+    ],
+    "welcome-user" => [
+        "laravel" => "email.welcome-user",
+        "pushcrew" => ""
+    ],
  
 ];

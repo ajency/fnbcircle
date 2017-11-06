@@ -14,6 +14,7 @@ use App\Http\Controllers\FnbAuthController;
 use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 class LoginController extends Controller
 {
@@ -84,7 +85,7 @@ class LoginController extends Controller
         }*/
         
         $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password);//, "provider" => "email_signup");
-
+        Session::put('userLoginEmail', $request->email);
         $user_object = $userauth_obj->checkIfUserExists($user_data); // Get the UserProvider
 
         if($user_object && (in_array($user_object->signup_source, $login_provider_list))) {

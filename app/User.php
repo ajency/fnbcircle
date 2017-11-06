@@ -38,6 +38,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Listing', 'owner_id');
     }
+    public function jobs()
+    {
+        return $this->hasMany('App\Job', 'job_creator');
+    }
     public function lastUpdatedListings()
     {
         return $this->hasMany('App\Listing', 'last_updated_by');
@@ -147,7 +151,7 @@ class User extends Authenticatable
         return $object;
     }
 
-
+ 
     public Function uploadUserResume($file){
         $id = $this->uploadFile($file,false);
         $this->remapFiles([$id]);
@@ -208,8 +212,27 @@ class User extends Authenticatable
         return $application;
     }
 
-    
+ 
+    public function userCreated($format=1){
+        $date = '';
 
+        if(!empty($this->created_at)){
 
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->created_at)));
+            elseif($format==2){
+                $dateFormat = date('d-m-Y ~*~ h:i A', strtotime(str_replace('-','/', $this->created_at)));
+                $splitDate = explode('~*~', $dateFormat);
+                $date = $splitDate[0].'<br>'.$splitDate[1];
 
+            }
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->created_at)));
+
+        }
+
+        return $date;
+      
+    }
+ 
 }

@@ -2319,9 +2319,6 @@ input[type="checkbox"].toggle__check {
 .text-secondary {
   color: #27b7b0;
 }
-.fnb-info-text {
-  color: #337ab7;
-}
 .text-danger {
   color: #d0021b;
 }
@@ -2341,15 +2338,6 @@ input[type="checkbox"].toggle__check {
 .secondary-link:active,
 .secondary-link:focus {
   color: #3cd5ce;
-  text-decoration: none;
-}
-.clear-link {
-  color: #6b6b6b;
-}
-.clear-link:hover,
-.clear-link:active,
-.clear-link:focus {
-  color: #858585;
   text-decoration: none;
 }
 .dark-link {
@@ -2437,12 +2425,6 @@ input[type="checkbox"].toggle__check {
   -webkit-align-items: flex-start;
       -ms-flex-align: start;
           align-items: flex-start;
-}
-.align-equal {
-  -webkit-box-align: inherit;
-  -webkit-align-items: inherit;
-      -ms-flex-align: inherit;
-          align-items: inherit;
 }
 .justify-center {
   -webkit-box-pack: center;
@@ -11407,6 +11389,9 @@ input[type='checkbox'].remove-addr {
 .leads-drop .cate-list > .ca-holder {
   background-color: #f7f7f7;
   padding: 8px;
+}
+.interested-options .leads-selection .interested-label {
+  max-width: 100%;
 }
 .profile-stats {
   color: #fff;

@@ -74,7 +74,7 @@
     </div>
     <div class="col-sm-6">
         <div>
-            <p class="text-color x-small text-uppercase">Request send date  <a id="clearSubDate" href="#">Clear date filter</a> </p>
+            <p class="text-color x-small text-uppercase flex-row space-between">Request send date  <a id="clearSubDate" href="#" class="primary-link">Clear</a> </p>
             <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
         </div>
     </div>
@@ -86,7 +86,12 @@
                       <div id="categories" class="node-list"></div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-                 <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
+<!-- <<<<<<< HEAD
+                <a href="#" class="primary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
+                <a href="#" class="primary-link x-small m-r-5">+ AddBranch</a>
+                <a href="#" class="primary-link x-small">+ Add Node</a>    
+======= -->
+                 <a href="#category-select" data-toggle="modal" data-target="#category-select" class="primary-link x-small" id="select-more-categories">+ Filter based on Categories</a>
             </div>
         </div>
     </div>
@@ -115,7 +120,7 @@
                 @include('modals.location_select.display')
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-                <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link x-small m-r-5" id="area-modal-link">+ Add Location</a>    
+                <a href="#area-select" data-target="#area-select" data-toggle="modal" class="primary-link x-small m-r-5" id="area-modal-link">+ Add Location</a>    
             </div>
         </div>
     </div>

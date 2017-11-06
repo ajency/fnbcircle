@@ -2348,6 +2348,14 @@ input[type="checkbox"].toggle__check {
   color: #646464;
   text-decoration: none;
 }
+.breadcrum-link {
+  color: #fff;
+  text-decoration: none;
+}
+.breadcrum-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
 .no-decor {
   text-decoration: none;
 }

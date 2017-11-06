@@ -34,7 +34,7 @@
     </li>
     @else
     <li class="fnb-breadcrums__section ellipsis-desk">
-        <a href="{{$item['url']}}" title="{{$item['name']}}" target="_blank">
+        <a href="{{$item['url']}}" title="{{$item['name']}}" target="_blank" class="breadcrum-link">
             <p class="fnb-breadcrums__title ellipsis-desk" title="{{$item['name']}}">{{$item['name']}}</p>
         </a>
     </li>

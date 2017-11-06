@@ -1,0 +1,273 @@
+/* line 6, components/_buttons.less */
+.fnb-btn {
+  font-size: 1.05em;
+  -webkit-transition: all 0.6s ease;
+          transition: all 0.6s ease;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+/* line 12, components/_buttons.less */
+.fnb-btn.outline {
+  background-color: #fff;
+  color: #ec6d4b;
+  border: 1px solid;
+}
+/* line 16, components/_buttons.less */
+.fnb-btn.outline:hover,
+.fnb-btn.outline:active {
+  background-color: #ec6d4b;
+  color: #fff;
+  border: 2px solid;
+}
+/* line 22, components/_buttons.less */
+.fnb-btn.s-outline {
+  background-color: #fff;
+  color: #27b7b0;
+  border: 1px solid;
+}
+/* line 26, components/_buttons.less */
+.fnb-btn.s-outline:hover,
+.fnb-btn.s-outline:active {
+  background-color: #27b7b0;
+  color: #fff;
+  border: 2px solid;
+}
+/* line 32, components/_buttons.less */
+.fnb-btn.half-border {
+  border-bottom: 2px solid;
+}
+/* line 34, components/_buttons.less */
+.fnb-btn.half-border:hover {
+  border: 1px solid;
+  border-bottom: 2px solid;
+}
+/* line 39, components/_buttons.less */
+.fnb-btn.border-btn {
+  border: 2px solid;
+}
+/* line 42, components/_buttons.less */
+.fnb-btn.mini {
+  padding: 6px 20px;
+}
+/* line 45, components/_buttons.less */
+.fnb-btn.primary-btn {
+  background-color: #ec6d4b;
+  color: #fff;
+}
+/* line 48, components/_buttons.less */
+.fnb-btn.primary-btn:hover {
+  background-color: #fff;
+  color: #ec6d4b;
+  border: 2px solid;
+}
+/* line 54, components/_buttons.less */
+.fnb-btn.secondary-btn {
+  background-color: #27b7b0;
+  color: #fff;
+}
+/* line 57, components/_buttons.less */
+.fnb-btn.secondary-btn:hover {
+  background-color: #fff;
+  color: #27b7b0;
+  border: 2px solid;
+}
+/* line 63, components/_buttons.less */
+.fnb-btn.full {
+  padding: 0.85em 1.8em;
+}
+/* line 66, components/_buttons.less */
+.fnb-btn:active,
+.fnb-btn:focus {
+  box-shadow: none;
+  outline: 0;
+}
+/* line 70, components/_buttons.less */
+.fnb-btn.bnw {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid;
+  text-decoration: none;
+}
+/* line 76, components/_buttons.less */
+.fnb-btn.grey {
+  background-color: rgba(173, 167, 167, 0.52);
+  color: rgba(0, 0, 0, 0.74);
+  border-color: #ada7a7;
+}
+/* line 80, components/_buttons.less */
+.fnb-btn.grey:hover,
+.fnb-btn.grey:active {
+  background-color: rgba(173, 167, 167, 0.52);
+  color: rgba(0, 0, 0, 0.74);
+  border-color: #ada7a7;
+}
+/* line 86, components/_buttons.less */
+.fnb-btn.fullwidth {
+  display: block;
+  width: 100%;
+}
+/* line 90, components/_buttons.less */
+.fnb-btn.no-border {
+  border: 0;
+  background-color: transparent;
+}
+/* line 93, components/_buttons.less */
+.fnb-btn.no-border:hover,
+.fnb-btn.no-border:active {
+  background-color: transparent;
+  border: 0;
+  color: #ec6d4b;
+}
+/* line 99, components/_buttons.less */
+.fnb-btn.alternate {
+  background-color: #159f70;
+  color: #fff;
+  border: 2px solid #159f70;
+}
+/* line 103, components/_buttons.less */
+.fnb-btn.alternate:hover {
+  background-color: transparent;
+  color: #159f70;
+}
+/* line 108, components/_buttons.less */
+.fnb-btn.white-border {
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: transparent;
+}
+/* line 113, components/_buttons.less */
+.fnb-btn.link-btn.btn.link-btn {
+  background-color: transparent;
+  color: #ec6d4b;
+  border: 0;
+  box-shadow: none;
+}
+/* line 118, components/_buttons.less */
+.fnb-btn.link-btn.btn.link-btn:hover {
+  background-color: transparent;
+  color: #f19279;
+  border: 0;
+}
+/* line 126, components/_buttons.less */
+.social-btn {
+  padding: 0.8em 2em;
+  border: 0;
+  background-color: transparent;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 0;
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+}
+/* line 139, components/_buttons.less */
+.social-btn.fb {
+  background-color: #3b5998;
+}
+/* line 142, components/_buttons.less */
+.social-btn.google {
+  background-color: #ec2c2c;
+}
+/* line 145, components/_buttons.less */
+.social-btn:hover {
+  color: #fff;
+  text-decoration: none;
+}
+/* line 149, components/_buttons.less */
+.social-btn i {
+  position: absolute;
+  left: 10px;
+  font-size: 1.35em;
+}
+/* line 5, news.less */
+.single-featured-image-header {
+  background-image: url(../news/wp-content/themes/twentyseventeen/assets/images/banner-default.jpg);
+  min-height: 490px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 60px 20%;
+  position: relative;
+}
+@media screen and (max-width: 768px) {
+  /* line 12, news.less */
+  .single-featured-image-header {
+    min-height: 290px;
+    padding: 20px 10%;
+  }
+}
+/* line 17, news.less */
+.single-featured-image-header .overlay {
+  width: 100%;
+  background: #0000005c;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+}
+/* line 28, news.less */
+.title-content {
+  z-index: 999;
+  position: relative;
+  padding-top: 8%;
+  text-align: center;
+}
+/* line 33, news.less */
+.title-content h1 {
+  color: #fff;
+  font-weight: 800;
+  font-size: 3em !important;
+}
+@media screen and (max-width: 768px) {
+  /* line 37, news.less */
+  .title-content h1 {
+    font-size: 1.5em !important;
+  }
+}
+/* line 41, news.less */
+.title-content h4 {
+  color: #fff;
+  font-weight: 400;
+}
+/* line 48, news.less */
+.breadcrumb {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 999;
+}
+/* line 55, news.less */
+.breadcrumb a {
+  color: #fff;
+}
+/* line 60, news.less */
+body .submit {
+  background-color: #ec6d4b !important;
+}
+/* line 65, news.less */
+.comments-area .comments-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+/* line 69, news.less */
+.comments-area a {
+  color: #ec6d4b;
+}
+/* line 72, news.less */
+.comments-area .icon {
+  color: #ec6d4b !important;
+}
+/* line 77, news.less */
+.page-template-blog .single-featured-image-header {
+  display: none!important;
+}
+/*# sourceMappingURL=news.css.map */

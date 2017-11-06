@@ -211,6 +211,28 @@
     		vertical-align: bottom;
 		}
 	}
+	.filter-group{
+		&.keywords{
+			background-color: @turqoise;
+			.filter-group__header{
+				background-color: transparent;
+    			border-bottom: 1px solid #badedc;
+			}
+			.filter-group__body{
+				.searchKeyword{
+					border-bottom: 1px solid#badedc;
+					.input-container{
+						&:hover{
+							background-color: transparent;	
+						}
+					}
+				}
+			}
+		}
+		.help-text{
+			line-height: 1.5;
+		}
+	}
 }
 
 .results{

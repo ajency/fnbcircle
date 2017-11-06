@@ -42,6 +42,7 @@
                            <input type="text" class="form-control fnb-input search-input text-color search-job-keywords"   name="job_keyword" placeholder="Search job role" list="jobKeyword" multiple="multiple" id=jobKeywordInput  @if(isset($urlFilters['job_roles']) && !empty($urlFilters['job_roles'])) value='{{ implode(",",$urlFilters['job_roles']) }}' @endif>
                           
                       </div>
+                      <p class="text-lighter m-b-0 x-small m-t-5">You may type and search for multiple job roles...</p>
                       <div class="check-section ">
                            <datalist id="jobKeyword">
               

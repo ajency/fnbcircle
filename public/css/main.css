@@ -6236,6 +6236,22 @@ input[type=checkbox].custom-checkbox:before {
   font-size: 1.5em;
   vertical-align: bottom;
 }
+.filter-sidebar .filter-group.keywords {
+  background-color: #daf7f5;
+}
+.filter-sidebar .filter-group.keywords .filter-group__header {
+  background-color: transparent;
+  border-bottom: 1px solid #badedc;
+}
+.filter-sidebar .filter-group.keywords .filter-group__body .searchKeyword {
+  border-bottom: 1px solid#badedc;
+}
+.filter-sidebar .filter-group.keywords .filter-group__body .searchKeyword .input-container:hover {
+  background-color: transparent;
+}
+.filter-sidebar .filter-group .help-text {
+  line-height: 1.5;
+}
 .results__header {
   border-bottom: 1px solid #eee;
 }

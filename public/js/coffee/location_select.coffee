@@ -156,17 +156,22 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
   city_link = $(this).parent().find('a')
   city_link.click()
   if @checked
-    console.log 'checked'
+    $('.tab-pane.active .nodes').addClass 'disable-section'
     cityID = city_link.attr 'name'
     $('div[name="'+cityID+'"].tab-pane input[type="checkbox"]').prop "checked",false
     #//////////////////////////////////////////////Disable the div
     cityValue = $('div[name="'+cityID+'"].tab-pane input[type="hidden"][name="city"]').val()
     console.log cityID, cityValue
+    if $('.tab-pane').attr('class') == 'active'
+      $(this).addClass 'darkcontrols'
+    else
+      $(this).removeClass 'darkcontrols'
     cities['cities'][cityID] =
         name: cityValue
         id: cityID
         areas: []
   else
+    $('.tab-pane.active .nodes').removeClass 'disable-section'
     console.log 'unchecked'
     cityID = city_link.attr 'name'
     #//////////////////////////////////////Enable the div

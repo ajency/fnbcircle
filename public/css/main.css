@@ -11437,7 +11437,7 @@ input[type='checkbox'].remove-addr {
   text-align: center;
   width: 100%;
 }
-.custom-node-select .disable-section {
+.disable-section {
   -webkit-filter: grayscale(1);
           filter: grayscale(1);
   pointer-events: none;

@@ -293,4 +293,17 @@ class UserController extends Controller
 
     }
 
+    public function removeResume(Request $request){
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails; 
+        $userDetails->resume_id = null;
+        $userDetails->resume_updated_on = null;
+        $userDetails->save();
+
+        return response()->json(
+            ['code' => 200, 
+             'status' => true]);
+
+    }
+
 }

@@ -48,6 +48,23 @@
     }
   });
 
+  $(document).on('click', '.remove_resume', function() {
+    return $.ajax({
+      type: 'post',
+      url: '/user/remove-resume',
+      data: {
+        'user': ''
+      },
+      success: function(data) {
+        $('.no_resume').removeClass('hidden');
+        return $('.has_resume').addClass('hidden');
+      },
+      error: function(request, status, error) {
+        throwError();
+      }
+    });
+  });
+
   $('input[name="salary_type"]').change(function(e) {
     $('.salary-amt').attr('data-parsley-required', true);
     console.log($('input[name="salary_lower"]').attr('salary-type-checked'));

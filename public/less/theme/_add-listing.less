@@ -3565,6 +3565,29 @@ input[type='checkbox'].remove-addr{
     	border-color: @accent-primary;
     	margin-bottom: 1em;
 	}
+	.view-applicant__btn{
+		@media screen and (min-width: 769px){
+			width: 60%;
+			font-size: 1em;
+    		margin-bottom: 0;
+    		// border-radius: 0;
+    		padding: 0.6em 1.2em;
+		}
+	}
+}
+
+.Btn-status{
+	width: 60%;
+    text-align: center;
+    .fnb-btn.fnb-btn{
+    	width: 100%;
+    	border-color: @accent-primary;
+    	// &:hover{
+    	// 	background-color: lighten(#5a5a5a,5%);
+    	// 	color: #fff;
+    	// 	border-color: transparent;
+    	// }
+    }
 }
 
 
@@ -3763,6 +3786,10 @@ input[type='checkbox'].remove-addr{
     		.fnb-btn{
     			width: 80%;
     		}
+    		.view-applicant__btn{
+				width: 60%;
+    			padding-left: 1.8em;
+			}
     		a{
     			padding-left: 0;
     		}
@@ -3775,6 +3802,7 @@ input[type='checkbox'].remove-addr{
 		flex-direction: column;
 		.fnb-btn{
 			width: 80%;
+			padding: 0.65em 1.8em;
 		}
 		.share-job{
 			text-align: center;
@@ -4085,9 +4113,9 @@ input[type='checkbox'].remove-addr{
     .upgrade{
     	border-color: transparent;
 	    font-size: 1em;
-	    margin-top: 0.6em;
-    	border-radius: 0;
-    	padding: 0.4em 1.2em;
+	    margin-top: 0.4em;
+    	// border-radius: 0;
+    	padding: 0.6em 1.2em;
     }
     &.pending-no-action{
     	padding: 0;
@@ -4396,5 +4424,12 @@ input[type='checkbox'].remove-addr{
 .bottom-share-section{
 	.fnb-btn{
 		width: auto;
+	}
+}
+
+.remove_resume{
+	color: rgba(255, 0, 0, 0.71);
+	&:hover{
+		color: rgba(255, 0, 0, 0.71);
 	}
 }

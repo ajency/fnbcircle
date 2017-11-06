@@ -841,6 +841,7 @@ $(function(){
 		});
 
 		$('.filter-by').click(function(){
+			$('body').addClass('full-overflow');
 			$('.filterBy').addClass('active');
 		});
 
@@ -850,6 +851,7 @@ $(function(){
 
 		$('.back-icon').click(function(){
 			$('.fly-out').removeClass('active');
+			$('body').removeClass('full-overflow');
 		});
 
 		$(document).mouseup(function(e) {

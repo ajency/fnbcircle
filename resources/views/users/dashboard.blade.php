@@ -6,12 +6,14 @@ Job Listing
 
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/dropify.css') }}">
+
 @endsection
 
 @section('js')
     @parent
     <!-- Dropify -->
     <script type="text/javascript" src="{{ asset('js/dropify.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
     <script type="text/javascript">
     $(document).ready(function() {
       
@@ -94,16 +96,18 @@ Job Listing
     <div class=" ">
                     <form id="job-form" method="post" action="{{url('customer-dashboard/users/update-resume')}}"   enctype="multipart/form-data">
                          
-                            @if(!empty($userResume['resume_id']))
-                             
-                            <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
-                            <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a>
-                            @else
-                            <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
-                            Please upload your resume
-                             
-                            @endif
+                            
+                            <div class="has_resume @if(empty($userResume['resume_id'])) hidden @endif">
+                                <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
+                                <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
+                                <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}">download</a> <a href="javascript:void(0)" class="remove_resume">Remove</a>
+                            </div>
+                            
+                            <div class="no_resume @if(!empty($userResume['resume_id'])) hidden @endif"> 
+                                <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
+                                Please upload your resume
+                            </div>
+                            
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">

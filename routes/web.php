@@ -15,14 +15,7 @@ Route::get('/', function () {
 	$header_type = "home-header";
     return view('welcome', compact('header_type'));
 });
-
-
-/* List View of Listing */
-Route::group(['prefix' => '{city}'], function() {
-	Route::get('/business-listings', 'ListViewController@listView');
-	Route::get('/job-listings', 'JobController@jobListing');
-	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-});
+ 
 
 /****
 api
@@ -120,13 +113,11 @@ JOBS/USERS
 
 //job single view
 Route::get('/job/{slug}','JobController@show');
-
 Route::get('/get-keywords','JobController@getKeywords');
 Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
 Route::get('user-confirmation/{token}', 'Auth\RegisterController@userConfirmation');
 Route::get('send-confirmation-link', 'Auth\RegisterController@sendConfirmationLink');
-
 
 
 /**
@@ -153,7 +144,10 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
+	Route::post('/user/remove-resume','UserController@removeResume');
 });
+
+
 
 
 
@@ -239,4 +233,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], funct
 	Route::post('/users/update-resume','UserController@uploadResume');
  
 });
+
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
+	Route::get('/{listing_slug}', 'ListingViewController@index');
+});
+
+ 
  

@@ -211,6 +211,28 @@
     		vertical-align: bottom;
 		}
 	}
+	.filter-group{
+		&.keywords{
+			background-color: @turqoise;
+			.filter-group__header{
+				background-color: transparent;
+    			border-bottom: 1px solid #badedc;
+			}
+			.filter-group__body{
+				.searchKeyword{
+					border-bottom: 1px solid#badedc;
+					.input-container{
+						&:hover{
+							background-color: transparent;	
+						}
+					}
+				}
+			}
+		}
+		.help-text{
+			line-height: 1.5;
+		}
+	}
 }
 
 .results{
@@ -605,8 +627,11 @@
     	}
     	.apply-btn{
     		position: fixed;
-    		bottom: 0;
-    		width: 100%;
+		    bottom: 0;
+		    width: 100%;
+		    left: 0;
+		    right: 0;
+		    z-index: 2;
     		.fnb-btn{
     			width: 100%;
     			padding: 15px;
@@ -1232,6 +1257,9 @@
 			.recent-updates{
 				flex-direction: column;
 			}
+		}
+		.site-loader{
+			margin-top: 0;
 		}
 	}
 	.mobile-bottom{

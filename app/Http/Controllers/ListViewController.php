@@ -29,7 +29,7 @@ class ListViewController extends Controller {
 	/**
 	* This function will load the List View Blade of Listing
 	*/
-    public function listView(Request $request, $city='all') {
+    public function listView(Request $request, $city='all') { 
     	$header_type = "trans-header";
 
     	$filters = [];

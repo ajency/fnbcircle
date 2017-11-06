@@ -571,7 +571,7 @@ $(function(){
 				var message_key = window.location.search.split("message=")[1].split("&")[0];
 
 				var popup_message = "#login-modal .login-container .alert";
-				
+				console.log(message_key);
 				if (message_key == 'is_google_account') { // Account exist & linked via Google Login
 					$(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
@@ -590,6 +590,9 @@ $(function(){
 				} else if (message_key == 'email_confirm') {
 					$(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'resend_verification') {
+					$(popup_message + ".alert-warning .resend-verification.resend-verification-error").removeClass('hidden');
+					$(popup_message + ".alert-warning").removeClass('hidden');
 				} else if (message_key == 'is_verified') {
 					$(popup_message + ".alert-success").removeClass('hidden');
 				} else if (message_key == 'no_account') { // Account with this email ID doesn't exist
@@ -598,7 +601,11 @@ $(function(){
 				} else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
 					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'token_expired') { // Token expired
+					$(popup_message + ".alert-danger .user-token-expiry.token-expiry-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
 				}
+
 			}
 
 			if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup

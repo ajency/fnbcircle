@@ -185,7 +185,7 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
           <tr>
             <td style="padding: 10px 0; text-align: left;">
               <div style="float: left; width: 50%;">
-                <a href="#"><img src="{!!/img/logo-fnb.png}}" width="50"></a>
+                <a href="#"><img src="{{url('img/logo-fnb.png')}}" width="50"></a>
               </div>
               <div style="float: right; width: 50%; text-align:right;">
                 <p style="color: #9b9ea0;font-size: 0.9em;">visit <a href="#" style="color: #ec6d4b;text-decoration:none;">www.fnbcircle.com</a></p>
@@ -203,14 +203,8 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
           <!-- 1 Column Text + Button : BEGIN -->
           <tr>
             <td bgcolor="#ffffff">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr style="text-align: center;">
-                  <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
-                  @yield('email_content')
-
-                  </td>
-                </tr>
-              </table>
+              @yield('content')
+              
             </td>
           </tr>
           <!-- 1 Column Text + Button : END -->

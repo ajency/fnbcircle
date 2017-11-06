@@ -40,15 +40,28 @@
                                 <h6 class="sub-title">Incorrect Password</h6>
                                 <span>The password you have entered is incorrect. Are you sure this is your account?</span>
                             </div>
+                            <div class="user-token-expiry token-expiry-error hidden">
+                                <h6>Token Expired</h6>
+                                <span>Sorry, this link has expired.
+                                <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a></span>
+                            </div>
                         </div>
                         <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <div class="account-inactive email-exist-error hidden">
                                 <h6 class="sub-title">Your account is not Activated</h6>
                                 <span>Your email id is not verified. A verification mail was sent. Please check your inbox or click here to resend the email.</span>
                                 <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
-                                <a href="#" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
+                                <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
+                            </div>
+                            <div class="resend-verification resend-verification-error hidden">
+                                <h6 class="sub-title">Your account is not Activated</h6>
+                                <span>A verification mail is sent. Please check your inbox or click here to resend the email.</span>
+                                <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
+                                <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
                             </div>
                         </div>
+                        
+
                         <div class="alert alert-success signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <h6 class="sub-title">Email Verification Success</h6>
                             <span>Email ID has been verified successfully.</span>

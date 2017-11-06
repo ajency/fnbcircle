@@ -121,7 +121,7 @@
     </div>
     <div class="col-sm-12 m-t-10">
         <div class="leads-filter-action flex-row">
-            <a href="#" class="clear-link dis-block text-decor m-r-15">Clear All</a>
+            <a href="#" class="dark-link dis-block text-decor m-r-15">Clear All</a>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyLocFilter">Apply Location</button>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyCategFilter">Apply Category</button>
         </div>

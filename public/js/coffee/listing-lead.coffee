@@ -77,6 +77,7 @@ filters = {}
 table = $('#listing-leads').DataTable(
   # 'paging': false
   'ordering': false
+  "dom": 'iltrp'
   "searching": false
   # 'info': false
   # "dom": 'ilrtp'

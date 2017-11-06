@@ -51,7 +51,7 @@ populate = () ->
   source = '
 {{#parents}}
 <div class="single-category gray-border add-more-cat m-t-15" data-categ-id="{{id}}">
-  <div class="row flex-row categoryContainer corecat-container">
+  <div class="row flex-row categoryContainer corecat-container align-top">
     <div class="col-sm-4 flex-row">
       <img class="import-icon cat-icon" src="{{image-url}}">
       <div class="branch-row">
@@ -63,10 +63,16 @@ populate = () ->
     </div>
     <div class="col-sm-8">
       {{#branches}}
-      <div class="m-b-20 row branch-container" data-categ-id={{id}}>
+      <div class="m-b-10 row branch-container" data-categ-id={{id}}>
         <div class="col-sm-4">
-          <strong class="branch">{{name}}</strong><span class="fa fa-times remove branch-remove"></span>
-          <input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> 
+          <ul class="fnb-cat flex-row small">
+            <li>
+              <span class="fnb-cat__title">
+                <strong class="branch">{{name}}</strong><span class="fa fa-times remove branch-remove"></span>
+                <input type=hidden name="categories" value="{{id}}" data-item-name="{{name}}"> 
+              </span>
+            </li>
+          </ul>
         </div>
         <div class="col-sm-8">
           <ul class="fnb-cat small flex-row" id="view-categ-node">

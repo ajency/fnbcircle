@@ -767,14 +767,14 @@ class AdminConfigurationController extends Controller
         
         if(isset($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_to']))
         { 
-            $jobQuery->where('users.created_at','>=',$requestData['filters']['user_created_from'].' 00:00:00'); 
-            $jobQuery->where('users.created_at','<=',$requestData['filters']['user_created_to'].' 23:59:59');
+            $userQuery->where('users.created_at','>=',$requestData['filters']['user_created_from'].' 00:00:00'); 
+            $userQuery->where('users.created_at','<=',$requestData['filters']['user_created_to'].' 23:59:59');
         }
 
         if(isset($requestData['filters']['last_login_from']) && !empty($requestData['filters']['last_login_from']) &&  !empty($requestData['filters']['last_login_to']))
         {
-            $jobQuery->where('users.last_login','>=',$requestData['filters']['last_login_from'].' 00:00:00'); 
-            $jobQuery->where('users.last_login','<=',$requestData['filters']['last_login_to'].' 23:59:59');
+            $userQuery->where('users.last_login','>=',$requestData['filters']['last_login_from'].' 00:00:00'); 
+            $userQuery->where('users.last_login','<=',$requestData['filters']['last_login_to'].' 23:59:59');
         }
 
          
@@ -782,11 +782,7 @@ class AdminConfigurationController extends Controller
         $columnName = 'users.created_at';
         $orderBy = 'desc';
         
-        // if($orderValue['column'] == 5){ 
-        //     $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
-        //     $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
-
-        // }
+        
         
         // if(isset($columnOrder[$orderValue['column']]))
         // {   
@@ -812,13 +808,14 @@ class AdminConfigurationController extends Controller
         foreach ($users as $key => $user) {
          
             $userDetails = $user->getUserDetails; 
+            $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
                             'name' => $user->name,
                             'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
                             'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
-                            'describe' => '',
+                            'describe' => implode(', ', $subTypes),
                             'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
                             'date_created' => $user->userCreated(),

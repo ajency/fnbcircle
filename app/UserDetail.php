@@ -52,4 +52,18 @@ class UserDetail extends Model
         return $date;
       
     }
+
+    public function getSavedUserSubTypes(){
+        $subtype = $this->getUserSubtypes();
+        $userSubTypes = unserialize($this->subtype);
+        $savedSubTypes = [];
+        if(!empty($userSubTypes)){
+            foreach ($userSubTypes as $userSubType) {
+                $savedSubTypes[$userSubType] = $subtype[$userSubType];
+            }
+        }
+        
+
+        return $savedSubTypes;
+    }
 }

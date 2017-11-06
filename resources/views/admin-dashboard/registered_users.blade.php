@@ -89,7 +89,7 @@
 	                        </select>
 	                      </th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">State
-		                        <select multiple class="form-control multi-dd usersearchinput" id="filterStates" name="user_state">
+		                        <select multiple class="form-control multi-dd usersearchinput stateSearch" id="filterStates" name="user_state">
 	                            @foreach ($cities as $city)
 	                            <option value="{{$city->id}}">{{$city->name}}</option>
 	                          @endforeach
@@ -97,7 +97,7 @@
 	                      </th>
 	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
 	                          City
-	                          <select multiple class="form-control multi-dd usersearchinput" id="filterCity" name="user_city">
+	                          <select multiple class="form-control multi-dd usersearchinput citySearch" id="filterCity" name="user_city">
 	                             @foreach ($areas as $area)
 	                            <option value="{{$area->id}}">{{$area->name}}</option>
 	                          @endforeach

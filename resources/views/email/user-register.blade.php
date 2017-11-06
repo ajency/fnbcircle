@@ -31,6 +31,8 @@
             Email: {{ $user->getPrimaryEmail()}} <br>
             Phone number: +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
             What describes you the best?<br>
+
+            {{ implode(', ',$user->getUserDetails->getSavedUserSubTypes()) }}<br>
             City: {{ $user->getUserDetails->userCity->name}} <br>
             Area: {{ $user->getUserDetails->userArea->name}} <br>
 

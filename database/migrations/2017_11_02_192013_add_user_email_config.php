@@ -15,7 +15,6 @@ class AddUserEmailConfig extends Migration
     public function up()
     {
         Schema::table('defaults', function (Blueprint $table) {
-            Defaults::where('type','email_notification')->delete();
             $defaults = [
                 'user-register'=> ['name'=>'notification-user-register', 'title'=>'New User Registration', 'value'=>[]],
                 'register-internal-user'=> ['name'=>'notification-register-internal-user', 'title'=>'New Internal User Registration', 'value'=>[]],

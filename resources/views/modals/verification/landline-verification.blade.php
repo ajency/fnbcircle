@@ -1,6 +1,6 @@
 <div class="m-t-40 m-b-40 business-phone business-contact contact-info contact-info-landline" contact-type="landline">
         <div class="flex-row space-between landline-sp-row">
-            <label class="label-size">Enter your landline number</label>
+            <label class="label-size">Enter your landline number <span class="text-lighter heavier">(Please input the city code prefixed)</span></label>
             <a href="#" class="dark-link text-medium add-another">+ Add another landline number</a>
         </div>
         @php

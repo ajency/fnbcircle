@@ -85,16 +85,16 @@ jQuery(document).ready(function($) {
 
     // Login
 
-    $('.forget-link').click(function(){
+    $('.forget-link').live("click",function(){
     	event.preventDefault();
     	$('.forget-password').addClass('active');
     });
 
-    $('.back-login').click(function(){
+    $('.back-login').live("click",function(){
     	$('.forget-password').removeClass('active');
     });
     
-    $('#login-modal').on('hidden.bs.modal', function (e) {
+    $('#login-modal').live('hidden.bs.modal', function (e) {
       $('.forget-password').removeClass('active');
     })
 

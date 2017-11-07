@@ -24,18 +24,18 @@
     @foreach($breadcrumbs as $position => $item)
     @if($loop->first)
     <li class="fnb-breadcrums__section">
-        <a href="/" title="Home">
+        <a href="/" title="Home" target="_blank">
             <i class="fa fa-home home-icon" aria-hidden="true"></i>
         </a>
     </li>
     @elseif($loop->last)
-    <li class="fnb-breadcrums__section">
-            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+    <li class="fnb-breadcrums__section ellipsis-desk">
+            <p class="fnb-breadcrums__title ellipsis-desk" title="{{$item['name']}}">{{$item['name']}}</p>
     </li>
     @else
-    <li class="fnb-breadcrums__section">
-        <a href="{{$item['url']}}" title="{{$item['name']}}">
-            <p class="fnb-breadcrums__title">{{$item['name']}}</p>
+    <li class="fnb-breadcrums__section ellipsis-desk">
+        <a href="{{$item['url']}}" title="{{$item['name']}}" target="_blank" class="breadcrum-link">
+            <p class="fnb-breadcrums__title ellipsis-desk" title="{{$item['name']}}">{{$item['name']}}</p>
         </a>
     </li>
     @endif

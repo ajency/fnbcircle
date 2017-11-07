@@ -385,7 +385,7 @@
 
         <div class="m-t-40 business-phone landline business-contact contact-info contact-info-landline">
             <div class="flex-row space-between mobile-sp-row">
-                <label class="label-size">Enter your business landline number</label>
+                <label class="label-size">Enter your business landline number <span class="text-lighter heavier">(Please input the city code prefixed)</span></label>
                 <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
             </div>
             @foreach($phones as $phone)

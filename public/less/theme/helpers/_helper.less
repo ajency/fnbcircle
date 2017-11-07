@@ -118,6 +118,15 @@
   }
 }
 
+.breadcrum-link{
+  color: #fff;
+  text-decoration: none;
+  &:hover{
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+
 .no-decor{
   text-decoration: none;
   &:hover,&:active,&:focus{
@@ -196,6 +205,10 @@
   align-items: flex-start;;
 }
 
+.align-end{
+  align-items: end;
+}
+
 .justify-center{
   justify-content: center;
 }
@@ -213,6 +226,10 @@
 
 .overflow-hidden{
   overflow-x: hidden;
+}
+
+.full-overflow{
+  overflow: hidden;
 }
 
 // required asterisk
@@ -240,6 +257,10 @@
     opacity: 0.3;
 }
 
+.no-pointer{
+  pointer-events: none;
+}
+
 .word-break{
   word-break: break-word;
   line-height: 1.3;
@@ -262,6 +283,16 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+@media screen and (min-width: 769px){
+  .ellipsis-desk{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+  
+
 
 .ellipsis-2{
     display: -webkit-box;
@@ -463,6 +494,13 @@ input[type=checkbox].custom-checkbox{
     left: 0;
     overflow-y: auto;
     height: 100%;
+    bottom: 0;
+  }
+  .filterBy{
+    .mobile-bottom{
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -487,3 +525,11 @@ input[type=checkbox].custom-checkbox{
 .editable{
   background-color: #eee;
 }
+
+
+// Number input higher z-index
+
+.intl-tel-input{
+  z-index: 10;
+}
+

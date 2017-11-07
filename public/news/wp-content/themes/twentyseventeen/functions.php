@@ -596,7 +596,7 @@ function custom_excerpt_length( $length ) {
 function fnbcircleWpStyles(){
 
  
-	wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array());
+	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(),null);
 	 
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpStyles', 100);

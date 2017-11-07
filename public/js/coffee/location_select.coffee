@@ -46,6 +46,10 @@ getAreas = (cityID) ->
 array = []
         
 $('#area-select').on 'show.bs.modal', (e) ->
+  setTimeout (->
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+    return
+  ), 500
   array=[]
   $('.city-list li').each (index,item)->
     if index == 0
@@ -68,6 +72,14 @@ $('#area-select').on 'show.bs.modal', (e) ->
   return
 
 
+$('#category-select').on 'show.bs.modal', (e) ->
+  setTimeout (->
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+    return
+  ), 500
+
+
+
 $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', ->
   if @checked
     if $(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length == $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length
@@ -75,6 +87,8 @@ $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', -
   else
     if $(this).closest('.tab-pane').find('input#throughout_city').prop('checked')
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
+    cityID =  $(this).closest('div').find('input[name="city"]').attr('data-city-id');
+    delete cities['cities'][cityID]['areas'][$(this).val()]
   return
 
 $('body').on 'click', '.fnb-modal button.operation-save', ->
@@ -109,7 +123,7 @@ populate = () ->
   source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}">
               <div class="row flex-row areaContainer corecat-container">
                 <div class="col-sm-3">
-                    <strong class="branch">{{name}}</strong>
+                    <strong class="branch text-secondary">{{name}}</strong>
                 </div>
                 <div class="col-sm-9">
                     <ul class="fnb-cat small flex-row">
@@ -150,11 +164,17 @@ $('#disp-operation-areas').on 'click', '.fnb-cat .remove', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
+
+
 $('body').on 'change', '.city-list input[type="checkbox"]', ->
   city_link = $(this).parent().find('a')
   city_link.click()
   if @checked
-    console.log 'checked'
+    $('.tab-pane.active .nodes').addClass 'disable-section'
+    setTimeout (->
+      $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+      return
+    ), 100
     cityID = city_link.attr 'name'
     $('div[name="'+cityID+'"].tab-pane input[type="checkbox"]').prop "checked",false
     #//////////////////////////////////////////////Disable the div
@@ -165,9 +185,48 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
         id: cityID
         areas: []
   else
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
+    $('.tab-pane.active .nodes').removeClass 'disable-section'
     console.log 'unchecked'
     cityID = city_link.attr 'name'
     #//////////////////////////////////////Enable the div
     delete(cities['cities'][cityID])
   return
+
+
+$('body').on 'change', '.mobile-child-selection', ->
+  city_link = $(this).siblings('.toggle-collapse')
+  city_link.click()
+  if @checked
+    setTimeout (->
+      $('.tab-pane.in .nodes').addClass 'disable-section'
+      $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+      return
+    ), 500
+  else
+    $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
+    $('.tab-pane.in .nodes').removeClass 'disable-section'
+  return
+
+
+
+
+
+# $('body').on 'change', '.categ-list input[type="checkbox"]', ->
+#   city_link = $(this).parent().find('a')
+#   city_link.click()
+#   if @checked
+#     $('.tab-pane.active .nodes').addClass 'disable-section'
+#     setTimeout (->
+#       $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
+#       return
+#     ), 100
+#   else
+#     console.log 'test'
+#     $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",false
+#     $('.tab-pane.active .nodes').removeClass 'disable-section'
+#   return
+
+
+
 

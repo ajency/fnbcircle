@@ -182,8 +182,10 @@
             </div>
         </div>
     </div>
-    @if((($list_index + 1) === 5) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
-        @include("enquiries.listings_enquiry")
+    @if(!isset($exclude_enquiry) || (!$exclude_enquiry))
+        @if((($list_index + 1) === 5) || (sizeof($listing_data) < 5 && ($list_index + 1) === sizeof($listing_data)))
+            @include("enquiries.listings_enquiry")
+        @endif
     @endif
 @endforeach
 @if($listing_data->count() <= 0)

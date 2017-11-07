@@ -621,6 +621,78 @@ function wpdocs_after_setup_theme() {
 add_action( 'after_setup_theme', 'wpdocs_after_setup_theme' );
  
 
+
+
+function search_by_cat()
+{
+    global $wp_query;
+    if (is_search()) {
+        $cat = intval($_GET['cat']);
+        $cat = ($cat > 0) ? $cat : '';
+        $wp_query->query_vars['cat'] = $cat;
+    }
+}
+add_action('pre_get_posts', 'search_by_cat');
+
+
+ 
+
+
+
+function remove_page_from_query_string($query_string)
+{ 
+    if ($query_string['name'] == 'page' && isset($query_string['page'])) {
+        unset($query_string['name']);
+        // 'page' in the query_string looks like '/2', so i'm spliting it out
+        //list($delim, $page_index) = explode('/', $query_string['page']);        
+        $query_string['paged'] = $query_string['page'];
+    }    
+    
+    return $query_string;
+}
+add_filter('request', 'remove_page_from_query_string');
+
+// following are code adapted from Custom Post Type Category Pagination Fix by jdantzer
+function fix_category_pagination($qs){
+	if(isset($qs['category_name']) && isset($qs['paged'])){
+		$qs['post_type'] = get_post_types($args = array(
+			'public'   => true,
+			'_builtin' => false
+		));
+		array_push($qs['post_type'],'post');
+	}
+	return $qs;
+}
+add_filter('request', 'fix_category_pagination');
+ 
+
+
+
+/**
+ * Limit number of posts per page
+ *
+ * @param      <type>  $query  The query
+ */
+function my_post_queries( $query ) {
+  // do not alter the query on wp-admin pages and only alter it if it's the main query
+  if (!is_admin() && $query->is_main_query()){
+
+    // alter the query for the home and category pages 
+
+    if(is_home()){
+      $query->set('posts_per_page', 3);
+    }
+
+    if(is_category()){
+      $query->set('posts_per_page', 3);
+    }
+
+  }
+}
+//add_action( 'pre_get_posts', 'my_post_queries' );
+
+
+
 function fix_slash( $string, $type )
 {
 global $wp_rewrite;
@@ -644,15 +716,3 @@ return $string;
 }
 
 //add_filter( 'user_trailingslashit', 'fix_slash', 55, 2 );
-
-function search_by_cat()
-{
-    global $wp_query;
-    if (is_search()) {
-        $cat = intval($_GET['cat']);
-        $cat = ($cat > 0) ? $cat : '';
-        $wp_query->query_vars['cat'] = $cat;
-    }
-}
-add_action('pre_get_posts', 'search_by_cat');
-

@@ -218,10 +218,8 @@ function isFirstTimeLoginRedirect($currentUrl){
     //check if loggen in user is first time
     if(!$lastLogin)
     {
-        if($userType == 'internal')
-            return '/admin-dashboard';
-        else
-            return '/customer-dashboard';
+    	$redirectUrl = firstTimeUserLoginUrl();
+        return $redirectUrl;
     }
     else
     	return $currentUrl;

@@ -483,4 +483,20 @@ function sendUserRegistrationMails($user){
     return true;
 
     }
+
+function firstTimeUserLoginUrl(){
+
+	$redirectUrl = '/';
+
+	if(Auth::check()){
+		$userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
+		if($userType == 'internal')
+            $redirectUrl = '/admin-dashboard';
+        else
+            $redirectUrl = '/customer-dashboard';
+    }
+ 
+	return $redirectUrl;
+
+}
  

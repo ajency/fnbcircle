@@ -301,8 +301,9 @@ class RegisterController extends Controller
             $token->save();
 
             sendUserRegistrationMails($user);
- 
-            return redirect(url('/customer-dashboard'));
+            $redirectUrl = firstTimeUserLoginUrl();
+            
+            return redirect(url($redirectUrl));
             
         }
         else

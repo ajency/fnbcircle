@@ -60,6 +60,9 @@
 
   $('#area-select').on('show.bs.modal', function(e) {
     var cityID;
+    setTimeout((function() {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+    }), 500);
     array = [];
     $('.city-list li').each(function(index, item) {
       if (index === 0) {
@@ -86,7 +89,14 @@
     });
   });
 
+  $('#category-select').on('show.bs.modal', function(e) {
+    return setTimeout((function() {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+    }), 500);
+  });
+
   $('body').on('change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', function() {
+    var cityID;
     if (this.checked) {
       if ($(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length === $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length) {
         $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', true);
@@ -95,6 +105,8 @@
       if ($(this).closest('.tab-pane').find('input#throughout_city').prop('checked')) {
         $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', false);
       }
+      cityID = $(this).closest('div').find('input[name="city"]').attr('data-city-id');
+      delete cities['cities'][cityID]['areas'][$(this).val()];
     }
   });
 
@@ -129,7 +141,7 @@
   populate = function() {
     var k, source, template;
     k = 0;
-    source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}"> <div class="row flex-row areaContainer corecat-container"> <div class="col-sm-3"> <strong class="branch">{{name}}</strong> </div> <div class="col-sm-9"> <ul class="fnb-cat small flex-row"> {{#areas}}<li><span class="fnb-cat__title"><input type="hidden" name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span> </li>{{/areas}} </ul> </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div>{{/cities}}';
+    source = '{{#cities}}<div class="single-area single-category gray-border m-t-10 m-b-20" data-city-id="{{id}}"> <div class="row flex-row areaContainer corecat-container"> <div class="col-sm-3"> <strong class="branch text-secondary">{{name}}</strong> </div> <div class="col-sm-9"> <ul class="fnb-cat small flex-row"> {{#areas}}<li><span class="fnb-cat__title"><input type="hidden" name="areas" value="{{id}}" data-item-name="{{name}}">{{name}}<span class="fa fa-times remove"></span></span> </li>{{/areas}} </ul> </div> </div> <div class="delete-cat"> <span class="fa fa-times remove"></span> </div> </div>{{/cities}}';
     template = Handlebars.compile(source);
     return $('div#disp-operation-areas.node-list').html(template(cities));
   };
@@ -159,7 +171,10 @@
     city_link = $(this).parent().find('a');
     city_link.click();
     if (this.checked) {
-      console.log('checked');
+      $('.tab-pane.active .nodes').addClass('disable-section');
+      setTimeout((function() {
+        $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+      }), 100);
       cityID = city_link.attr('name');
       $('div[name="' + cityID + '"].tab-pane input[type="checkbox"]').prop("checked", false);
       cityValue = $('div[name="' + cityID + '"].tab-pane input[type="hidden"][name="city"]').val();
@@ -170,9 +185,26 @@
         areas: []
       };
     } else {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", false);
+      $('.tab-pane.active .nodes').removeClass('disable-section');
       console.log('unchecked');
       cityID = city_link.attr('name');
       delete cities['cities'][cityID];
+    }
+  });
+
+  $('body').on('change', '.mobile-child-selection', function() {
+    var city_link;
+    city_link = $(this).siblings('.toggle-collapse');
+    city_link.click();
+    if (this.checked) {
+      setTimeout((function() {
+        $('.tab-pane.in .nodes').addClass('disable-section');
+        $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
+      }), 500);
+    } else {
+      $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", false);
+      $('.tab-pane.in .nodes').removeClass('disable-section');
     }
   });
 

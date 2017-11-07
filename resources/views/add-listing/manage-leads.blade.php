@@ -52,7 +52,7 @@
 
 
 <div class="row">
-    <div class="col-sm-2">
+    <div class="col-sm-2 p-l-0">
         <div class="filter-trigger">
             <button class="btn fnb-btn primary-btn border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
@@ -72,13 +72,13 @@
         </div>
         
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 c-gap">
         <div>
             <p class="text-color x-small text-uppercase flex-row space-between">Request send date  <a id="clearSubDate" href="#" class="primary-link">Clear</a> </p>
             <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
         </div>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-12 c-gap">
         <div>
             <p class="text-color x-small text-uppercase">Categories</p>
             <div class="category-listing m-b-10">
@@ -86,16 +86,11 @@
                       <div id="categories" class="node-list"></div>
             </div>
             <div class="flex-row flex-wrap add-filter-actions">
-<!-- <<<<<<< HEAD
-                <a href="#" class="primary-link x-small m-r-5" data-toggle="modal" data-target="#category-select">+ Add Parent</a>    
-                <a href="#" class="primary-link x-small m-r-5">+ AddBranch</a>
-                <a href="#" class="primary-link x-small">+ Add Node</a>    
-======= -->
                  <a href="#category-select" data-toggle="modal" data-target="#category-select" class="primary-link x-small" id="select-more-categories">+ Filter based on Categories</a>
             </div>
         </div>
     </div>
-    <div class="col-sm-12 m-t-20">
+    <div class="col-sm-12 c-gap m-t-20">
         <div>
             <p class="text-color x-small text-uppercase">Location</p>
             <div class="category-listing m-b-10">
@@ -124,9 +119,9 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 m-t-10">
+    <div class="col-sm-12 c-gap m-t-10">
         <div class="leads-filter-action flex-row">
-            <a href="#" class="clear-link dis-block text-decor m-r-15">Clear All</a>
+            <a href="#" class="dark-link dis-block text-decor m-r-15">Clear All</a>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyLocFilter">Apply Location</button>
             <button class="btn primary-btn border-btn fnb-btn" type="button" id="applyCategFilter">Apply Category</button>
         </div>
@@ -134,7 +129,7 @@
 </div>
 
 
-    <div class="m-t-50">
+    <div class="m-t-50 relative">
 
     <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
         <thead>

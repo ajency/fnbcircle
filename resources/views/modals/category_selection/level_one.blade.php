@@ -17,13 +17,12 @@
                     {{ $category->name }}
                 </div>
             </div>
-            <div class="label-check m-t-10">
+            <div class="label-check m-t-10 multi-label-select">
                 <label class="text-medium x-small flex-row cursor-pointer">
                     <input type="checkbox" class="checkbox parent-categories" name="select-categories" data-name="{{$category->name}}" value="{{$category->id}}"/>Select all categories under {{$category->name}}
                     <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($category['id'])) }}">    
                 </label>
             </div>
-            
         </li>
 
        @endforeach

@@ -95,15 +95,22 @@
                             <a href="{{ url('register') }}" class="btn fnb-btn outline border-btn" type="button">Sign Up</a>
                         </div>                            
                     </div>
-                   <div class="forget-password">
+                   <div class="forget-password" id="forget-password-div">
+                        <div class="alert alert-success forgot-link-sent alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h6 class="sub-title">Success</h6>
+                            <span>Change password link is sent. Please check your inbox.</span>
+                        </div>
                         <h3 class="welcome-text text-medium">Forgot Password</h3>
                         <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
-                        <div class="form-group text-left m-b-0">
-                            <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
-                        </div>
-                        <div class="form-group m-b-0 m-t-20">
-                            <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin"></i></button>
-                        </div>
+                        <form method="POST" action="{{ route('password.email') }}" id="forgot-password-form" data-parsley-validate="">
+                            <div id="email-error-container" class="fnb-error"></div>
+                            <div class="form-group text-left m-b-0">
+                                <input type="email" class="form-control fnb-input float-input required" id="forgot_password_email" name="forgot_password_email" placeholder="Email Address" data-parsley-trigger="change" data-parsley-type="email" data-parsley-errors-container="#email-error-container">
+                            </div>
+                            <div class="form-group m-b-0 m-t-20">
+                                <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button" id="forgot-password-form-btn"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                            </div>
+                        </form>
                         <div class="form-group m-b-0">
                             <div class="text-primary back-login heavier m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
                         </div>

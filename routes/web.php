@@ -16,7 +16,8 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
-
+// Forgot Password
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 
 Auth::routes();
 

@@ -151,6 +151,15 @@ class User extends Authenticatable
         return $object;
     }
 
+    /**
+    * This function is used to return the list of User Account Status
+    *
+    * @return array
+    */
+    public static function userStatuses() {
+        return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
+    }
+
  
  
     public Function uploadUserResume($file){
@@ -234,16 +243,6 @@ class User extends Authenticatable
 
         return $date;
       
-    }
- 
- 
-    /**
-    * This function is used to return the list of User Account Status
-    *
-    * @return array
-    */
-    public static function userStatuses() {
-        return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
     }
  
 }

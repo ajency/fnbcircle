@@ -4,6 +4,12 @@ $(function(){
 	$("#login-modal").on('shown.bs.modal', function() {
 		var url = '';
 
+		 $('#login-modal').keypress(function(e){
+	        if(e.which == 13){//Enter key pressed
+	            $("#login_form_modal_btn").trigger('click'); // Trigger the Login button
+	        }
+	    });
+
 		if (window.location.search && window.location.search.indexOf("login=") < 0) {
 			url = window.location.search + '&login=true';
 		} else if (!window.location.search) {
@@ -385,6 +391,33 @@ $(function(){
 			return flag;
 		}
 
+		function forgotPassword(email) {
+			$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").removeClass("hidden");
+
+			$.ajax({
+				type: 'post',
+				url: '/forgot-password',
+				data: {
+					'email': email
+				},
+				success: function(data) {
+					$("#forget-password-div #email-error-container").text("");
+					$("#forget-password-div .forgot-link-sent").removeClass("hidden");
+					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+				},
+				error: function(request, status, error) {
+					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+					console.log(status);
+					console.log(error);
+					if(request.responseJSON) {
+						$("#forget-password-div #email-error-container").text(request.responseJSON["message"]);
+					}
+					//throw Error();
+				}
+			});
+
+		}
+
 		$(document).ready(function() {
 
 			if(window.location.hash.length > 0 && window.location.hash.indexOf("_=_") > -1) { // If "_=_" exist in the URL (appears post FB login)
@@ -746,6 +779,26 @@ $(function(){
 	        		$(parent + " #login_form_modal_btn i").addClass("hidden"); // Hide the loader
 	        	}
 	        });
+
+	        if($(document).find("#forgot-password-form").length > 0) { // If this container exist, then execute the below conditions
+	        	if($("#forgot_password_email").val().length <= 0) {
+	        		$("#forgot-password-form-btn").prop('disabled', true);
+	        	}
+
+	        	$("#forgot-password-form #forgot_password_email").on("change", function() {
+	        		if($(this).val().length <= 0) {
+	        			$("#forgot-password-form-btn").prop('disabled', true);
+	        		} else {
+	        			$("#forgot-password-form-btn").prop('disabled', false);
+	        		}
+	        	});
+
+		        $("#forgot-password-form-btn").click(function() {
+		        	if($("#forgot-password-form").parsley().validate()) {
+		        		forgotPassword($("#forgot-password-form #forgot_password_email").val());
+		        	}
+		        });
+	        }
 		});
 
 		if($('.photo-gallery').length){

@@ -27,6 +27,8 @@ Route::group(['prefix' => 'api'], function() {
 });
 
 Route::get('/test','TestController@index');
+// Forgot Password
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 
 
 Auth::routes();

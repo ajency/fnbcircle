@@ -206,7 +206,6 @@ requestData = (table_id) ->
 	return internal_user_table
 
 init_Multiselect = ->
-	console.log "Initialize"
 	$('.multi-ddd').multiselect
 		# buttonContainer: '<span></span>'
 		# buttonClass: ''
@@ -218,11 +217,10 @@ init_Multiselect = ->
 		# delimiterText: ','
 		#nonSelectedText: 'Select City'
 		onChange: (element, checked) ->
-			console.log "checked"
 			categories = $(this)[0]['$select'].find('option:selected')
 			selected = []
 			$(categories).each (index, city) ->
-				selected.push $(this).val()
+				selected.push '^' + $(this).val() + "$" # Search for exact word & not LIKE "%<string>%", hence "^<string>$"
 				return
 		
 			search = selected.join('|')
@@ -379,6 +377,9 @@ $(document).ready () ->
 		### --- Select the user's Role --- ###
 		modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()])
 		modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true)
+
+		console.log row.find('td:eq(4)').text().toLowerCase()
+		modal_object.find('select.form-control.status-select').val row.find('td:eq(4)').text().toLowerCase()
 
 		modal_object.find('.createSave').addClass 'hidden'
 		modal_object.find('.editSave').removeClass 'hidden'

@@ -725,7 +725,7 @@
     				&:hover{
     					border: 0;
     					background-color: transparent;
-    					color: inherit;
+    					color: @accent-secondary;
     					border-bottom: 2px solid @accent-secondary;
     				}
     				&:after{
@@ -1454,6 +1454,20 @@
 		.input-group{
 			width: 128px;
 		}
+	}
+}
+
+.resume-card{
+	border-bottom: 0;
+	.catalogue{
+		padding: 1em 0;
+		&:last-child{
+			border-bottom: 0;
+		}
+	}
+	.remove-resume{
+		font-size: 1.25em;
+    	color: #bcbcbc;
 	}
 }
 
@@ -3563,6 +3577,15 @@ and (max-device-width: 650px) {
 			}
 		}
 	}
+	.scroll-tabs{
+		white-space: nowrap;
+    	overflow-x: auto;
+	}
+	.dash-enquiry-form{
+		.enquiry-form__body{
+			margin-top: 0;
+		}
+	}
 }
 
 .contact-social{
@@ -3618,6 +3641,31 @@ and (max-device-width: 650px) {
 		border: 0;
 	}
 }
+
+
+
+// ---------------------------
+// CUSTOMER DASHBOARD -----------
+// ---------------------------
+
+
+.no-data-card{
+	i{
+		font-size: 3em;
+	}
+	&__title{
+		font-size: 1.4em;
+	}
+	@media screen and (max-width: @mobile){
+		h6{
+			font-size: 1.15em;
+    		line-height: 1.4;
+		}
+	}
+}
+
+
+
 
 
 

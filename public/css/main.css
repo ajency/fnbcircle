@@ -3358,7 +3358,7 @@ input[type=checkbox].custom-checkbox:before {
 .nav-info__tab li.active a:hover {
   border: 0;
   background-color: transparent;
-  color: inherit;
+  color: #27b7b0;
   border-bottom: 2px solid #27b7b0;
 }
 .nav-info__tab li.active a:after {
@@ -3994,6 +3994,19 @@ input[type=checkbox].custom-checkbox:before {
 }
 .dash-enquiry-form .salary-range .input-group {
   width: 128px;
+}
+.resume-card {
+  border-bottom: 0;
+}
+.resume-card .catalogue {
+  padding: 1em 0;
+}
+.resume-card .catalogue:last-child {
+  border-bottom: 0;
+}
+.resume-card .remove-resume {
+  font-size: 1.25em;
+  color: #bcbcbc;
 }
 .interested-options {
   -webkit-box-align: start;
@@ -6059,6 +6072,13 @@ input[type=checkbox].custom-checkbox:before {
     padding-left: 0.3em;
     padding-top: 0.15em;
   }
+  .scroll-tabs {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+  .dash-enquiry-form .enquiry-form__body {
+    margin-top: 0;
+  }
 }
 .contact-social {
   border-radius: 5px;
@@ -6088,6 +6108,18 @@ input[type=checkbox].custom-checkbox:before {
 }
 .application-table.table-responsive {
   border: 0;
+}
+.no-data-card i {
+  font-size: 3em;
+}
+.no-data-card__title {
+  font-size: 1.4em;
+}
+@media screen and (max-width: 768px) {
+  .no-data-card h6 {
+    font-size: 1.15em;
+    line-height: 1.4;
+  }
 }
 .search-section {
   position: relative;

@@ -89,7 +89,6 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 Route::group( ['middleware' => ['auth']], function() { 
 	Route::post('/create_OTP','ListingController@createOTP');
 	Route::post('/validate_OTP','ListingController@validateOTP');
-
 	Route::post('/listing/review','ListingController@submitForReview');
 	Route::post('/listing/archive','ListingController@archive');
 	Route::post('/listing/publish','ListingController@publish');
@@ -139,6 +138,7 @@ Route::group( ['middleware' => ['auth']], function() {
 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
 	Route::post('/user/remove-resume','UserController@removeResume');
+	Route::get('/my-profile/{email?}', 'ProfileController@basicDetails' );//->where(['email'=>"^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"]);
 });
 
 

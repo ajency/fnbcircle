@@ -37,14 +37,14 @@ class Job extends Model
     public function jobStatuses(){
  
     	// $statuses =  getDefaultValues("job_status",2);
-        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Published','4'=>'Remove This Job','5'=>'Rejected'];
+        $statuses = ['1'=>'Draft','2'=>'Pending Review','3'=>'Published','4'=>'Archived','5'=>'Rejected'];
     	return $statuses;
     }
 
     public function jobStatusesToChange(){
  
 
-        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Publish','4'=>'Remove This Job','5'=>'Reject'];
+        $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Publish','4'=>'Archive','5'=>'Reject'];
         return $statuses;
     }
 

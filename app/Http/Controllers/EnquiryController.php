@@ -231,8 +231,8 @@ class EnquiryController extends Controller {
 					} else {
 						$listing_ids = EnquirySent::where([['enquiry_to_type', 'App\Listing'], ['enquiry_to_id', $enquiry_obj->id]])->pluck('enquiry_to_id')->toArray();
 
-						$enq_data_obj = Listing::whereIn('id', $listing_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) {
-							$listing_content = array("name" => $listing_obj->name, "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
+						$enq_data_obj = Listing::whereIn('id', $listing_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get()->each(function($list) use ($email_content) {
+							$listing_content = array("name" => $list["name"], "type" => "", "cores" => [], "operation_areas" => [], "ratings" => "");
 							$listing_content["type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
 							
 							$areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
@@ -252,7 +252,7 @@ class EnquiryController extends Controller {
 			                        $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
 			                });
 
-			                array_push($email_content["listing_data"], $listing_content);
+				    		array_push($email_content["listing_data"], $listing_content);
 						});
 					}
 
@@ -412,7 +412,9 @@ class EnquiryController extends Controller {
 		   			} else {
 		   				$listing_data = [];
 		   			}
-		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data'))->render();
+
+		   			$is_premium = $listing->premium;
+		   			$response_html = View::make('modals.listing_enquiry_popup.enquiry_success_message')->with(compact('listing_data', 'is_premium'))->render();
 		   		}
 		   	} else { // Listing_Slug not found
 		   		$response_html = abort(404);
@@ -482,6 +484,8 @@ class EnquiryController extends Controller {
 			$listing_obj = Listing::where('slug', '')->get();
 		}
 
+		$verified_session = Session::get('otp_verified', []);
+
 		if($template_config == 'popup_level_one' && strlen($session_id) > 0 && $listing_obj->count() > 0) {
 			$session_obj = DB::table('sessions')->where('id', $session_id);
 			if($session_obj->count() > 0) {
@@ -506,9 +510,8 @@ class EnquiryController extends Controller {
 						$cookie_cont_obj->generateDefaults();
 					}
 
-					$verified_session = Session::get('otp_verified', []);
 					
-					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"] && $listing_obj->first()->premium) {
+					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) {
 						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"], "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
 
     					$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
@@ -516,7 +519,11 @@ class EnquiryController extends Controller {
     					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
     					$payload_data["enquiry_data"]["enquiry_id"] = $create_enq_response["enquiry"]->id;
 
-						$modal_template_html = $this->getEnquiryTemplate("step_3", $listing_obj->first()->slug, $session_id);
+    					if($listing_obj->first()->premium) {
+							$modal_template_html = $this->getEnquiryTemplate("step_3", $listing_obj->first()->slug, $session_id);
+						} else {
+							$modal_template_html = $this->getEnquiryTemplate("step_2", $listing_obj->first()->slug, $session_id);
+						}
 					} else {
 						$modal_template_html = $this->getEnquiryTemplate("step_2", $listing_obj->first()->slug, $session_id);
 					}
@@ -584,7 +591,7 @@ class EnquiryController extends Controller {
 					$enquiry_areas = [];
 				}
 				
-				if($listing_obj->first()->premium || !Auth::guest()) { // If premium or (not guest User) then save the data
+				if($listing_obj->first()->premium || !Auth::guest() || isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If premium or (not guest User) then save the data
 					$listing_operations_ids = ListingAreasOfOperation::whereIn('area_id', $enquiry_areas)->distinct('listing_id')->pluck('listing_id')->toArray();
 					$listing_cat_ids = ListingCategory::whereIn('category_id', $enquiry_categories)->distinct('listing_id')->pluck('listing_id')->toArray();
 
@@ -627,9 +634,12 @@ class EnquiryController extends Controller {
 				}
 
 				/*** End of 2nd Enquiry flow ***/
-
-				$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-				$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id);
+				if(!$listing_obj->first()->premium && isset($verified_session["mobile"]) && $verified_session["mobile"]) {
+					$modal_template_html = $this->getEnquiryTemplate('step_4', $listing_obj->first()->slug, $session_id);
+				} else {
+					$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+					$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id);
+				}
 				$status = 200;
 			}
 		} else if($template_config == "popup_level_four") {

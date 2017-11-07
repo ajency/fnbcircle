@@ -593,16 +593,13 @@ function custom_excerpt_length( $length ) {
     add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
  
-function fnbcircleWpStyles(){
-
  
-	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(),null);
-	 
-}
-add_action('wp_enqueue_scripts', 'fnbcircleWpStyles', 100);
 
 
 function fnbcircleWpScripts(){
+
+	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(),null);
+	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(),null);
 
 	
 	wp_enqueue_script('wpnews', get_template_directory_uri() . '/assets/js/news.js', array('jquery'), true, true);

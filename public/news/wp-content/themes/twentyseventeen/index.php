@@ -183,18 +183,16 @@ else: ?>
 
 	jQuery(document).ready(function($){
 		$('.search-submit').on("click",function(){
-			location.href = "<?php echo esc_url( home_url( '/' ) ); ?>"+$('#cat').val()+"/?s="+$('input[name=s]').val();
+
+			if($('#cat').val()!="-1"){
+				location.href = "<?php echo esc_url( home_url( '/' ) ); ?>"+$('#cat').val()+"/?s="+$('input[name=s]').val();
+			}
+			else{
+				location.href = "<?php echo esc_url( home_url( '/' ) ); ?>?s="+$('input[name=s]').val();
+			}
+			
 		})
 
 	})
-        /*<!--
-        var dropdown = document.getElementById("cat");
-        function onCatChange() {
-            if ( dropdown.options[dropdown.selectedIndex].value != -1 ) {
-                location.href = "< ?php echo esc_url( home_url( '/' ) ); ?>"+dropdown.options[dropdown.selectedIndex].value+"&s=";
-            }
-        }
-        dropdown.onchange = onCatChange;
-        -->*/
-    </script>
+</script>
 <?php get_footer();

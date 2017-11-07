@@ -13,7 +13,17 @@
 get_header(); ?>
 	<header class="header-image page-header">
 		<?php if ( have_posts() ) : ?>
+
+			<?php if(get_query_var( 'cat' )==null){ ?>
 			<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+			<?php }
+			else{ 
+				$category_id = get_query_var( 'cat' );
+				$category_name = get_cat_name( $category_id );
+				?>
+			<h1 class="page-title"><?php printf( __( 'Search Results for: %s  in city   %s ', 'twentyseventeen' ), '<span>' . get_search_query() ,$category_name. '</span>' ); ?></h1>
+			<?php } ?>
+
 		<?php else : ?>
 			<h1 class="page-title"><?php _e( 'Nothing Found', 'twentyseventeen' ); ?></h1>
 		<?php endif; ?>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Area;
 use App\City;
+use App\Category;
 use App\Plan;
 use App\Job;
 use App\Listing;
@@ -39,15 +40,35 @@ class CommonController extends Controller
             'city' => 'required|min:1|integer',
         ]);
         
-        $areas = Area::where('city_id', $request->city)->where('status', '1')->orderBy('order')->orderBy('name')->get();
+        
+
+        $areaQuery = Area::where('city_id', $request->city)->where('status', '1');
+
+        if(isset($request->area_name) && $request->area_name!=""){
+             $areaQuery->where('name','like','%'.$request->area_name.'%');
+        }
+
+        $areas = $areaQuery->orderBy('order')->orderBy('name')->get();
         $res   = array();
         
         foreach ($areas as $area) {
-            $res[] = array('id'=>"$area->id",'name'=>$area->name);
+            $res[] = array('id'=>$area->id,'name'=>$area->name,'slug'=>$area->slug);
         }
         
         return response()->json($res);
     }
+
+    
+
+    public function getCategories(Request $request,$type){ 
+        // $this->validate($request, [
+        //     'keyword' => 'required',
+        // ]);
+
+        $categories = Category::where("type",$type)->where('status',1)->where('name','like','%'.$request->keyword.'%')->orderBy('name')->get();
+        
+        return response()->json(['results' => $categories, 'options' => []]);
+    } 
 
     /**
     * This function can be called in blade to generate the HTML required.

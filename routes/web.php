@@ -169,11 +169,16 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 Route::post('/upload-listing-image','ListingController@uploadListingPhotos');
 Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
+/** Routes for Wordpress News */
 
-Route::get('/wp-laravel-header','WpNewsController@getLaravelHeaderForWp');
+//Route::group(['middleware' => ['web']], function () {
+
+	Route::get('/wp-laravel-header','WpNewsController@getLaravelHeaderForWp');
 Route::get('/wp-laravel-footer','WpNewsController@getLaravelFooterForWp');
 Route::get('/wp-get-logged-in-laravel-user','WpNewsController@getLaravelLoggedInUser');
 Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCategoryCard');
+//
+//});
 
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {

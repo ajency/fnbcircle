@@ -152,6 +152,7 @@ class User extends Authenticatable
     }
 
  
+ 
     public Function uploadUserResume($file){
         $id = $this->uploadFile($file,false);
         $this->remapFiles([$id]);
@@ -233,6 +234,16 @@ class User extends Authenticatable
 
         return $date;
       
+    }
+ 
+ 
+    /**
+    * This function is used to return the list of User Account Status
+    *
+    * @return array
+    */
+    public static function userStatuses() {
+        return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
     }
  
 }

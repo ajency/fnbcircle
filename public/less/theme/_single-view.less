@@ -654,7 +654,7 @@
 // Nav tabs
 
 .nav-info{
-	&__tabs{
+	&__tabs,&__tab{
 		border: 0;
 		li{
 			padding-right: 1.5em;
@@ -710,6 +710,27 @@
 			&:first-child{
 				a{
 					padding-left: 0;
+				}
+			}
+		}
+	}
+	&__tab{
+		li{
+			&.active{
+				a{
+					border: 0;
+    				border-bottom: 2px solid @accent-secondary;
+    				color: @accent-secondary;
+    				font-weight: 500;
+    				&:hover{
+    					border: 0;
+    					background-color: transparent;
+    					color: inherit;
+    					border-bottom: 2px solid @accent-secondary;
+    				}
+    				&:after{
+    					width: 100%;
+    				}
 				}
 			}
 		}
@@ -1400,6 +1421,42 @@
 		font-size: 1.15em;
 	}
 }
+
+.dash-enquiry-form{
+	label{
+		font-weight: 500;
+	}
+	.location-select .select-col{
+		flex: 1;
+	}
+	.job-type{
+		.checkbox-inline{
+		    margin-right: 10px;
+		    flex: 1 0 45%;
+		    font-weight: 400;
+		    font-size: 0.95em;
+		    max-width: inherit;
+		    white-space: nowrap;
+		}
+	}
+	label.radio-inline{
+		flex: 1 0 30.33%;
+    	margin-left: 0;
+    	margin-bottom: 10px;
+    	font-weight: 400;
+    	font-size: 0.95em;
+    	&:last-child{
+    		margin-bottom: 0;
+    	}
+	}
+	.salary-range{
+		margin: 1em 0;
+		.input-group{
+			width: 128px;
+		}
+	}
+}
+
 
 // Interested toggle
 

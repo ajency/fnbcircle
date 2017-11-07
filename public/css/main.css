@@ -2440,6 +2440,12 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: end;
           align-items: end;
 }
+.align-baseline {
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
 .justify-center {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -7324,6 +7330,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .input-sal-filter .fnb-input {
   font-size: 0.9em;
+}
+.enquiry-add-card {
+  padding: 0.8em 1.5em;
 }
 .home-text {
   position: relative;

@@ -19,13 +19,15 @@ get_header(); ?>
 <div class="header-image text-center">
 	<H1>FnB Circle News</H1>
 	<div class="search-container">
-		<select>
+		<!-- <select>
 		  <option value="volvo">Panjim</option>
 		  <option value="saab">Mumbai</option>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
-		</select>
+		</select> -->
+		<?php wp_dropdown_categories('show_option_none=Select category&exclude=1&value_field=slug'); ?>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
+		
 		 <label>
 	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
 	        <input type="search" class="search-field"
@@ -33,7 +35,7 @@ get_header(); ?>
 	            value="<?php echo get_search_query() ?>" name="s"
 	            title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
 	    </label>
-	    <input type="submit" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
+	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
 	</form>
 	<div class="clear"></div>
 </div>
@@ -176,4 +178,23 @@ else: ?>
 	<?php get_sidebar(); ?>
 </div><!-- .wrap -->
 
+
+<script type="text/javascript">
+
+	jQuery(document).ready(function($){
+		$('.search-submit').on("click",function(){
+			location.href = "<?php echo esc_url( home_url( '/' ) ); ?>"+$('#cat').val()+"/?s="+$('input[name=s]').val();
+		})
+
+	})
+        /*<!--
+        var dropdown = document.getElementById("cat");
+        function onCatChange() {
+            if ( dropdown.options[dropdown.selectedIndex].value != -1 ) {
+                location.href = "< ?php echo esc_url( home_url( '/' ) ); ?>"+dropdown.options[dropdown.selectedIndex].value+"&s=";
+            }
+        }
+        dropdown.onchange = onCatChange;
+        -->*/
+    </script>
 <?php get_footer();

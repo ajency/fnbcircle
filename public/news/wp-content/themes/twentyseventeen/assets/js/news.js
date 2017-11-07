@@ -40,8 +40,8 @@ jQuery(document).ready(function($) {
 
     }, function(response) { 
     	 
-console.log('LARAVEL FOOTER')
-    	console.log(response)
+		/*console.log('LARAVEL FOOTER')
+    	console.log(response)*/
     	$('#laravel-footer-container').html(response);
 
     });

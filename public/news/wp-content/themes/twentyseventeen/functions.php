@@ -593,6 +593,14 @@ function custom_excerpt_length( $length ) {
     add_filter( 'excerpt_length', 'custom_excerpt_length', 999 );
 
  
+function fnbcircleWpStyles(){
+
+ 
+	wp_enqueue_style('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array());
+	 
+}
+add_action('wp_enqueue_scripts', 'fnbcircleWpStyles', 100);
+
 
 function fnbcircleWpScripts(){
 
@@ -603,6 +611,10 @@ function fnbcircleWpScripts(){
 	wp_localize_script('wpnews', 'LARAURL', LARAVELURL);
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
+
+
+
+
 
  
 function wpdocs_after_setup_theme() {
@@ -634,3 +646,15 @@ return $string;
 }
 
 //add_filter( 'user_trailingslashit', 'fix_slash', 55, 2 );
+
+function search_by_cat()
+{
+    global $wp_query;
+    if (is_search()) {
+        $cat = intval($_GET['cat']);
+        $cat = ($cat > 0) ? $cat : '';
+        $wp_query->query_vars['cat'] = $cat;
+    }
+}
+add_action('pre_get_posts', 'search_by_cat');
+

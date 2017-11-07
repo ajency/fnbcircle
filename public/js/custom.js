@@ -4,6 +4,12 @@ $(function(){
 	$("#login-modal").on('shown.bs.modal', function() {
 		var url = '';
 
+		 $('#login-modal').keypress(function(e){
+	        if(e.which == 13){//Enter key pressed
+	            $("#login_form_modal_btn").trigger('click'); // Trigger the Login button
+	        }
+	    });
+
 		if (window.location.search && window.location.search.indexOf("login=") < 0) {
 			url = window.location.search + '&login=true';
 		} else if (!window.location.search) {

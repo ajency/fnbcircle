@@ -185,6 +185,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
 
         Ajency\User\LaravelAjUserServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
     ],
 

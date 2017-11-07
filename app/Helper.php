@@ -2,6 +2,9 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use App\Defaults;
+// use AjComm;
+
 
 function getOperationTime($info=null,$type= "from",$diff=30){
 	$time = null;
@@ -314,3 +317,109 @@ function generateUrl($city, $slug, $slug_extra = []) {
 
 	return $url;
 }
+
+/**
+* This function is used to send email for each event
+* This function will send an email to given recipients
+* @param data can contain the following extra parameters
+*	@param template_data
+*	@param to 
+*	@param cc
+*	@param bcc
+*	@param from
+*	@param name
+* 	@param subject
+*	@param attach - An Array of arrays each containing the following parameters:
+*			@param file - base64 encoded raw file
+*			@param as - filename to be given to the attachment
+*			@param mime - mime of the attachment
+*/
+function sendEmail($event='new-user', $data=[]) {
+	$email = new \Ajency\Comm\Models\EmailRecipient();
+	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
+	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
+	$email->setFrom($from, $name);
+	if(!isset($data['to']) ) $data['to']= [];
+	// 	return false;
+	$email->setTo($data['to']);
+	$cc = (isset($data['cc']))? $data['cc']:[];
+	if(!is_array($cc)) $cc = [$cc];
+	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
+	if(in_array($event, $notify)){
+		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+		$cc = array_merge($cc,$notify_data);
+	}
+	$email->setCc($cc);
+	if(isset($data['bcc'])) $email->setCc($data['bcc']);
+	$params = (isset($data['template_data']))? $data['template_data']:[];
+	if(!is_array($params)) $params = [$params];
+	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+	$email->setParams($params);
+
+	if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
+	$notify = new \Ajency\Comm\Communication\Notification();
+    $notify->setEvent($event);
+    $notify->setRecipientIds([$email]);
+    // $notify->setRecipientIds([$email,$email1]);
+    AjComm::sendNotification($notify);
+
+}
+
+/**
+* This function is used to send sms for each event
+* This function will send an sms to given recipients
+* @param data can contain the following extra parameters
+*	@param to - array
+* 	@param message - string
+* @param override
+*/
+function sendSms($event='new-user', $data=[], $override = false) {
+	if(!isset($data['to'])) return false;
+	if(!is_array($data['to'])) $data['to'] = [$data['to']];
+	if(!isset($data['message'])) return false;
+	$sms = new \Ajency\Comm\Models\SmsRecipient();
+    $sms->setTo($data['to']);
+    $sms->setMessage($data['message']);
+    if($override) $sms->setOverride(true);
+    $notify = new \Ajency\Comm\Communication\Notification();
+    $notify->setEvent($event);
+    $notify->setRecipientIds([$sms]);
+    AjComm::sendNotification($notify);
+}
+
+
+function sendUserRegistrationMails($user){
+
+    $userDetail = $user->getUserDetails;
+    $userDetail->has_previously_login = 1;
+    $userDetail->save();
+
+
+    Auth::login($user);
+    $userEmail = $user->getPrimaryEmail();
+    $userEmail = 'nutan@ajency.in';
+    
+    //send welcome mail
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [$userEmail];
+    $data['cc'] = 'prajay@ajency.in';
+    $data['subject'] = "Welcome to FnB Circle!";
+    $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
+    sendEmail('welcome-user', $data);
+
+
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [config('constants.email_from')];
+    $data['cc'] = 'prajay@ajency.in';
+    $data['subject'] = "New user registration on FnB Circle.";
+    $data['template_data'] = ['user' => $user];
+    sendEmail('user-register', $data);
+
+    return true;
+
+    }

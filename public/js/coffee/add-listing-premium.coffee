@@ -12,24 +12,42 @@ $('input[type=radio][name=plan-select]').change ->
   return
 
 $('body').on 'click', '#subscribe-btn', (e) ->
-	planID = $('input[type=radio][name=plan-select]:checked').val()
-	planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plans__footer')
-	url = document.head.querySelector('[property="premium-url"]').content
-	$.ajax
-		type: 'post'
-		url: url
-		data:
-			'plan_id': planID
-			'type': 'listing'
-			'id': document.getElementById('listing_id').value
-		success: (data) ->
-			if data['status'] == '200'
-				$('#pending-request').html '(Request Pending)'
-				$('.premium-plans .planCaption').html 'Click here to choose this plan'
-				planContainer.find('.planCaption').html 'Your request for this plan is under process'
-				$('.alert-success').find('.success-message').html 'Plan request sent successfully'
-				$('.alert-success').addClass('active')
-	console.log 'request sent of plan'+planID
+  planID = $('input[type=radio][name=plan-select]:checked').val()
+  planContainer = $('input[type=radio][name=plan-select]:checked').closest('.plans__footer')
+  url = document.head.querySelector('[property="premium-url"]').content
+  parameters = {}
+  parameters['id'] = document.getElementById('listing_id').value
+  parameters['type'] = 'listing'
+  parameters['plan_id'] = planID
+  form = $('<form></form>')
+  form.attr("method", "post")
+  form.attr("action", url)
+  $.each parameters, (key, value) ->
+    field = $('<input></input>');
+    field.attr("type", "hidden");
+    field.attr("name", key);
+    field.attr("value", value);
+    form.append(field);
+    console.log key + '=>' + value
+    return
+  $(document.body).append form
+  form.submit()
+  
+	# $.ajax
+	# 	type: 'post'
+	# 	url: url
+	# 	data:
+	# 		'plan_id': planID
+	# 		'type': 'listing'
+	# 		'id': document.getElementById('listing_id').value
+	# 	success: (data) ->
+	# 		if data['status'] == '200'
+	# 			$('#pending-request').html '(Request Pending)'
+	# 			$('.premium-plans .planCaption').html 'Click here to choose this plan'
+	# 			planContainer.find('.planCaption').html 'Your request for this plan is under process'
+	# 			$('.alert-success').find('.success-message').html 'Plan request sent successfully'
+	# 			$('.alert-success').addClass('active')
+	# console.log 'request sent of plan'+planID
 
 window.validatePremium = () ->
   parameters = {}

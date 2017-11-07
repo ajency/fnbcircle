@@ -16,7 +16,7 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
 
-Route::get('/test','TestController@index');
+//Route::get('/test','TestController@index');
 // Forgot Password
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\ListingCommunication;
 use App\UserCommunication;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\CustomResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -154,5 +155,15 @@ class User extends Authenticatable
 
         return $date;
       
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

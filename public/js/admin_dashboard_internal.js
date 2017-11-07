@@ -228,18 +228,16 @@
   };
 
   init_Multiselect = function() {
-    console.log("Initialize");
     $('.multi-ddd').multiselect({
       maxHeight: 200,
       includeSelectAllOption: true,
       numberDisplayed: 5,
       onChange: function(element, checked) {
         var categories, col, search, selected;
-        console.log("checked");
         categories = $(this)[0]['$select'].find('option:selected');
         selected = [];
         $(categories).each(function(index, city) {
-          selected.push($(this).val());
+          selected.push('^' + $(this).val() + "$");
         });
         search = selected.join('|');
         col = $(this)[0]['$select'].closest('th').data('col');
@@ -365,6 +363,8 @@
       /* --- Select the user's Role --- */
       modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()]);
       modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true);
+      console.log(row.find('td:eq(4)').text().toLowerCase());
+      modal_object.find('select.form-control.status-select').val(row.find('td:eq(4)').text().toLowerCase());
       modal_object.find('.createSave').addClass('hidden');
       modal_object.find('.editSave').removeClass('hidden');
     });

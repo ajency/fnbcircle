@@ -112,7 +112,7 @@ Internal Users
 	                      <th class="no-sort" data-col="4">Status
 	                        <select multiple class="form-control multi-ddd" id="status_filters">
 	                          @foreach($status as $status_slug => $status_name)
-	                          	<option value="{{ $status_name }}">{{ $status_name }}</option>
+	                          	<option value="{{ $status_slug }}">{{ $status_name }}</option>
 	                          @endforeach
 	                        </select>
 	                      </th>
@@ -207,7 +207,7 @@ Internal Users
 	                    <div class="col-sm-6">
 	                      <div class="form-group">
 	                          <label>Status  <span class="text-danger">*</span></label>
-	                          <select class="form-control fnb-select dashboard-select" name="status">
+	                          <select class="form-control fnb-select dashboard-select status-select" name="status">
 	                            <option value="active">Active</option>
 	                            <option value="inactive">Inactive</option>
 	                            <option value="suspended">Suspended</option>

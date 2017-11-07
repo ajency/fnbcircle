@@ -6,12 +6,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\ListingCommunication;
 use App\UserCommunication;
+use App\City;
 use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\CustomResetPassword as ResetPasswordNotification;
+use Ajency\FileUpload\FileUpload;
+
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, FileUpload;
 
     /**
      * The attributes that are mass assignable.
@@ -62,6 +66,28 @@ class User extends Authenticatable
         }
     }
 
+    public function applications()
+    {
+        return $this->hasMany('App\JobApplicant');
+    }
+
+    public function jobApplications()
+    {
+        $applications = $this->applications()->get(); 
+        $jobs = [];
+        foreach ($applications as $key => $application) {
+            $job = $application->job;
+            $job['application'] = $application;
+            $jobs[] = $job;
+        }
+        return collect($jobs);
+    }
+
+    public function jobPosted()
+    {
+        return $this->hasMany('App\Job','job_creator');
+    }
+
     public function getPrimaryContact() { // Get the Primary Contact No
         $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User'], ['is_primary', true]])->whereIn('type', ["telephone", "mobile"])->first();
         if ($comm_obj) {
@@ -78,7 +104,7 @@ class User extends Authenticatable
     }
 
     public function saveContactDetails($data,$type){
-
+       
         if($type=='listing'){
             if ($data['id'] == null) {
                 $object = new ListingCommunication;
@@ -126,6 +152,7 @@ class User extends Authenticatable
         return $object;
     }
 
+
     /**
     * This function is used to return the list of User Account Status
     *
@@ -156,6 +183,69 @@ class User extends Authenticatable
         return $date;
       
     }
+
+
+    public Function uploadUserResume($file){
+        $id = $this->uploadFile($file,false);
+        $this->remapFiles([$id]);
+
+         return $id;
+    }
+
+    public function getUserProfileDetails(){
+        $user = $this;
+        // $userDetails = $userAuth->getUserData($this);
+       
+        $user['email'] = '';
+        $user['city'] = '';
+        $user['phone'] = '';
+     
+        if((!empty($this->getUserDetails()->first())) && !empty($this->getUserDetails()->first()->city)){
+            $city = $this->getUserDetails()->first()->city;
+            $user['city'] = $city;
+        }
+
+        if((!empty($this->getUserCommunications()->where('type','mobile')->first()->value))){
+            $mobile = $this->getUserCommunications()->where('type','mobile')->first();
+            $user['phone'] = $mobile->value;
+            $user['phone_code'] = $mobile->country_code;
+        }
+
+        if((!empty($this->getUserCommunications()->where('type','email')->first()->value))){
+            $email = $this->getUserCommunications()->where('type','email')->first()->value;
+            $user['email'] = $email;
+        }
+       
+        return $user;
+    }
+
+     
+
+
+    public Function getUserResume(){
+        $userResumeUrl  ='';
+        $userResume = $this->getFiles(); 
+        foreach ($userResume as $key => $resume) {
+            $url = $resume['url'];
+        }
+        return $url;
+
+    }
+
+    public function getUserJobLastApplication(){
+         
+        $userDetails = $this->getUserDetails;
+        $resumeId = $userDetails->resume_id;
+        $lastUpdated = $userDetails->resumeUpdated();
+
+        $application['resume_id'] = $resumeId;
+        $application['resume_url'] = getUploadFileUrl($resumeId);
+        $application['resume_updated_on'] = $lastUpdated;
+
+        return $application;
+    }
+
+
 
     /**
      * Send the password reset notification.

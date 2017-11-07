@@ -63,8 +63,12 @@ class SocialAuthController extends Controller {
                 }
 
                 if($user_resp["user"]) {
+
                     sendUserRegistrationMails($user_resp["user"]);
-                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"]), "website");
+                
+                    
+                    return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => $user_resp["required_fields_filled"], "next_url" => url()->previous()), "website");
+
                 } else {
                     return redirect(config('aj_user_config.social_failure_redirect_url'));
                 }

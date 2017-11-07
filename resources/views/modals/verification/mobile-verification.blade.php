@@ -58,7 +58,7 @@
                     <div class="input-row test">
                         <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id[]">
                         <input type="text" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number"  name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-errors-container="#mobileError{{ ($key) }}">
-                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="91">
                         <div class="dupError" id="mobileError{{ ($key) }}"></div>
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>
@@ -99,7 +99,7 @@
                     <input type="hidden" class="id-generator"></input>
                     <div class="input-row">
                         <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input" value="" name="contact_mobile[]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  data-parsley-errors-container="#mobileError{{ ($key+1) }}">
-                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
+                        <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="91">
                         <div class="dupError" id="mobileError{{ ($key+1) }}"></div>
                          <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
                     </div>

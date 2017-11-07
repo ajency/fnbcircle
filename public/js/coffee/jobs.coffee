@@ -42,6 +42,21 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
         return
 
 
+$(document).on 'click', '.remove_resume', ->
+  $.ajax
+    type: 'post'
+    url: '/user/remove-resume'
+    data:
+      'user': ''
+    success: (data) ->
+      $('.no_resume').removeClass 'hidden'
+      $('.has_resume').addClass 'hidden'
+      
+    error: (request, status, error) ->
+      throwError()
+      return
+
+
 $('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
   console.log $('input[name="salary_lower"]').attr('salary-type-checked')
@@ -239,7 +254,18 @@ if $('.expSelect').length
     delimiterText:','
     nonSelectedText: 'Select Experience'
 
+$('.resume-upload').dropify messages:
+  'default': 'Upload my resume'
+  'replace': 'Replace resume'
+  'remove': '<i class="">&#10005;</i>'
+  'error': ''
 
+
+$('.resume-already-upload').dropify messages:
+  'default': 'Upload new resume'
+  'replace': 'Replace resume'
+  'remove': '<i class="">&#10005;</i>'
+  'error': ''  
 
 if $(window).width() > 769  
   if $('.comp-logo').length 
@@ -400,6 +426,29 @@ if $('.readMore').length
     speed: 75
     collapsedHeight: 40
     lessLink: '<a href="#">Read less</a>'
+
+# $('.applicant-phone').intlTelInput
+#   # initialCountry: country
+#   separateDialCode: true
+#   geoIpLookup: (callback) ->
+#     $.get('https://ipinfo.io', (->
+#     ), 'jsonp').always (resp) ->
+#       countryCode = if resp and resp.country then resp.country else ''
+#       callback 91
+#       return
+#     return
+#   preferredCountries: [ 'IN' ]
+#   americaMode: false
+#   formatOnDisplay:false
+
+# $(document).ready ()->
+#   mobileNo = $('.applicant-phone').val()
+#   countryCode = $('input[name="country_code"]').val()
+#   $('.applicant-phone').intlTelInput("setNumber", "+"+countryCode).val mobileNo
+
+$(document).on 'countrychange', 'input[name="applicant_phone"]', (e, countryData)->  
+  $('input[name="country_code"]').val countryData.dialCode
+    
 
 
 

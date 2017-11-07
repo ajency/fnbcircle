@@ -48,6 +48,23 @@
     }
   });
 
+  $(document).on('click', '.remove_resume', function() {
+    return $.ajax({
+      type: 'post',
+      url: '/user/remove-resume',
+      data: {
+        'user': ''
+      },
+      success: function(data) {
+        $('.no_resume').removeClass('hidden');
+        return $('.has_resume').addClass('hidden');
+      },
+      error: function(request, status, error) {
+        throwError();
+      }
+    });
+  });
+
   $('input[name="salary_type"]').change(function(e) {
     $('.salary-amt').attr('data-parsley-required', true);
     console.log($('input[name="salary_lower"]').attr('salary-type-checked'));
@@ -233,6 +250,24 @@
     });
   }
 
+  $('.resume-upload').dropify({
+    messages: {
+      'default': 'Upload my resume',
+      'replace': 'Replace resume',
+      'remove': '<i class="">&#10005;</i>',
+      'error': ''
+    }
+  });
+
+  $('.resume-already-upload').dropify({
+    messages: {
+      'default': 'Upload new resume',
+      'replace': 'Replace resume',
+      'remove': '<i class="">&#10005;</i>',
+      'error': ''
+    }
+  });
+
   if ($(window).width() > 769) {
     if ($('.comp-logo').length) {
       companyLogo = $('.comp-logo').dropify({
@@ -386,5 +421,9 @@
       lessLink: '<a href="#">Read less</a>'
     });
   }
+
+  $(document).on('countrychange', 'input[name="applicant_phone"]', function(e, countryData) {
+    return $('input[name="country_code"]').val(countryData.dialCode);
+  });
 
 }).call(this);

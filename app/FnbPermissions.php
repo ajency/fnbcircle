@@ -38,6 +38,7 @@ function routePermission(){
 			 	//ui element
 				'submit_review_element_cls'=>['submit_for_review_job','submit_for_review_listing'],
 				'edit_permission_element_cls'=>['edit_job','edit_listing'],
+				'change_status_element_cls'=>['job_status'],
 			],
 
 		'normal_user_check' =>
@@ -144,6 +145,7 @@ $userReferenceKey : user coloumn name in the table (eg : user_id ,owner_id)
 **/
 function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
 	// var_dump('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
+
  	if(Auth::check() && $table){
  		$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 
@@ -151,7 +153,7 @@ function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
  	}
  	else
  		$result = false;
-	
+
 	return $result;
 }
 

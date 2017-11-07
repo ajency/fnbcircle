@@ -876,75 +876,11 @@ class AdminConfigurationController extends Controller
                                         '8'=> 'jobs.updated_at'
                                         );
 
-        
-        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
-
-
-        if($requestData['filters']['job_name']!="")
-        {
-  
-            $jobQuery->where('jobs.title','like','%'.$requestData['filters']['job_name'].'%');
-        }
-
-        if($requestData['filters']['company_name']!="")
-        {
-            $jobIds = Company:: where('title','like','%'.$requestData['filters']['company_name'].'%')
-                      ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
-                      ->pluck('job_companies.job_id')->toArray(); 
-
-            $jobQuery->whereIn('jobs.id',$jobIds);
-        }
-
-        if(isset($requestData['filters']['job_status']) && !empty($requestData['filters']['job_status']))
-        {
-            $jobQuery->whereIn('jobs.status',$requestData['filters']['job_status']);
-        }
-
-        if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
-        {
-            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
-
-            $jobQuery->whereIn('job_locations.city_id',$requestData['filters']['city']);
-
-            $jobQuery->distinct('jobs.id');
-        }
-
-        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
-        {
-            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
-
-            $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
-
-            $jobQuery->distinct('jobs.id');
-        }
-
-        if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
-        {
-            $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
-        }
-
-        if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
-        { 
-            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
-            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
-        }
-
-        if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
-        {
-            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
-            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
-        }
-
-         
-
+ 
         $columnName = 'jobs.created_at';
         $orderBy = 'desc';
         
-        if($orderValue['column'] == 5){ 
-            $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
-            $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
-
-        }
+        
         
         if(isset($columnOrder[$orderValue['column']]))
         {   
@@ -952,17 +888,15 @@ class AdminConfigurationController extends Controller
             $orderBy = $orderValue['dir'];
         }
 
+            
+        $orderDataBy = [$columnName => $orderBy];
+        
+        $jobController = new JobController;
+        $filterJobs = $jobController->filterJobs($requestData['filters'],$skip,$length,$orderDataBy);
 
-        if($length>1)
-        {  
-            $totalJobs = $jobQuery->get()->count(); 
-            $jobs = $jobQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
-        }
-        else
-        {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();  
-            $totalJobs = $jobs->count();  
-        }
+        $jobs = $filterJobs['jobs'];
+        $totalJobs = $filterJobs['totalJobs'];
+ 
 
 
         $jobsData = [];

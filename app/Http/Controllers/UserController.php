@@ -105,7 +105,7 @@ class UserController extends Controller
         $contact = $user->saveContactDetails($data,'job');
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
-        $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
+        $json      = json_encode(array("id" => $contact->id, "timestamp" => $timestamp));
         error_log($json); //send sms or email here
         switch ($request->contact_type){
             case "email": 
@@ -119,8 +119,10 @@ class UserController extends Controller
             case "mobile":
                 $sms = [
                     'to' => $data['country_code'].$data['contact_value'],
-                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for Phone verification. Do not share OTP for security reasons.'
+                    // 'message' => 'Use '.$OTP.' to verify your phone number. This code can be used only once and is valid for 5 hours.',
+                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for number verification. Do not share OTP for security reasons.',
                 ];
+                error_log($sms['message']);
                 sendSms('verification',$sms);
                 break;
         }
@@ -130,7 +132,7 @@ class UserController extends Controller
             ['id' => $contact->id,
              'verify' => $contact->is_verified,
              'value' => $contact->value,
-             'OTP' => $OTP]);
+            ]);
     }
 
     public function verifyContactOtp(Request $request){

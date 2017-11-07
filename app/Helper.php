@@ -434,7 +434,7 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
- 
+ 	
 }
 
 function getFileMimeType($ext){

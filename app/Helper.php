@@ -493,7 +493,7 @@ function firstTimeUserLoginUrl(){
 		if($userType == 'internal')
             $redirectUrl = '/admin-dashboard';
         else
-            $redirectUrl = '/customer-dashboard';
+            $redirectUrl = '/profile/basic-details';
     }
  
 	return $redirectUrl;

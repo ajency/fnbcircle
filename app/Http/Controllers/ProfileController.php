@@ -6,6 +6,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Hash;
+use App\UserCommunication;
 
 class ProfileController extends Controller
 {
@@ -36,6 +37,7 @@ class ProfileController extends Controller
                 $data['joined'] = $user->created_at->format('F Y');
                 $data['email']  = $user->getPrimaryEmail(true);
                 $data['phone']  = $user->getPrimaryContact();
+                if($data['phone'] == null) $data['phone'] = ['contact' => '', 'contact_region' => '91', 'is_verified'=>0];
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook')? true:false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
             default:
@@ -57,5 +59,29 @@ class ProfileController extends Controller
         request()->session()->flash('passwordChange', 'Password changed!');
 
         return  \Redirect::back();
+    }
+
+    public function changePhone()
+    {
+    	$req = request()->all();
+    	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->delete();
+    	if($req['contact_mobile_id']==''){
+    		$comm = New UserCommunication;
+    	}else{
+    		$comm = UserCommunication::find($req['contact_mobile_id']);
+    	}
+    	if($req['contactNumber'] !=""){
+    		$comm->type = 'mobile';
+    		$comm->object_type = 'App\\User';
+    		$comm->object_id = Auth::user()->id;
+    		$comm->value = $req['contactNumber'];
+    		$comm->country_code = $req['contact_country_code'][0];
+    		$comm->is_primary = 1;
+    		$comm->is_communication = 1;
+    		$comm->is_verified = 0;
+    		$comm->is_visible = 0;
+    		$comm->save();
+    	}
+    	return  \Redirect::back();
     }
 }

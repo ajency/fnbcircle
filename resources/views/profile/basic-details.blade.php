@@ -3,6 +3,7 @@
 @section('js')
     @parent
     <script type="text/javascript" src="/js/basic-details.js"></script>
+    <script type="text/javascript" src="/js/verification.js"></script>
     @if(Session::has('passwordChange')) 
     <script type="text/javascript">
     $('.alert-success').addClass('active');
@@ -190,6 +191,11 @@
                                     <div class="basic-detail">
                                         <div class="contactCard">
                                             <h3 class="sub-title basic-detail__title">Basic Details</h3>
+                                              <div class="verification-content">
+                                    <input type="hidden" name="object_type" value="App\User"/>
+                                    <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
+
+                                            <form method="POST" action="{{action('ProfileController@changePhone')}}" >
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
@@ -208,25 +214,33 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group p-t-10 m-b-0 flex-row space-between">
-                                                    <div class="flex-full">
-                                                        <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
-                                                        <input type="tel" class="form-control fnb-input float-input" id="contact_phone" value="{{$details['phone']['contact']}}">
-                                                    </div>
-                                                    @if($details['phone']['is_verified'] == 1) <span class="fnb-icons verified-icon">
-                                                    </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
-                                                    <div class="text-color">
-                                                       @if($details['phone']['is_verified'] == 0) @if($self) <a href="#" class="secondary-link verifyLink x-small">Verify</a> @else Not Verified  @endif @else Verified @endif 
-                                                    </div>
-                                                    
+                                                <div class="form-group p-t-10 m-b-0 flex-row space-between contact-info contact-info-mobile" contact-type="mobile">
+                                                    <div class="contact-container">
+                                                        <div class="flex-full">
+                                                            <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
+                                                            <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
+                                                            <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber">
+                                                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
+                                                            
+                                                        </div>
+                                                        @if($details['phone']['is_verified'] == 1) <span class="fnb-icons verified-icon">
+                                                        </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
+                                                        <div class="text-color">
+                                                           @if($details['phone']['is_verified'] == 0) @if($self) <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a><div name="" class="under-review">
+                                                    <input type="hidden" class="contact-visible" value="0"/>
+                                                </div> @else Not Verified  @endif @else Verified @endif 
+                                                        </div>
+                                                    </div>   
                                                 </div>
                                                 <div class="form-group p-t-10 m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="member">Member Since</label>
                                                     <input type="text" class="form-control fnb-input float-input" id="member" value="{{$details['joined']}}" disabled>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
-                                                   <button class="btn fnb-btn primary-btn full border-btn">Save</button>
+                                                   <button class="btn fnb-btn primary-btn full border-btn" @if($details['phone']['is_verified'] == 1) disabled @endif>Save</button>
                                                 </div> 
+                                            </div>
+                                            </form>
                                             </div>
                                         </div>
                                         @if($self and $details['password'])

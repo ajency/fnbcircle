@@ -140,6 +140,7 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/user/remove-resume','UserController@removeResume');
 	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
 	Route::post('/profile/password-change', 'ProfileController@changePassword');
+	Route::post('/profile/number-change', 'ProfileController@changePhone');
 });
 
 

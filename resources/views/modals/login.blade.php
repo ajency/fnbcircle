@@ -125,7 +125,7 @@
                             </div>
                         </form>
                         <div class="form-group m-b-0">
-                            <div class="text-primary back-login heavier m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
+                            <div class="text-primary back-login heavier m-t-20 dis-inline"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
                         </div>
                     </div>
                 </div>

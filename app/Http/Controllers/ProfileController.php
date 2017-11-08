@@ -78,8 +78,8 @@ class ProfileController extends Controller
     		$comm->country_code = $req['contact_country_code'][0];
     		$comm->is_primary = 1;
     		$comm->is_communication = 1;
-    		$comm->is_verified = 0;
-    		$comm->is_visible = 0;
+    		// $comm->is_verified = 0;
+    		// $comm->is_visible = 0;
     		$comm->save();
     	}
     	return  \Redirect::back();

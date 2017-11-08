@@ -219,7 +219,7 @@
                                                         <div class="flex-full">
                                                             <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
                                                             <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
-                                                            <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber">
+                                                            <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" @if($details['phone']['is_verified'] == 1) disabled @endif>
                                                             <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             
                                                         </div>

@@ -198,7 +198,7 @@
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" disabled>
+                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username">
                                                 </div>
                                                 <div class="form-group m-b-0 flex-row space-between">
                                                     <div class="flex-full">
@@ -243,7 +243,7 @@
                                                     <input type="text" class="form-control fnb-input float-input" id="member" value="{{$details['joined']}}" disabled>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
-                                                   <button class="btn fnb-btn primary-btn full border-btn" @if($details['phone']['is_verified'] == 1) disabled @endif>Save</button>
+                                                   <button class="btn fnb-btn primary-btn full border-btn" >Save</button>
                                                 </div> 
                                             </div>
                                             </form>

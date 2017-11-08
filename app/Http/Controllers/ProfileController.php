@@ -64,24 +64,31 @@ class ProfileController extends Controller
     public function changePhone()
     {
     	$req = request()->all();
-    	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->delete();
-    	if($req['contact_mobile_id']==''){
-    		$comm = New UserCommunication;
-    	}else{
-    		$comm = UserCommunication::find($req['contact_mobile_id']);
-    	}
-    	if($req['contactNumber'] !=""){
-    		$comm->type = 'mobile';
-    		$comm->object_type = 'App\\User';
-    		$comm->object_id = Auth::user()->id;
-    		$comm->value = $req['contactNumber'];
-    		$comm->country_code = $req['contact_country_code'][0];
-    		$comm->is_primary = 1;
-    		$comm->is_communication = 1;
-    		// $comm->is_verified = 0;
-    		// $comm->is_visible = 0;
-    		$comm->save();
-    	}
+
+        $user = Auth::user();
+        $user->name = $req['username'];
+        $user->save();
+        $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->where('is_primary',1)->first();
+        if($comm_obj==null or $comm_obj->is_verified == 0){
+        	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->delete();
+        	if($req['contact_mobile_id']==''){
+        		$comm = New UserCommunication;
+        	}else{
+        		$comm = UserCommunication::find($req['contact_mobile_id']);
+        	}
+        	if($req['contactNumber'] !=""){
+        		$comm->type = 'mobile';
+        		$comm->object_type = 'App\\User';
+        		$comm->object_id = Auth::user()->id;
+        		$comm->value = $req['contactNumber'];
+        		$comm->country_code = $req['contact_country_code'][0];
+        		$comm->is_primary = 1;
+        		$comm->is_communication = 1;
+        		// $comm->is_verified = 0;
+        		// $comm->is_visible = 0;
+        		$comm->save();
+        	}
+        }
     	return  \Redirect::back();
     }
 }

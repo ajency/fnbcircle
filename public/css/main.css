@@ -12686,6 +12686,15 @@ dl dd {
   .login-modal .alert {
     margin-top: 2em;
   }
+  .login-modal .forget-password {
+    margin-top: 0;
+  }
+  .login-modal .forget-password .alert {
+    margin-top: 0;
+  }
+  .login-modal .alert .close {
+    background-color: transparent;
+  }
   .forgot-actions label,
   .forgot-actions .forget-link {
     font-size: 0.9em;

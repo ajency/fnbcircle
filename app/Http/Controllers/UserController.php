@@ -105,7 +105,7 @@ class UserController extends Controller
         $contact = $user->saveContactDetails($data,'job');
         $OTP       = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
-        $json      = json_encode(array("id" => $contact->id, "timestamp" => $timestamp));
+        $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
         error_log($json); //send sms or email here
         switch ($request->contact_type){
             case "email": 

@@ -465,7 +465,6 @@ function sendUserRegistrationMails($user){
     $data['from'] = config('constants.email_from'); 
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [$userEmail];
-    $data['cc'] = 'prajay@ajency.in';
     $data['subject'] = "Welcome to FnB Circle!";
     $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
     sendEmail('welcome-user', $data);
@@ -475,7 +474,6 @@ function sendUserRegistrationMails($user){
     $data['from'] = config('constants.email_from'); 
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [config('constants.email_from')];
-    $data['cc'] = 'prajay@ajency.in';
     $data['subject'] = "New user registration on FnB Circle.";
     $data['template_data'] = ['user' => $user];
     sendEmail('user-register', $data);

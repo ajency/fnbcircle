@@ -119,7 +119,7 @@
                             <div class="form-group text-left m-b-0">
                                 <input type="email" class="form-control fnb-input float-input required" id="forgot_password_email" name="forgot_password_email" placeholder="Email Address" data-parsley-trigger="change" data-parsley-type="email" data-parsley-errors-container="#email-error-container">
                             </div>
-                            <div id="email-error-container" class="fnb-error"></div>
+                            <div id="email-error-container" class="fnb-errors"></div>
                             <div class="form-group m-b-0 m-t-20">
                                 <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button" id="forgot-password-form-btn"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                             </div>

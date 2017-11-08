@@ -41,10 +41,10 @@ class CustomResetPassword extends Notification
      */
     public function toMail($notifiable)
     {   
-        $email = $notifiable->email;
-        $reset_password_url = url(config('app.url').route('password.reset', $this->token, false)) . "?email=" . $email;
+        $reset_password_url = url(config('app.url').route('password.reset', $this->token, false)) . "?email=" . $notifiable->email;
         return (new MailMessage)
-            ->view('email.forgot-password', ['email' => $email, 'reset_password_url' => $reset_password_url]);
+            ->subject("Reset password for FnBCircle account")
+            ->view('email.forgot-password', ['name' => $notifiable->name, 'email' => $notifiable->email, 'reset_password_url' => $reset_password_url]);
             /*->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset Password', url(config('app.url').route('password.reset', $this->token, false)))
             ->line('If you did not request a password reset, no further action is required.');*/

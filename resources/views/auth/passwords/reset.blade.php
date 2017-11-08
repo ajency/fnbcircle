@@ -1,78 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 <div class="register-holder forget-holder p-t-30">
         <div class="container">
             <div class="row">
@@ -88,27 +16,27 @@
 
                         <div class="row">
                             <div class="col-sm-8 col-lg-offset-2 sign-up-row">
-                                <form class="" method="POST" action="http://stage.fnbcircle.com/register" id="register_form">
-                                    <input type="hidden" name="_token" value="nqsuZoHlahPMuKNn0E562uU628DgkN5jWr4B9Whf">
+                                <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="token" value="{{ $token }}">
 
                                     <div class="row flex-row flex-wrap signup-container">
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-8">
                                             <div class="form-group m-b-10 p-b-10">
-                                                <label class="m-b-0 text-lighter float-label required" for="new-pass">New Password</label>
-                                                <input id="new-pass" type="password" class="form-control fnb-input float-input" name="name" value="" required="">
-                                                <label id="name-error" class="fnb-errors hidden"></label>
+                                                <!-- <label class="m-b-0 text-lighter float-label required" for="new-pass">Email Address</label> -->
+                                                <input id="email" type="hidden" class="form-control fnb-input float-input" name="email" value="{{ $email or old('email') }}" required="">
+                                                @if ($errors->has('email'))
+                                                    <label id="name-error" class="fnb-errors hidden"><strong>{{ $errors->first('email') }}</strong></label>
+                                                @endif
                                             </div>
-                                            <div class="form-group m-b-10 p-b-10">
-                                                <label class="m-b-0 text-lighter float-label required" for="confirm-password">Confirm Password</label>
-                                                <input id="confirm-password" type="password" class="form-control fnb-input float-input" name="name" value="" required="">
-                                                <label id="name-error" class="fnb-errors hidden"></label>
-                                            </div>
+                                            @include('auth.passwords.password-set', array("old_password" => false, "confirm_password" => true))
+                                            
                                         </div>
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-12">
                                              <div class="form-group text-center m-t-20 m-b-20 signBtn">
-                                                <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn full">Reset<i class="fa fa-circle-o-notch fa-spin hidden"></i>
+                                                <button type="submit" id="" class="btn btn-primary btn-lg fnb-btn primary-btn border-btn full">Reset Password<i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                                 </button>
                                             </div>
                                         </div>

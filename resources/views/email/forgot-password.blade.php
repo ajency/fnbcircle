@@ -15,7 +15,7 @@
                 <div style="margin-bottom: 0.8em;">
                     <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
                         You are receiving this email because we received a password reset request for your account.<br>
-                        <a href="{{ $reset_password_url }}" target="_blank">Reset Password</a><br>
+                        <a href="{{ $reset_password_url }}" class="btn" target="_blank">Reset Password</a><br>
                         or<br>
                         You can copy paste the link: {{ $reset_password_url }}<br>
                         If you did not request a password reset, no further action is required.<br><br>

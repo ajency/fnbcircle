@@ -247,6 +247,7 @@ class User extends Authenticatable
 
 
 
+    /* Refer Illuminate\Auth\Passwords\CanResetPassword.php */
     /**
      * Send the password reset notification.
      *

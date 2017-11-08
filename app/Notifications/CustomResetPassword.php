@@ -33,14 +33,14 @@ class CustomResetPassword extends Notification
         return ['mail'];
     }
 
+    /*  Original Password reset class is Illuminate\Auth\Notifications\ResetPassword.php  */
     /**
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {   
+    public function toMail($notifiable) {   
         $reset_password_url = url(config('app.url').route('password.reset', $this->token, false)) . "?email=" . $notifiable->email;
         return (new MailMessage)
             ->subject("Reset password for FnBCircle account")

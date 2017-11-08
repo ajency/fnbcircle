@@ -147,6 +147,9 @@ Route::group( ['middleware' => ['auth']], function() {
 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
 	Route::post('/user/remove-resume','UserController@removeResume');
+	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
+	Route::post('/profile/password-change', 'ProfileController@changePassword');
+	Route::post('/profile/number-change', 'ProfileController@changePhone');
 });
 
 

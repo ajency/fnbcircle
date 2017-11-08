@@ -458,10 +458,11 @@
 	.gs-steps{
 		a{
 			padding: 10px 0;
+			margin: 5px 0;
 		}
 	}
 
-	.fly-out__content{
+	.infoCard{
 		position: absolute;
 	    top: 3em;
 		.person-info{
@@ -515,7 +516,11 @@
 		    }
 		}
 	}
-	
+	&.edit-mode{
+		.topLabel{
+			visibility: hidden;
+		}
+	}
 }
 
 dl{
@@ -555,10 +560,10 @@ dl{
 	}
 }
 .enquiry-made-by{
-		padding: 0.8em 0.4em;
-	    margin-top: 2em;
-	    background-color: #defffe;
-	    font-size: 1.1em;
+		padding: 0.6em 0.8em;
+	    margin-bottom: 1em;
+	    background-color: rgba(253, 245, 191, 0.63);
+	    font-size: 1.05em;
 	    border-radius: 5px;
 	    color: #656565;
     .fnb-label{
@@ -573,6 +578,10 @@ dl{
     a{
     	color: #000;
     	text-transform: capitalize;
+    	font-size: 0.9em;
+    	&.primary-link{
+    		color: @accent-primary;
+    	}
     }
 }
 
@@ -700,11 +709,250 @@ dl{
 }
 
 
+.activityTab{
+	margin: 2em 0 1em 0;
+    display: flex;
+    border-bottom: 1px solid #e6e3e3;
+    li{
+    	float: none;
+    	flex: 1;
+    	text-align: center;
+    	a{
+    		color: #a2a2a2;
+    		font-size: 1.1em;
+    		&:hover{
+    			background-color: transparent;
+    			border: 0;
+    		}
+    	}
+    	&.active{
+    		a{
+    			border-color: @accent-primary;
+			    color: @accent-primary;
+			    border: 0;
+			    border-bottom: 2px solid;
+    			font-weight: 500;
+    			&:hover,&:active,&:focus{
+    				background-color: transparent;
+    			}
+    		}
+    	}
+    }
+}
+
+.enquire-container{
+	margin-bottom: 2em;
+	&:last-child{
+		margin-bottom: 0;
+	}
+}
+
+.enquiriesRow{
+	margin-bottom: 0;
+	align-items: flex-start;
+	&__cols{
+		flex: 1 0 33.33%;
+		&.last-col{
+			flex: 1 0 100%;
+			dd{
+				margin-bottom: 0;
+			}
+		}
+	}
+	.describe-points{
+		margin-bottom: 0;
+		margin-top: 0.3em;
+		font-size: 0.95em;
+		i{
+			padding: 0 5px 0 0;
+		}
+	}
+	&.withCat{
+		.enquiriesRow__cols{
+			flex: 1 0 100%;
+		}
+	}
+	.fnb-cat{
+		li{
+			padding: 0.3em 1.2em;
+			a{
+				font-size: 0.9em;
+			}
+		}
+	}
+}
+
+
+.contentSeperator{
+	margin-bottom: 2em;
+    // margin-top: -1em;
+}
+
+.lastUpdated{
+	// padding-bottom: 0.5em;
+    // margin-bottom: 0.5em;
+}
+
+.mainDate{
+	// background-color: #eee;
+    padding: 0.5em;
+    margin: 1.5em 0;
+    // border-bottom: 1px solid @accent-primary;
+    color: #676767;
+    position: relative;
+    text-align: center;
+    &:before{
+    	content: '';
+    	position: absolute;
+    	top: 50%;
+    	left: 0;
+    	background-color: #d8d8d8;
+    	width: 100%;
+    	height: 1px;
+    }
+    span{
+    	position: relative;
+    	padding: 0.7em;
+    	background-color: #eee;
+    	border-radius: 50px;
+    }
+}
+
+.edit-mode{
+	.sectionTitle{
+		margin-top: -70px;
+		color: #fff;
+		font-size: 1.8em;
+	}
+}
+
+
+// details form
+
+.basic-detail{
+	&__title{
+		margin-top: 2.5em;
+    	background-color: #eee;
+    	padding: 0.8em;
+	}
+	&__col{
+		padding: 0 0.8em 0.2em 0.8em;
+		.form-group{
+			flex: 1 0 calc(~'50% - 2em');
+			margin-right: 2em;
+    		margin-bottom: 0.5em;
+		}
+	}
+	.save-btn{
+		flex: 1 0 100%;
+		.fnb-btn{
+			padding: 0.7em 3em;
+    		font-size: 0.95em;
+		}
+	}
+	.float-label{
+		font-size: 0.95em;
+		&.filled{
+			font-size: 1.1em;
+			color: #4a4a4a;
+			&.full-label{
+				transform: translateX(-1em) translateY(0.5em) scale(0.75);
+			}
+		}
+	}
+	.verifyLink{
+		flex: 0.2;
+    	text-align: center;
+	}
+	.verified{
+		font-size: 0.85em;
+		&-icon{
+			transform: scale(0.6);
+			width: 25px;
+		}
+	}
+}
+
+.describe-best{
+	.panel-default{
+		margin-bottom: 1.5em;
+    	border-radius: 0;
+    	border: 0;
+    	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.11);
+    	.panel-heading{
+    		background-color: transparent;
+    		border: 0;
+    		border-bottom: 1px solid #ddd;
+    		padding: 0;
+    	}
+    	a{
+    		font-size: 0.9em;
+    		color: #585858;
+    		font-weight: 400;
+    		flex: 1;
+    		display: flex;
+    		justify-content: space-between;
+    		padding: 13px 10px;
+    		&:hover,&:active,&:focus{
+    			text-decoration: none;
+    		}
+    		&[aria-expanded='true']{
+    			.fa-plus-circle{
+    				&:before{
+    					content: '\f056';
+    				}
+    			}
+    		}
+    	}
+    	.option-col{
+    		.form-group{
+    			flex: 1 0 calc(~'50% - 2em');
+				margin-right: 2em;
+    		}
+    		.float-label{
+				font-size: 0.95em;
+				&.filled{
+					font-size: 1.1em;
+					color: #4a4a4a;
+					&.full-label{
+						transform: translateX(-1em) translateY(0.5em) scale(0.75);
+					}
+				}
+			}
+    	}
+	}
+	.checkbox{
+		margin-left: 0.5em;
+    	margin-right: 0.1em;
+		&:before{
+			background-color: #fff;
+    		color: #8e8e8e;
+    		font-size: 1.05em;
+		}
+	}
+}
+
+.contactCard{
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.22);
+}
+
+.save-best-data{
+	margin: 2.5em 0 1.5em 0;
+	.fnb-btn{
+		font-size: 1em;
+    	padding: 0.6em 2.5em;
+    	border-radius: 0;
+	}
+}
+
+
+
+
 
 @media screen and (max-width: @mobile){
 	.profile-stats{
 		.breadcrums-container{
-			margin-top: 0;
+			// margin-top: 0;
 		}
 		&__numbers{
 			padding-bottom: 1em;
@@ -724,6 +972,23 @@ dl{
 		.stat-caption{
 			font-size: 1em;
 		}
+		.infoCard{
+			top: 2em;
+    		left: 0;
+    		right: 0;
+    		margin: 0 auto;
+    		width: 90%;
+    		.person-info{
+    			padding: 1em 1.5em;
+    			.email-row{
+    				margin-bottom: 1em;
+    			}
+    		}
+    		.nav{
+    			margin: 1.5em 0.5em 0 0.5em;
+    			border-bottom: 0;
+    		}
+		}
 	}
 	.enquiries-made{
 		font-size: 1.2em;
@@ -733,12 +998,32 @@ dl{
 		padding: 1em;
     	line-height: 1.8;
     	font-size: 1.1em;
+    	flex-direction: column;
+    	.primary-link{
+    		padding-top: 0.8em;
+    	}
+	}
+	.Profile{
+		hr{
+			margin: 15px 0 10px 0;
+		}
 	}
 	.person-info{
 		position: static;
 		margin-left: 0;
     	box-shadow: none;
     	background-color: inherit;
+    	.Profile__header{
+    		.fa{
+    			font-size: 2.5em;
+    		}
+    	}
+    	.name-text{
+    		font-size: 1em;
+    		& + div{
+    			font-size: 0.9em;
+    		}
+    	}
     	.Profile__footer{
     		.speciality{
     			font-size: 0.9em;
@@ -755,6 +1040,72 @@ dl{
 		.detail-col{
 			flex: 1 0 100%;
     		padding: 0.5em 0;
+		}
+	}
+	.profile-info{
+		.fly-out__content{
+			& > .tab-content{
+				padding: 0 1em;
+			}
+			.activityTab{
+				margin-top: 0.5em;
+				a{
+					height: 100%;
+					font-size: 0.95em;
+					span{
+						display: block;
+					}
+				}
+			}
+		}
+	}
+	.enquiriesRow{
+		.describe-points{
+			display: flex;
+		}
+		&.withCat.withCat{
+			.enquiriesRow__cols{
+				flex: 1 0 33.33%;
+			}
+		}
+	}
+	.contactCard{
+		margin-bottom: 2em;
+		margin-top: 2em;
+	}
+	.basic-detail{
+		&__title{
+			margin-top: 0;
+		}
+		&__col{
+			.form-group{
+				flex: 1 0 100%;
+				margin-right: 0;
+			}
+		}
+		.save-btn{
+			text-align: center;
+		}
+	}
+	.save-best-data{
+		margin: -5px 0;
+		.fnb-btn{
+			font-size: 0.9em;
+    		padding: 0.5em 2em;
+		}
+	}
+	.describe-best{
+		.panel-default{
+			&:first-child{
+				margin-top: 2em;
+				margin-bottom: 1em;
+			}
+			.option-col{
+				.form-group{
+					flex: 1 0 100%;
+					margin-right: 0;
+				}
+			}
 		}
 	}
 }
@@ -795,7 +1146,7 @@ dl{
 		}
 	}
 	.enquiries-made,.enquiry-made-by{
-		font-size: 1.05em;
+		font-size: 0.95em;
 	}
 	.activity-panel{
 		margin-left: -15px;
@@ -839,17 +1190,7 @@ dl{
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.not-verified{
+	width: 20px;
+    color: #ff353b;
+}

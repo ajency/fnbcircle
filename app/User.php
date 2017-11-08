@@ -8,6 +8,7 @@ use App\ListingCommunication;
 use App\UserCommunication;
 use App\City;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\CustomResetPassword as ResetPasswordNotification;
 use Ajency\FileUpload\FileUpload;
 
 use Ajency\User\Ajency\userauth\UserAuth;
@@ -34,6 +35,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public static function findUsingEmail($email_id){
+        return UserCommunication::where('value', $email_id)->where('type','email')->where('is_primary',1)->where('object_type','App\\User')->first()->object()->first();
+    }
+
     public function listing()
     {
         return $this->hasMany('App\Listing', 'owner_id');
@@ -55,11 +60,10 @@ class User extends Authenticatable
         return $this->hasMany('App\UserCommunication', 'object_id')->where('object_type', 'App\User');
     }
 
-    public function getPrimaryEmail() { // Get the primary Email
+    public function getPrimaryEmail($return_array = false) { // Get the primary Email
         $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User'], ['type', 'email'], ['is_primary', true]])->first();
-
         if($comm_obj) {
-            return $comm_obj->value;
+            return (!$return_array)? $comm_obj->value : ['email' => $comm_obj->value, 'is_verified' => $comm_obj->is_verified];
         } else {
             return null;
         }
@@ -245,4 +249,14 @@ class User extends Authenticatable
       
     }
  
+    /* Refer Illuminate\Auth\Passwords\CanResetPassword.php */
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 }

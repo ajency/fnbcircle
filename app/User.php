@@ -8,6 +8,7 @@ use App\ListingCommunication;
 use App\UserCommunication;
 use App\City;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\CustomResetPassword as ResetPasswordNotification;
 use Ajency\FileUpload\FileUpload;
 
 use Ajency\User\Ajency\userauth\UserAuth;
@@ -248,4 +249,14 @@ class User extends Authenticatable
       
     }
  
+    /* Refer Illuminate\Auth\Passwords\CanResetPassword.php */
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 }

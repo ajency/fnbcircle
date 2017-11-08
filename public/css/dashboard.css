@@ -64,8 +64,7 @@
 }
 .fnb-btn:active,
 .fnb-btn:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   outline: 0;
 }
 .fnb-btn.bnw {
@@ -357,8 +356,7 @@ a:hover {
 }
 .nav.side-menu > li.active > a {
   text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
-          box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
 }
 .nav.child_menu {
   display: none;
@@ -599,8 +597,7 @@ table.dataTable thead th.select-checkbox:before {
   left: 50%;
   width: 12px;
   height: 12px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   top: auto;
   bottom: 14px;
   border-color: #686565;
@@ -678,8 +675,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 .form-control.no-edit {
   padding: 0;
   border: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   height: auto;
   font-size: inherit;
   pointer-events: none;
@@ -798,16 +794,13 @@ table.dataTable tr th.selected.select-checkbox:after {
     right: -8px;
     background-color: #fff;
     color: #000;
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   }
   .parent_cat_icon .dropify-wrapper .dropify-clear {
     -webkit-transition: inherit;
     transition: inherit;
   }
 }
-<<<<<<< HEAD
-=======
 .parent_cat_icon .parsley-errors-list {
   position: absolute;
   bottom: -24px;

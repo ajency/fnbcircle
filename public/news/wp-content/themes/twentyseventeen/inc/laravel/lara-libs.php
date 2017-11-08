@@ -2,18 +2,12 @@
 
 function loginCreateWpUserByLaravelEMail()
 {
-    /*echo "is_admin()";
-    var_dump(is_admin());
-    die();*/
-    echo "_COOKIE['laravel_session']";
-    var_dump($_COOKIE['laravel_session']);
+    
 
     //If accessing the news pages
     if (!is_admin()) {
 
-        echo "!isadmin";
-
-        echo "isadmin";
+        
         $url     = LARAVELURL . "/wp-get-logged-in-laravel-user";
         $mch     = curl_init();
         $headers = array(

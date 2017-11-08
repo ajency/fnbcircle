@@ -3,7 +3,6 @@
 @section('js')
     @parent
     <script type="text/javascript" src="/js/basic-details.js"></script>
-    <script type="text/javascript" src="/js/verification.js"></script>
     @if(Session::has('passwordChange')) 
     <script type="text/javascript">
     $('.alert-success').addClass('active');
@@ -223,12 +222,19 @@
                                                             <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             
                                                         </div>
-                                                        @if($details['phone']['is_verified'] == 1) <span class="fnb-icons verified-icon">
-                                                        </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
-                                                        <div class="text-color">
-                                                           @if($details['phone']['is_verified'] == 0) @if($self) <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a><div name="" class="under-review">
-                                                    <input type="hidden" class="contact-visible" value="0"/>
-                                                </div> @else Not Verified  @endif @else Verified @endif 
+                                                        <div class="verified">
+                                                            @if($details['phone']['is_verified'] == 1)
+                                                              <span class="fnb-icons verified-icon"></span> 
+                                                            @else 
+                                                              <i class="fa fa-times not-verified" aria-hidden="true"></i> 
+                                                            @endif
+                                                            <div class="text-color">
+                                                            @if($details['phone']['is_verified'] == 0) @if($self) 
+                                                              <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
+                                                              <div name="" class="under-review">
+                                                                <input type="hidden" class="contact-visible" value="0"/>
+                                                              </div> @else Not Verified  @endif @else Verified @endif 
+                                                            </div>
                                                         </div>
                                                     </div>   
                                                 </div>

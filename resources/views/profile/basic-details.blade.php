@@ -2,7 +2,15 @@
 
 @section('js')
     @parent
-    
+    <script type="text/javascript" src="/js/basic-details.js"></script>
+    @if(Session::has('passwordChange')) 
+    <script type="text/javascript">
+    $('.alert-success').addClass('active');
+    setTimeout((function() {
+      $('.alert-success').removeClass('active');
+    }), 5000);
+    </script>
+    @endif
 @endsection
 
 @section('main-content')
@@ -221,10 +229,10 @@
                                                 </div> 
                                             </div>
                                         </div>
-                                        @if($self)
+                                        @if($self and $details['password'])
                                         <div class="contactCard">
                                             <h3 class="sub-title basic-detail__title">Change Password</h3>
-                                        <form method="POST" action="{{action('ProfileController@changePassword')}}">
+                                        <form id="password_form" method="POST" action="{{action('ProfileController@changePassword')}}">
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="password">Old Password</label>
@@ -247,7 +255,7 @@
                                                     <label id="password_confirm_errors" class="fnb-errors hidden"></label>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
-                                                   <button class="btn fnb-btn primary-btn full border-btn" type="submit">Save</button>
+                                                   <button class="btn fnb-btn primary-btn full border-btn" type="submit" disabled id="password_save">Save</button>
                                                 </div>
                                             </div>
                                             </form>
@@ -256,4 +264,15 @@
                                         
                                     </div>
                                 </div>
+
+@if(Session::has('passwordChange')) 
+<div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <div class="flex-row">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+        Password changed successfully.
+    </div>
+</div>
+
+@endif
 @endsection

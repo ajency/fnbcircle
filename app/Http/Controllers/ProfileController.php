@@ -36,6 +36,7 @@ class ProfileController extends Controller
                 $data['joined'] = $user->created_at->format('F Y');
                 $data['email']  = $user->getPrimaryEmail(true);
                 $data['phone']  = $user->getPrimaryContact();
+                $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook')? true:false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
             default:
                 abort(404);
@@ -53,7 +54,7 @@ class ProfileController extends Controller
         request()->user()->fill([
             'password' => Hash::make(request()->input('new_password')),
         ])->save();
-        request()->session()->flash('success', 'Password changed!');
+        request()->session()->flash('passwordChange', 'Password changed!');
 
         return  \Redirect::back();
     }

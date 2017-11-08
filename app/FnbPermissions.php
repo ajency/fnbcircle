@@ -221,7 +221,7 @@ function isFirstTimeLoginRedirect($currentUrl){
         if($userType == 'internal')
             return '/admin-dashboard';
         else
-            return '/customer-dashboard';
+            return '/profile/basic-details';
     }
     else
     	return $currentUrl;

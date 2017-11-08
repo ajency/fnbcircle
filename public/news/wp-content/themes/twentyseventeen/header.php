@@ -27,7 +27,7 @@ loginCreateWpUserByLaravelEMail();
 <body <?php body_class(); ?>>
 
 <!-- -->	
-<div id="laravel-header-container"><i class="fa fa-circle-o-notch fa-spin fa-3x" style="color:#EC6D4B"></i></div>
+<div id="laravel-header-container"><i class="fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div>
 
 
 <div id="page" class="site">

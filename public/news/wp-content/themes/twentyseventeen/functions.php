@@ -605,7 +605,7 @@ function fnbcircleWpScripts(){
 
 	wp_enqueue_script('wpnews', get_template_directory_uri() . '/assets/js/news.js', array('jquery'), true, true);
 	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);	
-	wp_localize_script('wpnews', 'LARAURL', LARAVELURL);
+	wp_localize_script('wpnews', 'LARAURL', get_laravel_site_url());
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
 
@@ -622,8 +622,11 @@ add_action( 'after_setup_theme', 'wpdocs_after_setup_theme' );
 
 
 
-function search_by_cat()
-{
+
+
+require_once("inc/laravel/lara-libs.php");
+
+function search_by_cat(){
     global $wp_query;
     if (is_search()) {
         $cat = intval($_GET['cat']);
@@ -638,8 +641,7 @@ add_action('pre_get_posts', 'search_by_cat');
 
 
 
-function remove_page_from_query_string($query_string)
-{ 
+function remove_page_from_query_string($query_string){ 
     if ($query_string['name'] == 'page' && isset($query_string['page'])) {
         unset($query_string['name']);
         // 'page' in the query_string looks like '/2', so i'm spliting it out
@@ -694,26 +696,39 @@ function my_post_queries( $query ) {
 
 function fix_slash( $string, $type )
 {
-global $wp_rewrite;
-if ( $wp_rewrite->use_trailing_slashes == false )
-{
-    if ( $type != 'single' && $type != 'category' )
-        return trailingslashit( $string );
+	global $wp_rewrite;
+	if ( $wp_rewrite->use_trailing_slashes == false )
+	{
+	    if ( $type != 'single' && $type != 'category' )
+	        return trailingslashit( $string );
 
-    if ( $type == 'single' && ( strpos( $string, '.html/' ) !== false ) )
-        return trailingslashit( $string );
+	    if ( $type == 'single' && ( strpos( $string, '.html/' ) !== false ) )
+	        return trailingslashit( $string );
 
-    if ( $type == 'category' && ( strpos( $string, 'category' ) !== false ) )
-    {
-        $aa_g = str_replace( "/category/", "/", $string );
-        return trailingslashit( $aa_g );
-    }
-    if ( $type == 'category' )
-        return trailingslashit( $string );
-}
-return $string;
+	    if ( $type == 'category' && ( strpos( $string, 'category' ) !== false ) )
+	    {
+	        $aa_g = str_replace( "/category/", "/", $string );
+	        return trailingslashit( $aa_g );
+	    }
+	    if ( $type == 'category' )
+	        return trailingslashit( $string );
+	}
+	return $string;
 }
 
 //add_filter( 'user_trailingslashit', 'fix_slash', 55, 2 );
-//
-require_once("inc/laravel/lara-libs.php");
+
+
+
+
+function get_laravel_site_url(){
+
+	if(defined('LARAVELURL') ){
+        return LARAVELURL;
+    }
+    else{
+        $laravel_site_url = "http://".$_SERVER['HTTP_HOST'];
+        return $laravel_site_url;
+    }
+
+}

@@ -38,7 +38,7 @@
 				get_template_part( 'template-parts/footer/site', 'info' );
 				?>
 			</div><!-- .wrap -->
-			<div id="laravel-footer-container"><i class="fa fa-circle-o-notch fa-spin fa-3x" style="color:#EC6D4B"></i></div></div>
+			<div id="laravel-footer-container"><i class="fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div></div>
 		</footer><!-- #colophon -->
 	</div><!-- .site-content-contain -->
 </div><!-- #page -->

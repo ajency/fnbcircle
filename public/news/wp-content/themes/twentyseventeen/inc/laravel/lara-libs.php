@@ -3,12 +3,12 @@
 function loginCreateWpUserByLaravelEMail()
 {
     
-
     //If accessing the news pages
     if (!is_admin()) {
 
         
-        $url     = LARAVELURL . "/wp-get-logged-in-laravel-user";
+        $url     = get_laravel_site_url() . "/wp-get-logged-in-laravel-user";
+        
         $mch     = curl_init();
         $headers = array(
             'Content-Type: application/json',

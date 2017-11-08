@@ -1,6 +1,5 @@
 .fnb-btn {
   font-size: 1.05em;
-  -webkit-transition: all 0.6s ease;
   transition: all 0.6s ease;
   font-weight: 500;
   text-transform: capitalize;
@@ -133,11 +132,8 @@
   width: 100%;
   margin-bottom: 1em;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
 }
 .social-btn.fb {
   background-color: #3b5998;
@@ -250,14 +246,10 @@ a:hover {
   margin-bottom: 20px;
 }
 .flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .flex-space-between {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
 /* Vertical Align modal */
 .modal {
@@ -314,7 +306,6 @@ a:hover {
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
   opacity: 1;
-  -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
 .nav > li > a {
@@ -413,8 +404,6 @@ a:hover {
   width: 230px;
   padding: 0;
   position: absolute;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 .nav-md .right_col {
@@ -428,17 +417,14 @@ a:hover {
     position: fixed;
     top: 0;
     left: 0;
-    -webkit-transform: translate3d(-500px, 0, 0);
-            transform: translate3d(-500px, 0, 0);
-    -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
+    transform: translate3d(-500px, 0, 0);
     transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
   .nav-md .col-md-3.left_col .left_col {
     width: 280px;
   }
   .nav-md .col-md-3.left_col.active {
-    -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   .nav-md .right_col {
     margin-left: 0;
@@ -717,13 +703,9 @@ table.dataTable tr th.selected.select-checkbox:after {
   font-size: 1.1em;
 }
 .bulk-failure .listings__links {
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
   padding-top: 1em;
-  -webkit-box-align: inherit;
-      -ms-flex-align: inherit;
-          align-items: inherit;
+  align-items: inherit;
   margin-bottom: -1.2em;
 }
 .bulk-failure .listings__links li {
@@ -797,7 +779,6 @@ table.dataTable tr th.selected.select-checkbox:after {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.27);
   }
   .parent_cat_icon .dropify-wrapper .dropify-clear {
-    -webkit-transition: inherit;
     transition: inherit;
   }
 }
@@ -812,5 +793,3 @@ table.dataTable tr th.selected.select-checkbox:after {
     margin-left: 1em;
   }
 }
-/*# sourceMappingURL=dashboard.css.map */
->>>>>>> bl-demo-2

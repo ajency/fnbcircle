@@ -598,14 +598,13 @@ function custom_excerpt_length( $length ) {
 
 function fnbcircleWpScripts(){
 
-	wp_enqueue_style('bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(),null);
+	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), null );	
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(),null);
 	wp_enqueue_style('lara-styles', get_template_directory_uri() . '/assets/css/lara-styles.css', array(),null);
 
 
 	wp_enqueue_script('wpnews', get_template_directory_uri() . '/assets/js/news.js', array('jquery'), true, true);
-	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);
-	wp_enqueue_script('bootstrap-css', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array('jquery'), true, false);
+	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);	
 	wp_localize_script('wpnews', 'LARAURL', LARAVELURL);
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
@@ -716,3 +715,5 @@ return $string;
 }
 
 //add_filter( 'user_trailingslashit', 'fix_slash', 55, 2 );
+//
+require_once("inc/laravel/lara-libs.php");

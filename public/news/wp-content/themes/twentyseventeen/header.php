@@ -11,7 +11,7 @@
  * @since 1.0
  * @version 1.0
  */
-require_once("inc/laravel/lara-libs.php");
+
 loginCreateWpUserByLaravelEMail();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">

@@ -26,7 +26,7 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('/search-business', 'ListViewController@searchBusiness');
 });
 
-Route::get('/test','TestController@index');
+// Route::get('/test','TestController@index');
 // Forgot Password
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 

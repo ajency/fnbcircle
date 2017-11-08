@@ -812,7 +812,7 @@ class AdminConfigurationController extends Controller
             $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
-                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'">'.$user->name.'</a>',
+                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
                             'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
                             'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',

@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('title', $pageName )
+
+
 @section('css')
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/magnify.css') }}">
     <!-- Dropify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dropify.css') }}">
     <!-- tags css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.flexdatalist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.css') }}">
     <!-- multiselect -->
     <link href="{{ asset('css/bootstrap-multiselect.min.css') }}" rel="stylesheet">
     <!-- Ckeditor -->
@@ -21,7 +23,7 @@
     <!-- Dropify -->
     <script type="text/javascript" src="{{ asset('js/dropify.js') }}"></script>
     <!-- jquery tags -->
-    <script type="text/javascript" src="{{ asset('js/flex-datalist/jquery.flexdatalist.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
 
       <script type="text/javascript" src="{{ asset('js/underscore-min.js') }}" ></script>
     <!-- Custom file input -->
@@ -79,23 +81,11 @@
             <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container jobs-listing edit-mode  ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
-                    <ul class="fnb-breadcrums flex-row">
-                        <li class="fnb-breadcrums__section">
-                            <a href="">
-                                <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li class="fnb-breadcrums__section">
-                            <a href="">
-                                <p class="fnb-breadcrums__title">/</p>
-                            </a>
-                        </li>
-                        <li class="fnb-breadcrums__section">
-                            <a href="#">
-                                <p class="fnb-breadcrums__title">{{ $breadcrumb }}</p>
-                            </a>
-                        </li>
-                    </ul>
+                    @php
+                   
+                    $additionalData = ['job'=>$job];
+                    @endphp
+                    {!! getPageBreadcrum('App\Seo\ManageJob',$additionalData) !!}
                     <!-- Breadcrums ends -->
                 </div>
                 @if($job->isJobVisible())

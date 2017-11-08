@@ -17,6 +17,15 @@ Route::get('/', function () {
 });
 
 
+/****
+api
+****/
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-view-data', 'ListViewController@getListData');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});
+
 
 Auth::routes();
 
@@ -24,12 +33,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/get-updates','UpdatesController@getUpdates');
 
+
+/*/*/
+Route::get('/test-code', function () {
+    return view('errors.error');
+});
+
+/*/*/ 
 // 
 /******
 listing
 *******/
 
 Route::post('/get_categories','ListingController@getCategories');
+Route::get('/{type}/get-category-types','CommonController@getCategories');
 Route::get('/get_brands','ListingController@getBrands');
 Route::get('/get-single-post','UpdatesController@getPost');
 //view listings
@@ -93,7 +110,10 @@ JOBS/USERS
 //job single view
 Route::get('/job/{slug}','JobController@show');
 Route::get('/get-keywords','JobController@getKeywords');
+Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
+
+
 /**
 logged in users group
 permission group
@@ -105,16 +125,23 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::get('/jobs/{reference_id}/submit-for-review','JobController@submitForReview');
 	Route::get('/jobs/{reference_id}/{step?}','JobController@edit');
 	Route::get('/jobs/{reference_id}/update-status/{status}','JobController@changeJobStatus');
+
 });
 
 /**
 logged in users group
 */
 Route::group( ['middleware' => ['auth']], function() { 
+	Route::post('/jobs/{reference_id}/applyjob','JobController@applyJob');
  	Route::post('/user/verify-contact-details','UserController@verifyContactDetails');
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp');
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
+
+	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
+	Route::post('/user/remove-resume','UserController@removeResume');
 });
+
+
 
 
 
@@ -131,10 +158,28 @@ Route::group(['namespace' => 'Ajency'], function() {
 	Route::group(['prefix' => 'api'], function () {
 		Route::get('/login/{provider}', 'User\SocialAuthController@apiSocialAuth');
 		//Route::get('/logout/{provider}', 'User\SocialAuthController@logout');
+
+
 	});
 });
 
+
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-listview-data', 'ListViewController@getListViewData');
+	Route::post('/search-city', 'ListViewController@searchCity');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+});
+
+
+
+
+
+
+
 /* Admin dashboard routes */
+
+
 Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashboard'], function () {
 	Route::group(['prefix' => 'config'], function() {
 		Route::get('categories','AdminConfigurationController@categoriesView');
@@ -180,9 +225,22 @@ Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCa
 //
 //});
 
+ 
+/**
+USER PROFILE
+**/
+Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], function () {
+	Route::get('/','UserController@customerdashboard');
+	Route::post('/users/update-resume','UserController@uploadResume');
+ 
+});
+
+
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
 	Route::get('/{listing_slug}', 'ListingViewController@index');
 
 	//Route::get('/business-listings-card','ListingViewController@getBusinessCategoryCard');

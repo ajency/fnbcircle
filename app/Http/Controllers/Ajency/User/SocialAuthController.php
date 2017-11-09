@@ -53,13 +53,15 @@ class SocialAuthController extends Controller {
         if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
             $fnb_auth = new FnbAuthController;
             if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
-                if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
+                if($valid_response["user"]) { // If $valid_response["user"] !== None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
-                } else {
+                } else { // New User
                     $social_data["user"]["roles"] = "customer";
                     $social_data["user"]["type"] = "external";
                     
-                    $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], [], $social_data["user_comm"]);
+                    $social_data["user_details"]["has_previously_login"] = 0;
+                    
+                    $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
                 }
 
                 if($user_resp["user"]) {

@@ -58,9 +58,7 @@ class SocialAuthController extends Controller {
                 } else { // New User
                     $social_data["user"]["roles"] = "customer";
                     $social_data["user"]["type"] = "external";
-                    
                     $social_data["user_details"]["has_previously_login"] = 0;
-                    
                     $user_resp = $userauthObj->updateOrCreateUser($social_data["user"], $social_data["user_details"], $social_data["user_comm"]);
                 }
 

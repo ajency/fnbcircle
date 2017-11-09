@@ -434,6 +434,29 @@ $(function(){
 
 		$(document).ready(function() {
 
+			if($("#reset-password-form").length > 0) {
+				$("#reset-password-form input[type='password'][name='password']").on('focus, input', function(){
+					// console.log(validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val()));
+					if(!validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val(), "#reset-password-form", "#new-pass-error")) {
+						return false;
+					} else {
+						$("#reset-password-form #new-pass-error").addClass("hidden");
+						return true;
+					}
+				});
+
+				/*$("#reset-password-form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+					// console.log(validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val()));
+					if(!validatePassword($("#reset-password-form input[type='password'][name='password']").val(), $(this).val(), "#reset-password-form", "#confirm-password-error")) {
+						// $("#reset-password-form #confirm-password-error").removeClass("hidden").text("Password and Confirm password are not matching");
+						return false;
+					} else {
+						$("#reset-password-form #confirm-password-error").addClass("hidden");
+						return true;
+					}
+				});*/
+			}
+
 			if(window.location.hash.length > 0 && window.location.hash.indexOf("_=_") > -1) { // If "_=_" exist in the URL (appears post FB login)
 				hash_array = window.location.hash.split("_=_");
 				window.location.hash = hash_array[0] + hash_array[1]; // Remove the _=_ from the URL

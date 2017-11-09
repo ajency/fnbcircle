@@ -231,10 +231,6 @@ class RegisterController extends Controller
                 //send email
                 $this->registerConfirmEmail($user_resp["user"]);
  
-
-                
-
-
                 if($user_resp["user"]) {
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {

@@ -103,7 +103,7 @@
                                                 <div class="phone-row contact flex-row space-between">
                                                     <div>
                                                         <h6 class="heavier sub-title">
-                                                            Phone number
+                                                            Phone Number
                                                         </h6>
                                                         <a class="sub-title dark-link lighter" href="tel:+{{$data['phone']['contact_region']}}{{$data['phone']['contact']}}">
                                                             +{{$data['phone']['contact_region']}} {{$data['phone']['contact']}}

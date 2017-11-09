@@ -216,7 +216,7 @@
                                                 <div class="form-group p-t-10 m-b-0 flex-row space-between contact-info contact-info-mobile" contact-type="mobile">
                                                     <div class="contact-container flex-row space-between full-width">
                                                         <div class="flex-1">
-                                                            <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone no</label>
+                                                            <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone No</label>
                                                             <div class="flex-full">
                                                                 <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
                                                                 <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" @if($details['phone']['is_verified'] == 1) disabled @endif>

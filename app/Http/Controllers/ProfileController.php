@@ -76,7 +76,7 @@ class ProfileController extends Controller
 
             $user->name = $req['username'];
             $user->save();
-            $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->where('is_primary',1)->first();
+            $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->where('is_primary',1)->first();
             if($comm_obj==null or $comm_obj->is_verified == 0){
             	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->delete();
             	if($req['contact_mobile_id']==''){
@@ -84,10 +84,11 @@ class ProfileController extends Controller
             	}else{
             		$comm = UserCommunication::find($req['contact_mobile_id']);
             	}
+                dd($req);
             	if($req['contactNumber'] !=""){
             		$comm->type = 'mobile';
             		$comm->object_type = 'App\\User';
-            		$comm->object_id = Auth::user()->id;
+            		$comm->object_id = $user->id;
             		$comm->value = $req['contactNumber'];
             		$comm->country_code = $req['contact_country_code'][0];
             		$comm->is_primary = 1;

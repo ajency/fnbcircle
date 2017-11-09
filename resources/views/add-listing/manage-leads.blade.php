@@ -50,6 +50,80 @@
     
 
 
+<!-- listing summary section -->
+
+<!-- <div class="row">
+    <div class="col-sm-12">
+        <div class="update-sec sidebar-article listing-summary-row"> 
+            <div class="update-sec__body update-space"> 
+                <div class="flex-row space-between"> 
+                    <p class="element-title update-sec__heading m-t-15 bolder">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta explicabo esse dolorum officia molestiae est provident quidem itaque possimus asperiores!</p>
+                </div>
+                 <p class="update-sec__caption text-lighter">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn'</p>
+                 <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Your last update was 12 hours ago</p> 
+            </div>
+         </div>
+         <div class="post-update-row flex-row space-between">
+             <p class="m-b-0 grey-darker">Recently updated listings usually get more Leads. <br> Go ahead and post an update.</p>
+             <button class="btn fnb-btn primary-btn full post-btn" id="" type="button">Post</button>
+         </div>
+    </div>
+</div>
+
+
+<div class="row m-t-20">
+    <div class="col-sm-12">
+        <div class="listing-stats">
+            <div class="listing-stats__header">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h4 class="m-t-0 list-stat-title">Listing Stats</h4>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="flex-row period-filter space-between flex-wrap align-top">
+                            <p class="m-b-0 default-size text-color title p-r-10">Filter your stats for a particular time period</p>   
+                            <div class="relative date-icon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listing-stats__body flex-row flex-wrap m-t-40 align-full">
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Views</p>
+                    <h3 class="m-t-15 heavier">50</h3>
+                    <p class="text-lighter default-size">By default displays the number of views in the last 30 days.</p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Contact requests</p>
+                    <h3 class="m-t-15 heavier">4</h3>
+                    <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Direct enquiries</p>
+                    <h3 class="m-t-15 heavier">0</h3>
+                    <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="#" class="x-small primary-link">View</a></p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Indirect enquiries</p>
+                    <h3 class="m-t-15 heavier">4</h3>
+                    <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="#" class="x-small primary-link">View</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- listing summary section ends -->
+
+
+
+
+
+
 
 <div class="row">
     <div class="col-sm-2 p-l-0">

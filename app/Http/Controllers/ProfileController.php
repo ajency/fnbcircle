@@ -78,7 +78,7 @@ class ProfileController extends Controller
             $user->save();
             $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->where('is_primary',1)->first();
             if($comm_obj==null or $comm_obj->is_verified == 0){
-            	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',Auth::user()->id)->where('type','mobile')->delete();
+            	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->delete();
             	if($req['contact_mobile_id']==''){
             		$comm = New UserCommunication;
             	}else{

@@ -111,13 +111,14 @@
                    <div class="forget-password" id="forget-password-div">
                         <div class="alert alert-success forgot-link-sent alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <h6 class="sub-title">Success</h6>
-                            <span>Change password link is sent. Please check your inbox.</span>
+                            <span>We have sent you an email with a link to reset your password. You should be receiving them shortly.</span>
                         </div>
                         <h3 class="welcome-text text-medium">Forgot Password</h3>
                         <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
-                        <form method="POST" action="{{ route('password.email') }}" id="forgot-password-form" data-parsley-validate="">
+                        <!-- <form method="POST" action="{{ route('password.email') }}" id="forgot-password-form" data-parsley-validate=""> -->
+                        <form method="POST" action="#" id="forgot-password-form" data-parsley-validate="">
                             <div class="form-group text-left m-b-0">
-                                <input type="email" class="form-control fnb-input float-input required" id="forgot_password_email" name="forgot_password_email" placeholder="Email Address" data-parsley-trigger="change" data-parsley-type="email" data-parsley-errors-container="#email-error-container">
+                                <input type="email" class="form-control fnb-input float-input required" id="forgot_password_email" name="forgot_password_email" placeholder="Email Address" data-parsley-trigger="focusout" data-parsley-type="email" data-parsley-errors-container="#email-error-container">
                             </div>
                             <div id="email-error-container" class="fnb-errors"></div>
                             <div class="form-group m-b-0 m-t-20">

@@ -4,11 +4,19 @@ $(function(){
 	$("#login-modal").on('shown.bs.modal', function() {
 		var url = '';
 
-		 $('#login-modal').keypress(function(e){
-	        if(e.which == 13){//Enter key pressed
+		$('#login-modal .login-container .alternate-login').keypress(function(e){
+		 	if(e.which == 13){//Enter key pressed
 	            $("#login_form_modal_btn").trigger('click'); // Trigger the Login button
 	        }
 	    });
+
+		$('#login-modal .forget-password').keypress(function(e){
+		 	if(e.which == 13){//Enter key pressed
+	            $("#forgot-password-form-btn").trigger('click'); // Trigger the Forgot button
+	            e.preventDefault();
+	        }
+	    });
+
 
 		if (window.location.search && window.location.search.indexOf("login=") < 0) {
 			url = window.location.search + '&login=true';
@@ -404,6 +412,12 @@ $(function(){
 					$("#forget-password-div #email-error-container").text("");
 					$("#forget-password-div .forgot-link-sent").removeClass("hidden");
 					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");
+
+					$('#forget-password-div .forgot-link-sent').on('close.bs.alert', function (e) {
+						$("#forget-password-div .forgot-link-sent").addClass("hidden");
+						e.preventDefault();
+					});
+
 				},
 				error: function(request, status, error) {
 					$("#forget-password-div #forgot-password-form-btn .fa-circle-o-notch").addClass("hidden");

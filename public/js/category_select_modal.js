@@ -8,7 +8,8 @@
       type: 'post',
       url: '/api/get_listing_categories',
       data: {
-        'category': [parent_id]
+        'category': [parent_id],
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         var key;
@@ -21,7 +22,7 @@
     });
   };
 
-  getNodeCategories = function(path, parent_id, checked_values, is_all_checked) {
+  getNodeCategories = function(path, branch_id, checked_values, is_all_checked) {
     var html;
     html = '';
     if (checked_values.length <= 0) {
@@ -33,7 +34,8 @@
       type: 'post',
       url: '/api/get_node_listing_categories',
       data: {
-        'branch': [parent_id]
+        'branch': [branch_id],
+        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
       },
       success: function(data) {
         var html_upload, index, key, node_children;
@@ -92,7 +94,8 @@
       type: 'post',
       url: '/api/get_categories_modal_dom',
       data: {
-        'level': level
+        'level': level,
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);

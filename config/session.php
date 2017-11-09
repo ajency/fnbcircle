@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'lifetime' => 120,
+    'lifetime' => 10080, // 1 week session expiry - //'lifetime' => 120,
 
     'expire_on_close' => false,
 

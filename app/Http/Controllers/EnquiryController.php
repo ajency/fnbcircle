@@ -1051,7 +1051,12 @@ class EnquiryController extends Controller {
 		$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
 
 		if($request->level == "level_1") {
-			$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			if($request->has('is_parent_select') && !$request->is_parent_select) {
+				$is_parent_select = false;
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents', 'is_parent_select'))->render();
+			} else {
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			}
 		}
 		return response()->json(array("modal_template" => $modal_template), 200);
     }

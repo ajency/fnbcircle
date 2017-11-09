@@ -6,6 +6,7 @@ getBranchNodeCategories = (path, parent_id) ->
 		url: '/api/get_listing_categories'
 		data: 
 			'category': [parent_id]
+			'is_parent_select': if ($(document).find("#is_parent_category_checkbox").val()) then true else false
 		success: (data) ->
 			key = undefined
 			#$('#' + path + ' select[name="area"]').html html
@@ -17,7 +18,7 @@ getBranchNodeCategories = (path, parent_id) ->
 			return
 	return
 
-getNodeCategories = (path, parent_id, checked_values, is_all_checked) ->
+getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 	html = ''
 
 	if checked_values.length <= 0
@@ -29,7 +30,8 @@ getNodeCategories = (path, parent_id, checked_values, is_all_checked) ->
 		type: 'post'
 		url: '/api/get_node_listing_categories'
 		data: 
-			'branch': [parent_id]
+			'branch': [branch_id]
+			'is_branch_select': if ($(document).find("#is_branch_category_checkbox").val()) then true else false
 		success: (data) ->
 			key = undefined
 			### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
@@ -105,6 +107,7 @@ getCategoryDom = (path, level) ->
 		url: '/api/get_categories_modal_dom'
 		data: 
 			'level': level
+			'is_parent_select': if ($(document).find("#is_parent_category_checkbox").val()) then true else false
 		success: (data) ->
 			$(path).html data["modal_template"]
 			return

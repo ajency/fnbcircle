@@ -90,7 +90,7 @@
                                                             {{$data['email']['email']}}
                                                         </a>
                                                     </div>
-                                                    <div class="verified flex-row">
+                                                    <div class="verified flex-row self-end">
                                                         @if($data['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -109,7 +109,7 @@
                                                             +{{$data['phone']['contact_region']}} {{$data['phone']['contact']}}
                                                         </a>
                                                     </div>
-                                                    <div class="verified flex-row">
+                                                    <div class="verified flex-row self-end">
                                                         @if($data['phone']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">

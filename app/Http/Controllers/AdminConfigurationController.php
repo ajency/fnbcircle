@@ -634,12 +634,12 @@ class AdminConfigurationController extends Controller
             $userRoles = $create_response['user']->getRoleNames()->toArray();
           
             $userEmail = $request["email"];
-            $userEmail = 'prajay@ajency.in';
+            // $userEmail = 'prajay@ajency.in';
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            // $data['cc'] = 'prajay@ajency.in';
             $data['subject'] = "You are added as internal user on FnB Circle.";
             $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
             sendEmail('register-internal-user', $data);
@@ -812,6 +812,7 @@ class AdminConfigurationController extends Controller
             $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
+                            'id' => $user->id,
                             'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
                             'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
@@ -827,7 +828,8 @@ class AdminConfigurationController extends Controller
                             'published_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'job_applied' =>  '',
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
-                            'status' =>  ucwords($user->status),
+                            'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
+                            'status_raw' => $user->status,
                             ];
             
         }
@@ -840,6 +842,21 @@ class AdminConfigurationController extends Controller
             );
               
         return response()->json($json_data);
+    }
+
+    public function userAccountStatus(Request $request){
+        $this->validate($request, [
+            'user_id' => 'required|integer',
+            'status'       => 'required',
+        ]);
+        $user = User::find($request->user_id);
+        if($user == null) return response()->json(['status'=>'error']);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['status'=>'success']);        
+
     }
 
     public function manageJobs(){

@@ -179,4 +179,68 @@
     return registeredUserTable.ajax.reload();
   });
 
+  $('#datatable-registration').on('click', 'i.fa-pencil', function(e) {
+    var editrow, user, userID;
+    editrow = $(this).closest('td');
+    user = registeredUserTable.row(editrow).data();
+    console.log(user);
+    $('#updateStatusModal span#listing-title').html(user['name']);
+    $('#updateStatusModal select.status-select').val('');
+    $('#updateStatusModal select.status-select').attr('data-user-id', user['id']);
+    $('#updateStatusModal select.status-select option').prop('hidden', true);
+    if (user['status_raw'] === 'active') {
+      $('#updateStatusModal select.status-select option[value="inactive"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="suspended"]').prop('hidden', false);
+    }
+    if (user['status_raw'] === 'inactive') {
+      $('#updateStatusModal select.status-select option[value="active"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="suspended"]').prop('hidden', false);
+    }
+    if (user['status_raw'] === 'suspended') {
+      $('#updateStatusModal select.status-select option[value="active"]').prop('hidden', false);
+      $('#updateStatusModal select.status-select option[value="inactive"]').prop('hidden', false);
+    }
+    return userID = user['id'];
+  });
+
+  $('#updateStatusModal').on('click', 'button#change_status', function() {
+    var instance, status, url, userID;
+    $('button#change_status').prop('disabled', true);
+    instance = $('#updateStatusModal #singlestatus').parsley();
+    if (!instance.validate()) {
+      $('button#change_status').prop('disabled', false);
+      return false;
+    }
+    userID = $('#updateStatusModal select.status-select').attr('data-user-id');
+    status = $('#updateStatusModal select.status-select').val();
+    console.log(userID, status);
+    url = document.head.querySelector('[property="status-url"]').content;
+    return $.ajax({
+      type: 'post',
+      url: url,
+      data: {
+        user_id: userID,
+        status: status
+      },
+      success: function(response) {
+        registeredUserTable.ajax.reload();
+        $('#updateStatusModal').modal('hide');
+        if (response['status'] === 'success') {
+          $('.alert-success #message').html("User status updated successfully.");
+          $('.alert-success').addClass('active');
+          setTimeout((function() {
+            $('.alert-success').removeClass('active');
+          }), 3000);
+        } else {
+          $('.alert-failure #message').html("Some unknown error occoured.");
+          $('.alert-failure').addClass('active');
+          setTimeout((function() {
+            $('.alert-failure').removeClass('active');
+          }), 3000);
+        }
+        $('button#change_status').prop('disabled', false);
+      }
+    });
+  });
+
 }).call(this);

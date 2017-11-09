@@ -205,7 +205,7 @@
                                                         <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                         <input type="email" class="form-control fnb-input float-input" id="contact_email" value="{{$details['email']['email']}}" disabled>
                                                     </div>
-                                                    <div class="verified flex-row self-end">
+                                                    <div class="verified flex-row m-t-20 p-l-5">
                                                         @if($details['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -216,14 +216,14 @@
                                                 <div class="form-group p-t-10 m-b-0 flex-row space-between contact-info contact-info-mobile" contact-type="mobile">
                                                     <div class="contact-container flex-row space-between full-width">
                                                         <div class="flex-1">
-                                                            <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone no</label>
+                                                            <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone No</label>
                                                             <div class="flex-full">
                                                                 <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
                                                                 <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required @if($details['phone']['is_verified'] == 1) disabled @endif>
                                                                 <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             </div>
                                                         </div>    
-                                                        <div class="verified m-t-15">
+                                                        <div class="verified m-t-15 flex-row">
                                                             @if($details['phone']['is_verified'] == 1)
                                                               <span class="fnb-icons verified-icon"></span> 
                                                             @else 
@@ -232,9 +232,9 @@
                                                             <div class="text-color">
                                                             @if($details['phone']['is_verified'] == 0) @if($self) 
                                                               <a href="javascript:void(0)" class="secondary-link contact-verify-link secondary-link text-decor verifyPhone">Verify now</a>
-                                                              <div name="" class="under-review">
+                                                              <div name="" class="under-review hidden">
                                                                 <input type="hidden" class="contact-visible" value="0"/>
-                                                              </div> @else Not Verified  @endif @else Verified @endif 
+                                                              </div> @else <i class="fa fa-times not-verified" aria-hidden="true"></i>  Not Verified  @endif @else Verified @endif 
                                                             </div>
                                                         </div>
                                                     </div>   

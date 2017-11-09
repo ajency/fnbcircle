@@ -257,9 +257,10 @@
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="password">Old Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="old_password" id="old">
-                                                    @if ($errors->has('old_password'))
+                                                    
+                                                    @if (count($errors) > 0)
                                                         <span class="fnb-errors">
-                                                            {{ $errors->first('old_password') }}
+                                                            {{ $errors->first() }}
                                                         </span>
                                                     @endif
                                                 </div>

@@ -19,8 +19,14 @@ class ProfileController extends Controller
         } elseif ($email == Auth::user()->getPrimaryEmail()) {
             return redirect('profile/' . $step);
         } else {
-            $user = User::findUsingEmail($email);
-            $self = false;
+            $usercomm = UserCommunication::where('value',$email)->where('object_type','App\\User')->where('is_primary',1)->first();
+            if($usercomm!=null and hasAccess('view_profile_element_cls',$usercomm->id,'communication')){
+                $user = User::findUsingEmail($email);
+                $self = false;    
+            }else{
+                abort(403);
+            }
+            
         }
 
         $template           = [];

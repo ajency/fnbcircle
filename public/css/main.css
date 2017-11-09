@@ -2432,6 +2432,12 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: center;
           justify-content: center;
 }
+.align-full {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
 .label-size {
   font-size: 1.1em;
 }
@@ -11523,6 +11529,96 @@ input[type='checkbox'].remove-addr {
   }
   .multi-label-select .checkbox {
     margin: 1em 0;
+  }
+}
+.listing-summary-row .update-space {
+  padding: 0;
+}
+.post-update-row {
+  padding: 1em;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  margin: 1.5em 0;
+}
+.period-filter .title,
+.period-filter .date-icon {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.date-icon i {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  z-index: 0;
+}
+.date-icon .stat-filter {
+  padding-left: 1.5em;
+  position: relative;
+  z-index: 1;
+  padding-top: 0;
+}
+.listing-stats__body .list-cols {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 25%;
+      -ms-flex: 1 0 25%;
+          flex: 1 0 25%;
+  max-width: 25%;
+  padding-left: 1.5em;
+  border-left: 1px solid #eee;
+}
+.listing-stats__body .list-cols:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+@media screen and (max-width: 768px) {
+  .listing-summary-row .update-sec__caption {
+    margin-top: 1em;
+  }
+  .post-update-row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .post-update-row p {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 1em;
+  }
+  .list-stat-title {
+    font-size: 1.5em;
+    margin-top: 1em;
+  }
+  .period-filter {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .period-filter .date-icon {
+    width: 100%;
+    margin-top: 0.5em;
+  }
+  .listing-stats__body .list-cols {
+    max-width: inherit;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 50%;
+        -ms-flex: 1 0 50%;
+            flex: 1 0 50%;
+    margin-bottom: 1.5em;
+    padding-left: 1.2em;
+  }
+  .listing-stats__body .list-cols p {
+    font-size: 0.9em;
+  }
+  .listing-stats__body .list-cols:nth-child(3n) {
+    padding-left: 0;
+    border-left: 0;
+    padding-right: 0.5em;
   }
 }
 .profile-stats {

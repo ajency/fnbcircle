@@ -44,7 +44,7 @@
                             </div>
                             <!-- mobile collapse -->
                             @foreach($cities as $city)
-                            <div class="flex-row mobile-custom-child">
+                            <div class="flex-row mobile-custom-child desk-hide">
                                 <input type="checkbox" name="branch_categories_select" id="" value="" class="mobile-child-selection">
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">
                                     {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>

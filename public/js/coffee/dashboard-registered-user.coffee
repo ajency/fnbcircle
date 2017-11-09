@@ -193,3 +193,6 @@ $('#updateStatusModal').on 'click', 'button#change_status', ->
         ), 3000
       $('button#change_status').prop('disabled',false)
       return
+
+
+$('#datatable-registration_filter').parent().addClass 'flex-row'      

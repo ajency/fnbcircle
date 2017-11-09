@@ -243,4 +243,6 @@
     });
   });
 
+  $('#datatable-registration_filter').parent().addClass('flex-row');
+
 }).call(this);

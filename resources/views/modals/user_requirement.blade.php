@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="verification-content">
+                                <div class="verification-content hidden">
                                     <input type="hidden" name="object_type" value="App\User"/>
                                     <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
 

@@ -12,7 +12,7 @@ class UserCommunication extends Model
      * @var array
      */
     protected $fillable = [
-        'object_id', 'object_type', 'type', 'value', 'country_code', 'is_primary' 'is_communication', 'is_verified', 'is_visible',
+        'object_id', 'object_type', 'type', 'value', 'country_code', 'is_primary', 'is_communication', 'is_verified', 'is_visible',
     ];
 
 	public function object(){

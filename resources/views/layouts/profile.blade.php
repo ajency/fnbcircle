@@ -62,7 +62,7 @@
         <!-- profile info starts -->
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 profile-stats">
+                <div class="col-sm-4 profile-stats customer-profile">
                 <div class="infoCard">
                                 <div class="person-info">
                                     <div class="Profile">
@@ -86,7 +86,7 @@
                                                         <h6 class="heavier sub-title">
                                                             Email
                                                         </h6>
-                                                        <a class="sub-title dark-link lighter" href="mailto:{{$data['email']['email']}}">
+                                                        <a class="sub-title dark-link lighter word-break" href="mailto:{{$data['email']['email']}}">
                                                             {{$data['email']['email']}}
                                                         </a>
                                                     </div>
@@ -162,7 +162,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="fly-out__content edit-mode">
+                        <div class="fly-out__content edit-mode profile-info-card">
                             <div class=" tab-content">
                             @yield('main-content')
                             </div>

@@ -23,7 +23,7 @@
  
           To finish setting up this FnB Circle account, we need to make sure this email address is yours.<br>
 
-            <a href="{{ $confirmationLink }}" style="background-color: #ec6d4b;color: #fff;padding: 8px;width: 120px;display: block;margin: 20px auto;text-align: center;text-decoration: none;" target="_blank">Verify email</a>
+            <a href="{{ $confirmationLink }}" style="background-color: #ec6d4b;color: #fff;padding: 8px;width: 120px;display: block;margin: 20px auto;text-align: center;text-decoration: none;" target="_blank">Verify Email</a>
             <b style="display:block;margin-bottom: 10px;color: #616161;">OR</b>
              Copy and paste this link into your browser: {{ $confirmationLink }}
           <br><br>

@@ -445,7 +445,7 @@ function sendUserRegistrationMails($user){
 
     Auth::login($user);
     $userEmail = $user->getPrimaryEmail();
-    $userEmail = 'nutan@ajency.in';
+    // $userEmail = 'nutan@ajency.in';
     
     //send welcome mail
     $data = [];

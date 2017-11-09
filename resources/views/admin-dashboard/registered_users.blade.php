@@ -19,6 +19,10 @@
   
 @endsection
 
+@section('meta')
+  <meta property="status-url" content="{{action('AdminConfigurationController@userAccountStatus')}}">
+@endsection
+
 @section('page-data')
 	<div class="right_col" role="main">
       <div class="">
@@ -141,7 +145,30 @@
 
         </div>
 
-      
+      <div class="modal fade" tabindex="-1" role="dialog" id="updateStatusModal">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Update Status</h6>
+              </div>
+              <form id="singlestatus">
+              <div class="modal-body">
+                <label>Status of <span id="listing-title"></span></label>
+                <select class="form-control fnb-select w-border status-select" required>
+                  <option value="">Select</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn fnb-btn primary-btn mini" id="change_status">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
  
 

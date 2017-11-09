@@ -194,18 +194,18 @@
                                     <input type="hidden" name="object_type" value="App\User"/>
                                     <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
 
-                                            <form method="POST" action="{{action('ProfileController@changePhone')}}" >
+                                            <form method="POST" action="{{action('ProfileController@changePhone')}}" onsubmit="if (!$(this).parsley().validate()) return false;" >
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username">
+                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username" required>
                                                 </div>
                                                 <div class="form-group m-b-0 flex-row space-between">
-                                                    <div class="flex-full">
+                                                    <div class="flex-full flex-1">
                                                         <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                         <input type="email" class="form-control fnb-input float-input" id="contact_email" value="{{$details['email']['email']}}" disabled>
                                                     </div>
-                                                    <div class="verified flex-row">
+                                                    <div class="verified flex-row self-end">
                                                         @if($details['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -214,23 +214,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group p-t-10 m-b-0 flex-row space-between contact-info contact-info-mobile" contact-type="mobile">
-                                                    <div class="contact-container">
-                                                        <div class="flex-full">
-                                                            <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
-                                                            <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
-                                                            <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" @if($details['phone']['is_verified'] == 1) disabled @endif>
-                                                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
-                                                            
-                                                        </div>
-                                                        <div class="verified">
+                                                    <div class="contact-container flex-row space-between full-width">
+                                                        <div class="flex-1">
+                                                            <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone no</label>
+                                                            <div class="flex-full">
+                                                                <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
+                                                                <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required @if($details['phone']['is_verified'] == 1) disabled @endif>
+                                                                <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
+                                                            </div>
+                                                        </div>    
+                                                        <div class="verified m-t-15">
                                                             @if($details['phone']['is_verified'] == 1)
                                                               <span class="fnb-icons verified-icon"></span> 
                                                             @else 
-                                                              <i class="fa fa-times not-verified" aria-hidden="true"></i> 
+                                                              <!-- <i class="fa fa-times not-verified" aria-hidden="true"></i>  -->
                                                             @endif
                                                             <div class="text-color">
                                                             @if($details['phone']['is_verified'] == 0) @if($self) 
-                                                              <a href="javascript:void(0)" class="dark-link contact-verify-link secondary-link text-decor verifyPhone x-small">Verify now</a>
+                                                              <a href="javascript:void(0)" class="secondary-link contact-verify-link secondary-link text-decor verifyPhone">Verify now</a>
                                                               <div name="" class="under-review">
                                                                 <input type="hidden" class="contact-visible" value="0"/>
                                                               </div> @else Not Verified  @endif @else Verified @endif 
@@ -239,11 +240,11 @@
                                                     </div>   
                                                 </div>
                                                 <div class="form-group p-t-10 m-b-0">
-                                                    <label class="m-b-0 text-lighter float-label required full-label" for="member">Member Since</label>
+                                                    <label class="m-b-0 text-lighter float-label required filled lab-color" for="member">Member Since</label>
                                                     <input type="text" class="form-control fnb-input float-input" id="member" value="{{$details['joined']}}" disabled>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
-                                                   <button class="btn fnb-btn primary-btn full border-btn" >Save</button>
+                                                   <button class="btn fnb-btn primary-btn full border-btn" type="submit" >Save</button>
                                                 </div> 
                                             </div>
                                             </form>
@@ -253,13 +254,14 @@
                                         <div class="contactCard">
                                             <h3 class="sub-title basic-detail__title">Change Password</h3>
                                         <form id="password_form" method="POST" action="{{action('ProfileController@changePassword')}}">
-                                            <div class="basic-detail__col flex-row flex-wrap">
+                                            <div class="basic-detail__col flex-row flex-wrap align-top">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="password">Old Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="old_password" id="old">
-                                                    @if ($errors->has('old_password'))
+                                                    
+                                                    @if (count($errors) > 0)
                                                         <span class="fnb-errors">
-                                                            {{ $errors->first('old_password') }}
+                                                            {{ $errors->first() }}
                                                         </span>
                                                     @endif
                                                 </div>
@@ -281,7 +283,7 @@
                                             </form>
                                         </div>
                                         @endif
-                                        
+                                        <br><br>
                                     </div>
                                 </div>
 

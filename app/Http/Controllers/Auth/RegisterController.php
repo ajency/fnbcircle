@@ -307,16 +307,15 @@ class RegisterController extends Controller
  
             return redirect(url('/customer-dashboard'));
             
-        }
-        else
-        {  
-            if(!empty($token))
-            {
+        } else {
+
+            if(!empty($token) && $token->status == "completed") {
+                return redirect(url('/').'?login=true&message=token_already_verified'); 
+            } else if(!empty($token) && $expireDate > $today) {
                 $user = User::find($token['user_id']);
                 Session::put('userLoginEmail', $user->email);
                 return redirect(url('/').'?login=true&message=token_expired'); 
-            }
-            else
+            } else
                 return redirect(url('/')); 
             
             

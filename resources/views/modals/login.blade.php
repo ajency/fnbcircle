@@ -59,6 +59,11 @@
                                 <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
                                 <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
                             </div>
+                            <div class="token-already-verified already-verified-error hidden">
+                                <h6 class="sub-title">Invalid Request</h6>
+                                <span>The account has already been activated.</span>
+                                <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
+                            </div>
                         </div>
                         
 

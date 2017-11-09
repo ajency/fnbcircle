@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="form-group m-b-0 flex-row space-between forgot-actions">
                                     <label class="stay-logged flex-row text-medium m-b-0 text-color">
-                                        <input type="checkbox" class="checkbox"> Stay Logged In
+                                        <!-- <input type="checkbox" class="checkbox"> Stay Logged In -->
                                     </label>
                                     <a href="#" class="primary-link forget-link">Forgot password?</a>
                                 </div>

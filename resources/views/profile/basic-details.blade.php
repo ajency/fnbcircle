@@ -205,7 +205,7 @@
                                                         <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                         <input type="email" class="form-control fnb-input float-input" id="contact_email" value="{{$details['email']['email']}}" disabled>
                                                     </div>
-                                                    <div class="verified flex-row self-end">
+                                                    <div class="verified flex-row m-t-20 p-l-5">
                                                         @if($details['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -223,7 +223,7 @@
                                                                 <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             </div>
                                                         </div>    
-                                                        <div class="verified m-t-15">
+                                                        <div class="verified m-t-15 flex-row">
                                                             @if($details['phone']['is_verified'] == 1)
                                                               <span class="fnb-icons verified-icon"></span> 
                                                             @else 
@@ -232,9 +232,9 @@
                                                             <div class="text-color">
                                                             @if($details['phone']['is_verified'] == 0) @if($self) 
                                                               <a href="javascript:void(0)" class="secondary-link contact-verify-link secondary-link text-decor verifyPhone">Verify now</a>
-                                                              <div name="" class="under-review">
+                                                              <div name="" class="under-review hidden">
                                                                 <input type="hidden" class="contact-visible" value="0"/>
-                                                              </div> @else Not Verified  @endif @else Verified @endif 
+                                                              </div> @else <i class="fa fa-times not-verified" aria-hidden="true"></i>  Not Verified  @endif @else Verified @endif 
                                                             </div>
                                                         </div>
                                                     </div>   

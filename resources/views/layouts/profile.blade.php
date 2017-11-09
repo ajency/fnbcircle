@@ -152,7 +152,7 @@
                             </div>
                 </div>
                 <div class="col-sm-8">
-                    <div class="pos-fixed fly-out profile-info">
+                    <div class="pos-fixed fly-out profile-info active">
                         <div class="mobile-back desk-hide mobile-flex">
                             <div class="left mobile-flex">
                                 <i aria-hidden="true" class="fa fa-arrow-left text-primary back-icon">

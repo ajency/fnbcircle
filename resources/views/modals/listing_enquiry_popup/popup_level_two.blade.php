@@ -37,10 +37,10 @@
                         <a href="#" class="secondary-link text-decor p-l-10 x-small" id="level-two-form-btn" data-value="{{ isset($data['next_page']) && strlen($data['next_page']) ? $data['next_page'] : ''}}">Submit</a>
                     </div>
                     <p class="x-small text-lighter m-b-0 m-t-10 didnt-receive">Didn't receive the code? <a href="#" class="dark-link x-small heavier" id="level-two-resend-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}"><i class="fa fa-refresh" aria-hidden="true"></i> Resend SMS</a></p>
-                    <div id="otp-error" class="fnb-error"></div>
                 </div>
             </div>
         </div>
+        <div id="otp-error" class="fnb-errors m-t-10"></div>
         @include('modals.verification.new-mobile-number')
     </div>
 </div>

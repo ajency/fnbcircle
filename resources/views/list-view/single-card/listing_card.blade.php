@@ -188,7 +188,7 @@
         @endif
     @endif
 @endforeach
-@if($listing_data->count() <= 0)
+@if(isset($listing_data) && $listing_data && $listing_data->count() <= 0)
     <div class="filter-data m-b-30">
         <div class="no-results">
             <h3 class="seller-info__title ellipsis text-primary">Sorry, no results found!</h3>

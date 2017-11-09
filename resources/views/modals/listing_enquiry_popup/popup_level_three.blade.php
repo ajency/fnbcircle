@@ -1,7 +1,7 @@
 <!-- Level three starts -->
 
 <div class="level-three levels" id="level-three-enquiry">
-    @if($data["premium"])
+    @if(isset($data["premium"]) && $data["premium"])
         <div class="enquiry-success flex-row" style="padding: 0em">
             <i class="fa fa-check-circle" aria-hidden="true"></i>
             <h6 class="text-color text-medium enquiry-success__text" style="padding-right: 0em">Email &amp; SMS with your details has been sent to the owner of {{ $data["title"]["name"] }}.</h6>
@@ -73,8 +73,8 @@
                 <!-- categories -->
                 <div class="categories-select gap-separator">
                     <p class="text-darker describes__title heavier">Categories <span class="xx-small text-lighter">(Select from the list below or add other categories.)</span></p>
-                    @if(sizeof($data["cores"]) > 0)
                         <ul class="categories__points flex-points flex-row flex-wrap" id="enquiry_core_categories">
+                            @if(isset($data["cores"]) && sizeof($data["cores"]) > 0)
                             <!-- <li>
                                 <label class="flex-row">
                                     <input type="checkbox" class="checkbox" for="chicken">
@@ -93,8 +93,8 @@
                                     </label>
                                 </li>
                             @endforeach
+                            @endif
                         </ul>
-                    @endif
                     <ul class="categories__points flex-points flex-row flex-wrap" id="more_added_core_categories">
                     </ul>
                     <div id="category-checkbox-error"></div>
@@ -129,7 +129,7 @@
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#city-select-error" >
                                         <option option="0">Select State</option>
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
-                                            @if($data["city"]["slug"] == $value->slug)
+                                            @if(isset($data["city"]) && $data["city"]["slug"] == $value->slug)
                                                 <!-- <option value="{{ $value->slug }}" selected="selected">{{ $value->name }}</option> -->
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @else

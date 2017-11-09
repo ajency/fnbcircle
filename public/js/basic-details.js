@@ -13,7 +13,7 @@
   });
 
   $('#password_form input[type=\'password\'][name=\'new_password_confirmation\']').on('focus, input', function() {
-    if (!validatePassword($('#password_form input[type=\'password\'][name=\'new_password\']').val(), $(this).val(), '#password_form', '#password_confirm_errors')) {
+    if (!validatePassword($('#password_form input[type=\'password\'][name=\'new_password\']').val(), $(this).val(), '#password_form', '#password_confirm_errors') || $(this).val().length === 0) {
       false;
       return $('#password_save').prop('disabled', true);
     } else {

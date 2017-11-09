@@ -812,15 +812,15 @@ class AdminConfigurationController extends Controller
             $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
-                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'">'.$user->name.'</a>',
+                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
                             'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
                             'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
                             'describe' => implode(', ', $subTypes),
                             'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
-                            'date_created' => $user->userCreated(2),
-                            'last_login' => $userDetails->lastLogin(),
+                            'date_created' => $user->created_at->toDateTimeString(),
+                            'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
                             'total_listing' => $user->listing()->count() ,
                             'published_listing' =>  $user->listing()->where('status','3')->count(),
                             'total_jobs' =>  $user->jobs()->where('status','3')->count(),

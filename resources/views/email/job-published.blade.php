@@ -14,7 +14,7 @@
 
         <!-- Tips -->
 
-        <img src="/img/congrats.png" style="margin: 2em auto;display:block;">
+        <img src="{{ asset('img/congrats.png') }}" style="margin: 2em auto;display:block;">
 
 
         <div style="margin-top: 2em;">
@@ -31,7 +31,7 @@
           Click <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">here</a> to view the job. <br><br>
 
           <div>
-          <div style="float: left;width: 100%;text-align: center;border-bottom: 1px solid #eee;margin-bottom: 0.8em;"><img src="/img/power-icon.png" style="margin: 0.5em auto;vertical-align: middle;" width="40"><h4 style="display: inline-block;color: #7d7d7d;">Why not Go Premium?</h4><br style="clear: both;"></div>
+          <div style="float: left;width: 100%;text-align: center;border-bottom: 1px solid #eee;margin-bottom: 0.8em;"><img src="{{ asset('img/power-icon.png') }}" style="margin: 0.5em auto;vertical-align: middle;" width="40"><h4 style="display: inline-block;color: #7d7d7d;">Why not Go Premium?</h4><br style="clear: both;"></div>
 
           <b style="margin: 0.8em 0; display: block;">1. Get 10 X times more response</b>
           <b style="margin: 0.8em 0; display: block;">2. Get premium tag which makes your requirement stand out from rest.</b>

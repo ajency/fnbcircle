@@ -35,6 +35,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $dates = ['created_at', 'updated_at', 'last_login' ];
+
     public static function findUsingEmail($email_id){
         return UserCommunication::where('value', $email_id)->where('type','email')->where('is_primary',1)->where('object_type','App\\User')->first()->object()->first();
     }

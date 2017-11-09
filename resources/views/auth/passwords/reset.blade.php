@@ -23,7 +23,7 @@
                                     <div class="row flex-row flex-wrap signup-container">
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-8">
-                                            <div class="form-group m-b-10 p-b-10">
+                                            <div class="form-group m-b-10 p-b-10 hidden">
                                                 <!-- <label class="m-b-0 text-lighter float-label required" for="new-pass">Email Address</label> -->
                                                 <input id="email" type="hidden" class="form-control fnb-input float-input" name="email" value="{{ $email or old('email') }}" required="">
                                                 @if ($errors->has('email'))

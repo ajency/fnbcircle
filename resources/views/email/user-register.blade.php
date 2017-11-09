@@ -27,16 +27,16 @@
              There is a new user registration on FnB Circle.<br><br>
 
             Please find below user details:<br><br>
-            Name: {{ $user->name}}<br>
-            Email: {{ $user->getPrimaryEmail()}} <br>
-            Phone number: +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
-            What describes you the best?<br>
+            <b>Name:</b> {{ $user->name}}<br>
+            <b>Email:</b> {{ $user->getPrimaryEmail()}} <br>
+            <b>Phone number:</b> +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br>
+            <b>What describes you the best?</b><br>
 
             {{ implode(', ',$user->getUserDetails->getSavedUserSubTypes()) }}<br>
-            City: {{ $user->getUserDetails->userCity->name}} <br>
-            Area: {{ $user->getUserDetails->userArea->name}} <br>
+            State: {{ $user->getUserDetails->userCity->name}} <br>
+            City: {{ $user->getUserDetails->userArea->name}} <br>
 
- <br><br>
+            <br>
 
            
             <br>

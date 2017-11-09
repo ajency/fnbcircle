@@ -257,7 +257,6 @@ class RegisterController extends Controller
 
     public function registerConfirmEmail($user)
     {
-    
         $token = str_random(50);
         $userToken = new UserToken();
         $userToken->user_id = $user->id;
@@ -269,12 +268,10 @@ class RegisterController extends Controller
 
         $confirmationLink =url('/user-confirmation/'.$token);
         $userEmail = $user->getPrimaryEmail();
-        $userEmail = 'prajay@ajency.in';
         $data = [];
         $data['from'] = config('constants.email_from'); 
         $data['name'] = config('constants.email_from_name');
         $data['to'] = [$userEmail];
-        $data['cc'] = 'prajay@ajency.in';
         $data['subject'] = "Verify your email address!";
         $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
         sendEmail('user-verify', $data);
@@ -296,6 +293,8 @@ class RegisterController extends Controller
             $user = User::find($token['user_id']);
             $user->status = 'active';
             $user->save();
+
+            UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
 
             $token->status = 'completed';
             $token->save();
@@ -326,7 +325,6 @@ class RegisterController extends Controller
     {
         $email = Session::get('userLoginEmail');
         $user = User::where('email',$email)->get()->first();
-       
         $confirmation = $this->registerConfirmEmail($user);
         return redirect(url('/').'?login=true&message=resend_verification'); 
     }

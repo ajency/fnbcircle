@@ -62,7 +62,7 @@ getContent = (enquiry_level, listing_slug) ->
 		success: (data) ->
 			if data["popup_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
-				$(document).find("div.container #enquiry-modal").modal 'show'
+				# $(document).find("div.container #enquiry-modal").modal 'show'
 				if $("#level-three-enquiry").length > 0
 					initCatSearchBox()
 					multiSelectInit("#level-three-enquiry", false)

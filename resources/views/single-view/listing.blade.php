@@ -728,8 +728,7 @@
                             <div class="contact__enquiry text-center">                                
                                 @if($data['status']['id']==1)
                                 <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
-                                <button class="btn fnb-btn primary-btn full border-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
-                                @endif
+                                <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
                                 @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                 <div class="approval m-t-20">
                                     <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -855,7 +854,6 @@
                                 <div class="enquiry-form card m-t-30 m-b-20">
                                     <form method="">
                                         <div class="enquiry-form__header flex-row space-between">
-                                            <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
                                                 <p class="sub-title">Mystical the meat and fish store</p>
@@ -864,19 +862,16 @@
                                         </div>
                                         <div class="enquiry-form__body m-t-10">
                                             <div class="form-group p-t-10 m-b-0">
-                                                <!-- <input type="text" class="form-control fnb-input" placeholder="Name"> -->
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                 <input type="text" class="form-control fnb-input float-input" id="contact_name">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
-                                                <!-- <input type="email" class="form-control fnb-input" placeholder="Email"> -->
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                                                 <input type="email" class="form-control fnb-input float-input" id="contact_email">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_phone">Phone no</label>
                                                 <input type="tel" class="form-control fnb-input float-input" id="contact_phone">
-                                                <!-- <input type="number" class="form-control fnb-input" placeholder="Phone no"> -->
                                             </div>
                                             <div class="form-group p-t-20 p-b-10 m-b-0">
                                                 <label class="m-b-0 custom-label required" for="describe">What describe you the best?</label>
@@ -889,29 +884,8 @@
                                                     <option>I work in the F&amp;B industry</option>
                                                 </select>
                                             </div>
-                                            <!-- <div class="form-group p-t-10 p-b-10 m-b-0">
-                                                <label class="">Interested in</label>
-                                                <ul class="interested-options flex-row m-t-15">
-                                                    <li>
-                                                        <input type="radio" class="radio" name="interests" checked>
-                                                        <div class="meat option flex-row">
-                                                            <span class="fnb-icons cat-icon meat"></span>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <input type="radio" class="radio" name="interests">
-                                                        <div class="veg option flex-row">
-                                                            <span class="fnb-icons cat-icon veg"></span>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div> -->
                                             <div class="form-group p-t-10 p-b-20 m-b-0">
-                                                <!-- <label class="custom-label">Message</label> -->
-                                                <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
                                                 <label class="text-lighter" for="contact_msg">Tell the business owner what you're looking for</label>
-                                                <!-- <input> -->
-                                                <!-- <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea> -->
                                                 <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in">
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
@@ -919,6 +893,7 @@
                                             </div>
                                         </div>
                                     </form>
+                                    
                                 </div>
                             </div>
                         </div>

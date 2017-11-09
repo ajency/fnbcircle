@@ -2466,11 +2466,22 @@ input[type="checkbox"].toggle__check {
       -ms-flex-align: baseline;
           align-items: baseline;
 }
+.self-end {
+  -webkit-align-self: flex-end;
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+}
 .justify-center {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.flex-1 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 .label-size {
   font-size: 1.1em;
@@ -2482,6 +2493,9 @@ input[type="checkbox"].toggle__check {
 }
 .stable-size {
   font-size: 1.05em;
+}
+.full-width {
+  width: 100%;
 }
 .overflow-hidden {
   overflow-x: hidden;
@@ -11767,16 +11781,16 @@ input[type='checkbox'].remove-addr {
 .profile-stats .infoCard {
   position: absolute;
   top: 3em;
+  top: -4em;
+  left: 0;
+  width: calc(95% - 15px);
+  right: 0;
+  margin: 0 auto;
 }
 .profile-stats .infoCard .person-info {
   background-color: #fff;
   box-shadow: 2px 4px 15px 0px rgba(0, 0, 0, 0.27);
   padding: 1.5em;
-}
-@media screen and (min-width: 1500px) {
-  .profile-stats .infoCard .person-info {
-    width: 350px !important;
-  }
 }
 .profile-stats .infoCard .person-info .Profile {
   color: #000;
@@ -11803,12 +11817,6 @@ input[type='checkbox'].remove-addr {
 }
 .profile-stats .infoCard .person-info .footer-title {
   margin: 1.5em 0;
-}
-.profile-stats .infoCard .person-info .contact {
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-      -ms-flex-align: end;
-          align-items: flex-end;
 }
 .profile-stats .infoCard .person-info .email-row {
   margin-bottom: 1.5em;
@@ -12149,7 +12157,7 @@ dl dd {
   font-size: 0.95em;
 }
 .basic-detail .float-label.filled {
-  font-size: 1.1em;
+  font-size: 1em;
   color: #4a4a4a;
 }
 .basic-detail .float-label.filled.full-label {
@@ -12503,6 +12511,12 @@ dl dd {
 .not-verified {
   width: 20px;
   color: #ff353b;
+}
+.customer-profile {
+  background: none;
+}
+.profile-info-card .intl-tel-input {
+  width: 100%;
 }
 @media screen and (min-width: 650px) {
   .login-modal .modal-dialog {

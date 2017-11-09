@@ -194,11 +194,11 @@
                                     <input type="hidden" name="object_type" value="App\User"/>
                                     <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
 
-                                            <form method="POST" action="{{action('ProfileController@changePhone')}}" >
+                                            <form method="POST" action="{{action('ProfileController@changePhone')}}" onsubmit="if (!$(this).parsley().validate()) return false;" >
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username">
+                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username" required>
                                                 </div>
                                                 <div class="form-group m-b-0 flex-row space-between">
                                                     <div class="flex-full flex-1">
@@ -219,7 +219,7 @@
                                                             <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone no</label>
                                                             <div class="flex-full">
                                                                 <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
-                                                                <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" @if($details['phone']['is_verified'] == 1) disabled @endif>
+                                                                <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required @if($details['phone']['is_verified'] == 1) disabled @endif>
                                                                 <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             </div>
                                                         </div>    
@@ -244,7 +244,7 @@
                                                     <input type="text" class="form-control fnb-input float-input" id="member" value="{{$details['joined']}}" disabled>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
-                                                   <button class="btn fnb-btn primary-btn full border-btn" >Save</button>
+                                                   <button class="btn fnb-btn primary-btn full border-btn" type="submit" >Save</button>
                                                 </div> 
                                             </div>
                                             </form>

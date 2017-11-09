@@ -49,9 +49,7 @@ loginCreateWpUserByLaravelEMail();
 
 <?php $post_id = get_the_ID() ; 
 $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
-<div id="post" class="single-featured-image-header" 
-		<?php  if($thumb!=false && $thumb!=""){ ?> 
-			style="background-image: url('<?php echo $thumb;?> ')" <?php }?>>
+<div id="post" class="single-featured-image-header" >
 	<div class="container">
 		<div class="row">
 
@@ -60,14 +58,16 @@ $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
 		<div class="title-content">
 
 			<?php echo the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-		
+			<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'thumbnail' ); ?>
+<img src="<?php echo $url ?>" />
 		<h4>By <?php $author_id=$post->post_author; ?> <?php the_author_meta( 'user_nicename' , $author_id ); ?> posted on <?php echo get_the_date(); ?></h4>
+		
 		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus"]'); ?>
+
 		</div>
 	</div>
 	</div>
-	<div class="overlay">
-	</div>
+	
 </div>
   
 <?php 	endif; ?>

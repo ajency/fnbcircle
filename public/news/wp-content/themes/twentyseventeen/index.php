@@ -41,7 +41,7 @@ get_header(); ?>
 </div>
 </div>
 <div class="wrap">
-<h1 class="bolder">Featured News on FnB</h1>
+<h1 class="bold-t">Featured News on FnB</h1>
 <p>What's trending on FnBCircle right now.</p>	
 	<?php
 $custom_query_args = array(
@@ -70,7 +70,7 @@ $wp_query   = $custom_query;
   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
 			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
   <div class="featured-content">
-    <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+    <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
     <?php the_excerpt(6); ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
@@ -107,7 +107,7 @@ $wp_query = $temp_query;
 <div class="clear"></div>
 <br>
 
-<h1 class="bolder">Recent News on FnB</h1>
+<h1 class="bold-t">Recent News on FnB</h1>
 <p>What's trending on FnBCircle right now.</p>	
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>

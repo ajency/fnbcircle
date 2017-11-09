@@ -61,7 +61,7 @@ html {
 body {
 	margin: 0;
 }
-
+	
 article,
 aside,
 footer,
@@ -104,6 +104,9 @@ a {
 	-webkit-text-decoration-skip: objects;
 }
 
+ul{
+	list-style:none !important;
+}
 a:active,
 a:hover {
 	outline-width: 0;
@@ -417,11 +420,12 @@ input,
 select,
 textarea {
 	color: #333;
-	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif !important;
 	font-size: 15px;
 	font-size: 0.9375rem;
 	font-weight: 400;
 	line-height: 1.66;
+	overflow-x: hidden;
 }
 
 h1,
@@ -1005,7 +1009,7 @@ input[type="submit"] {
 	cursor: pointer;
 	display: inline-block;
 	font-size: 14px;
-	font-size: 0.875rem;
+	font-size: .8em;
 	font-weight: 800;
 	line-height: 1;
 	padding: 1em 2em;
@@ -1188,6 +1192,7 @@ a:active {
 	transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
 	transition: color 80ms ease-in, box-shadow 130ms ease-in-out;
 	transition: color 80ms ease-in, box-shadow 130ms ease-in-out, -webkit-box-shadow 130ms ease-in-out;
+	color: #ec6d4b;
 }
 
 .entry-title a,
@@ -1523,6 +1528,7 @@ body {
 #page {
 	position: relative;
 	word-wrap: break-word;
+	margin: -20px
 }
 
 .wrap {
@@ -1863,7 +1869,6 @@ body:not(.has-header-image):not(.has-header-video) .custom-header-media {
 --------------------------------------------------------------*/
 
 .site-content-contain {
-	background-color: #fff;
 	position: relative;
 }
 
@@ -2090,13 +2095,19 @@ body:not(.twentyseventeen-front-page) .entry-header {
 .single-featured-image-header {
 	background-color: #fafafa;
 	border-bottom: 1px solid #eee;
+	padding-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .single-featured-image-header img {
+	width: 60%;
 	display: block;
 	margin: auto;
+	margin-bottom: 20px;
 }
-
+.entry-content p{
+	line-height: 26px;
+}
 .page-links {
 	font-size: 14px;
 	font-size: 0.875rem;
@@ -2169,8 +2180,7 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	box-shadow: none;
 	color: #fff;
 	display: inline-block;
-	font-size: 14px;
-	font-size: 0.875rem;
+	font-size: 1em;
 	font-weight: 800;
 	margin-top: 2em;
 	padding: 0.7em 2em;
@@ -2239,7 +2249,7 @@ body:not(.twentyseventeen-front-page) .entry-header {
 .nav-title {
 	color: #333;
 	font-size: 15px;
-	font-size: 0.9375rem;
+	font-size: 1.2em;
 }
 
 .post-navigation .nav-next {
@@ -3754,13 +3764,13 @@ object {
 	/* Posts */
 
 	.site-content {
-		padding: 5.5em 0 0;
+		padding: 0em 0 0;
 	}
 
 	.single-post .entry-title,
 	.page .entry-title{
 		font-size: 26px;
-		font-size: 1rem;
+		font-size: 1em;
 	}
 
 	.comments-pagination,
@@ -3963,7 +3973,7 @@ object {
 
 	#secondary {
 		font-size: 14px;
-		font-size: 0.875rem;
+		// font-size: 0.875rem;
 		line-height: 1.6;
 	}
 

@@ -9,7 +9,7 @@ $('#password_form input[type=\'password\'][name=\'new_password\']').on 'focus, i
     true
 $('#password_form input[type=\'password\'][name=\'new_password_confirmation\']').on 'focus, input', ->
   # console.log(validatePassword($(this).val(), $("#password_form input[type='password'][name='password_confirmation']").val()));
-  if !validatePassword($('#password_form input[type=\'password\'][name=\'new_password\']').val(), $(this).val(), '#password_form', '#password_confirm_errors')
+  if !validatePassword($('#password_form input[type=\'password\'][name=\'new_password\']').val(), $(this).val(), '#password_form', '#password_confirm_errors') or $(this).val().length == 0
     # $("#password_form #password_confirm_errors").removeClass("hidden").text("Password and Confirm password are not matching");
     false
     $('#password_save').prop('disabled',true)

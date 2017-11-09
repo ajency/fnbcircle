@@ -16,11 +16,13 @@
 
                         <div class="row">
                             <div class="col-sm-8 col-lg-offset-2 sign-up-row">
-                                <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
+                                <form class="form-horizontal" method="POST" action="{{ route('password.request') }}" id="reset-password-form">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="token" value="{{ $token }}">
-
-                                    <div class="row flex-row flex-wrap signup-container">
+                                    @if ($errors->has('email'))
+                                        <label id="name-error" class="fnb-errors"><strong>{{ $errors->first('email') }}</strong></label>
+                                    @endif
+                                    <div class="row flex-row flex-wrap signup-container" data-parsley-validate="">
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-8">
                                             <div class="form-group m-b-10 p-b-10">

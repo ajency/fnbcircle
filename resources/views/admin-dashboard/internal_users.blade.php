@@ -229,7 +229,7 @@ Internal Users
 	                    <div class="col-sm-6 new-password">
 	                      <div class="form-group">
 	                        <label>Password  <span class="text-danger">*</span></label>
-	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password"data-parsley-trigger="keyup" data-required="true" required>
+	                        <input type="password" class="form-control fnb-input" name="password" id="password" placeholder="Enter a password" parsley-type="password" data-parsley-trigger="keyup" data-required="true" required>
 	                        <p id="password-error" class="fnb-errors hidden"></p>
 	                      </div>
 	                    </div>

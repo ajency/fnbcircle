@@ -48,6 +48,8 @@
                         </li>
                         <li class=""><a href="#">Manage Listings</a>
                         </li>
+                        <li class="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/moderation/manage-enquiries')#@else {{action('AdminEnquiryController@manageEnquiries')}} @endif"">Manage Enquiries</a>
+                        </li>
                       </ul>
                     </li>
                     <li><a>Configuration <span class="fa fa-chevron-down"></span></a>

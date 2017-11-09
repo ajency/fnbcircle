@@ -30,23 +30,23 @@
         <div>
         <div>
           <div style="width: 50%;float: left;text-align:center;">
-            <img src="/img/hospitality.png" style="margin:0 auto;display:block;" width="70">
+            <img src="{{ asset('img/hospitality.png') }}" style="margin:0 auto;display:block;" width="70">
             <b style="color: #000;margin: 5px 0;display: block;">Hospitality News</b>
             Stay upto date and profit from the latest Hospitality industry News, Trends and Research.<br><br>
           </div>
           <div style="width: 50%;float: left;text-align:center;">
-            <img src="/img/vendor.png" style="margin:0 auto;display:block;" width="70">
+            <img src="{{ asset('img/vendor.png') }}" style="margin:0 auto;display:block;" width="70">
             <b style="color: #000;margin: 5px 0;display: block;">Vendor/Supplier Directory</b>
             Find the best Vendors/Suppliers for your business or make them come to you.<br><br>
           </div>
           <div style="clear:both;"></div>
           <div style="width: 50%;float: left;text-align:center;">
-            <img src="/img/jobs-2.png" style="margin:0 auto;display:block;" width="70">
+            <img src="{{ asset('img/jobs-2.png') }}" style="margin:0 auto;display:block;" width="70">
             <b style="color: #000;margin: 5px 0;display: block;">Hospitality Jobs Portal</b>
             Hire the best talent to manage your business, or find the most suitable Hospitality Job for yourself.<br><br>
           </div>
           <div style="width: 50%;float: left;text-align:center;">
-            <img src="/img/promotion.png" style="margin:0 auto;display:block;" width="70">
+            <img src="{{ asset('img/promotion.png') }}" style="margin:0 auto;display:block;" width="70">
             <b style="color: #000;margin: 5px 0;display: block;">Business promotion for Vendors/Suppliers &amp; Service providers</b>
             Discover new business opportunities and promote your business to find new customers.<br><br>
           </div>

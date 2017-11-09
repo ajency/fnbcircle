@@ -195,11 +195,11 @@ class RegisterController extends Controller
             $request_data["user_comm"]["is_verified"] = 0;
         }
 
-        if ($request->has("contact")) {
+        /*if ($request->has("contact")) {
             $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
-        }
+        }*/
 
         if ($request->has("description")) {
             $request_data["user_details"]["subtype"] = serialize($request->description);
@@ -223,6 +223,13 @@ class RegisterController extends Controller
                     $request_data["user"]["roles"] = "customer";
                     $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
+                }
+
+                if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                    $usercomm_obj = UserCommunication::create([
+                        "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91", 
+                        "value" => $request->contact, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                    ]);
                 }
 
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm

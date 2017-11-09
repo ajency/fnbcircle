@@ -796,3 +796,6 @@ table.dataTable tr th.selected.select-checkbox:after {
 .internal-users .multiselect-native-select {
   display: inline-block;
 }
+.registered-table td {
+  text-align: center;
+}

@@ -25,7 +25,7 @@
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
                             <li role="presentation" class="active">
-                                @if(isset($is_branch_select) && !$is_branch_select)
+                                @if(isset($is_branch_select) && $is_branch_select)
                                     <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
                                 @endif
                                 <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
@@ -35,7 +35,7 @@
                             </li>
                         @else
                             <li role="presentation">
-                                @if(isset($is_branch_select) && !$is_branch_select)
+                                @if(isset($is_branch_select) && $is_branch_select)
                                     <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
                                 @endif
                                 <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">

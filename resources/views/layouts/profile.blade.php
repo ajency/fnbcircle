@@ -90,7 +90,7 @@
                                                             {{$data['email']['email']}}
                                                         </a>
                                                     </div>
-                                                    <div class="verified flex-row">
+                                                    <div class="verified flex-row self-end">
                                                         @if($data['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -103,13 +103,13 @@
                                                 <div class="phone-row contact flex-row space-between">
                                                     <div>
                                                         <h6 class="heavier sub-title">
-                                                            Phone number
+                                                            Phone Number
                                                         </h6>
                                                         <a class="sub-title dark-link lighter" href="tel:+{{$data['phone']['contact_region']}}{{$data['phone']['contact']}}">
                                                             +{{$data['phone']['contact_region']}} {{$data['phone']['contact']}}
                                                         </a>
                                                     </div>
-                                                    <div class="verified flex-row">
+                                                    <div class="verified flex-row self-end">
                                                         @if($data['phone']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">

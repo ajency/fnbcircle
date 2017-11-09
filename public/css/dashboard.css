@@ -793,3 +793,6 @@ table.dataTable tr th.selected.select-checkbox:after {
     margin-left: 1em;
   }
 }
+.internal-users .multiselect-native-select {
+  display: inline-block;
+}

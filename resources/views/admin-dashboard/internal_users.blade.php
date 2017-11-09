@@ -96,7 +96,7 @@ Internal Users
 	                	<input type="search" name="" placeholder="Search by Name" id="internal_name_search" class="form-control fnb-input pull-right customDtSrch" aria-controls="datatable-internal-users"/>
 	                </div> -->
 
-	                <table id="datatable-internal-users" class="display table table-striped  no-wrap" cellspacing="0" width="100%">
+	                <table id="datatable-internal-users" class="display table table-striped  no-wrap internal-users" cellspacing="0" width="100%">
 	                  <thead>
 	                    <tr>
 	                      <th class="no-sort"></th>

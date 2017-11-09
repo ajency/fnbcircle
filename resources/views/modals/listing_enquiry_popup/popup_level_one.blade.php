@@ -1,10 +1,20 @@
 <!-- level one starts -->
 <div class="level-one">
-    <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+    @if(isset($mobile_view) && $mobile_view)
+        <div class="enquiry-form__header flex-row space-between">
+            <div class="enquiry-title">
+                <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
+                <p class="sub-title">{{ $data['title']['name'] }}</p>
+            </div>
+            <span class="fnb-icons enquiry"></span>
+        </div>
+    @else
+        <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+    @endif
       <!-- form -->
     <form method="post" action="" id="level-one-enquiry" data-parsley-validate="">
         <div class="formFields flex-row flex-wrap p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
-            <div class="col-sm-6">
+            <div class="col-sm-6 col-xs-12">
                 <div class="form-group m-b-0">
                     <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
                     <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
@@ -15,11 +25,14 @@
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required filled lab-color" for="number">Phone</label>
                     @if(!Auth::guest())
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="+{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                         <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
-                    @else
-                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="+{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
+                    @elseif(isset($enquiry_data) && isset($enquiry_data['contact']))
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? '+' . $enquiry_data['contact_code'] : '') }}{{(isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required>
                         <input type="hidden" name="contact_locality" value="{{ (isset($enquiry_data) && isset($enquiry_data['contact_code']) ? $enquiry_data['contact_code'] : '') }}">
+                    @else
+                        <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-required="true" data-parsley-errors-container="#errorfield" value="" required="">
+                        <input type="hidden" name="contact_locality" value="">
                     @endif
                 </div>
                 <div id="errorfield" class="fnb-errors"></div>

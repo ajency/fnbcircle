@@ -39,18 +39,33 @@ class ForgotPasswordController extends Controller
         $this->validateEmail($request);
 
         $user_comm_obj = UserCommunication::where([['object_type', 'App\User'], ['type', 'email'], ['value', $request->email]])->first();
-        $user_obj = User::find($user_comm_obj->object_id);
 
-        if(!in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))) {
-            $this->sendResetLinkEmail($request);
-            $message = "success";
-            $status = 200;
-        } else if (in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))) {
-            $message = "This account is registered through " . ucfirst($user_obj->signup_source);
-            $status = 406;
+        if($user_comm_obj) {
+            $user_obj = User::find($user_comm_obj->object_id);
+
+            if($user_obj->status == "active") {
+                if(!in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))) {
+                    $this->sendResetLinkEmail($request);
+                    $message = "success";
+                    $status = 200; // Success
+                } else if (in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))) {
+                    $message = "This account is registered through " . ucfirst($user_obj->signup_source);
+                    $status = 406; // Not Acceptable
+                } else {
+                    $message = "This email ID doesn't exist";
+                    $status = 400; // Bad Request
+                }
+            } else {
+                $status = 406; // Not Acceptable
+                if($user_obj->status == "inactive") {
+                    $message = "Please activate your account. An activation link was sent to this Email ID.";
+                } else {
+                    $message = "Your account is suspended. Please contact us to know why.";
+                }
+            }
         } else {
-            $message = "This email ID doesn't exist";
-            $status = 400;
+            $status = 404; // Not found
+            $message = "No account exists with this Email ID";
         }
 
         return response()->json(array("message" => $message), $status);

@@ -27,7 +27,7 @@
                                                 <!-- <label class="m-b-0 text-lighter float-label required" for="new-pass">Email Address</label> -->
                                                 <input id="email" type="hidden" class="form-control fnb-input float-input" name="email" value="{{ $email or old('email') }}" required="">
                                                 @if ($errors->has('email'))
-                                                    <label id="name-error" class="fnb-errors hidden"><strong>{{ $errors->first('email') }}</strong></label>
+                                                    <label id="name-error" class="fnb-errors"><strong>{{ $errors->first('email') }}</strong></label>
                                                 @endif
                                             </div>
                                             @include('auth.passwords.password-set', array("old_password" => false, "confirm_password" => true))

@@ -12278,7 +12278,7 @@ dl dd {
     font-size: 1em;
   }
   .profile-stats .infoCard {
-    top: 2em;
+    top: -5em;
     left: 0;
     right: 0;
     margin: 0 auto;

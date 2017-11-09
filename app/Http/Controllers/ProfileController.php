@@ -84,7 +84,6 @@ class ProfileController extends Controller
             	}else{
             		$comm = UserCommunication::find($req['contact_mobile_id']);
             	}
-                dd($req);
             	if($req['contactNumber'] !=""){
             		$comm->type = 'mobile';
             		$comm->object_type = 'App\\User';

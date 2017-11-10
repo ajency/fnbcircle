@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
 
     var bus_cat_fetch_url ="";
 
-    if(page_category!=""){
+    if(page_category!=" "){
         bus_cat_fetch_url = LARAURL + '/'+page_category+'/business-listings-card';
     }
     else{

@@ -216,14 +216,14 @@ Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 
 /** Routes for Wordpress News */
 
-Route::group(['middleware' => ['web']], function () {
+//Route::group(['middleware' => ['web']], function () {
 
 	Route::get('/wp-laravel-header','WpNewsController@getLaravelHeaderForWp');
 Route::get('/wp-laravel-footer','WpNewsController@getLaravelFooterForWp');
 Route::get('/wp-get-logged-in-laravel-user','WpNewsController@getLaravelLoggedInUser');
 Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCategoryCard');
 //
-});
+//});
 
  
 /**

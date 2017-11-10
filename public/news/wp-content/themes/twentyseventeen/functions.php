@@ -601,7 +601,7 @@ function fnbcircleWpScripts(){
 
 	$queried_object = get_queried_object();
 	 
-	$category_slug = "";
+	$category_slug = "pune";
 
 	if(isset($queried_object->taxonomy)){
 
@@ -663,12 +663,16 @@ add_action('pre_get_posts', 'search_by_cat');
 
 
 function remove_page_from_query_string($query_string){ 
-    if ($query_string['name'] == 'page' && isset($query_string['page'])) {
-        unset($query_string['name']);
-        // 'page' in the query_string looks like '/2', so i'm spliting it out
-        //list($delim, $page_index) = explode('/', $query_string['page']);        
-        $query_string['paged'] = $query_string['page'];
-    }    
+
+	if(isset($query_string['name'])){
+		if ($query_string['name'] == 'page' && isset($query_string['page'])) {
+		    unset($query_string['name']);
+		    // 'page' in the query_string looks like '/2', so i'm spliting it out
+		    //list($delim, $page_index) = explode('/', $query_string['page']);        
+		    $query_string['paged'] = $query_string['page'];
+		}    	
+	}
+    
     
     return $query_string;
 }

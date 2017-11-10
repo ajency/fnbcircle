@@ -226,6 +226,8 @@
         get_core_cat_checked = getPreviouslyAvailableCategories();
         getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false);
       }
+      $("#category-select #level-two-category #cat-dataHolder div").removeClass("active");
+      $("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass("active");
     });
 
     /* -- If a branch category is selected, then select all the core categories --- */

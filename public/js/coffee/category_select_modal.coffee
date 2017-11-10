@@ -246,10 +246,15 @@ $(document).ready () ->
 	### --- On click of Branch Categories, Get it's children --- ###
 	$(document).on "click", "#category-select #level-two-category ul#branch_categories li a", (event) ->
 		get_core_cat_checked = []
-		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1
+		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1 ## If no checkboxes exist, then populate the Checkboxes under that div
 			get_core_cat_checked = getPreviouslyAvailableCategories()
 			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
-			# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+
+		## -- Display that specific div with Checkboxes, as the bootstrap fails to do the functionality in certain scenario -- ##
+		$("#category-select #level-two-category #cat-dataHolder div").removeClass "active"
+		$("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass "active"
+
+		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
 		return
 
 	### -- If a branch category is selected, then select all the core categories --- ###

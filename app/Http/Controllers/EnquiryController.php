@@ -674,21 +674,19 @@ class EnquiryController extends Controller {
 		} else if($template_config == "popup_level_three") {
 			$session_payload = Session::get('enquiry_data', []);
 
-			if(isset($verified_session["mobile"]) && $verified_session["mobile"]) {
+			if(!Auth::guest()) {
+				$lead_obj = Auth::user();
+				$lead_type = "App\User";
+			} else if(isset($verified_session["mobile"]) && $verified_session["mobile"]) {
 				$lead_obj = ["id" => $session_payload["user_object_id"]];
 				$lead_type = $session_payload["user_object_type"];
 			} else {
-				if(Auth::guest()) {
-					$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact_locality . '-' . $request->contact]])->get();
-					$lead_type = "App\Lead";
-					if($lead_obj->count() > 0) {
-						$lead_obj = $lead_obj->first();
-					} else {
-						$lead_obj = null;
-					}
+				$lead_obj = Lead::where([['email', $request->email], ['mobile', $request->contact_locality . '-' . $request->contact]])->get();
+				$lead_type = "App\Lead";
+				if($lead_obj->count() > 0) {
+					$lead_obj = $lead_obj->first();
 				} else {
-					$lead_obj = Auth::user();
-					$lead_type = "App\User";
+					$lead_obj = null;
 				}
 			}
 

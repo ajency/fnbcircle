@@ -757,3 +757,79 @@ function get_laravel_site_url(){
     }
 
 }
+
+
+
+
+/* Wp-Admin  CUSTOM */
+
+
+/* Add custom menu to Sync tags*/
+function my_plugin_function(){
+
+	echo '<h1>Import tags from Main site</h1>
+		<br/><div id="tab_sync_message" style="display:none" class="updated notice notice-success is-dismissible"><p>Post updated.  </p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div><br/>	';
+	echo "	<form>
+				<label>Click on button below, to Syn the Jobs & Business listings tags from main site to news </label>
+				<br/><br/><input type='button' name='btn_import_tags'  id='btn_import_tags' value ='Sync' class='button button-primary button-large'  />
+			</form>   
+
+			<input type='hidden' name='laraurl' id='laraurl' value='".get_laravel_site_url()."' />
+			";
+
+}
+
+
+function tags_import_menu() {
+	add_posts_page('Import Tags', 'Import tags', 'read', 'import-tags', 'my_plugin_function');
+}
+add_action('admin_menu', 'tags_import_menu');
+
+
+
+
+add_action('admin_init', function(){ 
+    //if($GLOBALS['pagenow']=='post.php'){
+        add_action('admin_print_scripts', 'my_admin_scripts');
+        //add_action('admin_print_styles',  'my_admin_styles');
+    //}
+});
+
+function my_admin_scripts() { 
+
+	wp_enqueue_script('cust_admin_script', get_template_directory_uri() . '/assets/js/custom_admin_script.js', array('jquery'), true, true);
+	//wp_enqueue_script('jquery');    wp_enqueue_script('media-upload');   wp_enqueue_script('thickbox'); 
+}
+/* End Add custom menu to Sync tags*/
+
+/* Modify Tags Display on post edit page*/
+function example_wpadmin_show_all_tags( $args ) {
+    if ( defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_POST['action'] ) && $_POST['action'] === 'get-tagcloud' )
+        unset( $args['number'] );
+        $args['hide_empty'] = 0;
+    return $args;
+}
+add_filter( 'get_terms_args', 'example_wpadmin_show_all_tags' );
+function example_wpadmin_custom_css() {
+    echo '<script>
+        jQuery(window).load(function() {
+            jQuery("body.wp-admin #tagsdiv-post_tag #link-post_tag").trigger("click");
+            jQuery("body.wp-admin #tagsdiv-post_tag #link-post_tag").hide();
+        });
+    </script>';
+    echo '<style>
+        /*body.wp-admin #tagsdiv-post_tag #link-post_tag{visibility:hidden;}*/
+       /* body.wp-admin #tagsdiv-post_tag #post_tag .jaxtag{display:none;} //this line hides the manual add tag box - delete if not required */
+        body.wp-admin #tagsdiv-post_tag #tagcloud-post_tag a{display:block;} //this line puts each displayed tag on a new line - delete if not required
+
+        body.wp-admin #tagsdiv-post_tag .hide-if-no-js{ overflow:auto; max-height:250px;}
+    </style>';
+}
+add_action('admin_head', 'example_wpadmin_custom_css');
+/* End Modify Tags Display on post edit page*/
+
+
+
+
+
+/* Wp-Admin  CUSTOM */

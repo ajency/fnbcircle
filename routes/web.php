@@ -222,6 +222,7 @@ Route::post('/upload-listing-file','ListingController@uploadListingFiles');
 Route::get('/wp-laravel-footer','WpNewsController@getLaravelFooterForWp');
 Route::get('/wp-get-logged-in-laravel-user','WpNewsController@getLaravelLoggedInUser');
 Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCategoryCard');
+Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 //
 //});
 

@@ -360,12 +360,11 @@ class AdminModerationController extends Controller
     public function setNotificationDefault(Request $request){
         $this->validate($request,[
             'type' =>'required',
-            'value' => 'nullable|required'
         ]);
 
         $default = Defaults::where('type','email_notification')->where('label',str_replace('notification-', '', $request->type))->firstOrFail();
         $data = json_decode($default->meta_data,true);
-        $data['value'] = explode(',', $request->value);
+        $data['value'] = (isset($request->value))? explode(',', $request->value):[];
         $default->meta_data = json_encode($data);
         $default->save();
         return response()->json(['status'=>'200', 'message'=>'OK']);

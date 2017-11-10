@@ -97,7 +97,7 @@ class EnquiryController extends Controller {
         if($key == "contact") {
 	        $sms = [
 	            'to' => $key_value,
-	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 15 mins."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
+	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 1 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
 	        ];
 
         	sendSms('verification',$sms);

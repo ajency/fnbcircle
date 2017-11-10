@@ -376,6 +376,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param from
 *	@param name
 * 	@param subject
+*   @param delay  - @var integer
 *	@param attach - An Array of arrays each containing the following parameters:
 *			@param file - base64 encoded raw file
 *			@param as - filename to be given to the attachment
@@ -409,6 +410,7 @@ function sendEmail($event='new-user', $data=[]) {
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$email]); 
+    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 
@@ -420,6 +422,7 @@ function sendEmail($event='new-user', $data=[]) {
 * @param data can contain the following extra parameters
 *	@param to - array
 * 	@param message - string
+*   @param delay  - @var integer
 * @param override
 */
 function sendSms($event='new-user', $data=[], $override = false) {
@@ -433,6 +436,7 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
+    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
     AjComm::sendNotification($notify);
  
  	

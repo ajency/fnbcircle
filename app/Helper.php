@@ -258,7 +258,13 @@ function salarayTypeText($type){
 
    return $salaryTpes[$type];
 }
+ 
+function getCities(){
+	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
+	return $cities;
+}
+ 
 /**
 * This function will return DOM for the pagination
 * This function will @return
@@ -267,6 +273,7 @@ function salarayTypeText($type){
 * Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
 *		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
 */
+ 
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage) ? 1 : $currentPage;
@@ -311,6 +318,41 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
+ 
+function salaryRange(){
+	$range = [	'5'=>['min' => 0,
+					'max' => 300000000
+					],
+
+				'6'=>['min' => 0,
+					'max' => 25000000
+					],
+
+				'7'=>['min' => 0,
+					'max' => 822000
+					],
+
+				'8'=>['min' => 0,
+					'max' => 34500
+					]
+
+			];
+	return  $range;
+} 
+
+function getUploadFileUrl($id){
+	$url = '';
+	if(!empty($id)){
+		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
+	
+		if(!empty($fileUrl)){
+			$url = $fileUrl[0]->url;
+		}
+	}
+	
+	 return $url;
+}
+ 
 /**
 * This function is used to get Popular city object that will be used in Every page dropdown -> Header page
 * This function will @return
@@ -318,6 +360,10 @@ function pagination($totalRecords,$currentPage,$limit){
 */
 function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+}
+
+function getSinglePopularCity() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
 }
 
 /**
@@ -335,10 +381,11 @@ function generateUrl($city, $slug, $slug_extra = []) {
 			$url .= "/" . str_slug($slug_value, '-');
 		}
 	}
-
+ 
 	return $url;
 }
 
+ 
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
@@ -350,6 +397,8 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param from
 *	@param name
 * 	@param subject
+*   @param delay  - @var integer
+*   @param priority - @var string -> ['low','default','high']
 *	@param attach - An Array of arrays each containing the following parameters:
 *			@param file - base64 encoded raw file
 *			@param as - filename to be given to the attachment
@@ -360,28 +409,46 @@ function sendEmail($event='new-user', $data=[]) {
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
 	$email->setFrom($from, $name);
-	if(!isset($data['to']) ) $data['to']= [];
-	// 	return false;
-	$email->setTo($data['to']);
-	$cc = (isset($data['cc']))? $data['cc']:[];
+
+	/* to */
+	if(!isset($data['to']))
+		$data['to']= [];
+	else
+		if(!is_array($data['to'])) // If not in array format
+			$data['to'] = [$data['to']];
+	$to = sendEmailTo($data['to'], 'to');
+	$email->setTo($to);
+
+	/* cc */
+	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
 	if(!is_array($cc)) $cc = [$cc];
+
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)){
+	if(in_array($event, $notify)) {
 		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
-	if(isset($data['bcc'])) $email->setCc($data['bcc']);
+
+	/* bcc */
+	if(isset($data['bcc'])) {
+		$bcc = sendEmailTo($data['bcc'], 'bcc');
+		$email->setCc($bcc);
+	}
+	
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+ 
 	$email->setParams($params);
 
 	if(isset($data['attach'])) $email->setAttachments($data['attach']);
 
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
-    $notify->setRecipientIds([$email]);
+    $notify->setRecipientIds([$email]); 
+    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+    if (isset($data['priority'])) $notify->setPriority($data['priority']);
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 
@@ -393,6 +460,7 @@ function sendEmail($event='new-user', $data=[]) {
 * @param data can contain the following extra parameters
 *	@param to - array
 * 	@param message - string
+*   @param delay  - @var integer
 * @param override
 */
 function sendSms($event='new-user', $data=[], $override = false) {
@@ -406,9 +474,81 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
+    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+    if (isset($data['priority'])) $notify->setPriority($data['priority']);
     AjComm::sendNotification($notify);
+ 
+ 	
 }
 
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
+ 
+ 
+}
+
+
+function sendUserRegistrationMails($user){
+
+    $userDetail = $user->getUserDetails;
+    $userDetail->has_previously_login = 1;
+    $userDetail->save();
+
+
+    Auth::login($user);
+    $userEmail = $user->getPrimaryEmail();
+    // $userEmail = 'nutan@ajency.in';
+    
+    //send welcome mail
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [$userEmail];
+    $data['cc'] = [];
+    $data['subject'] = "Welcome to FnB Circle!";
+    $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
+    sendEmail('welcome-user', $data);
+
+
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [config('constants.email_from')];
+    $data['cc'] = [];
+    $data['subject'] = "New user registration on FnB Circle.";
+    $data['template_data'] = ['user' => $user];
+    sendEmail('user-register', $data);
+
+    return true;
+
+    }
+
+function firstTimeUserLoginUrl(){
+
+	$redirectUrl = '/';
+
+	if(Auth::check()){
+		$userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
+		if($userType == 'internal')
+            $redirectUrl = '/admin-dashboard';
+        else
+            $redirectUrl = '/profile/basic-details';
+    }
+ 
+	return $redirectUrl;
+
+}
+ 
+
+
+
+/**
+* This function will generate Category's Hierarchy from bottom to top -> Node to Parent
+*/
 function generateCategoryHierarchy($category_id) {
 	$cat_obj = Category::find($category_id);
 	$position = ["parent", "branch", "node"];
@@ -422,24 +562,28 @@ function generateCategoryHierarchy($category_id) {
 		$level--;
 	}while($level > 0);
 
-	// if($cat_obj->path) {
-	// 	$id_arr = str_split($cat_obj->path, 5);
-	// 	$id_arr = array_reverse($id_arr);
-
-	// 	$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
-		
-	// 	foreach ($id_arr as $id_key => $id_value) {
-	// 		$cat_temp = Category::find($id_value);
-	// 		if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
-	// 		} else {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
-	// 		}
-	// 	}
-	// } else {
-	// 	$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
-	// 	$value["branch"] = []; $value["node"] = [];
-	// }
-
 	return $value;
+}
+
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs'))) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+* This function will return Email IDs based on ENV if it is Development or Production mode
+*/
+function sendEmailTo($emails = [], $type='to') {
+	if(in_develop()) {
+		$emails = config('constants.email_' . $type . '_dev');
+	}
+
+	return $emails;
 }

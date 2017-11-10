@@ -8,7 +8,8 @@
       type: 'post',
       url: '/api/get_listing_categories',
       data: {
-        'category': [parent_id]
+        'category': [parent_id],
+        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
       },
       success: function(data) {
         var key;
@@ -21,7 +22,7 @@
     });
   };
 
-  getNodeCategories = function(path, parent_id, checked_values, is_all_checked) {
+  getNodeCategories = function(path, branch_id, checked_values, is_all_checked) {
     var html;
     html = '';
     if (checked_values.length <= 0) {
@@ -33,7 +34,7 @@
       type: 'post',
       url: '/api/get_node_listing_categories',
       data: {
-        'branch': [parent_id]
+        'branch': [branch_id]
       },
       success: function(data) {
         var html_upload, index, key, node_children;
@@ -92,7 +93,8 @@
       type: 'post',
       url: '/api/get_categories_modal_dom',
       data: {
-        'level': level
+        'level': level,
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);
@@ -205,7 +207,7 @@
     });
 
     /* --- On change / select of Radio Option, Get the Category LEvel 2 DOM, & Hide Level 1 & display Level 2  --- */
-    $(document).on("change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", function() {
+    $(document).on("change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", function(event) {
       var get_core_cat_checked;
       getBranchNodeCategories("#category-select #level-two-category-dom", $(this).val());
       $(this).closest("div#level-one-category").addClass("hidden");
@@ -217,17 +219,19 @@
     });
 
     /* --- On click of Branch Categories, Get it's children --- */
-    $(document).on("click", "#category-select #level-two-category ul#branch_categories li a", function() {
+    $(document).on("click", "#category-select #level-two-category ul#branch_categories li a", function(event) {
       var get_core_cat_checked;
       get_core_cat_checked = [];
       if ($("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1) {
         get_core_cat_checked = getPreviouslyAvailableCategories();
         getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false);
       }
+      $("#category-select #level-two-category #cat-dataHolder div").removeClass("active");
+      $("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass("active");
     });
 
     /* -- If a branch category is selected, then select all the core categories --- */
-    $(document).on("change", "#category-select #level-two-category ul#branch_categories input[type='checkbox']", function() {
+    $(document).on("change", "#category-select #level-two-category ul#branch_categories input[type='checkbox']", function(event) {
       if ($("#category-select #level-two-category div#" + $(this).val() + " input[type='checkbox']").length < 1) {
         if ($(this).prop('checked')) {
           getNodeCategories("#category-select #level-two-category ", $(this).val(), [], true);

@@ -74,10 +74,10 @@
     $('.contact-info').on('click', '.contact-verify-link', function(event) {
       $('.contact-container').removeClass('under-review');
       $(this).closest('.contact-container').addClass('under-review');
-      return verifyContactDetail(true);
+      return verifyContactDetail(true, false);
     });
-    verifyContactDetail = function(showModal) {
-      var contactId, contactType, contactValue, contactValueObj, countryCode, isVisible, objectId, objectType, underreviewDialCode;
+    verifyContactDetail = function(showModal, resend_otp) {
+      var contactId, contactType, contactValue, contactValueObj, countryCode, data_filters, isVisible, objectId, objectType, underreviewDialCode;
       contactValueObj = $('.under-review').find('.contact-input');
       contactValue = contactValueObj.val();
       contactType = $('.under-review').closest('.contact-info').attr('contact-type');
@@ -100,18 +100,22 @@
           $('#' + contactType + '-modal').find('.change-contact-input').intlTelInput("setNumber", "+" + underreviewDialCode);
           $('#' + contactType + '-modal').modal('show');
         }
+        data_filters = {
+          'id': contactId,
+          'contact_value': contactValue,
+          'contact_type': contactType,
+          'object_id': objectId,
+          'object_type': objectType,
+          'is_visible': isVisible,
+          'country_code': countryCode
+        };
+        if (resend_otp) {
+          data_filters["resend"] = true;
+        }
         $.ajax({
           type: 'post',
           url: '/user/verify-contact-details',
-          data: {
-            'id': contactId,
-            'contact_value': contactValue,
-            'contact_type': contactType,
-            'object_id': objectId,
-            'object_type': objectType,
-            'is_visible': isVisible,
-            'country_code': countryCode
-          },
+          data: data_filters,
           success: function(data) {
             $('.under-review').find('.contact-id').val(data['id']);
           },
@@ -198,7 +202,7 @@
           $('.default-state').removeClass('hidden');
           $('.add-number').addClass('hidden');
           $('.verificationFooter').removeClass('no-bg');
-          return verifyContactDetail(false);
+          return verifyContactDetail(false, false);
         }
       } else {
         if (newContactObj.val() === '') {
@@ -282,6 +286,7 @@
     });
     return $('.contact-verification-modal').on('click', '.resend-link', function(e) {
       $(this).addClass('sending');
+      verifyContactDetail(false, true);
       setTimeout((function() {
         $('.resend-link').removeClass('sending');
       }), 2500);

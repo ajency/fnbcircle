@@ -27,9 +27,15 @@ function routePermission(){
 
 				//admin jobs permission
 				'admin-dashboard/moderation/listing-approval'=>['listing_approval'],
+				'admin-dashboard/config/categories'=>['listing_approval'],
+				'admin-dashboard/config/locations'=>['listing_approval'],
+				'admin-dashboard/users/internal-users'=>['listing_approval'],
+				'admin-dashboard/users/registered-users'=>['listing_approval'],
+				'admin-dashboard/email-notification'=>['listing_approval'],
 
 
- 				'admin-dashboard/jobs/manage-jobs'=>['manage_job_status','manage_job_view'],
+ 				'admin-dashboard/jobs/manage-jobs'=>['listing_approval'],
+ 				// 'admin-dashboard/jobs/manage-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/get-jobs'=>['manage_job_status','manage_job_view'],
 			 	'admin-dashboard/jobs/update-job-status'=>['manage_job_status'],
 			 	'admin-dashboard/jobs/bulk-update-job-status'=>['manage_job_status'],
@@ -38,6 +44,8 @@ function routePermission(){
 			 	//ui element
 				'submit_review_element_cls'=>['submit_for_review_job','submit_for_review_listing'],
 				'edit_permission_element_cls'=>['edit_job','edit_listing'],
+				'change_status_element_cls'=>['job_status'],
+				'view_profile_element_cls' => ['listing_approval'],
 			],
 
 		'normal_user_check' =>
@@ -144,6 +152,7 @@ $userReferenceKey : user coloumn name in the table (eg : user_id ,owner_id)
 **/
 function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
 	// var_dump('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
+
  	if(Auth::check() && $table){
  		$isOwner = \DB::select('select *  from  '.$table.' where '.$referenceKey.' ="'.$referenceId.'" and '.$userReferenceKey.'='.Auth::user()->id);
 
@@ -151,7 +160,7 @@ function isOwner($table,$referenceKey,$userReferenceKey,$referenceId){
  	}
  	else
  		$result = false;
-	
+
 	return $result;
 }
 
@@ -181,6 +190,7 @@ function routeModelConfig(){
 	$config = [
 				'jobs' => ['table' => 'jobs', 'id' =>'reference_id' ,'user' =>'job_creator'],
 				'listing' => ['table' => 'listings', 'id' =>'reference','user' =>'owner_id'],
+				'communication' => ['table' => 'user_communications', 'id' => 'id', 'user' => 'object_id'],
 				];
 
 	return $config;
@@ -216,10 +226,8 @@ function isFirstTimeLoginRedirect($currentUrl){
     //check if loggen in user is first time
     if(!$lastLogin)
     {
-        if($userType == 'internal')
-            return '/admin-dashboard';
-        else
-            return '/customer-dashboard';
+    	$redirectUrl = firstTimeUserLoginUrl();
+        return $redirectUrl;
     }
     else
     	return $currentUrl;

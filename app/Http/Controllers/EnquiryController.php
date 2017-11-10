@@ -97,13 +97,14 @@ class EnquiryController extends Controller {
         if($key == "contact") {
 	        $sms = [
 	            'to' => $key_value,
-	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 15 mins."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
+	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 1 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
 	        ];
 
+	        $sms["priority"] = "high";
         	sendSms('verification',$sms);
     	}
         
-        if(env('APP_DEBUG')) {
+        if(in_develop()) { // Store OTP in Cookie, if in DEV mode
         	$cookie_cont_obj = new CookieController;
         	$other_cookie_params = ["path" => "/", "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true];
         	$cookie_cont_obj->set('mobile_otp', strVal($OTP), $other_cookie_params);
@@ -122,7 +123,7 @@ class EnquiryController extends Controller {
 		$data['name'] = config('constants.email_from_name');
 		$data['to'] = $email_details['to'];
 
-		$data['cc'] = isset($email_details['cc']) ? $email_details['cc'] : ["sharath@ajency.in"];
+		$data['cc'] = isset($email_details['cc']) ? $email_details['cc'] : [];
 		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
 		$data['subject'] = 'Your enquiry has been sent successfully';
 		
@@ -132,26 +133,28 @@ class EnquiryController extends Controller {
 			}  else { // Send email to the seeker with other enquiries
 				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "cancel_other_enquiry_contacts" => "", "is_premium" => false];
 			}
+			$data['priority'] = 'default';
 			sendEmail("seeker-email-enquiry", $data);
 		}
 
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
-			$data['to'] = "sharath@ajency.in";//$email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'You just received an enquiry for your listing';
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 			
-			if($is_premium) { // If listing is PREMIUM, then send an INSTANT mail
-				sendEmail('direct-listing-email', $data);
-			} else { // If not a premium, send with a time DELAY of 60 mins
+			if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$data['delay'] = 60;
-				sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 			}
+
+			$data['priority'] = 'low';
+			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 		} else { // if listing enquiry is SHARED, then
-			$data['to'] = "sharath@ajency.in";//$email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
 
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 
+			$data['priority'] = 'low';
 			sendEmail('shared-listing-email', $data);
 		}
 	}
@@ -1008,7 +1011,12 @@ class EnquiryController extends Controller {
         	}
         }
 
-        $view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories'))->render();
+        if($request->has('is_branch_select') && ($request->is_branch_select === "true" || $request->is_branch_select === true)) {
+        	$is_branch_select = true;
+        	$view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories', 'is_branch_select'))->render();
+        } else {
+        	$view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories'))->render();
+        }
 
         return response()->json(array("modal_template" => $view_blade), 200);
     }
@@ -1051,7 +1059,12 @@ class EnquiryController extends Controller {
 		$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
 
 		if($request->level == "level_1") {
-			$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			if($request->has('is_parent_select') && ($request->is_parent_select === "true" || $request->is_parent_select === true)) {
+				$is_parent_select = true;
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents', 'is_parent_select'))->render();
+			} else {
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			}
 		}
 		return response()->json(array("modal_template" => $modal_template), 200);
     }

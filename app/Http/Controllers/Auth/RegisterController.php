@@ -131,8 +131,11 @@ class RegisterController extends Controller
         }
 
         $request_data["user_comm"]["object_id"] = $user_obj->id;
+
         if($request->has('contact_id') && $request->contact_id) {
             $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], $request->contact_id);
+        } else {
+            $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], '');
         }
 
         // if(isset($request_data["user_comm"]["contact"])) {
@@ -192,11 +195,11 @@ class RegisterController extends Controller
             $request_data["user_comm"]["is_verified"] = 0;
         }
 
-        if ($request->has("contact")) {
+        /*if ($request->has("contact")) {
             $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
-        }
+        }*/
 
         if ($request->has("description")) {
             $request_data["user_details"]["subtype"] = serialize($request->description);
@@ -221,7 +224,14 @@ class RegisterController extends Controller
                     $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
                 }
-                
+
+                if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                    $usercomm_obj = UserCommunication::create([
+                        "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91", 
+                        "value" => $request->contact, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                    ]);
+                }
+
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm
                 $required_fields_check = $userauth_obj->updateRequiredFields($user_resp["user"]);
 
@@ -262,12 +272,11 @@ class RegisterController extends Controller
 
             $confirmationLink = url('/user-confirmation/' . $token);
             $userEmail = $user_data["email"];
-            $userEmail = "sharath@ajency.in";
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [];
             $data['subject'] = "Verify your email address!";
             $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
             sendEmail($email_template_key, $data);
@@ -299,61 +308,36 @@ class RegisterController extends Controller
             $user->status = 'active';
             $user->save();
 
+            UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
+
             $token->status = 'completed';
             $token->save();
 
-            $userDetail = $user->getUserDetails;
-            $userDetail->has_previously_login = 1;
-            $userDetail->save();
-
-
-            Auth::login($user);
-            $userEmail = $user->getPrimaryEmail();
-            $userEmail = 'nutan@ajency.in';
+            sendUserRegistrationMails($user);
+            $redirectUrl = firstTimeUserLoginUrl();
             
-            //send welcome mail
-            $data = [];
-            $data['from'] = config('constants.email_from'); 
-            $data['name'] = config('constants.email_from_name');
-            $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
-            $data['subject'] = "Welcome to FnB Circle!";
-            $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
-            sendEmail('welcome-user', $data);
-
- 
-            $data = [];
-            $data['from'] = config('constants.email_from'); 
-            $data['name'] = config('constants.email_from_name');
-            $data['to'] = [config('constants.email_from')];
-            $data['cc'] = 'prajay@ajency.in';
-            $data['subject'] = "New user registration on FnB Circle.";
-            $data['template_data'] = ['user' => $user];
-            sendEmail('user-register', $data);
- 
-            return redirect(url('/customer-dashboard'));
+            return redirect(url($redirectUrl));
             
-        }
-        else
-        {  
-            if(!empty($token))
-            {
+        } else {
+
+            if(!empty($token) && $token->status == "completed") {
+                return redirect(url('/').'?login=true&message=token_already_verified'); 
+            } else if(!empty($token) && $expireDate > $today) {
                 $user = User::find($token['user_id']);
                 Session::put('userLoginEmail', $user->email);
                 return redirect(url('/').'?login=true&message=token_expired'); 
-            }
-            else
+            } else
                 return redirect(url('/')); 
             
             
         }
     }
 
+ 
     public function sendConfirmationLink(Request $request)  
     {
         $email = Session::get('userLoginEmail');
         $user = User::where('email',$email)->get()->first();
-       
         $confirmation = $this->registerConfirmEmail($user);
         return redirect(url('/').'?login=true&message=resend_verification'); 
     }

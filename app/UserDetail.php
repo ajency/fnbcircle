@@ -23,6 +23,22 @@ class UserDetail extends Model
 		return $this->belongsTo('App\User', 'user_id');
 	}
 
+ 
+
+    public function resumeUpdated($format=1){
+        $date = '';
+        if(!empty($this->resume_updated_on)){
+
+            if($format==1)
+                $date = date('F j, Y', strtotime(str_replace('-','/', $this->resume_updated_on)));
+            else
+                $date = date('d-m-Y h:i A', strtotime(str_replace('-','/', $this->resume_updated_on)));
+
+        }
+        return $date;
+
+    }
+    
     public function userCity() {
         return $this->belongsTo( 'App\City' ,'city');
     }
@@ -51,5 +67,20 @@ class UserDetail extends Model
 
         return $date;
       
+    }
+
+    public function getSavedUserSubTypes(){
+        $subtype = $this->getUserSubtypes();
+        $userSubTypes = unserialize($this->subtype);
+        $savedSubTypes = [];
+        if(!empty($userSubTypes)){
+            foreach ($userSubTypes as $userSubType) {
+                $savedSubTypes[$userSubType] = $subtype[$userSubType];
+            }
+        }
+        
+
+        return $savedSubTypes;
+ 
     }
 }

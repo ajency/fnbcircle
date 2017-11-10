@@ -15,6 +15,7 @@ return [
 
     'accepted'             => 'The :attribute must be accepted.',
     'id_json'              => 'Something went wrong when setting :attribute. Please try again',
+    'current_password' => "The old password is invalid.",
     'not_empty_json'       => 'Atleast one :attribute required',
     'week_time'            => 'something went wrong with time settings. Did you check both closed and open 24 hours?',
     'photo_json'           => 'There was a problem in saving your photo details. Please try again',

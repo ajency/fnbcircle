@@ -184,7 +184,7 @@ getArea = (modal_id, city, path) ->
 			$(path).addClass "default-area-select"
 			for key of data
 				key = key
-				html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
+				html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
@@ -366,138 +366,141 @@ $(document).ready () ->
 						$(modal_id + " #level-one-enquiry input[name='contact']").val ""
 					
 					# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-
-
-				### --- On click of "Send Enquiry 1" button --- ###
-				$(document).on "click", modal_id + " #level-one-enquiry #level-one-form-btn", (event) ->
-					page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
-					$(this).find("i.fa-circle-o-notch").removeClass "hidden"
-					if $(document).find(modal_id + " #level-one-enquiry").parsley().validate()
-						getContent(modal_id, page_level, $("#enquiry_slug").val())
-						event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					else
-						console.log "forms not complete"
-					
 					return
 
-
-				### --- On click of OTP submit button --- ###
-				$(document).on "click", modal_id + " #level-two-enquiry #level-two-form-btn", (event) ->
-					getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), false, false, '')
-					event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					return
-
-				### --- On click of OTP regenerate button --- ###
-				$(document).on "click", modal_id + " #level-two-enquiry #level-two-resend-btn", (event) ->
-					getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), true, true, '')
-					event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					return
-
-				### --- initialize the Flag in Popup 2 --- ###
-				$(document).on "click", modal_id + " #level-two-enquiry", () ->
-					initFlagDrop(modal_id + " #level-two-enquiry #new-mobile-modal input[name='contact']")
-					return
-
-				### --- On click of 'x', close the Popup 2 modal --- ###
-				$(document).on "click", modal_id + " #level-two-enquiry #close-new-mobile-modal", () ->
-					$(document).find(modal_id + " #new-mobile-modal").modal "hide"
-					return
-
-				### --- Change the Contact No & Regenarate OTP --- ###
-				$(document).on "click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", (event) ->
-					$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
-					$(document).find(modal_id + " #new-mobile-modal").modal "hide"
-					getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
-					event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					return
-
-				$(document).on "change", modal_id + " #level-three-enquiry #area_section select[name='city']", (event) ->
-					city_vals = []
-					i = 0
-					$(modal_id + " #level-three-enquiry #area_section select[name='city'] option").removeClass 'hidden' # Remove all hidden class
-					$(modal_id + " #level-three-enquiry #area_section select[name='city']").each -> # get the selected ID values
-						city_vals.push $(this).val()
-						return
-
-					while i < city_vals.length
-						$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + city_vals[i] + "']").addClass 'hidden' # hide the selected ID values
-						i++
-
-					$(modal_id + " #level-three-enquiry #area_section select[name='city']").each ->
-						if $.inArray($(this).val(), city_vals) > -1
-							$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden'
-						return
-
-					#$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden' # remove hidden class for that "select"
-					getArea(modal_id, $(this).val(), $(this).closest('ul').find('select[name="area"]'))
-					event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					return
+			### --- On click of "Send Enquiry 1" button --- ###
+			$(document).on "click", modal_id + " #level-one-enquiry #level-one-form-btn", (event) ->
+				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
+				if $(document).find(modal_id + " #level-one-enquiry").parsley().validate()
+					getContent(modal_id, page_level, $("#enquiry_slug").val())
+					# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				else
+					console.log "forms not complete"
 				
-				### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
-				$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", () ->
-					$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
+				return
+
+
+			### --- On click of OTP submit button --- ###
+			$(document).on "click", modal_id + " #level-two-enquiry #level-two-form-btn", (event) ->
+				getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), false, false, '')
+				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				return
+
+			### --- On click of OTP regenerate button --- ###
+			$(document).on "click", modal_id + " #level-two-enquiry #level-two-resend-btn", (event) ->
+				getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), true, true, '')
+				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				return
+
+			### --- initialize the Flag in Popup 2 --- ###
+			$(document).on "click", modal_id + " #level-two-enquiry", () ->
+				initFlagDrop(modal_id + " #level-two-enquiry #new-mobile-modal input[name='contact']")
+				return
+
+			### --- On click of 'x', close the Popup 2 modal --- ###
+			$(document).on "click", modal_id + " #level-two-enquiry #close-new-mobile-modal", () ->
+				$(document).find(modal_id + " #new-mobile-modal").modal "hide"
+				return
+
+			### --- Change the Contact No & Regenarate OTP --- ###
+			$(document).on "click", modal_id + " #level-two-enquiry #new-mobile-verify-btn", (event) ->
+				$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+				$(document).find(modal_id + " #new-mobile-modal").modal "hide"
+				getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
+				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				return
+
+			$(document).on "change", modal_id + " #level-three-enquiry #area_section select[name='city']", (event) ->
+				city_vals = []
+				i = 0
+				$(modal_id + " #level-three-enquiry #area_section select[name='city'] option").removeClass 'hidden' # Remove all hidden class
+				$(modal_id + " #level-three-enquiry #area_section select[name='city']").each -> # get the selected ID values
+					city_vals.push $(this).val()
 					return
 
-				### --- On click of close, remove the City-Area DOM --- ###
-				$(document).on "click", modal_id + " #level-three-enquiry #close_areas", () ->
-					$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + $(this).val() + "']").addClass('hidden')
-					$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + $(this).closest('ul').find("select[name='city']").val() + "']").removeClass 'hidden'
-					$(this).closest("ul").remove()
+				while i < city_vals.length
+					$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + city_vals[i] + "']").addClass 'hidden' # hide the selected ID values
+					i++
+
+				$(modal_id + " #level-three-enquiry #area_section select[name='city']").each ->
+					if $.inArray($(this).val(), city_vals) > -1
+						$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden'
 					return
 
-				### --- On click of Popup 3 'Save / Send' --- ###
-				$(document).on "click", modal_id + " #level-three-enquiry #level-three-form-btn", (event) ->
-					page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+				#$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden' # remove hidden class for that "select"
+				getArea(modal_id, $(this).val(), $(this).closest('ul').find('select[name="area"]'))
+				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				return
+			
+			### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
+			$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
+				console.log "New City-Area"
+				$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
+				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
+				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				return
 
-					# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
-					if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find("#level-three-enquiry #area_operations").parsley().validate()
-						getContent(modal_id, page_level, $("#enquiry_slug").val())
-						event.stopimmediatepropagation() # Prevent making multiple AJAX calls
-					else
-						console.log "forms not complete"
+			### --- On click of close, remove the City-Area DOM --- ###
+			$(document).on "click", modal_id + " #level-three-enquiry #close_areas", () ->
+				$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + $(this).val() + "']").addClass('hidden')
+				$(modal_id + " #level-three-enquiry #area_section select[name='city'] option[value='" + $(this).closest('ul').find("select[name='city']").val() + "']").removeClass 'hidden'
+				$(this).closest("ul").remove()
+				return
+
+			### --- On click of Popup 3 'Save / Send' --- ###
+			$(document).on "click", modal_id + " #level-three-enquiry #level-three-form-btn", (event) ->
+				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+
+				# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
+				if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find("#level-three-enquiry #area_operations").parsley().validate()
+					getContent(modal_id, page_level, $("#enquiry_slug").val())
+					# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				else
+					console.log "forms not complete"
+				return
+
+			### --- On click of "Add More" categories --- ###
+			$(document).on "click", modal_id + " #level-three-enquiry #select-more-categories", () ->
+				main_page_categories = []
+				$.each $(modal_id + " #level-three-enquiry input[name='categories_interested[]']:checked"), ->
+					main_page_categories.push $(this).val()
 					return
+				$(modal_id).modal "hide"
 
-				### --- On click of "Add More" categories --- ###
-				$(document).on "click", modal_id + " #level-three-enquiry #select-more-categories", () ->
-					main_page_categories = []
-					$.each $(modal_id + " #level-three-enquiry input[name='categories_interested[]']:checked"), ->
-						main_page_categories.push $(this).val()
-						return
-					$(modal_id).modal "hide"
-
-					### --- Category select modal on show --- ###
-					$(document).on "shown.bs.modal", "#category-select", (event) ->
-						console.log main_page_categories
-						$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
-						return
-					return
-
-				### --- On Categories Modal close, update the Level 3 with checkboxes --- ###
-				$(document).on "hidden.bs.modal", "#category-select", (event) ->
-					$(modal_id).modal "show"
-					checked_categories = []
-					index = 0
-					html = ""
-					
-					if $(modal_id + " #level-three-enquiry #modal_categories_chosen").val().length > 2 and JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val()).length > 0
-						checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val())
-
-					$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
-					while index < checked_categories.length
-						if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0
-							$(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true
-						else
-							html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
-								<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
-									</li>"
-						index++
-
-					if html.length > 0
-						$(modal_id + " #level-three-enquiry #enquiry_core_categories").append html
-					
+				### --- Category select modal on show --- ###
+				$(document).on "shown.bs.modal", "#category-select", (event) ->
+					console.log main_page_categories
+					$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
 					return
 				return
 
-				e.stopimmediatepropagation()
+			### --- On Categories Modal close, update the Level 3 with checkboxes --- ###
+			$(document).on "hidden.bs.modal", "#category-select", (event) ->
+				$(modal_id).modal "show"
+				checked_categories = []
+				index = 0
+				html = ""
+				
+				if $(modal_id + " #level-three-enquiry #modal_categories_chosen").val().length > 2 and JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val()).length > 0
+					checked_categories = JSON.parse($(modal_id + " #level-three-enquiry #modal_categories_chosen").val())
+
+				$(modal_id + " #level-three-enquiry input[name='categories_interested[]']").prop "checked", false
+				while index < checked_categories.length
+					if $(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0
+						$(modal_id + " #level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true
+					else
+						html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
+							<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>
+								</li>"
+					index++
+
+				if html.length > 0
+					$(modal_id + " #level-three-enquiry #enquiry_core_categories").append html
+				
+				return
+			#return
+
+			#e.stopimmediatepropagation()
 			return
 	return

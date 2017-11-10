@@ -97,9 +97,10 @@ class EnquiryController extends Controller {
         if($key == "contact") {
 	        $sms = [
 	            'to' => $key_value,
-	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 15 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
+	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 1 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
 	        ];
 
+	        $sms["priority"] = "high";
         	sendSms('verification',$sms);
     	}
         
@@ -132,6 +133,7 @@ class EnquiryController extends Controller {
 			}  else { // Send email to the seeker with other enquiries
 				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "cancel_other_enquiry_contacts" => "", "is_premium" => false];
 			}
+			$data['priority'] = 'default';
 			sendEmail("seeker-email-enquiry", $data);
 		}
 
@@ -140,18 +142,19 @@ class EnquiryController extends Controller {
 			$data['subject'] = 'You just received an enquiry for your listing';
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 			
-			if($is_premium) { // If listing is PREMIUM, then send an INSTANT mail
-				sendEmail('direct-listing-email', $data);
-			} else { // If not a premium, send with a time DELAY of 60 mins
+			if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$data['delay'] = 60;
-				sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 			}
+
+			$data['priority'] = 'low';
+			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 		} else { // if listing enquiry is SHARED, then
 			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
 
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 
+			$data['priority'] = 'low';
 			sendEmail('shared-listing-email', $data);
 		}
 	}

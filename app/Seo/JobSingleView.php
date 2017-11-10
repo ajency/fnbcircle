@@ -102,9 +102,11 @@ class JobSingleView extends Model
 
     public function getBreadcrum(){
     	$jobState = $this->job->getJobSingleState();
+
+
     	$breadcrumbs = [];
         $breadcrumbs[] = ['url'=>url('/'), 'name'=>"Home"];
-        $breadcrumbs[] = ['url'=>url($jobState.'/job-listings/'), 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
+        $breadcrumbs[] = ['url'=>url(getSinglePopularCity()->slug.'/job-listings') .'?state='.getSinglePopularCity()->slug.'&business_type='.$this->job->category->slug, 'name'=> breadCrumbText($this->job->getJobCategoryName()) .' Jobs'];
         $breadcrumbs[] = ['url'=>'', 'name'=> $this->job->title];
 
         return $breadcrumbs;
@@ -125,12 +127,15 @@ class JobSingleView extends Model
     	$cities = $this->job->getJobLocationNames('city');
     	$jobCompany = $this->job->getJobCompany();
 
-
-    	$organizationData['@type'] = "Organization";
-    	if(!empty($jobCompany->website)){
-    		$organizationData['url'] = $jobCompany->website;
-    	}
-    	$organizationData['name'] = $jobCompany->title;
+        if(!empty($jobCompany)){
+            $organizationData['@type'] = "Organization";
+            if(!empty($jobCompany->website)){
+                $organizationData['url'] = $jobCompany->website;
+            }
+            $organizationData['name'] = $jobCompany->title;
+            $data['hiringOrganization'] = $organizationData;
+        }
+    	
 
 
     	$data['@context'] = 'http://schema.org';
@@ -151,7 +156,7 @@ class JobSingleView extends Model
     										  'addressCountry'=> 'IN',
     										]
     							];
-    	$data['hiringOrganization'] = $organizationData;
+    	
     	$data['occupationalCategory'] = $this->job->getJobCategoryName();
     	$data['skills'] = $this->job->getAllJobKeywords();
     	$data['title'] = $this->job->title;

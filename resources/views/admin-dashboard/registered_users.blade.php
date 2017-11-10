@@ -19,6 +19,10 @@
   
 @endsection
 
+@section('meta')
+  <meta property="status-url" content="{{action('AdminConfigurationController@userAccountStatus')}}">
+@endsection
+
 @section('page-data')
 	<div class="right_col" role="main">
       <div class="">
@@ -75,7 +79,7 @@
 	                    <tr>
 	                      <th class="text-center" rowspan="2" >Name</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="2">Registration Type
-	                        <select multiple class="form-control multi-dd" name="user_type">
+	                        <select multiple class="form-control multi-dd usersearchinput" name="registration_type">
 	                          <option value="email_signup">Email signup</option>
 	                          <option value="google">Google</option>
 	                          <option value="facebook">Facebook</option>
@@ -89,7 +93,7 @@
 	                        </select>
 	                      </th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">State
-		                        <select multiple class="form-control multi-dd usersearchinput" id="filterStates" name="user_state">
+		                        <select multiple class="form-control multi-dd usersearchinput stateSearch" id="filterStates" name="user_state">
 	                            @foreach ($cities as $city)
 	                            <option value="{{$city->id}}">{{$city->name}}</option>
 	                          @endforeach
@@ -97,8 +101,10 @@
 	                      </th>
 	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="5" style="min-width: 70px;">
 	                          City
-	                          <select multiple class="form-control multi-dd usersearchinput" id="filterCity" name="user_city">
-	                             
+	                          <select multiple class="form-control multi-dd usersearchinput citySearch" id="filterCity" name="user_city">
+	                             @foreach ($areas as $area)
+	                            <option value="{{$area->id}}">{{$area->name}}</option>
+	                          @endforeach
 	                          </select>
 	                      </th>
 	                      
@@ -111,7 +117,7 @@
 	                      <th class="text-center" rowspan="2" style="min-width: 100px;">Resume Uploaded (Y/N)</th>
 	                      <th class="no-sort text-center" rowspan="2" class="no-sort" data-col="6" style="min-width: 70px;">
 	                        Status
-	                        <select multiple class="form-control multi-dd" id="user_status" name="user_status">
+	                        <select multiple class="form-control multi-dd usersearchinput" id="user_status" name="user_status">
 	                          <option value="active">Active</option>
 	                          <option value="inactive">Inactive</option>
 	                          <option value="suspended">Suspended</option>
@@ -139,7 +145,30 @@
 
         </div>
 
-      
+      <div class="modal fade" tabindex="-1" role="dialog" id="updateStatusModal">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Update Status</h6>
+              </div>
+              <form id="singlestatus">
+              <div class="modal-body">
+                <label>Status of <span id="listing-title"></span></label>
+                <select class="form-control fnb-select w-border status-select" required>
+                  <option value="">Select</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="suspended">Suspended</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn fnb-btn primary-btn mini" id="change_status">Save changes</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
 
  
 

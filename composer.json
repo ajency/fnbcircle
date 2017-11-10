@@ -29,7 +29,9 @@
             "Ajency\\User\\": "packages/ajency/user/src",
             "Ajency\\Comm\\": "packages/ajency/comm/src"
         },
+ 
         "files": ["app/Helper.php","app/SEOHelper.php","app/FnbPermissions.php","app/Seo/Seo.php"]
+ 
     },
     "autoload-dev": {
         "psr-4": {

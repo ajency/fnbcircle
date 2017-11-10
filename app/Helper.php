@@ -447,7 +447,7 @@ function sendEmail($event='new-user', $data=[]) {
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$email]); 
-    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
     if (isset($data['priority'])) $notify->setPriority($data['priority']);
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
@@ -474,7 +474,7 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
-    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
     if (isset($data['priority'])) $notify->setPriority($data['priority']);
     AjComm::sendNotification($notify);
  

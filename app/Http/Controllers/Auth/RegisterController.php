@@ -261,13 +261,12 @@ class RegisterController extends Controller
             }
 
             $confirmationLink = url('/user-confirmation/' . $token);
-            $userEmail = sendEmailTo([$user_data["email"]], 'to');
+            $userEmail = $user_data["email"];
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
-            $data['to'] = $userEmail;
-            $data['cc'] = sendEmailTo([], 'cc');
-            
+            $data['to'] = [$userEmail];
+            $data['cc'] = [];
             $data['subject'] = "Verify your email address!";
             $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
             sendEmail($email_template_key, $data);
@@ -308,15 +307,14 @@ class RegisterController extends Controller
 
 
             Auth::login($user);
-            $userEmail = sendEmailTo([$user->getPrimaryEmail()], 'to');
+            $userEmail = $user->getPrimaryEmail();
             
             //send welcome mail
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
-            $data['to'] = $userEmail;
-            $data['cc'] = sendEmailTo([], 'cc');
-            
+            $data['to'] = [$userEmail];
+            $data['cc'] = [];
             $data['subject'] = "Welcome to FnB Circle!";
             $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
             sendEmail('welcome-user', $data);
@@ -325,9 +323,8 @@ class RegisterController extends Controller
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
-            $data['to'] = sendEmailTo([config('constants.email_from')], 'to');
-            $data['cc'] = sendEmailTo([], 'cc');
-            
+            $data['to'] = [config('constants.email_from')];
+            $data['cc'] = [];
             $data['subject'] = "New user registration on FnB Circle.";
             $data['template_data'] = ['user' => $user];
             sendEmail('user-register', $data);

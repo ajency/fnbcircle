@@ -97,7 +97,7 @@ class EnquiryController extends Controller {
         if($key == "contact") {
 	        $sms = [
 	            'to' => $key_value,
-	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 1 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
+	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 15 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
 	        ];
 
         	sendSms('verification',$sms);
@@ -120,10 +120,10 @@ class EnquiryController extends Controller {
 		$data = [];
 		$data['from'] = config('constants.email_from');
 		$data['name'] = config('constants.email_from_name');
-		$data['to'] = sendEmailTo($email_details['to'], 'to');
+		$data['to'] = $email_details['to'];
 
-		$data['cc'] = isset($email_details['cc']) ? sendEmailTo($email_details['cc'], 'cc') : sendEmailTo([], 'cc');
-		$data['bcc'] = isset($email_details['bcc']) ? sendEmailTo($email_details['bcc'], 'bcc') : sendEmailTo([], 'bcc');
+		$data['cc'] = isset($email_details['cc']) ? $email_details['cc'] : [];
+		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
 		$data['subject'] = 'Your enquiry has been sent successfully';
 		
 		if($send_seeker_email) { // Send Seeker, the mail only if the Flag is true

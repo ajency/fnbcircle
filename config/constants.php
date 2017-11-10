@@ -8,6 +8,9 @@ return [
     
     'email_from' => 'nutan@ajency.in',
     'email_from_name' => 'Nutan',
+
+    /* Dev Mode */
+    'email_from_dev' => 'nutan@ajency.in',
     'email_to_dev' => ['harshita@ajency.in'],
     'email_cc_dev' => ['prajay@ajency.in', 'sharath@ajency.in'],
     'email_bcc_dev' => [],

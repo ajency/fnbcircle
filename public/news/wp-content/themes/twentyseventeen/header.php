@@ -58,10 +58,16 @@ $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
 		<div class="title-content">
 
 			<?php echo the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+
+			<?php
+if ( has_post_thumbnail() ) { ?>
+
+
 			<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'thumbnail' ); ?>
 <img src="<?php echo $url ?>" />
+<?php } ?>
 		<h4>By <?php $author_id=$post->post_author; ?> <?php the_author_meta( 'user_nicename' , $author_id ); ?> posted on <?php echo get_the_date(); ?></h4>
-		
+
 		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus"]'); ?>
 
 		</div>

@@ -184,7 +184,7 @@ getArea = (modal_id, city, path) ->
 			$(path).addClass "default-area-select"
 			for key of data
 				key = key
-				html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
+				html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html

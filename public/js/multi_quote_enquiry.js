@@ -211,7 +211,7 @@
         $(path).addClass("default-area-select");
         for (key in data) {
           key = key;
-          html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
+          html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
         $(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('destroy');

@@ -78,7 +78,7 @@
                         </li>
                         @else
                         <li class="fnb-breadcrums__section">
-                            <a href="/listing/{{$listing->reference}}">
+                            <a href="/listing/{{$listing->reference}}" class="breadcrum-link">
                                 <p class="fnb-breadcrums__title">{{$listing->title}}</p>
                             </a>
                         </li>

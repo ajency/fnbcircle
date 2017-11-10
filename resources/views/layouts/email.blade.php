@@ -183,11 +183,11 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
         <!-- Email Header : BEGIN -->
         <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;">
           <tr>
-            <td style="padding: 10px 0; text-align: left;">
-              <div style="float: left; width: 50%;">
+            <td style="padding: 10px; text-align: left;">
+              <div style="float: left; width: 30%;">
                 <a href="#"><img src="{{url('img/logo-fnb.png')}}" width="50"></a>
               </div>
-              <div style="float: right; width: 50%; text-align:right;">
+              <div style="float: right; width: 70%; text-align:right;">
                 <p style="color: #9b9ea0;font-size: 0.9em;">visit <a href="#" style="color: #ec6d4b;text-decoration:none;">www.fnbcircle.com</a></p>
               </div>
               <div style="clear:both;display:table"></div>

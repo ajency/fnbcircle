@@ -2820,6 +2820,10 @@ input[type='checkbox'].remove-addr{
 			margin-top: 10px;
 		    margin-left: 0;
 		    padding-left: 0;
+    		width: 100%;
+    		input{
+    			width: 100%;
+    		}
 		}
 	}
 }
@@ -3561,6 +3565,29 @@ input[type='checkbox'].remove-addr{
     	border-color: @accent-primary;
     	margin-bottom: 1em;
 	}
+	.view-applicant__btn{
+		@media screen and (min-width: 769px){
+			width: 60%;
+			font-size: 1em;
+    		margin-bottom: 0;
+    		// border-radius: 0;
+    		padding: 0.6em 1.2em;
+		}
+	}
+}
+
+.Btn-status{
+	width: 60%;
+    text-align: center;
+    .fnb-btn.fnb-btn{
+    	width: 100%;
+    	border-color: @accent-primary;
+    	// &:hover{
+    	// 	background-color: lighten(#5a5a5a,5%);
+    	// 	color: #fff;
+    	// 	border-color: transparent;
+    	// }
+    }
 }
 
 
@@ -3588,7 +3615,7 @@ input[type='checkbox'].remove-addr{
     }
 }
 
-.year-exp{
+.year-exp:not(.no-comma){
 	&:not(:last-child){
 		&:after{
 			content: ',';
@@ -3759,6 +3786,10 @@ input[type='checkbox'].remove-addr{
     		.fnb-btn{
     			width: 80%;
     		}
+    		.view-applicant__btn{
+				width: 60%;
+    			padding-left: 1.8em;
+			}
     		a{
     			padding-left: 0;
     		}
@@ -3771,6 +3802,7 @@ input[type='checkbox'].remove-addr{
 		flex-direction: column;
 		.fnb-btn{
 			width: 80%;
+			padding: 0.65em 1.8em;
 		}
 		.share-job{
 			text-align: center;
@@ -4081,9 +4113,9 @@ input[type='checkbox'].remove-addr{
     .upgrade{
     	border-color: transparent;
 	    font-size: 1em;
-	    margin-top: 0.6em;
-    	border-radius: 0;
-    	padding: 0.4em 1.2em;
+	    margin-top: 0.4em;
+    	// border-radius: 0;
+    	padding: 0.6em 1.2em;
     }
     &.pending-no-action{
     	padding: 0;
@@ -4096,6 +4128,191 @@ input[type='checkbox'].remove-addr{
 }
 
 
+
+
+
+// ---------------------------
+// APPLY FOR JOB  -----------
+// ---------------------------
+
+.apply-jobs-modal{
+	.modal-header,.modal-body{
+		padding: 0;
+	}
+	.apply-info{
+		i{
+			font-size: 3.5em;
+		}
+	}
+	.jobDetail{
+		justify-content: center;
+	    padding: 1em;
+	    background-color: rgba(255, 240, 212, 0.72);
+	    margin: 1.5em 0;
+	    &__row{
+	    	width: 100%;
+    		justify-content: center;
+	    }
+	}
+	.joblogo{
+		padding-right: 1em;
+		@media screen and (max-width: @mobile){
+			padding-bottom: 0.5em;
+		}
+	}
+	.owner-address{
+		padding-left: 0;
+	}
+	.mapAddress{
+		cursor: inherit;
+		font-size: 0.9em;
+	}
+	.av-job-type{
+		justify-content: flex-start;
+	}
+}
+
+
+.app-sent{
+	justify-content: center;
+	margin-bottom: 1.5em;
+    font-size: 1.4em;
+	i{
+		font-size: 1.5em;
+	}
+}
+
+.J-name{
+	// border-bottom: 1px solid #eee;
+    padding-bottom: 1em;
+}
+
+.open-details{
+	margin-top: 1em;
+}
+
+.j-container{
+	// border-top: 1px solid #eee;
+	// border-bottom: 1px solid #eee;
+}
+
+.jobInfo{
+	margin: 1.5em -20px;
+	padding: 0.5em 0;
+    background-color: #f7f7f7;
+    .contactD{
+    	margin: 0.5em 0;
+    	padding: 0.8em;
+    	flex: 1;
+    	i{
+    		font-size: 2em;
+    	}
+    	a{
+    		font-size: 0.95em;
+    		margin-top: 0.5em;
+    		display: block;
+    		text-decoration: none;
+    		&:hover{
+    			text-decoration: underline;
+    		}
+    	}
+    	&.phone{
+    		border-left: 1px solid #ddd;
+    		a{
+    			&:not(:last-child){
+					&:after{
+						content: ',';
+						padding: 0 0.2em;
+						display: inline-block;
+						color: @text-color;
+					}
+    			}
+    		}
+    	}
+    	.content-center{
+    		justify-content: center;
+    	}
+    }
+}
+
+.job-alert{
+	margin: 1em 0;
+	.alert-icon{
+		font-size: 2em;
+	}
+}
+
+.edit-criteria{
+	background-color: #f7f8f7;
+    padding: 1.5em 5px;
+    margin: 0 -20px -20px -20px;
+	.j-role{
+		li{
+			&:not(:last-child){
+				p{
+					&:after{
+						content: ',';
+						padding: 0 0.2em;
+						display: inline-block;
+						color: @text-color;
+					}
+				}
+			}
+		}
+	}
+}
+
+.jobdata-action{
+	margin-top: 1em;
+	.fnb-btn{
+    	padding: 0.6em 1.8em;
+    	&:first-child{
+    		padding: 0.65em 1.8em;
+    		margin-right: 1em;
+    	}
+	}
+}
+
+
+@media screen and (max-width: @mobile){
+	.apply-jobs-modal{
+		.jobDetail__row{
+			flex-direction: column;
+    		justify-content: center;
+    		align-items: center;
+		}
+		.edit-criteria{
+			.c-gap{
+				margin-top: 1em;
+			}
+		}
+	} 
+	.app-sent{
+		font-size: 1.25em;
+		i{
+			font-size: 1.3em;
+		}
+	}
+	.J-name,.job-alert{
+		font-size: 0.9em;
+	}
+	.jobInfo{
+		flex-direction: column;
+		.contactD{
+			width: 90%;
+    		margin-left: auto;
+    		margin-right: auto;
+			&.phone{
+				border-left: 0;
+    			// border-top: 1px solid #ddd;
+    			// width: 90%;
+			}
+			&:nth-child(2n),&:last-child:not(:first-child){
+				border-top: 1px solid #ddd;
+			}
+		}
+	}
+}
 
 @media screen and (max-width: @mobile){
 	.post-card{
@@ -4668,3 +4885,16 @@ input[type='checkbox'].remove-addr{
 
 
 
+
+.bottom-share-section{
+	.fnb-btn{
+		width: auto;
+	}
+}
+
+.remove_resume{
+	color: rgba(255, 0, 0, 0.71);
+	&:hover{
+		color: rgba(255, 0, 0, 0.71);
+	}
+}

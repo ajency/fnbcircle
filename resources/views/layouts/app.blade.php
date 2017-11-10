@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="shortcut icon" href="/img/logo-fnb.png" />
-    <!-- <title>Homepage</title> -->
-    <title> @yield('title')</title> 
+    <title>@yield('title')</title>
     @yield('openGraph')
     @yield('meta') 
     <!-- Google font cdn -->
@@ -35,9 +34,13 @@
     </script>
 </head>
 
-<body class="overflow-hidden nav-md">
+ 
+<body class="nav-md overflow-hidden">
+ 
     <div class="page-shifter animate-row">
+ 
     <!-- header -->
+    <!-- page shifter start-->
     <header class="fnb-header {{ !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : '' }}">
         <nav class="navbar navbar-default">
             <div class="container-fluid nav-gap">
@@ -74,10 +77,11 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
+                            
                             <select class="form-control fnb-select nav-color" onchange="location = this.value;">
                                 <option>--Change State--</option>
                                 @foreach(getPopularCities() as $city_index => $city_value)
-                                    <option title="{{ $city_value->slug }}" value="http://localhost:8000/{{ $city_value->slug }}/" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                    <option title="{{ $city_value->slug }}" value="{{ url($city_value->slug) }}" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
                                 @endforeach
                             </select>
                         </li>
@@ -192,6 +196,8 @@
     @endif
     @include('modals.categories_list')
 
+    </div>
+    <!-- page shifter end-->
     <!-- banner ends -->
     <div class="site-overlay"></div>
     

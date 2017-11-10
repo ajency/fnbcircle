@@ -1513,7 +1513,7 @@
 			transform: translateX(0);
 		}
 		&__content{
-			height: 100vh;
+			height: calc(~'100% - 25px');
 			overflow-y: auto;
 			padding-top: 50px;
 		}
@@ -2877,9 +2877,17 @@ and (max-device-width: 650px) {
     	padding: 0 15px;
     	padding-bottom: 4em;
     }
-    @media screen and (min-width: 1605px){
-		width: 30vw;
+    @media screen and (min-width: 769px) and (max-width: 1400px){
+	    .JA-sidebar{
+	    	padding: 0;
+	    }
 	}
+ //    @media screen and (min-width: 1605px){
+	// 	width: 30vw;
+	// 	&.jobs-applicant{
+	// 		width: 40vw;
+	// 	}
+	// }
     @media screen and (max-width: @mobile){
     	padding: 0;
     	position: relative;
@@ -2908,6 +2916,9 @@ and (max-device-width: 650px) {
 	    	font-size: 0.9em;
 	    	margin-left: 1em;
 		}
+	}
+	.details-fill-col.details-fill-col{
+		margin-top: 1em;
 	}
 }
 
@@ -2949,9 +2960,12 @@ and (max-device-width: 650px) {
 		z-index: 1;
 		background-color: rgba(0,0,0,0.5);
 	}
-	@media screen and (min-width: 1605px){
-		transform: translate3d(-30%, 0, 0);
-	}
+	// @media screen and (min-width: 1605px){
+	// 	transform: translate3d(-30%, 0, 0);
+	// 	&.jobs-applicant-slide{
+	// 		transform: translate3d(-40%, 0, 0);
+	// 	}
+	// }
 }
 
 .published-title{
@@ -3272,6 +3286,7 @@ and (max-device-width: 650px) {
 }
 
 
+
 .social-drop{
 	.dropdown-menu{
 		width: 88px;
@@ -3436,6 +3451,7 @@ and (max-device-width: 650px) {
 	}
 }
 
+
 .state-container{
 	.remain{
 		list-style: none;
@@ -3493,6 +3509,15 @@ and (max-device-width: 650px) {
 			}
 		}
 	}
+	.footer-share{
+		.applicantTitle{
+			.update-sec__link{
+				margin-top: 0;
+				padding-left: 0.3em;
+    			padding-top: 0.15em;
+			}
+		}
+	}
 }
 
 .contact-social{
@@ -3509,6 +3534,45 @@ and (max-device-width: 650px) {
 }
 
 
+
+// ---------------------------
+// JOB APPLICANTS -----------
+// ---------------------------
+
+
+.download-col{
+	min-width: 100px;
+}
+
+.application-table{
+	display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+	&.table{
+		tr{
+			td.date-repeat{
+				background-color: #fff;
+				border-top: 0;
+			}
+			td{
+				padding: 15px 8px;
+				@media screen and (max-width: 1400px){
+					// word-break: break-all;
+					&:nth-child(3){
+						// min-width: 80px;
+						// word-break: break-all;
+					}
+					&:nth-child(4){
+						// min-width: 100px;
+					}
+				}
+			}
+		}
+	}
+	&.table-responsive{
+		border: 0;
+	}
+}
 
 
 

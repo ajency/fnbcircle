@@ -190,11 +190,11 @@
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
 
+    @include('modals.categories_list')
     @if(Auth::guest() || Auth::user()->type == "external")
         <!-- Multi quote Enquiry Modal -->
         @include('modals.multi_quote_enquiry')
     @endif
-    @include('modals.categories_list')
 
     </div>
     <!-- page shifter end-->

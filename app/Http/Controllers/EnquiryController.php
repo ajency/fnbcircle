@@ -103,7 +103,7 @@ class EnquiryController extends Controller {
         	sendSms('verification',$sms);
     	}
         
-        if(env('APP_DEBUG')) {
+        if(in_develop()) { // Store OTP in Cookie, if in DEV mode
         	$cookie_cont_obj = new CookieController;
         	$other_cookie_params = ["path" => "/", "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true];
         	$cookie_cont_obj->set('mobile_otp', strVal($OTP), $other_cookie_params);

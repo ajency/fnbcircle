@@ -10,6 +10,6 @@
 	    	"mobile_otp",
 	    	"is_logged_in"
 		],
-		"expires_in" => 120,
+		"expires_in" => 10080, //120,
 
 	];

@@ -1008,7 +1008,12 @@ class EnquiryController extends Controller {
         	}
         }
 
-        $view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories'))->render();
+        if($request->has('is_branch_select') && ($request->is_branch_select === "true" || $request->is_branch_select === true)) {
+        	$is_branch_select = true;
+        	$view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories', 'is_branch_select'))->render();
+        } else {
+        	$view_blade = View::make('modals.category_selection.level_two')->with(compact('sub_categories'))->render();
+        }
 
         return response()->json(array("modal_template" => $view_blade), 200);
     }
@@ -1051,7 +1056,12 @@ class EnquiryController extends Controller {
 		$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
 
 		if($request->level == "level_1") {
-			$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			if($request->has('is_parent_select') && ($request->is_parent_select === "true" || $request->is_parent_select === true)) {
+				$is_parent_select = true;
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents', 'is_parent_select'))->render();
+			} else {
+				$modal_template = View::make('modals.category_selection.level_one')->with(compact('parents'))->render();
+			}
 		}
 		return response()->json(array("modal_template" => $modal_template), 200);
     }

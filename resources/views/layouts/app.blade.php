@@ -186,8 +186,10 @@
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
 
-    <!-- Multi quote Enquiry Modal -->
-    @include('modals.multi_quote_enquiry')
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <!-- Multi quote Enquiry Modal -->
+        @include('modals.multi_quote_enquiry')
+    @endif
     @include('modals.categories_list')
 
     <!-- banner ends -->
@@ -215,7 +217,9 @@
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/multi_quote_enquiry.js') }}"></script>
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <script type="text/javascript" src="{{ asset('js/multi_quote_enquiry.js') }}"></script>
+    @endif
     <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
 
     @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)

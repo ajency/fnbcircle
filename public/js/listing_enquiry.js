@@ -190,7 +190,7 @@
         $(path).addClass("default-area-select");
         for (key in data) {
           key = key;
-          html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
+          html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
         $("#level-three-enquiry" + ' .default-area-select').multiselect('destroy');
@@ -474,7 +474,8 @@
       });
 
       /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
-      $(document).on("click", "#level-three-enquiry #add-city-areas", function() {
+      $(document).on("click", "#level-three-enquiry #add-city-areas", function(event) {
+        console.log("cloning..");
         $("#area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo("#area_section #area_operations");
       });
 

@@ -6,6 +6,7 @@ getBranchNodeCategories = (path, parent_id) ->
 		url: '/api/get_listing_categories'
 		data: 
 			'category': [parent_id]
+			'is_branch_select': if ($(document).find("#is_branch_category_checkbox").val()) then true else false
 		success: (data) ->
 			key = undefined
 			#$('#' + path + ' select[name="area"]').html html
@@ -17,7 +18,7 @@ getBranchNodeCategories = (path, parent_id) ->
 			return
 	return
 
-getNodeCategories = (path, parent_id, checked_values, is_all_checked) ->
+getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 	html = ''
 
 	if checked_values.length <= 0
@@ -29,7 +30,7 @@ getNodeCategories = (path, parent_id, checked_values, is_all_checked) ->
 		type: 'post'
 		url: '/api/get_node_listing_categories'
 		data: 
-			'branch': [parent_id]
+			'branch': [branch_id]
 		success: (data) ->
 			key = undefined
 			### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
@@ -105,6 +106,7 @@ getCategoryDom = (path, level) ->
 		url: '/api/get_categories_modal_dom'
 		data: 
 			'level': level
+			'is_parent_select': if ($(document).find("#is_parent_category_checkbox").val()) then true else false
 		success: (data) ->
 			$(path).html data["modal_template"]
 			return
@@ -225,7 +227,7 @@ $(document).ready () ->
 		return
 
 	### --- On change / select of Radio Option, Get the Category LEvel 2 DOM, & Hide Level 1 & display Level 2  --- ###
-	$(document).on "change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", () ->
+	$(document).on "change", "#category-select #level-one-category input[type='radio'][name='parent-categories']", (event) ->
 		getBranchNodeCategories("#category-select #level-two-category-dom", $(this).val()) # add DOM to this level
 		$(this).closest("div#level-one-category").addClass "hidden"
 		get_core_cat_checked = []
@@ -238,18 +240,25 @@ $(document).ready () ->
 			getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false)
 			return
 		), 200
+		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
 		return
 
 	### --- On click of Branch Categories, Get it's children --- ###
-	$(document).on "click", "#category-select #level-two-category ul#branch_categories li a", () ->
+	$(document).on "click", "#category-select #level-two-category ul#branch_categories li a", (event) ->
 		get_core_cat_checked = []
-		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1
+		if $("#category-select #level-two-category div#" + $(this).attr("aria-controls") + " input[type='checkbox']").length < 1 ## If no checkboxes exist, then populate the Checkboxes under that div
 			get_core_cat_checked = getPreviouslyAvailableCategories()
 			getNodeCategories("#category-select #level-two-category ", $(this).attr("aria-controls"), get_core_cat_checked, false)
+
+		## -- Display that specific div with Checkboxes, as the bootstrap fails to do the functionality in certain scenario -- ##
+		$("#category-select #level-two-category #cat-dataHolder div").removeClass "active"
+		$("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass "active"
+
+		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
 		return
 
 	### -- If a branch category is selected, then select all the core categories --- ###
-	$(document).on "change", "#category-select #level-two-category ul#branch_categories input[type='checkbox']", () ->
+	$(document).on "change", "#category-select #level-two-category ul#branch_categories input[type='checkbox']", (event) ->
 		if $("#category-select #level-two-category div#" + $(this).val() + " input[type='checkbox']").length < 1
 			if $(this).prop('checked')
 				getNodeCategories("#category-select #level-two-category ", $(this).val(), [], true)
@@ -260,6 +269,7 @@ $(document).ready () ->
 				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", true
 			else
 				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", false
+		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
 		return
 
 	### --- If a node Category is selected, & if all are selected, then check the Branch --- ###

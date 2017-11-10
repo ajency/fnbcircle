@@ -161,7 +161,7 @@ getArea = (city, path) ->
 			$(path).addClass "default-area-select"
 			for key of data
 				key = key
-				html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
+				html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
@@ -479,7 +479,8 @@ $(document).ready () ->
 			return
 		
 		### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
-		$(document).on "click", "#level-three-enquiry #add-city-areas", () ->
+		$(document).on "click", "#level-three-enquiry #add-city-areas", (event) ->
+			console.log "cloning.."
 			$("#area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo("#area_section #area_operations")
 			return
 

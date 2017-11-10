@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getBranchNodeCategories, getContent, getCookie, getFilters, getNodeCategories, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetTemplate;
+  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetTemplate;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -288,74 +288,6 @@
       preferredCountries: ['IN'],
       americaMode: false,
       formatOnDisplay: false
-    });
-  };
-
-  getBranchNodeCategories = function(path, parent_id) {
-    var html;
-    html = '';
-    $.ajax({
-      type: 'post',
-      url: '/api/get_listing_categories',
-      data: {
-        'category_id': [parent_id]
-      },
-      success: function(data) {
-        var key;
-        key = void 0;
-        $(path).html(data["modal_template"]);
-      },
-      error: function(request, status, error) {
-        throw Error();
-      }
-    });
-  };
-
-  getNodeCategories = function(path, parent_id, checked_values) {
-    var html;
-    html = '';
-    if (checked_values.length <= 0) {
-      $.each($(path + " input[type='checkbox']:checked"), function() {
-        checked_values.push($(this).val());
-      });
-    }
-    console.log(checked_values);
-    $.ajax({
-      type: 'post',
-      url: '/api/get_node_listing_categories',
-      data: {
-        'branch': [parent_id]
-      },
-      success: function(data) {
-        var html_upload, index, key, node_children;
-        key = void 0;
-
-        /* --- The HTML skeleton is defined under a <div id="node-skeleton"> --- */
-        node_children = data["data"][0]["children"];
-        $(path + "div#" + data["data"][0]["id"]);
-        if (node_children.length > 0) {
-          index = 0;
-          html_upload = "<ul class=\"nodes\">";
-          while (index < node_children.length) {
-            html_upload += "<li><label class=\"flex-row\">";
-            if (checked_values.length > 0 && $.inArray(node_children[index]['slug'], checked_values) !== -1) {
-              html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\"" + node_children[index]['slug'] + "\" checked=\"checked\">";
-            } else {
-              html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['slug'] + "\" value=\"" + node_children[index]['slug'] + "\">";
-            }
-            html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['slug'] + "\">" + node_children[index]['name'] + "</p>";
-            html_upload += "</label></li>";
-            index++;
-          }
-          html_upload += "</ul>";
-        } else {
-          html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>.";
-        }
-        $(path + " div#" + data["data"][0]["id"]).html(html_upload);
-      },
-      error: function(request, status, error) {
-        throw Error();
-      }
     });
   };
 

@@ -304,8 +304,12 @@ class RegisterController extends Controller
 
             sendUserRegistrationMails($user);
             $redirectUrl = firstTimeUserLoginUrl();
+
+            $userState = $user->getUserDetails->userCity->slug;
+            session(['user_location' => $userState]);
+            $cookie = cookie('user_state', $userState, 45000);
             
-            return redirect(url($redirectUrl));
+            return redirect(url($redirectUrl))->withCookie($cookie);
             
         } else {
 

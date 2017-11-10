@@ -24,6 +24,10 @@ class FnbAuthController extends Controller {
                 $user->last_login = date('Y-m-d H:i:s');
                 $user->save();
 
+                //set user state session
+                $userState = $user->getUserDetails->userCity->slug;
+                session(['user_location' => $userState]);
+                $cookie = cookie('user_state', $userState, 45000);
 
              //    if(!$redirect_url) { // If redirect URL is Empty
 	            //     if ($user->hasPermissionTo('add_internal_user')) {
@@ -44,7 +48,7 @@ class FnbAuthController extends Controller {
 
                 $redirect_url = isFirstTimeLoginRedirect($redirect_url);
 
-            	return redirect($redirect_url);
+            	return redirect($redirect_url)->withCookie($cookie);
             } else if ($user->status == 'inactive') {
                 return redirect('/?login=true&message=email_confirm');
             } else if ($user->status == 'suspended') {

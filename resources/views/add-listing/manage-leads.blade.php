@@ -288,9 +288,7 @@
 
 </div>
 
-@include('modals.location_select.popup')
 
-@include('modals.categories_list')
 <!-- archive confirmation modal -->
 
 <div class="modal fnb-modal confirm-box fade modal-center" id="enquiryarchive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -315,9 +313,13 @@
   </div>
 </div>
 
+
+@include('modals.location_select.popup')
+
+@include('modals.categories_list')
 <!-- Category modal -->
 
- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <!-- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -446,6 +448,6 @@
                     
                 </div>
             </div>
-        </div>
+        </div> -->
 
 @endsection

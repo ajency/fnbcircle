@@ -86,7 +86,8 @@ getContent = (modal_id, enquiry_level, listing_slug) ->
 getTemplate = (modal_id, modal_template, listing_slug = '') ->
 	data = 
 		'enquiry_level': modal_template
-		'listing_slug': listing_slug
+	if listing_slug
+		data['listing_slug'] = listing_slug
 
 	if modal_id == "#multi-quote-enquiry-modal"
 		data['multi-quote'] = true
@@ -324,6 +325,7 @@ $(document).ready () ->
 			# 		return
 			
 			$(modal_id).on 'shown.bs.modal', (e) ->
+				# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
 				# value checking floating label
 				checkForInput = (element) ->
 				  # element is passed to the function ^

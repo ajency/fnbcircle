@@ -101,7 +101,7 @@ class EnquiryController extends Controller {
 	        ];
 
 	        $sms["priority"] = "high";
-        	sendSms('verification',$sms);
+        	sendSms('verification', $sms);
     	}
         
         if(in_develop()) { // Store OTP in Cookie, if in DEV mode
@@ -514,7 +514,7 @@ class EnquiryController extends Controller {
 					$area_slugs = Area::whereIn('id', $area_ids)->pluck('slug')->toArray();
 					$cat_slugs = Category::whereIn('id', $core_ids)->pluck('slug')->toArray();
 					$filters = ["categories" => $cat_slugs, "areas" => $area_slugs, "listing_ids" => $listing_final_ids];
-					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"];//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
+					$listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 5, "updated_at", "desc")["data"]->where('premium', true);//Listing::whereIn('id', $listing_final_ids)->orderBy('premium', 'desc')->orderBy('updated_at', 'desc')->get();
 	   			} else {
 	   				$listing_data = [];
 	   			}
@@ -675,7 +675,7 @@ class EnquiryController extends Controller {
 			$session_payload = Session::get('enquiry_data', []);
 
 			if(isset($verified_session["mobile"]) && $verified_session["mobile"]) {
-				$lead = ["id" => $session_payload["user_object_id"]];
+				$lead_obj = ["id" => $session_payload["user_object_id"]];
 				$lead_type = $session_payload["user_object_type"];
 			} else {
 				if(Auth::guest()) {
@@ -774,10 +774,16 @@ class EnquiryController extends Controller {
 
 			/*** End of 2nd Enquiry flow ***/
 			if(isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If mobile verified
-				if($listing_obj && $listing_obj->count() > 0) {
-					$modal_template_html = $this->getEnquiryTemplate("step_4", $listing_obj->first()->slug, $session_id, false);
+				if(Auth::guest()) {
+					$next_template_type = "step_4";
 				} else {
-					$modal_template_html = $this->getEnquiryTemplate("step_4", "", $session_id, true);
+					$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+				}
+
+				if($listing_obj && $listing_obj->count() > 0) {
+					$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
+				} else {
+					$modal_template_html = $this->getEnquiryTemplate($next_template_type, "", $session_id, true);
 				}
 
 				$full_screen_display = true;
@@ -800,9 +806,11 @@ class EnquiryController extends Controller {
 				$modal_template_html = $this->getEnquiryTemplate($next_template_type, "", $session_id, true);
 			}
 
-			if($next_template_type == "step_4") {
+			/*if($next_template_type == "step_4") {
 				$full_screen_display = true;
-			}
+			}*/
+			$full_screen_display = true;
+
 			$status = 200;
 		}
 
@@ -840,7 +848,7 @@ class EnquiryController extends Controller {
     		} else if($request->has('otp')) { // Verify OTP
     			$contact_data = ["contact" => $request->contact, "otp" => $request->otp];
 	    		$validation_status = $this->validateContactOtp($contact_data, "contact_info");
-
+	    		
 	    		if($validation_status["status"] == 200) {
 	    			$status = 200;
 	    			$session_payload = Session::get('enquiry_data', []);
@@ -918,14 +926,13 @@ class EnquiryController extends Controller {
 	    				/*** End of 2nd Enquiry flow ***/
 
 	    			}
-	    			// $next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-	    			if($request->has('listing_slug')) {
-	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
+	    			//$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+	    			
+	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
+	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
 	    			}
-
-
 	    		} else {
 	    			$status = $validation_status["status"];
 	    			$modal_template_html = "";

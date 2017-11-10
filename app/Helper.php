@@ -360,18 +360,33 @@ function sendEmail($event='new-user', $data=[]) {
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
 	$email->setFrom($from, $name);
-	if(!isset($data['to']) ) $data['to']= [];
-	// 	return false;
-	$email->setTo($data['to']);
-	$cc = (isset($data['cc']))? $data['cc']:[];
+
+	/* to */
+	if(!isset($data['to']))
+		$data['to']= [];
+	else
+		if(!is_array($data['to'])) // If not in array format
+			$data['to'] = [$data['to']];
+	$to = sendEmailTo($data['to'], 'to');
+	$email->setTo($to);
+
+	/* cc */
+	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
 	if(!is_array($cc)) $cc = [$cc];
+
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)){
+	if(in_array($event, $notify)) {
 		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
-	if(isset($data['bcc'])) $email->setCc($data['bcc']);
+
+	/* bcc */
+	if(isset($data['bcc'])) {
+		$bcc = sendEmailTo($data['bcc'], 'bcc');
+		$email->setCc($bcc);
+	}
+	
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
@@ -409,6 +424,9 @@ function sendSms($event='new-user', $data=[], $override = false) {
     AjComm::sendNotification($notify);
 }
 
+/**
+* This function will generate Category's Hierarchy from bottom to top -> Node to Parent
+*/
 function generateCategoryHierarchy($category_id) {
 	$cat_obj = Category::find($category_id);
 	$position = ["parent", "branch", "node"];
@@ -422,24 +440,28 @@ function generateCategoryHierarchy($category_id) {
 		$level--;
 	}while($level > 0);
 
-	// if($cat_obj->path) {
-	// 	$id_arr = str_split($cat_obj->path, 5);
-	// 	$id_arr = array_reverse($id_arr);
-
-	// 	$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
-		
-	// 	foreach ($id_arr as $id_key => $id_value) {
-	// 		$cat_temp = Category::find($id_value);
-	// 		if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
-	// 		} else {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
-	// 		}
-	// 	}
-	// } else {
-	// 	$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
-	// 	$value["branch"] = []; $value["node"] = [];
-	// }
-
 	return $value;
+}
+
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs'))) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+* This function will return Email IDs based on ENV if it is Development or Production mode
+*/
+function sendEmailTo($emails = [], $type='to') {
+	if(in_develop()) {
+		$emails = config('constants.email_' . $type . '_dev');
+	}
+
+	return $emails;
 }

@@ -262,12 +262,11 @@ class RegisterController extends Controller
 
             $confirmationLink = url('/user-confirmation/' . $token);
             $userEmail = $user_data["email"];
-            $userEmail = "sharath@ajency.in";
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [];
             $data['subject'] = "Verify your email address!";
             $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
             sendEmail($email_template_key, $data);
@@ -309,14 +308,13 @@ class RegisterController extends Controller
 
             Auth::login($user);
             $userEmail = $user->getPrimaryEmail();
-            $userEmail = 'nutan@ajency.in';
             
             //send welcome mail
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [];
             $data['subject'] = "Welcome to FnB Circle!";
             $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
             sendEmail('welcome-user', $data);
@@ -326,7 +324,7 @@ class RegisterController extends Controller
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [config('constants.email_from')];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [];
             $data['subject'] = "New user registration on FnB Circle.";
             $data['template_data'] = ['user' => $user];
             sendEmail('user-register', $data);

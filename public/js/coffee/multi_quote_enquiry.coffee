@@ -75,7 +75,7 @@ getContent = (modal_id, enquiry_level, listing_slug) ->
 				if $(modal_id + " #level-one-enquiry")
 					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
 				if $(modal_id + " #level-three-enquiry").length > 0
-					initCatSearchBox()
+					# initCatSearchBox()
 					multiSelectInit(modal_id + " #level-three-enquiry", false)
 					return
 		error: (request, status, error) ->
@@ -171,6 +171,7 @@ getCookie = (key) ->
 			i++
 	return value
 
+## -- Get areas based on City -- ##
 getArea = (modal_id, city, path) ->
 	html = ''#'<option value="">Area</option>'
 
@@ -195,6 +196,7 @@ getArea = (modal_id, city, path) ->
 			return
 	return
 
+## -- Category Flexdatalist Init function -- ##
 initCatSearchBox = (modal_id) ->
 	### --- Initialize categories search  --- ###
 	$(document).find(modal_id + ' #level-three-enquiry input[name="get_categories"]').flexdatalist
@@ -209,7 +211,7 @@ initCatSearchBox = (modal_id) ->
 		keywordParamName: "search"
 		resultsProperty: "data"
 		searchIn: ['name']
-		valueProperty: 'slug'
+		valueProperty: 'slug' # 'id'
 		visibleProperties: ["name"] ## Order of display & dropdown contents to display
 		
 		# searchContain: true
@@ -252,6 +254,7 @@ initCatSearchBox = (modal_id) ->
 		return
 	return
 
+## -- intlTel plugin Initialization function -- ##
 initFlagDrop = (path) ->
 	$(document).find(path).intlTelInput
 		initialCountry: 'auto'
@@ -273,6 +276,7 @@ initFlagDrop = (path) ->
 	# 	return
 	return
 
+## -- MultiSelect dropdown Initialization function -- ##
 multiSelectInit = (path, reinit = false) ->
 	if reinit
 		$(path + ' .default-area-select').multiselect()

@@ -93,9 +93,11 @@
       listing_slug = '';
     }
     data = {
-      'enquiry_level': modal_template,
-      'listing_slug': listing_slug
+      'enquiry_level': modal_template
     };
+    if (listing_slug) {
+      data['listing_slug'] = listing_slug;
+    }
     if (modal_id === "#multi-quote-enquiry-modal") {
       data['multi-quote'] = true;
     }

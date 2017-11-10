@@ -101,7 +101,7 @@ class EnquiryController extends Controller {
 	        ];
 
 	        $sms["priority"] = "high";
-        	sendSms('verification',$sms);
+        	sendSms('verification', $sms);
     	}
         
         if(in_develop()) { // Store OTP in Cookie, if in DEV mode
@@ -840,7 +840,7 @@ class EnquiryController extends Controller {
     		} else if($request->has('otp')) { // Verify OTP
     			$contact_data = ["contact" => $request->contact, "otp" => $request->otp];
 	    		$validation_status = $this->validateContactOtp($contact_data, "contact_info");
-
+	    		
 	    		if($validation_status["status"] == 200) {
 	    			$status = 200;
 	    			$session_payload = Session::get('enquiry_data', []);
@@ -918,14 +918,13 @@ class EnquiryController extends Controller {
 	    				/*** End of 2nd Enquiry flow ***/
 
 	    			}
-	    			// $next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-	    			if($request->has('listing_slug')) {
-	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
+	    			//$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
+	    			
+	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
+	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
 	    			}
-
-
 	    		} else {
 	    			$status = $validation_status["status"];
 	    			$modal_template_html = "";

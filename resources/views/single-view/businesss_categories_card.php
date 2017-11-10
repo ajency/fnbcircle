@@ -6,7 +6,7 @@
 
       <?php  foreach($data['browse_categories'] as $category) { ?> 
       <li>
-         <a href="<?php echo $category['url'] ; ?>"  title="Browse for <?php echo $category['name'];?> category in <?php echo $data['city']['name'] ;?> ">
+         <a href='<?php echo $category['url'] ; ?>'  title="Browse for <?php echo $category['name'];?> category in <?php echo $data['city']['name'] ;?> ">
             <p class="m-b-0 flex-row">
                <span class="fnb-icons cat-icon">
                   <img src="<?php echo $category['image']; ?>">

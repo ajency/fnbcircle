@@ -6,9 +6,8 @@ function loginCreateWpUserByLaravelEMail()
     //If accessing the news pages
     if (!is_admin()) {
 
-        
-        $url     = get_laravel_site_url() . "/wp-get-logged-in-laravel-user";
-        
+        $url = get_laravel_site_url() . "/wp-get-logged-in-laravel-user";
+
         $mch     = curl_init();
         $headers = array(
             'Content-Type: application/json',
@@ -18,10 +17,10 @@ function loginCreateWpUserByLaravelEMail()
         curl_setopt($mch, CURLOPT_URL, $url);
         curl_setopt($mch, CURLOPT_HTTPHEADER, $headers);
         //curl_setopt($mch, CURLOPT_USERAGENT, 'PHP-MCAPI/2.0');
-        curl_setopt($mch, CURLOPT_RETURNTRANSFER, true); // do not echo the result, write it into variable
-        curl_setopt($mch, CURLOPT_CUSTOMREQUEST, "GET"); // according to MailChimp API: POST/GET/PATCH/PUT/DELETE
+        curl_setopt($mch, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($mch, CURLOPT_CUSTOMREQUEST, "GET"); 
         curl_setopt($mch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($mch, CURLOPT_SSL_VERIFYPEER, false); // certificate verification for TLS/SSL connection
+        curl_setopt($mch, CURLOPT_SSL_VERIFYPEER, false); 
         //curl_setopt($mch, CURLOPT_COOKIE, session_name() . '=' . session_id());
         if (isset($_COOKIE['laravel_session'])) {
             curl_setopt($mch, CURLOPT_COOKIE, 'laravel_session=' . $_COOKIE['laravel_session']);
@@ -53,10 +52,13 @@ function loginCreateWpUserByLaravelEMail()
                 createLoginLaravelUser($lara_user_data);
             }
         } else {
-            
-            if (is_user_logged_in()) {
-                wp_clear_auth_cookie();
-                wp_logout();
+
+            if (is_user_logged_in()) { //If admin is not logged in wordpress news
+                if (!current_user_can('manage_options')) {
+                    wp_clear_auth_cookie();
+                    wp_logout();
+                }
+
             }
         }
 

@@ -1,9 +1,15 @@
 jQuery(document).ready(function($) {
 
+    var bus_cat_fetch_url ="";
 
- 
+    if(page_category!=""){
+        bus_cat_fetch_url = LARAURL + '/'+page_category+'/business-listings-card';
+    }
+    else{
+         bus_cat_fetch_url = LARAURL + '/business-listings-card';
+    }
 
-    $.get(LARAURL + '/goa/business-listings-card', {
+    $.get(bus_cat_fetch_url, {
         
         /*category: self.category,
         limit_posts: self.limit_posts*/

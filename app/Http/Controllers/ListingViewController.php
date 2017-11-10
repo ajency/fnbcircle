@@ -301,8 +301,12 @@ class ListingViewController extends Controller
     {
         $listviewcontroller_obj = new ListViewController;
         $parents    = Category::where('type', 'listing')->where('level', '1')->where('status', 1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();
+
+         
+       
+
         $categories = [];
-        foreach ($parents as $category) {
+        foreach ($parents as $category) { 
             $categories[$category->id] = [
                 'id'    => $category->id,
                 'name'  => $category->name,
@@ -310,6 +314,7 @@ class ListingViewController extends Controller
                 'image' => $category->icon_url,
                 'count' => count($category->getAssociatedListings()['data']['listings']),
                 'url' => '/'.$area->city['slug'].'/business-listings?categories='.$listviewcontroller_obj->getCategoryNodeArray($category, "slug", false) ,
+                
             ];
         }
         return $categories;
@@ -318,15 +323,11 @@ class ListingViewController extends Controller
 
     public function getBusinessCategoryCard($city)
     {
-
-        $city_data = City::where('slug', $city)->firstorFail();
-
-        $area = Area::with('city')->find($city_data->id);
-        if ($area->city['slug'] != $city) {abort(404);die();}
-        $browse_categories         = $this->getPopularParentCategories($area);
+        $city_data                 = City::where('slug', '=', $city)->firstorFail();
+        $area                      = Area::where('city_id', $city_data->id)->get();
+        $browse_categories         = $this->getPopularParentCategories($area->first());
         $data['city']              = $city_data;
         $data['browse_categories'] = $browse_categories;
-
         return view('single-view.businesss_categories_card')->with('data', $data);
     }
 }

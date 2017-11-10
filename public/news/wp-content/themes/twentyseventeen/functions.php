@@ -598,6 +598,24 @@ function custom_excerpt_length( $length ) {
 
 function fnbcircleWpScripts(){
 
+
+	$queried_object = get_queried_object();
+	 
+	$category_slug = "";
+
+	if(isset($queried_object->taxonomy)){
+
+		if($queried_object->taxonomy=="category"){
+			$category_slug = $queried_object->slug;
+		}
+	}
+
+
+
+	/*echo "<pre>";
+	print_r($queried_object);
+
+	die();*/
 	wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), null );	
 	wp_enqueue_style('font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(),null);
 	// wp_enqueue_style('lara-styles', get_template_directory_uri() . '/assets/css/lara-styles.css', array(),null);
@@ -606,6 +624,9 @@ function fnbcircleWpScripts(){
 	wp_enqueue_script('wpnews', get_template_directory_uri() . '/assets/js/news.js', array('jquery'), true, true);
 	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);	
 	wp_localize_script('wpnews', 'LARAURL', get_laravel_site_url());
+	wp_localize_script('wpnews', 'page_category', $category_slug);
+
+	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
 

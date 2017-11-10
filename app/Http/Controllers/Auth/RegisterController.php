@@ -272,12 +272,11 @@ class RegisterController extends Controller
 
         $confirmationLink =url('/user-confirmation/'.$token);
         $userEmail = $user->getPrimaryEmail();
-        $userEmail = 'prajay@ajency.in';
         $data = [];
         $data['from'] = config('constants.email_from'); 
         $data['name'] = config('constants.email_from_name');
         $data['to'] = [$userEmail];
-        $data['cc'] = 'prajay@ajency.in';
+        $data['cc'] = [];
         $data['subject'] = "Verify your email address!";
         $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
         sendEmail('user-verify', $data);

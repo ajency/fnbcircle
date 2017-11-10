@@ -25,7 +25,7 @@
                             <li class="fnb-breadcrums__section">
                                 <a href="">
                                     <p class="fnb-breadcrums__title">
-                                        {{$data['name']}}'s profile
+                                       @if($self) My @else {{$data['name']}}'s @endif profile
                                     </p>
                                 </a>
                             </li>

@@ -307,7 +307,7 @@ class RegisterController extends Controller
 
             $userState = $user->getUserDetails->userCity->slug;
             session(['user_location' => $userState]);
-            $cookie = cookie('user_state', $userState, 45000);
+            $cookie = cookie('user_state', $userState, config('constants.user_state_cookie_expiry'));
             
             return redirect(url($redirectUrl))->withCookie($cookie);
             

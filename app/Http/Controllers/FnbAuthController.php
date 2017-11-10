@@ -27,7 +27,7 @@ class FnbAuthController extends Controller {
                 //set user state session
                 $userState = $user->getUserDetails->userCity->slug;
                 session(['user_location' => $userState]);
-                $cookie = cookie('user_state', $userState, 45000);
+                $cookie = cookie('user_state', $userState, config('constants.user_state_cookie_expiry'));
 
              //    if(!$redirect_url) { // If redirect URL is Empty
 	            //     if ($user->hasPermissionTo('add_internal_user')) {

@@ -8,6 +8,9 @@ return [
     
     'email_from' => 'nutan@ajency.in',
     'email_from_name' => 'Nutan',
+
+    'user_state_cookie_expiry' => 45000,
+    
  
  
 ];

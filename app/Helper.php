@@ -443,3 +443,26 @@ function generateCategoryHierarchy($category_id) {
 
 	return $value;
 }
+
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs')) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+* This function will return Email IDs based on ENV if it is Development or Production mode
+*/
+function sendEmailTo($emails = [], $type='to') {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs')) {
+		$emails = config('constants.email_' . $type . '_dev');
+	}
+
+	return $emails;
+}

@@ -120,10 +120,10 @@ class EnquiryController extends Controller {
 		$data = [];
 		$data['from'] = config('constants.email_from');
 		$data['name'] = config('constants.email_from_name');
-		$data['to'] = $email_details['to'];
+		$data['to'] = sendEmailTo($email_details['to'], 'to');
 
-		$data['cc'] = isset($email_details['cc']) ? $email_details['cc'] : ["sharath@ajency.in"];
-		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
+		$data['cc'] = isset($email_details['cc']) ? sendEmailTo($email_details['cc'], 'cc') : sendEmailTo([], 'cc');
+		$data['bcc'] = isset($email_details['bcc']) ? sendEmailTo($email_details['bcc'], 'bcc') : sendEmailTo([], 'bcc');
 		$data['subject'] = 'Your enquiry has been sent successfully';
 		
 		if($send_seeker_email) { // Send Seeker, the mail only if the Flag is true
@@ -136,7 +136,7 @@ class EnquiryController extends Controller {
 		}
 
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
-			$data['to'] = "sharath@ajency.in";//$email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'You just received an enquiry for your listing';
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 			
@@ -147,7 +147,7 @@ class EnquiryController extends Controller {
 				sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 			}
 		} else { // if listing enquiry is SHARED, then
-			$data['to'] = "sharath@ajency.in";//$email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
 
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];

@@ -77,7 +77,6 @@
             initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
           }
           if ($(modal_id + " #level-three-enquiry").length > 0) {
-            initCatSearchBox();
             multiSelectInit(modal_id + " #level-three-enquiry", false);
           }
         }

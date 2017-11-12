@@ -41,6 +41,10 @@ class EnquiryController extends Controller {
     	return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 	}
 
+	public function setOtpVerified($is_mobile_verified, $contact_no) {
+		Session::put('otp_verified', ['mobile' => $is_mobile_verified, "contact" => $contact_no]); // Add the OTP verified flag to Session
+	}
+
 	/**
 	* This function will validate the OTP
 	*/
@@ -269,8 +273,8 @@ class EnquiryController extends Controller {
 						$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
 						$email_details = [
 							"name" => $customer_data["user"]->name, 
-							"email" => ($customer_data["user_comm"]->where([['type', 'email'],['is_primary', 1]])->count() > 0) ? $customer_data["user_comm"]->where([['type', 'email'],['is_primary', 1]])->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
-							"contact" => ($customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->count() > 0) ? '+' . $customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->first()->country_code . $customer_data["user_comm"]->where([['type', 'mobile'],['is_primary', 1]])->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
+							"email" => ($customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->count() > 0) ? $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : $customer_data["user_comm"]->where('type', 'email')->first()->value, 
+							"contact" => ($customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->count() > 0) ? '+' . $customer_data["user_comm"]->where('type', 'mobile')->where('is_primary', 1)->first()->country_code . $customer_data["user_comm"]->where('type', 'email')->where('is_primary', 1)->first()->value : '+' . $customer_data["user_comm"]->where('type', 'mobile')->first()->country_code . $customer_data["user_comm"]->where('type', 'mobile')->first()->value, 
 							"describes_best" => unserialize($customer_data["user_details"]->first()->subtype), 
 							"message" => $enquiry_obj->enquiry_message,
 							"dashboard_url" => $customer_dashboard_url
@@ -317,7 +321,7 @@ class EnquiryController extends Controller {
    public function getEnquiryTemplate($template_type, $listing_slug="", $session_id = "", $multi_quote = false) {
    		$response_html = ''; $template_name = '';
    		$listing_view_controller = new ListingViewController;
-   		$output = new ConsoleOutput;
+   		//$output = new ConsoleOutput;
 		
 		$session_data = Session::get('enquiry_data');
 		
@@ -429,12 +433,13 @@ class EnquiryController extends Controller {
 	   	} else if ($multi_quote) { // else if it is a MULTI quote enquiry, then
 	   		$template_name = "multi_quote";
 
-	   		if(Auth::guest()) { // If user is not Logged In
+	   		/*if(Auth::guest()) { // If user is not Logged In
     			$template_name .= "_not_logged_in";
     		} else { // If user is Logged In
     			$template_name .= "_logged_in";
-    		}
-	    	
+    		}*/
+	    	$template_name .= "_not_logged_in";
+
 	    	$template_config = config('enquiry_flow_config')[$template_name];
 
 	    	if($template_config[$template_type] == 'popup_level_one' && strlen($session_id) > 0) {
@@ -450,15 +455,20 @@ class EnquiryController extends Controller {
 	   			$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
 
    				$payload_data["enquiry_data"] = Session::get('enquiry_data', []); //unserialize(base64_decode($session_data));
-   				if(isset($payload_data["enquiry_data"]["contact"])) {
-   					$data['next_page'] = $next_template_type;
-   					$data['current_page'] = $template_type;
+   				if(!Auth::guest()) { // If logged In User
+					$auth_user_contact = Auth::user()->getPrimaryContact();
+					if($auth_user_contact && isset($auth_user_contact["is_verified"]) && !$auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
+						$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
+					}
+				} else if(isset($payload_data["enquiry_data"]["contact"])) { // Else If the Enquiry Contact No is not Verified
 	   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
-	   				
-	   				$data["contact_code"] = $payload_data["enquiry_data"]["contact_code"];
-	   				$data["contact"] = $payload_data["enquiry_data"]["contact"];
-		   			$response_html = View::make('modals.listing_enquiry_popup.popup_level_two')->with(compact('data'))->render();
 		   		}
+				
+				$data['next_page'] = $next_template_type;
+				$data['current_page'] = $template_type;	
+   				$data["contact_code"] = $payload_data["enquiry_data"]["contact_code"];
+   				$data["contact"] = $payload_data["enquiry_data"]["contact"];
+	   			$response_html = View::make('modals.listing_enquiry_popup.popup_level_two')->with(compact('data'))->render();
 	   		} else if ($template_config[$template_type] == 'popup_level_three' && strlen($session_id) > 0) {
 	   			$payload_data["enquiry_data"] = Session::get('enquiry_data', []);
 	   			
@@ -553,7 +563,8 @@ class EnquiryController extends Controller {
 	* This function is called by the AJAX to add new Listing Enquiries 
 	*/
 	public function getEnquiry(Request $request) {
-		$output = new ConsoleOutput; $status = 500; $template_name = '';$modal_template_html = '';
+		//$output = new ConsoleOutput;
+		$status = 500; $template_name = '';$modal_template_html = '';
 		$listing_obj_type = "App\Listing"; $listing_obj_id = 0; $listing_obj = null;
 		$full_screen_display = false;
 		$cookie_cont_obj = new CookieController;
@@ -589,11 +600,12 @@ class EnquiryController extends Controller {
 		} else if($request->has('multi-quote') && $request["multi-quote"]) { // Else If a 'multi-quote' flag is passed, then
 			$template_name = "multi_quote";
 
-	   		if(Auth::guest()) { // If user is not Logged In
+	   		/*if(Auth::guest()) { // If user is not Logged In
     			$template_name .= "_not_logged_in";
     		} else { // If user is Logged In
     			$template_name .= "_logged_in";
-    		}
+    		}*/
+			$template_name .= "_not_logged_in";
 	    	
 	    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 	    	$listing_obj = Listing::where('slug', '')->get();
@@ -617,27 +629,21 @@ class EnquiryController extends Controller {
 					$payload_data["enquiry_data"]["describes_best"] = ($request->has('description')) ? $request->description : "";
 					$payload_data["enquiry_data"]["enquiry_message"] = ($request->has('enquiry_message')) ? $request->enquiry_message : "";
 					
-					/*if(isset($payload_data["enquiry_data"]["user_object_id"])) { // Re-Assign the user-id
-						$payload_data["enquiry_data"]["user_object_id"] = $payload_data["enquiry_data"]["user_object_id"];
-					}
-
-					if(isset($payload_data["enquiry_data"]["user_object_type"])) { // Re-Assign the user-type
-						$payload_data["enquiry_data"]["user_object_type"] = $payload_data["enquiry_data"]["user_object_type"];
-					}*/
-
 					if(isset($listing_obj_id)) { // Assign the New Listing ID & Listing Type
 						$payload_data["enquiry_data"]["enquiry_to_id"] = $listing_obj_id;
 						$payload_data["enquiry_data"]["enquiry_to_type"] = $listing_obj_type;
 					}
 
-					// $payload_data = base64_encode(serialize($payload_data));
-					//$op = $session_obj->update(['payload' => $payload_data]); // Serialize & Save the Payload content
-					
-
 					if(!($cookie_cont_obj->get('user_id') && $cookie_cont_obj->get('user_type'))) { // Set Cookie if it doesn't exist
 						$cookie_cont_obj->generateDefaults();
 					}
 
+					if(!Auth::guest()) { // If logged In User
+						$auth_user_contact = Auth::user()->getPrimaryContact();
+						if($auth_user_contact && isset($auth_user_contact["is_verified"]) && $auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
+							$this->setOtpVerified(true, '+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"]);
+						}
+					}
 
 					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
 						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
@@ -654,6 +660,7 @@ class EnquiryController extends Controller {
 
     				Session::put('enquiry_data', $payload_data["enquiry_data"]); // Update the session with New User details
 
+    				/* DOM fetching Section */
     				if($listing_obj && $listing_obj->count() > 0) { // If in single listing page
     					if($listing_obj->first()->premium && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // Premium & verified
 							$modal_template_html = $this->getEnquiryTemplate("step_3", $listing_obj->first()->slug, $session_id, false);	
@@ -755,7 +762,6 @@ class EnquiryController extends Controller {
 					}
 				}
 
-				//dd($listing_final_ids);
 				foreach ($listing_final_ids as $op_key => $op_value) {
 					$enquiry_sent["enquiry_to_id"] = $op_value;
 					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
@@ -772,11 +778,12 @@ class EnquiryController extends Controller {
 
 			/*** End of 2nd Enquiry flow ***/
 			if(isset($verified_session["mobile"]) && $verified_session["mobile"]) { // If mobile verified
-				if(Auth::guest()) {
+				/*if(Auth::guest()) {
 					$next_template_type = "step_4";
 				} else {
 					$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-				}
+				}*/
+				$next_template_type = "step_4";
 
 				if($listing_obj && $listing_obj->count() > 0) {
 					$modal_template_html = $this->getEnquiryTemplate($next_template_type, $listing_obj->first()->slug, $session_id, false);
@@ -804,9 +811,6 @@ class EnquiryController extends Controller {
 				$modal_template_html = $this->getEnquiryTemplate($next_template_type, "", $session_id, true);
 			}
 
-			/*if($next_template_type == "step_4") {
-				$full_screen_display = true;
-			}*/
 			$full_screen_display = true;
 
 			$status = 200;
@@ -824,7 +828,7 @@ class EnquiryController extends Controller {
 	*/
     public function verifyOtp(Request $request) {
     	$status = 400; $modal_template_html = '';
-
+    	
     	if($request->has('contact') && strlen($request->contact) > 0) {
 	    	$session_id = Cookie::get('laravel_session');
 	    	$template_type = $request->has('enquiry_level') && strlen($request->enquiry_level) > 0 ? $request->enquiry_level : 'step_1';
@@ -834,9 +838,19 @@ class EnquiryController extends Controller {
     			$session_payload["contact_code"] = $request->new_contact["country_code"];
     			$session_payload["contact"] = $request->new_contact["contact"];
 
+    			if(!Auth::guest()) { // If logged In User, then update the new Contact number
+					$auth_user_contact = Auth::user()->getPrimaryContact();
+					if($auth_user_contact && isset($auth_user_contact["contact"]) && $auth_user_contact["contact"]) {
+						$auth_user_comm = Auth::user()->getUserCommunications()->where([['object_type', "App\User"], ["object_id", Auth::user()->id], ['value', $auth_user_contact["contact"]]])->first();
+						$auth_user_comm->country_code = $session_payload["contact_code"];
+						$auth_user_comm->value = $session_payload["contact"];
+						$auth_user_comm->save();
+					}
+				}
+
     			Session::flush('enquiry_data'); // Delete the Old enquiry_data
 				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
-	    		//$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
+	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
 	    		$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
 
     			$status = 200;
@@ -896,8 +910,17 @@ class EnquiryController extends Controller {
 	    				}
 	    				/*** End of 1st Enquiry flow ***/
 	    				
-	    				Session::put('otp_verified', ['mobile' => true, "contact" => $session_payload["contact"]]); // Add the OTP verified flag to Session
-
+	    				//Session::put('otp_verified', ['mobile' => true, "contact" => $session_payload["contact"]]); // Add the OTP verified flag to Session
+	    				if(!Auth::guest()) { // If logged In User, then update the new Contact number
+							$auth_user_contact = Auth::user()->getPrimaryContact();
+							if($auth_user_contact && isset($auth_user_contact["contact"]) && $auth_user_contact["contact"]) {
+								$auth_user_comm = Auth::user()->getUserCommunications()->where([['object_type', "App\User"], ["object_id", Auth::user()->id], ['value', $auth_user_contact["contact"]]])->first();
+								$auth_user_comm->is_verified = 1;
+								$auth_user_comm->save();
+							}
+						}
+	    				$this->setOtpVerified(true, $session_payload["contact"]);
+	    				
 	    				/*** 2nd Enquiry flow ***/
 	    				if(sizeof($secondary_enquiry_data) > 0) { // If the key exist & value is not NULL
 	    					if($enq_obj && isset($enq_obj["enquiry"])) {
@@ -935,7 +958,6 @@ class EnquiryController extends Controller {
 
 	    			}
 	    			//$next_template_type = "step_" . strVal(intVal(explode('step_', $template_type)[1]) + 1);
-	    			
 	    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
 	    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
 	    			} else {
@@ -950,6 +972,10 @@ class EnquiryController extends Controller {
 	    	$modal_template_html = "";
 	    }
 
+	    if(!Auth::guest()) {
+	    	$user = Auth::user();
+	    	Auth::login($user);
+	    }
 	    return response()->json(["popup_template" => $modal_template_html], $status);
     }
 

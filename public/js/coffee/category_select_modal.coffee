@@ -26,68 +26,71 @@ getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 			checked_values.push $(this).val()
 			return
 
-	$.ajax
-		type: 'post'
-		url: '/api/get_node_listing_categories'
-		data: 
-			'branch': [branch_id]
-		success: (data) ->
-			key = undefined
-			### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
-			# if $(document).find(path + " #node-skeleton").length > 0
-			# 	html = $(path + " #node-skeleton").clone().removeClass('hidden').html()
-			# 	html = html.replace(/\n/g, "").replace(/  /g, "") # Remove '\n' && '<space><space>' (Double spaces)
-			# 	parser = new DOMParser()
-			# 	html_dom = parser.parseFromString(html, "text/xml")
+	setTimeout (->
+		$.ajax
+			type: 'post'
+			url: '/api/get_node_listing_categories'
+			data: 
+				'branch': [branch_id]
+			success: (data) ->
+				key = undefined
+				### --- The HTML skeleton is defined under a <div id="node-skeleton"> --- ###
+				# if $(document).find(path + " #node-skeleton").length > 0
+				# 	html = $(path + " #node-skeleton").clone().removeClass('hidden').html()
+				# 	html = html.replace(/\n/g, "").replace(/  /g, "") # Remove '\n' && '<space><space>' (Double spaces)
+				# 	parser = new DOMParser()
+				# 	html_dom = parser.parseFromString(html, "text/xml")
 
-			# 	html_upload = ''
+				# 	html_upload = ''
 
-			# 	node_children = data["data"][0]["children"]
-			# 	console.log html_dom
-			# 	html_sub_dom = $(html_dom).find('ul li')
-			# 	$(path + "div#" + data["data"][0]["id"])
+				# 	node_children = data["data"][0]["children"]
+				# 	console.log html_dom
+				# 	html_sub_dom = $(html_dom).find('ul li')
+				# 	$(path + "div#" + data["data"][0]["id"])
 
-			# 	if node_children.length > 0
-			# 		index = 0
-			# 		html_upload = "<ul class=\"nodes\">"
-			# 		while index < node_children.length
-			# 			# $(html_sub_dom).find("input[type='checkbox']").val(node_children[index]["id"])
-			# 			# $(html_sub_dom).find("input[type='checkbox']").attr("for", node_children[index]["id"])
-			# 			# $(html_sub_dom).find("p").val(node_children[index]["id"])
-			# 			# $(html_sub_dom).find("p").text(node_children[index]["name"])
-			# 			# $(html_dom).find('ul').append html_sub_dom
-			# 			index++
-			# 		html_upload += "</ul>"
-			# 	else
-			# 		html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
-			#	$(path + "div#" + data["data"][0]["id"]).append html_upload
-			node_children = data["data"][0]["children"]
-			$(path + "div#" + data["data"][0]["id"])
+				# 	if node_children.length > 0
+				# 		index = 0
+				# 		html_upload = "<ul class=\"nodes\">"
+				# 		while index < node_children.length
+				# 			# $(html_sub_dom).find("input[type='checkbox']").val(node_children[index]["id"])
+				# 			# $(html_sub_dom).find("input[type='checkbox']").attr("for", node_children[index]["id"])
+				# 			# $(html_sub_dom).find("p").val(node_children[index]["id"])
+				# 			# $(html_sub_dom).find("p").text(node_children[index]["name"])
+				# 			# $(html_dom).find('ul').append html_sub_dom
+				# 			index++
+				# 		html_upload += "</ul>"
+				# 	else
+				# 		html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
+				#	$(path + "div#" + data["data"][0]["id"]).append html_upload
+				node_children = data["data"][0]["children"]
+				$(path + "div#" + data["data"][0]["id"])
 
-			if node_children.length > 0
-				index = 0
-				html_upload = "<ul class=\"nodes\">"
-				while index < node_children.length
-					html_upload += "<li><label class=\"flex-row\">"
-					if is_all_checked
-						html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\" checked=\"checked\">"
-					else
-						if checked_values.length > 0 and $.inArray(node_children[index]['id'].toString(), checked_values) != -1
+				if node_children.length > 0
+					index = 0
+					html_upload = "<ul class=\"nodes\">"
+					while index < node_children.length
+						html_upload += "<li><label class=\"flex-row\">"
+						if is_all_checked
 							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\" checked=\"checked\">"
 						else
-							html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\">"
-					html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value='" + JSON.stringify(node_children[index]["hierarchy"]) + "'>"
-					html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>"
-					html_upload += "</label></li>"
-					index++
-				html_upload += "</ul>"
-			else
-				html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
-			$(path + "div#" + data["data"][0]["id"]).html html_upload
-			return
-		error: (request, status, error) ->
-			throw Error()
-			return
+							if checked_values.length > 0 and $.inArray(node_children[index]['id'].toString(), checked_values) != -1
+								html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\" checked=\"checked\">"
+							else
+								html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\""+ node_children[index]['id'] + "\">"
+						html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value='" + JSON.stringify(node_children[index]["hierarchy"]) + "'>"
+						html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>"
+						html_upload += "</label></li>"
+						index++
+					html_upload += "</ul>"
+				else
+					html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>."
+				$(path + "div#" + data["data"][0]["id"]).html html_upload
+				return
+			error: (request, status, error) ->
+				throw Error()
+				return
+
+	), 200
 	return
 
 getPreviouslyAvailableCategories = () ->

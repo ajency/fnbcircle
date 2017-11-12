@@ -242,7 +242,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!-- <tr>
                 <td>
                     <label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>
                     Request sent on 10 oct 2017
@@ -274,7 +274,7 @@
                 <td>9878738444 <img src="/img/verified.png" class="lead-verify" width="12"></td>
                 <td>Working Professional<br> Business Owner</td>
                 <td class="details-control text-secondary cursor-pointer"><div class="rating"><div class="bg"></div><div class="value" style="width: 0;"></div></div><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></td>
-            </tr>
+            </tr> -->
         </tbody>
     </table> 
 
@@ -288,9 +288,7 @@
 
 </div>
 
-@include('modals.location_select.popup')
 
-@include('modals.categories_list')
 <!-- archive confirmation modal -->
 
 <div class="modal fnb-modal confirm-box fade modal-center" id="enquiryarchive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -315,9 +313,13 @@
   </div>
 </div>
 
+
+@include('modals.location_select.popup')
+
+@include('modals.categories_list')
 <!-- Category modal -->
 
- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <!-- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -446,6 +448,6 @@
                     
                 </div>
             </div>
-        </div>
+        </div> -->
 
 @endsection

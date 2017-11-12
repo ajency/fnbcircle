@@ -81,8 +81,12 @@ class AdminEnquiryController extends Controller
                 $areas[] = $city;               
             }
             $enquiry['areas'] = implode('<br/>',$areas);
-            $against_city = Area::with('city')->find($enquiry['made_against']->locality_id);
-            $enquiry['made_against'] = '<a href="'.url('/'.$against_city->city['slug'].'/'.$enquiry['made_against']->slug).'"  target="_blank" >'.$enquiry['made_against']->title;
+            try{
+                $against_city = Area::with('city')->find($enquiry['made_against']->locality_id);
+                $enquiry['made_against'] = '<a href="'.url('/'.$against_city->city['slug'].'/'.$enquiry['made_against']->slug).'"  target="_blank" >'.$enquiry['made_against']->title;
+            }catch(\Exception $e){
+                $enquiry['made_against'] = "N/A";
+            }
             $sendTo = [];
             foreach ($enquiry['sent_to'] as $listing) {
                 // $sendTo[] = $listing->title;
@@ -371,8 +375,12 @@ class AdminEnquiryController extends Controller
             $sentTo = $enquiry->sentTo()->get();
 
             foreach ($sentTo as $to) {
-                $object = $to->enquiry_to()->first();
-                $response[$enquiry->id]['sent_to'][$object->id] = $object;
+                try{
+                    $object = $to->enquiry_to()->first();
+                    $response[$enquiry->id]['sent_to'][$object->id] = $object;
+                }catch (\Exception $e) {
+                    dd($to);
+                }
             }
 
 

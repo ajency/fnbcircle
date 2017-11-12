@@ -853,6 +853,9 @@ class EnquiryController extends Controller {
     				$secondary_enquiry_data = Session::get('second_enquiry_data', []);
 	    			
 	    			if(sizeof($session_payload) > 0) {
+	    				$cookie_cont_obj = new CookieController;
+			        	$other_cookie_params = ["path" => "/", "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true];
+
 	    				if(Auth::guest()) {
 	    					$lead_obj = Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact_code"] . '-' . $session_payload["contact"], "user_details_meta" => serialize(["describes_best" => $session_payload["describes_best"]]), "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s")]);
 
@@ -861,10 +864,17 @@ class EnquiryController extends Controller {
 	    					$register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
 
 	    					$lead_type = "App\Lead";
+
+
 	    				} else {
 	    					$lead_obj = Auth::user();//Lead::create(["name" => $session_payload["name"], "email" => $session_payload["email"], "mobile" => $session_payload["contact"], "is_verified" => true, "lead_creation_date" => date("Y-m-d H:i:s"), "user_id" => Auth::user()->id]);
 	    					$lead_type = "App\User";
 	    				}
+
+	    				/* Set UserID & User Type in the Cookie, once verified */
+	    				$cookie_cont_obj->set('user_id', $lead_obj["id"], $other_cookie_params);
+	    				$cookie_cont_obj->set('user_type', $lead_type, $other_cookie_params);
+	    				$cookie_cont_obj->set('is_verified', true, $other_cookie_params);
 
 	    				/*** 1st Enquiry flow ***/
 	    				if(sizeof($session_payload) > 0) {

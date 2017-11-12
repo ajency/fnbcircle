@@ -8,7 +8,8 @@
 			"user_id",
 	    	"user_type",
 	    	"mobile_otp",
-	    	"is_logged_in"
+	    	"is_logged_in",
+	    	"is_verified"
 		],
 		"expires_in" => 10080, //120,
 

@@ -55,7 +55,6 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 	return data
 
 getContent = (modal_id, enquiry_level, listing_slug) ->
-	console.log "modal_id"
 	data = getFilters(modal_id, enquiry_level, listing_slug)
 	
 	$.ajax
@@ -92,7 +91,6 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 	if modal_id == "#multi-quote-enquiry-modal"
 		data['multi-quote'] = true
 
-	console.log "calling template"
 	$.ajax
 		type: 'post'
 		url: '/api/get_enquiry_template'
@@ -107,7 +105,6 @@ getTemplate = (modal_id, modal_template, listing_slug = '') ->
 			if data["modal_template"].length > 0
 				$(document).find(modal_id + " #listing_popup_fill").html data["modal_template"]
 				# $(document).find(modal_id).modal 'show'
-				console.log "template..."
 				if $(modal_id + " #level-one-enquiry").length > 0
 					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
 				return
@@ -290,11 +287,24 @@ multiSelectInit = (path, reinit = false) ->
 
 	return
 
+## -- Reset Template to that Popup content Step -- ##
 resetTemplate = (modal_id, enquiry_level, listing_slug) ->
 	if(listing_slug and listing_slug.length > 0 and modal_id == "#enquiry-modal")
 		getTemplate(modal_id, enquiry_level, listing_slug)
 	else
 		getTemplate(modal_id, enquiry_level, "")
+	return
+
+## -- Destroy all the plugins in that popup -- ##
+resetPlugins = (modal_id) ->
+	## -- Destroy flag plugin -- ##
+	if $(modal_id + " #level-one-enquiry input[name='contact']").length > 0
+		$(modal_id + " #level-one-enquiry input[name='contact']").intlTelInput "destroy"
+
+	## -- Destroy MultiSelect Plugin -- ##
+	if $(modal_id + " .default-area-select").length > 0
+		$(modal_id + " .default-area-select").multiselect "destroy"
+
 	return
 
 $(document).ready () ->
@@ -308,6 +318,7 @@ $(document).ready () ->
 		if $(modal_id).length > 0
 			### --- Reset to Modal 1 on enquiry button Click --- ###
 			resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
+			resetPlugins(modal_id)
 
 			# $(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			# 	if modal_id == "#enquiry-modal"
@@ -359,15 +370,18 @@ $(document).ready () ->
 
 				if $(document).find(modal_id + " #level-one-enquiry").length > 0
 					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
-				
-					$(document).on "countrychange", modal_id + " #level-one-enquiry input[name='contact']", () ->
-						$(this).val($(this).intlTelInput("getNumber"))
-						return
+			
 
 					if $(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 and $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1
 						$(modal_id + " #level-one-enquiry input[name='contact']").val ""
 					
 					# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
+					return
+
+			if $(document).find(modal_id + " #level-one-enquiry").length > 0				
+				$(document).on "countrychange", modal_id + " #level-one-enquiry input[name='contact']", () ->
+					if $(this).val() > 0
+						$(this).val($(this).intlTelInput("getNumber"))
 					return
 
 			### --- On click of "Send Enquiry 1" button --- ###
@@ -379,7 +393,6 @@ $(document).ready () ->
 					# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
 				else
 					console.log "forms not complete"
-				
 				return
 
 
@@ -437,7 +450,6 @@ $(document).ready () ->
 			
 			### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
 			$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
-				console.log "New City-Area"
 				$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
 				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
 				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
@@ -472,7 +484,7 @@ $(document).ready () ->
 
 				### --- Category select modal on show --- ###
 				$(document).on "shown.bs.modal", "#category-select", (event) ->
-					console.log main_page_categories
+					# console.log main_page_categories
 					$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
 					return
 				return

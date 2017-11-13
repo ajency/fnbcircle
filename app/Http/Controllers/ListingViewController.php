@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Category;
+use App\City;
 use App\Listing;
 use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\User;
+use App\Helpers\WpNewsHelper;
 // use App\ListingCategory;
 
 class ListingViewController extends Controller
@@ -23,8 +25,14 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
+        
+        $news_items = $this->getNewsList($pagedata,$city);
+        $pagedata['news_items'] = $news_items;
+
         return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
     }
+
+    
 
     private function getListingData($listing)
     {
@@ -294,8 +302,12 @@ class ListingViewController extends Controller
     {
         $listviewcontroller_obj = new ListViewController;
         $parents    = Category::where('type', 'listing')->where('level', '1')->where('status', 1)->orderBy('order')->orderBy('name')->take(config('tempconfig.single-view-category-number'))->get();
+
+         
+       
+
         $categories = [];
-        foreach ($parents as $category) {
+        foreach ($parents as $category) { 
             $categories[$category->id] = [
                 'id'    => $category->id,
                 'name'  => $category->name,
@@ -303,8 +315,48 @@ class ListingViewController extends Controller
                 'image' => $category->icon_url,
                 'count' => count($category->getAssociatedListings()['data']['listings']),
                 'url' => '/'.$area->city['slug'].'/business-listings?categories='.$listviewcontroller_obj->getCategoryNodeArray($category, "slug", false) ,
+                
             ];
         }
         return $categories;
+    }
+
+
+    public function getBusinessCategoryCard($city)
+    {
+        $city_data                 = City::where('slug', '=', $city)->firstorFail();
+        $area                      = Area::where('city_id', $city_data->id)->get();
+        $browse_categories         = $this->getPopularParentCategories($area->first());
+        $data['city']              = $city_data;
+        $data['browse_categories'] = $browse_categories;
+        return view('single-view.businesss_categories_card')->with('data', $data);
+    }
+
+
+    public function getNewsList($pagedata,$city)
+    {
+        $news = new WpNewsHelper();
+        $news_args = array("category"=>array($city),'num_of_items'=>2);
+
+        foreach ($pagedata['categories'] as $cats) {
+
+            foreach ($cats['nodes'] as $cat) {
+
+                $cat_ar[] = $cat['slug'];
+
+            }
+        }
+
+        foreach ($pagedata['brands'] as $brand) {
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); ;
+        }
+
+        if(count($cat_ar)>0){
+            $news_args["tag"] = $cat_ar;    
+        }
+
+         
+        $news_items = $news->getNewsByCategories_tags($news_args);   
+        return $news_items;
     }
 }

@@ -670,13 +670,36 @@
                         @endif
                         <!-- Related article section -->
 
-
+                        @if(count($data['news_items']) > 0)
                         <div class="related-article p-b-20" id="article">
                                 <div class="section-start-head m-b-15 flex-row">
                                     <h6 class="element-title">Related Articles</h6>
-                                    <a href="" class="secondary-link view-more heavier">View More</a>
+                                    <a href="/news/{{$data['city']['name']}}" class="secondary-link view-more heavier">View More</a>
                                 </div>
                                 <div class="related-article__section flex-row">
+
+                                    
+                                    @foreach($data['news_items'] as $news_item)
+                                    
+
+
+                                    <div class="related-article__col article-col fnb-article">
+                                        <a href="" class="article-link">
+                                            <div class="fnb-article__banner" <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});" <?php }  ?>  ></div>
+                                            <div class="fnb-article__content m-t-15">
+                                                <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}">{{$news_item['title']}}</a></h6>
+                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}    </p>
+                                                <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+                                    @endforeach
+                                
+
+
+                                <!--
                                     <div class="related-article__col article-col fnb-article">
                                         <a href="" class="article-link">
                                             <div class="fnb-article__banner"></div>
@@ -696,11 +719,11 @@
                                                 <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
                                             </div>
                                         </a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
-
+                        @endif
 
                         <!-- Related article section end -->
 

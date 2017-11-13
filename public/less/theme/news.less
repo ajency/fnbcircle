@@ -22,6 +22,9 @@
 }
 .single-featured-image-header{
     margin-top: 20px;   
+    @media screen and (max-width: @mobile) {
+	   		margin-top: 0px !important;
+   		}
 }
 .fa-user-circle:before {
     content: "\f2bd";
@@ -388,13 +391,7 @@ body .submit{
 		margin-top: 20px !important;
 		margin-bottom: 20px;
 	}
-	.wrap {
-    margin-left: 0px!important;
-    margin-right: 0px!important; 
-    max-width: 370px!important;
-    padding-left: 1em!important;
-    padding-right: 1em!important;
-}
+
 
 	.single-featured-image-header img {
  	width: 100% !important;
@@ -422,7 +419,6 @@ body .submit{
 	}
 	.why-fnb{
 		padding-bottom: 0;
-		width: 80%;
 
     	margin-bottom: 10px;
 		.main-title{

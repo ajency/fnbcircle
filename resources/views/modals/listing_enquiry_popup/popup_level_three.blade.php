@@ -7,7 +7,7 @@
             <h6 class="text-color text-medium enquiry-success__text" style="padding-right: 0em">Email &amp; SMS with your details has been sent to the owner of {{ $data["title"]["name"] }}.</h6>
         </div>
     @endif
-    <div class="suppliers-data">
+    <div class="suppliers-data in-popup">
         <div class="mobile-hide">
             <h6 class="text-darker m-t-0">We can help you get the best deals on F&amp;B Circle.</h6>
             @if(Auth::guest())

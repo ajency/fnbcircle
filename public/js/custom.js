@@ -677,6 +677,12 @@ $(function(){
 				} else if (message_key == 'token_already_verified') { // Token already Verfied / Used
 					$(popup_message + ".alert-warning .token-already-verified.already-verified-error").removeClass('hidden');
 					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'facebook_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.facebook-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'google_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.google-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
 				}
 
 			}

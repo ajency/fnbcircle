@@ -12626,14 +12626,12 @@ dl dd {
   position: absolute;
 }
 .login-modal .alert.alert-success {
-  background-color: #77d79a;
-  border-color: #77d79a;
-  color: #fff;
-  text-shadow: 0px 0px 1px #000;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
 }
 .login-modal .alert.alert-success .close {
   opacity: 1;
-  text-shadow: 0px 0px 1px #000;
 }
 .logo-style {
   position: relative;

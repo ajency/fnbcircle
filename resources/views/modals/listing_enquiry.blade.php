@@ -298,7 +298,7 @@
                        <!-- Level one ends -->
 
                       <!-- Loader -->
-                        <div class="site-loader section-loader">
+                        <div class="site-loader section-loader {{ !Auth::guest() ? 'hidden' : '' }}">
                             <div id="floatingBarsG">
                                 <div class="blockG" id="rotateG_01"></div>
                                 <div class="blockG" id="rotateG_02"></div>

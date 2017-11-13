@@ -176,7 +176,7 @@
                                 </select>
                             </div>
                         </li>
-                        <li><a href="#" class="primary-link" aria-label="Close" id="close_areas">&#10005;</a></li>
+                        <li><a href="#" class="primary-link m-l-20" aria-label="Close" id="close_areas"><i class="fa fa-times" aria-hidden="true"></i></a></li>
                     </ul>
                     <div class="text-right m-t-10 adder">
                         <a href="#" id="add-city-areas" class="secondary-link text-decor heavier add-areas x-small">+ Add more</a>
@@ -184,12 +184,12 @@
                 </div>
                 <!-- areas select -->
             </div>
+            <!-- action -->
+            <div class="send-action m-t-10">
+                <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
+            </div>
+            <!-- action ends -->
         </div>
-        <!-- action -->
-        <div class="send-action m-t-20">
-            <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
-        </div>
-        <!-- action ends -->
     </div>
 </div>
 <!-- level three ends

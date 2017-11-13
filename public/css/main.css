@@ -988,7 +988,7 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .site-loader.section-loader {
   position: absolute;
-  z-index: 3;
+  z-index: 11;
 }
 @media screen and (max-width: 650px) {
   .site-loader.section-loader {
@@ -4805,6 +4805,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select {
   padding-left: 0.8em;
+  width: 100%;
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox {
   padding: 3px 15px 3px 20px;
@@ -4815,6 +4816,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox input[type="checkbox"]:before {
   top: -7px;
+}
+.verification-modal .areas-select__selection .multiselect-native-select .multiselect {
+  border-bottom: 1px solid #adacad;
 }
 .verification-modal .verification {
   border: 3px dashed #ffc1bd;
@@ -5076,6 +5080,20 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .vendor-contact-details .vendor-label {
   font-size: 1.15em;
+}
+.verification-modal .level-three .gap-separator {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.verification-modal .level-three .areas-select {
+  padding-top: 0;
+}
+.verification-modal .level-three .areas-select__selection {
+  margin-top: 0;
+  padding: 0 0.5em 0.8em 0;
+}
+.verification-modal .formFields {
+  padding: 1em 0px;
 }
 .formDetails__cols {
   -webkit-box-flex: 1;

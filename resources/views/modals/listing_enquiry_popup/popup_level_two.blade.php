@@ -43,6 +43,23 @@
         <div id="otp-error" class="fnb-errors m-t-10"></div>
         @include('modals.verification.new-mobile-number')
     </div>
+
 </div>
+
+<!-- Loader -->
+
+<div class="site-loader section-loader hidden">
+    <div id="floatingBarsG">
+        <div class="blockG" id="rotateG_01"></div>
+        <div class="blockG" id="rotateG_02"></div>
+        <div class="blockG" id="rotateG_03"></div>
+        <div class="blockG" id="rotateG_04"></div>
+        <div class="blockG" id="rotateG_05"></div>
+        <div class="blockG" id="rotateG_06"></div>
+        <div class="blockG" id="rotateG_07"></div>
+        <div class="blockG" id="rotateG_08"></div>
+    </div>
+</div> 
+
 
 <!-- Level two ends

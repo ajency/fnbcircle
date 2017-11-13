@@ -298,7 +298,7 @@
     } else {
       $(path + ' .default-area-select').multiselect({
         includeSelectAllOption: true,
-        numberDisplayed: 5,
+        numberDisplayed: 2,
         delimiterText: ',',
         nonSelectedText: 'Select City'
       });
@@ -369,13 +369,13 @@
           $('.float-input').each(function() {
             checkForInput(this);
           });
-          if ($(document).find(modal_id + " #level-one-enquiry").length > 0) {
-            initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
-            if ($(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 && $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
-              $(modal_id + " #level-one-enquiry input[name='contact']").val("");
-            }
-          }
         });
+        if ($(document).find(modal_id + " #level-one-enquiry").length > 0) {
+          initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
+          if ($(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 && $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
+            $(modal_id + " #level-one-enquiry input[name='contact']").val("");
+          }
+        }
         if ($(document).find(modal_id + " #level-one-enquiry").length > 0) {
           $(document).on("countrychange", modal_id + " #level-one-enquiry input[name='contact']", function() {
             if ($(this).val() > 0) {
@@ -391,6 +391,7 @@
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           if ($(document).find(modal_id + " #level-one-enquiry").parsley().validate()) {
             getContent(modal_id, page_level, $("#enquiry_slug").val());
+            event.stopImmediatePropagation();
           } else {
             console.log("forms not complete");
           }
@@ -399,11 +400,13 @@
         /* --- On click of OTP submit button --- */
         $(document).on("click", modal_id + " #level-two-enquiry #level-two-form-btn", function(event) {
           getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), false, false, '');
+          event.stopImmediatePropagation();
         });
 
         /* --- On click of OTP regenerate button --- */
         $(document).on("click", modal_id + " #level-two-enquiry #level-two-resend-btn", function(event) {
           getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), true, true, '');
+          event.stopImmediatePropagation();
         });
 
         /* --- initialize the Flag in Popup 2 --- */
@@ -421,6 +424,7 @@
           $(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
           $(document).find(modal_id + " #new-mobile-modal").modal("hide");
           getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val());
+          event.stopImmediatePropagation();
         });
         $(document).on("change", modal_id + " #level-three-enquiry #area_section select[name='city']", function(event) {
           var city_vals, i;
@@ -440,12 +444,14 @@
             }
           });
           getArea(modal_id, $(this).val(), $(this).closest('ul').find('select[name="area"]'));
+          event.stopImmediatePropagation();
         });
 
         /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
         $(document).on("click", modal_id + " #level-three-enquiry #add-city-areas", function(event) {
           $(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations");
           multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);
+          event.stopImmediatePropagation();
         });
 
         /* --- On click of close, remove the City-Area DOM --- */
@@ -459,9 +465,12 @@
         $(document).on("click", modal_id + " #level-three-enquiry #level-three-form-btn", function(event) {
           var page_level;
           page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
-          if ($(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find("#level-three-enquiry #area_operations").parsley().validate()) {
+          $(this).find("i.fa-circle-o-notch").removeClass("hidden");
+          if ($(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()) {
             getContent(modal_id, page_level, $("#enquiry_slug").val());
+            event.stopImmediatePropagation();
           } else {
+            $(this).find("i.fa-circle-o-notch").addClass("hidden");
             console.log("forms not complete");
           }
         });

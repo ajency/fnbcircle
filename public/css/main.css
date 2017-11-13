@@ -269,6 +269,9 @@ span {
   color: #f19279;
   border: 0;
 }
+.fnb-btn.medium-btn {
+  padding: 0.5em 1.5em;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;
@@ -988,7 +991,7 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .site-loader.section-loader {
   position: absolute;
-  z-index: 3;
+  z-index: 11;
 }
 @media screen and (max-width: 650px) {
   .site-loader.section-loader {
@@ -4744,6 +4747,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .flex-points .checkbox {
   top: -3px;
+  margin-right: 5px;
 }
 .verification-modal .flex-points .checkbox:checked + .flex-points__text {
   font-weight: 500;
@@ -4805,6 +4809,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select {
   padding-left: 0.8em;
+  width: 100%;
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox {
   padding: 3px 15px 3px 20px;
@@ -4815,6 +4820,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox input[type="checkbox"]:before {
   top: -7px;
+}
+.verification-modal .areas-select__selection .multiselect-native-select .multiselect {
+  border-bottom: 1px solid #adacad;
 }
 .verification-modal .verification {
   border: 3px dashed #ffc1bd;
@@ -5076,6 +5084,20 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .vendor-contact-details .vendor-label {
   font-size: 1.15em;
+}
+.verification-modal .level-three .gap-separator {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.verification-modal .level-three .areas-select {
+  padding-top: 0;
+}
+.verification-modal .level-three .areas-select__selection {
+  margin-top: 0;
+  padding: 0 0.5em 0.8em 0;
+}
+.verification-modal .formFields {
+  padding: 1em 0px;
 }
 .formDetails__cols {
   -webkit-box-flex: 1;
@@ -6093,6 +6115,37 @@ input[type=checkbox].custom-checkbox:before {
 }
 .application-table.table-responsive {
   border: 0;
+}
+.new-mobile-modal .modal-content {
+  padding: 1.5em;
+}
+.new-mobile-modal .modal-header {
+  padding: 15px;
+}
+.new-mobile-modal .modal-body {
+  padding: 0 4em;
+  text-align: center;
+}
+.new-mobile-modal.in {
+  box-shadow: inset rgba(0, 0, 0, 0.57) 0 0 0 500px;
+}
+.enquiry-log-title {
+  font-size: 1.25em;
+  line-height: 1.3;
+}
+@media screen and (max-width: 768px) {
+  .enquiry-log-title {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    font-size: 1em;
+    text-align: center;
+  }
+  .enquiry-log-title img {
+    margin: 0 0 1em 0;
+  }
 }
 .search-section {
   position: relative;

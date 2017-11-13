@@ -235,15 +235,16 @@ $(document).ready () ->
 		$(this).closest("div#level-one-category").addClass "hidden"
 		get_core_cat_checked = []
 
-		## -- Get the Core Categories slug array  -- ##
-		get_core_cat_checked = getPreviouslyAvailableCategories()
 			
 		setTimeout ( ->
+			## -- Get the Core Categories slug array  -- ##
+			get_core_cat_checked = getPreviouslyAvailableCategories()
+			
 			# console.log $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls")
 			getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false)
 			return
-		), 200
-		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+		), 300
+		event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 		return
 
 	### --- On click of Branch Categories, Get it's children --- ###
@@ -257,7 +258,7 @@ $(document).ready () ->
 		$("#category-select #level-two-category #cat-dataHolder div").removeClass "active"
 		$("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass "active"
 
-		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+		event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 		return
 
 	### -- If a branch category is selected, then select all the core categories --- ###
@@ -272,7 +273,7 @@ $(document).ready () ->
 				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", true
 			else
 				$("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop "checked", false
-		# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+		event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 		return
 
 	### --- If a node Category is selected, & if all are selected, then check the Branch --- ###

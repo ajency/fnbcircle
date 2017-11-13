@@ -281,7 +281,7 @@ multiSelectInit = (path, reinit = false) ->
 	else
 		$(path + ' .default-area-select').multiselect
 			includeSelectAllOption: true
-			numberDisplayed: 5
+			numberDisplayed: 2
 			delimiterText: ','
 			nonSelectedText: 'Select City'
 

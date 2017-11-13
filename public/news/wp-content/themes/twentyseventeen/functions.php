@@ -845,7 +845,40 @@ add_action('admin_head', 'example_wpadmin_custom_css');
 
 
 
+/**
+ * Modify the "must_log_in" string of the comment form.
+ *
+ * @see http://wordpress.stackexchange.com/a/170492/26350
+ */
+add_filter( 'comment_form_defaults', function( $fields ) {
+    $fields['must_log_in'] = sprintf( 
+        __( '<p class="must-log-in">
+                 You must <a href="#" class="login" data-toggle="modal" data-target="#login-modal">Login</a> to post a comment.</p>' 
+        ),
+        wp_registration_url(),
+        wp_login_url( apply_filters( 'the_permalink', get_permalink() ) )   
+    );
+    return $fields;
+});
 
+
+
+
+
+/* category and tags archieve page change the title */
+function custom_category_tags_title($title)
+{
+	if( is_category()){
+		$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
+	}
+	else if(is_tag()){
+		$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
+	}
+
+	return $title;
+}
+
+add_filter('get_the_archive_title', 'custom_category_tags_title', 10, 1);
 
 
 

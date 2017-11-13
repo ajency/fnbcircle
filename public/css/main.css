@@ -12521,6 +12521,9 @@ dl dd {
 .profile-info-card .not-verified {
   width: 10px;
 }
+.basic-verified {
+  margin-top: -4px;
+}
 @media screen and (min-width: 650px) {
   .login-modal .modal-dialog {
     width: 450px;

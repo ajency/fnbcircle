@@ -46,7 +46,7 @@
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                    <input type="text" class="form-control fnb-input float-input" id="email" name="email" name="email" data-parsley-trigger="change" data-parsley-type="email" data-required="true" value="{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                    <input type="email" class="form-control fnb-input float-input" id="email" name="email" data-parsley-trigger="change" data-parsley-type="email" data-required="true" value="{{ !Auth::guest() ? Auth::user()->getPrimaryEmail() : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                 </div>
             </div>
             <div class="col-sm-6">

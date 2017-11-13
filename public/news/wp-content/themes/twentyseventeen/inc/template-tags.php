@@ -60,6 +60,7 @@ if ( ! function_exists( 'twentyseventeen_entry_footer' ) ) :
  * Prints HTML with meta information for the categories, tags and comments.
  */
 function twentyseventeen_entry_footer() {
+	global $post;
 
 	/* translators: used between list items, there is a space after the comma */
 	$separate_meta = __( ', ', 'twentyseventeen' );
@@ -79,7 +80,8 @@ function twentyseventeen_entry_footer() {
 				if ( ( $categories_list && twentyseventeen_categorized_blog() ) || $tags_list ) {
 					echo '<span class="cat-tags-links">';
 					echo "By &nbsp;";
-					 echo $author_id=$post->post_author;
+					 //echo $author_id=$post->post_author;
+					 $author_id=$post->post_author;
 					 echo the_author_meta( 'user_nicename' , $author_id ); 
 					 echo "&nbsp; on &nbsp;";
 					echo get_the_date();

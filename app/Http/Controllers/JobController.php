@@ -332,9 +332,14 @@ class JobController extends Controller
         $data['contactMobile'] = $contactMobile;
         $data['contactLandline'] = $contactLandline;
 
-        $news = new WpNewsHelper();
-        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
-        $news_items = $news->getNewsByCategories($news_args);        
+        //$news = new WpNewsHelper();
+        //$news_args = array("category"=>array("goa","pune"),'num_of_items'=>2);
+        //$news_args = array("tag"=>array("agent","backend-jobs"),'num_of_items'=>2);        
+        //$news_items = $news->getNewsByCategories_tags($news_args);                    
+        
+       /* $news_items = $this->getNewsList($data,$city);                    
+        $data['news_items'] = $news_items;*/
+        $news_items = $this->getNewsList($data['keywords'],$data['locations']);
         $data['news_items'] = $news_items;
         
         //if logged in user
@@ -1205,4 +1210,28 @@ class JobController extends Controller
     {
         //
     }
+
+    public function getNewsList($keywords,$locations)
+    {
+        $news = new WpNewsHelper();
+
+        foreach ($locations as   $city => $locAreas) {
+            $cities[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city))); ;
+        } 
+
+        $news_args = array("category"=>$cities,'num_of_items'=>2); 
+
+        foreach ($keywords as $keyword) {
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $keyword))); 
+        }
+
+        if(count($cat_ar)>0){
+            $news_args["tag"] = $cat_ar;    
+        }
+
+        
+        $news_items = $news->getNewsByCategories_tags($news_args);   
+        return $news_items;
+    }
 }
+

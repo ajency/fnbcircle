@@ -25,13 +25,14 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
-        $news = new WpNewsHelper();
-        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
-        $news_items = $news->getNewsByCategories($news_args);        
+        
+        $news_items = $this->getNewsList($pagedata,$city);
         $pagedata['news_items'] = $news_items;
 
         return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
     }
+
+    
 
     private function getListingData($listing)
     {
@@ -329,5 +330,33 @@ class ListingViewController extends Controller
         $data['city']              = $city_data;
         $data['browse_categories'] = $browse_categories;
         return view('single-view.businesss_categories_card')->with('data', $data);
+    }
+
+
+    public function getNewsList($pagedata,$city)
+    {
+        $news = new WpNewsHelper();
+        $news_args = array("category"=>array($city),'num_of_items'=>2);
+
+        foreach ($pagedata['categories'] as $cats) {
+
+            foreach ($cats['nodes'] as $cat) {
+
+                $cat_ar[] = $cat['slug'];
+
+            }
+        }
+
+        foreach ($pagedata['brands'] as $brand) {
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); ;
+        }
+
+        if(count($cat_ar)>0){
+            $news_args["tag"] = $cat_ar;    
+        }
+
+         
+        $news_items = $news->getNewsByCategories_tags($news_args);   
+        return $news_items;
     }
 }

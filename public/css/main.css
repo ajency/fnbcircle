@@ -6147,6 +6147,18 @@ input[type=checkbox].custom-checkbox:before {
     margin: 0 0 1em 0;
   }
 }
+.multi-quote-modal .level-one .formFields .col-sm-6 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+}
+.multi-quote-modal .level-one .describe-section label {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+}
 .search-section {
   position: relative;
   top: 2em;

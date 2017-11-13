@@ -10,13 +10,13 @@ class WpNewsHelper
 
     public function __construct($params = array())
     {
-       
+
     }
 
     /**
-     * 
-     * @param      <type>  $params  The parameters 
-     *                                  array("tag"=>array("agent","accountant"),"num_of_items"=>2)  OR array("tag"=>"agent,accountant","num_of_items"=>2)  
+     *
+     * @param      <type>  $params  The parameters
+     *                                  array("tag"=>array("agent","accountant"),"num_of_items"=>2)  OR array("tag"=>"agent,accountant","num_of_items"=>2)
      *                                  OR array("category"=>array("goa","pune"),"num_of_items"=>2) OR array("category"=>"goa,pune","num_of_items"=>2)
      * @return     array   The news by categories.
      */
@@ -33,7 +33,7 @@ class WpNewsHelper
             'post_status' => 'publish',
         );
 
-        if(isset($params['category'])){
+        if (isset($params['category'])) {
 
             if (is_array($params['category'])) {
 
@@ -45,32 +45,40 @@ class WpNewsHelper
                 $args['category_name'] = $params['category'];
             }
 
-        }
-        else if(isset($params['tag'])){
+        } 
+
+
+        if (isset($params['tag'])) {
 
             $tags = $params['tag'];
             if (!is_array($params['tag'])) {
-                $tags            = explode(",", $params['tag']);
+                $tags = explode(",", $params['tag']);
             }
-             
-
-            $args['tax_query'] = array(
-                                            array(
-                                                    'taxonomy' => 'post_tag',
-                                                    'field' => 'slug',
-                                                    'terms' => $tags
-                                                )
-                                            );
             
 
-        }
+            $args['tax_query']['relation'] = "OR";
+            foreach ($params['tag'] as $tg) {
 
-        
+                $args['tax_query'][] = array( 'taxonomy' => 'post_tag',
+                                                'field'    => 'slug',
+                                                'terms'    => $tg,
+                                            );
+            }
+
+            /*  $args['tax_query'] = array(
+        array(
+        'taxonomy' => 'post_tag',
+        'field' => 'slug',
+        'terms' => $tags
+        )
+        );*/
+
+        }
 
         if (isset($params['num_of_items'])) {
             $args['posts_per_page'] = $params['num_of_items'];
         }
-
+ //dd($args); 
         $posts_array = get_posts($args);
 
         foreach ($posts_array as $post) {
@@ -95,7 +103,7 @@ class WpNewsHelper
                 'featured_image'        => $featured_image,
                 'date'                  => $post->post_date,
                 'display_date'          => date("d M Y H:i:s", strtotime($post->post_date)),
-                'url'                   => get_permalink($post->ID)//$post->guid,
+                'url'                   => get_permalink($post->ID), //$post->guid,
 
             );
 

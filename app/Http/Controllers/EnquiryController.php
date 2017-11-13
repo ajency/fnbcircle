@@ -608,7 +608,7 @@ class EnquiryController extends Controller {
 			$template_name .= "_not_logged_in";
 	    	
 	    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
-	    	$listing_obj = Listing::where('slug', '')->get();
+	    	$listing_obj = null;//Listing::where('slug', '')->get();
 
 		} else { // Else
 			$template_config = "popup_level_one";
@@ -648,7 +648,7 @@ class EnquiryController extends Controller {
 					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
 						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
 
-						if($listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
+						if($request->has('listing_slug') && strlen($request->listing_slug) > 0 && $listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
 							$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
 						} else {
 							$enquiry_sent = [];

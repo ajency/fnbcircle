@@ -281,7 +281,7 @@ multiSelectInit = (path, reinit = false) ->
 	else
 		$(path + ' .default-area-select').multiselect
 			includeSelectAllOption: true
-			numberDisplayed: 5
+			numberDisplayed: 2
 			delimiterText: ','
 			nonSelectedText: 'Select City'
 
@@ -368,15 +368,15 @@ $(document).ready () ->
 				  checkForInput this
 				  return
 
-				if $(document).find(modal_id + " #level-one-enquiry").length > 0
-					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
-			
+				return
 
-					if $(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 and $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1
-						$(modal_id + " #level-one-enquiry input[name='contact']").val ""
-					
-					# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-					return
+			if $(document).find(modal_id + " #level-one-enquiry").length > 0
+				initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
+
+				if $(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 and $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1
+					$(modal_id + " #level-one-enquiry input[name='contact']").val ""
+				
+				# resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
 
 			if $(document).find(modal_id + " #level-one-enquiry").length > 0				
 				$(document).on "countrychange", modal_id + " #level-one-enquiry input[name='contact']", () ->
@@ -390,7 +390,7 @@ $(document).ready () ->
 				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
 				if $(document).find(modal_id + " #level-one-enquiry").parsley().validate()
 					getContent(modal_id, page_level, $("#enquiry_slug").val())
-					# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
 					console.log "forms not complete"
 				return
@@ -399,13 +399,13 @@ $(document).ready () ->
 			### --- On click of OTP submit button --- ###
 			$(document).on "click", modal_id + " #level-two-enquiry #level-two-form-btn", (event) ->
 				getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), false, false, '')
-				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
 			### --- On click of OTP regenerate button --- ###
 			$(document).on "click", modal_id + " #level-two-enquiry #level-two-resend-btn", (event) ->
 				getVerification(modal_id, $(this).data('value'), $("#enquiry_slug").val(), true, true, '')
-				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
 			### --- initialize the Flag in Popup 2 --- ###
@@ -423,7 +423,7 @@ $(document).ready () ->
 				$(modal_id + " #listing_popup_fill div.verification__row span.mobile").text("+" + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + " " + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
 				$(document).find(modal_id + " #new-mobile-modal").modal "hide"
 				getVerification(modal_id, $(modal_id + " #level-two-enquiry #level-two-resend-btn").data('value'), $("#enquiry_slug").val(), false, true, $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").intlTelInput("getSelectedCountryData").dialCode + '-' + $(this).closest('div.new-verify-number').find("input[type='tel'][name='contact']").val())
-				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
 			$(document).on "change", modal_id + " #level-three-enquiry #area_section select[name='city']", (event) ->
@@ -445,14 +445,14 @@ $(document).ready () ->
 
 				#$(this).find("option[value='" + $(this).val() + "']").removeClass 'hidden' # remove hidden class for that "select"
 				getArea(modal_id, $(this).val(), $(this).closest('ul').find('select[name="area"]'))
-				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 			
 			### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
 			$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
 				$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
 				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
-				# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
 			### --- On click of close, remove the City-Area DOM --- ###
@@ -465,12 +465,14 @@ $(document).ready () ->
 			### --- On click of Popup 3 'Save / Send' --- ###
 			$(document).on "click", modal_id + " #level-three-enquiry #level-three-form-btn", (event) ->
 				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
-
+				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
+				
 				# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
-				if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find("#level-three-enquiry #area_operations").parsley().validate()
+				if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()
 					getContent(modal_id, page_level, $("#enquiry_slug").val())
-					# event.stopimmediatepropagation() # Prevent making multiple AJAX calls
+					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
+					$(this).find("i.fa-circle-o-notch").addClass "hidden"
 					console.log "forms not complete"
 				return
 

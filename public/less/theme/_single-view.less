@@ -2248,6 +2248,7 @@
 	    	}
 			.multiselect-native-select{
 				padding-left: 0.8em;
+				width: 100%;
 				.checkbox{
 					padding: 3px 15px 3px 20px;
 					input[type="checkbox"]{
@@ -2257,6 +2258,9 @@
 							top: -7px;
 						}
 					}
+				}
+				.multiselect{
+					border-bottom: 1px solid #adacad;
 				}
 			}
 		}
@@ -2495,6 +2499,22 @@
 		.vendor-label{
 			font-size: 1.15em;
 		}
+	}
+	.level-three{
+		.gap-separator{
+			padding-top: 1em;
+			padding-bottom: 1em;	
+		}
+		.areas-select{
+			padding-top: 0;
+		}
+		.areas-select__selection{
+			margin-top: 0;
+	    	padding: 0 0.5em 0.8em 0;
+		}
+	}
+	.formFields{
+		padding: 1em 0px;
 	}
 }
 
@@ -3583,6 +3603,34 @@ and (max-device-width: 650px) {
 		border: 0;
 	}
 }
+
+
+
+// ---------------------------
+// ENQUIRY PHONE MODAL -----------
+// ---------------------------
+
+
+.new-mobile-modal{
+	.modal-content{
+		padding: 1.5em;
+	}
+	.modal-header{
+		padding: 15px;
+	}
+	.modal-body{
+		padding: 0 4em;
+    	text-align: center;
+	}
+	&.in{
+		box-shadow: inset rgba(0, 0, 0, 0.57) 0 0 0 500px;
+	}
+}
+
+
+
+
+
 
 
 

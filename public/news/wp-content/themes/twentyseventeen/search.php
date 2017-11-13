@@ -11,29 +11,55 @@
  */
 
 get_header(); ?>
-	<header class="header-image page-header">
-		<?php if ( have_posts() ) : ?>
+	<header class="header-image page-header text-center">
 
-			<?php if(get_query_var( 'cat' )==null){ ?>
-			<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
-			<?php }
-			else{ 
-				$category_id = get_query_var( 'cat' );
-				$category_name = get_cat_name( $category_id );
-				?>
-			<h1 class="page-title"><?php printf( __( 'Search Results for: %s  in city   %s ', 'twentyseventeen' ), '<span>' . get_search_query() ,$category_name. '</span>' ); ?></h1>
-			<?php } ?>
+	<H1>FnB Circle News</H1>
+	<div class="search-container">
+		<!-- <select>
+		  <option value="volvo">Panjim</option>
+		  <option value="saab">Mumbai</option>
+		  <option value="mercedes">Kerala</option>
+		  <option value="audi">Pune</option>
+		</select> -->
+		<?php wp_dropdown_categories('show_option_none=Select category&exclude=1&value_field=slug'); ?>
+	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
+		
+		 <label>
+	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
+	        <input type="search" class="search-field"
+	            placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>"
+	            value="<?php echo get_search_query() ?>" name="s"
+	            title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
+	    </label>
+	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
+	</form>
+	<div class="clear"></div>
 
-		<?php else : ?>
-			<h1 class="page-title"><?php _e( 'Nothing Found', 'twentyseventeen' ); ?></h1>
-		<?php endif; ?>
+</div>
 	</header><!-- .page-header -->
 
 <div class="wrap">
 
 
 	<div id="primary" class="content-area">
+	<?php if ( have_posts() ) : ?>
+
+			<?php if(get_query_var( 'cat' )==null){ ?>
+			<h3 class=""><?php printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h3>
+			<?php }
+			else{ 
+				$category_id = get_query_var( 'cat' );
+				$category_name = get_cat_name( $category_id );
+				?>
+			<h3><?php printf( __( 'Search Results for: %s  in city   %s ', 'twentyseventeen' ), '<span>' . get_search_query() ,$category_name. '</span>' ); ?></h3>
+			<?php } ?>
+
+		<?php else : ?>
+			<h3><?php _e( 'Nothing Found', 'twentyseventeen' ); ?></h3>
+		<?php endif; ?>
+		<hr>
 		<main id="main" class="site-main" role="main">
+
 <ul class="list-layout">
 		<?php
 		if ( have_posts() ) :

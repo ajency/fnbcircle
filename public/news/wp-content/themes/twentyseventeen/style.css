@@ -2270,6 +2270,7 @@ body:not(.twentyseventeen-front-page) .entry-header {
 
 .page-header {
 	padding-bottom: 2em;
+	margin: 20px 0 50px !important;
 }
 
 .page .entry-header .edit-link {
@@ -4290,3 +4291,4 @@ object {
 		padding: 0;
 	}
 }
+

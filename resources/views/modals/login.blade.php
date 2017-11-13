@@ -116,7 +116,7 @@
                    <div class="forget-password" id="forget-password-div">
                         <div class="alert alert-success forgot-link-sent alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <h6 class="sub-title">Success</h6>
-                            <span>We have sent you an email with a link to reset your password. You should be receiving them shortly.</span>
+                            <span>We have sent you an email with a link to reset your password. Please click on the link to set a new password.</span>
                         </div>
                         <h3 class="welcome-text text-medium">Forgot Password</h3>
                         <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>

@@ -9,15 +9,14 @@
             <span class="fnb-icons enquiry"></span>
         </div>
     @else
-        <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+        @if(!Auth::guest())
+            <h5 class="content-title text-darker heavier">To send your enquiry, as <b class="">{{ Auth::user()->name }}</b><br/>please fill your details below.</h5>
+        @else
+            <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+        @endif
     @endif
       <!-- form -->
     <form method="post" action="" id="level-one-enquiry" data-parsley-validate="">
-        @if(!Auth::guest())
-            <div class="formFields flex-row flex-wrap p-b-15 row">
-                <h5>To send your enquiry, as <b class="">{{ Auth()::user()->name }}</b><br/>please fill your details below.</h5>
-            </div>
-        @endif
         <div class="formFields flex-row flex-wrap p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group m-b-0">

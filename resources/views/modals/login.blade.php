@@ -47,11 +47,11 @@
                             </div>
                             <div class="email-missing facebook-email-miss-error hidden">
                                 <h6 class="sub-title">Email missing in facebook account</h6>
-                                <span>Looks like you have a facebook account with no email ID. Please update your facebook account with an Email ID or please create an account or sign in with <b>Google</b></span>
+                                <span>Looks like you have a facebook account with no email ID. Please update your facebook account with an Email ID or sign up with <b>Google</b> or <b>Email</b></span>
                             </div>
                             <div class="email-missing google-email-miss-error hidden">
                                 <h6 class="sub-title">Email missing in google account</h6>
-                                <span>Looks like you have a google account with no email ID. Please update your google account with an Email ID or please create an account or sign in with <b>Facebook</b></span>
+                                <span>Looks like you have a google account with no email ID. Please update your google account with an Email ID or sign up with <b>Facebook</b> or <b>Email</b></span>
                             </div>
                         </div>
                         <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>

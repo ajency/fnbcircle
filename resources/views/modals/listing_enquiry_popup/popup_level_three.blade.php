@@ -187,7 +187,7 @@
         </div>
         <!-- action -->
         <div class="send-action">
-            <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send</button>
+            <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
         </div>
         <!-- action ends -->
     </div>

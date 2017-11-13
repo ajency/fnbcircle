@@ -77,7 +77,7 @@
   };
 
   getPreviouslyAvailableCategories = function() {
-    var error, error1, get_core_cat_checked;
+    var error, get_core_cat_checked;
     get_core_cat_checked = [];
     try {
       if ($("#category-select #previously_available_categories").val().length > 1 && JSON.parse($("#category-select #previously_available_categories").val()).length > 0) {
@@ -214,10 +214,11 @@
       getBranchNodeCategories("#category-select #level-two-category-dom", $(this).val());
       $(this).closest("div#level-one-category").addClass("hidden");
       get_core_cat_checked = [];
-      get_core_cat_checked = getPreviouslyAvailableCategories();
       setTimeout((function() {
+        get_core_cat_checked = getPreviouslyAvailableCategories();
         getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false);
-      }), 200);
+      }), 300);
+      event.stopImmediatePropagation();
     });
 
     /* --- On click of Branch Categories, Get it's children --- */
@@ -230,6 +231,7 @@
       }
       $("#category-select #level-two-category #cat-dataHolder div").removeClass("active");
       $("#category-select #level-two-category #cat-dataHolder div#" + $(this).attr("aria-controls")).addClass("active");
+      event.stopImmediatePropagation();
     });
 
     /* -- If a branch category is selected, then select all the core categories --- */
@@ -247,6 +249,7 @@
           $("#category-select #level-two-category #cat-dataHolder div#" + $(this).val() + " input[type='checkbox']").prop("checked", false);
         }
       }
+      event.stopImmediatePropagation();
     });
 
     /* --- If a node Category is selected, & if all are selected, then check the Branch --- */

@@ -51,7 +51,9 @@
                         <a class="navbar-brand nav-color" href="#"><img src="/img/logo-fnb.png" class="img-responsive"></a>
                     </div>
                     <div class="mobile-head__right mobile-flex">
-                        <button class="btn fnb-btn outline mini quote-btn half-border" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                        @if(Auth::guest() || Auth::user()->type == "external")
+                            <button class="btn fnb-btn outline mini quote-btn half-border" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                        @endif
                          <a href="" class="login">
                             <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                         </a>

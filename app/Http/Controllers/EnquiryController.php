@@ -648,8 +648,8 @@ class EnquiryController extends Controller {
 					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
 						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
 
-						if($listing_obj->count() > 0) {
-    						$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
+						if($listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
+							$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
 						} else {
 							$enquiry_sent = [];
 						}
@@ -704,7 +704,11 @@ class EnquiryController extends Controller {
 				if(sizeof($session_payload) > 0) {
 					$enquiry_data = ["user_object_id" => $lead_obj["id"], "user_object_type" => $lead_type, "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"], "enquiry_message" => $session_payload["enquiry_message"]];
 
-					$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"]];
+					if($session_payload["enquiry_to_id"]) {
+						$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $session_payload["enquiry_to_id"], "enquiry_to_type" => $session_payload["enquiry_to_type"]];
+					} else {
+						$enquiry_sent = [];
+					}
 
 					$create_enq_response = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false);
 				}

@@ -332,6 +332,7 @@ class UserController extends Controller
 
     }
 
+
     public function setJobAlert(Request $request){
 
         $user =  Auth::user();
@@ -390,6 +391,19 @@ class UserController extends Controller
         Session::flash('success_message','Job Alert Configuaration Successfully Updated ');
         
         return redirect()->back();
+    }
+    
+    public function removeResume(Request $request){
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails; 
+        $userDetails->resume_id = null;
+        $userDetails->resume_updated_on = null;
+        $userDetails->save();
+
+        return response()->json(
+            ['code' => 200, 
+             'status' => true]);
+ 
 
     }
 

@@ -2348,6 +2348,14 @@ input[type="checkbox"].toggle__check {
   color: #646464;
   text-decoration: none;
 }
+.breadcrum-link {
+  color: #fff;
+  text-decoration: none;
+}
+.breadcrum-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
 .no-decor {
   text-decoration: none;
 }
@@ -2452,6 +2460,9 @@ input[type="checkbox"].toggle__check {
 .overflow-hidden {
   overflow-x: hidden;
 }
+.full-overflow {
+  overflow: hidden;
+}
 .required:after {
   content: '*';
   font-size: 1.1em;
@@ -2489,6 +2500,13 @@ input[type="checkbox"].toggle__check {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+@media screen and (min-width: 769px) {
+  .ellipsis-desk {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 .ellipsis-2 {
   display: -webkit-box;
@@ -2677,6 +2695,11 @@ input[type=checkbox].custom-checkbox:before {
     left: 0;
     overflow-y: auto;
     height: 100%;
+    bottom: 0;
+  }
+  .filterBy .mobile-bottom {
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
 @media screen and (min-width: 769px) {
@@ -4011,7 +4034,7 @@ input[type=checkbox].custom-checkbox:before {
             transform: translateX(0);
   }
   .fly-out__content {
-    height: 100vh;
+    height: calc(100% - 25px);
     overflow-y: auto;
     padding-top: 50px;
   }
@@ -6213,6 +6236,22 @@ input[type=checkbox].custom-checkbox:before {
   font-size: 1.5em;
   vertical-align: bottom;
 }
+.filter-sidebar .filter-group.keywords {
+  background-color: #daf7f5;
+}
+.filter-sidebar .filter-group.keywords .filter-group__header {
+  background-color: transparent;
+  border-bottom: 1px solid #badedc;
+}
+.filter-sidebar .filter-group.keywords .filter-group__body .searchKeyword {
+  border-bottom: 1px solid#badedc;
+}
+.filter-sidebar .filter-group.keywords .filter-group__body .searchKeyword .input-container:hover {
+  background-color: transparent;
+}
+.filter-sidebar .filter-group .help-text {
+  line-height: 1.5;
+}
 .results__header {
   border-bottom: 1px solid #eee;
 }
@@ -6602,6 +6641,9 @@ input[type=checkbox].custom-checkbox:before {
     position: fixed;
     bottom: 0;
     width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
   }
   .filter-sidebar .apply-btn .fnb-btn {
     width: 100%;
@@ -7243,6 +7285,9 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
+  }
+  .job-listings .site-loader {
+    margin-top: 0;
   }
   .mobile-bottom {
     margin-bottom: 3.5em;
@@ -10852,6 +10897,22 @@ input[type='checkbox'].remove-addr {
   border-color: #ec6d4b;
   margin-bottom: 1em;
 }
+@media screen and (min-width: 769px) {
+  .applyJob .view-applicant__btn {
+    width: 60%;
+    font-size: 1em;
+    margin-bottom: 0;
+    padding: 0.6em 1.2em;
+  }
+}
+.Btn-status {
+  width: 60%;
+  text-align: center;
+}
+.Btn-status .fnb-btn.fnb-btn {
+  width: 100%;
+  border-color: #ec6d4b;
+}
 .job-location .map-icon {
   -webkit-transform: scale(0.6);
       -ms-transform: scale(0.6);
@@ -11050,6 +11111,10 @@ input[type='checkbox'].remove-addr {
   .contact__info.applyJob .fnb-btn {
     width: 80%;
   }
+  .contact__info.applyJob .view-applicant__btn {
+    width: 60%;
+    padding-left: 1.8em;
+  }
   .contact__info.applyJob a {
     padding-left: 0;
   }
@@ -11065,6 +11130,7 @@ input[type='checkbox'].remove-addr {
   }
   .footer-share .fnb-btn {
     width: 80%;
+    padding: 0.65em 1.8em;
   }
   .footer-share .share-job {
     text-align: center;
@@ -11323,9 +11389,8 @@ input[type='checkbox'].remove-addr {
 .job-pending-review .upgrade {
   border-color: transparent;
   font-size: 1em;
-  margin-top: 0.6em;
-  border-radius: 0;
-  padding: 0.4em 1.2em;
+  margin-top: 0.4em;
+  padding: 0.6em 1.2em;
 }
 .job-pending-review.pending-no-action {
   padding: 0;
@@ -11605,6 +11670,12 @@ input[type='checkbox'].remove-addr {
 }
 .bottom-share-section .fnb-btn {
   width: auto;
+}
+.remove_resume {
+  color: rgba(255, 0, 0, 0.71);
+}
+.remove_resume:hover {
+  color: rgba(255, 0, 0, 0.71);
 }
 .profile-stats {
   color: #fff;

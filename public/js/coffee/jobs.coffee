@@ -42,6 +42,21 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
         return
 
 
+$(document).on 'click', '.remove_resume', ->
+  $.ajax
+    type: 'post'
+    url: '/user/remove-resume'
+    data:
+      'user': ''
+    success: (data) ->
+      $('.no_resume').removeClass 'hidden'
+      $('.has_resume').addClass 'hidden'
+      
+    error: (request, status, error) ->
+      throwError()
+      return
+
+
 $('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
   console.log $('input[name="salary_lower"]').attr('salary-type-checked')

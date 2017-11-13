@@ -85,7 +85,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                                         <div role="tabpanel" class="tab-pane active" id="category">
                                             <div class="category search-boxes flex-row">
                                                 <i class="fa fa-search p-r-5 icons" aria-hidden="true"></i>
-                                                <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Start typing to search business type..." value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
+                                                <input type="text" name="search_category" class="form-control fnb-input search-job-categories " placeholder="Search for a specific business type job" value="@if(isset($urlFilters['category_name'])){{ $urlFilters['category_name'] }}@endif">
 
                                                 <input type="hidden" name="category_id" slug="@if(isset($urlFilters['business_type'])){{ $urlFilters['business_type'] }}@endif" value="@if(isset($urlFilters['category_id'])){{ $urlFilters['category_id'] }}@endif">  
                                                 <a href="javascript:void(0)" class="clear-input-text desk-hide">clear</a>
@@ -178,7 +178,7 @@ $additionalData = ['urlFilters'=>$urlFilters,'currentUrl'=>$currentUrl ];
                         </div>
                     </div>
                 </div>
-                <div class="site-loader section-loader hidden">
+                <div class="site-loader full-page-loader section-loader hidden">
                     <div id="floatingBarsG">
                         <div class="blockG" id="rotateG_01"></div>
                         <div class="blockG" id="rotateG_02"></div>

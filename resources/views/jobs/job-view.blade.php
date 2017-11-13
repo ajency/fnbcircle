@@ -111,7 +111,7 @@ $additionalData = ['job'=>$job];
    </div>
    <!-- pending review -->
    @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-   <div class="row">
+   <div class="row desk-hide">
       <div class="col-sm-12">
          <div class="pre-benefits pending-review flex-row  @if(!$job->submitForReview() && !$job->getNextActionButton()) pending-no-action  alert alert-dismissible fade in @endif">
             <div class="pre-benefits__intro flex-row">
@@ -135,8 +135,8 @@ $additionalData = ['job'=>$job];
                 @php
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
-          <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-          <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+          <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+          <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -415,8 +415,13 @@ $additionalData = ['job'=>$job];
               @endif -->
                <div class="footer-share flex-row bottom-share-section">
                   @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row"><a href="javascript:void(0)" class="text-secondary update-sec__link p-l-5  secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">Number of job applicants : {{ count($jobApplications) }}</a></p>
-                   
+                      @if(count($jobApplications))
+                      <div class="view-applicant">
+                        <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications <span class="x-small">({{ count($jobApplications) }})</span></a>
+                      </div>
+                      @else
+                      <p class="sub-title m-b-0 text-color bolder applicantTitle flex-row">Number of job applicants :<a href="javascript:void(0)" class="text-secondary update-sec__link p-l-5  secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif"> {{ count($jobApplications) }}</a></p>
+                      @endif
                   @else
 
                   <!-- if applied for job -->
@@ -556,8 +561,8 @@ $additionalData = ['job'=>$job];
                               @php
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
-                        <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                        <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
+                        <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
                           
                            
                           @endif
@@ -578,7 +583,12 @@ $additionalData = ['job'=>$job];
                   
 
                  @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
-                    <p class="sub-title m-b-0 text-color bolder"><a href="javascript:void(0)" class="text-secondary secondary-link @if(count($jobApplications)) open-sidebar @endif @if(count($jobApplications) == 0) no-pointer @endif">Number of job applicants : {{ count($jobApplications) }}</a></p>
+                    <p class="sub-title m-b-0 text-color bolder">Number of job applicants : <a href="javascript:void(0)" class="text-secondary secondary-link no-pointer"> {{ count($jobApplications) }}</a></p>
+                    @if(count($jobApplications))
+                    <div class="view-applicant m-t-5">
+                      <a href="javascript:void(0)" class="btn fnb-btn primary-btn full border-btn text-secondary open-sidebar view-applicant__btn"> View Applications  <span class="x-small">({{ count($jobApplications) }})</span></a>
+                    </div>
+                    @endif
             
                   @else
 
@@ -779,7 +789,13 @@ $additionalData = ['job'=>$job];
            <!-- <span class="fnb-icons exclamation"></span> -->
            <p class="claim-box__text sub-title text-center">Post a job on FnB Circle for free!</p>
            <div class="contact__enquiry text-center m-t-15">    
-              <a href="{{ url('jobs/create') }}"><button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
+               
+              @if(Auth::check())
+                <a href="/jobs/create" >
+              @else
+                <a href="#" data-toggle="modal" data-target="#login-modal">
+              @endif  
+              <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Post your job</button></a>
            </div>
         </div>
 
@@ -960,20 +976,25 @@ $additionalData = ['job'=>$job];
                             </div>
                         </div>
                         
-                            @if(!empty($userResume['resume_id']))
+                             
+                            <div class="has_resume @if(empty($userResume['resume_id'])) hidden @endif">
                             <p class="default-size heavier">We have attached your resume from your profile, with this application.</p>
                             <span class="text-lighter">Resume last updated on: {{ $userResume['resume_updated_on'] }}</span>
                             <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
-                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a>
-                            @else
+                            <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="secondary-link x-small">Download</a> 
+                            <a href="javascript:void(0)" class="remove_resume"><i class="fa fa-times" aria-hidden="true"></i></a>
+                            </div>
+
+                            <div class="no_resume @if(!empty($userResume['resume_id'])) hidden @endif">
                             <p class="default-size heavier m-b-0">You do not have resume uploaded on your profile</p>
-                            Please upload your resume
-                             
-                            @endif
+                            Please upload your resume (optional)
+                            </div>  
+                            
 
                             <div class="row m-t-15 m-b-15 c-gap">
                             <div class="col-sm-4 fileUpload">
-                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif/> 
+                                <input type="file" name="resume" class=" @if(!empty($userResume['resume_id']))resume-already-upload @else resume-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"  /> 
+                                <!-- @if(empty($userResume['resume_id'])) data-parsley-required-message="Please upload your resume." data-parsley-required @endif -->
                                 <div id="resume-error"></div>
                             </div>
                           </div>
@@ -1329,6 +1350,8 @@ $additionalData = ['job'=>$job];
                  <td class="download-col">
                 @if($application->resume_id)
                   <a href="{{ url('/user/'.$application->resume_id.'/download-resume')}}">Download <i class="fa fa-download" aria-hidden="true"></i></a>
+                @else
+                -
                 @endif
                   </td>
                </tr>

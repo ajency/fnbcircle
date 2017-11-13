@@ -118,6 +118,15 @@
   }
 }
 
+.breadcrum-link{
+  color: #fff;
+  text-decoration: none;
+  &:hover{
+    color: #fff;
+    text-decoration: underline;
+  }
+}
+
 .no-decor{
   text-decoration: none;
   &:hover,&:active,&:focus{
@@ -219,6 +228,10 @@
   overflow-x: hidden;
 }
 
+.full-overflow{
+  overflow: hidden;
+}
+
 // required asterisk
 
 .required{
@@ -270,6 +283,16 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+@media screen and (min-width: 769px){
+  .ellipsis-desk{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+  
+
 
 .ellipsis-2{
     display: -webkit-box;
@@ -471,6 +494,13 @@ input[type=checkbox].custom-checkbox{
     left: 0;
     overflow-y: auto;
     height: 100%;
+    bottom: 0;
+  }
+  .filterBy{
+    .mobile-bottom{
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
   }
 }
 

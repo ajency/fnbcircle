@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('title', $pageName )
+
+
 @section('css')
     <!-- Magnify css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/magnify.css') }}">
@@ -79,23 +81,11 @@
             <div class="row p-t-30 p-b-30 mobile-flex breadcrums-container jobs-listing edit-mode  ">
                 <div class="col-sm-8 flex-col">
                     <!-- Breadcrums -->
-                    <ul class="fnb-breadcrums flex-row">
-                        <li class="fnb-breadcrums__section">
-                            <a href="">
-                                <i class="fa fa-home home-icon" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li class="fnb-breadcrums__section">
-                            <a href="">
-                                <p class="fnb-breadcrums__title">/</p>
-                            </a>
-                        </li>
-                        <li class="fnb-breadcrums__section">
-                            <a href="#">
-                                <p class="fnb-breadcrums__title">{{ $breadcrumb }}</p>
-                            </a>
-                        </li>
-                    </ul>
+                    @php
+                   
+                    $additionalData = ['job'=>$job];
+                    @endphp
+                    {!! getPageBreadcrum('App\Seo\ManageJob',$additionalData) !!}
                     <!-- Breadcrums ends -->
                 </div>
                 @if($job->isJobVisible())

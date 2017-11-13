@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetTemplate;
+  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetPlugins, resetTemplate;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -58,7 +58,6 @@
 
   getContent = function(modal_id, enquiry_level, listing_slug) {
     var data;
-    console.log("modal_id");
     data = getFilters(modal_id, enquiry_level, listing_slug);
     $.ajax({
       type: 'post',
@@ -93,13 +92,14 @@
       listing_slug = '';
     }
     data = {
-      'enquiry_level': modal_template,
-      'listing_slug': listing_slug
+      'enquiry_level': modal_template
     };
+    if (listing_slug) {
+      data['listing_slug'] = listing_slug;
+    }
     if (modal_id === "#multi-quote-enquiry-modal") {
       data['multi-quote'] = true;
     }
-    console.log("calling template");
     $.ajax({
       type: 'post',
       url: '/api/get_enquiry_template',
@@ -113,7 +113,6 @@
         }
         if (data["modal_template"].length > 0) {
           $(document).find(modal_id + " #listing_popup_fill").html(data["modal_template"]);
-          console.log("template...");
           if ($(modal_id + " #level-one-enquiry").length > 0) {
             initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
           }
@@ -211,7 +210,7 @@
         $(path).addClass("default-area-select");
         for (key in data) {
           key = key;
-          html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
+          html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
         $(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('destroy');
@@ -314,6 +313,15 @@
     }
   };
 
+  resetPlugins = function(modal_id) {
+    if ($(modal_id + " #level-one-enquiry input[name='contact']").length > 0) {
+      $(modal_id + " #level-one-enquiry input[name='contact']").intlTelInput("destroy");
+    }
+    if ($(modal_id + " .default-area-select").length > 0) {
+      $(modal_id + " .default-area-select").multiselect("destroy");
+    }
+  };
+
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
@@ -328,6 +336,7 @@
 
         /* --- Reset to Modal 1 on enquiry button Click --- */
         resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val());
+        resetPlugins(modal_id);
         $(modal_id).on('shown.bs.modal', function(e) {
           var checkForInput;
           checkForInput = function(element) {
@@ -362,14 +371,18 @@
           });
           if ($(document).find(modal_id + " #level-one-enquiry").length > 0) {
             initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
-            $(document).on("countrychange", modal_id + " #level-one-enquiry input[name='contact']", function() {
-              $(this).val($(this).intlTelInput("getNumber"));
-            });
             if ($(modal_id + " #level-one-enquiry input[name='contact']").length <= 1 && $(modal_id + " #level-one-enquiry input[name='contact']").val().indexOf('+') > -1) {
               $(modal_id + " #level-one-enquiry input[name='contact']").val("");
             }
           }
         });
+        if ($(document).find(modal_id + " #level-one-enquiry").length > 0) {
+          $(document).on("countrychange", modal_id + " #level-one-enquiry input[name='contact']", function() {
+            if ($(this).val() > 0) {
+              $(this).val($(this).intlTelInput("getNumber"));
+            }
+          });
+        }
 
         /* --- On click of "Send Enquiry 1" button --- */
         $(document).on("click", modal_id + " #level-one-enquiry #level-one-form-btn", function(event) {
@@ -431,7 +444,6 @@
 
         /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
         $(document).on("click", modal_id + " #level-three-enquiry #add-city-areas", function(event) {
-          console.log("New City-Area");
           $(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations");
           multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);
         });
@@ -465,7 +477,6 @@
 
           /* --- Category select modal on show --- */
           $(document).on("shown.bs.modal", "#category-select", function(event) {
-            console.log(main_page_categories);
             $("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories));
           });
         });

@@ -30,52 +30,54 @@
         checked_values.push($(this).val());
       });
     }
-    $.ajax({
-      type: 'post',
-      url: '/api/get_node_listing_categories',
-      data: {
-        'branch': [branch_id]
-      },
-      success: function(data) {
-        var html_upload, index, key, node_children;
-        key = void 0;
+    setTimeout((function() {
+      return $.ajax({
+        type: 'post',
+        url: '/api/get_node_listing_categories',
+        data: {
+          'branch': [branch_id]
+        },
+        success: function(data) {
+          var html_upload, index, key, node_children;
+          key = void 0;
 
-        /* --- The HTML skeleton is defined under a <div id="node-skeleton"> --- */
-        node_children = data["data"][0]["children"];
-        $(path + "div#" + data["data"][0]["id"]);
-        if (node_children.length > 0) {
-          index = 0;
-          html_upload = "<ul class=\"nodes\">";
-          while (index < node_children.length) {
-            html_upload += "<li><label class=\"flex-row\">";
-            if (is_all_checked) {
-              html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\" checked=\"checked\">";
-            } else {
-              if (checked_values.length > 0 && $.inArray(node_children[index]['id'].toString(), checked_values) !== -1) {
+          /* --- The HTML skeleton is defined under a <div id="node-skeleton"> --- */
+          node_children = data["data"][0]["children"];
+          $(path + "div#" + data["data"][0]["id"]);
+          if (node_children.length > 0) {
+            index = 0;
+            html_upload = "<ul class=\"nodes\">";
+            while (index < node_children.length) {
+              html_upload += "<li><label class=\"flex-row\">";
+              if (is_all_checked) {
                 html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\" checked=\"checked\">";
               } else {
-                html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\">";
+                if (checked_values.length > 0 && $.inArray(node_children[index]['id'].toString(), checked_values) !== -1) {
+                  html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\" checked=\"checked\">";
+                } else {
+                  html_upload += "<input type=\"checkbox\" class=\"checkbox\" for=\"" + node_children[index]['id'] + "\" value=\"" + node_children[index]['id'] + "\">";
+                }
               }
+              html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value='" + JSON.stringify(node_children[index]["hierarchy"]) + "'>";
+              html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>";
+              html_upload += "</label></li>";
+              index++;
             }
-            html_upload += "<input type=\"hidden\" name=\"hierarchy\" id=\"hierarchy\" value='" + JSON.stringify(node_children[index]["hierarchy"]) + "'>";
-            html_upload += "<p class=\"lighter nodes__text\" id=\"" + node_children[index]['id'] + "\">" + node_children[index]['name'] + "</p>";
-            html_upload += "</label></li>";
-            index++;
+            html_upload += "</ul>";
+          } else {
+            html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>.";
           }
-          html_upload += "</ul>";
-        } else {
-          html_upload = "Sorry! No Categories found under <b>" + data["data"][0]["name"] + "</b>.";
+          $(path + "div#" + data["data"][0]["id"]).html(html_upload);
+        },
+        error: function(request, status, error) {
+          throw Error();
         }
-        $(path + "div#" + data["data"][0]["id"]).html(html_upload);
-      },
-      error: function(request, status, error) {
-        throw Error();
-      }
-    });
+      });
+    }), 200);
   };
 
   getPreviouslyAvailableCategories = function() {
-    var error, get_core_cat_checked;
+    var error, error1, get_core_cat_checked;
     get_core_cat_checked = [];
     try {
       if ($("#category-select #previously_available_categories").val().length > 1 && JSON.parse($("#category-select #previously_available_categories").val()).length > 0) {

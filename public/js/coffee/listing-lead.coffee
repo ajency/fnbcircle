@@ -151,16 +151,19 @@ $('body').on 'change', '.type-filter', ->
   filters['enquiry_type'] = array
   table.ajax.reload()
 
-$('body').on 'change','input#namefilter', ->
+$('body').on 'keyup','input#namefilter', ->
   filters['enquirer_name'] = @value
+  table.settings()[0].jqXHR.abort()
   table.ajax.reload()
 
-$('body').on 'change','input#emailfilter', ->
+$('body').on 'keyup','input#emailfilter', ->
   filters['enquirer_email'] = @value
+  table.settings()[0].jqXHR.abort()
   table.ajax.reload()
 
-$('body').on 'change','input#phonefilter', ->
+$('body').on 'keyup','input#phonefilter', ->
   filters['enquirer_contact'] = @value
+  table.settings()[0].jqXHR.abort()
   table.ajax.reload()
 
 $('body').on 'click','button#applyLocFilter', ->

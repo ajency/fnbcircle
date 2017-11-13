@@ -96,18 +96,21 @@
     return table.ajax.reload();
   });
 
-  $('body').on('change', 'input#namefilter', function() {
+  $('body').on('keyup', 'input#namefilter', function() {
     filters['enquirer_name'] = this.value;
+    table.settings()[0].jqXHR.abort();
     return table.ajax.reload();
   });
 
-  $('body').on('change', 'input#emailfilter', function() {
+  $('body').on('keyup', 'input#emailfilter', function() {
     filters['enquirer_email'] = this.value;
+    table.settings()[0].jqXHR.abort();
     return table.ajax.reload();
   });
 
-  $('body').on('change', 'input#phonefilter', function() {
+  $('body').on('keyup', 'input#phonefilter', function() {
     filters['enquirer_contact'] = this.value;
+    table.settings()[0].jqXHR.abort();
     return table.ajax.reload();
   });
 

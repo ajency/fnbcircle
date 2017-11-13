@@ -15,7 +15,8 @@ class CookieController extends Controller {
 	*/
     public function set($key, $value, $other_params = [], $is_encrypted = true) {
     	if(sizeof($other_params) > 0) {
-    		Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'), isset($other_params['path']) ? $other_params['path'] : '/', isset($other_params['domain']) ? $other_params['domain'] : explode('://', env('APP_URL'))[1], '', isset($other_params['http_only']) ? $other_params['http_only'] : true);
+    		Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'));
+    		//Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'), isset($other_params['path']) ? $other_params['path'] : '/', isset($other_params['domain']) ? $other_params['domain'] : explode('://', env('APP_URL'))[1], '', isset($other_params['http_only']) ? $other_params['http_only'] : true);
     	} else {
     		Cookie::queue($key, $value);
     	}
@@ -42,9 +43,12 @@ class CookieController extends Controller {
 	    	$this->set('user_id', Auth::guest() ? '0' : Auth::user()->id, $other_params);
 	    	$this->set('user_type', Auth::guest() ? '-' : 'user', $other_params);
 	    	$this->set('is_logged_in', Auth::guest() ? 'false' : 'true', $other_params);
+	    	$this->set('is_verified', Auth::guest() ? 'false' : 'true', $other_params);
 	    } catch(Exception $e) {
 	    	$status = 'failed';
 	    }
+
+	    //dd($status);
 
 	    return $status;
     }

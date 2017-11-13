@@ -7,7 +7,7 @@
             <h6 class="text-color text-medium enquiry-success__text" style="padding-right: 0em">Email &amp; SMS with your details has been sent to the owner of {{ $data["title"]["name"] }}.</h6>
         </div>
     @endif
-    <div class="suppliers-data">
+    <div class="suppliers-data in-popup">
         <div class="mobile-hide">
             <h6 class="text-darker m-t-0">We can help you get the best deals on F&amp;B Circle.</h6>
             @if(Auth::guest())
@@ -40,7 +40,7 @@
                                 <!-- <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
                                 <input type="tel" class="form-control fnb-input float-input" id="number" value="9876543200"> -->
                                 <label>Phone:</label>
-                                <p class="x-small" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}</p>
+                                <p class="x-small" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? '+' . $enquiry_data['contact_code'] . $enquiry_data['contact'] : '') }}</p>
                             </div>
                         </div>
                         <div class="formDetails__cols">
@@ -99,7 +99,7 @@
                     </ul>
                     <div id="category-checkbox-error"></div>
                     <div class="add-more-cat text-right m-t-5">
-                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor x-small" id="select-more-categories">+ Add more</a>
+                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor x-small" id="select-more-categories">+ Add categories</a>
                         <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"/>
                         <input type="hidden" id="modal_categories_hierarchy_chosen" name="modal_categories_hierarchy_chosen" value="[]"/>
                         
@@ -121,11 +121,11 @@
                 <!-- add categories ends -->
                 <!-- areas select -->
                 <div class="areas-select gap-separator" id="area_section">
-                    <p class="text-darker describes__title heavier">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
+                    <p class="text-darker describes__title heavier required">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
                     <div id="area_operations">
                         <ul class="areas-select__selection flex-row flex-wrap">
                             <li>
-                                <div class="required left-star flex-row">
+                                <div class="flex-row">
                                     <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#city-select-error" >
                                         <option option="0">Select State</option>
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -141,7 +141,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="required left-star flex-row">
+                                <div class="flex-row">
                                     <select class="fnb-select select-variant default-area-select" multiple="area_multiple[]" name="area" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" >
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
                                             <!-- @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
@@ -156,7 +156,7 @@
                     </div>
                     <ul class="areas-select__selection flex-row flex-wrap area-append hidden" id="area_dom_skeleton">
                         <li>
-                            <div class="required left-star flex-row">
+                            <div class="flex-row">
                                 <select class="form-control fnb-select select-variant" name="city" data-parsley-trigger="change" data-parsley-mincheck="1">
                                     <option option="0">Select State</option>
                                     @foreach(App\City::where('status', 1)->get() as $key => $value)
@@ -166,7 +166,7 @@
                             </div>
                         </li>
                         <li>
-                            <div class="required left-star flex-row">
+                            <div class="flex-row">
                                 <select class="fnb-select select-variant areas-appended" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-mincheck="1">
                                     <!-- <option>Bandra</option>
                                     <option>Andheri</option>

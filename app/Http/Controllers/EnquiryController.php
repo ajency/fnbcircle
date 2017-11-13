@@ -855,11 +855,19 @@ class EnquiryController extends Controller {
     			Session::flush('enquiry_data'); // Delete the Old enquiry_data
 				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
-	    		$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
+	    		if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
+    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
+    			} else {
+    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
+    			}
 
     			$status = 200;
     		} else if($request->has('regenerate') && $request->regenerate == "true") { // Regenerate OTP
-    			$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id);
+    			if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
+    				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
+    			} else {
+    				$modal_template_html = $this->getEnquiryTemplate($template_type, '', $session_id, true);
+    			}
     			$status = 200;
     		} else if($request->has('otp')) { // Verify OTP
     			$contact_data = ["contact" => $request->contact, "otp" => $request->otp];

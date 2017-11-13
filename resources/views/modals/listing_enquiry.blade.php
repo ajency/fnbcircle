@@ -297,6 +297,19 @@
                        @include('modals.listing_enquiry_popup.popup_level_one')
                        <!-- Level one ends -->
 
+                      <!-- Loader -->
+                        <div class="site-loader section-loader">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>      
                         
                     </div>
                     <!-- col right ends -->

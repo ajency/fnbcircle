@@ -988,7 +988,7 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .site-loader.section-loader {
   position: absolute;
-  z-index: 3;
+  z-index: 11;
 }
 @media screen and (max-width: 650px) {
   .site-loader.section-loader {

@@ -275,6 +275,7 @@ class RegisterController extends Controller
         $data['from'] = config('constants.email_from'); 
         $data['name'] = config('constants.email_from_name');
         $data['to'] = [$userEmail];
+        $data['cc'] = [];
         $data['subject'] = "Verify your email address!";
         $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
         sendEmail('user-verify', $data);

@@ -1004,10 +1004,10 @@ class AdminConfigurationController extends Controller
             $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
      
             $data = [];
-            $data['from'] = 'nutan@ajency.in';
-            $data['name'] = 'fnbcircles';
+            $data['from'] = config('constants.email_from');
+            $data['name'] = config('constants.email_from_name');
             $data['to'] = [ $ownerDetails['email']];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [ config('constants.email_to')];
             $data['subject'] = $subject;
             $data['template_data'] = $templateData;
             

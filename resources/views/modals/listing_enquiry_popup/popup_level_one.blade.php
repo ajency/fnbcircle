@@ -81,6 +81,7 @@
                         <label class="flex-row points">
                             {!! $valueContent["html"] !!}
                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                            <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
                         </label>
                     @endforeach
                     </div>

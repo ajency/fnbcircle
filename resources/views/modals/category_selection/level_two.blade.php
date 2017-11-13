@@ -8,7 +8,10 @@
     @if(sizeof($sub_categories) > 0)
         <div class="instructions flex-row space-between">
             <div class="cat-name flex-row">
-                <span class="fnb-icons cat-icon meat m-r-15"></span>
+                <!-- <span class="fnb-icons cat-icon m-r-15"></span> -->
+                <div class="option flex-row">
+                    <img class="import-icon cat-icon" src="{{ $sub_categories['icon_url'] }}" />
+                </div>
                 <div>
                     <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name" id="main-cat-name">{{ $sub_categories['name'] }}</span>"</p>
                     <h5 class="sub-title cat-title bat-color main-cat-name" id="main-cat-title">{{ $sub_categories['name'] }}</h5>

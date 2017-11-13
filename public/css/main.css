@@ -4805,6 +4805,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select {
   padding-left: 0.8em;
+  width: 100%;
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox {
   padding: 3px 15px 3px 20px;
@@ -4815,6 +4816,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .areas-select__selection .multiselect-native-select .checkbox input[type="checkbox"]:before {
   top: -7px;
+}
+.verification-modal .areas-select__selection .multiselect-native-select .multiselect {
+  border-bottom: 1px solid #adacad;
 }
 .verification-modal .verification {
   border: 3px dashed #ffc1bd;

@@ -40,7 +40,7 @@
                                 <!-- <label class="m-b-0 text-lighter float-label required" for="number">Phone</label>
                                 <input type="tel" class="form-control fnb-input float-input" id="number" value="9876543200"> -->
                                 <label>Phone:</label>
-                                <p class="x-small" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}</p>
+                                <p class="x-small" id="enquiry_contact">{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? '+' . $enquiry_data['contact_code'] . $enquiry_data['contact'] : '') }}</p>
                             </div>
                         </div>
                         <div class="formDetails__cols">

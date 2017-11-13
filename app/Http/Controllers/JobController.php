@@ -333,8 +333,9 @@ class JobController extends Controller
         $data['contactLandline'] = $contactLandline;
 
         $news = new WpNewsHelper();
-        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
-        $news_items = $news->getNewsByCategories($news_args);        
+        //$news_args = array("category"=>array("goa","pune"),'num_of_items'=>2);
+        $news_args = array("tag"=>array("agent","backend-jobs"),'num_of_items'=>2);        
+        $news_items = $news->getNewsByCategories_tags($news_args);                    
         $data['news_items'] = $news_items;
         
         //if logged in user

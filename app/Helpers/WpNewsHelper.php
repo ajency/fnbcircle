@@ -15,11 +15,12 @@ class WpNewsHelper
 
     /**
      * 
-     * @param      <type>  $params  The parameters array("category"=>"goa,pune,mumbai","num_of_items"=>2)
-     *
+     * @param      <type>  $params  The parameters 
+     *                                  array("tag"=>array("agent","accountant"),"num_of_items"=>2)  OR array("tag"=>"agent,accountant","num_of_items"=>2)  
+     *                                  OR array("category"=>array("goa","pune"),"num_of_items"=>2) OR array("category"=>"goa,pune","num_of_items"=>2)
      * @return     array   The news by categories.
      */
-    public function getNewsByCategories($params)
+    public function getNewsByCategories_tags($params)
     {
 
         $news = array();
@@ -32,15 +33,39 @@ class WpNewsHelper
             'post_status' => 'publish',
         );
 
-        if (is_array($params['category'])) {
+        if(isset($params['category'])){
 
-            $categories            = implode(",", $params['category']);
-            $args['category_name'] = $categories;
+            if (is_array($params['category'])) {
 
-        } else if (isset($params['category']) && $params['category'] != "") {
+                $categories            = implode(",", $params['category']);
+                $args['category_name'] = $categories;
 
-            $args['category_name'] = $params['category'];
+            } else if (isset($params['category']) && $params['category'] != "") {
+
+                $args['category_name'] = $params['category'];
+            }
+
         }
+        else if(isset($params['tag'])){
+
+            $tags = $params['tag'];
+            if (!is_array($params['tag'])) {
+                $tags            = explode(",", $params['tag']);
+            }
+             
+
+            $args['tax_query'] = array(
+                                            array(
+                                                    'taxonomy' => 'post_tag',
+                                                    'field' => 'slug',
+                                                    'terms' => $tags
+                                                )
+                                            );
+            
+
+        }
+
+        
 
         if (isset($params['num_of_items'])) {
             $args['posts_per_page'] = $params['num_of_items'];
@@ -70,7 +95,7 @@ class WpNewsHelper
                 'featured_image'        => $featured_image,
                 'date'                  => $post->post_date,
                 'display_date'          => date("d M Y H:i:s", strtotime($post->post_date)),
-                'url'                   => $post->guid,
+                'url'                   => get_permalink($post->ID)//$post->guid,
 
             );
 

@@ -650,9 +650,12 @@ require_once("inc/laravel/lara-libs.php");
 function search_by_cat(){
     global $wp_query;
     if (is_search()) {
-        $cat = intval($_GET['cat']);
-        $cat = ($cat > 0) ? $cat : '';
-        $wp_query->query_vars['cat'] = $cat;
+    	if(isset($_GET['cat'])){
+    		$cat = intval($_GET['cat']);
+    		$cat = ($cat > 0) ? $cat : '';
+    		$wp_query->query_vars['cat'] = $cat;	
+    	}
+        
     }
 }
 add_action('pre_get_posts', 'search_by_cat');
@@ -764,7 +767,7 @@ function get_laravel_site_url(){
 /* Wp-Admin  CUSTOM */
 
 
-/* Add custom menu to Sync tags*/
+/* ##############################Add custom menu to Sync tags########################*/
 function my_plugin_function(){
 
 	echo '<h1>Import tags from Main site</h1>
@@ -829,7 +832,44 @@ add_action('admin_head', 'example_wpadmin_custom_css');
 /* End Modify Tags Display on post edit page*/
 
 
-
+/* ############################## End Add custom menu to Sync tags########################*/
 
 
 /* Wp-Admin  CUSTOM */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+function post_tag_permalink($permalink, $post_id, $leavename) {
+    //if (strpos($permalink, '%rating%') === FALSE) return $permalink;
+     
+        // Get post
+        $post = get_post($post_id);
+        if (!$post) return $permalink;
+ 
+        // Get taxonomy terms
+        $terms = wp_get_object_terms($post->ID, 'post_tag');   
+        if (!is_wp_error($terms) && !empty($terms) && is_object($terms[0])) {
+        	$taxonomy_slug = $terms[0]->slug;
+        }
+        else {
+        	//$taxonomy_slug = 'not-rated';
+        	return $permalink;
+        }
+ 
+    return str_replace('%rating%', $taxonomy_slug, $permalink);
+}   
+/*add_filter('post_link', 'post_tag_permalink', 10, 3);
+add_filter('post_type_link', 'post_tag_permalink', 10, 3);*/

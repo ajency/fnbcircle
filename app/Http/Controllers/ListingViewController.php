@@ -26,8 +26,9 @@ class ListingViewController extends Controller
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
         $news = new WpNewsHelper();
-        $news_args = array("category"=>"goa,pune",'num_of_items'=>2);
-        $news_items = $news->getNewsByCategories($news_args);        
+        //$news_args = array("category"=>array("goa","pune"),'num_of_items'=>2);
+        $news_args = array("tag"=>array("agent","backend-jobs"),'num_of_items'=>2);        
+        $news_items = $news->getNewsByCategories_tags($news_args);        
         $pagedata['news_items'] = $news_items;
 
         return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);

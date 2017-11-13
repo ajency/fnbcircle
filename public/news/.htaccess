@@ -6,7 +6,9 @@
 #RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule . /fnbcircle/public/news/index.php [L]
 #</IfModule>
-#BEGIN WordPress
+ 
+
+# BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /news/

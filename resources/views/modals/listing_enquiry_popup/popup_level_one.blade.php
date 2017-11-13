@@ -9,10 +9,9 @@
                 </div>
                 <span class="fnb-icons enquiry"></span>
             </div>
-            <h5 class="content-title text-darker heavier enquiry-log-title flex-row m-t-0"><img src="{{ asset('img/enquiry-msg.png') }}" class="img-responsive m-r-10" width="60"> <div>To send your enquiry, as <b class="text-primary">{{ Auth::user()->name }}</b> please fill your details below.</div></h5>
         @else
             @if(!Auth::guest())
-                <h5 class="content-title text-darker heavier">To send your enquiry, as <b class="">{{ Auth::user()->name }}</b><br/>please fill your details below.</h5>
+                <h5 class="content-title text-darker heavier enquiry-log-title flex-row m-t-0"><img src="{{ asset('img/enquiry-msg.png') }}" class="img-responsive m-r-10" width="60"> <div>To send your enquiry, as <b class="text-primary">{{ Auth::user()->name }}</b> please fill your details below.</div></h5>
             @else
                 <p class="content-title text-darker heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
             @endif

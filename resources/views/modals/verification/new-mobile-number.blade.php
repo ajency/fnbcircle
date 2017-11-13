@@ -11,10 +11,10 @@
                     <img src="/img/number-add.png" class="img-responsive center-block" width="60">
                     <h6 class="sub-title">Please provide a new number for verification.</h6>
                     <div class="number-code verifySection">
-                        <div class="code-submit flex-row space-between new-verify-number">
-                            <input type="tel" class="fnb-input text-color value-enter change-contact-input contact-mpbile contact-mobile-input contact-mobile-number" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  placeholder="Enter new number..." data-parsley-errors-container="#phoneError" name="contact">
-                            <button class="btn fnb-btn primary-btn border-btn contact-verify-stuff" type="button" id="new-mobile-verify-btn">Verify</button>
+                        <div class="code-submit m-t-15 m-b-15 new-verify-number">
+                            <input type="tel" class="fnb-input form-control text-color value-enter change-contact-input contact-mpbile contact-mobile-input contact-mobile-number" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]"  placeholder="Enter new number..." data-parsley-errors-container="#phoneError" name="contact">
                         </div>
+                        <button class="btn fnb-btn primary-btn border-btn contact-verify-stuff medium-btn" type="button" id="new-mobile-verify-btn">Verify</button>
                         <div id="phoneError" class="customError fnb-errors text-left"></div>
                     </div>
                 </div>

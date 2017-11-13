@@ -269,6 +269,9 @@ span {
   color: #f19279;
   border: 0;
 }
+.fnb-btn.medium-btn {
+  padding: 0.5em 1.5em;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;
@@ -6111,6 +6114,19 @@ input[type=checkbox].custom-checkbox:before {
 }
 .application-table.table-responsive {
   border: 0;
+}
+.new-mobile-modal .modal-content {
+  padding: 1.5em;
+}
+.new-mobile-modal .modal-header {
+  padding: 15px;
+}
+.new-mobile-modal .modal-body {
+  padding: 0 4em;
+  text-align: center;
+}
+.new-mobile-modal.in {
+  box-shadow: inset rgba(0, 0, 0, 0.57) 0 0 0 500px;
 }
 .search-section {
   position: relative;

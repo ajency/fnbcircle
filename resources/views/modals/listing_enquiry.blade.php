@@ -292,7 +292,7 @@
                     </div>
                     <!-- col left ends -->
                     <!-- col right -->
-                    <div class="detail-cols col-right enquiry-details__content" id="listing_popup_fill">
+                    <div class="detail-cols col-right enquiry-details__content relative" id="listing_popup_fill">
                        <!-- level one starts -->
                        @include('modals.listing_enquiry_popup.popup_level_one')
                        <!-- Level one ends -->

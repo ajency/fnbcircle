@@ -2193,6 +2193,9 @@ input[type="checkbox"].toggle__check {
 .text-danger {
   color: #d0021b;
 }
+.text-white {
+  color: #fff;
+}
 .primary-link {
   color: #ec6d4b;
 }
@@ -2524,6 +2527,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .editable {
   background-color: #eee;
+}
+.shadow-1 {
+  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.15);
 }
 .slide-nav {
   justify-content: flex-end;
@@ -10446,23 +10452,4 @@ dl dd {
     width: 35%;
     margin-bottom: 1em;
   }
-}
-.d-flex {
-  display: flex;
-}
-@media (max-width: 767px) {
-  .d-flex {
-    flex-wrap: wrap;
-  }
-}
-.get-in-touch {
-  background: #fff;
-  box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.15);
-}
-.get-in-touch .enquiry-form {
-  border: none;
-  border-left: 1px solid #f5a623;
-}
-.text-white {
-  color: #fff;
 }

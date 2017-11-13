@@ -392,6 +392,7 @@ $(document).ready () ->
 					getContent(modal_id, page_level, $("#enquiry_slug").val())
 					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
+					$(this).find("i.fa-circle-o-notch").addClass "hidden"
 					console.log "forms not complete"
 				return
 

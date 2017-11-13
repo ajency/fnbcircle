@@ -1015,7 +1015,7 @@ class EnquiryController extends Controller {
 
             foreach ($children as $child_index => $child) {
             	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
-            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, "hierarchy" => generateCategoryHierarchy($child['id'])));
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, 'icon_url' => $child->icon_url, "hierarchy" => generateCategoryHierarchy($child['id'])));
             }
 
             $parent_obj = Category::find($parent);
@@ -1027,7 +1027,7 @@ class EnquiryController extends Controller {
             }
 
             //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
-            array_push($parent_array, array('id' => $parent_obj->id, 'name' => $parent_obj->name, 'slug' => $parent_obj->slug, 'children' => $child_array, 'parent' => $grandparent));
+            array_push($parent_array, array('id' => $parent_obj->id, 'name' => $parent_obj->name, 'slug' => $parent_obj->slug, 'icon_url' => $parent_obj->icon_url, 'children' => $child_array, 'parent' => $grandparent));
         }
         return $parent_array;
     }

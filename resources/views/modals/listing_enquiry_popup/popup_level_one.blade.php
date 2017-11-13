@@ -81,6 +81,7 @@
                         <label class="flex-row points">
                             {!! $valueContent["html"] !!}
                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                            <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
                         </label>
                     @endforeach
                     </div>
@@ -94,9 +95,10 @@
         <div class="looking-for gap-separator">
             <a class="secondary-link text-decor desk-hide looking-for__toggle" data-toggle="collapse" href="#lookingfor" aria-expanded="false" aria-controls="lookingfor">Add a note</a>
             <div class="collapse in" id="lookingfor">
-                <p class="text-darker describes__title heavier">Tell the business owner what you're looking for</p>
+                <p class="text-darker describes__title heavier m-b-5">Give the supplier/service provider some details of your requirements</p>
+                <div class="text-lighter x-small heavier">You may specify product/services, quantities, specifications, your company/brand name, etc.</div>
                 <div class="form-group">
-                    <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="Type here....">
+                    <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="">
                 </div>
             </div>
         </div>

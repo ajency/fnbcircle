@@ -16,7 +16,7 @@
                     <a class="secondary-link x-small collapsed" data-toggle="collapse" href="#personalDetailsCollapse" aria-expanded="false" aria-controls="personalDetailsCollapse"><i class="fa fa-user" aria-hidden="true"></i> View Personal Details</a>
                 </div>    
                   <!-- form -->
-                <div class="collapse formFields gap-separator row" id="personalDetailsCollapse" style="box-shadow: 0px 5px 10px #f0f0f0 inset, 0px -5px 10px #f0f0f0 inset;">
+                <div class="collapse formFields gap-separator row card" id="personalDetailsCollapse">
                     <div class="fornDetails flex-row flex-wrap">
                         <div class="formDetails__cols">
                             <div class="form-group m-b-0">
@@ -68,7 +68,7 @@
                 <!-- form ends -->
             @endif
 
-            <p class="text-darker heavier m-t-20">Please give us details of the categories that you are interested in and also the areas of operation.</p>
+            <p class="text-darker text-medium m-t-20">Please give us details of the categories that you are interested in and also the areas of operation.</p>
             <form id="other_details_container" data-parsley-validate="">
                 <!-- categories -->
                 <div class="categories-select gap-separator">
@@ -99,7 +99,7 @@
                     </ul>
                     <div id="category-checkbox-error"></div>
                     <div class="add-more-cat text-right m-t-5">
-                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor" id="select-more-categories">+ Add more</a>
+                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor x-small" id="select-more-categories">+ Add more</a>
                         <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"/>
                         <input type="hidden" id="modal_categories_hierarchy_chosen" name="modal_categories_hierarchy_chosen" value="[]"/>
                         
@@ -176,7 +176,7 @@
                                 </select>
                             </div>
                         </li>
-                        <li><button class="btn btn-danger" aria-label="Close" id="close_areas">&#10005;</button></li>
+                        <li><a href="#" class="primary-link" aria-label="Close" id="close_areas">&#10005;</a></li>
                     </ul>
                     <div class="text-right m-t-10 adder">
                         <a href="#" id="add-city-areas" class="secondary-link text-decor heavier add-areas x-small">+ Add more</a>
@@ -186,7 +186,7 @@
             </div>
         </div>
         <!-- action -->
-        <div class="send-action">
+        <div class="send-action m-t-20">
             <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send</button>
         </div>
         <!-- action ends -->

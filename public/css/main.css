@@ -5081,6 +5081,20 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .vendor-contact-details .vendor-label {
   font-size: 1.15em;
 }
+.verification-modal .level-three .gap-separator {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.verification-modal .level-three .areas-select {
+  padding-top: 0;
+}
+.verification-modal .level-three .areas-select__selection {
+  margin-top: 0;
+  padding: 0 0.5em 0.8em 0;
+}
+.verification-modal .formFields {
+  padding: 1em 0px;
+}
 .formDetails__cols {
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 33.33%;

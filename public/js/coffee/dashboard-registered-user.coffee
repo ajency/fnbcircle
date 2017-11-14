@@ -138,3 +138,61 @@ $('body').on 'click', '.clear-date', ->
   $(this).closest('div').find('.date-range').val ''
   registeredUserTable.ajax.reload()
 
+$('#datatable-registration').on 'click', 'i.fa-pencil', (e) ->
+  # invoker = e.relatedTarget;
+  editrow = $(this).closest('td')
+  user = registeredUserTable.row(editrow).data()
+  console.log user
+  $('#updateStatusModal span#listing-title').html user['name']
+  $('#updateStatusModal select.status-select').val ''
+  $('#updateStatusModal select.status-select').attr('data-user-id',user['id'])
+  $('#updateStatusModal select.status-select option').prop 'hidden',true
+  if user['status_raw'] == 'active'
+    $('#updateStatusModal select.status-select option[value="inactive"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="suspended"]').prop 'hidden',false
+  if user['status_raw'] == 'inactive'
+    $('#updateStatusModal select.status-select option[value="active"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="suspended"]').prop 'hidden',false
+  if user['status_raw'] == 'suspended'
+    $('#updateStatusModal select.status-select option[value="active"]').prop 'hidden',false
+    $('#updateStatusModal select.status-select option[value="inactive"]').prop 'hidden',false
+  userID =  user['id']
+
+$('#updateStatusModal').on 'click', 'button#change_status', ->
+  $('button#change_status').prop('disabled',true)
+  instance = $('#updateStatusModal #singlestatus').parsley()
+  if !instance.validate()
+    $('button#change_status').prop('disabled',false)
+    return false;
+  userID = $('#updateStatusModal select.status-select').attr('data-user-id')
+  status = $('#updateStatusModal select.status-select').val()
+  console.log userID,status
+  url = document.head.querySelector('[property="status-url"]').content
+  $.ajax
+    type: 'post'
+    url: url
+    data:
+      user_id : userID
+      status: status
+    success: (response)->
+      registeredUserTable.ajax.reload()
+      $('#updateStatusModal').modal('hide')
+      if response['status'] == 'success'
+        $('.alert-success #message').html "User status updated successfully."
+        $('.alert-success').addClass 'active'
+        setTimeout (->
+          $('.alert-success').removeClass 'active'
+          return
+        ), 3000
+      else
+        $('.alert-failure #message').html "Some unknown error occoured."
+        $('.alert-failure').addClass 'active'
+        setTimeout (->
+          $('.alert-failure').removeClass 'active'
+          return
+        ), 3000
+      $('button#change_status').prop('disabled',false)
+      return
+
+
+$('#datatable-registration_filter').parent().addClass 'flex-row'      

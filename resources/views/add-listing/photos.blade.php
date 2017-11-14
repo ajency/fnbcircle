@@ -44,7 +44,7 @@
 
             <input type="hidden" name="image-id" value="{{$images[$img]['id']}}">
 
-            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png" title="{{basename($images[$img][config('tempconfig.listing-photo-thumb')])}}" data-default-file="{{$images[$img][config('tempconfig.listing-photo-thumb')]}}"/>
+            <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg jpeg png" title="{{basename($images[$img][config('tempconfig.listing-photo-thumb')])}}" data-default-file="{{$images[$img][config('tempconfig.listing-photo-thumb')]}}"/>
 
             <div class="image-loader hidden">
                 <div class="site-loader section-loader">
@@ -68,7 +68,7 @@
         @while($i< config('tempconfig.add-listing-photos-number'))
             <div class="image-grid__cols @if($i == 0) main-image @endif">
                 <input type="hidden" name="image-id" value="">
-                <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg png"/>
+                <input type="file" class="list-image" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="jpg jpeg png"/>
                 <div class="image-loader hidden">
                     <div class="site-loader section-loader">
                         <div id="floatingBarsG">

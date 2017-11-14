@@ -15,6 +15,7 @@ Route::get('/', function () {
 	$header_type = "home-header";
     return view('welcome', compact('header_type'));
 });
+ 
 
 
 // Route::get('/test','TestController@index');
@@ -31,6 +32,9 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('/search-business', 'ListViewController@searchBusiness');
 });
 
+// Route::get('/test','TestController@index');
+// Forgot Password
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 
 
 Auth::routes();
@@ -149,6 +153,9 @@ Route::group( ['middleware' => ['auth']], function() {
 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
 	Route::post('/user/remove-resume','UserController@removeResume');
+	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
+	Route::post('/profile/password-change', 'ProfileController@changePassword');
+	Route::post('/profile/number-change', 'ProfileController@changePhone');
 });
 
 
@@ -207,6 +214,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 		Route::get('internal-users', 'AdminConfigurationController@internalUserView'); // Get Internal Users
 		Route::get('registered-users', 'AdminConfigurationController@registeredUserView');
 		Route::post('get-registered-users', 'AdminConfigurationController@getRegisteredUsers');  // Get Registered / External Users
+		Route::post('set-user-status', 'AdminConfigurationController@userAccountStatus');  // Get Registered / External Users
 
 		Route::post('get-users', 'AdminConfigurationController@getUserData'); // Get all the User Data
 
@@ -246,4 +254,6 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
 	Route::get('/{listing_slug}', 'ListingViewController@index');
 });
+
+ 
  

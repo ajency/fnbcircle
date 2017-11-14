@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use App\Defaults;
 
-class AddUserEmailConfig extends Migration
+class AddJobEmailConfig extends Migration
 {
     /**
      * Run the migrations.
@@ -16,10 +16,11 @@ class AddUserEmailConfig extends Migration
     {
         Schema::table('defaults', function (Blueprint $table) {
             $defaults = [
-                'user-register'=> ['name'=>'notification-user-register', 'title'=>'New User Registration', 'value'=>[]],
-                'register-internal-user'=> ['name'=>'notification-register-internal-user', 'title'=>'New Internal User Registration', 'value'=>[]],
-                'user-verify'=> ['name'=>'notification-user-verify', 'title'=>'User Verification', 'value'=>[]],
-                'welcome-user'=> ['name'=>'notification-welcome-user', 'title'=>'Welcome User', 'value'=>[]],
+                'job-application'=> ['name'=>'notification-job-application', 'title'=>'Job Application', 'value'=>[]],
+                'job-submit-for-review'=> ['name'=>'notification-job-submit-for-review', 'title'=>'Job Submit For Review', 'value'=>[]],
+                'job-published'=> ['name'=>'notification-job-published', 'title'=>'Job Published', 'value'=>[]],
+                'job-rejected'=> ['name'=>'notification-job-rejected', 'title'=>'Job Rejected', 'value'=>[]],
+                'job-alert'=> ['name'=>'notification-job-alert', 'title'=>'Job Alert', 'value'=>[]],
             ];
             foreach($defaults as $default_key => $default_value){
                 $object = new Defaults;

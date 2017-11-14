@@ -634,12 +634,12 @@ class AdminConfigurationController extends Controller
             $userRoles = $create_response['user']->getRoleNames()->toArray();
           
             $userEmail = $request["email"];
-            $userEmail = 'prajay@ajency.in';
+            // $userEmail = 'prajay@ajency.in';
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            // $data['cc'] = 'prajay@ajency.in';
             $data['subject'] = "You are added as internal user on FnB Circle.";
             $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
             sendEmail('register-internal-user', $data);
@@ -812,22 +812,24 @@ class AdminConfigurationController extends Controller
             $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
-                            'name' => $user->name,
+                            'id' => $user->id,
+                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
                             'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
                             'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
                             'describe' => implode(', ', $subTypes),
                             'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
-                            'date_created' => $user->userCreated(),
-                            'last_login' => $userDetails->lastLogin(),
+                            'date_created' => $user->created_at->toDateTimeString(),
+                            'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
                             'total_listing' => $user->listing()->count() ,
                             'published_listing' =>  $user->listing()->where('status','3')->count(),
                             'total_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'published_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'job_applied' =>  '',
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
-                            'status' =>  ucwords($user->status),
+                            'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
+                            'status_raw' => $user->status,
                             ];
             
         }
@@ -840,6 +842,21 @@ class AdminConfigurationController extends Controller
             );
               
         return response()->json($json_data);
+    }
+
+    public function userAccountStatus(Request $request){
+        $this->validate($request, [
+            'user_id' => 'required|integer',
+            'status'       => 'required',
+        ]);
+        $user = User::find($request->user_id);
+        if($user == null) return response()->json(['status'=>'error']);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['status'=>'success']);        
+
     }
 
     public function manageJobs(){
@@ -969,6 +986,33 @@ class AdminConfigurationController extends Controller
         }
         else
             $status = false;
+
+        
+
+        if($job->status == '3' || $job->status == '5'){
+
+            $jobOwner = $job->createdBy;
+            $ownerDetails = $jobOwner->getUserProfileDetails();
+
+            //for testing
+            $ownerDetails['email'] = 'nutan@ajency.in';
+
+            $templateData['job'] = $job;
+            $templateData['ownerName'] = $jobOwner->name;
+
+            $template = ($job->status == '3') ?'job-published'  : 'job-rejected';
+            $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
+     
+            $data = [];
+            $data['from'] = config('constants.email_from');
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [ $ownerDetails['email']];
+            $data['cc'] = [ config('constants.email_to')];
+            $data['subject'] = $subject;
+            $data['template_data'] = $templateData;
+            
+            sendEmail($template, $data);
+        }
         
         $editLink = url('jobs/'.$job->reference_id.'/job-details');
         return response()->json(array("code" => "200","status" =>$status, "name" => $job->title,"link" => $editLink));

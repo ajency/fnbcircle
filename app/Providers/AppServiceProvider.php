@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Common;
 use Validator;
+use Auth;
+use Hash;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -80,6 +82,10 @@ class AppServiceProvider extends ServiceProvider
      }
      return true;
   });
+  // current password validation rule
+    Validator::extend('current_password', function ($attribute, $value, $parameters, $validator) {
+        return Hash::check($value, Auth::user()->password);
+    });
     }
 
     /**

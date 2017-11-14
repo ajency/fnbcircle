@@ -109,6 +109,7 @@ class UserController extends Controller
                     'to' => $contact_data['country_code'].$contact_data['contact_value'],
                     'message' => 'Hi ' . Auth::user()->name . ', ' . $OTP . ' is your OTP for number verification. Do not share OTP for security reasons.'
                 ];
+                error_log($sms['message']);
                 sendSms('verification',$sms);
                 break;
         }
@@ -287,7 +288,7 @@ class UserController extends Controller
         $jobPosted = $user->jobPosted()->get();  
         $jobApplication = $user->jobApplications(); 
         $userResume = $user->getUserJobLastApplication();
-
+ 
         return view('users.dashboard') ->with('user', $user)
                                        ->with('userResume', $userResume)
                                        ->with('jobApplication', $jobApplication)

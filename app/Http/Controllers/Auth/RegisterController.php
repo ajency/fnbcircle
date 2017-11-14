@@ -260,7 +260,6 @@ class RegisterController extends Controller
 
     public function registerConfirmEmail($user)
     {
-    
         $token = str_random(50);
         $userToken = new UserToken();
         $userToken->user_id = $user->id;
@@ -299,12 +298,15 @@ class RegisterController extends Controller
             $user->status = 'active';
             $user->save();
 
+            UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
+
             $token->status = 'completed';
             $token->save();
 
             sendUserRegistrationMails($user);
- 
-            return redirect(url('/customer-dashboard'));
+            $redirectUrl = firstTimeUserLoginUrl();
+            
+            return redirect(url($redirectUrl));
             
         } else {
 
@@ -326,7 +328,6 @@ class RegisterController extends Controller
     {
         $email = Session::get('userLoginEmail');
         $user = User::where('email',$email)->get()->first();
-       
         $confirmation = $this->registerConfirmEmail($user);
         return redirect(url('/').'?login=true&message=resend_verification'); 
     }

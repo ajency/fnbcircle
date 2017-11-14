@@ -210,8 +210,8 @@ init_Multiselect = ->
 		# buttonContainer: '<span></span>'
 		# buttonClass: ''
 		maxHeight: 200
-		# templates: 
-		# 	button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+		templates: 
+			button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
 		includeSelectAllOption: true
 		numberDisplayed: 5
 		# delimiterText: ','

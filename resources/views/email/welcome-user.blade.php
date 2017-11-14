@@ -1,9 +1,11 @@
 @extends('layouts.email')
 
 @section('content')
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+
+  <!-- Email Body : BEGIN -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="text-align: center;">
-      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
+      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
@@ -15,43 +17,52 @@
         <!-- Tips -->
 
  
-
- 
         <div style="margin-top: 2em;">
          
 
           <div style="margin-bottom: 0.8em;">
         
-            <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            <div style="float: left;text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;">
           
 
          
-         Thank you for choosing us. It’s great to have you on-board.<br><br>
+        Thank you for choosing us. It’s great to have you on-board.<br>
 
-        Here’s what you can do on FnB Circle.<br><br>
+        <img src="{{ asset('img/congrats.png') }}" style="margin: 0 auto;display:block;">
 
-        Hospitality News<br>
-        Stay upto date and profit from the latest Hospitality industry News, Trends and Research.<br><br>
-
-        Vendor/Supplier Directory<br>
-        Find the best Vendors/Suppliers for your business or make them come to you.<br><br>
-
-        Hospitality Jobs Portal<br>
-        Hire the best talent to manage your business, or find the most suitable Hospitality Job for yourself.<br><br>
-
-
-        Business promotion for Vendors/Suppliers & Service providers<br>
-        Discover new business opportunities and promote your business to find new customers.<br><br>
-
-
-        I hope you have a wonderful time with FnB Circle.<br>
-        If you have any queries or concerns, feel free to reach out to us at {{ $contactEmail }}
-
- <br><br>
-
+        <p style="color: #000;font-weight: 600;border-bottom: 1px solid #eee;padding-bottom: 10px;">Here’s what you can do on FnB Circle.<br></p>
+        <div>
+        <div>
+          <div style="width: 50%;float: left;text-align:center;">
+            <img src="{{ asset('img/hospitality.png') }}" style="margin:0 auto;display:block;" width="70">
+            <b style="color: #e86b21;margin: 5px 0;display: block;">Hospitality News</b>
+            Stay upto date and profit from the latest Hospitality industry News, Trends and Research.<br><br>
+          </div>
+          <div style="width: 50%;float: left;text-align:center;">
+            <img src="{{ asset('img/vendor.png') }}" style="margin:0 auto;display:block;" width="70">
+            <b style="color: #e86b21;margin: 5px 0;display: block;">Vendor/Supplier Directory</b>
+            Find the best Vendors/Suppliers for your business or make them come to you.<br><br>
+          </div>
+          <div style="clear:both;"></div>
+          <div style="width: 50%;float: left;text-align:center;">
+            <img src="{{ asset('img/jobs-2.png') }}" style="margin:0 auto;display:block;" width="70">
+            <b style="color: #e86b21;margin: 5px 0;display: block;">Hospitality Jobs Portal</b>
+            Hire the best talent to manage your business, or find the most suitable Hospitality Job for yourself.<br><br>
+          </div>
+          <div style="width: 50%;float: left;text-align:center;">
+            <img src="{{ asset('img/promotion.png') }}" style="margin:0 auto;display:block;" width="70">
+            <b style="color: #e86b21;margin: 0px 0 5px 0;display: block;">Business promotion for Vendors/Suppliers &amp; Service providers</b>
+            Discover new business opportunities and promote your business to find new customers.<br><br>
+          </div>
+          <div style="clear:both;"></div>
+        </div>
+        <br>
+          I hope you have a wonderful time with FnB Circle.<br>
+          If you have any queries or concerns, feel free to reach out to us at {{ $contactEmail }}
+          <br><br>
            
             <br>
-          <div>
+          <div style="text-align:left;">
           Regards,<br>
           Team FnB Circle<br>
           </div>

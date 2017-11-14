@@ -364,7 +364,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	return $url;
 }
 
-
+ 
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
@@ -401,8 +401,8 @@ function sendEmail($event='new-user', $data=[]) {
 	if(!is_array($cc)) $cc = [$cc];
 
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)) {
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+	if(in_array($event, $notify)){
+		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value; 
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
@@ -416,13 +416,14 @@ function sendEmail($event='new-user', $data=[]) {
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+ 
 	$email->setParams($params);
 
 	if(isset($data['attach'])) $email->setAttachments($data['attach']);
 
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
-    $notify->setRecipientIds([$email]);
+    $notify->setRecipientIds([$email]); 
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 
@@ -448,6 +449,18 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
+ 
+ 	
+}
+
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
+ 
+ 
 }
 
 
@@ -486,13 +499,22 @@ function sendUserRegistrationMails($user){
 
     }
 
-function getFileMimeType($ext){
-	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+function firstTimeUserLoginUrl(){
 
-	$mimeType = $mimeTypes[$ext];
+	$redirectUrl = '/';
 
-	return $mimeType;
+	if(Auth::check()){
+		$userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
+		if($userType == 'internal')
+            $redirectUrl = '/admin-dashboard';
+        else
+            $redirectUrl = '/profile/basic-details';
+    }
+ 
+	return $redirectUrl;
+
 }
+ 
 
 /**
 * This function is used to determine whether the Server Hosted is in Development or Production Mode

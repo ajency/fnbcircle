@@ -46,10 +46,17 @@ function twentyseventeen_time_link() {
 	);
 
 	// Wrap the time string in a link, and preface it with 'Posted on'.
+	/*return sprintf(
+		/ * translators: %s: post date * /
+		__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
+		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
+	);*/
+
+
 	return sprintf(
 		/* translators: %s: post date */
 		__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
-		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
+		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a> in '. the_category(', ') 
 	);
 }
 endif;
@@ -80,9 +87,12 @@ function twentyseventeen_entry_footer() {
 				if ( ( $categories_list && twentyseventeen_categorized_blog() ) || $tags_list ) {
 					echo '<span class="cat-tags-links">';
 					echo "By &nbsp;";
+					
 					 //echo $author_id=$post->post_author;
 					 $author_id=$post->post_author;
+					 echo '<a class="url fn n" href="' . esc_url( get_author_posts_url( $author_id ) ) . '">';
 					 echo the_author_meta( 'user_nicename' , $author_id ); 
+					 echo '</a>';
 					 echo "&nbsp; on &nbsp;";
 					echo get_the_date();
 						// // Make sure there's more than one category before displaying.

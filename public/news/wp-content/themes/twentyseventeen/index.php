@@ -14,6 +14,7 @@
  * @since 1.0
  * @version 1.0
  */
+//$user_state = "pune";
 
 get_header(); ?>
 <div class="header-image text-center">
@@ -25,7 +26,7 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
-		<?php wp_dropdown_categories('show_option_none=Select category&exclude=1&value_field=slug'); ?>
+		<?php wp_dropdown_categories('show_option_none=Select City&exclude=1&value_field=slug'); ?>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		
 		 <label>
@@ -49,6 +50,11 @@ $custom_query_args = array(
   'meta_key'   => '_is_ns_featured_post',
   'meta_value' => 'yes',
   );
+if(isset($user_state)){
+	if($user_state!=""){
+		$custom_query_args['category_name'] =str_replace(" ", "-", strtolower($user_state)) ;
+	}
+}
 // Get current page and append to custom query parameters array
 $custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 $custom_query = new WP_Query( $custom_query_args ); ?>
@@ -138,6 +144,14 @@ $wp_query = $temp_query;
 <ul class="list-layout">
 <?php
 $query = array( 'posts_per_page' => -1, 'order' => 'ASC' );
+
+if(isset($user_state)){
+	if($user_state!=""){
+		$query['category_name'] =str_replace(" ", "-", strtolower($user_state)) ;
+	}
+}
+
+
 $wp_query = new WP_Query($query);
 
 if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>

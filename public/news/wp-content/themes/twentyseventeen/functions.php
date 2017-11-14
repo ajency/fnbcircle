@@ -884,6 +884,367 @@ add_filter('get_the_archive_title', 'custom_category_tags_title', 10, 1);
 
 
 
+function get_featured_news_by_city11($city){
+
+		$city =$_POST['city'];
+		$news = array();
+
+	    $args = array(
+	        'offset'      => 0,
+	        'orderby'     => 'date',
+	        'order'       => 'DESC',
+	        'post_type'   => 'post',
+	        'post_status' => 'publish',
+	        'meta_key'   => '_is_ns_featured_post',
+	  		'meta_value' => 'yes',
+	  		'category_name'=>$city,
+	  		'posts_per_page'=>6
+	    ); 
+
+
+		
+	     
+	    $posts_array = get_posts($args);
+
+	    $html = "";
+
+
+	    if(count($posts_array)>0){
+	    	foreach ($posts_array as $post) {
+
+	    		$permalink = get_permalink($post->ID);
+
+	    		$author_link = get_author_posts_url( $post->post_author );
+
+	    		$author_data = get_user_by( 'ID', $post->post_author );
+				// Get user display name
+				$author_display_name = $author_data->display_name;
+
+
+
+	    		$display_date = date('F jS Y',strtotime($post->post_date) );
+	    		$post_excerpt = get_the_excerpt($post->ID);
+
+	    		$excerpt = empty($post->post_excerpt) ? wp_trim_words($post->post_content, 20, '...') : $post->post_excerpt   ;
+
+
+	    		$category = get_category_by_slug($city);
+
+	    		 
+
+    		    // Get the URL of this category
+    		    $category_link = get_category_link( $category->cat_ID );
+
+
+	    		$html.='<div class="featured-post">
+	    			<div class="border-layout">';
+	    		$backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
+
+
+	    		if($backgroundImg!=false && $backgroundImg!=""){
+	    			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+
+	    		} 
+	    		else{
+	    			$style_avatar ="";
+	    		}
+	    		 
+
+
+	    		$html.='<div class="featured-image"'.$style_avatar.' ></div>
+	    		  <div class="featured-content">
+	    		    <h5 class="font-weight-bold"><a href="'.$permalink.'">'.$post->post_title.'</a></h5>'.$excerpt;
+	    		    //<?php the_excerpt(6);  
+	    		$html.='<div class="featured-meta">
+	    		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"/>
+	    		By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  in <a href="'.$category_link.'">'.$category->cat_name.'</a> 
+	    		</div>   
+	    		   </div>
+	    		   <div class="clear"></div>
+	    		</div>
+	    		</div>';
+
+	    		
+	    	}
+
+	    	if(count(count($posts_array)>4)){
+	    		$html.="<a href='#'>View more</a>";
+	    	}
+	    }
+	    else{
+	    	$html =  "<h3>No featured News in the selected city</h3>";
+	    }
+
+	    wp_send_json(array('html'=>$html));
+
+	    //echo json_encode(array('html'=>$html));
+
+		die;
+
+}
+
+add_action('wp_ajax_nopriv_get_featured_news_by_city', 'get_featured_news_by_city',10,1);
+add_action('wp_ajax_get_featured_news_by_city', 'get_featured_news_by_city',10,1);
+
+
+ 
+function get_featured_news_by_city(){
+
+
+	$city =$_POST['city'];
+	$custom_query_args = array(
+	  'post_type'  => 'post',
+	  'meta_key'   => '_is_ns_featured_post',
+	  'meta_value' => 'yes',
+	  'category_name' =>$city
+	  );
+	// Get current page and append to custom query parameters array
+	$custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+	$custom_query = new WP_Query( $custom_query_args );  
+	 
+	
+
+	// Pagination fix
+	global $wp_query;
+	$temp_query = $wp_query;
+	$wp_query   = NULL;
+	$wp_query   = $custom_query;
+	  if ( $custom_query->have_posts() ) :  
+
+	$html='  <!-- the loop -->';
+	  while ( $custom_query->have_posts() ) : $custom_query->the_post();  
+
+
+	$html.='<div class="featured-post">
+		<div class="border-layout">';
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+
+
+	$post_categories = get_the_category();
+	$category_display ="";
+	foreach ($post_categories as $post_cat) {
+
+			 $category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+
+	}
+
+	 if($backgroundImg!=false && $backgroundImg!=""){
+	    			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+
+	    		} 
+	    		else{
+	    			$style_avatar ="";
+	    		}
+	    		
+	          
+	 $html.=' <div class="featured-image" '.$style_avatar.'></div>
+	  <div class="featured-content">
+	    <h5 class="font-weight-bold"><a href="'.get_permalink().'">'.get_the_title().'</a></h5>
+	    '.get_the_excerpt(6).'
+	<div class="featured-meta">
+	<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
+	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
+	</div>   
+	   </div>
+	   <div class="clear"></div>
+	</div>
+	</div>';
+
+	 
+	   endwhile; 
+	  $html.='<!-- end of the loop -->
+
+	  <!-- pagination here 
+	   
+	  // Custom query loop pagination-->'.
+	  get_previous_posts_link( 'Older Posts' ).
+	  get_next_posts_link( 'Newer Posts', $custom_query->max_num_pages );
+	  
+
+	else:  
+	  $html=_e( 'Sorry, no posts matched your criteria.' ).'</p>';
+	endif; 
+	wp_send_json(array('html'=>$html));
+
+	     //echo json_encode(array('html'=>$html));
+
+	 	die;
+}
+
+function get_recent_news_by_city($city){
+
+
+
+
+	$city = $_POST['city'];
+	$query = array( 'posts_per_page' => -1, 'order' => 'ASC' ,'category_name'=>$city);
+	$wp_query = new WP_Query($query);
+
+	 
+
+	if ( $wp_query->have_posts() ) : 
+		while ( $wp_query->have_posts() ) : $wp_query->the_post();  
+	//while ( have_posts() ) : the_post(); 
+	$html.='<li>
+	    
+	      <div class="list-post">';
+	  $post_categories = get_the_category();
+	  $category_display ="";
+	  foreach ($post_categories as $post_cat) {
+
+	  		 $category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+
+	  }
+
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+	  if($backgroundImg!=false && $backgroundImg!=""){
+	     			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+
+ 		} 
+ 		else{
+ 			$style_avatar ="";
+ 		}        
+	  
+	  $html.='<div class="featured-content">
+	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'">  <h5>'.get_the_title().'</h5> </a>
+	    '.get_the_excerpt(15).'
+	<div class="featured-meta">
+		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
+
+	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
+	</div>   
+	   </div>
+	   <div class="featured-image" '.$style_avatar.'></div>
+	   <div class="clear"></div>
+	</div>
+	   
+	</li>';  
+	endwhile; 
+	$html.=get_the_posts_pagination( array(
+					'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
+					'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
+					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
+				) );
+
+	else: 
+	$html.='<p>'._e('Sorry, no posts published so far.').'</p>';
+	endif; 
+
+
+	wp_send_json(array('html'=>$html));
+
+	     //echo json_encode(array('html'=>$html));
+
+	 	die;
+}
+add_action('wp_ajax_nopriv_get_recent_news_by_city', 'get_recent_news_by_city');
+add_action('wp_ajax_get_recent_news_by_city', 'get_recent_news_by_city');
+
+function get_recent_news_by_city11($city){
+
+
+	$city =$_POST['city'];
+	$news = array();
+
+	$args = array(
+		'numberposts' => 10,
+		'offset' => 0,		 
+		'orderby' => 'post_date',
+		'order' => 'DESC',		
+		'post_type' => 'post',
+		'post_status' => 'publish',
+		'suppress_filters' => true,
+		'category_name'=>$city,
+	  	'posts_per_page'=>6
+	);
+
+	$recent_posts = wp_get_recent_posts( $args );
+
+	$html ="";
+
+
+
+	if(count($recent_posts)>0){
+
+
+		foreach ($recent_posts as $post) {
+
+		 
+var_dump($post);
+
+    		$permalink = get_permalink($post->ID);
+
+    		$author_link = get_author_posts_url( $post->post_author );
+
+    		$author_data = get_user_by( 'ID', $post->post_author );
+			// Get user display name
+			$author_display_name = $author_data->display_name;
+
+
+
+    		$display_date = date('F jS Y',strtotime($post->post_date) );
+
+    		$excerpt = empty($post->post_excerpt) ? wp_trim_words($post->post_content, 25, '...') : $post->post_excerpt   ;
+
+
+    		$category = get_category_by_slug($city);
+
+    		 
+
+		    // Get the URL of this category
+		    $category_link = get_category_link( $category->cat_ID );
+
+
+
+			$html.='<li>
+			    
+					      <div class="list-post">';
+			$backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+
+			if($backgroundImg!=false && $backgroundImg!=""){
+	    			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+
+	    		} 
+	    		else{
+	    			$style_avatar ="";
+	    		}
+	    		 
+
+
+					          
+					  
+			$html.='<div class="featured-content">
+					  <a href="'.$permalink.'" title="Link to '.$post->post_title.'">  <h5>'.$post->post_title.'</h5> </a>
+					    '.$excerpt.'
+					<div class="featured-meta">
+						<img src="'.site_url().'./wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
+
+					By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  in  <a href="'.$category_link.'">'.$category->cat_name.'</a> 
+					</div>   
+					   </div>
+					   <div class="featured-image" '.$style_avatar.'></div>
+					   <div class="clear"></div>
+					</div>
+					   
+					</li>';
+		}
+		
+	}
+	else{
+		$html="<h3>No recent posts for the selected city</h3>";
+	}
+
+	     wp_send_json(array('html'=>$html));
+
+	     //echo json_encode(array('html'=>$html));
+
+	 	die;
+ 
+}
+
+
+
+
  
 function post_tag_permalink($permalink, $post_id, $leavename) {
     //if (strpos($permalink, '%rating%') === FALSE) return $permalink;

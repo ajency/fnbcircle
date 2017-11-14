@@ -104,4 +104,70 @@ jQuery(document).ready(function($) {
       $('.forget-password').removeClass('active');
     })
 
+
+    $('.search-container>#cat').live("change",function(evt){
+       
+
+        var sel_city =  $(evt.target).val();
+        console.log(sel_city)
+
+        var wp_ajax_url = wpt.ajax_url;
+
+        $('.wrap').find('.featured-post').remove();
+
+        $('.wrap').append('<i class="fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
+
+
+        ///FEATURED NEWS
+         $.post(wp_ajax_url, {
+            action:"get_featured_news_by_city",
+            city:sel_city
+            
+            /*category: self.category,
+            limit_posts: self.limit_posts*/
+
+        }, function(response) { 
+
+            $('.wrap').find('.featured-loader').remove();
+
+            $(".wrap p:first").after(response.html)
+
+            console.log(response.html)
+
+            /*$(".wrap p:first").after(response.html);
+             
+
+            $('#laravel-business-cats-container').html(response);*/
+
+        }); 
+
+
+         //RECENT NEWS
+         $('.site-main').find('.list-layout').find('li').remove();
+         $('.site-main').find('.list-layout').append('<i class="fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
+         $.post(wp_ajax_url, {
+                     action:"get_recent_news_by_city",
+                     city:sel_city
+                     
+                     /*category: self.category,
+                     limit_posts: self.limit_posts*/
+
+                 }, function(response) { 
+
+                    $('.site-main').find('.list-layout').find('.recent-loader').remove()
+                     $(".site-main .list-layout").append(response.html)
+
+                     console.log(response.html)
+
+                     /*$(".wrap p:first").after(response.html);
+                      
+
+                     $('#laravel-business-cats-container').html(response);*/
+
+                 }); 
+         
+
+
+    })
+
 })

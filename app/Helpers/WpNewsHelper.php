@@ -102,7 +102,7 @@ class WpNewsHelper
                 'id'                    => $post->ID,
                 'featured_image'        => $featured_image,
                 'date'                  => $post->post_date,
-                'display_date'          => date("d M Y H:i:s", strtotime($post->post_date)),
+                'display_date'          => date("F d,Y ", strtotime($post->post_date)),
                 'url'                   => get_permalink($post->ID), //$post->guid,
 
             );

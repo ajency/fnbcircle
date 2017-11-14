@@ -625,7 +625,7 @@ function fnbcircleWpScripts(){
 	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);	
 	wp_localize_script('wpnews', 'LARAURL', get_laravel_site_url());
 	wp_localize_script('wpnews', 'page_category', $category_slug);
-
+	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
 	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
@@ -1062,7 +1062,7 @@ function get_featured_news_by_city(){
 	  
 
 	else:  
-	  $html= '<p>Sorry, no posts matched your criteria.</p>';
+	  $html= '<span class="no-posts-msg"><h3>Sorry, no featured news matched your criteria.</h3></span>';
 	endif; 
 	wp_send_json(array('html'=>$html));
 
@@ -1120,14 +1120,14 @@ function get_recent_news_by_city($city){
 	   
 	</li>';  
 	endwhile; 
-	$html.=get_the_posts_pagination( array(
+	$html.=$wp_query->get_the_posts_pagination( array(
 					'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 					'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
 				) );
 
 	else: 
-	$html.='<p>Sorry, no posts published so far.</p>';
+	$html.='<span class="no-posts-msg"><h3>Sorry, no recent news matched your criteria.</h3></span>';
 	endif; 
 
 
@@ -1231,7 +1231,7 @@ var_dump($post);
 		
 	}
 	else{
-		$html="<h3>No recent posts for the selected city</h3>";
+		$html="<span class='no-posts-msg'><h3>No recent posts for the selected city</h3></span>";
 	}
 
 	     wp_send_json(array('html'=>$html));
@@ -1274,3 +1274,12 @@ remove_filter( 'the_title', 'wptexturize' );
 remove_filter( 'the_content', 'wptexturize' );
 remove_filter( 'the_excerpt', 'wptexturize' );
  
+
+
+
+// Replaces the excerpt "Read More" text by a link
+function new_excerpt_more($more) {
+       global $post;
+	return ' <a class="moretag" href="'. get_permalink($post->ID) . '">read more...</a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');

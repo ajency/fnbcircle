@@ -111,9 +111,11 @@ jQuery(document).ready(function($) {
         var sel_city =  $(evt.target).val();
         console.log(sel_city)
 
-        var wp_ajax_url = wpt.ajax_url;
+        var wp_ajax_url = ajax_url;
 
         $('.wrap').find('.featured-post').remove();
+        $('.wrap').find('.no-posts-msg').remove();
+        
 
         $('.wrap').append('<i class="fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
 
@@ -144,6 +146,9 @@ jQuery(document).ready(function($) {
 
          //RECENT NEWS
          $('.site-main').find('.list-layout').find('li').remove();
+
+
+         $('.site-main').find('.list-layout').find('.no-posts-msg').remove();
          $('.site-main').find('.list-layout').append('<i class="fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
          $.post(wp_ajax_url, {
                      action:"get_recent_news_by_city",
@@ -155,7 +160,7 @@ jQuery(document).ready(function($) {
                  }, function(response) { 
 
                     $('.site-main').find('.list-layout').find('.recent-loader').remove()
-                     $(".site-main .list-layout").append(response.html)
+                     $(".site-main .list-layout").prepend(response.html)
 
                      console.log(response.html)
 

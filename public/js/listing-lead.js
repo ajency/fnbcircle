@@ -2,7 +2,7 @@
   var filters, format, table;
 
   format = function(d) {
-    return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">City - areas</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
+    return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">State - Cities</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
   };
 
   $('.requestDate').daterangepicker();
@@ -45,9 +45,9 @@
         "data": 'archive',
         "render": function(d) {
           if (d === 0) {
-            return '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+            return '<a href="#" class="archiveaction"><i class="fa fa-star-o lead-star archive" aria-hidden="true"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
           } else {
-            return '<a href="#" class="unarchiveaction">unarchive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+            return '<a href="#" class="unarchiveaction"><i class="fa fa-star lead-star archived" aria-hidden="true"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
           }
         }
       }

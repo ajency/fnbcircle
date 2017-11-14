@@ -12250,6 +12250,12 @@ input[type='checkbox'].remove-addr {
 .remove_resume:hover {
   color: rgba(255, 0, 0, 0.71);
 }
+.lead-star {
+  color: #403b3b;
+}
+.lead-star.archived {
+  color: #ffc12b;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

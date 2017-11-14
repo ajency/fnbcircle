@@ -383,6 +383,11 @@ if ( !class_exists('wpt_widget') ) {
 									</div>				
 								<?php endif; ?>					
 								<div class="entry-title"><a title="<?php the_title(); ?>" href="<?php the_permalink() ?>"><?php echo $this->post_title( $title_length ); ?></a></div>		
+								  <?php if ( $show_excerpt == 1 ) : ?>	
+	                                <div class="wpt_excerpt">
+	                                    <p><?php echo $this->excerpt($excerpt_length); ?></p>
+	                                </div>
+	                            <?php endif; ?>	
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>	
 									<div class="wpt-postmeta">						
 										<?php if ( $show_date == 1 ) : ?>			
@@ -397,11 +402,7 @@ if ( !class_exists('wpt_widget') ) {
 									</div> <!--end .entry-meta--> 				
 								<?php endif; ?>
 	                            
-	                            <?php if ( $show_excerpt == 1 ) : ?>	
-	                                <div class="wpt_excerpt">
-	                                    <p><?php echo $this->excerpt($excerpt_length); ?></p>
-	                                </div>
-	                            <?php endif; ?>	
+	                          
 	                            						
 								<div class="clear"></div>			
 							</li>				
@@ -436,6 +437,12 @@ if ( !class_exists('wpt_widget') ) {
 									</div>				
 								<?php endif; ?>					
 								<div class="entry-title"><a title="<?php the_title(); ?>" href="<?php the_permalink() ?>"><?php echo $this->post_title( $title_length ); ?></a></div>		
+								
+								 <?php if ( $show_excerpt == 1 ) : ?>	
+	                                <div class="wpt_excerpt">
+	                                    <p><?php echo $this->excerpt($excerpt_length); ?></p>
+	                                </div>
+	                            <?php endif; ?>	
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>			
 									<div class="wpt-postmeta">										
 										<?php if ( $show_date == 1 ) : ?>						
@@ -450,11 +457,7 @@ if ( !class_exists('wpt_widget') ) {
 									</div> <!--end .entry-meta--> 		
 								<?php endif; ?>
 	                            
-	                            <?php if ( $show_excerpt == 1 ) : ?>	
-	                                <div class="wpt_excerpt">
-	                                    <p><?php echo $this->excerpt($excerpt_length); ?></p>
-	                                </div>
-	                            <?php endif; ?>	
+	                           
 	                            	
 								<div class="clear"></div>		
 							</li>				

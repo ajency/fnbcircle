@@ -4574,7 +4574,7 @@ body .submit {
 }
 /* line 89, news.less */
 .comments-area .comments-title {
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 600;
 }
 /* line 93, news.less */
@@ -5141,5 +5141,9 @@ body .submit {
 .boost-row.single-boost .boost-row__title {
   margin: 1em 0;
   font-size: initial;
+}
+/* line 564, news.less */
+.comment-content p {
+  font-size: 1em;
 }
 /*# sourceMappingURL=news.css.map */

@@ -80,7 +80,7 @@ $wp_query   = $custom_query;
     <?php the_excerpt(6); ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
 </div>   
    </div>
    <div class="clear"></div>
@@ -167,7 +167,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
 </div>   
    </div>
    <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 

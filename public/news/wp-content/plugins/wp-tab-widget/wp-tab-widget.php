@@ -22,7 +22,7 @@ if ( !class_exists('wpt_widget') ) {
 	        add_action('wp_enqueue_scripts', array(&$this, 'wpt_register_scripts'));
 	        add_action('admin_enqueue_scripts', array(&$this, 'wpt_admin_scripts'));
 
-			$widget_ops = array('classname' => 'widget_wpt', 'description' => __('Display popular posts, recent posts, comments, and tags in tabbed format.', 'wp-tab-widget'));
+			$widget_ops = array('classname' => 'widget_wpt', 'description' => __('Display featured posts, recent posts, comments, and tags in tabbed format.', 'wp-tab-widget'));
 			$control_ops = array('width' => 300, 'height' => 350);
 			parent::__construct('wpt_widget', __('WP Tab Widget by MyThemeShop', 'wp-tab-widget'), $widget_ops, $control_ops);
 	    }	
@@ -51,8 +51,8 @@ if ( !class_exists('wpt_widget') ) {
 	    	
 		function form( $instance ) {
 			$instance = wp_parse_args( (array) $instance, array( 
-				'tabs' => array('recent' => 1, 'popular' => 1, 'comments' => 0, 'tags' => 0), 
-				'tab_order' => array('popular' => 1, 'recent' => 2, 'comments' => 3, 'tags' => 4), 
+				'tabs' => array('recent' => 1, 'featured' => 1, 'comments' => 0, 'tags' => 0), 
+				'tab_order' => array('featured' => 1, 'recent' => 2, 'comments' => 3, 'tags' => 4), 
 				'allow_pagination' => 1, 
 				'post_num' => '5', 
 				'comment_num' => '5', 
@@ -75,9 +75,9 @@ if ( !class_exists('wpt_widget') ) {
 	        <h4><?php _e('Select Tabs', 'wp-tab-widget'); ?></h4>
 	        
 			<div class="wpt_select_tabs">
-				<label class="alignleft" style="display: block; width: 50%; margin-bottom: 5px" for="<?php echo $this->get_field_id("tabs"); ?>_popular">
-					<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("tabs"); ?>_popular" name="<?php echo $this->get_field_name("tabs"); ?>[popular]" value="1" <?php if (isset($tabs['popular'])) { checked( 1, $tabs['popular'], true ); } ?> />
-					<?php _e( 'Popular Tab', 'wp-tab-widget'); ?>
+				<label class="alignleft" style="display: block; width: 50%; margin-bottom: 5px" for="<?php echo $this->get_field_id("tabs"); ?>_featured">
+					<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("tabs"); ?>_featured" name="<?php echo $this->get_field_name("tabs"); ?>[featured]" value="1" <?php if (isset($tabs['featured'])) { checked( 1, $tabs['featured'], true ); } ?> />
+					<?php _e( 'featured Tab', 'wp-tab-widget'); ?>
 				</label>
 				<label class="alignleft" style="display: block; width: 50%; margin-bottom: 5px;" for="<?php echo $this->get_field_id("tabs"); ?>_recent">
 					<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("tabs"); ?>_recent" name="<?php echo $this->get_field_name("tabs"); ?>[recent]" value="1" <?php if (isset($tabs['recent'])) { checked( 1, $tabs['recent'], true ); } ?> />		
@@ -98,9 +98,9 @@ if ( !class_exists('wpt_widget') ) {
 	        
 	        <div class="wpt_tab_order" style="display: none;">
 	            
-	            <label class="alignleft" for="<?php echo $this->get_field_id('tab_order'); ?>_popular" style="width: 50%;">
-					<input id="<?php echo $this->get_field_id('tab_order'); ?>_popular" name="<?php echo $this->get_field_name('tab_order'); ?>[popular]" type="number" min="1" step="1" value="<?php echo $tab_order['popular']; ?>" style="width: 48px;" />
-	                <?php _e('Popular', 'wp-tab-widget'); ?>
+	            <label class="alignleft" for="<?php echo $this->get_field_id('tab_order'); ?>_featured" style="width: 50%;">
+					<input id="<?php echo $this->get_field_id('tab_order'); ?>_featured" name="<?php echo $this->get_field_name('tab_order'); ?>[featured]" type="number" min="1" step="1" value="<?php echo $tab_order['featured']; ?>" style="width: 48px;" />
+	                <?php _e('featured', 'wp-tab-widget'); ?>
 	            </label>
 	            <label class="alignleft" for="<?php echo $this->get_field_id('tab_order'); ?>_recent" style="width: 50%;">
 					<input id="<?php echo $this->get_field_id('tab_order'); ?>_recent" name="<?php echo $this->get_field_name('tab_order'); ?>[recent]" type="number" min="1" step="1" value="<?php echo $tab_order['recent']; ?>" style="width: 48px;" />
@@ -242,7 +242,7 @@ if ( !class_exists('wpt_widget') ) {
 			extract($instance);    
 			wp_enqueue_script('wpt_widget'); 
 			wp_enqueue_style('wpt_widget');  
-			if (empty($tabs)) $tabs = array('recent' => 1, 'popular' => 1);    
+			if (empty($tabs)) $tabs = array('recent' => 1, 'featured' => 1);    
 			$tabs_count = count($tabs);     
 			if ($tabs_count <= 1) {       
 				$tabs_count = 1;       
@@ -250,7 +250,7 @@ if ( !class_exists('wpt_widget') ) {
 				$tabs_count = 4;      
 			}
 	        
-	        $available_tabs = array('popular' => __('Popular', 'wp-tab-widget'), 
+	        $available_tabs = array('featured' => __('featured', 'wp-tab-widget'), 
 	            'recent' => __('Recent', 'wp-tab-widget'), 
 	            'comments' => __('Comments', 'wp-tab-widget'), 
 	            'tags' => __('Tags', 'wp-tab-widget'));
@@ -270,9 +270,9 @@ if ( !class_exists('wpt_widget') ) {
 				</ul> <!--end .tabs-->	
 				<div class="clear"></div>  
 				<div class="inside">        
-					<?php if (!empty($tabs['popular'])): ?>	
-						<div id="popular-tab-content" class="tab-content">				
-						</div> <!--end #popular-tab-content-->       
+					<?php if (!empty($tabs['featured'])): ?>	
+						<div id="featured-tab-content" class="tab-content">				
+						</div> <!--end #featured-tab-content-->       
 					<?php endif; ?>       
 					<?php if (!empty($tabs['recent'])): ?>	
 						<div id="recent-tab-content" class="tab-content"> 		 
@@ -362,14 +362,14 @@ if ( !class_exists('wpt_widget') ) {
 			/* ---------- Tab Contents ---------- */    
 			switch ($tab) {        
 			  
-				/* ---------- Popular Posts ---------- */   
-				case "popular":      
+				/* ---------- featured Posts ---------- */   
+				case "featured":      
 					?>       
 					<ul>				
 						<?php 
-						$popular = new WP_Query( array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_num, 'post_status' => 'publish', 'orderby' => 'meta_value_num', 'meta_key' => '_wpt_view_count', 'order' => 'desc', 'paged' => $page));         
-						$last_page = $popular->max_num_pages;      
-						while ($popular->have_posts()) : $popular->the_post(); ?>	
+						$featured = new WP_Query( array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_num, 'post_status' => 'publish', 'orderby' => 'meta_value_num', 'meta_key' => '_is_ns_featured_post','meta_value' => 'yes', 'order' => 'desc', 'paged' => $page));         
+						$last_page = $featured->max_num_pages;      
+						while ($featured->have_posts()) : $featured->the_post(); ?>	
 							<li>
 								<?php if ( $show_thumb == 1 ) : ?>			
 									<div class="wpt_thumbnail wpt_thumb_<?php echo $thumb_size; ?>">	
@@ -642,7 +642,7 @@ function wpt_update_view_count( $post_id ) {
 }
 
 // Add meta for all existing posts that don't have it
-// to make them show up in Popular tab
+// to make them show up in featured tab
 function wpt_add_views_meta_for_posts() {
 	$allposts = get_posts( 'numberposts=-1&post_type=post&post_status=any' );
 

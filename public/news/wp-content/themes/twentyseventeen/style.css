@@ -2267,7 +2267,9 @@ body:not(.twentyseventeen-front-page) .entry-header {
 /*--------------------------------------------------------------
 13.5 Pages
 --------------------------------------------------------------*/
-
+.wpt_widget_content ul li {
+    text-transform: capitalize;
+}
 .page-header {
 	padding-bottom: 2em;
 	margin: 20px 0 50px !important;

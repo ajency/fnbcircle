@@ -143,7 +143,10 @@ $wp_query = $temp_query;
 
 <ul class="list-layout">
 <?php
-$query = array( 'posts_per_page' => -1, 'order' => 'ASC' );
+$query = array( 'posts_per_page' => 10, 'orderby'     => 'date',
+            'order'       => 'DESC','post_status'=>'publish' );
+
+$query['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
 if(isset($user_state)){
 	if($user_state!=""){

@@ -1062,7 +1062,7 @@ function get_featured_news_by_city(){
 	  
 
 	else:  
-	  $html=_e( 'Sorry, no posts matched your criteria.' ).'</p>';
+	  $html= '<p>Sorry, no posts matched your criteria.</p>';
 	endif; 
 	wp_send_json(array('html'=>$html));
 
@@ -1127,7 +1127,7 @@ function get_recent_news_by_city($city){
 				) );
 
 	else: 
-	$html.='<p>'._e('Sorry, no posts published so far.').'</p>';
+	$html.='<p>Sorry, no posts published so far.</p>';
 	endif; 
 
 
@@ -1267,3 +1267,10 @@ function post_tag_permalink($permalink, $post_id, $leavename) {
 }   
 /*add_filter('post_link', 'post_tag_permalink', 10, 3);
 add_filter('post_type_link', 'post_tag_permalink', 10, 3);*/
+
+
+ 
+remove_filter( 'the_title', 'wptexturize' );
+remove_filter( 'the_content', 'wptexturize' );
+remove_filter( 'the_excerpt', 'wptexturize' );
+ 

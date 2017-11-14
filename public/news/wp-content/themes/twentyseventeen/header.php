@@ -66,7 +66,7 @@ if ( has_post_thumbnail() ) { ?>
 			<?php $url = wp_get_attachment_url( get_post_thumbnail_id($post->ID), 'thumbnail' ); ?>
 <img src="<?php echo $url ?>" />
 <?php } ?>
-		<h4>By <?php $author_id=$post->post_author; ?> <?php the_author_meta( 'user_nicename' , $author_id ); ?> posted on <?php echo get_the_date(); ?>
+		<h4>By <?php $author_id=$post->post_author; ?> <a class="url fn n" href="<?php echo esc_url( get_author_posts_url( $author_id ) ); ?>"><?php the_author_meta( 'user_nicename' , $author_id ); ?></a> posted on <?php echo get_the_date(); ?>
 			<?php $cats = get_the_category_list(  ',',   '', $post_id = false ); 
 			if($cats!=""){
 				echo " in ".$cats;

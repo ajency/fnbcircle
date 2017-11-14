@@ -4908,7 +4908,7 @@ input[type=checkbox].custom-checkbox:before {
   padding-left: 1em;
   line-height: 1.4;
   padding-right: 8em;
-  font-size: 1.2em;
+  font-size: 1.15em;
 }
 .verification-modal .enquiry-success__sub-text {
   padding-left: 1em;
@@ -6222,6 +6222,9 @@ input[type=checkbox].custom-checkbox:before {
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
+}
+.multi-quote-modal .areas-select__selection {
+  max-width: 25%;
 }
 .search-section {
   position: relative;

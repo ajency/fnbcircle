@@ -6121,6 +6121,68 @@ input[type=checkbox].custom-checkbox:before {
     line-height: 1.4;
   }
 }
+.selection-card {
+  margin: 6em 0;
+}
+.selection-card .card {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.selection-card .card__section {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+.selection-card .card h5 {
+  line-height: 1.2;
+  margin-bottom: 1.3em;
+}
+.selection-card .card .or {
+  -webkit-box-flex: 0.25;
+  -webkit-flex: 0.25;
+      -ms-flex: 0.25;
+          flex: 0.25;
+  -webkit-align-self: normal;
+      -ms-flex-item-align: normal;
+          align-self: normal;
+  margin: 0 1em;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+}
+.selection-card .card .or__text {
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  border: 1px solid #ddd;
+  color: #9c8884;
+  font-size: 1.15em;
+  font-weight: 500;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  background-color: #fff;
+}
+.selection-card .card .or:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 1px;
+  background-color: #ddd;
+}
+.selection-card .card:first-child {
+  margin-right: 1.5em;
+}
 .search-section {
   position: relative;
   top: 2em;

@@ -5383,6 +5383,20 @@ input[type=checkbox].custom-checkbox:before {
             transform: translateX(-0.5em) translateY(0.5em) scale(0.75);
     font-size: 1.1em;
   }
+  .verification-modal .float-label.phone-label {
+    -webkit-transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+        -ms-transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+            transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+  }
+  .verification-modal .float-label.phone-label + .intl-tel-input {
+    width: 100%;
+  }
+  .verification-modal .describe-section label {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+  }
   .verification-modal .vendor-contact-details {
     margin: 0 1.5em 2em;
     padding: 1em 1em;

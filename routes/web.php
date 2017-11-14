@@ -182,14 +182,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], funct
 	Route::post('/users/update-resume','UserController@uploadResume');
  
 });
-/* List View of Listing */
-Route::group(['prefix' => '{city}'], function() {
-	Route::get('/business-listings', 'ListViewController@listView');
-	Route::get('/job-listings', 'JobController@jobListing');
-	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
-	Route::get('/{listing_slug}', 'ListingViewController@index');
-	Route::get('/', 'LocationController@location');
-});
 
 /** Routes for Wordpress News */
 //Route::group(['middleware' => ['web']], function () {
@@ -200,3 +192,15 @@ Route::get('/{city}/business-listings-card','ListingViewController@getBusinessCa
 Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 //
 //});
+
+
+
+/* List View of Listing */
+Route::group(['prefix' => '{city}'], function() {
+	Route::get('/business-listings', 'ListViewController@listView');
+	Route::get('/job-listings', 'JobController@jobListing');
+	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
+	Route::get('/{listing_slug}', 'ListingViewController@index');
+	Route::get('/', 'LocationController@location');
+});
+

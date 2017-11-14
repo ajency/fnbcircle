@@ -869,10 +869,10 @@ add_filter( 'comment_form_defaults', function( $fields ) {
 function custom_category_tags_title($title)
 {
 	if( is_category()){
-		$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
+		$title = sprintf( __( 'News in %s' ), single_cat_title( '', false ) );
 	}
 	else if(is_tag()){
-		$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
+		$title = sprintf( __( 'News in %s' ), single_tag_title( '', false ) );
 	}
 
 	return $title;

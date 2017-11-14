@@ -4,10 +4,10 @@
         <h6 class="text-color text-medium enquiry-success__text" style="padding-right: 0em">Email &amp; SMS with your details has been sent to the relevant listing owners. You will be contacted soon.</h6>
     </div>
 
-	<!-- <div class="no-results">
+	<div class="no-results hidden">
         <h5 class="seller-info__title ellipsis text-primary">Sorry, No Business Listings Matching Your Requirements! <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
         <img src="/img/404.png" class="img-reponsive center-block img-nf m-t-40" width="350">
-    </div> -->
+    </div>
 
 
 

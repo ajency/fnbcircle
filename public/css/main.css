@@ -4902,7 +4902,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .enquiry-success .fa-check-circle {
   color: #6ac259;
-  font-size: 3.5em;
+  font-size: 2.5em;
 }
 .verification-modal .enquiry-success__text {
   padding-left: 1em;
@@ -5121,6 +5121,7 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .in-popup {
   background-color: #fff;
   padding: 0;
+  margin-top: 1em;
 }
 .verification-modal .in-popup:before {
   display: none;
@@ -6206,7 +6207,7 @@ input[type=checkbox].custom-checkbox:before {
           flex: 1 0 33.33%;
 }
 .multi-quote-modal .in-popup {
-  margin: 0 -28px -30px -28px;
+  margin: 1.5em -28px -30px -28px;
   padding: 0em 2em 1em 2em;
 }
 .multi-quote-modal .categories__points li {

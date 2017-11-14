@@ -474,6 +474,24 @@ class EnquiryController extends Controller {
 	   			
 	   			$data['current_page'] = $template_type;
 
+	   			$list_view_data = Session::get('list_view', []);
+	   			if(sizeof($list_view_data) > 0) {
+	   				if(isset($list_view_data["categories"]) && sizeof($list_view_data["categories"]) > 0) {
+	   					$data["cores"] = Category::whereIn('slug', $list_view_data["categories"])->get();
+	   				}
+
+	   				if(isset($list_view_data["areas"]) && sizeof($list_view_data["areas"]) > 0) {
+	   					$areas_selected = Area::whereIn('slug', $list_view_data["areas"])->get();
+			    		$data["area_ids"] = $areas_selected->pluck('id')->toArray();
+			    		$areas_selected = $areas_selected->groupBy('city_id');
+	   					foreach ($areas_selected as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+			    			$data = array_merge($data, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => $city_areas->toArray()));
+			    		}
+
+	   				}
+	   			}
+	   			Session::forget('list_view');
+
 	   			if(isset($payload_data["enquiry_data"]["contact"])) {
 	   				$enquiry_data = $payload_data["enquiry_data"];
 	   				$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
@@ -610,6 +628,21 @@ class EnquiryController extends Controller {
 	    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 	    	$listing_obj = null;//Listing::where('slug', '')->get();
 
+	    	$listing_areas = $request->has('areas') ? $request->areas : [];
+    		$listing_categories = [];
+	    	if($request->has('category')) {
+	    		$cat_obj = Category::where('slug', $request->category)->first();
+	    		
+	    		if($cat_obj->level > 1) {
+	    			$listViewCont_obj = new ListViewController;
+	    			$listing_categories = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+	    			$listing_categories = json_decode(explode("|", $listing_categories)[1]);
+	    		}
+	    	}
+
+	    	if($listing_areas || $listing_categories) {
+	    		Session::put('list_view', ["areas" => $listing_areas, "categories" => $listing_categories]);
+	    	}
 		} else { // Else
 			$template_config = "popup_level_one";
 			$listing_obj = Listing::where('slug', '')->get();
@@ -852,7 +885,7 @@ class EnquiryController extends Controller {
 					}
 				}
 
-    			Session::flush('enquiry_data'); // Delete the Old enquiry_data
+    			Session::forget('enquiry_data'); // Delete the Old enquiry_data
 				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
 	    		if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
@@ -915,7 +948,7 @@ class EnquiryController extends Controller {
 	    					$session_payload["user_object_id"] = $enquiry_data["user_object_id"];
 	    					$session_payload["user_object_type"] = $enquiry_data["user_object_type"];
 	    					
-	    					Session::flush('enquiry_data'); // Delete the Old enquiry_data
+	    					Session::forget('enquiry_data'); // Delete the Old enquiry_data
 	    					Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    				} else {
 	    					$enq_obj = null;

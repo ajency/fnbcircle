@@ -566,7 +566,12 @@
     				margin-bottom: 0;
 				}
 			}
-
+		}
+		.mobile--enquiry{
+			width: 100%;
+			.contact__title{
+				margin-bottom: 5px;
+			}
 		}
 	}
 	.sell-re{
@@ -2241,7 +2246,7 @@
 	    		padding: 0 0.5em;
 	    		flex: 1 0 33.33%;
 	    		max-width: 33.33%;
-	    		margin-top: 0.5em;
+	    		// margin-top: 0.5em;
 	    	}
 	    	.fnb-select{
 	    		font-size: 1em;
@@ -2329,13 +2334,13 @@
 		padding: 2.5em;
 		.fa-check-circle{
 			color: #6ac259;
-    		font-size: 3.5em;
+    		font-size: 2.5em;
 		}
 		&__text{
 			padding-left: 1em;
     		line-height: 1.4;
     		padding-right: 8em;
-    		font-size: 1.2em;
+    		font-size: 1.15em;
 		}
 		&__sub-text{
 			padding-left: 1em;
@@ -2508,15 +2513,40 @@
 		}
 		.areas-select{
 			padding-top: 0;
+			padding-bottom: 0;
+		}
+		.category-select{
+			padding-bottom: 0;
 		}
 		.areas-select__selection{
 			margin-top: 0;
-	    	padding: 0 0.5em 0.8em 0;
+		}
+		.send-action{
+			.fnb-btn{
+				border-color: @accent-primary;
+			}
+		}
+		.flex-points__text{
+			font-size: 0.95em;
+		}
+		.multiselect-selected-text,.fnb-select{
+			font-size: 0.95em;
+			padding-left: 0;
 		}
 	}
 	.formFields{
 		padding: 1em 0px;
 	}
+	// &:not(.multi-quote-modal){
+		.in-popup{
+			background-color: #fff;
+			padding: 0;
+			margin-top: 1em;
+			&:before{
+				display: none;
+			}
+		}
+	// }
 }
 
 .formDetails{
@@ -2775,6 +2805,17 @@
 				// transform: translateX(-2.5em) translateY(0.5em) scale(0.75);
 				transform: translateX(-0.5em) translateY(0.5em) scale(0.75);
 				font-size: 1.1em;
+			}
+			&.phone-label{
+				transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+				& + .intl-tel-input{
+					width: 100%;
+				}
+			}
+		}
+		.describe-section{
+			label{
+				flex: 1 0 100%;
 			}
 		}
 		.vendor-contact-details{
@@ -3640,6 +3681,53 @@ and (max-device-width: 650px) {
     	}
     }
 }
+
+
+// ---------------------------
+// MULTI-QUOTE MODAL -----------
+// ---------------------------
+
+.success-cards{
+	margin: 1em -28px -2.5em -28px;
+	&__title{
+		margin-bottom: 1.5em;
+	}
+}
+
+.multi-quote-modal{
+	.level-one{
+		.formFields{
+			.col-sm-6{
+				flex: 1 0 33.33%;
+			}
+		}
+		.describe-section{
+			label{
+				flex: 1 0 33.33%;
+			}
+		}
+	}
+	.in-popup{
+		margin: 1.5em -28px -30px -28px;
+		padding: 0em 2em 1em 2em;
+	}
+	.categories__points{
+		li{
+			flex: 1 0 25%;
+			max-width: 25%;
+			label{
+				display: inline-flex;
+			}
+		}
+	}
+	.areas-select__selection{
+	   	// padding: 0.3em 0.5em 1em 0.5em;
+	   	max-width: 25%;
+	}
+}
+
+
+
 
 
 

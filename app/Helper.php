@@ -87,7 +87,7 @@ function generateHTML($reference, $values = []) {
 		$temp_html = [];
 		if($value["type"] == "checkbox") {
 			if(!auth()->guest()) {
-				$userDetailsObj = auth()->user()->getUserDetails()->first();
+				$userDetailsObj = auth()->user()->getUserDetails;
 			} else {
 				$userDetailsObj = null;
 			}

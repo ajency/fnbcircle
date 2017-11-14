@@ -22,6 +22,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use App\Helper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -693,7 +694,9 @@ class ListViewController extends Controller {
 
     	$filtered_list_response = $this->getListingSummaryData($city, $filters, $start, $page_size, $sort_by, $sort_order); // Get list of all the data
     	$listing_data = $filtered_list_response["data"];
-    	$list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data'))->render();
+
+        $enquiry_data = Session::get('enquiry_data', []);
+        $list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data', 'enquiry_data'))->render();
 
     	if($request->has('state') && $request->state && (City::where('slug', $request->state)->count() > 0 || Area::where('slug', request()->state)->count() > 0)) {
     		$filter_filters["state"] = $request->state;

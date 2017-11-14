@@ -5103,17 +5103,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .level-three .areas-select__selection {
   margin-top: 0;
-  padding: 0 0.5em 0.8em 0;
 }
 .verification-modal .level-three .send-action .fnb-btn {
   border-color: #ec6d4b;
-}
-.verification-modal .level-three .in-popup {
-  background-color: #fff;
-  padding: 0;
-}
-.verification-modal .level-three .in-popup:before {
-  display: none;
 }
 .verification-modal .level-three .flex-points__text {
   font-size: 0.95em;
@@ -5125,6 +5117,13 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .formFields {
   padding: 1em 0px;
+}
+.verification-modal .in-popup {
+  background-color: #fff;
+  padding: 0;
+}
+.verification-modal .in-popup:before {
+  display: none;
 }
 .formDetails__cols {
   -webkit-box-flex: 1;
@@ -6188,6 +6187,12 @@ input[type=checkbox].custom-checkbox:before {
     margin: 0 0 1em 0;
   }
 }
+.success-cards {
+  margin: 1em -28px -2.5em -28px;
+}
+.success-cards__title {
+  margin-bottom: 1.5em;
+}
 .multi-quote-modal .level-one .formFields .col-sm-6 {
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 33.33%;
@@ -6202,6 +6207,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .multi-quote-modal .in-popup {
   margin: 0 -28px -30px -28px;
+  padding: 0em 2em 1em 2em;
 }
 .multi-quote-modal .categories__points li {
   -webkit-box-flex: 1;

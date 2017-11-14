@@ -2520,18 +2520,10 @@
 		}
 		.areas-select__selection{
 			margin-top: 0;
-	    	padding: 0 0.5em 0.8em 0;
 		}
 		.send-action{
 			.fnb-btn{
 				border-color: @accent-primary;
-			}
-		}
-		.in-popup{
-			background-color: #fff;
-			padding: 0;
-			&:before{
-				display: none;
 			}
 		}
 		.flex-points__text{
@@ -2545,6 +2537,15 @@
 	.formFields{
 		padding: 1em 0px;
 	}
+	// &:not(.multi-quote-modal){
+		.in-popup{
+			background-color: #fff;
+			padding: 0;
+			&:before{
+				display: none;
+			}
+		}
+	// }
 }
 
 .formDetails{
@@ -3685,6 +3686,12 @@ and (max-device-width: 650px) {
 // MULTI-QUOTE MODAL -----------
 // ---------------------------
 
+.success-cards{
+	margin: 1em -28px -2.5em -28px;
+	&__title{
+		margin-bottom: 1.5em;
+	}
+}
 
 .multi-quote-modal{
 	.level-one{
@@ -3701,6 +3708,7 @@ and (max-device-width: 650px) {
 	}
 	.in-popup{
 		margin: 0 -28px -30px -28px;
+		padding: 0em 2em 1em 2em;
 	}
 	.categories__points{
 		li{
@@ -3711,6 +3719,9 @@ and (max-device-width: 650px) {
 			}
 		}
 	}
+	// .areas-select__selection{
+	//    	padding: 0.3em 0.5em 1em 0.5em;
+	// }
 }
 
 

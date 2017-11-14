@@ -3261,6 +3261,12 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
+  .seller-info .mobile--enquiry {
+    width: 100%;
+  }
+  .seller-info .mobile--enquiry .contact__title {
+    margin-bottom: 5px;
+  }
   .sell-re .contact-info {
     padding: 0;
   }

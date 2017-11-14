@@ -628,9 +628,9 @@ class EnquiryController extends Controller {
 	    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
 	    	$listing_obj = null;//Listing::where('slug', '')->get();
 
-	    	$listing_areas = $request->has('areas') ? $request->areas : [];
+	    	$listing_areas = $request->has('areas') && $request->areas ? $request->areas : [];
     		$listing_categories = [];
-	    	if($request->has('category')) {
+	    	if($request->has('category') && $request->category) {
 	    		$cat_obj = Category::where('slug', $request->category)->first();
 	    		
 	    		if($cat_obj->level > 1) {

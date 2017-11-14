@@ -569,10 +569,10 @@ require get_parent_theme_file_path( '/inc/icon-functions.php' );
 function get_breadcrumb() {
     echo '<a href="'.home_url().'" rel="nofollow">Home</a>';
     if (is_category() || is_single()) {
-        echo "&nbsp;&nbsp;&#187;&nbsp;&nbsp;";
+        echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
         the_category(' &bull; ');
             if (is_single()) {
-                echo " &nbsp;&nbsp;&#187;&nbsp;&nbsp; ";
+                echo " &nbsp;&nbsp;/&nbsp;&nbsp; ";
                 the_title();
             }
     } elseif (is_page()) {

@@ -5,6 +5,7 @@
 @import "components/_navigation";
 @import "components/_modals";
 @import "components/_icons";
+@import "_list-view";
 @import "layout/_forms";
 @import "base/_typography";
 @import "_login";
@@ -16,6 +17,9 @@
 .bold-t{
 	font-weight: 800!important;
     margin: auto;
+}
+.a2a_button_whatsapp{
+	display: none !important;
 }
 .nav-previous{
 	a:hover{
@@ -140,21 +144,25 @@ body .submit{
    			}
    		 }
     	.featured-image{
-    			background: url(../images/banner-default.jpg) ;
+    			background: url(../images/banner-default.png) ;
 
 	    	     width: 160px;
 			    height: 210px;
 			    float: left;
 			    position: relative;
+			    background-position: 0px;
 			    background-size: cover !important;
 			    margin-left: -20px;
 			    margin-top: -20px;
 			     @media screen and (max-width: @mobile) {
-	   		        width: 100%;
-				    height: 130px;
-				    margin-bottom: 10px;
-				    margin: 0px;
-				    float: none;
+	   		          width: 101%;
+					    height: 130px;
+					    margin-bottom: 10px;
+					    margin: 0px;
+					    float: none;
+					    background-position: -5px;
+					    background-repeat: no-repeat;
+
    			}
     	}
     	.featured-meta{
@@ -295,6 +303,7 @@ body .submit{
        	width: 30%;
        	float: left;
        	margin-right: 10px;
+       	height: 52px;
         background: #fff;
     	border: 0px;
    	    box-shadow: 0px 0px 12px #00000040;
@@ -313,8 +322,10 @@ body .submit{
 	    	    color: #333;
 			    display: block;
 			    font-weight: 400;
+			    height: 50px;
 			    margin-bottom: 0.5em;
 			    border: 0px;
+			    line-height: 32px;
 			    box-shadow: 0px 0px 12px #00000040;
 	    }
 	    input{
@@ -397,6 +408,9 @@ body .submit{
 }
 
 @media screen and (max-width: @mobile){
+	html body .a2a_button_whatsapp{
+	display: inline-block !important;
+	}
 	#page {
     margin: 0px !important;
 	}
@@ -517,4 +531,33 @@ body .submit{
 	}
 
 
+}
+// Advertisement
+
+.advertisement{
+	justify-content: center;
+	height: 300px;
+	background-color: #eee;
+	&.small{
+		height: 80px;
+	}
+}
+// Boost row
+
+.boost-row.single-boost{
+	border: 1px solid #ddd;
+    margin-top: 0;
+    padding: 2em;
+    .s-outline{
+    	padding: 0.8em 1.5em;
+    	font-size: 1.1em;
+    }
+    .fa-rocket{
+    	transform: rotate(-45deg);
+    	font-size: 3em;
+    }
+	.boost-row__title{
+		margin: 1em 0;
+		font-size: initial;
+	}
 }

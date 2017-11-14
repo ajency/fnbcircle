@@ -68,7 +68,7 @@ if ( has_post_thumbnail() ) { ?>
 <?php } ?>
 		<h4>By <?php $author_id=$post->post_author; ?> <?php the_author_meta( 'user_nicename' , $author_id ); ?> posted on <?php echo get_the_date(); ?></h4>
 
-		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus"]'); ?>
+		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus,linkedin,whatsapp"]'); ?>
 
 		</div>
 	</div>

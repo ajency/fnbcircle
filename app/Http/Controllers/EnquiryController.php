@@ -139,6 +139,7 @@ class EnquiryController extends Controller {
 			}
 			$data['priority'] = 'default';
 			sendEmail("seeker-email-enquiry", $data);
+
 		}
 
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
@@ -152,6 +153,21 @@ class EnquiryController extends Controller {
 
 			$data['priority'] = 'low';
 			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
+			
+			$sms = [
+	            'to' => $key_value,
+	            'message' => "There is an enquiry for " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle.
+					Details of the seeker:
+					Name: " . $email_details['name'] . "
+					Email:  " . $email_details['email'] . "
+					Phone Number: " . $email_details['contact'] . "
+					
+					Click here to view the profile."
+	        ];
+
+	        $sms["priority"] = "high";
+        	sendSms('verification', $sms);
+
 		} else { // if listing enquiry is SHARED, then
 			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
@@ -160,6 +176,20 @@ class EnquiryController extends Controller {
 
 			$data['priority'] = 'low';
 			sendEmail('shared-listing-email', $data);
+
+			$sms = [
+	            'to' => $key_value,
+	            'message' => "We have received an enquiry matching " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle.
+					Details of the seeker:
+					Name: " . $email_details['name'] . "
+					Email:  " . $email_details['email'] . "
+					Phone Number: " . $email_details['contact'] . "
+					
+					Click here to view the profile."
+	        ];
+
+	        $sms["priority"] = "high";
+        	sendSms('verification', $sms);
 		}
 	}
 

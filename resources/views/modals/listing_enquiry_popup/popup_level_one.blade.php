@@ -70,7 +70,7 @@
                     </select>
                 </div> -->
                 @php
-                    if(isset($enquiry_data) && isset($enquiry_data['describes_best'])) {
+                    if(isset($enquiry_data) && isset($enquiry_data['describes_best']) && $enquiry_data['describes_best']) {
                         $describes_best_html = generateHTML("listing_enquiry_description", $enquiry_data['describes_best']);
                     } else {
                         $describes_best_html = generateHTML("listing_enquiry_description");

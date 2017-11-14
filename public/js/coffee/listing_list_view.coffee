@@ -372,6 +372,14 @@ getListContent = () ->
 			### ---- HAndleBar template content load ---- ###
 			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
 			# $('#listing_card_view').append(templateHTML)
+
+			### --- If enquiry card exist, then --- ###
+			if $("#listing_card_view #listing_list_view_enquiry").length 
+				initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']")
+				
+				$(document).find('.float-input').each ->
+					checkForInput this
+
 		error: (request, status, error) ->
 			$(".listings-page .site-loader.section-loader").addClass "hidden"
 			console.log error
@@ -401,6 +409,38 @@ updateCityDropdown = (data, populate_id) ->
 		html_content = "<option value=\"\"></option>"
 	
 	$("#" + populate_id).html html_content
+	return
+
+### --- Initialize international flag --- ###
+initFlagDrop = (path) ->
+	$(document).find(path).intlTelInput
+		initialCountry: 'auto'
+		separateDialCode: true
+		geoIpLookup: (callback) ->
+			$.get('https://ipinfo.io', (->
+			), 'jsonp').always (resp) ->
+				countryCode = undefined
+				countryCode = if resp and resp.country then resp.country else ''
+				callback countryCode
+				return
+			return
+		preferredCountries: [ 'IN' ]
+		americaMode: false
+		formatOnDisplay: false
+
+	# $(document).find(path).on "countrychange", () ->
+	# 	$(this).val($(this).intlTelInput("getNumber"))
+	# 	return
+	return
+
+### --- For label slide out in <input> textareas --- ###
+checkForInput = (element) ->
+	# element is passed to the function ^
+	$label = $(element).siblings('label')
+	if $(element).val().length > 0
+		$label.addClass 'filled lab-color'
+	else
+		$label.removeClass 'filled lab-color'
 	return
 
 $(document).ready () ->

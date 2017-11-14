@@ -131,7 +131,7 @@
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
                                             @if(isset($data["city"]) && $data["city"]["slug"] == $value->slug)
                                                 <!-- <option value="{{ $value->slug }}" selected="selected">{{ $value->name }}</option> -->
-                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
                                             @else
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endif
@@ -142,11 +142,15 @@
                             </li>
                             <li>
                                 <div class="flex-row">
-                                    <select class="fnb-select select-variant default-area-select" multiple="area_multiple[]" name="area" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" >
+                                    <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" >
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
-                                            <!-- @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
-                                                <option value="{{ $key_value->id }}">{{ $key_value->name }}</option>
-                                            @endforeach -->
+                                            @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
+                                                @if(isset($data['area_ids']) && in_array($key_value->id, $data['area_ids']))
+                                                    <option value="{{ $key_value->id }}" selected="selected">{{ $key_value->name }}</option>
+                                                @else
+                                                    <option value="{{ $key_value->id }}">{{ $key_value->name }}</option>
+                                                @endif
+                                            @endforeach
                                         @endif
                                     </select>
                                     <div id="area-select-error" class="fnb-error"></div>

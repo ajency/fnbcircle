@@ -54,8 +54,21 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 
 	return data
 
-getContent = (modal_id, enquiry_level, listing_slug) ->
+### --- Send the data of an enquiry --- ###
+getContent = (modal_id, enquiry_level, listing_slug, trigger_modal, target_modal_id) ->
 	data = getFilters(modal_id, enquiry_level, listing_slug)
+
+	if trigger_modal and target_modal_id == "#multi-quote-enquiry-modal"
+		data["multi-quote"] = true
+		if $("#listing_filter_view").length
+			data['category'] = $(document).find("#listing_filter_view #current_category").val().split("|")[0]
+			areas = []
+
+			$(document).find("#listing_filter_view #section-area input[type='checkbox']:checked").each ->
+				areas = areas.concat $(this).val()
+				return
+			
+			data['areas'] = areas
 	
 	$.ajax
 		type: 'post'
@@ -69,19 +82,36 @@ getContent = (modal_id, enquiry_level, listing_slug) ->
 				$("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").removeClass "hidden"
 
 			if data["popup_template"].length > 0
-				$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
-				# $(document).find(modal_id).modal 'show'
+				### --- if trigger_modal == true --- ###
+				if trigger_modal
+					if target_modal_id
+						### --- If target_modal_id is passed, then ---###
+						$(document).find(target_modal_id + " #listing_popup_fill").html data["popup_template"]
+						$(document).find(target_modal_id).modal 'show'
+						if $(target_modal_id + " #level-three-enquiry").length > 0
+							# initCatSearchBox()
+							multiSelectInit(target_modal_id + " #level-three-enquiry #area_section #area_operations", false)
+					else
+						### --- Else trigger default modal ID ---###
+						$(document).find(modal_id).modal 'show'
+				else
+					$(document).find(modal_id + " #listing_popup_fill").html data["popup_template"]
+
+
 				if $(modal_id + " #level-one-enquiry")
 					initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']")
+
 				if $(modal_id + " #level-three-enquiry").length > 0
 					# initCatSearchBox()
-					multiSelectInit(modal_id + " #level-three-enquiry", false)
+					multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
+					# multiSelectInit(modal_id + " #level-three-enquiry", false)
 					return
 		error: (request, status, error) ->
 			#$("#multi-quote-enquiry-modal").modal 'show'
 			console.log error
 	return
 
+### --- Request template for a modal --- ###
 getTemplate = (modal_id, modal_template, listing_slug = '') ->
 	data = 
 		'enquiry_level': modal_template
@@ -186,8 +216,14 @@ getArea = (modal_id, city, path) ->
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
-			$(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('destroy')
-			multiSelectInit(modal_id + " #level-three-enquiry", false)
+			
+			$(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('rebuild')
+			multiSelectInit(modal_id + " #level-three-enquiry #area_section", false)
+			
+			# dom_html = $(path).clone("true") ## clone <select>...</select>
+			# new_dom_path = $(path).closest('div.flex-row')
+			# $(path).closest('div.flex-row').html dom_html
+			# multiSelectInit(new_dom_path, false)
 			return
 		error: (request, status, error) ->
 			throw Error()
@@ -277,9 +313,11 @@ initFlagDrop = (path) ->
 ## -- MultiSelect dropdown Initialization function -- ##
 multiSelectInit = (path, reinit = false) ->
 	if reinit
-		$(path + ' .default-area-select').multiselect()
+		$(document).find(path + ' .default-area-select').multiselect()
+		# $(document).find($(path)).find('.default-area-select').multiselect()
 	else
-		$(path + ' .default-area-select').multiselect
+		$(document).find(path + ' .default-area-select').multiselect
+		# $(document).find($(path)).find('.default-area-select').multiselect
 			includeSelectAllOption: true
 			numberDisplayed: 2
 			delimiterText: ','
@@ -312,13 +350,18 @@ $(document).ready () ->
 	old_values = {}
 
 	### --- Display respective Popups on "Send Enquiry click" --- ###
-	$(".enquiry-modal-btn").on "click", (e) ->
+	$(document).on "click", ".enquiry-modal-btn", (e) ->
 		modal_id = $(this).data("target")
-
 		if $(modal_id).length > 0
-			### --- Reset to Modal 1 on enquiry button Click --- ###
-			resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
-			resetPlugins(modal_id)
+			
+			if $(this).data("value")
+				enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
+				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
+				getContent(enq_form_id, page_level, '', true, modal_id)
+			else
+				### --- Reset to Modal 1 on enquiry button Click --- ###
+				resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
+				resetPlugins(modal_id)
 
 			# $(document).on "click", "div.col-sm-4 div.equal-col div.contact__enquiry button.fnb-btn.primary-btn", () ->
 			# 	if modal_id == "#enquiry-modal"
@@ -389,7 +432,7 @@ $(document).ready () ->
 				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 				$(this).find("i.fa-circle-o-notch").removeClass "hidden"
 				if $(document).find(modal_id + " #level-one-enquiry").parsley().validate()
-					getContent(modal_id, page_level, $("#enquiry_slug").val())
+					getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id)
 					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
 					$(this).find("i.fa-circle-o-notch").addClass "hidden"
@@ -453,7 +496,7 @@ $(document).ready () ->
 			$(document).on "click", modal_id + " #level-three-enquiry #add-city-areas", (event) ->
 				$(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations")
 				multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false)
-				event.stopImmediatePropagation() # Prevent making multiple AJAX calls
+				# event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				return
 
 			### --- On click of close, remove the City-Area DOM --- ###
@@ -470,7 +513,7 @@ $(document).ready () ->
 				
 				# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
 				if $(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()
-					getContent(modal_id, page_level, $("#enquiry_slug").val())
+					getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id)
 					event.stopImmediatePropagation() # Prevent making multiple AJAX calls
 				else
 					$(this).find("i.fa-circle-o-notch").addClass "hidden"

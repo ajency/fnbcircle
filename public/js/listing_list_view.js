@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, isMobile, resetFilter, resetPagination, updateCityDropdown, updateTextLabels, updateUrlPushstate;
+  var capitalize, checkForInput, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, initFlagDrop, isMobile, resetFilter, resetPagination, updateCityDropdown, updateTextLabels, updateUrlPushstate;
 
   getTemplateHTML = function(templateToRender, data) {
     var htmlToRender, list, theTemplate, theTemplateScript;
@@ -315,9 +315,17 @@
 
         /* --- Note: the function below is called again to update the URL post AJAX --- */
         getFilters(true);
-        return $("input[type='hidden'][name='area_hidden']").val("");
+        $("input[type='hidden'][name='area_hidden']").val("");
 
         /* ---- HAndleBar template content load ---- */
+
+        /* --- If enquiry card exist, then --- */
+        if ($("#listing_card_view #listing_list_view_enquiry").length) {
+          initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']");
+          return $(document).find('.float-input').each(function() {
+            return checkForInput(this);
+          });
+        }
       },
       error: function(request, status, error) {
         $(".listings-page .site-loader.section-loader").addClass("hidden");
@@ -359,6 +367,40 @@
       html_content = "<option value=\"\"></option>";
     }
     $("#" + populate_id).html(html_content);
+  };
+
+
+  /* --- Initialize international flag --- */
+
+  initFlagDrop = function(path) {
+    $(document).find(path).intlTelInput({
+      initialCountry: 'auto',
+      separateDialCode: true,
+      geoIpLookup: function(callback) {
+        $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+          var countryCode;
+          countryCode = void 0;
+          countryCode = resp && resp.country ? resp.country : '';
+          callback(countryCode);
+        });
+      },
+      preferredCountries: ['IN'],
+      americaMode: false,
+      formatOnDisplay: false
+    });
+  };
+
+
+  /* --- For label slide out in <input> textareas --- */
+
+  checkForInput = function(element) {
+    var $label;
+    $label = $(element).siblings('label');
+    if ($(element).val().length > 0) {
+      $label.addClass('filled lab-color');
+    } else {
+      $label.removeClass('filled lab-color');
+    }
   };
 
   $(document).ready(function() {

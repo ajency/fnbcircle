@@ -77,7 +77,7 @@ if ( has_post_thumbnail() ) { ?>
 
 		
 
-		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus"]'); ?>
+		<?php echo do_shortcode('[addtoany buttons="facebook,twitter,google_plus,linkedin,whatsapp"]'); ?>
 
 		</div>
 	</div>

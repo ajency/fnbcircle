@@ -188,6 +188,7 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::get('/job-listings', 'JobController@jobListing');
 	Route::post('/jobs/get-listing-jobs', 'JobController@getListingJobs');
 	Route::get('/{listing_slug}', 'ListingViewController@index');
+	Route::get('/', 'LocationController@location');
 });
 
 /** Routes for Wordpress News */

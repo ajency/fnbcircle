@@ -2246,7 +2246,7 @@
 	    		padding: 0 0.5em;
 	    		flex: 1 0 33.33%;
 	    		max-width: 33.33%;
-	    		margin-top: 0.5em;
+	    		// margin-top: 0.5em;
 	    	}
 	    	.fnb-select{
 	    		font-size: 1em;
@@ -2513,6 +2513,10 @@
 		}
 		.areas-select{
 			padding-top: 0;
+			padding-bottom: 0;
+		}
+		.category-select{
+			padding-bottom: 0;
 		}
 		.areas-select__selection{
 			margin-top: 0;
@@ -2524,7 +2528,18 @@
 			}
 		}
 		.in-popup{
-			// margin: -13px -28px -35px -28px;
+			background-color: #fff;
+			padding: 0;
+			&:before{
+				display: none;
+			}
+		}
+		.flex-points__text{
+			font-size: 0.95em;
+		}
+		.multiselect-selected-text,.fnb-select{
+			font-size: 0.95em;
+			padding-left: 0;
 		}
 	}
 	.formFields{

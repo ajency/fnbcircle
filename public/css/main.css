@@ -4807,7 +4807,6 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex: 1 0 33.33%;
           flex: 1 0 33.33%;
   max-width: 33.33%;
-  margin-top: 0.5em;
 }
 .verification-modal .areas-select__selection .fnb-select {
   font-size: 1em;
@@ -5097,6 +5096,10 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .level-three .areas-select {
   padding-top: 0;
+  padding-bottom: 0;
+}
+.verification-modal .level-three .category-select {
+  padding-bottom: 0;
 }
 .verification-modal .level-three .areas-select__selection {
   margin-top: 0;
@@ -5104,6 +5107,21 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .level-three .send-action .fnb-btn {
   border-color: #ec6d4b;
+}
+.verification-modal .level-three .in-popup {
+  background-color: #fff;
+  padding: 0;
+}
+.verification-modal .level-three .in-popup:before {
+  display: none;
+}
+.verification-modal .level-three .flex-points__text {
+  font-size: 0.95em;
+}
+.verification-modal .level-three .multiselect-selected-text,
+.verification-modal .level-three .fnb-select {
+  font-size: 0.95em;
+  padding-left: 0;
 }
 .verification-modal .formFields {
   padding: 1em 0px;

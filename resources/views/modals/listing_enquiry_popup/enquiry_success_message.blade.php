@@ -8,4 +8,4 @@
     @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 @endif
 
-<button class="btn fnb-btn outline full border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+<!-- <button class="btn fnb-btn outline full border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button> -->

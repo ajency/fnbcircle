@@ -12526,6 +12526,8 @@ dl dd {
 }
 .custom-verification .c-title {
   margin-bottom: 0;
+  color: #6b6b6b;
+  font-size: 1em;
 }
 @media screen and (min-width: 650px) {
   .login-modal .modal-dialog {

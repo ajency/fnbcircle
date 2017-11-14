@@ -279,7 +279,7 @@ class RegisterController extends Controller
         $data['subject'] = "Verify your email address!";
         $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
         sendEmail('user-verify', $data);
-
+        Session::put('userLoginEmail', $userEmail);
                  
         return true;    
     }

@@ -993,7 +993,7 @@ class JobController extends Controller
 
     public function jobListing(Request $request,$serachCity){ 
 
-        $cities  = City::where('status', 1)->orderBy('name')->get();
+        $cities  = getPopularCities() ; 
         $requestData = $request->all();  
         $job    = new Job;
         $jobTypes  = $job->jobTypes();

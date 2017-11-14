@@ -338,11 +338,19 @@ function getUploadFileUrl($id){
 *	Filtered <City_obj> which has "is_popular_city" applied & ordered by "order"
 */
 function getPopularCities() {
-	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+	return App\City::where('status', 1)->orderBy('order', 'asc')->get(); //where('is_popular_city', 1)->
 }
 
 function getSinglePopularCity() {
-	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
+	return App\City::where('status', 1)->orderBy('order', 'asc')->first(); //where('is_popular_city', 1)->
+}
+ 
+
+function getSinglePopularCitySlug() {
+	if(getUserSessionState())
+		return getUserSessionState();
+	else
+		return App\City::where('status', 1)->orderBy('order', 'asc')->first()->slug;
 }
 
 /**
@@ -512,6 +520,16 @@ function firstTimeUserLoginUrl(){
     }
  
 	return $redirectUrl;
+
+}
+
+function getUserSessionState(){
+	if(session('user_location')!='')
+		return session('user_location');
+	elseif(\Cookie::get('user_state')!='')
+		return \Cookie::get('user_state');
+	else
+		return false;
 
 }
  

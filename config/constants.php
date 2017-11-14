@@ -9,7 +9,7 @@ return [
     'email_to' => 'nutan@ajency.in',
     'email_from' => 'nutan@ajency.in',
     'email_from_name' => 'Nutan',
-
+ 
     /* Dev Mode */
     'email_from_dev' => 'nutan@ajency.in',
     'email_to_dev' => ['harshita@ajency.in'],
@@ -17,6 +17,9 @@ return [
     'email_bcc_dev' => [],
 
     'app_dev_envs' => ['local', 'development'],
+
+    'user_state_cookie_expiry' => 45000,
+ 
  
  
 ];

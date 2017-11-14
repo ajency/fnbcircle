@@ -224,7 +224,7 @@
                                                                 <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             </div>
                                                         </div>    
-                                                        <div class="verified m-t-25 flex-row">
+                                                        <div class="verified m-t-25 flex-row custom-verification">
                                                             @if($details['phone']['is_verified'] == 1)
                                                               <span class="fnb-icons verified-icon"></span> 
                                                             @else 

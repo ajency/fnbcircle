@@ -2,7 +2,7 @@
 
 function loginCreateWpUserByLaravelEMail()
 {
-    return;
+     
     //If accessing the news pages
     if (!is_admin()) {
 

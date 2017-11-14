@@ -576,10 +576,10 @@ function get_breadcrumb() {
                 the_title();
             }
     } elseif (is_page()) {
-        echo "&nbsp;&nbsp;&#187;&nbsp;&nbsp;";
+        echo "&nbsp;&nbsp;/;&nbsp;&nbsp;";
         echo the_title();
     } elseif (is_search()) {
-        echo "&nbsp;&nbsp;&#187;&nbsp;&nbsp;Search Results for... ";
+        echo "&nbsp;&nbsp;/;&nbsp;&nbsp;Search Results for... ";
         echo '"<em>';
         echo the_search_query();
         echo '</em>"';

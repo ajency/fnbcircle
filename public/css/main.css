@@ -3261,6 +3261,12 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
+  .seller-info .mobile--enquiry {
+    width: 100%;
+  }
+  .seller-info .mobile--enquiry .contact__title {
+    margin-bottom: 5px;
+  }
   .sell-re .contact-info {
     padding: 0;
   }
@@ -4801,7 +4807,6 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex: 1 0 33.33%;
           flex: 1 0 33.33%;
   max-width: 33.33%;
-  margin-top: 0.5em;
 }
 .verification-modal .areas-select__selection .fnb-select {
   font-size: 1em;
@@ -4897,13 +4902,13 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .enquiry-success .fa-check-circle {
   color: #6ac259;
-  font-size: 3.5em;
+  font-size: 2.5em;
 }
 .verification-modal .enquiry-success__text {
   padding-left: 1em;
   line-height: 1.4;
   padding-right: 8em;
-  font-size: 1.2em;
+  font-size: 1.15em;
 }
 .verification-modal .enquiry-success__sub-text {
   padding-left: 1em;
@@ -5091,13 +5096,35 @@ input[type=checkbox].custom-checkbox:before {
 }
 .verification-modal .level-three .areas-select {
   padding-top: 0;
+  padding-bottom: 0;
+}
+.verification-modal .level-three .category-select {
+  padding-bottom: 0;
 }
 .verification-modal .level-three .areas-select__selection {
   margin-top: 0;
-  padding: 0 0.5em 0.8em 0;
+}
+.verification-modal .level-three .send-action .fnb-btn {
+  border-color: #ec6d4b;
+}
+.verification-modal .level-three .flex-points__text {
+  font-size: 0.95em;
+}
+.verification-modal .level-three .multiselect-selected-text,
+.verification-modal .level-three .fnb-select {
+  font-size: 0.95em;
+  padding-left: 0;
 }
 .verification-modal .formFields {
   padding: 1em 0px;
+}
+.verification-modal .in-popup {
+  background-color: #fff;
+  padding: 0;
+  margin-top: 1em;
+}
+.verification-modal .in-popup:before {
+  display: none;
 }
 .formDetails__cols {
   -webkit-box-flex: 1;
@@ -5373,6 +5400,20 @@ input[type=checkbox].custom-checkbox:before {
         -ms-transform: translateX(-0.5em) translateY(0.5em) scale(0.75);
             transform: translateX(-0.5em) translateY(0.5em) scale(0.75);
     font-size: 1.1em;
+  }
+  .verification-modal .float-label.phone-label {
+    -webkit-transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+        -ms-transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+            transform: translateX(-2.4em) translateY(0.5em) scale(0.75);
+  }
+  .verification-modal .float-label.phone-label + .intl-tel-input {
+    width: 100%;
+  }
+  .verification-modal .describe-section label {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
   }
   .verification-modal .vendor-contact-details {
     margin: 0 1.5em 2em;
@@ -6146,6 +6187,44 @@ input[type=checkbox].custom-checkbox:before {
   .enquiry-log-title img {
     margin: 0 0 1em 0;
   }
+}
+.success-cards {
+  margin: 1em -28px -2.5em -28px;
+}
+.success-cards__title {
+  margin-bottom: 1.5em;
+}
+.multi-quote-modal .level-one .formFields .col-sm-6 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+}
+.multi-quote-modal .level-one .describe-section label {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 33.33%;
+      -ms-flex: 1 0 33.33%;
+          flex: 1 0 33.33%;
+}
+.multi-quote-modal .in-popup {
+  margin: 1.5em -28px -30px -28px;
+  padding: 0em 2em 1em 2em;
+}
+.multi-quote-modal .categories__points li {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 25%;
+      -ms-flex: 1 0 25%;
+          flex: 1 0 25%;
+  max-width: 25%;
+}
+.multi-quote-modal .categories__points li label {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+.multi-quote-modal .areas-select__selection {
+  max-width: 25%;
 }
 .search-section {
   position: relative;

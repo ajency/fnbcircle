@@ -54,7 +54,7 @@ $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
 		<div class="row">
 
 			<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
-			
+			  <div class="featured-job"></div>
 		<div class="title-content">
 
 			<?php echo the_title( '<h1 class="entry-title">', '</h1>' ); ?>

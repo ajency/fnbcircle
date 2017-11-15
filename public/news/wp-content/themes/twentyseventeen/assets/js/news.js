@@ -128,7 +128,7 @@ jQuery(document).ready(function($) {
         $('.site-main').find('.list-layout').find('.pagination').remove();
 
         $('.site-main').find('.list-layout').find('.no-posts-msg').remove();
-        $('.site-main').find('.list-layout').append('<i class="fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
+        $('.site-main').find('.list-layout').append('<i class="loader-center fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
         if(typeof sel_city =='undefined' || sel_city =='-1'){
             sel_city = '';
         }
@@ -177,7 +177,7 @@ jQuery(document).ready(function($) {
         $('.wrap').find('.no-posts-msg').remove();
         
 
-        $('.wrap').append('<i class="fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
+        $(".wrap p:first").after('<i class="loader-center fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
 
         if(typeof sel_city =='undefined' || sel_city =='-1'){
             sel_city = '';

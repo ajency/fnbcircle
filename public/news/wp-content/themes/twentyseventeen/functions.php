@@ -1095,7 +1095,7 @@ function get_featured_news_by_city(){
 	  
 
 	else:  
-	  $html= '<span class="no-posts-msg"><h3>Sorry, no featured news matched your criteria.</h3></span>';
+	  $html= '<span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no featured news matched your criteria.</h6></span>';
 	endif; 
 	wp_send_json(array('html'=>$html));
 
@@ -1177,7 +1177,7 @@ function get_recent_news_by_city($city){
  	$html.=vb_ajax_pager($wp_query,$paged,'home_recent_pagination');
 
 	else: 
-	$html.='<span class="no-posts-msg"><h3>Sorry, no recent news matched your criteria.</h3></span>';
+	$html.='<span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no recent news matched your criteria.</h6></span>';
 	endif; 
 
 

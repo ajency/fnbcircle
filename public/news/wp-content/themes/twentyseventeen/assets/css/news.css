@@ -5270,4 +5270,19 @@ body .submit {
 input[type='search'] {
   padding-left: 24px;
 }
+/* line 708, news.less */
+.advertise .element-title {
+  width: 110px;
+  float: left;
+  margin: -5px !important;
+  text-align: left;
+}
+/* line 715, news.less */
+.advertise button:hover i {
+  color: #fff;
+}
+/* line 719, news.less */
+.advertise i {
+  font-size: 1em !important;
+}
 /*# sourceMappingURL=news.css.map */

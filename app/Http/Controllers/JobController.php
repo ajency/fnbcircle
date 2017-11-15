@@ -1273,11 +1273,12 @@ class JobController extends Controller
     {
         $news = new WpNewsHelper();
 
-        foreach ($locations as   $city => $locAreas) {
+        /*foreach ($locations as   $city => $locAreas) {
             $cities[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city))); ;
         } 
 
-        $news_args = array("category"=>$cities,'num_of_items'=>2); 
+        $news_args = array("category"=>$cities,'num_of_items'=>2); */
+        $news_args = array('num_of_items'=>2);
 
         foreach ($keywords as $keyword) {
             $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $keyword))); 
@@ -1286,7 +1287,7 @@ class JobController extends Controller
         if(count($cat_ar)>0){
             $news_args["tag"] = $cat_ar;    
         }
-
+/*dd($news_args);*/
         
         $news_items = $news->getNewsByCategories_tags($news_args);   
         return $news_items;

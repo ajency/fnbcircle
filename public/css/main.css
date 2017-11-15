@@ -5256,6 +5256,15 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-align: start;
             align-items: flex-start;
   }
+  .verification-modal .level-three .suppliers-data {
+    padding: 0;
+  }
+  .verification-modal .level-three .categories__points li {
+    max-width: 50%;
+  }
+  .verification-modal .level-three .categories__points .flex-points .checkbox {
+    top: -4px;
+  }
   .verification-modal .suppliers-title-head {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;

@@ -18,7 +18,7 @@
 
 get_header(); ?>
 <div class="header-image text-center">
-	<H1>FnB Circle News</H1>
+	<H1 class="bold-t" >FnB Circle News</H1>
 	<div class="search-container">
 		<!-- <select>
 		  <option value="volvo">Panjim</option>
@@ -26,11 +26,15 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
+		 <label class="search-label">
+		 <i class="fa fa-map-marker" aria-hidden="true"></i>
 		<?php wp_dropdown_categories('show_option_none=Select City&exclude=1&value_field=slug'); ?>
+		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		
 		 <label>
 	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
+	        <i class="fa fa-search" aria-hidden="true"></i>
 	        <input type="search" class="search-field"
 	            placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>"
 	            value="<?php echo get_search_query() ?>" name="s"
@@ -42,7 +46,7 @@ get_header(); ?>
 </div>
 </div>
 <div class="wrap">
-<h1 class="bold-t">Featured News on FnB</h1>
+<h3 class="bold-t">Featured News on FnB</h3>
 <p>What's trending on FnBCircle right now.</p>	
 	<?php
 $custom_query_args = array(
@@ -114,7 +118,7 @@ $wp_query = $temp_query;
 <div class="clear"></div>
 <br>
 
-<h1 class="bold-t">Recent News on FnB</h1>
+<h3 class="bold-t">Recent News on FnB</h3>
 <p>What's trending on FnBCircle right now.</p>	
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>

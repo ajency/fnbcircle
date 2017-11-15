@@ -1388,3 +1388,6 @@ function custom_author_post_link($link_pretext='',$link_posttext=''){
 
 
 
+
+/*Remove Logged in as admin@ajency.in. Log out? from comment section*/
+add_filter( 'comment_form_logged_in', '__return_empty_string' );

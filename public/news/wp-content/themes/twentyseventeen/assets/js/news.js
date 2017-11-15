@@ -105,13 +105,72 @@ jQuery(document).ready(function($) {
     })
 
 
+
+
+    $('.home_recent_pagination .page-numbers').live('click',function(evt){
+       evt.preventDefault();
+       var href = $(evt.target).attr('href');
+       var href_ar = href.split('=');
+
+       var sel_city = $('.search-container>#cat').val();
+       var paged = href_ar[1];
+
+       fetch_recent_home_news(sel_city,paged)
+
+        
+    })
+
+
+    function fetch_recent_home_news(sel_city,paged){
+
+        //RECENT NEWS
+        $('.site-main').find('.list-layout').find('li').remove();
+        $('.site-main').find('.list-layout').find('.pagination').remove();
+
+        $('.site-main').find('.list-layout').find('.no-posts-msg').remove();
+        $('.site-main').find('.list-layout').append('<i class="fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
+        if(typeof sel_city =='undefined' || sel_city =='-1'){
+            sel_city = '';
+        }
+        if(typeof paged =='undefined'){
+            paged = '1';
+        }
+
+
+         
+        $.post(ajax_url, {
+                    action:"get_recent_news_by_city",
+                    city:sel_city,
+                    paged:paged
+                    
+                    /*category: self.category,
+                    limit_posts: self.limit_posts*/
+
+                }, function(response) { 
+
+                   $('.site-main').find('.list-layout').find('.recent-loader').remove()
+                    $(".site-main .list-layout").prepend(response.html)
+
+                    console.log(response.html)
+
+                    /*$(".wrap p:first").after(response.html);
+                     
+
+                    $('#laravel-business-cats-container').html(response);*/
+
+                }); 
+
+    }
+
+
+
     $('.search-container>#cat').live("change",function(evt){
        
 
         var sel_city =  $(evt.target).val();
         console.log(sel_city)
 
-        var wp_ajax_url = ajax_url;
+         
 
         $('.wrap').find('.featured-post').remove();
         $('.wrap').find('.no-posts-msg').remove();
@@ -119,9 +178,13 @@ jQuery(document).ready(function($) {
 
         $('.wrap').append('<i class="fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
 
+        if(typeof sel_city =='undefined' || sel_city =='-1'){
+            sel_city = '';
+        }
+         
 
         ///FEATURED NEWS
-         $.post(wp_ajax_url, {
+         $.post(ajax_url, {
             action:"get_featured_news_by_city",
             city:sel_city
             
@@ -144,35 +207,39 @@ jQuery(document).ready(function($) {
         }); 
 
 
-         //RECENT NEWS
-         $('.site-main').find('.list-layout').find('li').remove();
+        //RECENT NEWS
+        fetch_recent_home_news(sel_city,1) ;
+
+         
 
 
-         $('.site-main').find('.list-layout').find('.no-posts-msg').remove();
-         $('.site-main').find('.list-layout').append('<i class="fa fa-circle-o-notch fa-spin fa-2x recent-loader" style="color:#EC6D4B"></i>');
-         $.post(wp_ajax_url, {
-                     action:"get_recent_news_by_city",
-                     city:sel_city
-                     
-                     /*category: self.category,
-                     limit_posts: self.limit_posts*/
+        /* $('.nav-links').live( 'click', function( event ) {
+        event.preventDefault();
 
-                 }, function(response) { 
+        alert('clicked nav') })*/
 
-                    $('.site-main').find('.list-layout').find('.recent-loader').remove()
-                     $(".site-main .list-layout").prepend(response.html)
 
-                     console.log(response.html)
 
-                     /*$(".wrap p:first").after(response.html);
-                      
-
-                     $('#laravel-business-cats-container').html(response);*/
-
-                 }); 
          
 
 
     })
 
 })
+
+
+/* var table = document.getElementsByClassName('page-numbers');
+
+        table.addEventListener('click', function(e) {
+        alert('test')
+            
+            var target = e.target;
+            if (target.tagName == 'A') {
+                return false;
+            }
+            
+            if (target.tagName == 'TD') {
+                var win = window.open(target.parentNode.getAttribute('data-url'));
+                win.focus();
+            }
+        }, false);*/

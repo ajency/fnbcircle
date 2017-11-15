@@ -1094,13 +1094,12 @@ function get_featured_news_by_city(){
 	 	die;
 }
 
-function get_recent_news_by_city($city){
-
-
+function get_recent_news_by_city($city){ 
 
 
 	$city = $_POST['city'];
-	$query = array( 'posts_per_page' => -1, 'order' => 'ASC' ,'category_name'=>$city);
+	$paged = isset($_POST['paged'])?$_POST['paged']:1;
+	$query = array( 'posts_per_page' => 10, 'order' => 'ASC' ,'category_name'=>$city, 'paged' =>$paged);
 	$wp_query = new WP_Query($query);
 
 	 
@@ -1143,11 +1142,23 @@ function get_recent_news_by_city($city){
 	   
 	</li>';  
 	endwhile; 
-	$html.=$wp_query->get_the_posts_pagination( array(
+	/*$html.=$wp_query->get_the_posts_pagination( array(
 					'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 					'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
-				) );
+				) );*/
+	/* $html.= paginate_links(array(
+     'base' => preg_replace('/\?.* /', '/', get_pagenum_link(1)) . '%_%',
+     'current' => max(1, get_query_var('paged')),
+     'format' => 'page/%#%',
+     'total' => $wp_query->max_num_pages,
+     'add_args' => array(
+         's' => get_query_var('s'),
+         'post_type' => get_query_var('post_type'),
+    	 )
+ 	));*/
+
+ 	$html.=vb_ajax_pager($wp_query,$paged,'home_recent_pagination');
 
 	else: 
 	$html.='<span class="no-posts-msg"><h3>Sorry, no recent news matched your criteria.</h3></span>';
@@ -1162,6 +1173,34 @@ function get_recent_news_by_city($city){
 }
 add_action('wp_ajax_nopriv_get_recent_news_by_city', 'get_recent_news_by_city');
 add_action('wp_ajax_get_recent_news_by_city', 'get_recent_news_by_city');
+
+
+
+
+function vb_ajax_pager( $query = null, $paged = 1, $custom_pagination_container_class='' ) {
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        'base'      => '%_%',
+        'type'      => 'array',
+        'total'     => $query->max_num_pages,
+        'format'    => '#page=%#%',
+        'current'   => max( 1, $paged ),
+        'prev_text' => 'Prev',
+        'next_text' => 'Next'
+    ]);
+
+    $html ='';
+    if ($query->max_num_pages > 1) : 
+        $html.='<ul class="pagination '.$custom_pagination_container_class.'">';
+            foreach ( $paginate as $page ) :
+                $html.='<li>'.$page.'</li>';
+            endforeach;
+        $html.='</ul>';
+     endif;
+
+     return $html;
+}
 
 function get_recent_news_by_city11($city){
 

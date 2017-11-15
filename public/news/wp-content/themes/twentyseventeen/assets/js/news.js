@@ -164,7 +164,8 @@ jQuery(document).ready(function($) {
 
 
 
-    $('.search-container>#cat').live("change",function(evt){
+    $('#cat').live("change",function(evt){
+       
        
 
         var sel_city =  $(evt.target).val();
@@ -223,6 +224,20 @@ jQuery(document).ready(function($) {
          
 
 
+    })
+
+})
+
+jQuery(document).ready(function($){
+    $('.search-submit').on("click",function(){
+
+        if($('#cat').val()!="-1"){
+            location.href = SITEURL+$('#cat').val()+"/?s="+$('input[name=s]').val();
+        }
+        else{
+            location.href = SITEURL+"?s="+$('input[name=s]').val();
+        }
+        
     })
 
 })

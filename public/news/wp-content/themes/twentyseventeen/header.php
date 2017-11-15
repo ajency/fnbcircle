@@ -57,10 +57,7 @@ $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
 			<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
 		
  <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
-    <?php if ( ! empty ( $my_post_meta ) ) { ?>
-        <div class="featured-job"></div>
-
-    <?php } ?>
+  
 
 			  
 		

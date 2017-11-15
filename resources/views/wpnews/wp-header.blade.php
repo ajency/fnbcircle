@@ -40,6 +40,7 @@
                             
                             <select class="form-control fnb-select nav-color" onchange="location = this.value;">
 
+
                                 <option>--Change State--</option>
                                 <?php foreach(getPopularCities() as $city_index => $city_value) { ?>
                                     <option title="<?php  echo $city_value->slug ?>" value="<?php  echo env('APP_URL').'/'.$city_value->slug ?>/" <?php if(getUserSessionState() && getUserSessionState() == $city_value->slug) { ?> selected="" <?php } ?>><?php echo $city_value->name ?></option>

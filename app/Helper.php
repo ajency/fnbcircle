@@ -509,7 +509,8 @@ function sendSms($event='new-user', $data=[], $override = false) {
 	    $notify = new \Ajency\Comm\Communication\Notification();
 	    $notify->setEvent($event);
 	    $notify->setRecipientIds([$sms]);
-	    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if(in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
 	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
 	    AjComm::sendNotification($notify);
  	} else {

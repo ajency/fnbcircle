@@ -227,6 +227,16 @@ body .submit{
 
 .list-layout{
 	list-style: none;
+	.search-submit{
+		    padding: 9px;
+		    height: 40px;
+		    bottom: 1px;
+		    top: inherit;
+		    right: 0px;
+		    .icon{
+		    	    color: #fff;
+		    }
+	}
 	li{
 		    margin-bottom: 20px;
 		    border-bottom: 1px solid #ccc;
@@ -234,20 +244,10 @@ body .submit{
 
 		.list-post{
 			.featured-content{
-				width: 70%;
-    			float: left;
+				width: 100%;
 			}
 			.featured-image{
-				width: 110px;
-			    float: right;
-			    height: 140px;
-			    background-size: cover;
-			     @media screen and (max-width: @mobile) {
-	   		    	    width: 90px;
-					    float: right;
-					    height: 110px;
-					    background-size: cover;
-   				}
+				display: none;
 			}
 			h5{
 				    text-transform: capitalize;
@@ -289,6 +289,31 @@ body .submit{
 	}
 
 }
+
+
+
+		#featured-img{
+			.featured-content{
+				width: 70%;
+    			float: left;
+			}
+			.featured-image{
+				width: 110px;
+			    float: right;
+			    display: block;
+			    height: 140px;
+			    background-size: cover;
+			     @media screen and (max-width: @mobile) {
+	   		    	    width: 90px;
+					    float: right;
+					    height: 110px;
+					    background-size: cover;
+   				}
+			}
+			
+		
+		}
+
 .home{
 	.list-post{
 	.featured-job{

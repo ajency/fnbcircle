@@ -6075,6 +6075,13 @@ input[type=checkbox].custom-checkbox:before {
 .application-table.table-responsive {
   border: 0;
 }
+.no-articles {
+  padding: 1.5em;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .search-section {
   position: relative;
   top: 2em;

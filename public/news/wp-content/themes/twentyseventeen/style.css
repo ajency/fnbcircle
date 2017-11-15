@@ -1917,7 +1917,6 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 .entry-title a {
 	color: #333;
 	text-decoration: none;
-	margin-left: -2px;
 }
 
 .entry-title:not(:first-child) {

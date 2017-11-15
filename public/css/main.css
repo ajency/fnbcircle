@@ -3870,16 +3870,17 @@ input[type=checkbox].custom-checkbox:before {
           transition: all 0.5s ease;
 }
 .related-article .fnb-article__banner {
-  background-image: url('../img/article-1.png');
+  background-image: url('../img/banner-default.png');
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   height: 130px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin: 0;
 }
 .related-article .fnb-article .banner-2 {
-  background-image: url('../img/article-2.png');
+  background-image: url('../img/banner-default.png');
 }
 .related-article .fnb-article__title {
   line-height: 1.4;

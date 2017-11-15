@@ -32,6 +32,17 @@
 	}
 	}
 }
+.nav-next{
+	a:hover{
+		box-shadow: none!important;
+		text-decoration: none !important;
+		.nav-title{
+		box-shadow: none!important;
+		color: @accent-primary !important;
+		text-decoration: none !important;
+	}
+	}
+}
 .element-title {
     font-size: 1.3em;
 }
@@ -68,7 +79,7 @@
 
 	.breadcrumb{
 		width: 100%;
-		color: #000;
+		color: #999;
 		z-index: 999;
 		margin-bottom: 0px !important;
 		margin-top: 3%!important;
@@ -95,6 +106,7 @@ body .submit{
 	}
 	.icon{
 		color:@accent-primary !important;
+		margin-right: 4px;
 	}
 }
 .page-template-blog{
@@ -437,6 +449,13 @@ body .submit{
 	html body .a2a_button_whatsapp{
 	display: inline-block !important;
 	}
+	.wpt_widget_content .entry-title {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+	}
 	#page {
     margin: 0px !important;
 	}
@@ -592,7 +611,7 @@ body .submit{
 	}
 }
 	.comment-content p{
-		font-size: 1.5em;
+		font-size: .9em;
 	}
 .single .featured-job{
 	position: relative;

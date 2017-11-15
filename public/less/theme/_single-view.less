@@ -1459,10 +1459,17 @@
 
 .resume-card{
 	border-bottom: 0;
+	background-color: #fffeea;
 	.catalogue{
-		padding: 1em 0;
-		&:last-child{
-			border-bottom: 0;
+		padding-top: 0.3em;
+		padding-bottom: 0.3em;
+		.flex-1{
+			&:first-child{
+				padding-top: 0;
+			}
+			&:last-child{
+				border-bottom: 0;
+			}	
 		}
 	}
 	.remove-resume{
@@ -3711,5 +3718,27 @@ and (max-device-width: 650px) {
 }
 
 
-
+@media screen and (max-width: @mobile){
+	.selection-card{
+		margin: 3em 0 2em 0;
+		flex-direction: column;
+		.card{
+			padding: 1em 0.8em;
+			h5{
+				font-size: 1.1em;
+    			margin-top: 0;
+			}
+			.fnb-btn{
+				font-size: 0.9em;
+			}
+			&:first-child{
+				margin-right: 0;
+				margin-bottom: 1.5em;
+			}
+		}
+	}
+	.resume-card{
+		padding: 2em 1em;
+	}
+}
 

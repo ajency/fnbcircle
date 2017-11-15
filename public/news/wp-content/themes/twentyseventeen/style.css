@@ -413,20 +413,22 @@ template {
 /*--------------------------------------------------------------
 5.0 Typography
 --------------------------------------------------------------*/
-
-body,
-button,
-input,
-select,
-textarea {
-	color: #333;
-	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif !important;
-	font-size: 15px;
-	font-size: 0.9375rem;
-	font-weight: 400;
-	line-height: 1.66;
-	overflow-x: hidden;
+body{
+overflow-x: hidden;	
 }
+// body,
+// button,
+// input,
+// select,
+// textarea {
+// 	color: #333;
+// 	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif !important;
+// 	font-size: 15px;
+// 	font-size: 0.9375rem;
+// 	font-weight: 400;
+// 	line-height: 1.66;
+// 	overflow-x: hidden;
+// }
 
 h1,
 h2,

@@ -234,6 +234,26 @@ else: ?>
 
 <script type="text/javascript">
 
+
+
+        jQuery('.sideMenu').click(function(){
+            jQuery('.m-side-bar').addClass('active');
+            jQuery('.site-overlay').addClass('active');
+            jQuery('body').addClass('blocked');
+        });
+
+
+
+        jQuery(document).mouseup(function(e) {
+          var Click_todo;
+          Click_todo = jQuery('.m-side-bar');
+          if (!Click_todo.is(e.target) && Click_todo.has(e.target).length === 0) {
+            jQuery('.m-side-bar,.site-overlay').removeClass('active');
+            jQuery('body').removeClass('blocked');
+          }
+        });
+
+      
 	/*jQuery(document).ready(function($){
 		$('.search-submit').on("click",function(){
 
@@ -248,4 +268,6 @@ else: ?>
 
 	})*/
 </script>
+  <div class="site-overlay"></div>
+
 <?php get_footer();

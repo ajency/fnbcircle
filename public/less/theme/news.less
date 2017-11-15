@@ -46,6 +46,7 @@
 }
 .element-title {
     font-size: 1.3em;
+    font-weight: 600;
 }
 .single-featured-image-header{  
     @media screen and (max-width: @mobile) {
@@ -491,7 +492,7 @@ body .submit{
     	}
 	}
 	.element-title{
-		font-weight: 500;
+		font-weight: 600;
     	padding: 0 4em;
     	margin-bottom: 1em;
     	font-size: 2em;
@@ -786,4 +787,110 @@ button:hover{
 	.no-account .fnb-btn {
     	-webkit-appearance: none !important;
 	}
+}
+
+@media screen and (max-width: @mobile){
+	// mobile sidebar
+
+	.collapse.m-side-bar{
+		display: block;
+		position: fixed;
+		background-color: #fff;
+		width: 280px;
+		height: 100% !important;
+		top: 0;
+		left: 0;
+		margin: 0;
+		z-index: 2;
+		padding: 15px;
+		padding-bottom: 0;
+	    overflow-y: auto;
+	    margin-top: -1px;
+	    transform: translate3d(-500px, 0, 0);
+	    transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
+	    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.15);
+	    &.active{
+	    	transform: translate3d(0, 0, 0);
+	    }
+	    .fnb-select.fnb-select{
+	    	&:hover{
+	    		color: inherit;
+	    	}
+	    }
+	}
+
+	.mobile-top{
+		margin: 0 -15px;
+	    margin-top: -15px;
+	    padding: 15px;
+	    background-color: #000;
+	    color: #fff;
+	    &__text{
+	    	margin-bottom: 0;
+	    }
+	    .fnb-btn{
+	    	padding: 0.6em 1.8em;
+	    	&:hover{
+	    		background-color: #000;
+	    		color: #fff;
+	    	}
+	    }
+	}
+
+	.city-select{
+		margin-top: 0;
+	    border-bottom: 1px solid #eee;
+	    padding-bottom: 5px;
+	    float: none;
+    	margin: 0 -15px;
+	    .fnb-select{
+	    	font-weight: 400;
+	    	font-size: 1em;
+	    	padding: 0 9px;
+	    }
+	}
+
+	.mobile-side-title{
+	    margin: 1.5em -15px 0 -15px;
+	    font-weight: 200;
+	    padding: 0 15px 5px 15px;
+	    border-bottom: 1px solid #eee;
+	    text-transform: uppercase;
+    	font-size: 0.95em;
+    	color: @text-lighter;
+	}
+
+	.navbar .side-section{
+		padding: 0;
+	    margin: 0;
+	    float: none !important;
+	    li{
+	    	margin: 0 -15px;
+	    	padding: 0 15px;
+	    	border-bottom: 1px solid #eee;
+	    	float: none;
+	    	.nav-title-size{
+	    		padding: 8px 0;
+	    		font-size: 1em;
+	    		font-weight: 400;
+	    	}
+	    }
+	}
+	.site-overlay{
+		position: fixed;
+    	width: 100%;
+    	height: 100%;
+    	background-color: rgba(197, 197, 197, 0.43);
+    	top: 0;
+    	z-index: 1;
+    	display: none;
+    	left: 0;
+    	transition: all 0.5s ease;
+    	&.active{
+    		display: block;
+    	}
+	}
+	// .photo-gallery{
+	// 	&__banner{}
+	// }
 }

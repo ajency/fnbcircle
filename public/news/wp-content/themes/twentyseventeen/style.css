@@ -2479,6 +2479,12 @@ time{
     width: 70px;
     height: 70px;
 }
+@media screen and (max-width: 768px){
+	.comments-area .comment-author img {
+	margin-right: 28px
+}
+}	
+
 .comment-wrapper {
     margin-bottom: 10px;
 }

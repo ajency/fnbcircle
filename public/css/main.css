@@ -893,7 +893,7 @@ input[type=radio].fnb-radio.disabled:before {
   }
   .multilevel-modal .modal-body .levels {
     position: absolute;
-    top: 70px;
+    top: 0;
     -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
     -webkit-transform: translate(85%, 0);
@@ -905,6 +905,7 @@ input[type=radio].fnb-radio.disabled:before {
     overflow: hidden;
   }
   .multilevel-modal .modal-body .levels.shown {
+    position: relative;
     -webkit-transform: translate(0, 0);
         -ms-transform: translate(0, 0);
             transform: translate(0, 0);
@@ -3263,6 +3264,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .seller-info .mobile--enquiry {
     width: 100%;
+    margin-top: 1.5em;
   }
   .seller-info .mobile--enquiry .contact__title {
     margin-bottom: 5px;

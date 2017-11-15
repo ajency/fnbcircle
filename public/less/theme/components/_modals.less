@@ -101,7 +101,7 @@
 			}
 			.levels{
 				position: absolute;
-				top: 70px;
+				top: 0;
 				transition: all 0.3s ease;
 				transform: translate(85%, 0);
 				opacity: 0;
@@ -109,6 +109,7 @@
 				height: 100%;
 				overflow: hidden;
 				&.shown{
+					position: relative;
 					transform: translate(0, 0);
 					opacity: 1;
 					overflow: inherit;

@@ -16,7 +16,7 @@
 
 		</div><!-- #content -->
 		<div class="container">
-			<div id="laravel-footer-container"><i class="fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div></div>
+			<div id="laravel-footer-container"><i class="loader-center2 fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div></div>
 		</div>
 		
 	</div><!-- .site-content-contain -->

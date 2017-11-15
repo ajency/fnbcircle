@@ -2252,7 +2252,7 @@ min-height: 150px;
 	color: #767676;
 	display: block;
 	font-size: 11px;
-	font-size: 0.6875rem;
+	font-size: .8em;
 	letter-spacing: 0.1818em;
 	margin-bottom: 1em;
 	text-transform: uppercase;
@@ -4359,3 +4359,29 @@ object {
 body.category .page-title, body.author .page-title{
 	    padding-top: 10px !important;
 }
+.no-posts-msg{
+	    text-align: center;
+    margin-top: 60px;
+    display: block;
+   
+		  }
+
+		.no-posts-msg h6{
+    	padding-top: 0px;
+    	margin-top: 10px;
+    }
+
+ .no-posts-msg i{display: block;
+       font-size: 40px;
+    color: #ccc;}
+
+    .loader-center{
+    	    text-align: center;
+		    margin: 10% auto;
+		    display: block !important;
+    }
+    .loader-center2{
+    	    text-align: center;
+		    margin: auto;
+		    display: block !important;
+    }

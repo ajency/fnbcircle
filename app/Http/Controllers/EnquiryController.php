@@ -195,7 +195,7 @@ class EnquiryController extends Controller {
 					Email:  " . $email_details['email'] . "
 					Phone Number: " . $email_details['contact'] . "
 					
-					Click " . $email_details['dashboard_url'] . " to view the enquiry."
+					Click " . "here" . " to view the enquiry."
 	        ];
 
 	        $sms["priority"] = "default";

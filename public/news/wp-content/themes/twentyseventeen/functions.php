@@ -649,6 +649,8 @@ function fnbcircleWpScripts(){
 	wp_localize_script('wpnews', 'LARAURL', get_laravel_site_url());
 	wp_localize_script('wpnews', 'page_category', $category_slug);
 	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
+	wp_localize_script('wpnews', 'SITEURL', esc_url( home_url( '/' ) ));
+
 	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);

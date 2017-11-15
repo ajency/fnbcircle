@@ -6212,10 +6212,10 @@ input[type=checkbox].custom-checkbox:before {
 }
 .multi-quote-modal .categories__points li {
   -webkit-box-flex: 1;
-  -webkit-flex: 1 0 25%;
-      -ms-flex: 1 0 25%;
-          flex: 1 0 25%;
-  max-width: 25%;
+  -webkit-flex: 1 0 20%;
+      -ms-flex: 1 0 20%;
+          flex: 1 0 20%;
+  max-width: 20%;
 }
 .multi-quote-modal .categories__points li label {
   display: -webkit-inline-box;
@@ -6223,7 +6223,7 @@ input[type=checkbox].custom-checkbox:before {
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
-.multi-quote-modal .areas-select__selection {
+.multi-quote-modal .areas-select__selection li {
   max-width: 25%;
 }
 .search-section {

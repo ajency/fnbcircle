@@ -37,7 +37,7 @@
                     <ul class="nav navbar-nav city-select">
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
-                            <select class="form-control fnb-select nav-color" onchange="location = this.value;">
+                            <select class="form-control fnb-select" onchange="location = this.value;">
                                 <option>--Change State--</option>
                                 <?php foreach(getPopularCities() as $city_index => $city_value) { ?>
                                     <option title="<?php  echo $city_value->slug ?>" value="http://localhost:8000/<?php  echo $city_value->slug ?>/" <?php if(isset($city) && $city == $city_value->slug) { ?> selected="" <?php } ?>><?php echo $city_value->name ?></option>

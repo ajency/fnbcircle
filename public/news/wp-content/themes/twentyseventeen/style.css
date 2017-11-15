@@ -4355,6 +4355,6 @@ object {
 	    padding: 28px 15px 0px;
 	    margin-top: 0px !important;
 }
-.category .page-title, body.author .page-title{
+body.category .page-title, body.author .page-title{
 	    padding-top: 10px !important;
 }

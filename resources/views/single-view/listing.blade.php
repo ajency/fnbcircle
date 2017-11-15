@@ -728,8 +728,8 @@
                                 <div class="section-start-head m-b-15 flex-row">
                                     <h6 class="element-title">Related Articles</h6>                                        
                                 </div>
-                                <div class="related-article__section flex-row">
-                                    <p class="text-center heavier">No related articles</p>
+                                <div class="related-article__section">
+                                    <p class="text-center heavier card no-articles flex-row text-color">No related articles <i class="fa fa-newspaper-o text-primary element-title m-l-10" aria-hidden="true"></i></p>
                                 </div>
                             </div>
 

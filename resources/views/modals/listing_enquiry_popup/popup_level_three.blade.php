@@ -8,7 +8,7 @@
         </div>
     @endif
     <div class="suppliers-data in-popup">
-        <div class="mobile-hide">
+        <div class="">
             <h6 class="text-darker m-t-0">We can help you get the best deals on F&amp;B Circle.</h6>
             @if(Auth::guest())
                 <!-- <p class="content-title text-darker m-b-0 text-medium">Ensure that you provide the correct details as the business owner will use these details to contact you.</p> -->

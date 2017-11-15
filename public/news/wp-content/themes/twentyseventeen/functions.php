@@ -568,7 +568,30 @@ require get_parent_theme_file_path( '/inc/icon-functions.php' );
 
 function get_breadcrumb() {
     echo '<a href="'.home_url().'" rel="nofollow">Home</a>';
-    if (is_category() || is_single()) {
+    if(is_author()){
+
+    	$auth_link = custom_author_post_link("","'s Posts");
+    	 echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
+        /*the_author_posts_link();
+        echo"'s Posts";*/
+        echo $auth_link;
+           
+
+    }
+    else if(is_archive()){
+
+
+    	$category = get_queried_object();
+
+    	$category_link = get_category_link( $category->cat_ID );
+    	echo "&nbsp;&nbsp;/&nbsp;&nbsp; ";
+    	echo "<a href='".$category_link."'>News in ".$category->name."</a>";
+
+        //the_category(' &bull; ');
+           
+
+    }
+    else if (is_category() || is_single()) {
         echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
         the_category(' &bull; ');
             if (is_single()) {
@@ -1283,3 +1306,25 @@ function new_excerpt_more($more) {
 	return ' <a class="moretag" href="'. get_permalink($post->ID) . '">read more...</a>';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
+
+
+
+function custom_author_post_link($link_pretext='',$link_posttext=''){
+	global $authordata;
+	if ( ! is_object( $authordata ) ) {
+		return;
+	} 
+	$author_text = $link_pretext.get_the_author().$link_posttext;
+
+	$link = sprintf( '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+		esc_url( get_author_posts_url( $authordata->ID, $authordata->user_nicename ) ),
+		/* translators: %s: author's display name */
+		esc_attr( sprintf( __( 'Posts by %s' ), get_the_author() ) ),
+		$author_text
+	);
+
+	return $link;
+}
+
+
+

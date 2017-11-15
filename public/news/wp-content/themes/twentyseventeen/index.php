@@ -26,7 +26,7 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
-		 <label class="search-label city_select_label">
+		 <label class="search-label home_city_select_label">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
 		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
 		</label>

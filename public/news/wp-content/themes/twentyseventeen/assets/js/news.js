@@ -164,7 +164,7 @@ jQuery(document).ready(function($) {
 
 
 
-    $('#cat').live("change",function(evt){
+    $('.home_city_select_label > #cat').change(function(evt){
        
        
 

@@ -65,7 +65,8 @@ jQuery(document).ready(function($) {
     }
 
 
-    $("#login_form_modal_btn").live('click',function() {
+
+    $('body').on("click","#login_form_modal_btn",function() {
     	var parent = "#login_form_modal";
 		$(parent + " #login_form_modal_btn i").removeClass("hidden");
 
@@ -91,16 +92,17 @@ jQuery(document).ready(function($) {
 
     // Login
 
-    $('.forget-link').live("click",function(){
+    $('body').on("click",".forget-link",function() {        
     	event.preventDefault();
     	$('.forget-password').addClass('active');
     });
 
-    $('.back-login').live("click",function(){
+    $('body').on("click",".back-login",function() {            
     	$('.forget-password').removeClass('active');
     });
     
-    $('#login-modal').live('hidden.bs.modal', function (e) {
+    $('body').on("hidden.bs.modal","#login-modal",function(e) {  
+     
       $('.forget-password').removeClass('active');
     })
 
@@ -163,8 +165,8 @@ jQuery(document).ready(function($) {
     }
 
 
-
-    $('.home_city_select_label > #cat').change(function(evt){
+    $('body').on("change",".home_city_select_label > #cat",function(evt) {
+    //$('.home_city_select_label > #cat').change(function(evt){
        
        
 

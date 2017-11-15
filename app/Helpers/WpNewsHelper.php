@@ -78,6 +78,46 @@ class WpNewsHelper
         if (isset($params['num_of_items'])) {
             $args['posts_per_page'] = $params['num_of_items'];
         }
+
+ 
+
+        /*$custom_query = new WP_Query( $args ); 
+        if ( $custom_query->have_posts() ) :  
+
+        
+            while ( $custom_query->have_posts() ) : $custom_query->the_post();   
+                $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
+
+                if($backgroundImg!=false && $backgroundImg!=""){
+                    $avatar = $backgroundImg[0];
+
+                } 
+                else{
+                    $avatar = site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png';
+                }
+
+
+
+
+
+                $news[] = array('title' => get_the_title(),
+                    'content'               => get_the_excerpt(6),
+                    'slug'                  => '',
+                    'id'                    => get_the_ID(),
+                    'featured_image'        => get_the_post_thumbnail(),
+                    /*'date'                  => $post->post_date,* /
+                    'display_date'          => get_the_time('F jS, Y'),
+                    'url'                   => get_permalink(), //$post->guid,
+                    'author_link'           => get_the_author_posts_link()
+
+                );
+
+
+            endwhile; 
+        endif; */
+
+
+
  //dd($args); 
         $posts_array = get_posts($args);
 
@@ -97,12 +137,12 @@ class WpNewsHelper
             }
 
             $news[] = array('title' => $post->post_title,
-                'content'               => $post->post_content,
+                'content'               => strip_tags($post->post_content),
                 'slug'                  => $post->post_name,
                 'id'                    => $post->ID,
                 'featured_image'        => $featured_image,
                 'date'                  => $post->post_date,
-                'display_date'          => date("d M Y H:i:s", strtotime($post->post_date)),
+                'display_date'          => date("F d,Y ", strtotime($post->post_date)),
                 'url'                   => get_permalink($post->ID), //$post->guid,
 
             );

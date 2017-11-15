@@ -568,7 +568,30 @@ require get_parent_theme_file_path( '/inc/icon-functions.php' );
 
 function get_breadcrumb() {
     echo '<a href="'.home_url().'" rel="nofollow">Home</a>';
-    if (is_category() || is_single()) {
+    if(is_author()){
+
+    	$auth_link = custom_author_post_link("","'s Posts");
+    	 echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
+        /*the_author_posts_link();
+        echo"'s Posts";*/
+        echo $auth_link;
+           
+
+    }
+    else if(is_archive()){
+
+
+    	$category = get_queried_object();
+
+    	$category_link = get_category_link( $category->cat_ID );
+    	echo "&nbsp;&nbsp;/&nbsp;&nbsp; ";
+    	echo "<a href='".$category_link."'>News in ".$category->name."</a>";
+
+        //the_category(' &bull; ');
+           
+
+    }
+    else if (is_category() || is_single()) {
         echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
         the_category(' &bull; ');
             if (is_single()) {
@@ -625,7 +648,7 @@ function fnbcircleWpScripts(){
 	wp_enqueue_script('bootstrap-js', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), true, true);	
 	wp_localize_script('wpnews', 'LARAURL', get_laravel_site_url());
 	wp_localize_script('wpnews', 'page_category', $category_slug);
-
+	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
 	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
@@ -869,10 +892,10 @@ add_filter( 'comment_form_defaults', function( $fields ) {
 function custom_category_tags_title($title)
 {
 	if( is_category()){
-		$title = sprintf( __( '%s' ), single_cat_title( '', false ) );
+		$title = sprintf( __( 'News in %s' ), single_cat_title( '', false ) );
 	}
 	else if(is_tag()){
-		$title = sprintf( __( '%s' ), single_tag_title( '', false ) );
+		$title = sprintf( __( 'News in %s' ), single_tag_title( '', false ) );
 	}
 
 	return $title;
@@ -1062,7 +1085,7 @@ function get_featured_news_by_city(){
 	  
 
 	else:  
-	  $html= '<p>Sorry, no posts matched your criteria.</p>';
+	  $html= '<span class="no-posts-msg"><h3>Sorry, no featured news matched your criteria.</h3></span>';
 	endif; 
 	wp_send_json(array('html'=>$html));
 
@@ -1120,14 +1143,14 @@ function get_recent_news_by_city($city){
 	   
 	</li>';  
 	endwhile; 
-	$html.=get_the_posts_pagination( array(
+	$html.=$wp_query->get_the_posts_pagination( array(
 					'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 					'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
 				) );
 
 	else: 
-	$html.='<p>Sorry, no posts published so far.</p>';
+	$html.='<span class="no-posts-msg"><h3>Sorry, no recent news matched your criteria.</h3></span>';
 	endif; 
 
 
@@ -1231,7 +1254,7 @@ var_dump($post);
 		
 	}
 	else{
-		$html="<h3>No recent posts for the selected city</h3>";
+		$html="<span class='no-posts-msg'><h3>No recent posts for the selected city</h3></span>";
 	}
 
 	     wp_send_json(array('html'=>$html));
@@ -1274,3 +1297,34 @@ remove_filter( 'the_title', 'wptexturize' );
 remove_filter( 'the_content', 'wptexturize' );
 remove_filter( 'the_excerpt', 'wptexturize' );
  
+
+
+
+// Replaces the excerpt "Read More" text by a link
+function new_excerpt_more($more) {
+       global $post;
+	return ' <a class="moretag" href="'. get_permalink($post->ID) . '">read more...</a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+
+
+function custom_author_post_link($link_pretext='',$link_posttext=''){
+	global $authordata;
+	if ( ! is_object( $authordata ) ) {
+		return;
+	} 
+	$author_text = $link_pretext.get_the_author().$link_posttext;
+
+	$link = sprintf( '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+		esc_url( get_author_posts_url( $authordata->ID, $authordata->user_nicename ) ),
+		/* translators: %s: author's display name */
+		esc_attr( sprintf( __( 'Posts by %s' ), get_the_author() ) ),
+		$author_text
+	);
+
+	return $link;
+}
+
+
+

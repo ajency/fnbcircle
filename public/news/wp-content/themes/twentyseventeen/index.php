@@ -161,7 +161,9 @@ $wp_query = new WP_Query($query);
 if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <li>
     
-      <div class="list-post">
+      <div class="list-post" <?php if ( has_post_thumbnail() ) { ?>
+        id="featured-img"
+    <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
           
   
@@ -176,7 +178,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
 </div>   
    </div>
-   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+   <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
 			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
    <div class="clear"></div>
 </div>

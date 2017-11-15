@@ -373,7 +373,7 @@ if ( !class_exists('wpt_widget') ) {
 					?>       
 					<ul>				
 						<?php 
-						$featured = new WP_Query( array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_num, 'post_status' => 'publish', 'orderby' => 'meta_value_num', 'meta_key' => '_is_ns_featured_post','meta_value' => 'yes', 'order' => 'desc', 'paged' => $page));         
+						$featured = new WP_Query( array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_num, 'post_status' => 'publish', 'orderby' => 'date', 'meta_key' => '_is_ns_featured_post','meta_value' => 'yes', 'order' => 'desc', 'paged' => $page));         
 						$last_page = $featured->max_num_pages;      
 						while ($featured->have_posts()) : $featured->the_post(); ?>	
 							<li>

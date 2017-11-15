@@ -184,7 +184,7 @@ body .submit{
     	.featured-content{
     		float: left;
 		    margin-left: 15px;
-		    width: 60%;
+		    width: 67%;
 		    h5{
 					padding: 0px;
 				     letter-spacing: 0;
@@ -213,7 +213,7 @@ body .submit{
 .list-layout{
 	list-style: none;
 	li{
-		    margin-bottom: 30px;
+		    margin-bottom: 20px;
 		    border-bottom: 1px solid #ccc;
 		    padding-bottom: 20px;
 
@@ -271,7 +271,15 @@ body .submit{
 	}
 
 }
-
+.home{
+	.list-post{
+	.featured-job{
+		    top: 0px;
+		    left: inherit;
+		    position: relative;
+	}
+}
+}
 .featured-job {
 	background: url(../images/hot-jobs.png)#fff;
     width: 80px;
@@ -304,8 +312,8 @@ body .submit{
        width: 630px;
        margin: 50px auto;
         @media screen and (max-width: @mobile) {
-	     	    width: 370px;
-	     	    margin:auto;
+	     	       width: 320px;
+    			   margin: auto;
 	     }
        select{
        	width: 30%;
@@ -577,4 +585,10 @@ body .submit{
 	.comment-content p{
 		font-size: 1.5em;
 	}
-
+.single .featured-job{
+	position: relative;
+    left: 0px;
+    margin: 20px auto;
+    bottom: 0px;
+    top: 0px;
+}

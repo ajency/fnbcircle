@@ -19,9 +19,10 @@ loginCreateWpUserByLaravelEMail();
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
-<link rel="stylesheet" type="text/css" href="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/css/news.css"; ?>">
+
 
 <?php wp_head(); ?>
+<link rel="stylesheet" type="text/css" href="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/css/news.css"; ?>">
 </head>
 
 <body <?php body_class(); ?>>
@@ -54,7 +55,15 @@ $thumb = get_the_post_thumbnail_url(get_the_ID()); ?>
 		<div class="row">
 
 			<div class="breadcrumb"><?php get_breadcrumb(); ?></div>
-			
+		
+ <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
+    <?php if ( ! empty ( $my_post_meta ) ) { ?>
+        <div class="featured-job"></div>
+
+    <?php } ?>
+
+			  
+		
 		<div class="title-content">
 
 			<?php echo the_title( '<h1 class="entry-title">', '</h1>' ); ?>

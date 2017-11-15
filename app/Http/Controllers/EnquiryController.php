@@ -14,6 +14,7 @@ use Auth;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use App\UserCommunication;
 use App\Category;
 use App\City;
 use App\Area;
@@ -101,7 +102,7 @@ class EnquiryController extends Controller {
         if($key == "contact") {
 	        $sms = [
 	            'to' => $key_value,
-	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 1 hours."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
+	            'message' => "Use " . $OTP . " to verify your phone number. This code can be used only once and is valid for 15 mins."//'Hi ' .  . ', ' . $OTP . ' is your OTP for Phone verification. Do not share OTP for security reasons.'
 	        ];
 
 	        $sms["priority"] = "high";
@@ -139,10 +140,14 @@ class EnquiryController extends Controller {
 			}
 			$data['priority'] = 'default';
 			sendEmail("seeker-email-enquiry", $data);
+
 		}
 
+		$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
+		
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
-			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			/* Send Email */
+			// $data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'You just received an enquiry for your listing';
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 			
@@ -152,14 +157,49 @@ class EnquiryController extends Controller {
 
 			$data['priority'] = 'low';
 			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
+			
+			/* Send SMS */
+			$sms = [
+	            'to' => "+917875223701",//$key_value,
+	            'message' => "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle. 
+	            	Details of the seeker: Name: " . $email_details['name'] . " 
+	            	Email:  " . $email_details['email'] . " 
+	            	Phone Number: " . $email_details['contact'] . "
+					
+					Click " . $email_details['dashboard_url'] . " to view the enquiry."
+	        ];
+
+	        if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
+				$sms['delay'] = 60;
+			}
+
+	        $sms["priority"] = "default";
+        	sendSms('verification', $sms);
+
 		} else { // if listing enquiry is SHARED, then
-			$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
+			/* Send Email */
+			// $data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
 
 			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
 
 			$data['priority'] = 'low';
 			sendEmail('shared-listing-email', $data);
+
+			/* Send SMS */
+			$sms = [
+	            'to' => "+917875223701",
+	            'message' => "Hi " . $email_content["listing_owner"]["name"] . "\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle,
+					Details of the seeker:
+					Name: " . $email_details['name'] . "
+					Email:  " . $email_details['email'] . "
+					Phone Number: " . $email_details['contact'] . "
+					
+					Click " . $email_details['dashboard_url'] . " to view the enquiry."
+	        ];
+
+	        $sms["priority"] = "default";
+        	sendSms('verification', $sms);
 		}
 	}
 
@@ -168,7 +208,7 @@ class EnquiryController extends Controller {
 	* This function will @return the following Enquiry objects
 	*	Enquiry, EnquirySent, EnquiryCategory & EnquiryArea
 	*/
-	public function createEnquiry($enquiry_data=[], $enquiry_sent=[], $enquiry_categories=[], $enquiry_area=[], $send_seeker_email = false) {
+	public function createEnquiry($enquiry_data=[], $enquiry_sent=[], $enquiry_categories=[], $enquiry_area=[], $send_seeker_email = false, $send_owner_mail = true) {
 
 		if (sizeof($enquiry_data) > 0 && isset($enquiry_data["enquiry_id"]) && $enquiry_data["enquiry_id"] > 0) { // Get data if ID is passed
 			$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
@@ -269,7 +309,8 @@ class EnquiryController extends Controller {
 
 
 					$customer_dashboard_url = env('APP_URL');
-					if($enquiry_obj->user_object_type == "App\User") {
+					/* Get User / Customer (the guy who did enquiry) Details */
+					if($enquiry_obj->user_object_type == "App\User") { // If logged In user
 						$customer_data = $userauth_obj->getUserData($enquiry_obj->user_object_id, true);
 						$email_details = [
 							"name" => $customer_data["user"]->name, 
@@ -282,7 +323,7 @@ class EnquiryController extends Controller {
 
 						$email_details["to"] = $email_details["email"];
 						$email_details["listing_to"] = $email_details["email"];
-					} else {
+					} else { // If Guest User
 						$lead_obj = Lead::find($enquiry_obj->user_object_id);
 						$email_details = [
 							"name" => $lead_obj->name, 
@@ -295,10 +336,12 @@ class EnquiryController extends Controller {
 						];
 					}
 
-					if($listing_obj->premium && $enquiry_sent["enquiry_type"] == "direct") { // If Premium & Direct, then send a mail to the Seeker saying that specific Enquiry is sent
-						$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, true);
-					} else {
-						$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, $send_seeker_email);
+					if(!in_develop() || (in_develop() && $send_owner_mail)) { // If Prod Mode, then send Email else if in Dev MOde && The Send owner flag is true, then send the Email
+						if($listing_obj->premium && $enquiry_sent["enquiry_type"] == "direct") { // If Premium & Direct, then send a mail to the Seeker saying that specific Enquiry is sent
+							$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, true);
+						} else {
+							$this->sendEnquiryEmail($enquiry_sent['enquiry_type'], $listing_obj->premium, $email_details, $email_content, $send_seeker_email);
+						}
 					}
 				}
 
@@ -801,10 +844,35 @@ class EnquiryController extends Controller {
 
 				foreach ($listing_final_ids as $op_key => $op_value) {
 					$enquiry_sent["enquiry_to_id"] = $op_value;
-					$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], []);
+					if(in_develop()) { // If in Dev mode
+						if($op_key === 0) { // If 1st Enq
+							$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+						} else { // Else just save the Enq
+							$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, false);
+							
+							if($op_key === sizeof($listing_final_ids) - 1) { // Else if on Last Enq -> Send a Dump
+								$listing_enq_obj = Listing::whereIn('id', $listing_final_ids);
+								$owner_ids = array_unique($listing_enq_obj->distinct('owner_id')->get()->pluck('owner_id')->toArray());
+								$email_ids = array_unique(UserCommunication::where([['object_type', 'App\User'], ['type', 'email']])->whereIn('object_id', $owner_ids)->get()->pluck('value')->toArray());
+
+								$data['to'] = $email_ids;
+								$data['cc'] = [];
+								$data['subject'] = "Found " . strVal(sizeof($listing_final_ids)) . " listings matching the enquiry";
+
+								$data["content"] = $listing_enq_obj->get()->pluck('title')->toArray();
+
+								$data["data"] = $data;
+								$data_content = ["to" => $data["to"], "cc" => $data["cc"], "subject" => $data["subject"], "template_data" => $data];
+
+								sendEmail('dev-dump', $data_content);
+							}
+						}
+					} else {
+						$enq_objs = $this->createEnquiry($enquiry_data, $enquiry_sent, [], [], false, true);
+					}
 				}
 
-				$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas, true);
+				$this->createEnquiry($enquiry_data, [], $enquiry_categories, $enquiry_areas, true, false);
 
 				/*unset($session_payload["enquiry_id"]);
 				unset($session_payload["enquiry_to_id"]);

@@ -185,10 +185,10 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
           <tr>
             <td style="padding: 10px; text-align: left;">
               <div style="float: left; width: 30%;">
-                <a href="#"><img src="{{url('img/logo-fnb.png')}}" width="50"></a>
+                <a href="{{env('APP_URL')}}" target="_blank"><img src="{{url('img/logo-fnb.png')}}" width="50"></a>
               </div>
               <div style="float: right; width: 70%; text-align:right;">
-                <p style="color: #9b9ea0;font-size: 0.9em;">visit <a href="#" style="color: #ec6d4b;text-decoration:none;">www.fnbcircle.com</a></p>
+                <p style="color: #9b9ea0;font-size: 0.9em;">visit <a href="{{env('APP_URL')}}" target="_blank" style="color: #ec6d4b;text-decoration:none;">www.fnbcircle.com</a></p>
               </div>
               <div style="clear:both;display:table"></div>
             </td>

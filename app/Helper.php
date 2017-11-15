@@ -405,53 +405,58 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *			@param mime - mime of the attachment
 */
 function sendEmail($event='new-user', $data=[]) {
-	$email = new \Ajency\Comm\Models\EmailRecipient();
-	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
-	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
-	$email->setFrom($from, $name);
+	if(!in_develop() || (in_develop() && config('constants.send_email_dev'))) { // if (in Production Mode) or (in Dev mode & send_email_dev == true)
+		$email = new \Ajency\Comm\Models\EmailRecipient();
 
-	/* to */
-	if(!isset($data['to']))
-		$data['to']= [];
-	else
-		if(!is_array($data['to'])) // If not in array format
-			$data['to'] = [$data['to']];
-	$to = sendEmailTo($data['to'], 'to');
-	$email->setTo($to);
+		/* from */
+		$from = (isset($data['from']))? $data['from'] : config('tempconfig.email.defaultID');
+		$name = (isset($data['name']))? $data['name'] : config('tempconfig.email.defaultName');
+		$from = sendEmailTo($from, 'from');
+		$email->setFrom($from, $name);
 
-	/* cc */
-	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
-	if(!is_array($cc)) $cc = [$cc];
+		/* to */
+		if(!isset($data['to']))
+			$data['to']= [];
+		else
+			if(!is_array($data['to'])) // If not in array format
+				$data['to'] = [$data['to']];
+		$to = sendEmailTo($data['to'], 'to');
+		$email->setTo($to);
 
-	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)) {
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
-		$cc = array_merge($cc,$notify_data);
+		/* cc */
+		$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
+		if(!is_array($cc)) $cc = [$cc];
+
+		$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
+		if(in_array($event, $notify)) {
+			$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+			$cc = array_merge($cc,$notify_data);
+		}
+		$email->setCc($cc);
+
+		/* bcc */
+		if(isset($data['bcc'])) {
+			$bcc = sendEmailTo($data['bcc'], 'bcc');
+			$email->setCc($bcc);
+		}
+		
+		$params = (isset($data['template_data']))? $data['template_data']:[];
+		if(!is_array($params)) $params = [$params];
+		$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+	 
+		$email->setParams($params);
+
+		if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
+		$notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$email]); 
+	    if(in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    // $notify->setRecipientIds([$email,$email1]);
+	    AjComm::sendNotification($notify);
 	}
-	$email->setCc($cc);
-
-	/* bcc */
-	if(isset($data['bcc'])) {
-		$bcc = sendEmailTo($data['bcc'], 'bcc');
-		$email->setCc($bcc);
-	}
-	
-	$params = (isset($data['template_data']))? $data['template_data']:[];
-	if(!is_array($params)) $params = [$params];
-	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
- 
-	$email->setParams($params);
-
-	if(isset($data['attach'])) $email->setAttachments($data['attach']);
-
-	$notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$email]); 
-    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
-    if (isset($data['priority'])) $notify->setPriority($data['priority']);
-    // $notify->setRecipientIds([$email,$email1]);
-    AjComm::sendNotification($notify);
-
 }
 
 /**
@@ -464,21 +469,32 @@ function sendEmail($event='new-user', $data=[]) {
 * @param override
 */
 function sendSms($event='new-user', $data=[], $override = false) {
-	if(!isset($data['to'])) return false;
-	if(!is_array($data['to'])) $data['to'] = [$data['to']];
-	if(!isset($data['message'])) return false;
-	$sms = new \Ajency\Comm\Models\SmsRecipient();
-    $sms->setTo($data['to']);
-    $sms->setMessage($data['message']);
-    if($override) $sms->setOverride(true);
-    $notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$sms]);
-    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
-    if (isset($data['priority'])) $notify->setPriority($data['priority']);
-    AjComm::sendNotification($notify);
- 
- 	
+	if(!in_develop() || (in_develop() && config('constants.send_sms_dev'))) { // If not dev or (if dev && the 'send_sms_dev' flag == true)
+		if(in_develop()) { // If develop, then send SMS among dev accounts
+			if(config('constants.sms_to_dev_array')) {
+				$data['to'] = config('constants.sms_to_dev');
+			} else {
+				$data['to'] = config('constants.sms_to_dev')[0];
+			}
+		}
+
+		if(!isset($data['to'])) return false;
+		if(!is_array($data['to'])) $data['to'] = [$data['to']];
+		if(!isset($data['message'])) return false;
+		
+		$sms = new \Ajency\Comm\Models\SmsRecipient();
+	    $sms->setTo($data['to']);
+	    $sms->setMessage($data['message']);
+	    if($override) $sms->setOverride(true);
+	    $notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$sms]);
+	    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    AjComm::sendNotification($notify);
+ 	} else {
+ 		return false;
+ 	}
 }
 
 function getFileMimeType($ext){
@@ -544,6 +560,17 @@ function firstTimeUserLoginUrl(){
 }
  
 
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs'))) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
 /**

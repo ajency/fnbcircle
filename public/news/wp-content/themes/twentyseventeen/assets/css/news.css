@@ -5118,7 +5118,7 @@ body .submit {
   /* line 562, news.less */
   .header-image {
     margin-bottom: 25%;
-    margin-top: 21px;
+    margin-top: 21px !important;
   }
   /* line 566, news.less */
   h1 {
@@ -5329,5 +5329,17 @@ input[type='search'] {
   border-left: 0px;
   border-right: 0px;
   height: auto;
+}
+/* line 759, news.less */
+.login-modal .welcome-text {
+  padding: 0px !important;
+}
+/* line 762, news.less */
+.login-modal .stay-logged {
+  display: none !important;
+}
+/* line 765, news.less */
+.login-modal .no-account .fnb-btn {
+  -webkit-appearance: none !important;
 }
 /*# sourceMappingURL=news.css.map */

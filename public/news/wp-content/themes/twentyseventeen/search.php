@@ -23,7 +23,7 @@ get_header(); ?>
 		</select> -->
 		 <label class="search-label">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
-		<?php wp_dropdown_categories('show_option_none=Select City&exclude=1&value_field=slug'); ?>
+		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
 		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		

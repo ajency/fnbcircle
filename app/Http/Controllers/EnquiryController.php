@@ -189,13 +189,7 @@ class EnquiryController extends Controller {
 			/* Send SMS */
 			$sms = [
 	            'to' => "+917875223701",
-	            'message' => "Hi " . $email_content["listing_owner"]["name"] . "\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle,
-					Details of the seeker:
-					Name: " . $email_details['name'] . "
-					Email:  " . $email_details['email'] . "
-					Phone Number: " . $email_details['contact'] . "
-					
-					Click " . "here" . " to view the enquiry."
+	            'message' => "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle, Details of the seeker: Name: " . $email_details['name'] . " Email:  " . $email_details['email'] . " Phone Number: " . $email_details['contact'] . " Click " . "here" . " to view the enquiry."
 	        ];
 
 	        $sms["priority"] = "default";

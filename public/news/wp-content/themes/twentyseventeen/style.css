@@ -1530,7 +1530,6 @@ body {
 #page {
 	position: relative;
 	word-wrap: break-word;
-	margin: -20px
 }
 
 .wrap {
@@ -2285,7 +2284,7 @@ min-height: 150px;
 }
 .page-header {
 	padding-bottom: 2em;
-	margin: 20px 0 50px !important;
+	margin: 0px 0 50px !important;
 }
 
 .page .entry-header .edit-link {

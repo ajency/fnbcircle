@@ -81,7 +81,18 @@ $wp_query   = $custom_query;
     <?php the_excerpt(6); ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
+
+<?php 
+$show_categories = true;
+$categories = wp_get_post_categories( $post->ID );
+// We don't want to show the categories if there is a single category and it is "uncategorized"
+if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
+  $show_categories = false;
+endif;
+
+?>
+
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true){ ?>in <?php the_category(', '); ?>  <?php } ?>
 </div>   
    </div>
    <div class="clear"></div>
@@ -175,7 +186,19 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
+
+<?php 
+$show_categories = true;
+$categories = wp_get_post_categories( $post->ID );
+// We don't want to show the categories if there is a single category and it is "uncategorized"
+if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
+  $show_categories = false;
+endif;
+
+?>
+
+
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true) { ?>in <?php the_category(', '); ?> <?php } ?>
 </div>   
    </div>
    <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 

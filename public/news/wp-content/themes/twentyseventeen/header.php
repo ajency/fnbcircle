@@ -73,10 +73,33 @@ if ( has_post_thumbnail() ) { ?>
 <img src="<?php echo $url ?>" />
 <?php } ?>
 		<h4>By <?php $author_id=$post->post_author; ?> <a class="url fn n" href="<?php echo esc_url( get_author_posts_url( $author_id ) ); ?>"><?php the_author_meta( 'user_nicename' , $author_id ); ?></a> posted on <?php echo get_the_date(); ?>
-			<?php $cats = get_the_category_list(  ',',   '', $post_id = false ); 
+			<?php /*$cats = get_the_category_list(  ',',   '', $post_id = false ); 
 			if($cats!=""){
 				echo " in ".$cats;
-			}  
+			}  */
+
+			$post_categories = get_the_category($post->ID);
+ 
+			$category_display ="";
+			$cnt_cat =0;
+			foreach ($post_categories as $post_cat) {
+
+				if($post_cat->slug!=="uncategorized"){
+					if($cnt_cat>0){
+						$category_display.=', ';
+					}
+					$category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+					
+					$cnt_cat++;
+				}
+
+			}
+
+			if($cnt_cat>0){
+				echo " in ".$category_display;
+			}
+
+
 			?>
 
 		</h4>

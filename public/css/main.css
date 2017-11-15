@@ -893,7 +893,7 @@ input[type=radio].fnb-radio.disabled:before {
   }
   .multilevel-modal .modal-body .levels {
     position: absolute;
-    top: 70px;
+    top: 0;
     -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
     -webkit-transform: translate(85%, 0);
@@ -905,6 +905,7 @@ input[type=radio].fnb-radio.disabled:before {
     overflow: hidden;
   }
   .multilevel-modal .modal-body .levels.shown {
+    position: relative;
     -webkit-transform: translate(0, 0);
         -ms-transform: translate(0, 0);
             transform: translate(0, 0);
@@ -3263,6 +3264,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .seller-info .mobile--enquiry {
     width: 100%;
+    margin-top: 1.5em;
   }
   .seller-info .mobile--enquiry .contact__title {
     margin-bottom: 5px;
@@ -5210,6 +5212,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .verification-modal .enquiry-success {
     padding: 1em;
+    margin-top: 3em;
     -webkit-box-align: start;
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
@@ -5253,6 +5256,19 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
+  }
+  .verification-modal .level-three .suppliers-data {
+    padding: 0;
+  }
+  .verification-modal .level-three .suppliers-data h6 {
+    font-size: 1.2em;
+    line-height: 1.3;
+  }
+  .verification-modal .level-three .categories__points li {
+    max-width: 50%;
+  }
+  .verification-modal .level-three .categories__points.flex-points .checkbox {
+    top: -4px;
   }
   .verification-modal .suppliers-title-head {
     -webkit-box-orient: vertical;
@@ -5341,7 +5357,7 @@ input[type=checkbox].custom-checkbox:before {
   .verification-modal .verification .fnb-input {
     width: 110px;
     font-size: 0.85em;
-    text-indent: 20px;
+    text-indent: 10px;
     padding-left: 0;
     padding-right: 0;
   }
@@ -5377,6 +5393,7 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex: 1 0 50%;
             flex: 1 0 50%;
     max-width: 50%;
+    padding-left: 0;
   }
   .verification-modal .areas-select__selection li .fnb-select {
     font-size: 0.9em;
@@ -6212,10 +6229,10 @@ input[type=checkbox].custom-checkbox:before {
 }
 .multi-quote-modal .categories__points li {
   -webkit-box-flex: 1;
-  -webkit-flex: 1 0 25%;
-      -ms-flex: 1 0 25%;
-          flex: 1 0 25%;
-  max-width: 25%;
+  -webkit-flex: 1 0 20%;
+      -ms-flex: 1 0 20%;
+          flex: 1 0 20%;
+  max-width: 20%;
 }
 .multi-quote-modal .categories__points li label {
   display: -webkit-inline-box;
@@ -6223,7 +6240,7 @@ input[type=checkbox].custom-checkbox:before {
   display: -ms-inline-flexbox;
   display: inline-flex;
 }
-.multi-quote-modal .areas-select__selection {
+.multi-quote-modal .areas-select__selection li {
   max-width: 25%;
 }
 .search-section {

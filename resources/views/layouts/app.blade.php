@@ -38,14 +38,17 @@
     <div class="page-shifter animate-row">
  
     <!-- header -->
-
     @include('includes.header')
-
     <!-- header ends -->
 
 
     <!-- content -->
     @yield('content')
+
+ 
+    <!-- Footer -->
+    @include('includes.footer')
+    <!-- Footer ends -->
 
     </div>
     <!-- Modals -->
@@ -68,6 +71,10 @@
     </div>
     <!-- page shifter end-->
     <!-- banner ends -->
+
+
+
+
     <div class="site-overlay"></div>
     
     <!-- jquery -->

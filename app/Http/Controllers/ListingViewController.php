@@ -341,6 +341,9 @@ class ListingViewController extends Controller
 
         foreach ($pagedata['categories'] as $cats) {
 
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['parent']))); 
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['branch'])));   
+
             foreach ($cats['nodes'] as $cat) {
 
                 $cat_ar[] = $cat['slug'];
@@ -349,14 +352,14 @@ class ListingViewController extends Controller
         }
 
         foreach ($pagedata['brands'] as $brand) {
-            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); ;
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); 
         }
 
         if(count($cat_ar)>0){
             $news_args["tag"] = $cat_ar;    
         }
 
-/*dd($news_args);*/
+ 
          
         $news_items = $news->getNewsByCategories_tags($news_args);   
         return $news_items;

@@ -132,7 +132,7 @@ $additionalData = ['job'=>$job];
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
           <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-          <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+          <button type="button" class="btn fnb-btn outline full border-btn upgrade" @if($job->status == 3) data-toggle="tooltip" data-placement="top" title="Remove this Job." @endif>{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -563,8 +563,8 @@ $additionalData = ['job'=>$job];
                     <div class="section-start-head m-b-15 flex-row">
                         <h6 class="element-title">Related Articles</h6>                                        
                     </div>
-                    <div class="related-article__section flex-row">
-                        <p class="text-center heavier">No related articles</p>
+                    <div class="related-article__section">
+                        <p class="text-center heavier card no-articles flex-row text-color">No related articles <i class="fa fa-newspaper-o text-primary element-title m-l-10" aria-hidden="true"></i></p>
                     </div>
                 </div>
 
@@ -601,7 +601,7 @@ $additionalData = ['job'=>$job];
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
                         <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                        <button type="button" class="btn fnb-btn outline full border-btn upgrade" @if($job->status == 3) data-toggle="tooltip" data-placement="top" title="Remove this Job." @endif>{{ $nextActionBtn['status'] }}</button></a>
                           
                            
                           @endif

@@ -5323,4 +5323,11 @@ input[type='search'] {
 .advertise i {
   font-size: 1em !important;
 }
+/* line 750, news.less */
+.fnb-modal input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  height: auto;
+}
 /*# sourceMappingURL=news.css.map */

@@ -111,3 +111,5 @@ $('body').on 'click','button#applyCategFilter', ->
   filters['categories'] = JSON.stringify(getLeafNodes())
   enquiry_table.ajax.reload()
 
+
+$('#datatable-manage_enquiries').closest('.row').addClass 'overflow-table'

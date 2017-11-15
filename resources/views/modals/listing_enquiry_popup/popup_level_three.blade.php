@@ -98,7 +98,7 @@
                     <ul class="categories__points flex-points flex-row flex-wrap" id="more_added_core_categories">
                     </ul>
                     <div id="category-checkbox-error"></div>
-                    <div class="add-more-cat text-right m-t-5">
+                    <div class="add-more-cat text-right">
                         <a href="#category-select" data-toggle="modal" data-target="#category-select" class="more-show secondary-link text-decor x-small" id="select-more-categories">+ Add categories</a>
                         <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]"/>
                         <input type="hidden" id="modal_categories_hierarchy_chosen" name="modal_categories_hierarchy_chosen" value="[]"/>
@@ -121,7 +121,7 @@
                 <!-- add categories ends -->
                 <!-- areas select -->
                 <div class="areas-select gap-separator" id="area_section">
-                    <p class="text-darker describes__title heavier required">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
+                    <p class="text-darker describes__title heavier required m-b-5">Areas <span class="xx-small text-lighter">(Select your areas of interest)</span></p>
                     <div id="area_operations">
                         <ul class="areas-select__selection flex-row flex-wrap">
                             <li>
@@ -131,7 +131,7 @@
                                         @foreach(App\City::where('status', 1)->get() as $key => $value)
                                             @if(isset($data["city"]) && $data["city"]["slug"] == $value->slug)
                                                 <!-- <option value="{{ $value->slug }}" selected="selected">{{ $value->name }}</option> -->
-                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                                <option value="{{ $value->id }}" selected="selected">{{ $value->name }}</option>
                                             @else
                                                 <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endif
@@ -142,11 +142,15 @@
                             </li>
                             <li>
                                 <div class="flex-row">
-                                    <select class="fnb-select select-variant default-area-select" multiple="area_multiple[]" name="area" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" >
+                                    <select class="fnb-select select-variant default-area-select" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#area-select-error" >
                                         @if(isset($data["city"]) && isset($data["city"]["id"]))
-                                            <!-- @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
-                                                <option value="{{ $key_value->id }}">{{ $key_value->name }}</option>
-                                            @endforeach -->
+                                            @foreach(App\Area::where([['status', 1], ['city_id', $data['city']['id']]])->get() as $key_area => $key_value)
+                                                @if(isset($data['area_ids']) && in_array($key_value->id, $data['area_ids']))
+                                                    <option value="{{ $key_value->id }}" selected="selected">{{ $key_value->name }}</option>
+                                                @else
+                                                    <option value="{{ $key_value->id }}">{{ $key_value->name }}</option>
+                                                @endif
+                                            @endforeach
                                         @endif
                                     </select>
                                     <div id="area-select-error" class="fnb-error"></div>
@@ -176,20 +180,20 @@
                                 </select>
                             </div>
                         </li>
-                        <li><a href="#" class="primary-link" aria-label="Close" id="close_areas">&#10005;</a></li>
+                        <li><a href="#" class="primary-link m-l-20" aria-label="Close" id="close_areas"><i class="fa fa-times" aria-hidden="true"></i></a></li>
                     </ul>
-                    <div class="text-right m-t-10 adder">
+                    <div class="text-right adder">
                         <a href="#" id="add-city-areas" class="secondary-link text-decor heavier add-areas x-small">+ Add more</a>
                     </div>
                 </div>
                 <!-- areas select -->
             </div>
+            <!-- action -->
+            <div class="send-action m-t-10">
+                <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
+            </div>
+            <!-- action ends -->
         </div>
-        <!-- action -->
-        <div class="send-action m-t-20">
-            <button class="btn fnb-btn primary-btn full border-btn success-toggle" id="level-three-form-btn" data-value="{{ isset($data['current_page']) && strlen($data['current_page']) ? $data['current_page'] : ''}}">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
-        </div>
-        <!-- action ends -->
     </div>
 </div>
 <!-- level three ends

@@ -725,7 +725,7 @@
                                 @endisset
                             </div> 
                             
-                            <div class="contact__enquiry text-center">                                
+                            <div class="contact__enquiry mobile--enquiry text-center">                                
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>

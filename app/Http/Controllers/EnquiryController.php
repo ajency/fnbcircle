@@ -474,6 +474,24 @@ class EnquiryController extends Controller {
 	   			
 	   			$data['current_page'] = $template_type;
 
+	   			$list_view_data = Session::get('list_view', []);
+	   			if(sizeof($list_view_data) > 0) {
+	   				if(isset($list_view_data["categories"]) && sizeof($list_view_data["categories"]) > 0) {
+	   					$data["cores"] = Category::whereIn('slug', $list_view_data["categories"])->get();
+	   				}
+
+	   				if(isset($list_view_data["areas"]) && sizeof($list_view_data["areas"]) > 0) {
+	   					$areas_selected = Area::whereIn('slug', $list_view_data["areas"])->get();
+			    		$data["area_ids"] = $areas_selected->pluck('id')->toArray();
+			    		$areas_selected = $areas_selected->groupBy('city_id');
+	   					foreach ($areas_selected as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+			    			$data = array_merge($data, array("city" => City::where("id", $city_id)->get(['id', 'name', 'slug'])->first()->toArray(), "areas" => $city_areas->toArray()));
+			    		}
+
+	   				}
+	   			}
+	   			Session::forget('list_view');
+
 	   			if(isset($payload_data["enquiry_data"]["contact"])) {
 	   				$enquiry_data = $payload_data["enquiry_data"];
 	   				$parents  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();
@@ -608,8 +626,23 @@ class EnquiryController extends Controller {
 			$template_name .= "_not_logged_in";
 	    	
 	    	$template_config = config('enquiry_flow_config')[$template_name][$template_type];
-	    	$listing_obj = Listing::where('slug', '')->get();
+	    	$listing_obj = null;//Listing::where('slug', '')->get();
 
+	    	$listing_areas = $request->has('areas') && $request->areas ? $request->areas : [];
+    		$listing_categories = [];
+	    	if($request->has('category') && $request->category) {
+	    		$cat_obj = Category::where('slug', $request->category)->first();
+	    		
+	    		if($cat_obj->level > 1) {
+	    			$listViewCont_obj = new ListViewController;
+	    			$listing_categories = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+	    			$listing_categories = json_decode(explode("|", $listing_categories)[1]);
+	    		}
+	    	}
+
+	    	if($listing_areas || $listing_categories) {
+	    		Session::put('list_view', ["areas" => $listing_areas, "categories" => $listing_categories]);
+	    	}
 		} else { // Else
 			$template_config = "popup_level_one";
 			$listing_obj = Listing::where('slug', '')->get();
@@ -648,7 +681,7 @@ class EnquiryController extends Controller {
 					if(isset($payload_data["enquiry_data"]["user_object_id"]) && isset($verified_session["mobile"]) && $verified_session["mobile"]) { // IF user ID exist & Mobile is verified, then save the data in the Enquiry & ENquirySent Table
 						$enquiry_data = ["user_object_id" => isset($payload_data["enquiry_data"]["user_object_id"]) ? $payload_data["enquiry_data"]["user_object_id"] : null, "user_object_type" => isset($payload_data["enquiry_data"]["user_object_type"]) ? $payload_data["enquiry_data"]["user_object_type"] : "App\Lead", "enquiry_device" => $this->isMobile() ? "mobile" : "desktop", "enquiry_to_id" => isset($payload_data["enquiry_data"]["enquiry_to_id"]) ? $payload_data["enquiry_data"]["enquiry_to_id"] : null, "enquiry_to_type" => isset($payload_data["enquiry_data"]["enquiry_to_type"]) ? $payload_data["enquiry_data"]["enquiry_to_type"] : "App\Listing", "enquiry_message" => $payload_data["enquiry_data"]["enquiry_message"]];
 
-						if($listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
+						if($listing_obj && $listing_obj->count() > 0 && $payload_data["enquiry_data"]["enquiry_to_id"]) {
 							$enquiry_sent = ["enquiry_type" => "direct", "enquiry_to_id" => $payload_data["enquiry_data"]["enquiry_to_id"], "enquiry_to_type" => $payload_data["enquiry_data"]["enquiry_to_type"]];
 						} else {
 							$enquiry_sent = [];
@@ -852,7 +885,7 @@ class EnquiryController extends Controller {
 					}
 				}
 
-    			Session::flush('enquiry_data'); // Delete the Old enquiry_data
+    			Session::forget('enquiry_data'); // Delete the Old enquiry_data
 				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
 	    		if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
@@ -915,7 +948,7 @@ class EnquiryController extends Controller {
 	    					$session_payload["user_object_id"] = $enquiry_data["user_object_id"];
 	    					$session_payload["user_object_type"] = $enquiry_data["user_object_type"];
 	    					
-	    					Session::flush('enquiry_data'); // Delete the Old enquiry_data
+	    					Session::forget('enquiry_data'); // Delete the Old enquiry_data
 	    					Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
 	    				} else {
 	    					$enq_obj = null;
@@ -1015,7 +1048,7 @@ class EnquiryController extends Controller {
 
             foreach ($children as $child_index => $child) {
             	//$child_array[$child->id] = array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug);
-            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, "hierarchy" => generateCategoryHierarchy($child['id'])));
+            	array_push($child_array, array('id' => $child->id, 'name' => $child->name, 'order' => $child->order, 'slug' => $child->slug, 'icon_url' => $child->icon_url, "hierarchy" => generateCategoryHierarchy($child['id'])));
             }
 
             $parent_obj = Category::find($parent);
@@ -1027,7 +1060,7 @@ class EnquiryController extends Controller {
             }
 
             //$parent_array[$parent_obj->id] = array('name' => $parent_obj->name, 'children' => $child_array, 'parent' => $grandparent);
-            array_push($parent_array, array('id' => $parent_obj->id, 'name' => $parent_obj->name, 'slug' => $parent_obj->slug, 'children' => $child_array, 'parent' => $grandparent));
+            array_push($parent_array, array('id' => $parent_obj->id, 'name' => $parent_obj->name, 'slug' => $parent_obj->slug, 'icon_url' => $parent_obj->icon_url, 'children' => $child_array, 'parent' => $grandparent));
         }
         return $parent_array;
     }

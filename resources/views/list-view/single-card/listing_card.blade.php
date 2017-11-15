@@ -22,7 +22,7 @@
                 <div class="body-left flex-cols">
                     <div>
                         <div class="list-title-container">
-                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">{{ $list_value->title }}</a></h3>
+                            <h3 class="seller-info__title ellipsis-2" title="{{ $list_value->title }}"><a class="text-darker" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank">{{ $list_value->title }}</a></h3>
                             <div class="power-seller-container"></div>
                         </div>
                         <div class="location p-b-10 flex-row">
@@ -71,7 +71,7 @@
                                     @endforeach
                                     @if (sizeof($list_value->cores) > 4)
                                         <li class="cat-more more-show">
-                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="x-small secondary-link">+ {{ sizeof($list_value->cores) - 4}} more...</a>
+                                            <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="x-small secondary-link" target="_blank">+ {{ sizeof($list_value->cores) - 4}} more...</a>
                                         </li>
                                     @endif
                                 </ul>
@@ -108,7 +108,7 @@
 
                                             <li class="remain more-show">
                                                 @if ($locations_value["areas"]->count() > 5)
-                                                    <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium"> and more...</a>
+                                                    <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="cities__title remain__number default-size text-medium" target="_blank"> and more...</a>
                                                 @endif
                                             </li>
                                             <!-- <li>
@@ -137,7 +137,7 @@
                                 </div>
                                 @if(sizeof($list_value->areas_operation) > 1)
                                     <div class="location flex-row m-t-5">
-                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
+                                        <p class="m-b-0 text-color heavier default-size"> <a href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" class="remain__number x-small secondary-link moreLink" target="_blank">+ {{ sizeof($list_value->areas_operation) - 1 }} more...</a>
                                         </p>
                                     </div>
                                 @endif
@@ -157,7 +157,7 @@
                             <i class="fa fa-bar-chart bars text-darker" aria-hidden="true"></i>
                         </div>
                         <div class="get-details detail-move">
-                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
+                            <a class="btn fnb-btn outline full border-btn fullwidth default-size" href="{{ generateUrl($list_value->city['slug'], $list_value->slug) }}" target="_blank">Get Details <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
                         </div>
                     </div>
                 </div>

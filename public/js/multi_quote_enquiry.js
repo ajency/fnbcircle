@@ -56,9 +56,23 @@
     return data;
   };
 
-  getContent = function(modal_id, enquiry_level, listing_slug) {
-    var data;
+
+  /* --- Send the data of an enquiry --- */
+
+  getContent = function(modal_id, enquiry_level, listing_slug, trigger_modal, target_modal_id) {
+    var areas, data;
     data = getFilters(modal_id, enquiry_level, listing_slug);
+    if (trigger_modal && target_modal_id === "#multi-quote-enquiry-modal") {
+      data["multi-quote"] = true;
+      if ($("#listing_filter_view").length) {
+        data['category'] = $(document).find("#listing_filter_view #current_category").val().split("|")[0];
+        areas = [];
+        $(document).find("#listing_filter_view #section-area input[type='checkbox']:checked").each(function() {
+          areas = areas.concat($(this).val());
+        });
+        data['areas'] = areas;
+      }
+    }
     $.ajax({
       type: 'post',
       url: '/api/send_enquiry',
@@ -71,12 +85,30 @@
           $("#enquiry-modal .modal-content .modal-body .col-left.enquiry-details__intro").removeClass("hidden");
         }
         if (data["popup_template"].length > 0) {
-          $(document).find(modal_id + " #listing_popup_fill").html(data["popup_template"]);
+
+          /* --- if trigger_modal == true --- */
+          if (trigger_modal) {
+            if (target_modal_id) {
+
+              /* --- If target_modal_id is passed, then --- */
+              $(document).find(target_modal_id + " #listing_popup_fill").html(data["popup_template"]);
+              $(document).find(target_modal_id).modal('show');
+              if ($(target_modal_id + " #level-three-enquiry").length > 0) {
+                multiSelectInit(target_modal_id + " #level-three-enquiry #area_section #area_operations", false);
+              }
+            } else {
+
+              /* --- Else trigger default modal ID --- */
+              $(document).find(modal_id).modal('show');
+            }
+          } else {
+            $(document).find(modal_id + " #listing_popup_fill").html(data["popup_template"]);
+          }
           if ($(modal_id + " #level-one-enquiry")) {
             initFlagDrop(modal_id + " #level-one-enquiry input[name='contact']");
           }
           if ($(modal_id + " #level-three-enquiry").length > 0) {
-            multiSelectInit(modal_id + " #level-three-enquiry", false);
+            multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);
           }
         }
       },
@@ -85,6 +117,9 @@
       }
     });
   };
+
+
+  /* --- Request template for a modal --- */
 
   getTemplate = function(modal_id, modal_template, listing_slug) {
     var data;
@@ -213,8 +248,8 @@
           html += '<option value="' + data[key]['id'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
-        $(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('destroy');
-        multiSelectInit(modal_id + " #level-three-enquiry", false);
+        $(modal_id + " #level-three-enquiry" + ' .default-area-select').multiselect('rebuild');
+        multiSelectInit(modal_id + " #level-three-enquiry #area_section", false);
       },
       error: function(request, status, error) {
         throw Error();
@@ -294,9 +329,9 @@
       reinit = false;
     }
     if (reinit) {
-      $(path + ' .default-area-select').multiselect();
+      $(document).find(path + ' .default-area-select').multiselect();
     } else {
-      $(path + ' .default-area-select').multiselect({
+      $(document).find(path + ' .default-area-select').multiselect({
         includeSelectAllOption: true,
         numberDisplayed: 2,
         delimiterText: ',',
@@ -329,14 +364,20 @@
     old_values = {};
 
     /* --- Display respective Popups on "Send Enquiry click" --- */
-    $(".enquiry-modal-btn").on("click", function(e) {
-      var modal_id;
+    $(document).on("click", ".enquiry-modal-btn", function(e) {
+      var enq_form_id, modal_id, page_level;
       modal_id = $(this).data("target");
       if ($(modal_id).length > 0) {
+        if ($(this).data("value")) {
+          enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id");
+          page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
+          getContent(enq_form_id, page_level, '', true, modal_id);
+        } else {
 
-        /* --- Reset to Modal 1 on enquiry button Click --- */
-        resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val());
-        resetPlugins(modal_id);
+          /* --- Reset to Modal 1 on enquiry button Click --- */
+          resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val());
+          resetPlugins(modal_id);
+        }
         $(modal_id).on('shown.bs.modal', function(e) {
           var checkForInput;
           checkForInput = function(element) {
@@ -386,13 +427,13 @@
 
         /* --- On click of "Send Enquiry 1" button --- */
         $(document).on("click", modal_id + " #level-one-enquiry #level-one-form-btn", function(event) {
-          var page_level;
           page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           if ($(document).find(modal_id + " #level-one-enquiry").parsley().validate()) {
-            getContent(modal_id, page_level, $("#enquiry_slug").val());
+            getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id);
             event.stopImmediatePropagation();
           } else {
+            $(this).find("i.fa-circle-o-notch").addClass("hidden");
             console.log("forms not complete");
           }
         });
@@ -451,7 +492,6 @@
         $(document).on("click", modal_id + " #level-three-enquiry #add-city-areas", function(event) {
           $(modal_id + " #area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo(modal_id + " #area_section #area_operations");
           multiSelectInit(modal_id + " #level-three-enquiry #area_section #area_operations", false);
-          event.stopImmediatePropagation();
         });
 
         /* --- On click of close, remove the City-Area DOM --- */
@@ -463,11 +503,10 @@
 
         /* --- On click of Popup 3 'Save / Send' --- */
         $(document).on("click", modal_id + " #level-three-enquiry #level-three-form-btn", function(event) {
-          var page_level;
           page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
           $(this).find("i.fa-circle-o-notch").removeClass("hidden");
           if ($(document).find(modal_id + " #level-three-enquiry #enquiry_core_categories").parsley().validate() && $(document).find(modal_id + " #level-three-enquiry #area_operations").parsley().validate()) {
-            getContent(modal_id, page_level, $("#enquiry_slug").val());
+            getContent(modal_id, page_level, $("#enquiry_slug").val(), false, modal_id);
             event.stopImmediatePropagation();
           } else {
             $(this).find("i.fa-circle-o-notch").addClass("hidden");

@@ -43,14 +43,14 @@ class AdminEnquiryController extends Controller
             $enquiry['enquirer_type'] = $enquirer_type[$enquiry['enquirer_type']];
             $enquiry['request_date'] = $enquiry['request_date']->toDateString();
             if($enquiry['enquirer_email']['is_verified']){
-                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-check"></i>';
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-check text-success"></i>';
             }else{
-                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-times"></i>';
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-times text-danger"></i>';
             }
             if($enquiry['enquirer_phone']['is_verified']==1){
-                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-check"></i>';
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-check text-success"></i>';
             }else{
-                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-times"></i>';
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-times text-danger"></i>';
             }
             $config = config('helper_generate_html_config.enquiry_popup_display');
             foreach ($enquiry['enquirer_details'] as &$detail) {

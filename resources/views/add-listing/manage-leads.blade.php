@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="business-info  post-update tab-pane fade in active business-leads" id="my-leads">
+<div class="business-info  post-update tab-pane fade in active business-leads" id="manage-leads">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
     <div class="flex-row space-between">
         <img src="/img/post-update.png" class="img-responsive mobile-hide m-r-15" width="60">
@@ -128,7 +128,7 @@
 <div class="row">
     <div class="col-sm-2 p-l-0">
         <div class="filter-trigger">
-            <button class="btn fnb-btn primary-btn border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+            <button class="btn fnb-btn outline border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
     </div>
 </div>

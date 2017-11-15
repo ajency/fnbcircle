@@ -29,7 +29,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
-                    <label class="m-b-0 text-lighter float-label required filled lab-color" for="number">Phone</label>
+                    <label class="m-b-0 text-lighter float-label required filled lab-color dis-block phone-label" for="number">Phone</label>
                     @if(!Auth::guest())
                         <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                         <input type="hidden" name="contact_locality" value="{{ !Auth::guest() ? (Auth::user()->getPrimaryContact()['contact_region']) : '' }}"/>
@@ -46,7 +46,7 @@
             <div class="col-sm-6">
                 <div class="form-group m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
-                    <input type="text" class="form-control fnb-input float-input" id="email" name="email" name="email" data-parsley-trigger="change" data-parsley-type="email" data-required="true" value="{{ !Auth::guest() ? Auth::user()->email : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
+                    <input type="email" class="form-control fnb-input float-input" id="email" name="email" data-parsley-trigger="change" data-parsley-type="email" data-required="true" value="{{ !Auth::guest() ? Auth::user()->getPrimaryEmail() : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -70,7 +70,7 @@
                     </select>
                 </div> -->
                 @php
-                    if(isset($enquiry_data) && isset($enquiry_data['describes_best'])) {
+                    if(isset($enquiry_data) && isset($enquiry_data['describes_best']) && $enquiry_data['describes_best']) {
                         $describes_best_html = generateHTML("listing_enquiry_description", $enquiry_data['describes_best']);
                     } else {
                         $describes_best_html = generateHTML("listing_enquiry_description");
@@ -81,6 +81,7 @@
                         <label class="flex-row points">
                             {!! $valueContent["html"] !!}
                             <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                            <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
                         </label>
                     @endforeach
                     </div>
@@ -92,11 +93,14 @@
         <!-- describes best ends -->
         <!-- looking for -->
         <div class="looking-for gap-separator">
-            <a class="secondary-link text-decor desk-hide looking-for__toggle" data-toggle="collapse" href="#lookingfor" aria-expanded="false" aria-controls="lookingfor">Add a note</a>
-            <div class="collapse in" id="lookingfor">
-                <p class="text-darker describes__title heavier">Tell the business owner what you're looking for</p>
+            @if(Auth::guest())
+                <a class="secondary-link text-decor desk-hide looking-for__toggle" data-toggle="collapse" href="#lookingfor" aria-expanded="false" aria-controls="lookingfor">Add a note</a>
+            @endif    
+            <div class="@if(Auth::guest()) collapse @endif  @if(!Auth::guest()) in @endif" id="lookingfor">
+                <p class="text-darker describes__title heavier m-b-5">Give the supplier/service provider some details of your requirements</p>
+                <div class="text-lighter x-small heavier">You may specify product/services, quantities, specifications, your company/brand name, etc.</div>
                 <div class="form-group">
-                    <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="Type here....">
+                    <input type="text" class="form-control fnb-input" name="enquiry_message" placeholder="">
                 </div>
             </div>
         </div>

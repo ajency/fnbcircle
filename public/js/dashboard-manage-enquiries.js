@@ -137,4 +137,6 @@
     return enquiry_table.ajax.reload();
   });
 
+  $('#datatable-manage_enquiries').closest('.row').addClass('overflow-table');
+
 }).call(this);

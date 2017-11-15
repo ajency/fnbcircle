@@ -522,7 +522,7 @@ $additionalData = ['job'=>$job];
                       <a href="" class="article-link">
                         <div class="fnb-article__banner"  <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
                         <div class="fnb-article__content m-t-15">
-                          <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="color-darker">{{$news_item['title']}}</a></h6>
+                          <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker">{{$news_item['title']}}</a></h6>
                           <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}</p>
                           <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
                         </div>

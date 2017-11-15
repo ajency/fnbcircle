@@ -1,4 +1,4 @@
-@extends('layouts.fnbtemplate')
+@extends('layouts.app')
 @section('title', '403' )
 @section('css')
     <!-- Magnify css -->

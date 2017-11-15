@@ -38,7 +38,7 @@
                         <!-- <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
                         <li>
                             
-                            <select class="form-control fnb-select nav-color" onchange="location = this.value;">
+                            <select class="form-control fnb-select" onchange="location = this.value;">
 
 
                                 <option>--Change State--</option>

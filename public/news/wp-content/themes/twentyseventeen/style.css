@@ -4304,13 +4304,13 @@ object {
 	}
 }
 
-.category .breadcrumb a{
+.category .breadcrumb a, .author .breadcrumb a {
 	color: #fff;
 }
-.category .breadcrumb{
+.category .breadcrumb, .author .breadcrumb{
 	    padding: 28px 15px 0px;
 	    margin-top: 0px !important;
 }
-.category .page-title{
+.category .page-title, body.author .page-title{
 	    padding-top: 10px !important;
 }

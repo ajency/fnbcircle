@@ -669,12 +669,12 @@
                         <!-- Similar businesses end -->
                         @endif
                         <!-- Related article section -->
-
+                        
                         @if(count($data['news_items']) > 0)
                         <div class="related-article p-b-20" id="article">
                                 <div class="section-start-head m-b-15 flex-row">
                                     <h6 class="element-title">Related Articles</h6>
-                                    <a href="/news/{{$data['city']['name']}}" class="secondary-link view-more heavier">View More</a>
+                                    <a href="{{ url('/news/'.strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $data['city']['name'])))) }}" class="secondary-link view-more heavier">View More</a>
                                 </div>
                                 <div class="related-article__section flex-row">
 
@@ -722,6 +722,17 @@
                                     </div> -->
                                 </div>
                             </div>
+                        @else
+
+                            <div class="related-article p-b-20" id="article">
+                                <div class="section-start-head m-b-15 flex-row">
+                                    <h6 class="element-title">Related Articles</h6>                                        
+                                </div>
+                                <div class="related-article__section flex-row">
+                                    <p class="text-center heavier">No related articles</p>
+                                </div>
+                            </div>
+
 
                         @endif
 

@@ -164,6 +164,12 @@ if ( !class_exists('wpt_widget') ) {
 					<?php _e( 'Show post date', 'wp-tab-widget'); ?>	
 				</label>	
 			</p>
+			<p>			
+				<label for="<?php echo $this->get_field_id("show_date"); ?>">	
+					<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id("show_date"); ?>" name="<?php echo $this->get_field_name("show_date"); ?>" value="1" <?php if (isset($show_date)) { checked( 1, $show_date, true ); } ?> />	
+					<?php _e( 'Show post date', 'wp-tab-widget'); ?>	
+				</label>	
+			</p>
 	        
 			<p>		
 				<label for="<?php echo $this->get_field_id("show_comment_num"); ?>">		
@@ -390,7 +396,8 @@ if ( !class_exists('wpt_widget') ) {
 	                            <?php endif; ?>	
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>	
 									<div class="wpt-postmeta">						
-										<?php if ( $show_date == 1 ) : ?>			
+										<?php if ( $show_date == 1 ) : ?>	
+											By <?php the_author_posts_link(); ?> on 		
 											<?php the_time('F j, Y'); ?>		
 										<?php endif; ?>						
 										<?php if ( $show_date == 1 && $show_comment_num == 1) : ?>		
@@ -445,7 +452,8 @@ if ( !class_exists('wpt_widget') ) {
 	                            <?php endif; ?>	
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>			
 									<div class="wpt-postmeta">										
-										<?php if ( $show_date == 1 ) : ?>						
+										<?php if ( $show_date == 1 ) : ?>
+											By <?php the_author_posts_link(); ?> on						
 											<?php the_time('F j, Y'); ?>						
 										<?php endif; ?>								
 										<?php if ( $show_date == 1 && $show_comment_num == 1) : ?>		

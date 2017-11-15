@@ -1293,9 +1293,14 @@ add_filter('post_type_link', 'post_tag_permalink', 10, 3);*/
 
 
  
-remove_filter( 'the_title', 'wptexturize' );
-remove_filter( 'the_content', 'wptexturize' );
-remove_filter( 'the_excerpt', 'wptexturize' );
+ /* End Rmove &#8211; from title*/
+remove_filter( 'the_title' , 'wptexturize' );
+remove_filter( 'the_content' , 'wptexturize' );
+remove_filter( 'the_excerpt' , 'wptexturize' );
+remove_filter( 'comment_text' , 'wptexturize' );
+remove_filter( 'list_cats' , 'wptexturize' );
+add_filter( 'run_wptexturize', '__return_false' ); //removes globally
+/* End Remove &#8211; from title*/  
  
 
 

@@ -324,7 +324,9 @@ $(function(){
 
 		function validatePassword(password, confirm_password, parent_path, child_path) {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-			var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			// var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			// Password should have 8 or more characters with 1 No
+			var expression = /^(?=.*[0-9])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
 			var message = '', status = true;
 
 			if(expression.test(password)) {
@@ -337,12 +339,17 @@ $(function(){
 					status = false;
 				}
 			} else { // Else password not Satisfied the criteria
-				message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+				if(password.length > 0) {
+					// message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+					message = "Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class='note-popover popover top'><div class='arrow'></div> <div class='popover-content'><b class='fnb-errors'>Note:</b> Don’t use obvious passwords or easily guessable like your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>";
+				} else {
+					message = "Please enter a Password";
+				}
 				status = false;
 			}
 
 			if(!status && parent_path !== '') {
-				$(parent_path + " " + child_path).removeClass('hidden').text(message);
+				$(parent_path + " " + child_path).removeClass('hidden').html(message);
 			} else if(status && parent_path !== '') {
 				//$(parent_path + " " + child_path).addClass('hidden');
 				$(parent_path + " " + "#password_errors").addClass('hidden');
@@ -435,6 +442,8 @@ $(function(){
 		$(document).ready(function() {
 
 			if($("#reset-password-form").length > 0) {
+				/* Reset password form section */
+
 				$("#reset-password-form input[type='password'][name='password']").on('focus, input', function(){
 					// console.log(validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val()));
 					if(!validatePassword($(this).val(), $("#reset-password-form input[type='password'][name='password_confirmation']").val(), "#reset-password-form", "#new-pass-error")) {
@@ -604,7 +613,7 @@ $(function(){
 				}
 			});
 
-			$("#register_form input[type='password'][name='password']").on('focus, input', function(){
+			$("#register_form input[type='password'][name='password']").on('focusin, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
 				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
 					return false;
@@ -614,7 +623,15 @@ $(function(){
 				}
 			});
 
-			$("#register_form input[type='password'][name='password_confirmation']").on('focus, input', function(){
+			$("#register_form input[type='password'][name='password']").on('focusout', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val(), "#register_form", "#password_errors")) {
+					$("#register_form #password_errors").addClass("hidden").removeClass("hidden").text("Please enter a valid password");
+					return false;
+				}
+			});
+
+			$("#register_form input[type='password'][name='password_confirmation']").on('focusin, input', function(){
 				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
 				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
 					// $("#register_form #password_confirm_errors").removeClass("hidden").text("Password and Confirm password are not matching");
@@ -622,6 +639,14 @@ $(function(){
 				} else {
 					$("#register_form #password_confirm_errors").addClass("hidden");
 					return true;
+				}
+			});
+
+			$("#register_form input[type='password'][name='password_confirmation']").on('focusout', function(){
+				// console.log(validatePassword($(this).val(), $("#register_form input[type='password'][name='password_confirmation']").val()));
+				if(!validatePassword($("#register_form input[type='password'][name='password']").val(), $(this).val(), "#register_form", "#password_confirm_errors")) {
+					$("#register_form #password_confirm_errors").addClass("hidden").removeClass("hidden").text("Please enter a valid confirm password");
+					return false;
 				}
 			});
 
@@ -677,6 +702,12 @@ $(function(){
 				} else if (message_key == 'token_already_verified') { // Token already Verfied / Used
 					$(popup_message + ".alert-warning .token-already-verified.already-verified-error").removeClass('hidden');
 					$(popup_message + ".alert-warning").removeClass('hidden');
+				} else if (message_key == 'facebook_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.facebook-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
+				} else if (message_key == 'google_email_missing') {
+					$(popup_message + ".alert-danger .email-missing.google-email-miss-error").removeClass('hidden');
+					$(popup_message + ".alert-danger").removeClass('hidden');
 				}
 
 			}

@@ -257,6 +257,9 @@ class RegisterController extends Controller
         }
     }
 
+    /**
+    * This function is used to send a confirm mail for a Lead / Register User
+    */
     public function confirmEmail($token_type = 'register', $user_data = [], $email_template_key = 'user-verify') {
         if(sizeof($user_data) > 0 && isset($user_data["id"]) && isset($user_data["email"])) {
             $token = str_random(50);
@@ -280,6 +283,7 @@ class RegisterController extends Controller
             $data['subject'] = "Verify your email address!";
             $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
             sendEmail($email_template_key, $data);
+            Session::put('userLoginEmail', $userEmail);
 
             return true;
         } else {
@@ -287,14 +291,20 @@ class RegisterController extends Controller
         }
     }
 
+    /**
+    * Send Register confirmation link after Registration
+    */
     public function registerConfirmEmail($user) {
 
         $user_data = array("id" => $user->id, "name" => $user->name, "email" => $user->getPrimaryEmail());
 
         return $this->confirmEmail("register", $user_data, 'user-verify');
+
     }
 
-
+    /**
+    * This function is called on click of Email Link click
+    */
     public function userConfirmation($usertoken)
     {
         $token = UserToken:: where(['token'=>$usertoken,'token_type'=>'register'])->first();
@@ -333,7 +343,9 @@ class RegisterController extends Controller
         }
     }
 
- 
+    /**
+    * This function is called to send confirmation link post Registration
+    */ 
     public function sendConfirmationLink(Request $request)  
     {
         $email = Session::get('userLoginEmail');

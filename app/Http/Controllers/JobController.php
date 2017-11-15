@@ -748,8 +748,8 @@ class JobController extends Controller
         $data = [];
         $data['from'] = $ownerDetails['email'];
         $data['name'] = $jobOwner->name;
-        $data['to'] = [ 'nutan@ajency.in'];
-        $data['cc'] = 'prajay@ajency.in';
+        $data['to'] = [ config('constants.email_to')];
+        $data['cc'] = [ config('constants.email_to')];
         $data['subject'] = "A job has been submitted for review.";
         $data['template_data'] = $templateData;
         
@@ -1190,7 +1190,7 @@ class JobController extends Controller
         $data['from'] = $applicantEmail;
         $data['name'] = $applicantName;
         $data['to'] = [ $ownerDetails['email']];
-        $data['cc'] = 'prajay@ajency.in';
+        $data['cc'] = [ config('constants.email_to')];
         $data['subject'] = "New application for job ".$job->title;
         
          

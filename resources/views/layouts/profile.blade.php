@@ -25,7 +25,7 @@
                             <li class="fnb-breadcrums__section">
                                 <a href="">
                                     <p class="fnb-breadcrums__title">
-                                        {{$data['name']}}'s profile
+                                       @if($self) My @else {{$data['name']}}'s @endif profile
                                     </p>
                                 </a>
                             </li>
@@ -82,21 +82,24 @@
                                             <div class="Profile__body">
                                                 @isset($data['email'])
                                                 <div class="email-row contact flex-row space-between">
-                                                    <div>
+                                                    <div class="flex-1">
                                                         <h6 class="heavier sub-title">
                                                             Email
                                                         </h6>
-                                                        <a class="sub-title dark-link lighter word-break" href="mailto:{{$data['email']['email']}}">
-                                                            {{$data['email']['email']}}
-                                                        </a>
-                                                    </div>
-                                                    <div class="verified flex-row self-end">
-                                                        @if($data['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
-                                                        </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
-                                                        <div class="text-color">
-                                                           @if($data['email']['is_verified'] == 0) Not @endif Verified
+                                                        <div class="flex-row space-between align-top">
+                                                            <a class="sub-title dark-link lighter word-break flex-1"   href="mailto:{{$data['email']['email']}}">
+                                                                {{$data['email']['email']}}
+                                                            </a>
+                                                            <div class="verified flex-row p-l-5 @if($data['email']['is_verified'] == 1) basic-verified @endif">
+                                                                @if($data['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
+                                                                </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
+                                                                <div class="text-color">
+                                                                   @if($data['email']['is_verified'] == 0) Not @endif Verified
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 @endisset
                                                 @isset($data['phone'])

@@ -560,6 +560,17 @@ function firstTimeUserLoginUrl(){
 }
  
 
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs'))) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
 /**

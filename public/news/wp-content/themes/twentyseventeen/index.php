@@ -26,7 +26,7 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
-		 <label class="search-label">
+		 <label class="search-label city_select_label">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
 		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
 		</label>
@@ -234,18 +234,18 @@ else: ?>
 
 <script type="text/javascript">
 
-	jQuery(document).ready(function($){
+	/*jQuery(document).ready(function($){
 		$('.search-submit').on("click",function(){
 
 			if($('#cat').val()!="-1"){
-				location.href = "<?php echo esc_url( home_url( '/' ) ); ?>"+$('#cat').val()+"/?s="+$('input[name=s]').val();
+				location.href = "< ?php echo esc_url( home_url( '/' ) ); ?>"+$('#cat').val()+"/?s="+$('input[name=s]').val();
 			}
 			else{
-				location.href = "<?php echo esc_url( home_url( '/' ) ); ?>?s="+$('input[name=s]').val();
+				location.href = "< ?php echo esc_url( home_url( '/' ) ); ?>?s="+$('input[name=s]').val();
 			}
 			
 		})
 
-	})
+	})*/
 </script>
 <?php get_footer();

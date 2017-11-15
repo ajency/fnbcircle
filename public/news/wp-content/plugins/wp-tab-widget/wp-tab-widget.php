@@ -397,7 +397,7 @@ if ( !class_exists('wpt_widget') ) {
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>	
 									<div class="wpt-postmeta">						
 										<?php if ( $show_date == 1 ) : ?>	
-											By <?php the_author_posts_link(); ?><br> on 		
+											By <?php the_author_posts_link(); ?> on 		
 											<?php the_time('F j, Y'); ?>		
 										<?php endif; ?>						
 										<?php if ( $show_date == 1 && $show_comment_num == 1) : ?>		
@@ -453,7 +453,7 @@ if ( !class_exists('wpt_widget') ) {
 								<?php if ( $show_date == 1 || $show_comment_num == 1) : ?>			
 									<div class="wpt-postmeta">										
 										<?php if ( $show_date == 1 ) : ?>
-											By <?php the_author_posts_link(); ?><br> on						
+											By <?php the_author_posts_link(); ?> on						
 											<?php the_time('F j, Y'); ?>						
 										<?php endif; ?>								
 										<?php if ( $show_date == 1 && $show_comment_num == 1) : ?>		

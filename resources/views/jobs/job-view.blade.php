@@ -502,7 +502,13 @@ $additionalData = ['job'=>$job];
           <div class="related-article p-b-20" id="article">
               <div class="section-start-head m-b-15 flex-row">
                 <h6 class="element-title">Related News Articles</h6>
-                <a href="" class="secondary-link view-more heavier">View More</a>
+                @foreach($news_items as $news_item)
+                <?php $news_city = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city)));
+
+                ?>
+                @endforeach
+                
+                <a href="{{ url('/news/'.$news_city) }}" class="secondary-link view-more heavier">View More</a>
               </div>
               <div class="related-article__section jobs-related-article flex-row align-top">
                 

@@ -336,9 +336,13 @@ class ListingViewController extends Controller
     public function getNewsList($pagedata,$city)
     {
         $news = new WpNewsHelper();
-        $news_args = array("category"=>array($city),'num_of_items'=>2);
+        //$news_args = array("category"=>array($city),'num_of_items'=>2);
+        $news_args = array('num_of_items'=>2);
 
         foreach ($pagedata['categories'] as $cats) {
+
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['parent']))); 
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $cats['branch'])));   
 
             foreach ($cats['nodes'] as $cat) {
 
@@ -348,13 +352,14 @@ class ListingViewController extends Controller
         }
 
         foreach ($pagedata['brands'] as $brand) {
-            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); ;
+            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $brand))); 
         }
 
         if(count($cat_ar)>0){
             $news_args["tag"] = $cat_ar;    
         }
 
+ 
          
         $news_items = $news->getNewsByCategories_tags($news_args);   
         return $news_items;

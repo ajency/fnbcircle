@@ -18,7 +18,7 @@
 
 get_header(); ?>
 <div class="header-image text-center">
-	<H1>FnB Circle News</H1>
+	<H1 class="bold-t" >FnB Circle News</H1>
 	<div class="search-container">
 		<!-- <select>
 		  <option value="volvo">Panjim</option>
@@ -26,11 +26,15 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
-		<?php wp_dropdown_categories('show_option_none=Select City&exclude=1&value_field=slug'); ?>
+		 <label class="search-label">
+		 <i class="fa fa-map-marker" aria-hidden="true"></i>
+		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
+		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		
 		 <label>
 	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
+	        <i class="fa fa-search" aria-hidden="true"></i>
 	        <input type="search" class="search-field"
 	            placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>"
 	            value="<?php echo get_search_query() ?>" name="s"
@@ -42,7 +46,7 @@ get_header(); ?>
 </div>
 </div>
 <div class="wrap">
-<h1 class="bold-t">Featured News on FnB</h1>
+<h3 class="bold-t">Featured News on FnB</h3>
 <p>What's trending on FnBCircle right now.</p>	
 	<?php
 $custom_query_args = array(
@@ -81,7 +85,18 @@ $wp_query   = $custom_query;
     <?php the_excerpt(6); ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
+
+<?php 
+$show_categories = true;
+$categories = wp_get_post_categories( $post->ID );
+// We don't want to show the categories if there is a single category and it is "uncategorized"
+if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
+  $show_categories = false;
+endif;
+
+?>
+
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true){ ?>in <?php the_category(', '); ?>  <?php } ?>
 </div>   
    </div>
    <div class="clear"></div>
@@ -114,7 +129,7 @@ $wp_query = $temp_query;
 <div class="clear"></div>
 <br>
 
-<h1 class="bold-t">Recent News on FnB</h1>
+<h3 class="bold-t">Recent News on FnB</h3>
 <p>What's trending on FnBCircle right now.</p>	
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>
@@ -175,7 +190,19 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  in <?php the_category(', '); ?> 
+
+<?php 
+$show_categories = true;
+$categories = wp_get_post_categories( $post->ID );
+// We don't want to show the categories if there is a single category and it is "uncategorized"
+if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
+  $show_categories = false;
+endif;
+
+?>
+
+
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true) { ?>in <?php the_category(', '); ?> <?php } ?>
 </div>   
    </div>
    <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 

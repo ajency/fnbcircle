@@ -1045,9 +1045,17 @@ function get_featured_news_by_city(){
 
 	$post_categories = get_the_category();
 	$category_display ="";
+	$cnt_cat =0;
 	foreach ($post_categories as $post_cat) {
 
-			 $category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+		if($post_cat->slug!=="uncategorized"){
+			if($cnt_cat>0){
+				$category_display.=', ';
+			}
+			$category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+			
+			$cnt_cat++;
+		}
 
 	}
 
@@ -1112,10 +1120,16 @@ function get_recent_news_by_city($city){
 	      <div class="list-post">';
 	  $post_categories = get_the_category();
 	  $category_display ="";
+	  $cnt_cat =0;
 	  foreach ($post_categories as $post_cat) {
 
-	  		 $category_display.='<a href="">'.$post_cat->cat_name.'</a>';
-
+  		if($post_cat->slug!=="uncategorized"){
+  			if($cnt_cat>0){
+  				$category_display.=', ';	
+  			}
+  			$category_display.='<a href="">'.$post_cat->cat_name.'</a>';	
+  			$cnt_cat ++;  	
+  		} 
 	  }
 
 	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 

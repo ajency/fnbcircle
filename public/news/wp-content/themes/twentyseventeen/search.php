@@ -13,7 +13,7 @@
 get_header(); ?>
 	<header class="header-image page-header text-center">
 
-	<H1>FnB Circle News</H1>
+		<H1 class="bold-t" >FnB Circle News</H1>
 	<div class="search-container">
 		<!-- <select>
 		  <option value="volvo">Panjim</option>
@@ -21,11 +21,15 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
-		<?php wp_dropdown_categories('show_option_none=Select category&exclude=1&value_field=slug'); ?>
+		 <label class="search-label">
+		 <i class="fa fa-map-marker" aria-hidden="true"></i>
+		<?php wp_dropdown_categories('show_option_none=Select City&exclude=1&value_field=slug'); ?>
+		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		
 		 <label>
 	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
+	        <i class="fa fa-search" aria-hidden="true"></i>
 	        <input type="search" class="search-field"
 	            placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>"
 	            value="<?php echo get_search_query() ?>" name="s"
@@ -34,7 +38,6 @@ get_header(); ?>
 	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
 	</form>
 	<div class="clear"></div>
-
 </div>
 	</header><!-- .page-header -->
 

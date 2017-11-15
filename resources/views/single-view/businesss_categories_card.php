@@ -1,6 +1,6 @@
 <div class="browse-cat list-of-business">
    <h6 class="element-title">FnB Circle also has business listings</h6>
-   <span class="text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, doloribus.</span>
+   <span class="text-lighter heavier">Below are some top categories</span>
    <ul class="browse-cat__list m-t-20"> 
 
 

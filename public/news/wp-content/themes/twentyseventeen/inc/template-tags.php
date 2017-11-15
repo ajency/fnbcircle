@@ -51,13 +51,37 @@ function twentyseventeen_time_link() {
 		__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
 		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 	);*/
+	/*return sprintf(
+			/* translators: %s: post date * /
+			__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
+			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a> in '. the_category(', ') 
+		);*/
 
+	$post_categories = get_the_category();
+	$category_display ="";
+	$cnt_cat =0;
+	foreach ($post_categories as $post_cat) {
+
+		if($post_cat->slug!=="uncategorized"){
+			if($cnt_cat>0){
+				$category_display.=', ';
+			}
+			$category_display.='<a href="">'.$post_cat->cat_name.'</a>';
+			
+			$cnt_cat++;
+		}
+
+	}
 
 	return sprintf(
-		/* translators: %s: post date */
-		__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
-		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a> in '. the_category(', ') 
-	);
+			/* translators: %s: post date */
+			__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
+			'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a> in '. $category_display 
+		);
+
+
+
+	
 }
 endif;
 

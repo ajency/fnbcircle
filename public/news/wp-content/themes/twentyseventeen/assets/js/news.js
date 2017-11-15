@@ -178,6 +178,10 @@ jQuery(document).ready(function($) {
 
         $('.wrap').append('<i class="fa fa-circle-o-notch fa-spin fa-2x featured-loader" style="color:#EC6D4B"></i>')
 
+        if(typeof sel_city =='undefined' || sel_city =='-1'){
+            sel_city = '';
+        }
+         
 
         ///FEATURED NEWS
          $.post(ajax_url, {

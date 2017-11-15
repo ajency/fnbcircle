@@ -166,7 +166,11 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
           
   
   <div class="featured-content">
+ <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
+    <?php if ( ! empty ( $my_post_meta ) ) { ?>
+        <div class="featured-job"></div>
 
+    <?php } ?>
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
 <div class="featured-meta">

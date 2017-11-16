@@ -70,6 +70,8 @@
     }
   });
 
+  $('#submissionDate').val('');
+
   $('body').on('click', 'a#clearSubDate', function(e) {
     e.preventDefault();
     $('#submissionDate').val('');

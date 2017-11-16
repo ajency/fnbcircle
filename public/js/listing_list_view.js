@@ -322,14 +322,20 @@
         /* --- If enquiry card exist, then --- */
         if ($("#listing_card_view #listing_list_view_enquiry").length) {
           initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']");
-          return $(document).find('.float-input').each(function() {
-            return checkForInput(this);
+          $(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 2,
+            delimiterText: ',',
+            nonSelectedText: 'Select that describes you best'
+          });
+          $(document).find('.float-input').each(function() {
+            checkForInput(this);
           });
         }
       },
       error: function(request, status, error) {
         $(".listings-page .site-loader.section-loader").addClass("hidden");
-        return console.log(error);
+        console.log(error);
       }
     });
   };
@@ -346,7 +352,7 @@
       success: function(data) {
         var html_content;
         html_content = "";
-        return updateCityDropdown(data["data"], populate_id);
+        updateCityDropdown(data["data"], populate_id);
       },
       error: function(request, status, error) {
         return console.log(error);
@@ -361,7 +367,7 @@
     var html_content;
     if (data.length) {
       data.forEach(function(value, index) {
-        return html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>";
+        html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>";
       });
     } else {
       html_content = "<option value=\"\"></option>";
@@ -759,7 +765,7 @@
     $(document).on('click', '.send-enquiry', function() {
       $('.enquiry-card').addClass('active');
     });
-    return $(document).on('click', '.back-icon', function() {
+    $(document).on('click', '.back-icon', function() {
       $('.fly-out').removeClass('active');
     });
   });

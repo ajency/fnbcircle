@@ -21,7 +21,7 @@
                     </p>
                 </div>
                 <div class="add-card__form">
-                    @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "enquiry_send_button" => true))
+                    @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#multi-quote-enquiry-modal"))
                 </div>
             </div>
         </div>    

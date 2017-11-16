@@ -109,6 +109,28 @@ function generateHTML($reference, $values = []) {
 			} else {
 				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			}
+		} else if($value["type"] == "option") {
+			if(!auth()->guest()) {
+				$userDetailsObj = auth()->user()->getUserDetails;
+			} else {
+				$userDetailsObj = null;
+			}
+
+			/* Parsley field */
+			$parsley = "";
+			if(isset($value["parsley"]) && sizeof($value["parsley"]) > 0) {
+				foreach ($value["parsley"] as $parsley_key => $parsley_value) {
+					$parsley .= $parsley_key . '="' . $parsley_value . '" ';
+				}
+			}
+
+			if(!auth()->guest() && $userDetailsObj && $userDetailsObj->subtype && in_array($value["value"], unserialize($userDetailsObj->subtype))) { // If logged in & has userDetails & has atleast 1 option in array
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else if(in_array($value["value"], $values)) { // If the value is passed in the Array, then ENABLE that Checkbox
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else {
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			}
 		} else if($value["type"] == "li_label") {
 			if (sizeof($values) > 0) {
 				if(in_array($key, $values)) {

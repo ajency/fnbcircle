@@ -145,6 +145,7 @@
   $('#datatable-manage_enquiries').closest('.row').addClass('overflow-table');
 
   $('body').on('click', 'button#resetAll', function(e) {
+    var categories, cities;
     $('div#categories.node-list').html('');
     $('div#disp-operation-areas.node-list').html('');
     $('select#updateType').multiselect('rebuild');
@@ -160,6 +161,12 @@
     });
     filters = {};
     enquiry_table.ajax.reload();
+    categories = {
+      'parents': []
+    };
+    cities = {
+      'cities': []
+    };
   });
 
 }).call(this);

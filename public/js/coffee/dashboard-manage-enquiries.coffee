@@ -134,4 +134,6 @@ $('body').on 'click','button#resetAll', (e)->
     $(this).multiselect('deselectAll',false)
   filters = {}
   enquiry_table.ajax.reload()
+  categories = 'parents': []
+  cities = 'cities': []
   return

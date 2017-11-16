@@ -1388,3 +1388,29 @@ function custom_author_post_link($link_pretext='',$link_posttext=''){
 
 
 
+
+/*Remove Logged in as admin@ajency.in. Log out? from comment section*/
+add_filter( 'comment_form_logged_in', '__return_empty_string' );
+
+
+
+if ( ! function_exists( 't5_do_not_ask_for_comment_log_in' ) )
+{
+    add_filter( 'comment_reply_link', 't5_do_not_ask_for_comment_log_in' );
+
+    /**
+     * Replaces the log-in link with an empty string.
+     *
+     * @param  string $link
+     * @return string
+     */
+    function t5_do_not_ask_for_comment_log_in( $link )
+    {
+        if ( empty ( $GLOBALS['user_ID'] ) && get_option( 'comment_registration' ) )
+        {
+            return '<div class="reply"><a rel="nofollow" class="comment-reply-login" href="javascript:void(0);"  data-toggle="modal" data-target="#login-modal" >Log in to Reply</a></div>';
+        }
+
+        return $link;
+    }
+}

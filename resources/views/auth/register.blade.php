@@ -249,7 +249,7 @@
                                     <div class="col-sm-12">
                                          <div class="form-group text-center m-t-20 m-b-20 signBtn">
                                             <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
-                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" disabled="disabled">
+                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" >
                                                 Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>

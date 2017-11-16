@@ -51,7 +51,7 @@ get_header(); ?>
 	            value="<?php echo get_search_query() ?>" name="s"
 	            title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
 	    </label>
-	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
+	    <?php /* <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" /> */ ?>
 	</form>
 	<div class="clear"></div>
 </div>

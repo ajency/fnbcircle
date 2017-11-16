@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetPlugins, resetTemplate;
+  var capitalize, checkForInput, getArea, getContent, getCookie, getFilters, getTemplate, getVerification, initCatSearchBox, initFlagDrop, multiSelectInit, resetPlugins, resetTemplate;
 
   capitalize = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -13,9 +13,13 @@
     data = {};
     if (enquiry_no === 'step_1') {
       descr_values = [];
-      $.each($(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), function() {
-        descr_values.push($(this).val());
-      });
+      if ($(modal_id + " .level-one #level-one-enquiry select[name='description']").length > 0) {
+        descr_values = $(modal_id + " .level-one #level-one-enquiry select[name='description']").val();
+      } else {
+        $.each($(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), function() {
+          descr_values.push($(this).val());
+        });
+      }
       data = {
         name: $(modal_id + " .level-one #level-one-enquiry input[name='name']").val(),
         email: $(modal_id + " .level-one #level-one-enquiry input[name='email']").val(),
@@ -357,21 +361,50 @@
     }
   };
 
+  checkForInput = function(element) {
+    var $label;
+    $label = $(element).siblings('label');
+    if ($(element).val().length > 0) {
+      $label.addClass('filled lab-color');
+    } else {
+      $label.removeClass('filled lab-color');
+    }
+  };
+
   $(document).ready(function() {
 
     /* --- This object is used to store old values -> Mainly for search-boxes --- */
     var old_values;
     old_values = {};
 
-    /* --- Display respective Popups on "Send Enquiry click" --- */
+    /* --- If RHS Enquiry form exist, then --- */
+    if ($("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0) {
+      initFlagDrop("#rhs-enquiry-form .level-one #level-one-enquiry input[name='contact']");
+      $(document).find("#rhs-enquiry-form .level-one #level-one-enquiry select[name='description']").multiselect({
+        includeSelectAllOption: true,
+        numberDisplayed: 2,
+        delimiterText: ',',
+        nonSelectedText: 'Select that describes you best'
+      });
+      $(document).find('.float-input').each(function() {
+        checkForInput(this);
+      });
+    }
+
+    /* --- Display respective Popups on "Send Enquiry" click --- */
     $(document).on("click", ".enquiry-modal-btn", function(e) {
-      var enq_form_id, modal_id, page_level;
+      var enq_form_id, listing_slug, modal_id, page_level;
       modal_id = $(this).data("target");
       if ($(modal_id).length > 0) {
         if ($(this).data("value")) {
           enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id");
           page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
-          getContent(enq_form_id, page_level, '', true, modal_id);
+          if (modal_id === "#enquiry-modal") {
+            listing_slug = $("#enquiry_slug").val();
+          } else {
+            listing_slug = "";
+          }
+          getContent(enq_form_id, page_level, listing_slug, true, modal_id);
         } else {
 
           /* --- Reset to Modal 1 on enquiry button Click --- */
@@ -379,7 +412,6 @@
           resetPlugins(modal_id);
         }
         $(modal_id).on('shown.bs.modal', function(e) {
-          var checkForInput;
           checkForInput = function(element) {
             var $label;
             $label = $(element).siblings('label');

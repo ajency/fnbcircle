@@ -9,6 +9,7 @@ use App\ListingAreasOfOperation;
 use App\ListingCategory;
 use App\User;
 // use App\ListingCategory;
+use Illuminate\Support\Facades\Session;
 
 class ListingViewController extends Controller
 {
@@ -23,7 +24,8 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
-        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
+        $enquiry_data = Session::get('enquiry_data', []);
+        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar)->with('enquiry_data', $enquiry_data);
     }
 
     public function getListingData($listing)

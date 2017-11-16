@@ -228,8 +228,12 @@ class AdminEnquiryController extends Controller
             if($type=='admin') {
                 if(count($filters['enquiry_type']) == 1){
                     $direct = EnquirySent::select('enquiry_id',DB::raw('count(*) as count'))->groupBy('enquiry_id')->having('count',1)->pluck('enquiry_id')->toArray();
-                    if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct);
-                    else $enquiries = $enquiries->whereNotIn('id',$direct);
+                    if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct)->where('enquiry_to_id','!=',0);
+                    else $enquiries = $enquiries->where(function($sql) use ($direct){
+                        $sql->whereNotIn('id',$direct)->orWhere('enquiry_to_id',0);
+                    });
+
+                       
                 }
             }
             else {
@@ -344,7 +348,7 @@ class AdminEnquiryController extends Controller
     	foreach($enquiries as $enquiry){
             $response[$enquiry->id] = [];
             if($type=='admin') {
-                if($enquiry->sentTo()->count() > 1) $response[$enquiry->id]['type'] = 'shared';
+                if($enquiry->sentTo()->count() > 1 or $enquiry->enquiry_to_id == 0) $response[$enquiry->id]['type'] = 'shared';
                 else $response[$enquiry->id]['type'] = 'direct';
             }
             else {

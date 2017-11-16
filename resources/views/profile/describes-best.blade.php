@@ -1,5 +1,8 @@
+@extends('layouts.profile')
 
-                                <div class="describe-best tab-pane fade" id="describe-best">
+
+@section('main-content')
+                                <div class="describe-best tab-pane fade active in" id="describe-best">
                                     <!-- <h6 class="enquiries-made title">
                                         <i aria-hidden="true" class="fa fa-thumbs-up">
                                         </i>
@@ -52,7 +55,7 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                    
+
                                     <div class="save-best-data text-right">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
@@ -187,3 +190,4 @@
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
                                 </div>
+@endsection

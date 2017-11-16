@@ -22,11 +22,11 @@ class ProfileController extends Controller
             $usercomm = UserCommunication::where('value',$email)->where('object_type','App\\User')->where('is_primary',1)->first();
             if($usercomm!=null and hasAccess('view_profile_element_cls',$usercomm->id,'communication')){
                 $user = User::findUsingEmail($email);
-                $self = false;    
+                $self = false;
             }else{
                 abort(403);
             }
-            
+
         }
 
         $template           = [];
@@ -46,6 +46,12 @@ class ProfileController extends Controller
                 if($data['phone'] == null) $data['phone'] = ['contact' => '', 'contact_region' => '91', 'is_verified'=>0];
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook')? true:false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
+            case 'description':
+                $data = [];
+                return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('self', $self);
+            case 'activity':
+                $data = [];
+                return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('self', $self);
             default:
                 abort(404);
         }

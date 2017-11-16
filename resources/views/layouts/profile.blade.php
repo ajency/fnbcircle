@@ -47,7 +47,7 @@
                                     </p>
                                 </div>
                             </div> -->
-                            
+
                         <!-- </div> -->
                     </div>
                     <div class="col-sm-8">
@@ -99,7 +99,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 @endisset
                                                 @isset($data['phone'])
@@ -129,13 +129,13 @@
                                     <ul class="gs-steps" role="tablist">
                                         <li>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#enquiry-info" role="tab"> -->
-                                            <a href="#">
+                                            <a @if($data['step'] == 'activity') href="#" class="active" @else href="activity" @endif >
                                                 My Activity
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
                                         </li>
-                                        <li class="active">
+                                        <li @if($data['step'] == 'basic-details') href="#" class="active" @else href="basic-details" @endif >
                                             <a class="form-toggle" data-toggle="tab" href="#activity" role="tab">
                                                 Basic Details
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
@@ -144,7 +144,7 @@
                                         </li>
                                         <li>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
-                                            <a href="#">
+                                            <a @if($data['step'] == 'description') href="#" class="active" @else href="description" @endif>
                                                 What describe you the best?
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>

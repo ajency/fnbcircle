@@ -1,3 +1,7 @@
+@extends('layouts.profile')
+
+
+@section('main-content')
  <div class="enquiry-info tab-pane fade in active" id="enquiry-info">
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
                                         My Activity
@@ -75,7 +79,7 @@
                                                                 <dd>
                                                                     <p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Hospitality Business Owner</p>
                                                                     <p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Others</p>
-                                                                    
+
                                                                 </dd>
                                                             </div>
                                                             <div class="enquiriesRow__cols last-col">
@@ -88,7 +92,7 @@
                                                             </div>
                                                         </dl>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
 
                                             <div class="enquire-container">
@@ -141,10 +145,10 @@
                                                                 <dd>
                                                                     <p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Hospitality Business Owner</p>
                                                                     <p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> Others</p>
-                                                                    
+
                                                                 </dd>
                                                             </div>
-                                                            
+
                                                         </dl>
                                                     </div>
                                                     <div class="col-sm-7">
@@ -181,9 +185,9 @@
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                </dd>   
+                                                                </dd>
                                                             </div>
-                                                            
+
                                                             <div class="enquiriesRow__cols">
                                                                 <dt>
                                                                     Areas
@@ -196,8 +200,8 @@
                                                                         </span>
                                                                     </p>
                                                                 </dd>
-                                                            </div> 
-                                                            
+                                                            </div>
+
                                                         </dl>
                                                     </div>
                                                     <div class="col-sm-12 m-t-10">
@@ -209,8 +213,8 @@
                                                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quis commodi aliquid reprehenderit beatae ad magni in incidunt, recusandae obcaecati dolore illum assumenda consequuntur, nobis, rerum voluptatum tempora maiores blanditiis!
                                                             </dd>
                                                         </div>
-                                                    </div>                                                    
-                                                </div>                                                
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="enquire-container">
@@ -258,7 +262,7 @@
                                                             </div>
                                                         </dl>
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
 
                                             <p class="default-size mainDate"><span><i class="fa fa-calendar p-r-5" aria-hidden="true"></i> 02 July 2017</span></p>
@@ -277,8 +281,8 @@
                                                     <a class="text-decor primary-link" href="#">
                                                         View Listing
                                                     </a>
-                                                </h6>                                               
-                                            </div> 
+                                                </h6>
+                                            </div>
 
 
                                              <div class="enquire-container">
@@ -295,11 +299,12 @@
                                                     <a class="text-decor primary-link" href="#">
                                                         View Job
                                                     </a>
-                                                </h6>                                               
-                                            </div> 
+                                                </h6>
+                                            </div>
 
                                         </div>
-                                        
-                                       
+
+
                                     </div>
                                 </div>
+@endsection                                

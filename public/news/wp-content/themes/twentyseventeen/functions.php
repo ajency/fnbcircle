@@ -1416,3 +1416,14 @@ if ( ! function_exists( 't5_do_not_ask_for_comment_log_in' ) )
         return $link;
     }
 }
+
+/* REmove admin bar from front end */
+add_filter('show_admin_bar', '__return_false');
+
+/*Do not allow non-admins to access wordpress dashboard */
+function no_mo_dashboard() {
+  if (!current_user_can('manage_options') && $_SERVER['DOING_AJAX'] != '/wp-admin/admin-ajax.php') {
+  wp_redirect(home_url()); exit;
+  }
+}
+add_action('admin_init', 'no_mo_dashboard');

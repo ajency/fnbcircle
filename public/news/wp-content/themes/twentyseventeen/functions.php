@@ -651,6 +651,8 @@ function fnbcircleWpScripts(){
 	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
 	wp_localize_script('wpnews', 'SITEURL', esc_url( home_url( '/' ) ));
 
+	//wp_enqueue_script('lara-customjs','../../js/custom.js', array('jquery'), true, true);
+
 	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);

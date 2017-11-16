@@ -23,7 +23,7 @@ get_header(); ?>
 		</select> -->
 
 		<?php 
-		$city_drop_down_options ='show_option_none=All City&exclude=1&value_field=slug';
+		$city_drop_down_options ='show_option_none=All&exclude=1&value_field=slug';
 
 		if(get_query_var( 'cat' )!==null && get_query_var( 'cat' )!=''){
 			$category_id = get_query_var( 'cat' );
@@ -32,7 +32,7 @@ get_header(); ?>
 			 
 			$sel_city_slug = $category_data->slug;
 
-			$city_drop_down_options ='selected='.$sel_city_slug.'&show_option_none=All City&exclude=1&value_field=slug';
+			$city_drop_down_options ='selected='.$sel_city_slug.'&show_option_none=All&exclude=1&value_field=slug';
 		}
 		
 
@@ -51,7 +51,7 @@ get_header(); ?>
 	            value="<?php echo get_search_query() ?>" name="s"
 	            title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
 	    </label>
-	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
+	    <?php /* <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" /> */ ?>
 	</form>
 	<div class="clear"></div>
 </div>

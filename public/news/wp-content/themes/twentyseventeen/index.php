@@ -38,10 +38,10 @@ if(isset($laravel_user_state)){
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
 
 		 <?php 
-		 $city_drop_down_args = "show_option_none=All City&exclude=1&value_field=slug";
+		 $city_drop_down_args = "show_option_none=All&exclude=1&value_field=slug";
 		 if(isset($user_state)){
 		 	if($user_state!=''){
-		 		$city_drop_down_args = "selected=".$user_state."&show_option_none=All City&exclude=1&value_field=slug";
+		 		$city_drop_down_args = "selected=".$user_state."&show_option_none=All&exclude=1&value_field=slug";
 		 	}
 		 }
 

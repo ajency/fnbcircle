@@ -58,6 +58,10 @@ $('body').on 'change','select#updateUser', ->
   filters['enquirer_type'] = $(this).val()
   enquiry_table.ajax.reload()
 
+$('body').on 'change','select#updateUserDetails', ->
+  filters['enquirer_details'] = $(this).val()
+  enquiry_table.ajax.reload()
+
 $('body').on 'click','a#clearSubDate', ->
   $('#submissionDate').val('')
   filters['request_date'] = []

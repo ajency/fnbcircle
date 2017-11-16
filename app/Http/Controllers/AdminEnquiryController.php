@@ -14,6 +14,7 @@ use App\User;
 use App\Lead;
 use App\UserCommunication;
 use App\Area;
+use App\UserDetail;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -266,7 +267,7 @@ class AdminEnquiryController extends Controller
                         $i++;
                     }
                 })->pluck('user_id')->toArray();
-                $leads = Leads::where(function ($sql) use ($filters) {
+                $leads = Lead::where(function ($sql) use ($filters) {
                     $i=0;
                     foreach ($filters['enquirer_details'] as $detail) {
                         if($i!=0)$sql->orWhere('user_details_meta','like','%'.$detail.'%');

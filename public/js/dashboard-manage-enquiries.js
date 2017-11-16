@@ -72,6 +72,11 @@
     return enquiry_table.ajax.reload();
   });
 
+  $('body').on('change', 'select#updateUserDetails', function() {
+    filters['enquirer_details'] = $(this).val();
+    return enquiry_table.ajax.reload();
+  });
+
   $('body').on('click', 'a#clearSubDate', function() {
     $('#submissionDate').val('');
     filters['request_date'] = [];

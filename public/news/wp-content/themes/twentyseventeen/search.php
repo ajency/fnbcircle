@@ -32,7 +32,7 @@ get_header(); ?>
 			 
 			$sel_city_slug = $category_data->slug;
 
-			$city_drop_down_options ='selected='.$sel_city_slug.'&show_option_none=All City&exclude=1&value_field=slug';
+			$city_drop_down_options ='selected='.$sel_city_slug.'&show_option_none=All&exclude=1&value_field=slug';
 		}
 		
 

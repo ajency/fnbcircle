@@ -121,7 +121,7 @@ class AdminEnquiryController extends Controller
         ];
         foreach ($response['data'] as &$enquiry) {
             //get data in correct text format here
-            $enquiry['type'] = $enquiry_type[$enquiry['type']].' Request sent '.$enquiry['request_date']->diffForHumans();
+            $enquiry['type'] = $enquiry_type[$enquiry['type']].' Request sent '.$enquiry['request_date']->format('F j, Y');
             if($enquiry['enquirer_email']['is_verified']){
                 $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].'<img src="/img/verified.png" class="lead-verify" width="12">';
             }else{

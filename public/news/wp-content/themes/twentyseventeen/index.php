@@ -113,7 +113,7 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
   ?>
 
 <?php else:  ?>
-  <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+  <p><span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no featured news matched your criteria.</h6></span><?php /*_e( 'Sorry, no posts matched your criteria.' ); */ ?></p>
 <?php endif; ?>
 
 <?php
@@ -225,7 +225,7 @@ echo $recent_news_pagination_html;
 			) );*/
 
 else: ?>
-<p><?php _e('Sorry, no posts published so far.'); ?></p>
+<p><span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no recent news matched your criteria.</h6></span><?php /* _e('Sorry, no posts published so far.'); */ ?></p>
 <?php endif; ?>
 </ul>
 		</main><!-- #main -->

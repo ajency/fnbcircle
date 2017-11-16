@@ -133,8 +133,10 @@
                                                 @php
                                                 $nextActionBtn =$job->getNextActionButton();
                                                 @endphp
-                                                
+                                             <div>   
                                              <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >{{ $nextActionBtn['status'] }}</a>
+                                             @if($job->status == 3) <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Job." ></i>@endif
+                                             </div>
                                             @endif
                                         </div>
                                     </div>

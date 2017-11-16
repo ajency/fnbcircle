@@ -201,6 +201,7 @@
                                                     Rejected
                                                 @endif
                                                 </div>
+                                                <div>
                                                 @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
                                                     <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
                                                 @endif
@@ -210,6 +211,10 @@
                                                 @if($listing->isReviewable() and ($listing->status == "4"))
                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Publish</a>
                                                 @endif
+                                                @if($listing->status == '1')
+                                                    <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Listing." ></i>
+                                                @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -240,7 +240,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group m-t-30 m-b-40">
                                             <label class="flex-row accept-row">
-                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox">
+                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox" checked>
                                                   <div class="text-medium m-b-0 accept_terms" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
                                                   <label id="terms_conditions" class="fnb-errors hidden">Please accept our terms and conditions</label>
                                             </label>
@@ -249,7 +249,7 @@
                                     <div class="col-sm-12">
                                          <div class="form-group text-center m-t-20 m-b-20 signBtn">
                                             <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
-                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" disabled="disabled">
+                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" >
                                                 Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>

@@ -139,4 +139,22 @@
 
   $('#datatable-manage_enquiries').closest('.row').addClass('overflow-table');
 
+  $('body').on('click', 'button#resetAll', function(e) {
+    $('div#categories.node-list').html('');
+    $('div#disp-operation-areas.node-list').html('');
+    $('select#updateType').multiselect('rebuild');
+    $('select#updateUser').multiselect('rebuild');
+    $('#submissionDate').val('');
+    $('#namefilter').val('');
+    $('#emailfilter').val('');
+    $('#phonefilter').val('');
+    $('#madetofilter').val('');
+    $('#senttofilter').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false);
+    });
+    filters = {};
+    enquiry_table.ajax.reload();
+  });
+
 }).call(this);

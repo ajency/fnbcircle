@@ -15,3 +15,4 @@ yarn-error.log
 /public/bower_components/*
 app/Http/Controllers/TestController\.php
 public/bower_components/
+public/news/wp-config.php

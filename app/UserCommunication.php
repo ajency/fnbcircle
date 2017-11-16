@@ -22,4 +22,11 @@ class UserCommunication extends Model
     function getUser() {
     	return $this->belongsTo('App\User', 'object_id')->where('object_type', "App\User");
     }
+
+    public function getValueAttribute( $value ) { 
+        if($this->type == 'email')
+            $value = strtolower( $value ); 
+
+        return $value;
+    }
 }

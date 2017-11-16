@@ -21,9 +21,25 @@ get_header(); ?>
 		  <option value="mercedes">Kerala</option>
 		  <option value="audi">Pune</option>
 		</select> -->
+
+		<?php 
+		$city_drop_down_options ='show_option_none=All City&exclude=1&value_field=slug';
+
+		if(get_query_var( 'cat' )!==null){
+			$category_id = get_query_var( 'cat' );
+			 
+			$category_data  = get_category( $category_id );
+			 
+			$sel_city_slug = $category_data->slug;
+
+			$city_drop_down_options ='selected='.$sel_city_slug.'&show_option_none=All City&exclude=1&value_field=slug';
+		}
+		
+
+		?>
 		 <label class="search-label">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
-		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
+		<?php wp_dropdown_categories($city_drop_down_options); ?>
 		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		

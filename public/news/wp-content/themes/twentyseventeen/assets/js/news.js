@@ -112,12 +112,17 @@ jQuery(document).ready(function($) {
     $('.home_recent_pagination .page-numbers').live('click',function(evt){
        evt.preventDefault();
        var href = $(evt.target).attr('href');
+
        var href_ar = href.split('=');
 
-       var sel_city = $('.search-container>#cat').val();
-       var paged = href_ar[1];
+       if(typeof href_ar !=='undefined'){
+        var sel_city = $('.search-container>#cat').val();
+        var paged = href_ar[1];
 
-       fetch_recent_home_news(sel_city,paged)
+        fetch_recent_home_news(sel_city,paged) 
+       }
+
+       
 
         
     })
@@ -150,8 +155,13 @@ jQuery(document).ready(function($) {
 
                 }, function(response) { 
 
+
+
                    $('.site-main').find('.list-layout').find('.recent-loader').remove()
                     $(".site-main .list-layout").prepend(response.html)
+                    $('html, body').animate({
+                           scrollTop: $(".recent_news_title").offset().top
+                       }, 0);
 
                     console.log(response.html)
 

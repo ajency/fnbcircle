@@ -129,7 +129,7 @@ $wp_query = $temp_query;
 <div class="clear"></div>
 <br>
 
-<h3 class="bold-t">Recent News on FnB</h3>
+<h3 class="bold-t recent_news_title">Recent News on FnB</h3>
 <p class="text-lighter">What's trending on FnBCircle right now.</p>	
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>

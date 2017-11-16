@@ -229,6 +229,16 @@ class CommonController extends Controller
             $userId = \Auth::user()->id;
             $object = Job::find($request->id);
             $premium = $request->is_premium;
+            $activePlan = getActivePlan($object); 
+
+            //check if same plan is requested again
+            if((!empty($activePlan) && $activePlan->plan_id == $plan->id) ){
+                exit;
+                Session::flash('error_message','You are alredy on '.$plan->title);
+                return \Redirect::back();
+            }
+
+
             //submit job for review if in draft state
             if(($object->status == 1 or $object->status == 5) && $object->isJobDataComplete()) {
                 $object->submitForReviewEmail();
@@ -239,8 +249,11 @@ class CommonController extends Controller
 
             if($premium[$request->plan_id] == "0")
             { 
-                $expiryDate = date('Y-m-d H:i:s',strtotime("+".$plan->duration." days")); 
-                $object->job_expires_on = $expiryDate;
+                if($object->job_expires_on==''){
+                    $expiryDate = date('Y-m-d H:i:s',strtotime("+".$plan->duration." days")); 
+                    $object->job_expires_on = $expiryDate;
+                }
+                
             }
             else
                $object->job_expires_on = null; 

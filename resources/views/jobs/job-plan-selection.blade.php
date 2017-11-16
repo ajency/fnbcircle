@@ -2,6 +2,16 @@
 @section('js')
     @parent
     <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        if($('input[name="plan_id"]').length == $('.not-for-selection').length){
+            $('.job-save-btn').attr('disabled',true);
+        }
+        // console.log($('input[name="plan_id"]').length);
+        // console.log($('.not-for-selection').length);
+    });
+    </script> 
 @endsection
 @section('form-data')
 
@@ -27,6 +37,7 @@
     <div class="pricing-table plans flex-row job-plans">
         @foreach($plans as $plan)
             @php
+
                 if(!empty($activePlan) && $plan->id == $activePlan->plan_id)
                     $active = true;
                 elseif(empty($activePlan) && $plan->amount == 0)
@@ -34,13 +45,17 @@
                 else
                     $active = false;
 
-
+                
+                    
                 if(!empty($requestedPlan) && $requestedPlan->plan_id == $plan->id) 
                     $disabled = 'disabled';
                 elseif(!empty($activePlan) && $plan->amount < $activePlan->plan->amount)
                     $disabled = 'disabled';
                 else
                     $disabled = '';
+
+                $selectionclass = ($active || $disabled == 'disabled') ? 'not-for-selection' : '';
+                
                  
             @endphp
        
@@ -63,7 +78,7 @@
             </div>
             <div class="plans__footer">
                 <div class="selection sub-row">
-                     <input type="radio" {{ $disabled }} class="fnb-radio" name="plan_id" @if($active) checked="" @endif value="{{ $plan->id }}"></input>
+                     <input type="radio" {{ $disabled }} class="fnb-radio {{ $selectionclass }}" name="plan_id" @if($active) checked="" @endif value="{{ $plan->id }}"></input>
                     <label class="radio-check"></label>
                     @if($active)
                     <span class="dis-block lighter text-lighter">Your current plan</span>

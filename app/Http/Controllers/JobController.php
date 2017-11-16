@@ -380,6 +380,7 @@ class JobController extends Controller
         $data['postUrl'] = $postUrl;
         $data['step'] = $step;
         $data['isPremiumPage'] = false;
+        $data['disableSave'] = false;
 
         $jobCompany  = $job->getJobCompany();
         $data['jobCompany'] = $jobCompany;
@@ -432,8 +433,9 @@ class JobController extends Controller
             $activePlan = getActivePlan($job);
             $requestedPlan = getrequestedPlan($job); 
             $data['plans'] = $plans; 
-            $data['isPremiumPageisPremiumPage'] = false;
+            $data['isPremiumPage'] = true;
             $data['postUrl'] = url('/subscribe-to-premium');
+            $data['disableSave'] = true;
             $data['activePlan'] = $activePlan; 
             $data['requestedPlan'] = $requestedPlan; 
             $data['back_url'] = url('jobs/'.$job->reference_id.'/company-details'); 

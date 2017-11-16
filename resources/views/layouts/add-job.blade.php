@@ -324,7 +324,8 @@
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
-                                            <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">
+                                            <button class="btn fnb-btn primary-btn full info-save gs-next job-save-btn" type="submit">
+
                                             @if(!$isPremiumPage)
                                             Save &amp; Next
                                             @else

@@ -108,6 +108,8 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/listing','ListingController@store');
 	Route::post('/contact_save','ListingController@saveContact');
 	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
+	Route::get('/premium/{type}/{reference_id}/cancle-request', 'CommonController@canclePremiumRequest' );//edit jobs
+	
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 	Route::post('/delete-post','UpdatesController@deletePost');
@@ -156,6 +158,8 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
 	Route::post('/profile/password-change', 'ProfileController@changePassword');
 	Route::post('/profile/number-change', 'ProfileController@changePhone');
+
+	
 });
 
 

@@ -429,11 +429,13 @@ class JobController extends Controller
         }
         elseif ($step == 'go-premium'){
             $plans = Plan::where('type','job')->orderBy('order','asc')->get();
-            $activePlan = $job->premium()->where('status',1)->first();
+            $activePlan = getActivePlan($job);
+            $requestedPlan = getrequestedPlan($job); 
             $data['plans'] = $plans; 
             $data['isPremiumPageisPremiumPage'] = false;
             $data['postUrl'] = url('/subscribe-to-premium');
             $data['activePlan'] = $activePlan; 
+            $data['requestedPlan'] = $requestedPlan; 
             $data['back_url'] = url('jobs/'.$job->reference_id.'/company-details'); 
             $blade = 'jobs.job-plan-selection';
             $pageName = $job->title .'- Go Premium' ;

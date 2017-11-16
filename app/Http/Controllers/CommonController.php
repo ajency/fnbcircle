@@ -236,11 +236,14 @@ class CommonController extends Controller
             }
             
             //create plan
-            if($premium[$request->plan_id] == 0)
-            {
-                $expiryDate = date('Y-m-d H:i:s',strtotime("+"+$plan->duration+" days")); dd($expiryDate);
+
+            if($premium[$request->plan_id] == "0")
+            { 
+                $expiryDate = date('Y-m-d H:i:s',strtotime("+".$plan->duration." days")); 
                 $object->job_expires_on = $expiryDate;
             }
+            else
+               $object->job_expires_on = null; 
 
             $object->job_modifier = $userId;
             $object->updated_at = date('Y-m-d H:i:s');
@@ -248,7 +251,7 @@ class CommonController extends Controller
 
             Session::flash('success_message','Premium request sent successfully.');
 
-            if($request->is_premium == 0)
+            if($premium[$request->plan_id] == "0")
             {
                 return \Redirect::back();
             }
@@ -266,6 +269,17 @@ class CommonController extends Controller
         $premium->plan_id = $plan->id;
         $object->premium()->save($premium);
 
+        return \Redirect::back();
+    }
+
+    public function canclePremiumRequest($objectType,$referenceId){
+        if($objectType == 'job'){
+            $object = Job::where('reference_id',$referenceId)->first();
+        }
+
+        $object->premium()->where('status',0)->update(['status'=>2]);
+
+        Session::flash('success_message','Premium request successfully cancled.');
         return \Redirect::back();
     }
 }

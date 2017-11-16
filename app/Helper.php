@@ -539,26 +539,40 @@ function sendEmailTo($emails = [], $type='to') {
 	return $emails;
 }
 
-function createNewPlan($objectType,$objectid,$planId){
-	//check if any plan is active or requested
-	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();
+function getActivePlan($object){
+	$expiryDate = date('Y-m-d H:i:s'); 
+	$activePlan = $object->premium()->where('status',1)->where('billing_end', '>', $expiryDate)->first();
 
-	if(!empty($objectplan)){
-		foreach ($objectplan as $key => $plan) {
-			$plan->status = 2;
-			$plan->save();
-		}
-	}
-
-	// add new  plan
-	$plan = new App\PlanAssociation;
-	$plan->premium_type = $objectType;
-	$plan->premium_id = $objectid;
-	$plan->plan_id = $planId;
-	$plan->status = 0;
-	$plan->save();
-
-
-	return $planId;
-
+	return $activePlan;
+            
 }
+
+function getrequestedPlan($object){
+	$requestedPlan = $object->premium()->where('status',0)->first(); 
+
+	return $requestedPlan;
+}
+
+// function createNewPlan($objectType,$objectid,$planId){
+// 	//check if any plan is active or requested
+// 	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();
+
+// 	if(!empty($objectplan)){
+// 		foreach ($objectplan as $key => $plan) {
+// 			$plan->status = 2;
+// 			$plan->save();
+// 		}
+// 	}
+
+// 	// add new  plan
+// 	$plan = new App\PlanAssociation;
+// 	$plan->premium_type = $objectType;
+// 	$plan->premium_id = $objectid;
+// 	$plan->plan_id = $planId;
+// 	$plan->status = 0;
+// 	$plan->save();
+
+
+// 	return $planId;
+
+// }

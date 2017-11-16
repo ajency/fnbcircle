@@ -33,6 +33,15 @@
                     $active = true;
                 else
                     $active = false;
+
+
+                if(!empty($requestedPlan) && $requestedPlan->plan_id == $plan->id) 
+                    $disabled = 'disabled';
+                elseif(!empty($activePlan) && $plan->amount < $activePlan->plan->amount)
+                    $disabled = 'disabled';
+                else
+                    $disabled = '';
+                 
             @endphp
        
        <input type="hidden" name="is_premium[{{$plan->id}}]" value="@if($plan->amount == 0) 0 @else 1 @endif">    
@@ -54,10 +63,15 @@
             </div>
             <div class="plans__footer">
                 <div class="selection sub-row">
-                     <input type="radio" class="fnb-radio" name="plan_id" @if($active) checked="" @endif value="{{ $plan->id }}"></input>
+                     <input type="radio" {{ $disabled }} class="fnb-radio" name="plan_id" @if($active) checked="" @endif value="{{ $plan->id }}"></input>
                     <label class="radio-check"></label>
                     @if($active)
-                    <span class="dis-block lighter text-lighter">Your current plan</span> 
+                    <span class="dis-block lighter text-lighter">Your current plan</span>
+                    @elseif(!empty($requestedPlan) && $requestedPlan->plan_id == $plan->id)
+                    <span class="dis-block lighter text-lighter">Your request for this plan is under process.<br>
+                    click <a href="{{ url('premium/job/'.$job->reference_id.'/cancle-request') }}">here</a> to cancle request.
+                    </span>  
+
                     @else
                     <span class="dis-block lighter text-lighter">Change plan</span> 
                      @endif

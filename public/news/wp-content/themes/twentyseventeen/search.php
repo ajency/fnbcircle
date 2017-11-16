@@ -37,7 +37,7 @@ get_header(); ?>
 		
 
 		?>
-		 <label class="search-label">
+		 <label class="search-label search_page_city_container">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
 		<?php wp_dropdown_categories($city_drop_down_options); ?>
 		</label>
@@ -64,13 +64,13 @@ get_header(); ?>
 	<?php if ( have_posts() ) : ?>
 
 			<?php if(get_query_var( 'cat' )==null){ ?>
-			<h3 class=""><?php printf( __( 'Search Results for: %s', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h3>
+			<h3 class=""><?php printf( __( 'Search Results for: \'%s\'', 'twentyseventeen' ), '<span>' . get_search_query() . '</span>' ); ?></h3>
 			<?php }
 			else{ 
 				$category_id = get_query_var( 'cat' );
 				$category_name = get_cat_name( $category_id );
 				?>
-			<h3><?php printf( __( 'Search Results for: %s  in city   %s ', 'twentyseventeen' ), '<span>' . get_search_query() ,$category_name. '</span>' ); ?></h3>
+			<h3><?php printf( __( 'Search Results for: \'%s\'  in city   \'%s\' ', 'twentyseventeen' ), '<span>' . get_search_query() ,$category_name. '</span>' ); ?></h3>
 			<?php } ?>
 
 		<?php else : ?>

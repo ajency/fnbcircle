@@ -255,9 +255,9 @@ $(function(){
 	// 	 });
 	// }
 	// Smooth scroll
-
-	$("html").easeScroll();
-
+	if($().easeScroll){
+		$("html").easeScroll();
+	}
 	// Easing options
 
 	// frameRate: 60,

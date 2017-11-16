@@ -84,8 +84,23 @@
     <script type="text/javascript" src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
     <!-- BS Script -->
     <script type="text/javascript" src="{{ asset('/js/bootstrap.min.js') }}"></script>
-    <!-- Smooth Mouse scroll -->
-    <script type="text/javascript" src="{{ asset('/js/jquery.easeScroll.min.js') }}"></script>
+
+    
+    <!-- Scroll plugin check not required for admin dashboard -->
+
+    @php
+    $router = app()->make('router');
+    $uriPath = $router->getCurrentRoute()->getPrefix(); 
+    $route = explode('/', $uriPath);
+    $tableReference = $route[0];
+    @endphp
+
+    @if($tableReference != 'admin-dashboard')
+        <!-- Smooth Mouse scroll -->
+        <script type="text/javascript" src="{{ asset('/js/jquery.easeScroll.min.js') }}"></script>
+    @endif
+
+    
     <!-- BS lightbox -->
     <script type="text/javascript" src="{{ asset('bower_components/ekko-lightbox/dist/ekko-lightbox.min.js') }}"></script>
     <!-- Magnify popup plugin -->

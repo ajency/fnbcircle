@@ -334,8 +334,10 @@ class AdminEnquiryController extends Controller
             $enquiry_ids = EnquirySent::whereIn('enquiry_to_id',$listings1)->pluck('enquiry_id')->toArray();
             $enquiries->whereIn('id',$enquiry_ids);
         }
-        $enquiries = $enquiries->skip($start)->take($display_limit)->orderBy('created_at',$order);
         $filtered = $enquiries->count();
+        // dd($filtered);
+        $enquiries = $enquiries->skip($start)->take($display_limit)->orderBy('created_at',$order);
+        
         $enquiries = $enquiries->get();
     	// dd($enquiries);
     	$response = [];

@@ -143,6 +143,8 @@
  @include('includes.header')
  
     <?php if(auth()->guest()){ ?>
+             @include('modals.login')
+        <?php /* 
         <!-- Login Popup Modal -->
         <div class="modal fnb-modal login-modal modal-center" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -295,5 +297,5 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> */ ?>
     <?php } ?>

@@ -22,7 +22,7 @@ class LocationController extends Controller
 	    	session()->forget('user_location');
 	    	// $cookie = cookie('user_state', '', config('constants.user_state_cookie_expiry'));
 	    	$cookie = \Cookie::forget('user_state');
-	 		 
+	 		  
 	    	return redirect(url('/'))->withCookie($cookie);
     	}
     	else

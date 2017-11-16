@@ -305,7 +305,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->submitForReview() && hasAccess('submit_review_element',$job->reference_id,'jobs')) 
+                                        @if(!$isPremiumPage && $job->submitForReview() && hasAccess('submit_review_element',$job->reference_id,'jobs')) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -324,7 +324,13 @@
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
-                                            <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
+                                            <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">
+                                            @if(!$isPremiumPage)
+                                            Save &amp; Next
+                                            @else
+                                            Submit Job
+                                            @endif
+                                            </button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
                                         </div>
                                         <input type="hidden" name="has_changes" value="0">

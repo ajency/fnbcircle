@@ -171,7 +171,7 @@ class CommonController extends Controller
     * 
     *
     */
-    public function premium(Request $request){
+    public function premium(Request $request){ 
         $this->validate($request, [
             'id' => 'required',
             'type' => 'required',
@@ -179,9 +179,15 @@ class CommonController extends Controller
         ]);
 
         $config = [
-            'jobs' => ['table' => 'jobs', 'id' =>'reference_id', 'type' => 'listing'],
+            'job' => ['table' => 'jobs', 'id' =>'reference_id', 'type' => 'listing'],
                 'listing' => ['table' => 'listings', 'id' =>'reference','type' => 'listing'],
         ];
+
+        $plan = Plan::find($request->plan_id);
+
+        if(empty($plan)){
+            return \Redirect::back()->withErrors(array('review' => 'Please select valod plan'));
+        }
 
         if($request->type == 'listing'){
             $object = Listing::where($config['listing']['id'],$request->id)->firstOrFail();
@@ -219,13 +225,41 @@ class CommonController extends Controller
                     return \Redirect::back()->withErrors(array('review' => 'Your listing is not eligible for a review'));
                 }
             }
-        }elseif($request->type == 'jobs'){
-            $object = Job::where($config['jobs']['id'],$request->id)->firstOrFail();
+        }elseif($request->type == 'job'){ 
+            $userId = \Auth::user()->id;
+            $object = Job::find($request->id);
+            $premium = $request->is_premium;
+            //submit job for review if in draft state
+            if(($object->status == 1 or $object->status == 5) && $object->isJobDataComplete()) {
+                $object->submitForReviewEmail();
+                Session::flash('job_review_pending','Job details submitted for review.');
+            }
+            
+            //create plan
+            if($premium[$request->plan_id] == 0)
+            {
+                $expiryDate = date('Y-m-d H:i:s',strtotime("+"+$plan->duration+" days")); dd($expiryDate);
+                $object->job_expires_on = $expiryDate;
+            }
+
+            $object->job_modifier = $userId;
+            $object->updated_at = date('Y-m-d H:i:s');
+            $object->save(); 
+
+            Session::flash('success_message','Premium request sent successfully.');
+
+            if($request->is_premium == 0)
+            {
+                return \Redirect::back();
+            }
+            
+            
+
         }else{
             return response()->json(['status'=>"400", 'message'=>"Invalid Type"]);
         }
 
-        $plan = Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->firstOrFail();
+        
         // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
         $object->premium()->where('status',0)->update(['status'=>2]);
         $premium = new PlanAssociation;

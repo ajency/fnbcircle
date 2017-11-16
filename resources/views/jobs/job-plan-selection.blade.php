@@ -8,8 +8,10 @@
 
 
 @include('jobs.notification')
-<input type="hidden" name="_method" value="PUT">
+<!-- <input type="hidden" name="_method" value="PUT"> -->
 <input type="hidden" name="step" value="go-premium">
+<input type="hidden" name="type" value="job">
+<input type="hidden" name="id" value="{{$job->id}}">
 
 <div class="business-info tab-pane fade in active" id="plan_selection">
  
@@ -23,35 +25,54 @@
     
 
     <div class="pricing-table plans flex-row job-plans">
-        <div class="pricing-table__cards free-plan active">
+        @foreach($plans as $plan)
+            @php
+                if(!empty($activePlan) && $plan->id == $activePlan->plan_id)
+                    $active = true;
+                elseif(empty($activePlan) && $plan->amount == 0)
+                    $active = true;
+                else
+                    $active = false;
+            @endphp
+       
+       <input type="hidden" name="is_premium[{{$plan->id}}]" value="@if($plan->amount == 0) 0 @else 1 @endif">    
+        <div class="pricing-table__cards  @if($active) active @endif">
             <div class="plans__header">
                <!-- <h6 class="sub-title text-uppercase plans__title text-color">Basic Plan</h6> -->
+               @if($plan->amount > 0)
+               <img src="/img/power-icon.png" class="img-responsive power-icon" width="50">
+               @endif
                 <div class="plans__fee">
-                    <h5 class="element-title">Free Membership</h5>
-                    <span class="text-lighter lighter default-size"><i class="fa fa-inr" aria-hidden="true"></i> 0.00/month</span>
+                    <h5 class="element-title">{{ $plan->title }}</h5>
+                    <span class="text-lighter lighter default-size"><i class="fa fa-inr" aria-hidden="true"></i> {{ $plan->amount }}/month</span>
                 </div> 
                 <ul class="points">
-                    <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet.</li>
-                    <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit elit.</li>
-                    <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet</li>
-                    <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                    @foreach(unserialize($plan->meta_data) as $meta)
+                    <li class="flex-row text-color align-top lighter x-small"><i class="fa fa-check p-r-5" aria-hidden="true"></i>{{  $meta }}</li>
+                    @endforeach
                 </ul>
             </div>
             <div class="plans__footer">
                 <div class="selection sub-row">
-                    <!-- <input type="radio" class="fnb-radio" name="plan-select" checked=""></input>
+                     <input type="radio" class="fnb-radio" name="plan_id" @if($active) checked="" @endif value="{{ $plan->id }}"></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter">Your current plan</span> -->
-                    <button class="btn fnb-btn outline full border-btn def-btn" type="button">Subscribe </i></button>
-                    <button class="btn fnb-btn outline full border-btn green-btn" type="button">Selected <i class="fa fa-check check-icon" aria-hidden="true"></i></button>
+                    @if($active)
+                    <span class="dis-block lighter text-lighter">Your current plan</span> 
+                    @else
+                    <span class="dis-block lighter text-lighter">Change plan</span> 
+                     @endif
+                    <!-- <button class="btn fnb-btn outline full border-btn def-btn" type="button">Subscribe </i></button>
+                    <button class="btn fnb-btn outline full border-btn green-btn" type="button">Selected <i class="fa fa-check check-icon" aria-hidden="true"></i></button> -->
                 </div>
             </div>
         </div>
-        <div class="pricing-table__cards plan-1">
+        @endforeach
+        
+        <!-- <div class="pricing-table__cards plan-1">
             <div class="plans__header">
-                <!-- <div class="validity">
+                  <div class="validity">
                     <span class="validity__text"><h6 class="number">6</h6>Months</span>
-                </div> -->
+                </div> 
                 <img src="/img/power-icon.png" class="img-responsive power-icon" width="50">
                 <div class="plans__fee">
                     <h5 class="element-title bolder">Premium Plan</h5>
@@ -72,14 +93,14 @@
             </div>
             <div class="plans__footer">
                 <div class="selection sub-row">
-                    <!-- <input type="radio" class="fnb-radio" name="plan-select"></input>
+                      <input type="radio" class="fnb-radio" name="plan-select"></input>
                     <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter">Your current plan</span> -->
+                    <span class="dis-block lighter text-lighter">Your current plan</span>  
                     <button class="btn fnb-btn outline full border-btn def-btn" type="button">Subscribe</button>
                     <button class="btn fnb-btn outline full border-btn green-btn" type="button">Selected <i class="fa fa-check check-icon" aria-hidden="true"></i></button>
                 </div>
             </div>
-        </div>
+        </div> -->
        <!--  <label class="pricing-table__cards plan-2">
             <div class="plans__header">
                 <div class="validity">

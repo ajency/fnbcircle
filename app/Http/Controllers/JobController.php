@@ -20,6 +20,8 @@ use App\UserCommunication;
 use View;
 use \Input;
 use App\JobApplicant;
+use App\Plan;
+use App\PlanAssociation;
 use Ajency\User\Ajency\userauth\UserAuth;
  
 
@@ -159,6 +161,7 @@ class JobController extends Controller
         $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
+        $job->premium = 0;
         $job->save();
 
         $jobId = $job->id;
@@ -376,6 +379,7 @@ class JobController extends Controller
         $postUrl = url('jobs/'.$job->reference_id);
         $data['postUrl'] = $postUrl;
         $data['step'] = $step;
+        $data['isPremiumPage'] = false;
 
         $jobCompany  = $job->getJobCompany();
         $data['jobCompany'] = $jobCompany;
@@ -424,6 +428,12 @@ class JobController extends Controller
             $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'go-premium'){
+            $plans = Plan::where('type','job')->orderBy('order','asc')->get();
+            $activePlan = $job->premium()->where('status',1)->first();
+            $data['plans'] = $plans; 
+            $data['isPremiumPageisPremiumPage'] = false;
+            $data['postUrl'] = url('/subscribe-to-premium');
+            $data['activePlan'] = $activePlan; 
             $data['back_url'] = url('jobs/'.$job->reference_id.'/company-details'); 
             $blade = 'jobs.job-plan-selection';
             $pageName = $job->title .'- Go Premium' ;
@@ -459,7 +469,8 @@ class JobController extends Controller
             $response = $this->saveCompanyData($job,$request);
         }
         elseif ($request->step == 'go-premium'){
-            $response['next_step']='go-premium';
+            // $response['next_step']='go-premium';
+            $response = $this->savePremiumData($job,$request);
         }
         else{
             abort(404);
@@ -682,6 +693,23 @@ class JobController extends Controller
     }
 
 
+    public function savePremiumData($job,$request){ 
+       
+        $user = Auth::user();
+        $userId = $user->id;
+   
+
+        $data = $request->all();  
+         
+
+        
+
+        $request['next_step'] = 'go-premium';
+
+        return $request;
+    }
+
+
     public function getKeywords(Request $request){ 
 
         // $this->validate($request, [
@@ -714,50 +742,16 @@ class JobController extends Controller
     }
 
     public function submitForReview($referenceId){
-        $date = date('Y-m-d H:i:s');    
+        
         $job = Job::where('reference_id',$referenceId)->first();
-        // $job->status = 2; 
-        // $job->date_of_submission = $date; 
-        // $job->save();
-
-
-        //email data 
-
-        $jobOwner = $job->createdBy;
-        $ownerDetails = $jobOwner->getUserProfileDetails();
-
-        $templateData = [];
-        $jobCompany  = $job->getJobCompany();
-        $locations  = $job->getJobLocationNames();
-        $metaData = $job->meta_data;
-         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
         
-        $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
-        $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
-        $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline');  
-
-        $templateData['keywords'] = $jobKeywords;
-        $templateData['jobCompany'] = $jobCompany;
-        $templateData['contactEmail'] = $contactEmail;
-        $templateData['contactMobile'] = $contactMobile;
-        $templateData['contactLandline'] = $contactLandline;
-        $templateData['locations'] = $locations;
-        $templateData['job'] = $job;
-        
-
-        $data = [];
-        $data['from'] = $ownerDetails['email'];
-        $data['name'] = $jobOwner->name;
-        $data['to'] = [ config('constants.email_to')];
-        $data['cc'] = [ config('constants.email_to')];
-        $data['subject'] = "A job has been submitted for review.";
-        $data['template_data'] = $templateData;
-        
-        sendEmail('job-submit-for-review', $data);
+        $this->submitForReviewEmail();
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect()->back();
     }
+
+    
 
  
     public function filterJobs($filters,$skip,$length,$orderDataBy){

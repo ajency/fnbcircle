@@ -77,7 +77,7 @@
   };
 
   getPreviouslyAvailableCategories = function() {
-    var error, get_core_cat_checked;
+    var error, error1, get_core_cat_checked;
     get_core_cat_checked = [];
     try {
       if ($("#category-select #previously_available_categories").val().length > 1 && JSON.parse($("#category-select #previously_available_categories").val()).length > 0) {

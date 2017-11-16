@@ -25,7 +25,7 @@ get_header(); ?>
 		<?php 
 		$city_drop_down_options ='show_option_none=All City&exclude=1&value_field=slug';
 
-		if(get_query_var( 'cat' )!==null){
+		if(get_query_var( 'cat' )!==null && get_query_var( 'cat' )!=''){
 			$category_id = get_query_var( 'cat' );
 			 
 			$category_data  = get_category( $category_id );

@@ -259,7 +259,12 @@ class AdminModerationController extends Controller
                     $listing->status = Listing::PUBLISHED;
                     $listing->published_on = Carbon::now();
                     $listing->save();
+                    ($listing->owner_id != null)?
                     activity()
+                       ->performedOn($listing)
+                       ->withProperties(['published-by' => \Auth::user()->id])
+                       ->log('listing-publish')
+                  	:activity()
                        ->performedOn($listing)
                        ->causedBy(User::find($listing->owner_id))
                        ->withProperties(['published-by' => \Auth::user()->id])

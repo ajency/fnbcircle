@@ -51,7 +51,7 @@ class ListingController extends Controller
 
     public function listingInformation($data)
     {
-        
+
         $this->validate($data, [
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,16',
@@ -205,7 +205,7 @@ class ListingController extends Controller
             similar_text($listing->title, $value, $percent);
             $output[] = $value.'=>'.$percent;
             if ($percent >= 80) {
-                 
+
                 $similar[$key] = array('name' => $value, 'messages' => array("Business name matches this"));
                 $titles[$key]  = array('id' => $key, 'title' => $value);
             }
@@ -221,7 +221,7 @@ class ListingController extends Controller
         $query = UserCommunication::where('object_type', 'App\\Listing')->whereNotNull('object_id')->where('object_id','!=',$listing->id);
         $query = $query->where(function ($query) use ($contacts, $owner) {
             $query->where(function ($query) use ($owner) {
-                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');    
+                if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');
                 else $query->whereNull('value');
             });
             foreach ($contacts as $value) {
@@ -235,7 +235,7 @@ class ListingController extends Controller
         $dup_com = $query->get();
         // dd($dup_com);
 
-        
+
         $userauth_obj = new UserAuth;
         //create an array of only emails
         $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_emails,'email',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
@@ -657,7 +657,7 @@ class ListingController extends Controller
 
     public function uploadListingFiles(Request $request)
     {
-        
+
         $this->validate($request, [
             'listing_id' => 'required',
             'file'       => 'file',
@@ -676,7 +676,7 @@ class ListingController extends Controller
         $this->validate($request, [
             'listing_id' => 'required',
         ]);
-        
+
         $change = "";
         if (isset($request->change) and $request->change == "1") {
             $change = "&success=true";
@@ -750,7 +750,7 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
         $cityy = City::find($listing->location['city_id']);
         if ($step == 'business-information') {
-            
+
             $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
             $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
             // dd($mobiles);
@@ -774,7 +774,7 @@ class ListingController extends Controller
         }
         if ($step == 'business-location-hours') {
             $operationAreas = ListingAreasOfOperation::city($listing->id);
-            
+
             $cities         = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             // dd($listing);
             return view('add-listing.location')->with('listing', $listing)->with('step', $step)->with('back', 'business-categories')->with('cities', $cities)->with('areas', $operationAreas)->with('cityy',$cityy);
@@ -824,9 +824,11 @@ class ListingController extends Controller
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         // dd('yes'); abort();
         if ($listing->isReviewable()) {
+            saveListingStatusChange($listing, $listing->status, Listing::REVIEW);
             $listing->status          = Listing::REVIEW;
             $listing->submission_date = Carbon::now();
             $listing->save();
+
             $area = Area::with('city')->find($listing->locality_id);
             $owner = User::find($listing->owner_id);
             $email = [
@@ -844,7 +846,7 @@ class ListingController extends Controller
                     'owner_phone' => ($listing->owner_id!=null)? $owner->getPrimaryContact(): 'Nil',
                     'phone_verified' => ($listing->owner_id!=null and $owner->getUserCommunications()->count() >= 2)? ($owner->getUserCommunications()->where('type','mobile')->where('is_primary',1)->first()->is_verified == 1)? 'verified': 'unverified' : 'NA',
                 ],
-                
+
             ];
             // dd($email);
             sendEmail('listing-submit-for-review',$email);
@@ -864,6 +866,7 @@ class ListingController extends Controller
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         if ($listing->isReviewable() and $listing->status == "1") {
+            saveListingStatusChange($listing, $listing->status, Listing::ARCHIVED);
             $listing->status = Listing::ARCHIVED;
             $listing->save();
             Session::flash('statusChange', 'archive');
@@ -880,6 +883,7 @@ class ListingController extends Controller
         ]);
         $listing = Listing::where('reference', $request->listing_id)->firstorFail();
         if ($listing->isReviewable() and $listing->status == "4") {
+            saveListingStatusChange($listing, $listing->status, Listing::PUBLISHED);
             $listing->status = Listing::PUBLISHED;
             $listing->save();
             Session::flash('statusChange', 'published');

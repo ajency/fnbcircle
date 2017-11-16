@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ListViewController extends Controller {
-	/**
+    /**
 	* This function will load the List View Blade of Listing
 	*/
     public function listView(Request $request, $city='all') { 
@@ -595,7 +595,8 @@ class ListViewController extends Controller {
 
     		// If a Category is selected from the List from the Search box
     		if(isset($request->filters["category_search"])) {
-    			$category_search_filter = json_decode(explode("|", $request->filters["category_search"])[1]);// Get the Node_categories list
+    			$category_search_filter = explode("|", $request->filters["category_search"])[1];
+                $category_search_filter = json_decode($category_search_filter);// Get the Node_categories list
     			if(isset($filters["categories"])) {
     				$filters["categories"] = array_merge($filters["categories"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
     			} else {
@@ -608,7 +609,10 @@ class ListViewController extends Controller {
     		// If a Category is selected from the List on the Left-hand side
     		if(isset($request->filters["categories"])) {
     			$filter_filters["category"] = array("slug" => explode("|", $request->filters["categories"])[0]);
-    			$category_search_filter = json_decode(explode("|", $request->filters["categories"])[1]);// Get the Node_categories list
+
+                /* Note: the Wordpress or other PHP frameworks send data in the format "[\"<val1>\", \"<val2>\"]" & is converted to "["<val1>", "<val2>"]", hence to convert, a 2 step process is done below */
+                $category_search_filter = explode("|", $request->filters["categories"])[1];
+    			$category_search_filter = json_decode($category_search_filter);// Get the Node_categories list
 
     			/*if($filter_filters["category"]["id"] > 0 && sizeof($category_search_filter) <= 0) {
     				$category_search_filter = [0];

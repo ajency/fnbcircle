@@ -21,7 +21,9 @@ $('#password_form input[type=\'password\'][name=\'new_password_confirmation\']')
 
 validatePassword = (password, confirm_password, parent_path, child_path) ->
   # Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-  expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+  # var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+  # Password should have 8 or more characters and No (atleast 1 char & 1 no)
+  expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
   message = ''
   status = true
   if expression.test(password)
@@ -37,10 +39,14 @@ validatePassword = (password, confirm_password, parent_path, child_path) ->
       status = false
   else
     # Else password not Satisfied the criteria
-    message = 'Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character'
+    if password.length > 0
+      # message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+      message = 'Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class=\'note-popover popover top\'><div class=\'arrow\'></div> <div class=\'popover-content\'><b class=\'fnb-errors\'>Note:</b> Don’t use obvious passwords or easily guessable like your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>'
+    else
+      message = 'Please enter a Password'
     status = false
   if !status and parent_path != ''
-    $(parent_path + ' ' + child_path).removeClass('hidden').text message
+    $(parent_path + ' ' + child_path).removeClass('hidden').html message
   else if status and parent_path != ''
     #$(parent_path + " " + child_path).addClass('hidden');
     $(parent_path + ' ' + '#password_errors').addClass 'hidden'

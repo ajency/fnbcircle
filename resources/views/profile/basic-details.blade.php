@@ -266,13 +266,13 @@
                                                         </span>
                                                     @endif
                                                 </div>
-                                                <div class="form-group m-b-0">
+                                                <div class="form-group m-b-0 relative">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="new">New Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="new_password" id="password" value="">
                                                     <label id="password_errors" class="fnb-errors hidden"></label>
 
                                                 </div>
-                                                <div class="form-group p-t-10 m-b-0">
+                                                <div class="form-group p-t-10 m-b-0 relative">
                                                     <label class="m-b-0 text-lighter float-label required full-label" for="confirm">Confirm Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="new_password_confirmation" id="password-confirm">
                                                     <label id="password_confirm_errors" class="fnb-errors hidden"></label>

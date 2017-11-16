@@ -41,7 +41,7 @@
                             <select class="form-control fnb-select {{ !empty($header_type) ? ($header_type=='home-header' ? 'nav-color' : 'nav-color') : '' }}" onchange="location = this.value;">
                                 <option>--Change State--</option>
                                 @foreach(getPopularCities() as $city_index => $city_value)
-                                    <option title="{{ $city_value->slug }}" value="{{ url($city_value->slug) }}" @if(isset($city) && $city == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
+                                    <option title="{{ $city_value->slug }}" value="{{ url($city_value->slug) }}" @if(getUserSessionState() && getUserSessionState() == $city_value->slug) selected="" @endif>{{ $city_value->name }}</option>
                                 @endforeach
                             </select>
                         </li>

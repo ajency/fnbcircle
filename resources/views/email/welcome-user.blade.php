@@ -26,7 +26,7 @@
           
 
          
-        Thank you for registering with us. It’s great to have you on-board.<br>
+        Thank you for choosing us. It’s great to have you on-board.<br>
 
         <img src="{{ asset('img/congrats.png') }}" style="margin: 0 auto;display:block;">
 

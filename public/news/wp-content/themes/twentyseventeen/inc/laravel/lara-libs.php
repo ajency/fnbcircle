@@ -5,7 +5,7 @@ function loginCreateWpUserByLaravelEMail()
      
     //If accessing the news pages
     if (!is_admin()) {
-
+/*
         $url = get_laravel_site_url() . "/wp-get-logged-in-laravel-user";
 
         $mch     = curl_init();
@@ -28,7 +28,11 @@ function loginCreateWpUserByLaravelEMail()
         }
 
         $lara_user_data_json = curl_exec($mch);
-        $lara_user_data      = json_decode($lara_user_data_json);
+        $lara_user_data      = json_decode($lara_user_data_json);*/
+
+
+        $lara_user_data = Auth::user();
+
 
         //Laravel user is logged in
         if ($lara_user_data != false) {
@@ -85,6 +89,7 @@ function createLoginLaravelUser($lara_user_data)
         $userdata_['display_name'] = $lara_user_data->email;
         $userdata_['role']         = 'subscriber';
 
+        
         $user_id = wp_insert_user($userdata_);
         $user    = wp_signon($userdata_, false);
         wp_set_current_user($user_id, $userdata_['user_login']);

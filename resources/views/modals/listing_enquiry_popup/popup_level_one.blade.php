@@ -69,25 +69,44 @@
                         <option>Others...</option>
                     </select>
                 </div> -->
-                @php
-                    if(isset($enquiry_data) && isset($enquiry_data['describes_best']) && $enquiry_data['describes_best']) {
-                        $describes_best_html = generateHTML("listing_enquiry_description", $enquiry_data['describes_best']);
-                    } else {
-                        $describes_best_html = generateHTML("listing_enquiry_description");
-                    }
-                @endphp
+                @if(isset($is_multi_select_dropdown) && $is_multi_select_dropdown)
+                    @php
+                        if(isset($enquiry_data) && isset($enquiry_data['describes_best']) && $enquiry_data['describes_best']) {
+                            $describes_best_html = generateHTML("list_view_enquiry_description", $enquiry_data['describes_best']);
+                        } else {
+                            $describes_best_html = generateHTML("list_view_enquiry_description");
+                        }
+                    @endphp
                     <div class="col-sm-12 flex-row flex-wrap describe-section">
-                    @foreach($describes_best_html as $keyContent => $valueContent)
                         <label class="flex-row points">
-                            {!! $valueContent["html"] !!}
-                            <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
-                            <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
+                            <select class="fnb-select select-variant" multiple="multiple" name="description" data-parsley-trigger="change" data-parsley-mincheck="1" data-parsley-errors-container="#describes-best-error" >
+                                @foreach($describes_best_html as $keyContent => $valueContent)
+                                    {!! $valueContent["html"] !!}
+                                @endforeach
+                            </select>
                         </label>
-                    @endforeach
                     </div>
-                    <div class="col-sm-12">
-                        <div id="describes-best-error" class="fnb-error"></div>
+                @else
+                    @php
+                        if(isset($enquiry_data) && isset($enquiry_data['describes_best']) && $enquiry_data['describes_best']) {
+                            $describes_best_html = generateHTML("listing_enquiry_description", $enquiry_data['describes_best']);
+                        } else {
+                            $describes_best_html = generateHTML("listing_enquiry_description");
+                        }
+                    @endphp
+                    <div class="col-sm-12 flex-row flex-wrap describe-section">
+                        @foreach($describes_best_html as $keyContent => $valueContent)
+                            <label class="flex-row points">
+                                {!! $valueContent["html"] !!}
+                                <p class="m-b-0 text-medium points__text flex-points__text text-color" id="hospitality">{{ $valueContent["title"] }} </p>
+                                <i class="fa fa-info-circle p-l-5 text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ $valueContent['content'] }}"></i>
+                            </label>
+                        @endforeach
                     </div>
+                @endif
+                <div class="col-sm-12">
+                    <div id="describes-best-error" class="fnb-error"></div>
+                </div>
             </div>
         </div>
         <!-- describes best ends -->
@@ -96,7 +115,8 @@
             @if(Auth::guest())
                 <a class="secondary-link text-decor desk-hide looking-for__toggle" data-toggle="collapse" href="#lookingfor" aria-expanded="false" aria-controls="lookingfor">Add a note</a>
             @endif    
-            <div class="@if(Auth::guest()) collapse @endif  @if(!Auth::guest()) in @endif" id="lookingfor">
+            <!-- <div class="@if(Auth::guest()) collapse @endif  @if(!Auth::guest()) in @endif" id="lookingfor"> -->
+            <div class="collapse in" id="lookingfor">
                 <p class="text-darker describes__title heavier m-b-5">Give the supplier/service provider some details of your requirements</p>
                 <div class="text-lighter x-small heavier">You may specify product/services, quantities, specifications, your company/brand name, etc.</div>
                 <div class="form-group">
@@ -108,7 +128,7 @@
         <!-- action -->
         <div class="send-action">
             @if(isset($enquiry_send_button) && $enquiry_send_button)
-                <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" id="level-one-form-btn" data-value="step_1" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Send an Enquiry <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
+                <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" id="level-one-form-btn" data-value="step_1" data-toggle="modal" data-target="{{ isset($enquiry_modal_id) && $enquiry_modal_id ? $enquiry_modal_id  : '#multi-quote-enquiry-modal' }}">Send an Enquiry <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
             @else
                 <button class="btn fnb-btn primary-btn full border-btn" type="button" id="level-one-form-btn" data-value="step_1">Send <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
             @endif

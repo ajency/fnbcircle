@@ -13,9 +13,15 @@
     data = {};
     if (enquiry_no === 'step_1') {
       descr_values = [];
-      $.each($(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), function() {
-        descr_values.push($(this).val());
-      });
+      if ($(modal_id + " .level-one #level-one-enquiry select[name='description']").length > 0) {
+        $(modal_id + " .level-one #level-one-enquiry select[name='description']").each(function() {
+          descr_values.push($(this).val());
+        });
+      } else {
+        $.each($(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), function() {
+          descr_values.push($(this).val());
+        });
+      }
       data = {
         name: $(modal_id + " .level-one #level-one-enquiry input[name='name']").val(),
         email: $(modal_id + " .level-one #level-one-enquiry input[name='email']").val(),

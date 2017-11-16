@@ -6,9 +6,15 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 
 	if enquiry_no == 'step_1'
 		descr_values = []
-		$.each $(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), ->
-			descr_values.push $(this).val()
-			return
+
+		if $(modal_id + " .level-one #level-one-enquiry select[name='description']").length > 0
+			$(modal_id + " .level-one #level-one-enquiry select[name='description']").each ->
+				descr_values.push $(this).val()
+				return
+		else	
+			$.each $(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), ->
+				descr_values.push $(this).val()
+				return
 
 		data =
 			name: $(modal_id + " .level-one #level-one-enquiry input[name='name']").val()

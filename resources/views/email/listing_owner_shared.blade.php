@@ -34,8 +34,8 @@
                         </ul>
 					<label>Message:</label> {{ $customer_message }}<br><br>
 
-					<a href="{{ $customer_dashboard_url }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a> to view the profile of {{ $customer_name }}
-
+					<a href="{{ $customer_dashboard_url }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a> to view the profile of {{ $customer_name }}.
+					<br>
 					You may now contact the seeker directly.<br><br>
 
 

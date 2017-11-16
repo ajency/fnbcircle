@@ -20,15 +20,15 @@
       <!-- form -->
     <form method="post" action="" id="level-one-enquiry" data-parsley-validate="">
         <div class="formFields flex-row flex-wrap p-b-15 row {{ !Auth::guest() ? 'hidden' : '' }}">
-            <div class="col-sm-6 col-xs-12">
+            <div class="@if(isset($mobile_view) && $mobile_view) col-sm-11 @else col-sm-6 @endif col-xs-12">
                 <div class="form-group m-b-0">
                     <!-- <label class="m-b-0 lighter text-color xx-small required">Name</label> -->
                     <label class="m-b-0 text-lighter float-label required" for="name">Name</label>
                     <input type="text" class="form-control fnb-input float-input" id="name" name="name" data-required="true" value="{{ !Auth::guest() ? Auth::user()->name : (isset($enquiry_data) && isset($enquiry_data['name']) ? $enquiry_data['name'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }} />
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group m-b-0">
+            <div class="@if(isset($mobile_view) && $mobile_view) col-sm-11 @else col-sm-6 @endif">
+                <div class="form-group @if(isset($mobile_view) && $mobile_view) p-t-10 @endif m-b-0">
                     <label class="m-b-0 text-lighter float-label required filled lab-color dis-block phone-label" for="number">Phone</label>
                     @if(!Auth::guest())
                         <input type="tel" class="form-control fnb-input number-code__value" id="contact" name="contact" data-parsley-trigger="change" data-parsley-minlength="10" data-parsley-maxlength="10" data-parsley-type="digits" data-required="true" data-parsley-errors-container="#errorfield" value="{{ !Auth::guest() ? ( '+' . Auth::user()->getPrimaryContact()['contact_region'] . Auth::user()->getPrimaryContact()['contact']) : (isset($enquiry_data) && isset($enquiry_data['contact']) ? $enquiry_data['contact'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
@@ -43,13 +43,13 @@
                 </div>
                 <div id="errorfield" class="fnb-errors"></div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group m-b-0">
+            <div class="@if(isset($mobile_view) && $mobile_view) col-sm-11 @else col-sm-6 @endif">
+                <div class="form-group @if(isset($mobile_view) && $mobile_view) p-t-10 @endif m-b-0">
                     <label class="m-b-0 text-lighter float-label required" for="email">Email</label>
                     <input type="email" class="form-control fnb-input float-input" id="email" name="email" data-parsley-trigger="change" data-parsley-type="email" data-required="true" value="{{ !Auth::guest() ? Auth::user()->getPrimaryEmail() : (isset($enquiry_data) && isset($enquiry_data['email']) ? $enquiry_data['email'] : '') }}" required {{ !Auth::guest() ? 'disabled="true"' : '' }}/>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="@if(isset($mobile_view) && $mobile_view) hidden @else col-sm-6 @endif">
                 <div class="form-group m-b-0">
                 </div>
             </div>

@@ -129,6 +129,7 @@ $('#listing-leads tbody').on 'click', '.details-control', ->
 		$(this).find('.more-less-text').text 'Less details'
 	return
 
+$('#submissionDate').val('')
 $('body').on 'click','a#clearSubDate', (e) ->
   e.preventDefault()
   $('#submissionDate').val('')

@@ -10,7 +10,7 @@
             <div class="cat-name flex-row">
                 <!-- <span class="fnb-icons cat-icon m-r-15"></span> -->
                 <div class="option flex-row">
-                    <img class="import-icon cat-icon" src="{{ $sub_categories['icon_url'] }}" />
+                    <img class="import-icon cat-icon m-r-15" src="{{ $sub_categories['icon_url'] }}" />
                 </div>
                 <div>
                     <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name" id="main-cat-name">{{ $sub_categories['name'] }}</span>"</p>
@@ -32,7 +32,7 @@
                                     <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
                                 @endif
                                 <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
-                                    <p class="lighter nodes__text" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
+                                    <p class="lighter nodes__text m-b-0" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
                                 </a>
                                 <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
                             </li>

@@ -14,7 +14,12 @@
 		font-size: 1em !important;
     font-weight: 800 !important;
 	}
-
+.fixed-header{
+	position: fixed;
+    z-index: 99;
+    width: 100%;
+    top: 0px;
+}
 .bold-t{
 	font-weight: 600!important;
     margin: auto;
@@ -195,6 +200,9 @@ body .submit{
 					    float: left;
 					    margin: 2px 12px 0px 0px;
 					    opacity: .3;
+					     @media screen and (max-width: @mobile) {
+	   		     		  margin: 2px 12px 14px 0px;
+   						}
     			}
     	}
     	.featured-content{

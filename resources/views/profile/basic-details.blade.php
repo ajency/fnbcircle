@@ -257,7 +257,7 @@
                                         <form id="password_form" method="POST" action="{{action('ProfileController@changePassword')}}">
                                             <div class="basic-detail__col flex-row flex-wrap align-top">
                                                 <div class="form-group m-b-0">
-                                                    <label class="text-lighter float-label required full-label" for="password">Old Password</label>
+                                                    <label class="m-b-0 text-lighter float-label required full-label" for="old">Old Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="old_password" id="old">
                                                     
                                                     @if (count($errors) > 0)
@@ -267,13 +267,13 @@
                                                     @endif
                                                 </div>
                                                 <div class="form-group m-b-0 relative">
-                                                    <label class="text-lighter float-label required full-label" for="new">New Password</label>
+                                                    <label class="m-b-0 text-lighter float-label required full-label" for="password">New Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="new_password" id="password" value="">
                                                     <label id="password_errors" class="fnb-errors hidden"></label>
 
                                                 </div>
                                                 <div class="form-group p-t-10 m-b-0 relative">
-                                                    <label class="text-lighter float-label required full-label" for="confirm">Confirm Password</label>
+                                                    <label class="m-b-0 text-lighter float-label required full-label" for="password-confirm">Confirm Password</label>
                                                     <input type="password" class="form-control fnb-input float-input" name="new_password_confirmation" id="password-confirm">
                                                     <label id="password_confirm_errors" class="fnb-errors hidden"></label>
                                                 </div>

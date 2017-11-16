@@ -1042,7 +1042,7 @@ function get_featured_news_by_city(){
 
 	$html.='<div class="featured-post">
 		<div class="border-layout">';
-	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
 
 
 	$post_categories = get_the_category();
@@ -1062,7 +1062,7 @@ function get_featured_news_by_city(){
 	}
 
 	 if($backgroundImg!=false && $backgroundImg!=""){
-	    			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+	    			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
 
 	    		} 
 	    		else{
@@ -1109,7 +1109,7 @@ function get_recent_news_by_city($city){
 
 	$city = $_POST['city'];
 	$paged = isset($_POST['paged'])?$_POST['paged']:1;
-	$query = array( 'posts_per_page' => 10, 'order' => 'ASC' ,'category_name'=>$city, 'paged' =>$paged);
+	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' ,'category_name'=>$city, 'paged' =>$paged);
 	$wp_query = new WP_Query($query);
 
 	 
@@ -1134,9 +1134,9 @@ function get_recent_news_by_city($city){
   		} 
 	  }
 
-	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
 	  if($backgroundImg!=false && $backgroundImg!=""){
-	     			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+	     			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
 
  		} 
  		else{

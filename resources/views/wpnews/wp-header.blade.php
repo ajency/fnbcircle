@@ -1,3 +1,7 @@
+
+<!-- header -->
+<?php /* 
+ 
 <?php $htype = !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : ''; ?>
  <!-- header -->
     <!-- page shifter start-->
@@ -135,7 +139,9 @@
     <!-- header ends -->
 
 
-
+*/?>
+ @include('includes.header')
+ 
     <?php if(auth()->guest()){ ?>
         <!-- Login Popup Modal -->
         <div class="modal fnb-modal login-modal modal-center" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -146,6 +152,7 @@
                             <img src='/img/logo-fnb.png' class="img-responsive center-block">
                         </div>
                         <button class="close close-modal" data-dismiss="modal" aria-label="Close">&#10005;</button>
+ 
                     </div>
                     <div class="modal-body">
                         <div class="login-body">

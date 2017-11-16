@@ -853,7 +853,7 @@
                             </div>
                             <div class="fly-out__content">
                                 <div class="enquiry-form card m-t-30 m-b-20">
-                                    <form method="">
+                                    <!-- <form method=""> -->
                                         <div class="enquiry-form__header flex-row space-between">
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
@@ -861,8 +861,8 @@
                                             </div>
                                             <span class="fnb-icons enquiry"></span>
                                         </div>
-                                        <div class="enquiry-form__body m-t-10">
-                                            <div class="form-group p-t-10 m-b-0">
+                                        <div class="enquiry-form__body m-t-10 send-enquiry-section" id="rhs-enquiry-form">
+                                            <!-- <div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                 <input type="text" class="form-control fnb-input float-input" id="contact_name">
                                             </div>
@@ -891,9 +891,10 @@
                                             </div>
                                             <div class="form-group p-t-10 m-b-0">
                                                 <button class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#enquiry-modal">Send an Enquiry</button>
-                                            </div>
+                                            </div> -->
+                                            @include('modals.listing_enquiry_popup.popup_level_one', array("no_title" => true, "is_multi_select_dropdown" => true, "enquiry_send_button" => true, "enquiry_modal_id" => "#enquiry-modal", "mobile_view" => true))
                                         </div>
-                                    </form>
+                                    <!-- </form> -->
                                     
                                 </div>
                             </div>

@@ -6,9 +6,13 @@ getFilters = (modal_id, enquiry_no = 'step_1', listing_slug) ->
 
 	if enquiry_no == 'step_1'
 		descr_values = []
-		$.each $(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), ->
-			descr_values.push $(this).val()
-			return
+
+		if $(modal_id + " .level-one #level-one-enquiry select[name='description']").length > 0
+			descr_values = $(modal_id + " .level-one #level-one-enquiry select[name='description']").val()
+		else	
+			$.each $(modal_id + " .level-one #level-one-enquiry input[name='description[]']:checked"), ->
+				descr_values.push $(this).val()
+				return
 
 		data =
 			name: $(modal_id + " .level-one #level-one-enquiry input[name='name']").val()
@@ -345,19 +349,48 @@ resetPlugins = (modal_id) ->
 
 	return
 
+checkForInput = (element) ->
+	# element is passed to the function ^
+	$label = $(element).siblings('label')
+	if $(element).val().length > 0
+		$label.addClass 'filled lab-color'
+	else
+		$label.removeClass 'filled lab-color'
+	return
+
 $(document).ready () ->
 	### --- This object is used to store old values -> Mainly for search-boxes --- ###
 	old_values = {}
 
-	### --- Display respective Popups on "Send Enquiry click" --- ###
+	### --- If RHS Enquiry form exist, then --- ###
+	if $("#rhs-enquiry-form .level-one #level-one-enquiry").length > 0
+		initFlagDrop("#rhs-enquiry-form .level-one #level-one-enquiry input[name='contact']")
+		
+		$(document).find("#rhs-enquiry-form .level-one #level-one-enquiry select[name='description']").multiselect
+			includeSelectAllOption: true
+			numberDisplayed: 2
+			delimiterText: ','
+			nonSelectedText: 'Select that describes you best'
+
+		$(document).find('.float-input').each ->
+			checkForInput this
+			return
+
+	### --- Display respective Popups on "Send Enquiry" click --- ###
 	$(document).on "click", ".enquiry-modal-btn", (e) ->
 		modal_id = $(this).data("target")
+		
 		if $(modal_id).length > 0
-			
 			if $(this).data("value")
 				enq_form_id = "#" + $(this).closest("div.send-enquiry-section").prop("id")
 				page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
-				getContent(enq_form_id, page_level, '', true, modal_id)
+
+				if modal_id == "#enquiry-modal"
+					listing_slug = $("#enquiry_slug").val()
+				else
+					listing_slug = ""
+
+				getContent(enq_form_id, page_level, listing_slug, true, modal_id)
 			else
 				### --- Reset to Modal 1 on enquiry button Click --- ###
 				resetTemplate(modal_id, 'step_1', $("#enquiry_slug").val())
@@ -548,7 +581,6 @@ $(document).ready () ->
 
 				### --- Category select modal on show --- ###
 				$(document).on "shown.bs.modal", "#category-select", (event) ->
-					# console.log main_page_categories
 					$("#category-select #previously_available_categories").val(JSON.stringify(main_page_categories))
 					return
 				return

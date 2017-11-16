@@ -377,12 +377,21 @@ getListContent = () ->
 			if $("#listing_card_view #listing_list_view_enquiry").length 
 				initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']")
 				
+				$(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect
+					includeSelectAllOption: true
+					numberDisplayed: 2
+					delimiterText: ','
+					nonSelectedText: 'Select that describes you best'
+
 				$(document).find('.float-input').each ->
 					checkForInput this
+					return
+				return
 
 		error: (request, status, error) ->
 			$(".listings-page .site-loader.section-loader").addClass "hidden"
 			console.log error
+			return
 	return
 
 ### --- Search the list of city & area on text type --- ###
@@ -396,6 +405,7 @@ getCity = (data, populate_id) ->
 		success: (data) ->
 			html_content = ""
 			updateCityDropdown(data["data"], populate_id)
+			return
 		error: (request, status, error) ->
 			console.log error
 	return
@@ -405,6 +415,7 @@ updateCityDropdown = (data, populate_id) ->
 	if data.length
 		data.forEach (value, index) ->
 			html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>"
+			return
 	else
 		html_content = "<option value=\"\"></option>"
 	
@@ -880,6 +891,7 @@ $(document).ready () ->
 	$(document).on 'click', '.back-icon', ->
 		$('.fly-out').removeClass 'active'
 		return
+	return
 
 # $(document).ready ->
 # 	setTimeout (->

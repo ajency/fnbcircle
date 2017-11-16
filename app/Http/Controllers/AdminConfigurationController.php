@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 use App\Job;
 use App\Company;
+use App\UserCommunication;
 
 class AdminConfigurationController extends Controller
 {
@@ -524,7 +525,8 @@ class AdminConfigurationController extends Controller
     }
 
     public function internalUserView(Request $request) {
-        return view('admin-dashboard.internal_users');
+        $status = User::userStatuses();
+        return view('admin-dashboard.internal_users')->with(compact('status'));
     }
 
     
@@ -632,12 +634,12 @@ class AdminConfigurationController extends Controller
             $userRoles = $create_response['user']->getRoleNames()->toArray();
           
             $userEmail = $request["email"];
-            $userEmail = 'prajay@ajency.in';
+            // $userEmail = 'prajay@ajency.in';
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [$userEmail];
-            $data['cc'] = 'prajay@ajency.in';
+            // $data['cc'] = 'prajay@ajency.in';
             $data['subject'] = "You are added as internal user on FnB Circle.";
             $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
             sendEmail('register-internal-user', $data);
@@ -695,7 +697,8 @@ class AdminConfigurationController extends Controller
 
     public function registeredUserView() {
         $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
-        return view('admin-dashboard.registered_users')->with('cities', $cities);
+        $areas = Area::where('status', 1)->orderBy('order')->orderBy('name')->get();
+        return view('admin-dashboard.registered_users')->with('cities', $cities)->with('areas', $areas);
     }
 
     public function getRegisteredUsers(Request $request){
@@ -719,72 +722,68 @@ class AdminConfigurationController extends Controller
         
         $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id');
 
-
-        // if($requestData['filters']['user_name']!="")
-        // {
+        if($requestData['filters']['user_name']!="")
+        {
   
-        //     $jobQuery->where('jobs.title','like','%'.$requestData['filters']['job_name'].'%');
-        // }
+            $userQuery->where('users.name','like','%'.$requestData['filters']['user_name'].'%');
+        }
+ 
+        if(isset($requestData['filters']['registration_type']) && !empty($requestData['filters']['registration_type']))
+        {
+  
+            $userQuery->whereIn('users.signup_source',$requestData['filters']['registration_type']);
+        }
 
-        // if($requestData['filters']['company_name']!="")
-        // {
-        //     $jobIds = Company:: where('title','like','%'.$requestData['filters']['company_name'].'%')
-        //               ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
-        //               ->pluck('job_companies.job_id')->toArray(); 
+        if(isset($requestData['filters']['state']) && !empty($requestData['filters']['state']))
+        {
+  
+            $userQuery->whereIn('user_details.city',$requestData['filters']['state']);
+        }
 
-        //     $jobQuery->whereIn('jobs.id',$jobIds);
-        // }
+        if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
+        {
+  
+            $userQuery->whereIn('user_details.area',$requestData['filters']['city']);
+        }
 
-        // if(isset($requestData['filters']['job_status']) && !empty($requestData['filters']['job_status']))
-        // {
-        //     $jobQuery->whereIn('jobs.status',$requestData['filters']['job_status']);
-        // }
+        if($requestData['filters']['user_email']!="")
+        {
+            $usersIds = UserCommunication:: where('value','like','%'.$requestData['filters']['user_email'].'%')->where('object_type','App\User')->where('is_primary','1')->where('type','email') ->pluck('object_id')->toArray(); 
 
-        // if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
-        // {
-        //     $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
+            $userQuery->whereIn('users.id',$usersIds);
+        }
 
-        //     $jobQuery->whereIn('job_locations.city_id',$requestData['filters']['city']);
+        if($requestData['filters']['user_phone']!="")
+        {
+            $usersIds = UserCommunication:: where('value','like','%'.$requestData['filters']['user_phone'].'%')->where('object_type','App\User')->where('is_primary','1')->where('type','mobile') ->pluck('object_id')->toArray(); 
 
-        //     $jobQuery->distinct('jobs.id');
-        // }
+            $userQuery->whereIn('users.id',$usersIds);
+        }
 
-        // if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
-        // {
-        //     $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
+        if(isset($requestData['filters']['user_status']) && !empty($requestData['filters']['user_status']))
+        {
+            $userQuery->whereIn('users.status',$requestData['filters']['user_status']);
+        }
 
-        //     $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
+        
+        if(isset($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_to']))
+        { 
+            $userQuery->where('users.created_at','>=',$requestData['filters']['user_created_from'].' 00:00:00'); 
+            $userQuery->where('users.created_at','<=',$requestData['filters']['user_created_to'].' 23:59:59');
+        }
 
-        //     $jobQuery->distinct('jobs.id');
-        // }
-
-        // if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
-        // {
-        //     $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
-        // }
-
-        // if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
-        // { 
-        //     $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
-        //     $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
-        // }
-
-        // if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
-        // {
-        //     $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
-        //     $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
-        // }
+        if(isset($requestData['filters']['last_login_from']) && !empty($requestData['filters']['last_login_from']) &&  !empty($requestData['filters']['last_login_to']))
+        {
+            $userQuery->where('users.last_login','>=',$requestData['filters']['last_login_from'].' 00:00:00'); 
+            $userQuery->where('users.last_login','<=',$requestData['filters']['last_login_to'].' 23:59:59');
+        }
 
          
 
         $columnName = 'users.created_at';
         $orderBy = 'desc';
         
-        // if($orderValue['column'] == 5){ 
-        //     $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
-        //     $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
-
-        // }
+        
         
         // if(isset($columnOrder[$orderValue['column']]))
         // {   
@@ -806,27 +805,31 @@ class AdminConfigurationController extends Controller
 
 
         $usersData = [];
+        $sourceType = ['email_signup'=>'Email signup','google'=>'Google','facebook'=>'Facebook'];
         foreach ($users as $key => $user) {
          
             $userDetails = $user->getUserDetails; 
+            $subTypes = $userDetails->getSavedUserSubTypes();
             
             $usersData[] = [ 
-                            'name' => $user->name,
-                            'type' => $user->type,
+                            'id' => $user->id,
+                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
+                            'type' => $sourceType[$user->signup_source],
                             'email' => $user->getPrimaryEmail(),
                             'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
-                            'describe' => '',
+                            'describe' => implode(', ', $subTypes),
                             'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
-                            'date_created' => $user->userCreated(),
-                            'last_login' => $userDetails->lastLogin(),
-                            'total_listing' => '' ,
-                            'published_listing' =>  '',
-                            'total_jobs' =>  '',
-                            'published_jobs' =>  '',
+                            'date_created' => $user->created_at->toDateTimeString(),
+                            'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
+                            'total_listing' => $user->listing()->count() ,
+                            'published_listing' =>  $user->listing()->where('status','3')->count(),
+                            'total_jobs' =>  $user->jobs()->where('status','3')->count(),
+                            'published_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'job_applied' =>  '',
-                            'resume_uploaded' =>  '',
-                            'status' =>  '',
+                            'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
+                            'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
+                            'status_raw' => $user->status,
                             ];
             
         }
@@ -839,6 +842,21 @@ class AdminConfigurationController extends Controller
             );
               
         return response()->json($json_data);
+    }
+
+    public function userAccountStatus(Request $request){
+        $this->validate($request, [
+            'user_id' => 'required|integer',
+            'status'       => 'required',
+        ]);
+        $user = User::find($request->user_id);
+        if($user == null) return response()->json(['status'=>'error']);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['status'=>'success']);        
+
     }
 
     public function manageJobs(){
@@ -875,75 +893,11 @@ class AdminConfigurationController extends Controller
                                         '8'=> 'jobs.updated_at'
                                         );
 
-        
-        $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id');
-
-
-        if($requestData['filters']['job_name']!="")
-        {
-  
-            $jobQuery->where('jobs.title','like','%'.$requestData['filters']['job_name'].'%');
-        }
-
-        if($requestData['filters']['company_name']!="")
-        {
-            $jobIds = Company:: where('title','like','%'.$requestData['filters']['company_name'].'%')
-                      ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
-                      ->pluck('job_companies.job_id')->toArray(); 
-
-            $jobQuery->whereIn('jobs.id',$jobIds);
-        }
-
-        if(isset($requestData['filters']['job_status']) && !empty($requestData['filters']['job_status']))
-        {
-            $jobQuery->whereIn('jobs.status',$requestData['filters']['job_status']);
-        }
-
-        if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
-        {
-            $jobQuery->join('job_locations', 'jobs.id', '=', 'job_locations.job_id'); 
-
-            $jobQuery->whereIn('job_locations.city_id',$requestData['filters']['city']);
-
-            $jobQuery->distinct('jobs.id');
-        }
-
-        if(isset($requestData['filters']['keywords']) && !empty($requestData['filters']['keywords']))
-        {
-            $jobQuery->join('job_keywords', 'jobs.id', '=', 'job_keywords.job_id'); 
-
-            $jobQuery->whereIn('job_keywords.keyword_id',$requestData['filters']['keywords']);
-
-            $jobQuery->distinct('jobs.id');
-        }
-
-        if(isset($requestData['filters']['category']) && !empty($requestData['filters']['category']))
-        {
-            $jobQuery->whereIn('jobs.category_id',$requestData['filters']['category']); 
-        }
-
-        if(isset($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_from']) && !empty($requestData['filters']['published_date_to']))
-        { 
-            $jobQuery->where('jobs.published_on','>=',$requestData['filters']['published_date_from'].' 00:00:00'); 
-            $jobQuery->where('jobs.published_on','<=',$requestData['filters']['published_date_to'].' 23:59:59');
-        }
-
-        if(isset($requestData['filters']['submission_date_from']) && !empty($requestData['filters']['submission_date_from']) &&  !empty($requestData['filters']['submission_date_to']))
-        {
-            $jobQuery->where('jobs.date_of_submission','>=',$requestData['filters']['submission_date_from'].' 00:00:00'); 
-            $jobQuery->where('jobs.date_of_submission','<=',$requestData['filters']['submission_date_to'].' 23:59:59');
-        }
-
-         
-
+ 
         $columnName = 'jobs.created_at';
         $orderBy = 'desc';
         
-        if($orderValue['column'] == 5){ 
-            $jobQuery->join('job_companies', 'jobs.id', '=', 'job_companies.job_id');
-            $jobQuery->join('companies', 'job_companies.company_id', '=', 'companies.id');
-
-        }
+        
         
         if(isset($columnOrder[$orderValue['column']]))
         {   
@@ -951,17 +905,15 @@ class AdminConfigurationController extends Controller
             $orderBy = $orderValue['dir'];
         }
 
+            
+        $orderDataBy = [$columnName => $orderBy];
+        
+        $jobController = new JobController;
+        $filterJobs = $jobController->filterJobs($requestData['filters'],$skip,$length,$orderDataBy);
 
-        if($length>1)
-        {  
-            $totalJobs = $jobQuery->get()->count(); 
-            $jobs = $jobQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
-        }
-        else
-        {
-            $jobs    = $jobQuery->orderBy($columnName,$orderBy)->get();  
-            $totalJobs = $jobs->count();  
-        }
+        $jobs = $filterJobs['jobs'];
+        $totalJobs = $filterJobs['totalJobs'];
+ 
 
 
         $jobsData = [];
@@ -1034,6 +986,33 @@ class AdminConfigurationController extends Controller
         }
         else
             $status = false;
+
+        
+
+        if($job->status == '3' || $job->status == '5'){
+
+            $jobOwner = $job->createdBy;
+            $ownerDetails = $jobOwner->getUserProfileDetails();
+
+            //for testing
+            $ownerDetails['email'] = 'nutan@ajency.in';
+
+            $templateData['job'] = $job;
+            $templateData['ownerName'] = $jobOwner->name;
+
+            $template = ($job->status == '3') ?'job-published'  : 'job-rejected';
+            $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
+     
+            $data = [];
+            $data['from'] = config('constants.email_from');
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [ $ownerDetails['email']];
+            $data['cc'] = [ config('constants.email_to')];
+            $data['subject'] = $subject;
+            $data['template_data'] = $templateData;
+            
+            sendEmail($template, $data);
+        }
         
         $editLink = url('jobs/'.$job->reference_id.'/job-details');
         return response()->json(array("code" => "200","status" =>$status, "name" => $job->title,"link" => $editLink));

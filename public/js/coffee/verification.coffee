@@ -30,13 +30,11 @@ $(document).ready ()->
 
 
   $('.contact-info').on 'countrychange', '.contact-mobile-input', (e, countryData)->
-     
     if $(this).closest('.modal').length
       $('.under-review').find('.contact-country-code').val countryData.dialCode
       $('.under-review').find('.contact-mobile-input').intlTelInput("setNumber", "+"+countryData.dialCode)
       $('.under-review').find('.contact-mobile-input').val ''
     else
- 
       $(this).closest('.contact-container').find('.contact-country-code').val countryData.dialCode
     return
 
@@ -100,10 +98,10 @@ $(document).ready ()->
   $('.contact-info').on 'click', '.contact-verify-link', (event) ->
     $('.contact-container').removeClass('under-review')
     $(this).closest('.contact-container').addClass('under-review')
-    verifyContactDetail(true)
+    verifyContactDetail(true, false)
 
 
-  verifyContactDetail = (showModal) ->
+  verifyContactDetail = (showModal, resend_otp) ->
     contactValueObj = $('.under-review').find('.contact-input')
     contactValue = contactValueObj.val()
     contactType = $('.under-review').closest('.contact-info').attr('contact-type')
@@ -125,22 +123,25 @@ $(document).ready ()->
       
       if(showModal)
         underreviewDialCode = $('.under-review').find('.contact-country-code').val()
-        $('#'+contactType+'-modal').find('.change-contact-input').intlTelInput("setNumber", "+"+underreviewDialCode)
+        $('#'+contactType+'-modal').find('.change-contact-input').intlTelInput("setNumber", "+" + underreviewDialCode)
         $('#'+contactType+'-modal').modal 'show'
 
-        
+      data_filters =
+        'id': contactId
+        'contact_value': contactValue
+        'contact_type': contactType
+        'object_id': objectId
+        'object_type': objectType
+        'is_visible': isVisible
+        'country_code': countryCode
+
+      if resend_otp
+        data_filters["resend"] = true
     
       $.ajax
         type: 'post'
         url: '/user/verify-contact-details'
-        data:
-          'id': contactId
-          'contact_value': contactValue
-          'contact_type': contactType
-          'object_id': objectId
-          'object_type': objectType
-          'is_visible': isVisible
-          'country_code': countryCode
+        data: data_filters
         success: (data) ->
           $('.under-review').find('.contact-id').val(data['id']) 
           return
@@ -239,7 +240,7 @@ $(document).ready ()->
         $('.default-state').removeClass 'hidden'
         $('.add-number').addClass 'hidden'
         $('.verificationFooter').removeClass 'no-bg'
-        verifyContactDetail(false)
+        verifyContactDetail(false, false)
     else
       if(newContactObj.val() == '')
         $(this).closest('.contact-verify-steps').find('.customError').text 'Please enter '+contactType
@@ -322,6 +323,7 @@ $(document).ready ()->
  
   $('.contact-verification-modal').on 'click', '.resend-link', (e)->
     $(this).addClass 'sending'
+    verifyContactDetail(false, true)
     setTimeout (->
       $('.resend-link').removeClass 'sending'
       return

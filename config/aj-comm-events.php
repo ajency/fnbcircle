@@ -30,6 +30,26 @@ return [
         "sendgrid" => "reset-password-new",
         "pushcrew" => "reset-password-push-new"
     ],
+    "job-application" => [
+        "laravel" => "email.job-application",
+        "pushcrew" => ""
+    ],
+    "job-submit-for-review" => [
+        "laravel" => "email.job-submit-for-review",
+        "pushcrew" => ""
+    ],
+    "job-published" => [
+        "laravel" => "email.job-published",
+        "pushcrew" => ""
+    ],
+    "job-rejected" => [
+        "laravel" => "email.job-rejected",
+        "pushcrew" => ""
+    ],
+    "job-alert" => [
+        "laravel" => "email.job-alerts",
+        "pushcrew" => ""
+    ],
     "user-register" => [
         "laravel" => "email.user-register",
         "pushcrew" => ""

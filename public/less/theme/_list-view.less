@@ -211,6 +211,28 @@
     		vertical-align: bottom;
 		}
 	}
+	.filter-group{
+		&.keywords{
+			background-color: @turqoise;
+			.filter-group__header{
+				background-color: transparent;
+    			border-bottom: 1px solid #badedc;
+			}
+			.filter-group__body{
+				.searchKeyword{
+					border-bottom: 1px solid#badedc;
+					.input-container{
+						&:hover{
+							background-color: transparent;	
+						}
+					}
+				}
+			}
+		}
+		.help-text{
+			line-height: 1.5;
+		}
+	}
 }
 
 .results{
@@ -273,6 +295,9 @@
     			width: 200px;
 			}
 		}
+		.salary-range{
+			margin: 1em 0;
+		}
 		.checkbox{
 			margin-right: 1.2em;
 			margin-top: 0;
@@ -288,6 +313,16 @@
 			.bg,.value{
 				&:before{
 					font-size: 1.25em;
+				}
+			}
+		}
+		&.jobType{
+			span{
+				white-space: normal;
+			}
+			.checkbox{
+				&:before{
+					top: 0;
 				}
 			}
 		}
@@ -385,6 +420,9 @@
 	&__body{
     	border-bottom: 1px solid #eee;
     	align-items: inherit;
+	}
+	.seller-info__footer{
+		background-color: #fff0d4;
 	}
 	.flex-cols{
 		flex: 1 0 55%;
@@ -589,8 +627,11 @@
     	}
     	.apply-btn{
     		position: fixed;
-    		bottom: 0;
-    		width: 100%;
+		    bottom: 0;
+		    width: 100%;
+		    left: 0;
+		    right: 0;
+		    z-index: 2;
     		.fnb-btn{
     			width: 100%;
     			padding: 15px;
@@ -635,6 +676,8 @@
 			margin: 0 -15px;
     		padding: 8px 15px 0;
     		border-top: 1px solid #ddd;
+    		margin-top: 0.8em;
+    		padding-top: 0;
 		}
 		.seller-info__title{
 			font-size: 1.15em;
@@ -720,7 +763,8 @@
 			display: none;
 		}
 		.recent-updates{
-			margin-bottom: 0.5em;
+			margin-bottom: 0;
+    		padding: 1em 0;
 			&__text{
 				flex: 0.6;
 				.sub-title{
@@ -758,13 +802,21 @@
 				.fnb-btn{
 					padding: 0.5em 0.5em;
     				border: 0;
-    				font-size: 1.05em;
-    				text-align: right;
+    				font-size: 1em;
+    				// text-align: right;
+    				background-color: @accent-primary;
+    				color: #fff;
+    				text-align: center;
     				&:active,&:focus{
     					background-color: transparent;
     					border: 0;
     					outline: 0;
     					color: @accent-primary;
+    				}
+    				&:hover{
+    					background-color: #fff;
+    					color: @accent-primary;
+    					box-shadow: 0px 0px 0px 2px #ec6d4b;
     				}
 				}
 			}
@@ -774,6 +826,13 @@
 			display: none;
     		margin: 0.5em -14px 0 -14px;
     		background-color: @highlight;
+		}
+		.no-updates{
+			&.recent-updates__content{
+				.fnb-btn{
+					text-align: center;
+				}
+			}		
 		}
 	}
 	.sticky-bottom{
@@ -1026,13 +1085,231 @@
 }
 
 
+// ---------------------------
+// JOBS LIST VIEW -----------
+// ---------------------------
 
 
+.job-listings{
+	.filter-cards{
+		.flex-cols{
+			max-width: inherit;
+		}
+		&.seller-info{
+			.operations__title{
+				margin-bottom: 5px;
+			}
+		}
+		.open-border{
+			border-top: 1px solid #eee;
+    		padding-top: 0.8em;
+    		margin-top: 0.5em;
+		}
+		.seller-info__title{
+			margin: 0;
+			white-space: normal;
+    		line-height: 1.2;
+    		margin-bottom: 0.2em;
+		}
+		.get-details{
+			position: relative;
+			align-self: center;
+			.fnb-btn{
+				padding: 0.5em 1.8em;
+			}
+			.power-seller{
+				position: absolute;
+    			top: -2.5em;
+    			right: -1.8em;
+			}
+		}
+		.companyName{
+			margin-bottom: 6px;
+		}
+		.roles-location{
+    		.cat-holder{
+    			flex: 1;
+    		}
+    		.operations{
+    			flex: 0.5;
+    		}
+		}
+		.fnb-label{
+			padding: 0.3em 0.6em;
+		}
+		// .off-salary{
+		// 	margin-right: 2em;
+		// }
+		.year-exp{
+			&:after{
+				// display: none !important;
+			}
+		}
+		.recent-updates{
+			@media screen and (min-width: 769px){
+				margin: 1em -21px -17px -21px;
+    			padding: 1em 20px 1em 20px;
+    			background-color: #fff0d4;
+    			.fnb-btn{
+					border: 0;
+					&:hover{
+						box-shadow: 0px 0px 0px 2px rgb(236, 109, 75);
+					}
+				}
+			}
+		}
+	}
+}
+
+.top-clear-all{
+	display: flex;
+    margin-top: 0.5em;
+    justify-content: flex-end;
+    color: @accent-primary;
+}
 
 
+.searchKeyword{
+	position: relative;
+	.search-icon{
+		position: absolute;
+    	bottom: 10px;
+    	left: 0;
+    	z-index: 1;
+	}
+	.flexdatalist-multiple.flexdatalist-multiple{
+	    border-bottom: 0 !important;
+	    margin-top: -4px;
+	    li{
+	    	&.value{
+	    		margin: 0 0.6em 0.4em 0;
+	    	}
+	    }
+	    li.input-container input{
+	    	width: 100% !important;
+	    	padding-left: 1.5em;
+	    }
+	    .input-container{
+	    	margin-top: 0;
+    		padding-left: 0;
+    		margin-left: 0;
+    		width: 100%;
+    		margin-bottom: 0;
+	    }
+	}
+}
+
+@media screen and (max-width: @mobile){
+	.job-listings{
+		.filter-cards{
+			.seller-info__title{
+				margin-bottom: 0.3em;
+			}
+			.cat-posted{
+				line-height: 1.6;
+			}
+			.stats{
+				margin-top: 0.6em;
+				justify-content: flex-start;
+			}
+			.fnb-label{
+				margin-bottom: 0.5em;
+			}
+			.roles-location{
+				flex-direction: column;
+			}
+			.cat-holder{
+				padding-top: 0;
+			}
+			.open-border{
+				padding-top: 0.5em;
+			}
+			.off-salary{
+				margin-bottom: 0.5em;
+			}
+			.get-details{
+				// margin: 1em 0;
+    			border-top: 1px solid #eee;
+    			// padding-top: 0.8em;
+    			margin: 0 -14px 0 -14px;
+    			padding: 15px;
+    			background-color: #fff0d4;
+    			.fnb-btn{
+    				width: 150px;
+    				margin: 0 auto;
+    				padding: 0.6em 1.8em;
+    				border: 0;
+					&:hover{
+						box-shadow: 0px 0px 0px 2px rgb(236, 109, 75);
+					}
+    			}
+			}
+			.seller-info .cities.cities{
+				padding-left: 0;
+			}
+			.companyName{
+				flex-direction: column;
+    			align-items: flex-start;
+    			.published-date{
+    				align-self: flex-end;
+    			}
+			}
+			.recent-updates{
+				flex-direction: column;
+			}
+		}
+		.site-loader{
+			margin-top: 0;
+		}
+	}
+	.mobile-bottom{
+		margin-bottom: 3.5em;
+	}
+	.show-count-title{
+		line-height: 1.3;
+	}
+}
 
 
+// .filter-group{
+// 	.irs{
+// 		padding: 0 1em;
+// 	}	
+// }
+
+.salary-separator{
+	margin: 0.8em 0;
+	text-align: center;
+	position: relative;
+	&:before{
+		content: '';
+		display: block;
+		width: 100%;
+		height: 1px;
+		border-top: 4px double #ddd;
+	    top: 50%;
+	    position: absolute;
+	    left: 0;
+	}
+	span{
+		padding: 0 10px;
+	    position: relative;
+	    z-index: 2;
+	    background-color: #fff;
+	    @media screen and (max-width: @mobile){
+	    	background-color: #f7f7f7;
+	    }
+	}
+}
+
+.input-sal-filter{
+	.fnb-input{
+		font-size: 0.9em;
+	}
+}
 
 
-
+.enquiry-add-card{
+	padding: 0.8em 1.5em;
+}
 

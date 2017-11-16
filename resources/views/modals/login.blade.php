@@ -45,6 +45,14 @@
                                 <span>Sorry, this link has expired.
                                 <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a></span>
                             </div>
+                            <div class="email-missing facebook-email-miss-error hidden">
+                                <h6 class="sub-title">Email missing in facebook account</h6>
+                                <span>Looks like you have a facebook account with no email ID. Please update your facebook account with an Email ID or sign up with <b>Google</b> or <b>Email</b></span>
+                            </div>
+                            <div class="email-missing google-email-miss-error hidden">
+                                <h6 class="sub-title">Email missing in google account</h6>
+                                <span>Looks like you have a google account with no email ID. Please update your google account with an Email ID or sign up with <b>Facebook</b> or <b>Email</b></span>
+                            </div>
                         </div>
                         <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <div class="account-inactive email-exist-error hidden">
@@ -58,6 +66,11 @@
                                 <span>A verification mail is sent. Please check your inbox or click here to resend the email.</span>
                                 <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
                                 <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a>
+                            </div>
+                            <div class="token-already-verified already-verified-error hidden">
+                                <h6 class="sub-title">Invalid Request</h6>
+                                <span>The account has already been activated.</span>
+                                <!-- <button type="button" class="btn fnb-btn outline border-btn" >Resend Verification Email</button> -->
                             </div>
                         </div>
                         
@@ -89,7 +102,7 @@
                                 </div>
                                 <div class="form-group m-b-0 flex-row space-between forgot-actions">
                                     <label class="stay-logged flex-row text-medium m-b-0 text-color">
-                                        <input type="checkbox" class="checkbox"> Stay Logged In
+                                        <!-- <input type="checkbox" class="checkbox"> Stay Logged In -->
                                     </label>
                                     <a href="#" class="primary-link forget-link">Forgot password?</a>
                                 </div>
@@ -108,17 +121,25 @@
                             <a href="{{ url('register') }}" class="btn fnb-btn outline border-btn" type="button">Sign Up</a>
                         </div>                            
                     </div>
-                   <div class="forget-password">
+                   <div class="forget-password" id="forget-password-div">
+                        <div class="alert alert-success forgot-link-sent alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h6 class="sub-title">Success</h6>
+                            <span>We have sent you an email with a link to reset your password. Please click on the link to set a new password.</span>
+                        </div>
                         <h3 class="welcome-text text-medium">Forgot Password</h3>
                         <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>
-                        <div class="form-group text-left m-b-0">
-                            <input type="email" class="form-control fnb-input float-input required" id="password" placeholder="Email Address">
-                        </div>
-                        <div class="form-group m-b-0 m-t-20">
-                            <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin"></i></button>
-                        </div>
+                        <!-- <form method="POST" action="{{ route('password.email') }}" id="forgot-password-form" data-parsley-validate=""> -->
+                        <form method="POST" action="#" id="forgot-password-form" data-parsley-validate="">
+                            <div class="form-group text-left m-b-0">
+                                <input type="email" class="form-control fnb-input float-input required" id="forgot_password_email" name="forgot_password_email" placeholder="Email Address" data-parsley-trigger="focusout" data-parsley-type="email" data-parsley-errors-container="#email-error-container">
+                            </div>
+                            <div id="email-error-container" class="fnb-errors"></div>
+                            <div class="form-group m-b-0 m-t-20">
+                                <button class="btn fnb-btn primary-btn full border-btn log-action reset-link" type="button" id="forgot-password-form-btn"><i class="fa fa-unlock p-r-5" aria-hidden="true"></i> Send password reset link <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                            </div>
+                        </form>
                         <div class="form-group m-b-0">
-                            <div class="text-primary back-login heavier m-t-20"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
+                            <div class="text-primary back-login heavier m-t-20 dis-inline"><i class="fa fa-angle-left p-r-5" aria-hidden="true"></i> Back to Log In</div>
                         </div>
                     </div>
                 </div>

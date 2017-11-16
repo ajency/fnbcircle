@@ -75,10 +75,17 @@ return [
 			'slug_column' => 'id',
 			'sizes' => ['65x65']
 		],
+ 
+		'App\User' => [
+			'base_path' => 'user',
+			'slug_column' => 'id',
+			'sizes' => ['65x65']
+ 		],
 		'App\Update' => [
 			'base_path' => 'Listings/Updates',
 			'slug_column' => 'id',
 			'sizes' => ['400X300','200x150']
+ 
 		],
 	],
 ];

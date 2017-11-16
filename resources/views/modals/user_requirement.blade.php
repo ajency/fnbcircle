@@ -1,7 +1,7 @@
 @if(!Auth::guest())
     <!-- Requirement Modal Popup -->
     <!-- <div class="modal fnb-modal require-modal modal-center in" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: block; padding-right: 15px;"> -->
-    <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fnb-modal require-modal modal-center" id="require-modal" data-backdrop="static" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="verification-content">
+                                <div class="verification-content hidden">
                                     <input type="hidden" name="object_type" value="App\User"/>
                                     <input type="hidden" name="object_id" value="{{ auth()->user()->id }}"/>
 

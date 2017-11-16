@@ -1117,9 +1117,18 @@ function get_recent_news_by_city($city){
 	if ( $wp_query->have_posts() ) : 
 		while ( $wp_query->have_posts() ) : $wp_query->the_post();  
 	//while ( have_posts() ) : the_post(); 
+	$featured_img_id ="";
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
+	  if($backgroundImg!=false && $backgroundImg!=""){
+	     			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	     			$featured_img_id =' id="featured-img" ';
+ 		} 
+ 		else{
+ 			$style_avatar ="";
+ 		}  
 	$html.='<li>
 	    
-	      <div class="list-post">';
+	      <div class="list-post" '.$featured_img_id.'>';
 	  $post_categories = get_the_category();
 	  $category_display ="";
 	  $cnt_cat =0;
@@ -1134,14 +1143,7 @@ function get_recent_news_by_city($city){
   		} 
 	  }
 
-	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
-	  if($backgroundImg!=false && $backgroundImg!=""){
-	     			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
-
- 		} 
- 		else{
- 			$style_avatar ="";
- 		}        
+	      
 	  
 	  $html.='<div class="featured-content">
 	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'">  <h5>'.get_the_title().'</h5> </a>

@@ -11,7 +11,7 @@
  * @since 1.0
  * @version 1.0
  */
-
+require_once("inc/laravel/laravel-app.php");
 loginCreateWpUserByLaravelEMail();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">
@@ -26,6 +26,7 @@ loginCreateWpUserByLaravelEMail();
 </head>
 
 <body <?php body_class(); ?>>
+
 
 <!-- -->	
 <div id="laravel-header-container"><i class="loader-center2 fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div>

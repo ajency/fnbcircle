@@ -14,9 +14,17 @@
  * @since 1.0
  * @version 1.0
  */
-//$user_state = "pune";
+ 
 
-get_header(); ?>
+get_header(); 
+$laravel_user_state = Cookie::get('user_state');
+if(isset($laravel_user_state)){
+	if($laravel_user_state!=''){
+		$user_state = $laravel_user_state;
+	}
+}
+ 
+?>
 <div class="header-image text-center">
 	<H1 class="bold-t" >FnB Circle News</H1>
 	<div class="search-container">
@@ -28,7 +36,17 @@ get_header(); ?>
 		</select> -->
 		 <label class="search-label home_city_select_label">
 		 <i class="fa fa-map-marker" aria-hidden="true"></i>
-		<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
+
+		 <?php 
+		 $city_drop_down_args = "show_option_none=All City&exclude=1&value_field=slug";
+		 if(isset($user_state)){
+		 	if($user_state!=''){
+		 		$city_drop_down_args = "selected=".$user_state."&show_option_none=All City&exclude=1&value_field=slug";
+		 	}
+		 }
+
+		 ?>
+		<?php wp_dropdown_categories($city_drop_down_args); ?>
 		</label>
 	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 		

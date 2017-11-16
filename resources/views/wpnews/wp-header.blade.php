@@ -1,5 +1,5 @@
 <!-- header -->
-
+<?php /* 
 <?php $htype = !empty($header_type) ? ($header_type=='home-header' ? 'trans-header home-header' : 'trans-header') : ''; ?>
     <header class="fnb-header <?php echo $htype ?>">
         <nav class="navbar navbar-default">
@@ -132,7 +132,9 @@
     <!-- header ends -->
 
 
+*/?>
 
+   @include('includes.header')
 
 
 

@@ -198,15 +198,15 @@
                                             <div class="basic-detail__col flex-row flex-wrap">
                                                 <div class="form-group m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="contact_name" value="{{$details['name']}}" name="username" required />
+                                                    <input type="text" class="form-control fnb-input float-input p-l-5" id="contact_name" value="{{$details['name']}}" name="username" required />
                                                     <input type="hidden" name="email_id"  value="{{$details['email']['email']}}">
                                                 </div>
                                                 <div class="form-group m-b-0 flex-row space-between">
                                                     <div class="flex-full flex-1">
                                                         <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
-                                                        <input type="email" class="form-control fnb-input float-input" id="contact_email" value="{{$details['email']['email']}}"  disabled>
+                                                        <input type="email" class="form-control fnb-input float-input m-t-5 p-l-5" id="contact_email" value="{{$details['email']['email']}}"  disabled>
                                                     </div>
-                                                    <div class="verified flex-row m-t-20 p-l-5">
+                                                    <div class="verified flex-row m-t-25 p-l-5">
                                                         @if($details['email']['is_verified'] == 1) <span class="fnb-icons verified-icon">
                                                         </span> @else <i class="fa fa-times not-verified" aria-hidden="true"></i> @endif
                                                         <div class="text-color">
@@ -218,13 +218,13 @@
                                                     <div class="contact-container flex-row space-between full-width">
                                                         <div class="flex-1">
                                                             <label class="m-b-0 text-lighter float-label filled required" for="contact_phone">Phone No</label>
-                                                            <div class="flex-full">
+                                                            <div class="flex-full m-t-5">
                                                                 <input type="hidden" class="contact_mobile_id contact-id" readonly value=""  name="contact_mobile_id" id="requirement_contact_mobile_id">
                                                                 <input type="tel" class="form-control fnb-input float-input contact-input contact-mobile-input contact-mobile-number" id="contact_phone" value="{{$details['phone']['contact']}}" name="contactNumber" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required @if($details['phone']['is_verified'] == 1) readonly @endif />
                                                                 <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{ $details['phone']['contact_region'] }}">
                                                             </div>
                                                         </div>    
-                                                        <div class="verified m-t-15 flex-row">
+                                                        <div class="verified m-t-25 flex-row custom-verification">
                                                             @if($details['phone']['is_verified'] == 1)
                                                               <span class="fnb-icons verified-icon"></span> 
                                                             @else 
@@ -242,7 +242,7 @@
                                                 </div>
                                                 <div class="form-group p-t-10 m-b-0">
                                                     <label class="m-b-0 text-lighter float-label required filled lab-color" for="member">Member Since</label>
-                                                    <input type="text" class="form-control fnb-input float-input" id="member" value="{{$details['joined']}}" disabled>
+                                                    <input type="text" class="form-control fnb-input float-input m-t-5 p-l-5" id="member" value="{{$details['joined']}}" disabled>
                                                 </div>
                                                 <div class="form-group p-t-20 m-b-0 save-btn">
                                                    <button class="btn fnb-btn primary-btn full border-btn" type="submit" >Save</button>

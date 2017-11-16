@@ -45,6 +45,14 @@
                                 <span>Sorry, this link has expired.
                                 <a href="{{ url('/send-confirmation-link')}}" class="primary-link dis-block" id="verif-resend-btn">Resend Verification Email</a></span>
                             </div>
+                            <div class="email-missing facebook-email-miss-error hidden">
+                                <h6 class="sub-title">Email missing in facebook account</h6>
+                                <span>Looks like you have a facebook account with no email ID. Please update your facebook account with an Email ID or sign up with <b>Google</b> or <b>Email</b></span>
+                            </div>
+                            <div class="email-missing google-email-miss-error hidden">
+                                <h6 class="sub-title">Email missing in google account</h6>
+                                <span>Looks like you have a google account with no email ID. Please update your google account with an Email ID or sign up with <b>Facebook</b> or <b>Email</b></span>
+                            </div>
                         </div>
                         <div class="alert alert-warning signin-verification alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <div class="account-inactive email-exist-error hidden">
@@ -116,7 +124,7 @@
                    <div class="forget-password" id="forget-password-div">
                         <div class="alert alert-success forgot-link-sent alert-dismissible fade in hidden" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <h6 class="sub-title">Success</h6>
-                            <span>We have sent you an email with a link to reset your password. You should be receiving them shortly.</span>
+                            <span>We have sent you an email with a link to reset your password. Please click on the link to set a new password.</span>
                         </div>
                         <h3 class="welcome-text text-medium">Forgot Password</h3>
                         <p class="text-color m-t-20 m-b-10 default-size help-text">Enter your email address. You will receive an email with a link to reset your password.</p>

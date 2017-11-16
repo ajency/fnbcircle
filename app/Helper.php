@@ -6,8 +6,10 @@ use App\Category;
 use App\Defaults;
 // use AjComm;
 
-
-function getOperationTime($info=null,$type= "from",$diff=30){
+/**
+*
+*/
+function getOperationTime($info=null,$type= "from",$diff=30) {
 	$time = null;
 	if($info != null and !empty($info)) {
 		if($type == 'from') $time = substr($info->from,0,5);
@@ -206,7 +208,9 @@ function getDefaultValues($type, $arrayType=1){
 	return $defaultValues;
 }
 
-
+/**
+*
+*/
 function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
 	if($mode == 'edit')
     	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
@@ -224,6 +228,9 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
     return $contactInfo;
 }
 
+/**
+*
+*/
 function moneyFormatIndia($amount){
     $num = floatval($amount);
     $splitNum = explode('.', $amount);
@@ -253,12 +260,18 @@ function moneyFormatIndia($amount){
     return $thecash.$decimalValue; // writes the final format where $currency is the currency symbol.
 }
 
+/**
+*
+*/
 function salarayTypeText($type){
    $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
 
    return $salaryTpes[$type];
 }
- 
+
+/**
+*
+*/ 
 function getCities(){
 	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
@@ -318,8 +331,10 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
- 
-function salaryRange(){
+/**
+*
+*/ 
+function salaryRange() {
 	$range = [	'5'=>['min' => 0,
 					'max' => 300000000
 					],
@@ -340,7 +355,10 @@ function salaryRange(){
 	return  $range;
 } 
 
-function getUploadFileUrl($id){
+/**
+*
+*/
+function getUploadFileUrl($id) {
 	$url = '';
 	if(!empty($id)){
 		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
@@ -362,6 +380,9 @@ function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
 
+/**
+*
+*/
 function getSinglePopularCity() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
 }
@@ -384,7 +405,6 @@ function generateUrl($city, $slug, $slug_extra = []) {
  
 	return $url;
 }
-
  
 /**
 * This function is used to send email for each event
@@ -451,7 +471,7 @@ function sendEmail($event='new-user', $data=[]) {
 		$notify = new \Ajency\Comm\Communication\Notification();
 	    $notify->setEvent($event);
 	    $notify->setRecipientIds([$email]); 
-	    if(in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
 	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
 	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
 	    // $notify->setRecipientIds([$email,$email1]);
@@ -489,7 +509,8 @@ function sendSms($event='new-user', $data=[], $override = false) {
 	    $notify = new \Ajency\Comm\Communication\Notification();
 	    $notify->setEvent($event);
 	    $notify->setRecipientIds([$sms]);
-	    // if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
 	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
 	    AjComm::sendNotification($notify);
  	} else {
@@ -497,18 +518,21 @@ function sendSms($event='new-user', $data=[], $override = false) {
  	}
 }
 
-function getFileMimeType($ext){
+/**
+* 
+*/
+function getFileMimeType($ext) {
 	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
 	$mimeType = $mimeTypes[$ext];
 
 	return $mimeType;
- 
- 
 }
 
-
-function sendUserRegistrationMails($user){
+/**
+*
+*/
+function sendUserRegistrationMails($user) {
 
     $userDetail = $user->getUserDetails;
     $userDetail->has_previously_login = 1;
@@ -541,8 +565,11 @@ function sendUserRegistrationMails($user){
 
     return true;
 
-    }
+}
 
+/**
+*
+*/
 function firstTimeUserLoginUrl(){
 
 	$redirectUrl = '/';
@@ -558,9 +585,6 @@ function firstTimeUserLoginUrl(){
 	return $redirectUrl;
 
 }
- 
-
-
 
 /**
 * This function will generate Category's Hierarchy from bottom to top -> Node to Parent

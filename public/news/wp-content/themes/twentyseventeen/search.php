@@ -58,7 +58,8 @@ get_header(); ?>
 			<?php } ?>
 
 		<?php else : ?>
-			<h3><?php _e( 'Nothing Found', 'twentyseventeen' ); ?></h3>
+			<h2 class="text-center"><i class="fa fa-frown-o text-lighter" aria-hidden="true"></i> </h2>
+			<h5 class="text-center p-0"> <?php _e( 'Nothing Found', 'twentyseventeen' ); ?></h5>
 		<?php endif; ?>
 		<hr>
 		<main id="main" class="site-main" role="main">
@@ -105,9 +106,9 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?
 
 		else : ?>
 
-			<p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'twentyseventeen' ); ?></p>
+			<p class="text-center"><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'twentyseventeen' ); ?></p>
 			<?php
-				get_search_form();
+			
 
 		endif;
 		?>

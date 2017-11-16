@@ -4,6 +4,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use App\Category;
 use App\Defaults;
+use App\User;
+use Spatie\Activitylog\Models\Activity;
 // use AjComm;
 
 
@@ -30,8 +32,8 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 	if($type == 'to'){
 		if ($time == '24:00') $html.='<option selected>24:00</option>';
 		else $html.='<option>24:00</option>';
-	} 
-		
+	}
+
 	echo $html;
 }
 
@@ -76,13 +78,13 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
 *	array("html" => "", "title" => "", "content" => ""),
 * 	....
 * ]
-* 
+*
 * Note: If a new content is to be generated, please refer config/helper_generate_html_config.php
 */
 function generateHTML($reference, $values = []) {
 	$config_content = config("helper_generate_html_config." . $reference);
 	$response_html = [];
-	
+
 	foreach ($config_content as $key => $value) {
 		$temp_html = [];
 		if($value["type"] == "checkbox") {
@@ -136,16 +138,16 @@ function generateHTML($reference, $values = []) {
 
 /***
 breaks the array data by the given limit
-"array"  will contain limited array values 
-"moreArray"  will contain remaining array values 
+"array"  will contain limited array values
+"moreArray"  will contain remaining array values
 "moreArrayCount" will conatin count of remaing values
 eg: $a = [1,2,3,4,5,6]
 splitJobArrayData($a,3)
 $data['array'] = [1,2,3]
 $data['moreArray'] = [4,5,6]
-$data['moreArrayCount'] = 3 
+$data['moreArrayCount'] = 3
 ***/
-function splitJobArrayData($array,$limit){	 
+function splitJobArrayData($array,$limit){
     $arrayCount = count($array);
     $limitedArray = ($arrayCount > $limit) ? array_splice($array,0,$limit) : $array;
     $moreArray = $array;
@@ -212,13 +214,13 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
     	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
    	else
    		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
-    
+
     $contactInfo = [];
     if(!empty($commObjs)){
         foreach ($commObjs as $key => $commObj) {
             $contactInfo[] = ['id'=>$commObj->id,$type =>$commObj->value,'country_code' =>$commObj->country_code,'visible'=>$commObj->is_visible,'verified'=>$commObj->is_verified];
         }
-         
+
     }
 
     return $contactInfo;
@@ -258,13 +260,13 @@ function salarayTypeText($type){
 
    return $salaryTpes[$type];
 }
- 
+
 function getCities(){
 	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
 	return $cities;
 }
- 
+
 /**
 * This function will return DOM for the pagination
 * This function will @return
@@ -273,11 +275,11 @@ function getCities(){
 * Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
 *		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
 */
- 
+
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage) ? 1 : $currentPage;
-	$totalPages = intVal(ceil($totalRecords/$limit)); 
+	$totalPages = intVal(ceil($totalRecords/$limit));
 	$next = false;
 	$previous = false;
 	$html = '';
@@ -290,7 +292,7 @@ function pagination($totalRecords,$currentPage,$limit){
 			$startPage = $currentPage - 4;
 		} else
 			$startPage = 1;
-		 
+
 		if(($currentPage + $endCounterValue) < $totalPages){
 			$next = true;
 			$endPage = $currentPage + $endCounterValue;
@@ -298,11 +300,11 @@ function pagination($totalRecords,$currentPage,$limit){
 			$endPage = $currentPage + ($totalPages-$currentPage);
 
 		$html = View::make('pagination')->with(compact('previous', 'next', 'currentPage', 'startPage', 'endPage'))->render();
- 
+
 		/*if($previous)
 			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
-		for ($i=$startPage; $i <= $endPage; $i++) { 
+		for ($i=$startPage; $i <= $endPage; $i++) {
 			$active = ($i == $currentPage) ? 'active' : '';
 			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a>';
 
@@ -318,7 +320,7 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
- 
+
 function salaryRange(){
 	$range = [	'5'=>['min' => 0,
 					'max' => 300000000
@@ -338,21 +340,21 @@ function salaryRange(){
 
 			];
 	return  $range;
-} 
+}
 
 function getUploadFileUrl($id){
 	$url = '';
 	if(!empty($id)){
 		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
-	
+
 		if(!empty($fileUrl)){
 			$url = $fileUrl[0]->url;
 		}
 	}
-	
+
 	 return $url;
 }
- 
+
 /**
 * This function is used to get Popular city object that will be used in Every page dropdown -> Header page
 * This function will @return
@@ -381,17 +383,17 @@ function generateUrl($city, $slug, $slug_extra = []) {
 			$url .= "/" . str_slug($slug_value, '-');
 		}
 	}
- 
+
 	return $url;
 }
 
- 
+
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
 * @param data can contain the following extra parameters
 *	@param template_data
-*	@param to 
+*	@param to
 *	@param cc
 *	@param bcc
 *	@param from
@@ -418,12 +420,12 @@ function sendEmail($event='new-user', $data=[]) {
 	$email->setTo($to);
 
 	/* cc */
-	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
+	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');
 	if(!is_array($cc)) $cc = [$cc];
 
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
 	if(in_array($event, $notify)){
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value; 
+		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
@@ -433,18 +435,18 @@ function sendEmail($event='new-user', $data=[]) {
 		$bcc = sendEmailTo($data['bcc'], 'bcc');
 		$email->setCc($bcc);
 	}
-	
+
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
- 
+
 	$email->setParams($params);
 
 	if(isset($data['attach'])) $email->setAttachments($data['attach']);
 
 	$notify = new \Ajency\Comm\Communication\Notification();
     $notify->setEvent($event);
-    $notify->setRecipientIds([$email]); 
+    $notify->setRecipientIds([$email]);
     // $notify->setRecipientIds([$email,$email1]);
     AjComm::sendNotification($notify);
 
@@ -470,8 +472,8 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setEvent($event);
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
- 
- 	
+
+
 }
 
 function generateCategoryHierarchy($category_id) {
@@ -492,7 +494,7 @@ function generateCategoryHierarchy($category_id) {
 	// 	$id_arr = array_reverse($id_arr);
 
 	// 	$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
-		
+
 	// 	foreach ($id_arr as $id_key => $id_value) {
 	// 		$cat_temp = Category::find($id_value);
 	// 		if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
@@ -515,8 +517,8 @@ function getFileMimeType($ext){
 	$mimeType = $mimeTypes[$ext];
 
 	return $mimeType;
- 
- 
+
+
 }
 
 
@@ -530,10 +532,10 @@ function sendUserRegistrationMails($user){
     Auth::login($user);
     $userEmail = $user->getPrimaryEmail();
     // $userEmail = 'nutan@ajency.in';
-    
+
     //send welcome mail
     $data = [];
-    $data['from'] = config('constants.email_from'); 
+    $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [$userEmail];
     $data['cc'] = ['prajay@ajency.in'];
@@ -543,7 +545,7 @@ function sendUserRegistrationMails($user){
 
 
     $data = [];
-    $data['from'] = config('constants.email_from'); 
+    $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [config('constants.email_from')];
     $data['cc'] = ['prajay@ajency.in'];
@@ -566,11 +568,11 @@ function firstTimeUserLoginUrl(){
         else
             $redirectUrl = '/profile/basic-details';
     }
- 
+
 	return $redirectUrl;
 
 }
- 
+
 
 /**
 * This function is used to determine whether the Server Hosted is in Development or Production Mode
@@ -593,4 +595,15 @@ function sendEmailTo($emails = [], $type='to') {
 	}
 
 	return $emails;
+}
+
+/**
+*		this function creates a new activity on status change
+*/
+function saveListingStatusChange($listing, $from, $to){
+	activity()
+	   ->performedOn($listing)
+	   ->causedBy(User::find($listing->owner_id))
+	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
+	   ->log('listing-status-change');
 }

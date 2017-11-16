@@ -233,7 +233,6 @@ class CommonController extends Controller
 
             //check if same plan is requested again
             if((!empty($activePlan) && $activePlan->plan_id == $plan->id) ){
-                exit;
                 Session::flash('error_message','You are alredy on '.$plan->title);
                 return \Redirect::back();
             }

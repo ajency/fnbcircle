@@ -553,6 +553,15 @@ function getrequestedPlan($object){
 	return $requestedPlan;
 }
 
+function getjobFreePlan(){
+	$plan = Plan::where('amount',0)->where('type','job')->first();
+	return $plan;
+}
+
+function archivePublishedJobs(){
+
+}
+
 // function createNewPlan($objectType,$objectid,$planId){
 // 	//check if any plan is active or requested
 // 	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();

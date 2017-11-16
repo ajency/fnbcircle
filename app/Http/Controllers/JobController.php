@@ -1123,7 +1123,9 @@ class JobController extends Controller
         $job->status = $statusId; 
         $job->save();
 
-
+        if($status == 3){
+            $activePlan = getActivePlan($job); 
+        }
         $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
  
         Session::flash('job_review_pending',$successMessage[$statusId]);

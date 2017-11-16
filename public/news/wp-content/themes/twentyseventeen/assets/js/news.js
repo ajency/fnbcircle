@@ -253,7 +253,15 @@ jQuery(document).ready(function($){
     })
 
 })
+jQuery(window).scroll(function() {    
+    var scroll = jQuery(window).scrollTop();
 
+    if (scroll >= 500) {
+        jQuery(".fnb-header ").addClass("fixed-header");
+    } else {
+        jQuery(".fnb-header").removeClass("fixed-header");
+    }
+});
 // mobile side-menu
 setTimeout((function() {
 

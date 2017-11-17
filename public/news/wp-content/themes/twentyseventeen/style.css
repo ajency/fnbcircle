@@ -4400,3 +4400,25 @@ body.category .page-title, body.author .page-title{
 		    margin: auto;
 		    display: block !important;
     }
+
+/* Load more styles */
+.aj_cust_loadmore{
+	background-color: #ec6d4b;
+	border-radius: 2px;
+	display: block;
+	text-align: center;
+	color: #fff;
+	font-size: 0.875rem;
+	font-weight: 800;
+	letter-spacing:1px;
+	cursor:pointer;
+	text-transform: uppercase;
+	width: 150px;
+    padding: 1.3em;
+    margin: 0 auto;
+	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;  
+}
+.aj_cust_loadmore:hover{
+	background-color: #e08269;
+	color: #fff;
+}

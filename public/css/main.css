@@ -2724,6 +2724,9 @@ input[type=checkbox].custom-checkbox:before {
 .intl-tel-input {
   z-index: 10;
 }
+.clear {
+  clear: both;
+}
 .slide-nav {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
@@ -6029,6 +6032,14 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.cust-title-height {
+  min-height: 42px;
+}
+@media screen and (max-width: 768px) {
+  .cust-title-height {
+    min-height: 40px;
+  }
 }
 .search-section {
   position: relative;

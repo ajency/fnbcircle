@@ -1206,6 +1206,9 @@ input[type=checkbox].custom-checkbox:before {
 .intl-tel-input {
   z-index: 10;
 }
+.clear {
+  clear: both;
+}
 .fnb-header .navbar {
   padding: 0.3em 0;
   border: 0;
@@ -4641,7 +4644,7 @@ input[type='search'] {
     height: 100%;
   }
 }
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 400px) and (max-width: 650px) {
   .showSearch input {
     width: 320px;
   }

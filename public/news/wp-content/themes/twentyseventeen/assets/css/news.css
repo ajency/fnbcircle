@@ -4054,6 +4054,8 @@ body .submit {
 @media screen and (max-width: 768px) {
   .header-image h1 {
     margin-bottom: 20px;
+    position: relative;
+    top: 0.65em;
   }
 }
 .header-image .search-container {
@@ -4245,7 +4247,7 @@ body .submit {
     padding: 0px !important;
   }
   .header-image {
-    margin-bottom: 25%;
+    margin-bottom: 10%;
     margin-top: 21px !important;
   }
   h1 {
@@ -4615,5 +4617,28 @@ input[type='search'] {
 }
 .showSearch {
   border-color: #fff;
+}
+@media screen and (max-width: 650px) {
+  .expandSearch {
+    z-index: 1;
+  }
+  .expandSearch input {
+    font-size: 0.9em;
+  }
+  .expandSearch svg {
+    width: 13px;
+    height: 13px;
+  }
+  .expandSearch a {
+    padding: 8px 10px 8px 10px;
+  }
+  .showSearch input {
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 0px;
+    width: 270px;
+    opacity: 1;
+    height: 100%;
+  }
 }
 /*# sourceMappingURL=news.css.map */

@@ -35,7 +35,16 @@ if(isset($laravel_user_state)){
 			</select> -->
 			 <label class="search-label home_city_select_label hidden">
 			 <i class="fa fa-map-marker" aria-hidden="true"></i>
-			<?php wp_dropdown_categories('show_option_none=All City&exclude=1&value_field=slug'); ?>
+			<?php /*
+			 $city_drop_down_args = "show_option_none=All&exclude=1&value_field=slug";
+			 if(isset($user_state)){
+			 	if($user_state!=''){
+			 		$city_drop_down_args = "selected=".$user_state."&show_option_none=All&exclude=1&value_field=slug";
+			 	}
+			 } 
+
+			 ?>
+			<?php wp_dropdown_categories($city_drop_down_args); */?>
 			</label>
 		<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
 			
@@ -62,41 +71,7 @@ if(isset($laravel_user_state)){
 	</div>
 	<H1 class="bold-t" >FnB Circle News</H1>
 
-	<div class="search-container">
-		<!-- <select>
-		  <option value="volvo">Panjim</option>
-		  <option value="saab">Mumbai</option>
-		  <option value="mercedes">Kerala</option>
-		  <option value="audi">Pune</option>
-		</select> -->
-		 <label class="search-label home_city_select_label">
-		 <i class="fa fa-map-marker" aria-hidden="true"></i>
-
-		 <?php 
-		 $city_drop_down_args = "show_option_none=All&exclude=1&value_field=slug";
-		 if(isset($user_state)){
-		 	if($user_state!=''){
-		 		$city_drop_down_args = "selected=".$user_state."&show_option_none=All&exclude=1&value_field=slug";
-		 	}
-		 }
-
-		 ?>
-		<?php wp_dropdown_categories($city_drop_down_args); ?>
-		</label>
-	<form role="search" method="get" class="search-form" action="<?php echo home_url( '/' ); ?>">
-		
-		 <label>
-	        <span class="screen-reader-text"><?php echo _x( 'Search for:', 'label' ) ?></span>
-	        <i class="fa fa-search" aria-hidden="true"></i>
-	        <input type="search" class="search-field"
-	            placeholder="<?php echo esc_attr_x( 'Search …', 'placeholder' ) ?>"
-	            value="<?php echo get_search_query() ?>" name="s"
-	            title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
-	    </label>
-	    <input type="button" class="search-submit" value="<?php echo esc_attr_x( 'Search', 'submit button' ) ?>" />
-	</form>
-	<div class="clear"></div>
-</div>
+	
 
 </div>
 <div class="wrap">

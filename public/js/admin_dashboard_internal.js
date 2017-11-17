@@ -1,5 +1,5 @@
 (function() {
-  var filters_array, getColumns, getFiltersForListInternalUsers, get_filters, get_page_no_n_entry_no, get_sort_order, requestData, validatePassword;
+  var filters_array, getColumns, getFiltersForListInternalUsers, get_filters, get_page_no_n_entry_no, get_sort_order, init_Multiselect, requestData, validatePassword;
 
   filters_array = ['roles', 'status'];
 
@@ -180,13 +180,13 @@
           mData: "roles",
           sWidth: "30%",
           className: "text-center",
-          bSearchable: false,
+          bSearchable: true,
           bSortable: false
         }, {
           mData: "status",
           sWidth: "20%",
           className: "text-center",
-          bSearchable: false,
+          bSearchable: true,
           bSortable: false
         }
       ],
@@ -227,9 +227,34 @@
     return internal_user_table;
   };
 
+  init_Multiselect = function() {
+    $('.multi-ddd').multiselect({
+      maxHeight: 200,
+      templates: {
+        button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
+      },
+      includeSelectAllOption: true,
+      numberDisplayed: 5,
+      onChange: function(element, checked) {
+        var categories, col, search, selected;
+        categories = $(this)[0]['$select'].find('option:selected');
+        selected = [];
+        $(categories).each(function(index, city) {
+          selected.push('^' + $(this).val() + "$");
+        });
+        search = selected.join('|');
+        col = $(this)[0]['$select'].closest('th').data('col');
+        $('#datatable-internal-users').DataTable().column(col).search(search, true, false).draw();
+      }
+    });
+  };
+
   $(document).ready(function() {
+
+    /* --- Initialize the Table for 1st time, as the filters will be on Client-Side --- */
     var table;
     table = requestData("datatable-internal-users");
+    init_Multiselect();
     $("#add_newuser_modal #add_newuser_modal_form input[type='email'][name='email']").on('keyup change', function() {
       var form_obj;
       form_obj = $("#add_newuser_modal #add_newuser_modal_form");
@@ -341,6 +366,8 @@
       /* --- Select the user's Role --- */
       modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()]);
       modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true);
+      console.log(row.find('td:eq(4)').text().toLowerCase());
+      modal_object.find('select.form-control.status-select').val(row.find('td:eq(4)').text().toLowerCase());
       modal_object.find('.createSave').addClass('hidden');
       modal_object.find('.editSave').removeClass('hidden');
     });

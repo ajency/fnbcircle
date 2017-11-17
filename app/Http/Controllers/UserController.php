@@ -97,48 +97,74 @@ class UserController extends Controller
         //
     }
 
-    public function verifyContactDetails(Request $request){
-        $this->validate($request, [
-            'contact_value' => 'required',
-            'contact_type'  => 'required',
-            // 'object_id'    => 'required|integer',
-            'object_type'    => 'required',
-        ]);
-        
-        $user = Auth::user();
-        $data = $request->all();
-        $data['action'] = 'verify';
-        $contact = $user->saveContactDetails($data,'job');
-        $OTP       = rand(1000, 9999);
-        $timestamp = Carbon::now()->timestamp;
-        $json      = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
-        error_log($json); //send sms or email here
-        switch ($request->contact_type){
+    /**
+    * This fuction is used to send email or sms
+    */
+    public function sendEmailSms($contact_type, $OTP, $contact_data = []) {
+        switch ($contact_type){
             case "email": 
                 $email = [
-                    'to' => $data['contact_value'],
+                    'to' => $contact_data['contact_value'],
                     'subject' => 'Verify your email address.',
-                    'template_data' => ['name' => Auth::user()->name , 'code' => $OTP , 'email' => $request->contact_value ],
+                    'template_data' => ['name' => Auth::user()->name , 'code' => $OTP , 'email' => $contact_data['contact_value']],
                 ];
                 sendEmail('verification',$email);
                 break;
             case "mobile":
                 $sms = [
-                    'to' => $data['country_code'].$data['contact_value'],
-                    'message' => 'Hi '. Auth::user()->name.', '.$OTP.' is your OTP for Phone verification. Do not share OTP for security reasons.'
+                    'to' => $contact_data['country_code'].$contact_data['contact_value'],
+                    'message' => 'Hi ' . Auth::user()->name . ', ' . $OTP . ' is your OTP for number verification. Do not share OTP for security reasons.'
                 ];
+                error_log($sms['message']);
                 sendSms('verification',$sms);
                 break;
         }
-        $request->session()->put('contact#' . $contact->id, $json);
-        
-        return response()->json(
-            ['id' => $contact->id,
-             'verify' => $contact->is_verified,
-             'value' => $contact->value,
-             'OTP' => $OTP]);
     }
 
+    /**
+    * This function is used to generate / regenerate OTP for the requested Contact
+    */
+    public function verifyContactDetails(Request $request) {
+        $this->validate($request, [
+            'contact_value' => 'required',
+            'contact_type'  => 'required',
+            // 'object_id'    => 'required|integer',
+            'object_type'   => 'required',
+        ]);
+        
+        $user = Auth::user();
+        $data = $request->all();
+        $data['action'] = 'verify';
+        
+        if($request->has('resend') && $request->has('id') && $request->resend) { // If 'resend' key exists, then Resend the Same OTP
+            $session_otp_data = $request->session()->get('contact#' . $request->id, "[]");
+
+            $array = json_decode($session_otp_data);
+            $OTP = $array->OTP;
+            $contact = UserCommunication::find($request->id);
+            $timestamp = Carbon::now()->timestamp;
+        } else { // Else resend new OTP
+            $OTP = rand(1000, 9999);
+            $contact = $user->saveContactDetails($data, 'job');
+            $timestamp = Carbon::now()->timestamp;
+        }
+        $json = json_encode(array("id" => $contact->id, "OTP" => $OTP, "timestamp" => $timestamp));
+        error_log($json); //send sms or email here
+
+        $this->sendEmailSms($request->contact_type, $OTP, $data);
+        $request->session()->put('contact#' . $contact->id, $json); // Save / Update OTP data
+        
+        return response()->json([
+                'id' => $contact->id,
+                'verify' => $contact->is_verified,
+                'value' => $contact->value,
+                'OTP' => $OTP
+            ]);
+    }
+
+    /**
+    * This function is used to check if the OTP sent by user is valid or Invalid
+    */
     public function verifyContactOtp(Request $request){
         $this->validate($request, [
             'otp' => 'integer|min:1000|max:9999',

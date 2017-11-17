@@ -12,12 +12,15 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Http\Controllers\FnbAuthController;
 
 use App\UserCommunication;
+use App\UserToken;
 
 /* Plugin Access Headers */
 use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Auth; 
+use Session;
 
 class RegisterController extends Controller
 {
@@ -192,11 +195,11 @@ class RegisterController extends Controller
             $request_data["user_comm"]["is_verified"] = 0;
         }
 
-        if ($request->has("contact")) {
+        /*if ($request->has("contact")) {
             $request_data["user_comm"]["country_code"] = ($request->has("contact_locality")) ? $request->contact_locality : "91";
             $request_data["user_comm"]["contact"] = $request->contact;
             $request_data["user_comm"]["contact_type"] = "mobile";
-        }
+        }*/
 
         if ($request->has("description")) {
             $request_data["user_details"]["subtype"] = serialize($request->description);
@@ -222,9 +225,19 @@ class RegisterController extends Controller
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
                 }
 
+                if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                    $usercomm_obj = UserCommunication::create([
+                        "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91", 
+                        "value" => $request->contact, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                    ]);
+                }
+
                 // Check if all the required fields are filled & is updated in User, User Detail & User Comm
                 $required_fields_check = $userauth_obj->updateRequiredFields($user_resp["user"]);
 
+                //send email
+                $this->registerConfirmEmail($user_resp["user"]);
+ 
                 if($user_resp["user"]) {
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {
@@ -242,5 +255,80 @@ class RegisterController extends Controller
 
             return redirect($redirect_url . "?login=true&message=" . $valid_response["message"]);
         }
+    }
+
+
+    public function registerConfirmEmail($user)
+    {
+        $token = str_random(50);
+        $userToken = new UserToken();
+        $userToken->user_id = $user->id;
+        $userToken->token = $token;
+        $userToken->token_type = 'register';
+        $userToken->token_expiry_date = date("Y-m-d H:i:s", strtotime('+2 hours'));
+        $userToken->status = 'sent';
+        $userToken->save();
+
+        $confirmationLink =url('/user-confirmation/'.$token);
+        $userEmail = $user->getPrimaryEmail();
+        $data = [];
+        $data['from'] = config('constants.email_from'); 
+        $data['name'] = config('constants.email_from_name');
+        $data['to'] = [$userEmail];
+        $data['cc'] = [];
+        $data['subject'] = "Verify your email address!";
+        $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
+        sendEmail('user-verify', $data);
+        Session::put('userLoginEmail', $userEmail);
+                 
+        return true;    
+    }
+
+
+    public function userConfirmation($usertoken)
+    {
+        $token = UserToken:: where(['token'=>$usertoken,'token_type'=>'register'])->first();
+
+        $today = new \DateTime(); 
+        $expireDate = new \DateTime($token['token_expiry_date']);  
+ 
+        if(!empty($token) && $expireDate > $today &&  $token->status == 'sent')
+        {
+            $user = User::find($token['user_id']);
+            $user->status = 'active';
+            $user->save();
+
+            UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
+
+            $token->status = 'completed';
+            $token->save();
+
+            sendUserRegistrationMails($user);
+            $redirectUrl = firstTimeUserLoginUrl();
+            
+            return redirect(url($redirectUrl));
+            
+        } else {
+
+            if(!empty($token) && $token->status == "completed") {
+                return redirect(url('/').'?login=true&message=token_already_verified'); 
+            } else if(!empty($token) && $expireDate > $today) {
+                $user = User::find($token['user_id']);
+                Session::put('userLoginEmail', $user->email);
+                return redirect(url('/').'?login=true&message=token_expired'); 
+            } else
+                return redirect(url('/')); 
+            
+            
+        }
+    }
+
+ 
+    public function sendConfirmationLink(Request $request)  
+    {
+        $email = Session::get('userLoginEmail');
+        $user = User::where('email',$email)->get()->first();
+        $confirmation = $this->registerConfirmEmail($user);
+        return redirect(url('/').'?login=true&message=resend_verification'); 
     }
 }

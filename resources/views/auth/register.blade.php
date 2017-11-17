@@ -240,7 +240,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group m-t-30 m-b-40">
                                             <label class="flex-row accept-row">
-                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox">
+                                                  <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox" checked>
                                                   <div class="text-medium m-b-0 accept_terms" id="accept_terms">I accept the <a href="#" class="secondary-link">Terms of Service</a> &amp; <a href="#" class="secondary-link">Privacy Policy</a> of FnB Circle</div>
                                                   <label id="terms_conditions" class="fnb-errors hidden">Please accept our terms and conditions</label>
                                             </label>

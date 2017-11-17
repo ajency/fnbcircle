@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 use App\Job;
 use App\Company;
+use App\UserCommunication;
 
 class AdminConfigurationController extends Controller
 {
@@ -524,12 +525,11 @@ class AdminConfigurationController extends Controller
     }
 
     public function internalUserView(Request $request) {
-        return view('admin-dashboard.internal_users');
+        $status = User::userStatuses();
+        return view('admin-dashboard.internal_users')->with(compact('status'));
     }
 
-    public function registeredUserView(Request $request) {
-        return view('admin-dashboard.registered_users');
-    }
+    
 
     /**
     * This function is a GET request & is used to get the Internal / External User data
@@ -630,6 +630,20 @@ class AdminConfigurationController extends Controller
 
         if(!$user_obj_response && $status == 201) { // If user doesn't exist then create user, else
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
+            
+            $userRoles = $create_response['user']->getRoleNames()->toArray();
+          
+            $userEmail = $request["email"];
+            // $userEmail = 'prajay@ajency.in';
+            $data = [];
+            $data['from'] = config('constants.email_from'); 
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [$userEmail];
+            // $data['cc'] = 'prajay@ajency.in';
+            $data['subject'] = "You are added as internal user on FnB Circle.";
+            $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
+            sendEmail('register-internal-user', $data);
+
             $output->writeln(json_encode($create_response));
             $status = 201;
         } else {
@@ -638,6 +652,9 @@ class AdminConfigurationController extends Controller
                 $response_data = array("message" => "email_exist");
             }
         }
+
+        
+
 
         return response()->json($response_data, $status);
     }
@@ -648,7 +665,7 @@ class AdminConfigurationController extends Controller
     * This function @return
     * 
     */
-    public function editCurrentUser(Request $request, $username) {
+    public function editCurrentUser(Request $request, $username) { 
         $status = 200; $response_data = [];
         $userauth_obj = new UserAuth;
         $request = $request->all();
@@ -677,6 +694,170 @@ class AdminConfigurationController extends Controller
         return response()->json($response_data, $status);
     }
 
+
+    public function registeredUserView() {
+        $cities = City::where('status', 1)->orderBy('order')->orderBy('name')->get();
+        $areas = Area::where('status', 1)->orderBy('order')->orderBy('name')->get();
+        return view('admin-dashboard.registered_users')->with('cities', $cities)->with('areas', $areas);
+    }
+
+    public function getRegisteredUsers(Request $request){
+        $requestData = $request->all(); 
+        $data =[];
+        $skip = $requestData['start'];
+        $length = $requestData['length'];
+        $orderValue = $requestData['order'][0];
+      
+       
+        $columnOrder = array( 
+                                        '0'=> 'jobs.id',
+                                        '2'=> 'jobs.title',
+                                        '3'=> 'categories.name',
+                                        '5'=> 'companies.title',
+                                        '6'=> 'jobs.date_of_submission',
+                                        '7'=> 'jobs.published_on',
+                                        '8'=> 'jobs.updated_at'
+                                        );
+
+        
+        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id');
+
+        if($requestData['filters']['user_name']!="")
+        {
+  
+            $userQuery->where('users.name','like','%'.$requestData['filters']['user_name'].'%');
+        }
+ 
+        if(isset($requestData['filters']['registration_type']) && !empty($requestData['filters']['registration_type']))
+        {
+  
+            $userQuery->whereIn('users.signup_source',$requestData['filters']['registration_type']);
+        }
+
+        if(isset($requestData['filters']['state']) && !empty($requestData['filters']['state']))
+        {
+  
+            $userQuery->whereIn('user_details.city',$requestData['filters']['state']);
+        }
+
+        if(isset($requestData['filters']['city']) && !empty($requestData['filters']['city']))
+        {
+  
+            $userQuery->whereIn('user_details.area',$requestData['filters']['city']);
+        }
+
+        if($requestData['filters']['user_email']!="")
+        {
+            $usersIds = UserCommunication:: where('value','like','%'.$requestData['filters']['user_email'].'%')->where('object_type','App\User')->where('is_primary','1')->where('type','email') ->pluck('object_id')->toArray(); 
+
+            $userQuery->whereIn('users.id',$usersIds);
+        }
+
+        if($requestData['filters']['user_phone']!="")
+        {
+            $usersIds = UserCommunication:: where('value','like','%'.$requestData['filters']['user_phone'].'%')->where('object_type','App\User')->where('is_primary','1')->where('type','mobile') ->pluck('object_id')->toArray(); 
+
+            $userQuery->whereIn('users.id',$usersIds);
+        }
+
+        if(isset($requestData['filters']['user_status']) && !empty($requestData['filters']['user_status']))
+        {
+            $userQuery->whereIn('users.status',$requestData['filters']['user_status']);
+        }
+
+        
+        if(isset($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_from']) && !empty($requestData['filters']['user_created_to']))
+        { 
+            $userQuery->where('users.created_at','>=',$requestData['filters']['user_created_from'].' 00:00:00'); 
+            $userQuery->where('users.created_at','<=',$requestData['filters']['user_created_to'].' 23:59:59');
+        }
+
+        if(isset($requestData['filters']['last_login_from']) && !empty($requestData['filters']['last_login_from']) &&  !empty($requestData['filters']['last_login_to']))
+        {
+            $userQuery->where('users.last_login','>=',$requestData['filters']['last_login_from'].' 00:00:00'); 
+            $userQuery->where('users.last_login','<=',$requestData['filters']['last_login_to'].' 23:59:59');
+        }
+
+         
+
+        $columnName = 'users.created_at';
+        $orderBy = 'desc';
+        
+        
+        
+        // if(isset($columnOrder[$orderValue['column']]))
+        // {   
+        //     $columnName = $columnOrder[$orderValue['column']];
+        //     $orderBy = $orderValue['dir'];
+        // }
+
+
+        if($length>1)
+        {  
+            $totalUsers = $userQuery->get()->count(); 
+            $users = $userQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
+        }
+        else
+        {
+            $users    = $userQuery->orderBy($columnName,$orderBy)->get();  
+            $totalUsers = $users->count();  
+        }
+
+
+        $usersData = [];
+        $sourceType = ['email_signup'=>'Email signup','google'=>'Google','facebook'=>'Facebook'];
+        foreach ($users as $key => $user) {
+         
+            $userDetails = $user->getUserDetails; 
+            $subTypes = $userDetails->getSavedUserSubTypes();
+            
+            $usersData[] = [ 
+                            'id' => $user->id,
+                            'name' => '<a href="/profile/basic-details/'.$user->getPrimaryEmail().'"  target="_blank">'.$user->name.'</a>',
+                            'type' => $sourceType[$user->signup_source],
+                            'email' => $user->getPrimaryEmail(),
+                            'phone' => (!empty($user->getPrimaryContact())) ? '+('.$user->getPrimaryContact()['contact_region'].')'.$user->getPrimaryContact()['contact'] : '',
+                            'describe' => implode(', ', $subTypes),
+                            'state' => (!empty($userDetails) && $userDetails->city) ? $userDetails->userCity->name :'',
+                            'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
+                            'date_created' => $user->created_at->toDateTimeString(),
+                            'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
+                            'total_listing' => $user->listing()->count() ,
+                            'published_listing' =>  $user->listing()->where('status','3')->count(),
+                            'total_jobs' =>  $user->jobs()->where('status','3')->count(),
+                            'published_jobs' =>  $user->jobs()->where('status','3')->count(),
+                            'job_applied' =>  '',
+                            'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
+                            'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
+                            'status_raw' => $user->status,
+                            ];
+            
+        }
+
+        $json_data = array(
+                "draw"            => intval( $requestData['draw'] ),
+                "recordsTotal"    => intval( $totalUsers ),
+                "recordsFiltered" => intval( $totalUsers ),
+                "data"            => $usersData,
+            );
+              
+        return response()->json($json_data);
+    }
+
+    public function userAccountStatus(Request $request){
+        $this->validate($request, [
+            'user_id' => 'required|integer',
+            'status'       => 'required',
+        ]);
+        $user = User::find($request->user_id);
+        if($user == null) return response()->json(['status'=>'error']);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return response()->json(['status'=>'success']);        
+
+    }
 
     public function manageJobs(){
         $job = new Job;
@@ -823,10 +1004,10 @@ class AdminConfigurationController extends Controller
             $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
      
             $data = [];
-            $data['from'] = 'nutan@ajency.in';
-            $data['name'] = 'fnbcircles';
+            $data['from'] = config('constants.email_from');
+            $data['name'] = config('constants.email_from_name');
             $data['to'] = [ $ownerDetails['email']];
-            $data['cc'] = 'prajay@ajency.in';
+            $data['cc'] = [ config('constants.email_to')];
             $data['subject'] = $subject;
             $data['template_data'] = $templateData;
             

@@ -21,6 +21,8 @@ class FnbAuthController extends Controller {
     	if ($type == 'website') {
             if ($user->status == 'active') {
                 auth()->login($user); // Authenticate using User Object
+                $user->last_login = date('Y-m-d H:i:s');
+                $user->save();
 
 
              //    if(!$redirect_url) { // If redirect URL is Empty

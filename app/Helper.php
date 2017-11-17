@@ -386,18 +386,33 @@ function sendEmail($event='new-user', $data=[]) {
 	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
 	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
 	$email->setFrom($from, $name);
-	if(!isset($data['to']) ) $data['to']= [];
-	// 	return false;
-	$email->setTo($data['to']);
-	$cc = (isset($data['cc']))? $data['cc']:[];
+
+	/* to */
+	if(!isset($data['to']))
+		$data['to']= [];
+	else
+		if(!is_array($data['to'])) // If not in array format
+			$data['to'] = [$data['to']];
+	$to = sendEmailTo($data['to'], 'to');
+	$email->setTo($to);
+
+	/* cc */
+	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
 	if(!is_array($cc)) $cc = [$cc];
+
 	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
 	if(in_array($event, $notify)){
 		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value; 
 		$cc = array_merge($cc,$notify_data);
 	}
 	$email->setCc($cc);
-	if(isset($data['bcc'])) $email->setCc($data['bcc']);
+
+	/* bcc */
+	if(isset($data['bcc'])) {
+		$bcc = sendEmailTo($data['bcc'], 'bcc');
+		$email->setCc($bcc);
+	}
+	
 	$params = (isset($data['template_data']))? $data['template_data']:[];
 	if(!is_array($params)) $params = [$params];
 	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
@@ -435,6 +450,7 @@ function sendSms($event='new-user', $data=[], $override = false) {
     $notify->setRecipientIds([$sms]);
     AjComm::sendNotification($notify);
  
+ 	
 }
 
 
@@ -535,6 +551,7 @@ function getFileMimeType($ext){
 
 	return $mimeType;
  
+ 
 }
 
 function sendNotifications(){
@@ -565,3 +582,81 @@ function sendNotifications(){
 		}
 	}
  }
+ 
+ 
+
+function sendUserRegistrationMails($user){
+
+    $userDetail = $user->getUserDetails;
+    $userDetail->has_previously_login = 1;
+    $userDetail->save();
+
+
+    Auth::login($user);
+    $userEmail = $user->getPrimaryEmail();
+    // $userEmail = 'nutan@ajency.in';
+    
+    //send welcome mail
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [$userEmail];
+    $data['cc'] = ['prajay@ajency.in'];
+    $data['subject'] = "Welcome to FnB Circle!";
+    $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
+    sendEmail('welcome-user', $data);
+
+
+    $data = [];
+    $data['from'] = config('constants.email_from'); 
+    $data['name'] = config('constants.email_from_name');
+    $data['to'] = [config('constants.email_from')];
+    $data['cc'] = ['prajay@ajency.in'];
+    $data['subject'] = "New user registration on FnB Circle.";
+    $data['template_data'] = ['user' => $user];
+    sendEmail('user-register', $data);
+
+    return true;
+
+    }
+
+function firstTimeUserLoginUrl(){
+
+	$redirectUrl = '/';
+
+	if(Auth::check()){
+		$userType = (!empty(Auth::user()->type)) ? Auth::user()->type :'external';
+		if($userType == 'internal')
+            $redirectUrl = '/admin-dashboard';
+        else
+            $redirectUrl = '/profile/basic-details';
+    }
+ 
+	return $redirectUrl;
+
+}
+ 
+
+/**
+* This function is used to determine whether the Server Hosted is in Development or Production Mode
+* 	@return boolean
+*/
+function in_develop() {
+	if(in_array(env('APP_ENV'), config('constants.app_dev_envs'))) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+* This function will return Email IDs based on ENV if it is Development or Production mode
+*/
+function sendEmailTo($emails = [], $type='to') {
+	if(in_develop()) {
+		$emails = config('constants.email_' . $type . '_dev');
+	}
+
+	return $emails;
+}
+ 

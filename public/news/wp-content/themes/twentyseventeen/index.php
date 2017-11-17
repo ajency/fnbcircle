@@ -16,7 +16,15 @@
  */
 //$user_state = "pune";
 
-get_header(); ?>
+get_header(); 
+$laravel_user_state = Cookie::get('user_state');
+if(isset($laravel_user_state)){
+	if($laravel_user_state!=''){
+		$user_state = $laravel_user_state;
+	}
+}
+ 
+?>
 <div class="header-image text-center">
 	<H1 class="bold-t" >FnB Circle News</H1>
 	<div class="search-container">

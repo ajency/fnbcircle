@@ -502,6 +502,38 @@
     margin: 0.8em 0;
   }
 }
+.forget-page .lock {
+  font-size: 3.5em;
+}
+.forget-page .welcome-text {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.8em;
+}
+.forgot-points li {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 0 5px;
+}
+@media screen and (max-width: 768px) {
+  .forget-holder {
+    background-color: #fff;
+    height: 90vh;
+  }
+}
+.note-popover {
+  display: block;
+  top: -5.5em;
+  color: #746b6b;
+  width: 300px;
+  font-size: 1em;
+}
+@media screen and (min-width: 769px) {
+  .note-popover {
+    font-size: 0.95em;
+  }
+}
 .m-t-0 {
   margin-top: 0px;
 }
@@ -922,11 +954,28 @@
       -ms-flex-align: end;
           align-items: end;
 }
+.align-baseline {
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+.self-end {
+  -webkit-align-self: flex-end;
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+}
 .justify-center {
   -webkit-box-pack: center;
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.flex-1 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 .label-size {
   font-size: 1.1em;
@@ -938,6 +987,9 @@
 }
 .stable-size {
   font-size: 1.05em;
+}
+.full-width {
+  width: 100%;
 }
 .overflow-hidden {
   overflow-x: hidden;
@@ -1205,6 +1257,9 @@ input[type=checkbox].custom-checkbox:before {
 }
 .intl-tel-input {
   z-index: 10;
+}
+.clear {
+  clear: both;
 }
 .fnb-header .navbar {
   padding: 0.3em 0;
@@ -3091,6 +3146,9 @@ input[type=checkbox].custom-checkbox:before {
 .input-sal-filter .fnb-input {
   font-size: 0.9em;
 }
+.enquiry-add-card {
+  padding: 0.8em 1.5em;
+}
 .fnb-select {
   border: 0;
   box-shadow: none;
@@ -3611,14 +3669,12 @@ span {
   position: absolute;
 }
 .login-modal .alert.alert-success {
-  background-color: #77d79a;
-  border-color: #77d79a;
-  color: #fff;
-  text-shadow: 0px 0px 1px #000;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
 }
 .login-modal .alert.alert-success .close {
   opacity: 1;
-  text-shadow: 0px 0px 1px #000;
 }
 .logo-style {
   position: relative;
@@ -3687,6 +3743,15 @@ span {
   }
   .login-modal .alert {
     margin-top: 2em;
+  }
+  .login-modal .forget-password {
+    margin-top: 0;
+  }
+  .login-modal .forget-password .alert {
+    margin-top: 0;
+  }
+  .login-modal .alert .close {
+    background-color: transparent;
   }
   .forgot-actions label,
   .forgot-actions .forget-link {
@@ -4641,7 +4706,7 @@ input[type='search'] {
     height: 100%;
   }
 }
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 400px) and (max-width: 650px) {
   .showSearch input {
     width: 320px;
   }

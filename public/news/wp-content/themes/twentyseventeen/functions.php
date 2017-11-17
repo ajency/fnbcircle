@@ -682,8 +682,11 @@ function misha_loadmore_ajax_handler(){
 	$args['post_status'] = 'publish';
 	$args['show_pagination'] = false;
  
+ 	$html = get_recent_news_by_city($args);
+			echo $html;
+	/*
 	// it is always better to use WP_Query but not here
-	query_posts( $args );
+	query_posts( $args );	
  
 	if( have_posts() ) :
  
@@ -692,16 +695,15 @@ function misha_loadmore_ajax_handler(){
  
 			// look into your theme code how the posts are inserted, but you can use your own HTML of course
 			// do you remember? - my example is adapted for Twenty Seventeen theme
-			/*get_template_part( 'template-parts/post/content', get_post_format() );*/
-			$html = get_recent_news_by_city($args);
-			echo $html;
+			/*get_template_part( 'template-parts/post/content', get_post_format() );* /
+			
 			// for the test purposes comment the line above and uncomment the below one
 			// the_title();
  
  
 		endwhile;
  
-	endif;
+	endif;*/
 	die; // here we exit the script and even no wp_reset_query() required!
 }
  
@@ -1165,15 +1167,25 @@ function get_featured_news_by_city(){
 	 	die;
 }
 
-function get_recent_news_by_city($args=array()){ 
+function get_recent_news_by_city($args=array(),$additional_args = array()){ 
 
+
+ 
 
 	$paged = isset($_POST['paged'])?$_POST['paged']:1;
-	if(isset($args['paged'])){
-		$paged = $args['paged'];
+	if(isset($additional_args['paged'])){
+		$paged = $additional_args['paged'];
 	}
 
-	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged);
+
+	 
+
+
+	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged, 'orderby'=>'date','post_status'      => 'publish');
+
+	$query = array_merge($query,$args);
+
+
 	if(isset($_POST['city'])){
 		$city = $_POST['city'];
 		$query['category_name']=$city;
@@ -1181,7 +1193,7 @@ function get_recent_news_by_city($args=array()){
 	}
 
 	
-	
+	 
 	$wp_query = new WP_Query($query);
 
 	 

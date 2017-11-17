@@ -311,6 +311,7 @@ setTimeout((function() {
             }
         }, false);*/
 
+// Expand Search 
 
 (function() {
   "use strict";
@@ -341,7 +342,11 @@ setTimeout((function() {
         if (!e.preventDefault()) {
           e.returnValue = false;
         }
+        
       });
+      // if(_thisSearch.attributes.class.value != ''){
+      //       _thisSearch.attributes.class.value = "expandSearch showSearch";
+      //   }
     }
   };
 
@@ -349,7 +354,9 @@ setTimeout((function() {
   expandSearch.init();
 })();
 
-
+if(jQuery('.custom-expand-search').val() != ''){
+    jQuery(this).parent().addClass('showSearch');
+}
 
 
 

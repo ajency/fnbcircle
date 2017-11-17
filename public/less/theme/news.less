@@ -376,7 +376,7 @@ body .submit{
     	font-weight: 800;
     	text-align: center;
     	font-size: 3em;
-    	padding-top: 40px !important;
+    	padding-top: 55px !important;
     	 @media screen and (max-width: @mobile) {
 	     	          margin-bottom: 20px;
 	     }
@@ -928,6 +928,18 @@ button:hover{
 //     transition: all .5s;
 // }
 
+
+.header-image.header-image .custom-search{
+	width: auto;
+	height: auto;
+	margin: 0;
+	form{
+		float: none;
+		width: auto;
+	}
+}
+
+
 .expandSearch,
 .expandSearch input,
 .expandSearch a{
@@ -938,7 +950,10 @@ button:hover{
 }
 
 .expandSearch{
-	border: solid 1px #eeeeee;
+	border: solid 1px #fff;
+	position: absolute;
+	top: 15px;
+	right: 20px;
 }
 
 .expandSearch input{
@@ -946,27 +961,46 @@ button:hover{
 	overflow: hidden;
 	width: 0px;
 	opacity: 0;
+	background-color: transparent;
+    border: none;
+    font-size: 16px;
+    padding: 10px 0px 10px 0px;
+    color: #fff;
+    font-size: 0.95em;
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: #fff;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      color: #fff;
+    }
 }
 
 .expandSearch a{
 	display: block;
-	padding: 12px 15px 8px 15px;
-	background-color: #eeeeee;
+	padding: 10px 12px 8px 12px;
+	// background-color: #fff;
 }
 
 .showSearch input{
 	margin-left: 10px;
 	margin-right: 10px;
+	margin-top: 3px;
 	width: 200px;
 	opacity: 1;
+	height: 100%;
+	color: #fff;
+    // background-color: transparent;
+    &:focus{
+    	color: #fff;
+    }
 }
 
 .showSearch a{
-	background-color: #b3d2f2;
+	// background-color: #fff;
 }
 
 .showSearch{
-	border-color: #b3d2f2;
+	border-color: #fff;
 }
 
 

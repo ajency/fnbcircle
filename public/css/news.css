@@ -3823,6 +3823,7 @@ body .submit {
   border: 1px solid #ccc;
   padding: 20px;
   height: 210px;
+  overflow: hidden;
   position: relative;
 }
 @media screen and (max-width: 768px) {
@@ -3849,11 +3850,6 @@ body .submit {
 .featured-post .border-layout p {
   font-size: 13px;
   color: #777;
-}
-@media screen and (max-width: 768px) {
-  .featured-post .border-layout p {
-    display: none;
-  }
 }
 .featured-post .border-layout .featured-image {
   background: url(../images/banner-default.png);
@@ -3887,6 +3883,7 @@ body .submit {
 @media screen and (max-width: 768px) {
   .featured-post .border-layout .featured-meta {
     position: relative;
+    margin-top: 20px;
   }
 }
 .featured-post .border-layout .featured-meta img {
@@ -3981,6 +3978,7 @@ body .submit {
 .list-layout li .list-post .featured-meta {
   font-size: 12px;
   color: #666;
+  margin-top: 20px;
 }
 .list-layout li .list-post .featured-meta img {
   width: 30px;

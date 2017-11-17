@@ -17,12 +17,13 @@
  
 
 get_header(); 
+/* commented on client request 
 $laravel_user_state = Cookie::get('user_state');
 if(isset($laravel_user_state)){
 	if($laravel_user_state!=''){
 		$user_state = $laravel_user_state;
 	}
-}
+}*/
  
 ?>
 <div class="header-image text-center">
@@ -97,11 +98,15 @@ global $wp_query;
 $temp_query = $wp_query;
 $wp_query   = NULL;
 $wp_query   = $custom_query;
+
+$featured_cnt =0;
 ?>
 <?php if ( $custom_query->have_posts() ) : ?>
 
   <!-- the loop -->
   <?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
+
+  <?php if($featured_cnt<4) : ?>	
 <div class="featured-post">
 	<div class="border-layout">
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
@@ -133,7 +138,14 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
    <div class="clear"></div>
 </div>
 </div>
+<?php $featured_cnt++; ?>
+<?php endif ?>
   <?php endwhile; ?>
+  <?php 
+	/*if($custom_query->post_count>4){
+		echo "<a href='javascript:void(0);'>View more...</a>";
+	}*/
+  ?>
   <!-- end of the loop -->
 
   <!-- pagination here -->

@@ -16,6 +16,7 @@ loginCreateWpUserByLaravelEMail();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
+<link rel="shortcut icon" href="<?php echo site_url();?>/wp-content/themes/twentyseventeen/assets/images/fnb-favicon.png" />	
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
@@ -42,7 +43,7 @@ loginCreateWpUserByLaravelEMail();
 	 * If a regular post or page, and not the front page, show the featured image.
 	 * Using get_queried_object_id() here since the $post global may not be set before a call to the_post().
 	 */
-	if ( ( is_single() || ( is_page() && ! twentyseventeen_is_frontpage() ) ) ) :
+	if ( ( is_single() || ( is_page() && $post->post_name!='featured-news' && ! twentyseventeen_is_frontpage() ) ) ) :
 		?>
 
 	
@@ -94,10 +95,11 @@ if ( has_post_thumbnail() ) { ?>
 				}
 
 			}
-
+			/* display in category commented on client request 
 			if($cnt_cat>0){
 				echo " in ".$category_display;
 			}
+			*/
 
 
 			?>

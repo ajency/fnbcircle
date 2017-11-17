@@ -378,9 +378,11 @@ body .submit{
     	font-size: 3em;
     	padding-top: 55px !important;
     	 @media screen and (max-width: @mobile) {
-	     	          margin-bottom: 20px;
-	     }
-    	    }
+	     	    margin-bottom: 20px;
+	     	    position: relative;
+    			top: 0.65em;
+	     	}
+    	}
    .search-container{
        width: 630px;
        margin: 50px auto;
@@ -573,8 +575,8 @@ body .submit{
     padding: 0px !important;
 	}
 	.header-image {
-	margin-bottom: 25%;
-	margin-top: 21px !important;
+		margin-bottom: 10%;
+		margin-top: 21px !important;
 	}
 	h1 {
     font-size: 26px !important;
@@ -1004,3 +1006,28 @@ button:hover{
 }
 
 
+@media screen and (max-width: 650px){
+	.expandSearch{
+		z-index: 1;
+		input{
+		    font-size: 0.9em;
+		}
+		svg{
+			width: 13px;
+    		height: 13px;
+		}
+		a{
+			padding: 8px 10px 8px 10px;
+		}
+	}
+	.showSearch{
+		input{
+			margin-left: 8px;
+		    margin-right: 8px;
+		    margin-top: 0px;
+		    width: 270px;
+		    opacity: 1;
+		    height: 100%;
+		}
+	}
+}

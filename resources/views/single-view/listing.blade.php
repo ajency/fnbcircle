@@ -676,7 +676,7 @@
                                     <h6 class="element-title">Related Articles</h6>
                                     <a href="{{ url('/news') }}" class="secondary-link view-more heavier">View More</a>
                                 </div>
-                                <div class="related-article__section flex-row">
+                                <div class="related-article__section flex-row align-top">
 
                                     
                                     @foreach($data['news_items'] as $news_item)

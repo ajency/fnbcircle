@@ -622,6 +622,8 @@ function custom_excerpt_length( $length ) {
 
 function fnbcircleWpScripts(){
 
+	global $post;
+ 
 
 	$queried_object = get_queried_object();
 	 
@@ -662,12 +664,21 @@ function fnbcircleWpScripts(){
 	// now the most interesting part
 	// we have to pass parameters to myloadmore.js script but we can get the parameters values only in PHP
 	// you can define variables directly in your HTML but I decided that the most proper way is wp_localize_script()
-	wp_localize_script( 'my_loadmore', 'aj_loadmore_params', array(
-		'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
-		'posts' => json_encode( $wp_query->query_vars ), // everything about your loop is here
-		'current_page' => get_query_var( 'paged' ) ? get_query_var('paged') : 1,
-		'max_page' => $wp_query->max_num_pages
-	) ); 
+	$cust_load_more_args = array(	'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
+									'posts' => json_encode( $wp_query->query_vars ), // everything about your loop is here
+									'current_page' => get_query_var( 'paged' ) ? get_query_var('paged') : 1,
+									'max_page' => $wp_query->max_num_pages
+								);
+	$cust_load_more_args['featurednews'] ='no';
+ 
+ 	if(isset($post)){
+ 		if($post->post_name=="featured-news"){
+			$cust_load_more_args['featurednews'] ='yes';
+		}	
+ 	}
+	
+
+	wp_localize_script( 'my_loadmore', 'aj_loadmore_params', $cust_load_more_args ); 
  	wp_enqueue_script( 'my_loadmore' );
 
 
@@ -685,8 +696,11 @@ function misha_loadmore_ajax_handler(){
 	$args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
 	$args['post_status'] = 'publish';
 	$args['show_pagination'] = false;
+	$addtitional_args['featured'] = $_POST['featured'];
  
- 	$html = get_recent_news_by_city($args);
+
+ 
+ 	$html = get_recent_news_by_city($args,$addtitional_args);
 			echo $html;
 	/*
 	// it is always better to use WP_Query but not here
@@ -957,6 +971,7 @@ function custom_category_tags_title($title)
 	else if(is_tag()){
 		$title = sprintf( __( 'News in %s' ), single_tag_title( '', false ) );
 	}
+	
 
 	return $title;
 }
@@ -1180,24 +1195,28 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 	if(isset($additional_args['paged'])){
 		$paged = $additional_args['paged'];
 	}
-
-
-	 
-
-
-	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged, 'orderby'=>'date','post_status'      => 'publish');
-
-	$query = array_merge($query,$args);
-
+	
+	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged, 'orderby'=>'date','post_status'      => 'publish'); 
 
 	if(isset($_POST['city'])){
 		$city = $_POST['city'];
 		$query['category_name']=$city;
-
 	}
 
-	
+
+	$query = array_merge($query,$args);
+
+	if(isset($additional_args['featured'])){
+		if($additional_args['featured']=='yes'){
+
+			 $query['meta_key']   =  '_is_ns_featured_post';			 
+			 $query['meta_value']   =  'yes'; 
+		}
+	}
 	 
+
+ 
+ 
 	$wp_query = new WP_Query($query);
 
 	 

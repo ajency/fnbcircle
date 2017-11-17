@@ -142,17 +142,18 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
 <?php endif ?>
   <?php endwhile; ?>
   <?php 
-	/*if($custom_query->post_count>4){
-		echo "<a href='javascript:void(0);'>View more...</a>";
-	}*/
+	 if($custom_query->post_count>4){
+		//echo "<a href='javascript:void(0);'>View more...</a>";
+		echo "<a href='".site_url()."/featured-news'>View more...</a>";
+	}
   ?>
   <!-- end of the loop -->
 
   <!-- pagination here -->
   <?php
   // Custom query loop pagination
-  previous_posts_link( 'Older Posts' );
-  next_posts_link( 'Newer Posts', $custom_query->max_num_pages );
+  /*previous_posts_link( 'Older Posts' );
+  next_posts_link( 'Newer Posts', $custom_query->max_num_pages );*/
   ?>
 
 <?php else:  ?>

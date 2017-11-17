@@ -592,8 +592,9 @@ function get_breadcrumb() {
 
     }
     else if (is_category() || is_single()) {
+        /* //commented on client request the category display 
         echo "&nbsp;&nbsp;/&nbsp;&nbsp;";
-        the_category(' &bull; ');
+        the_category(' &bull; ');*/
             if (is_single()) {
                 echo " &nbsp;&nbsp;/&nbsp;&nbsp; ";
                 the_title();

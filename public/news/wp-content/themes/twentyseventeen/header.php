@@ -94,10 +94,11 @@ if ( has_post_thumbnail() ) { ?>
 				}
 
 			}
-
+			/* display in category commented on client request 
 			if($cnt_cat>0){
 				echo " in ".$category_display;
 			}
+			*/
 
 
 			?>

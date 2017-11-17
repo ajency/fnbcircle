@@ -357,7 +357,7 @@ function twentyseventeen_excerpt_more( $link ) {
 		return $link;
 	}
 
-	$link = sprintf( '<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
+	$link = sprintf( '<p class="link-more"><a href="%1$s" class="more-link"  target ="_blank"  >%2$s</a></p>',
 		esc_url( get_permalink( get_the_ID() ) ),
 		/* translators: %s: Name of current post */
 		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ), get_the_title( get_the_ID() ) )
@@ -978,7 +978,7 @@ function get_featured_news_by_city11($city){
 
 	    		$html.='<div class="featured-image"'.$style_avatar.' ></div>
 	    		  <div class="featured-content">
-	    		    <h5 class="font-weight-bold"><a href="'.$permalink.'">'.$post->post_title.'</a></h5>'.$excerpt;
+	    		    <h5 class="font-weight-bold"><a href="'.$permalink.'"  target ="_blank"  >'.$post->post_title.'</a></h5>'.$excerpt;
 	    		    //<?php the_excerpt(6);  
 	    		$html.='<div class="featured-meta">
 	    		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"/>
@@ -1146,7 +1146,7 @@ function get_recent_news_by_city($city){
 	      
 	  
 	  $html.='<div class="featured-content">
-	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'">  <h5>'.get_the_title().'</h5> </a>
+	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'"  target ="_blank" >  <h5>'.get_the_title().'</h5> </a>
 	    '.get_the_excerpt(15).'
 	<div class="featured-meta">
 		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
@@ -1294,7 +1294,7 @@ var_dump($post);
 					          
 					  
 			$html.='<div class="featured-content">
-					  <a href="'.$permalink.'" title="Link to '.$post->post_title.'">  <h5>'.$post->post_title.'</h5> </a>
+					  <a href="'.$permalink.'" title="Link to '.$post->post_title.'"  target ="_blank" >  <h5>'.$post->post_title.'</h5> </a>
 					    '.$excerpt.'
 					<div class="featured-meta">
 						<img src="'.site_url().'./wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
@@ -1365,7 +1365,7 @@ add_filter( 'run_wptexturize', '__return_false' ); //removes globally
 // Replaces the excerpt "Read More" text by a link
 function new_excerpt_more($more) {
        global $post;
-	return ' <a class="moretag" href="'. get_permalink($post->ID) . '">read more...</a>';
+	return ' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 
@@ -1426,4 +1426,4 @@ function no_mo_dashboard() {
   wp_redirect(home_url()); exit;
   }
 }
-add_action('admin_init', 'no_mo_dashboard');
+//add_action('admin_init', 'no_mo_dashboard');

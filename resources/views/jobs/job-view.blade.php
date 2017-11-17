@@ -509,7 +509,7 @@ $additionalData = ['job'=>$job];
                     ?>
                     @endforeach
                     
-                    <a href="{{ url('/news/'.$news_city) }}" class="secondary-link view-more heavier">View More</a>
+                    <a href="{{ url('/news/') }}" class="secondary-link view-more heavier">View More</a>
                   </div>
                   <div class="related-article__section jobs-related-article flex-row align-top">
                     

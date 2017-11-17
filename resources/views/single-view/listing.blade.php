@@ -674,7 +674,7 @@
                         <div class="related-article p-b-20" id="article">
                                 <div class="section-start-head m-b-15 flex-row">
                                     <h6 class="element-title">Related Articles</h6>
-                                    <a href="{{ url('/news/'.strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $data['city']['name'])))) }}" class="secondary-link view-more heavier">View More</a>
+                                    <a href="{{ url('/news') }}" class="secondary-link view-more heavier">View More</a>
                                 </div>
                                 <div class="related-article__section flex-row">
 

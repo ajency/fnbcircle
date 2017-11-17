@@ -16,6 +16,7 @@ loginCreateWpUserByLaravelEMail();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
+<link rel="shortcut icon" href="<?php echo site_url();?>/wp-content/themes/twentyseventeen/assets/images/fnb-favicon.png" />	
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">

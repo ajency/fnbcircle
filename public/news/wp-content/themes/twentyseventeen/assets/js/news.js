@@ -249,6 +249,12 @@ jQuery(document).ready(function($) {
 
     })
 
+     
+    if(jQuery('.custom-expand-search').val() != ''){
+     
+        jQuery('.expandSearch').addClass('showSearch');
+    }
+
 })
 
 jQuery(document).ready(function($){
@@ -354,9 +360,7 @@ setTimeout((function() {
   expandSearch.init();
 })();
 
-if(jQuery('.custom-expand-search').val() != ''){
-    jQuery(this).parent().addClass('showSearch');
-}
+
 
 
 

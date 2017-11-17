@@ -6086,11 +6086,11 @@ input[type=checkbox].custom-checkbox:before {
           justify-content: center;
 }
 .cust-title-height {
-  min-height: 42px;
+  height: 42px;
 }
 @media screen and (max-width: 768px) {
   .cust-title-height {
-    min-height: 40px;
+    height: 40px;
   }
 }
 .search-section {

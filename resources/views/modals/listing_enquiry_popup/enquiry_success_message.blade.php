@@ -15,5 +15,5 @@
         <p class="element-title heavier text-darker success-cards__title">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
 	    @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 	@endif
-    <button class="btn fnb-btn outline full border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
+    <button class="btn fnb-btn outline border-btn default-size" data-dismiss="modal" aria-label="Close">Ok, got it!</button>
 </div>

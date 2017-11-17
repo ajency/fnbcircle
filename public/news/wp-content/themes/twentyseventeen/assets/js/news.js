@@ -165,13 +165,13 @@ jQuery(document).ready(function($) {
                    $('.site-main').find('.list-layout').find('.recent-loader').remove()
                     $(".site-main .list-layout").prepend(response.html)
 
-                    if( (typeof this_page_link_clicked !=='undefined') ){
+                    /*if( (typeof this_page_link_clicked !=='undefined') ){
                         if(this_page_link_clicked=='yes'){
                             $('html, body').animate({
                                    scrollTop: $(".recent_news_title").offset().top
                                }, 0);        
                         }
-                    }
+                    }*/
                     
 
                     console.log(response.html)

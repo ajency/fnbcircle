@@ -4641,4 +4641,14 @@ input[type='search'] {
     height: 100%;
   }
 }
+@media screen and (min-width: 400px) {
+  .showSearch input {
+    width: 320px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .showSearch input {
+    width: 230px;
+  }
+}
 /*# sourceMappingURL=news.css.map */

@@ -105,12 +105,20 @@ table = $('#listing-leads').DataTable(
         "data":           'archive',
         "render": (d) ->
         	if d == 0 
-        		return '<a href="#" class="archiveaction"><i class="fa fa-star-o lead-star archive" aria-hidden="true"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>' 
+        		return '<a href="#" class="archiveaction"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>' 
         	else 
-        		return '<a href="#" class="unarchiveaction"><i class="fa fa-star lead-star archived" aria-hidden="true"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
+        		return '<a href="#" class="unarchiveaction"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>'
     }
   ]
 )
+
+
+tooltipinit = ->
+	setTimeout (->
+	  $('[data-toggle="tooltip"]').tooltip()
+	), 1000
+
+tooltipinit()
 
 # Add event listener for opening and closing details
 $('#listing-leads tbody').on 'click', '.details-control', ->
@@ -134,6 +142,7 @@ $('body').on 'click','a#clearSubDate', (e) ->
   $('#submissionDate').val('')
   filters['request_date'] = []
   table.ajax.reload()
+  tooltipinit()
 
 $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   filters['request_date'] = {}
@@ -142,6 +151,7 @@ $('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
   $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
   console.log filters
   table.ajax.reload()
+  tooltipinit()
   return
 
 $('body').on 'change', '.type-filter', -> 
@@ -150,21 +160,25 @@ $('body').on 'change', '.type-filter', ->
   	array.push $(element).val()
   filters['enquiry_type'] = array
   table.ajax.reload()
+  tooltipinit()
 
 $('body').on 'keyup','input#namefilter', ->
   filters['enquirer_name'] = @value
   table.settings()[0].jqXHR.abort()
   table.ajax.reload()
+  tooltipinit()
 
 $('body').on 'keyup','input#emailfilter', ->
   filters['enquirer_email'] = @value
   table.settings()[0].jqXHR.abort()
   table.ajax.reload()
+  tooltipinit()
 
 $('body').on 'keyup','input#phonefilter', ->
   filters['enquirer_contact'] = @value
   table.settings()[0].jqXHR.abort()
   table.ajax.reload()
+  tooltipinit()
 
 $('body').on 'click','button#applyLocFilter', ->
   loc_city_array = []
@@ -180,6 +194,7 @@ $('body').on 'click','button#applyLocFilter', ->
   filters['city'] = loc_city_array
   filters['area'] = loc_area_array
   table.ajax.reload()
+  tooltipinit()
 
 $('body').on 'change','input#archivefilter', ->
   if @checked
@@ -187,12 +202,14 @@ $('body').on 'change','input#archivefilter', ->
   else
   	filters['archive'] = 0
   table.ajax.reload()
+  tooltipinit()
 
 
 $('body').on 'click','button#applyCategFilter', ->
   console.log 'worls'
   filters['categories'] = JSON.stringify(getLeafNodes())
   table.ajax.reload()
+  tooltipinit()
 
 
 $('body').on 'click','.archiveaction', ->
@@ -201,6 +218,7 @@ $('body').on 'click','.archiveaction', ->
   console.log enquiry
   $('#enquiryarchive a.archive-enquiry-confirmed').attr('data-enquiry-id', enquiry['id']);
   $('#enquiryarchive').modal('show')
+  tooltipinit()
 
 $('body').on 'click','#cancelenquiryarchive', ->
 	$('#enquiryarchive a.archive-enquiry-confirmed').removeAttr('data-enquiry-id');
@@ -219,6 +237,7 @@ $('#enquiryarchive').on 'click','a.archive-enquiry-confirmed', ->
 				table.ajax.reload()
 				$('.alert-success span.message').html 'enquiry archived successfully'
 				$('.alert-success').addClass 'active'
+				tooltipinit()
 				setTimeout (->
 		          $('.alert-success').removeClass 'active'
 		          return
@@ -239,6 +258,7 @@ $('body').on 'click','.unarchiveaction', ->
 				table.ajax.reload()
 				$('.alert-success span.message').html 'enquiry unarchived successfully'
 				$('.alert-success').addClass 'active'
+				tooltipinit()
 				setTimeout (->
 					$('.alert-success').removeClass 'active'
 					return

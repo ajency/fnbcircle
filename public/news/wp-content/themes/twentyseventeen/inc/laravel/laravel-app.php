@@ -13,6 +13,6 @@
 
 	echo "<pre>LARAVEL AUTH CHECK <br/>";
 	print_r( Cookie::get('user_state') );
-	print_r($isAuthorized );
-*/
+	print_r($isAuthorized );*/
+
  

@@ -357,7 +357,7 @@ function twentyseventeen_excerpt_more( $link ) {
 		return $link;
 	}
 
-	$link = sprintf( '<p class="link-more"><a href="%1$s" class="more-link">%2$s</a></p>',
+	$link = sprintf( '<p class="link-more"><a href="%1$s" class="more-link"  target ="_blank"  >%2$s</a></p>',
 		esc_url( get_permalink( get_the_ID() ) ),
 		/* translators: %s: Name of current post */
 		sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ), get_the_title( get_the_ID() ) )
@@ -978,12 +978,14 @@ function get_featured_news_by_city11($city){
 
 	    		$html.='<div class="featured-image"'.$style_avatar.' ></div>
 	    		  <div class="featured-content">
-	    		    <h5 class="font-weight-bold"><a href="'.$permalink.'">'.$post->post_title.'</a></h5>'.$excerpt;
+	    		    <h5 class="font-weight-bold"><a href="'.$permalink.'"  target ="_blank"  >'.$post->post_title.'</a></h5>'.$excerpt;
 	    		    //<?php the_excerpt(6);  
 	    		$html.='<div class="featured-meta">
 	    		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"/>
-	    		By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  in <a href="'.$category_link.'">'.$category->cat_name.'</a> 
-	    		</div>   
+	    		By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  ';
+	    		/*$html.=' in <a href="'.$category_link.'">'.$category->cat_name.'</a> ';  // commented by client request*/
+
+	    		$html.='</div>   
 	    		   </div>
 	    		   <div class="clear"></div>
 	    		</div>
@@ -1016,13 +1018,19 @@ add_action('wp_ajax_get_featured_news_by_city', 'get_featured_news_by_city',10,1
 function get_featured_news_by_city(){
 
 
-	$city =$_POST['city'];
 	$custom_query_args = array(
 	  'post_type'  => 'post',
 	  'meta_key'   => '_is_ns_featured_post',
-	  'meta_value' => 'yes',
-	  'category_name' =>$city
+	  'meta_value' => 'yes'
+	  
 	  );
+	if(isset($_POST['city'])){
+		$city =$_POST['city'];
+		$custom_query_args['category_name'] = $city;
+	}
+
+	
+
 	// Get current page and append to custom query parameters array
 	$custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 	$custom_query = new WP_Query( $custom_query_args );  
@@ -1042,7 +1050,7 @@ function get_featured_news_by_city(){
 
 	$html.='<div class="featured-post">
 		<div class="border-layout">';
-	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
 
 
 	$post_categories = get_the_category();
@@ -1062,7 +1070,7 @@ function get_featured_news_by_city(){
 	}
 
 	 if($backgroundImg!=false && $backgroundImg!=""){
-	    			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
+	    			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
 
 	    		} 
 	    		else{
@@ -1076,8 +1084,9 @@ function get_featured_news_by_city(){
 	    '.get_the_excerpt(6).'
 	<div class="featured-meta">
 	<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
-	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
-	</div>   
+	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
+	/* $html.=' in '.$category_display; //commented on client request */
+	$html.='</div>   
 	   </div>
 	   <div class="clear"></div>
 	</div>
@@ -1107,9 +1116,15 @@ function get_featured_news_by_city(){
 function get_recent_news_by_city($city){ 
 
 
-	$city = $_POST['city'];
+	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged);
+	if(isset($_POST['city'])){
+		$city = $_POST['city'];
+		$query['category_name']=$city;
+
+	}
+
 	$paged = isset($_POST['paged'])?$_POST['paged']:1;
-	$query = array( 'posts_per_page' => 10, 'order' => 'ASC' ,'category_name'=>$city, 'paged' =>$paged);
+	
 	$wp_query = new WP_Query($query);
 
 	 
@@ -1117,9 +1132,18 @@ function get_recent_news_by_city($city){
 	if ( $wp_query->have_posts() ) : 
 		while ( $wp_query->have_posts() ) : $wp_query->the_post();  
 	//while ( have_posts() ) : the_post(); 
+	$featured_img_id ="";
+	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
+	  if($backgroundImg!=false && $backgroundImg!=""){
+	     			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	     			$featured_img_id =' id="featured-img" ';
+ 		} 
+ 		else{
+ 			$style_avatar ="";
+ 		}  
 	$html.='<li>
 	    
-	      <div class="list-post">';
+	      <div class="list-post" '.$featured_img_id.'>';
 	  $post_categories = get_the_category();
 	  $category_display ="";
 	  $cnt_cat =0;
@@ -1134,23 +1158,17 @@ function get_recent_news_by_city($city){
   		} 
 	  }
 
-	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' ); 
-	  if($backgroundImg!=false && $backgroundImg!=""){
-	     			$style_avatar = 'style="background-image:url('.$backgroundImg[0].')"';
-
- 		} 
- 		else{
- 			$style_avatar ="";
- 		}        
+	      
 	  
 	  $html.='<div class="featured-content">
-	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'">  <h5>'.get_the_title().'</h5> </a>
+	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'"  target ="_blank" >  <h5>'.get_the_title().'</h5> </a>
 	    '.get_the_excerpt(15).'
 	<div class="featured-meta">
 		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
 
-	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
-	</div>   
+	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
+	 /* $html.='in '.$category_display; //commented on client request   */ 
+	$html.='</div>   
 	   </div>
 	   <div class="featured-image" '.$style_avatar.'></div>
 	   <div class="clear"></div>
@@ -1292,7 +1310,7 @@ var_dump($post);
 					          
 					  
 			$html.='<div class="featured-content">
-					  <a href="'.$permalink.'" title="Link to '.$post->post_title.'">  <h5>'.$post->post_title.'</h5> </a>
+					  <a href="'.$permalink.'" title="Link to '.$post->post_title.'"  target ="_blank" >  <h5>'.$post->post_title.'</h5> </a>
 					    '.$excerpt.'
 					<div class="featured-meta">
 						<img src="'.site_url().'./wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
@@ -1363,7 +1381,7 @@ add_filter( 'run_wptexturize', '__return_false' ); //removes globally
 // Replaces the excerpt "Read More" text by a link
 function new_excerpt_more($more) {
        global $post;
-	return ' <a class="moretag" href="'. get_permalink($post->ID) . '">read more...</a>';
+	return ' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>';
 }
 add_filter('excerpt_more', 'new_excerpt_more');
 
@@ -1414,3 +1432,14 @@ if ( ! function_exists( 't5_do_not_ask_for_comment_log_in' ) )
         return $link;
     }
 }
+
+/* REmove admin bar from front end */
+add_filter('show_admin_bar', '__return_false');
+
+/*Do not allow non-admins to access wordpress dashboard */
+function no_mo_dashboard() {
+  if (!current_user_can('manage_options') && $_SERVER['DOING_AJAX'] != '/wp-admin/admin-ajax.php') {
+  wp_redirect(home_url()); exit;
+  }
+}
+//add_action('admin_init', 'no_mo_dashboard');

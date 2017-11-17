@@ -57,8 +57,8 @@ function loginCreateWpUserByLaravelEMail()
             }
         } else {
 
-            if (is_user_logged_in()) { //If admin is not logged in wordpress news
-                if (!current_user_can('manage_options')) {
+            if (is_user_logged_in()) { 
+                if (!current_user_can('manage_options')) { //If admin is not logged in wordpress news
                     wp_clear_auth_cookie();
                     wp_logout();
                 }

@@ -16,7 +16,15 @@
  */
 //$user_state = "pune";
 
-get_header(); ?>
+get_header(); 
+$laravel_user_state = Cookie::get('user_state');
+if(isset($laravel_user_state)){
+	if($laravel_user_state!=''){
+		$user_state = $laravel_user_state;
+	}
+}
+ 
+?>
 <div class="header-image text-center">
 	<div class="search-container">
 			<!-- <select>
@@ -91,18 +99,20 @@ $wp_query   = $custom_query;
 			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
   <div class="featured-content">
 
-    <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+    <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
     <?php the_excerpt(6); ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
 <?php 
+/* commented on client request 
 $show_categories = true;
 $categories = wp_get_post_categories( $post->ID );
 // We don't want to show the categories if there is a single category and it is "uncategorized"
 if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
   $show_categories = false;
-endif;
+endif;*/
+$show_categories =false;
 
 ?>
 
@@ -123,7 +133,7 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
   ?>
 
 <?php else:  ?>
-  <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+  <p><span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no featured news matched your criteria.</h6></span><?php /*_e( 'Sorry, no posts matched your criteria.' ); */ ?></p>
 <?php endif; ?>
 
 <?php
@@ -197,19 +207,20 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
   <div class="featured-content">
  <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
   
-  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
+  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
 
 <?php 
-$show_categories = true;
+/*$show_categories = true;
 $categories = wp_get_post_categories( $post->ID );
 // We don't want to show the categories if there is a single category and it is "uncategorized"
 if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
   $show_categories = false;
-endif;
+endif;*/
+$show_categories = false;
 
 ?>
 
@@ -235,7 +246,7 @@ echo $recent_news_pagination_html;
 			) );*/
 
 else: ?>
-<p><?php _e('Sorry, no posts published so far.'); ?></p>
+<p><span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no recent news matched your criteria.</h6></span><?php /* _e('Sorry, no posts published so far.'); */ ?></p>
 <?php endif; ?>
 </ul>
 		</main><!-- #main -->

@@ -97,12 +97,12 @@ get_header(); ?>
           
   
   <div class="featured-content">
-  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
+  <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php /* commented on client request in <?php the_category(', '); ?> */ ?>
 </div>   
    </div>
    <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 

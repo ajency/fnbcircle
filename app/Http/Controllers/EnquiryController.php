@@ -32,6 +32,7 @@ use App\Http\Controllers\ListViewController;
 use App\Http\Controllers\CookieController;
 use App\Http\Controllers\Auth\RegisterController;
 use Ajency\User\Ajency\userauth\UserAuth;
+use Spatie\Activitylog\Models\Activity;
 
 class EnquiryController extends Controller {
 	/**
@@ -163,6 +164,18 @@ class EnquiryController extends Controller {
 			$enquiry_obj = Enquiry::find($enquiry_data["enquiry_id"]);
 		} else if(sizeof($enquiry_data) > 0) { // Create data if params are passed
 			$enquiry_obj = Enquiry::create($enquiry_data);
+			switch($enquiry_data['user_object_type']){
+				case 'App\\User' : 
+					$caused_by = User::find($enquiry_data['user_object_id']);
+					break;
+				case 'App\\Lead' : 
+					$caused_by = Lead::find($enquiry_data['user_object_id']);
+					break;
+			}
+			activity()
+	           ->performedOn($enquiry_obj)
+	           ->causedBy($caused_by)
+	           ->log('enquiry-created');
 		} else {
 			$enquiry_obj = null;
 		}

@@ -7,6 +7,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Hash;
 use App\UserCommunication;
+use Spatie\Activitylog\Models\Activity;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -20,11 +22,16 @@ class ProfileController extends Controller
             return redirect('profile/' . $step);
         } else {
             $usercomm = UserCommunication::where('value',$email)->where('object_type','App\\User')->where('is_primary',1)->first();
-            if($usercomm!=null and hasAccess('view_profile_element_cls',$usercomm->id,'communication')){
-                $user = User::findUsingEmail($email);
-                $self = false;
+            $user = User::findUsingEmail($email);
+            if($usercomm!=null and $user != null){
+              if(hasAccess('view_profile_element_cls',$usercomm->id,'communication')){
+                  $self = true;
+              }else{
+                  if($step == 'basic-details') abort(403);
+                  $self = false;
+              }
             }else{
-                abort(403);
+              abort(403);
             }
 
         }
@@ -47,6 +54,7 @@ class ProfileController extends Controller
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook')? true:false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
             case 'description':
+
                 $data = [];
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('self', $self);
             case 'activity':
@@ -55,6 +63,20 @@ class ProfileController extends Controller
             default:
                 abort(404);
         }
+
+    }
+
+    public function getUserActivity(Request $request){
+        $this->validate($request, [
+            'email' => 'required|email',
+            'week' => 'nullable|integer'
+        ]);
+        $user = User::findUsingEmail($request->email);
+        $week = (isset($request->week))? $request->week : 0;
+        $activities1 = $user->activities(config('tempconfig.activity-display-classes'))->get();//->where('created_at', '>', Carbon::now()->subWeek($week+1))->where('created_at','<', $week)->get();
+        $activities = collect([]);
+
+        dd($activities->union($activities1));
 
     }
 
@@ -79,9 +101,15 @@ class ProfileController extends Controller
         $usercomm = UserCommunication::where('value',$req['email_id'])->where('object_type','App\\User')->where('is_primary',1)->first();
         if(($usercomm!=null and hasAccess('view_profile_element_cls',$usercomm->id,'communication')) or $req['email_id'] ==  Auth::user()->getPrimaryEmail()){
             $user = User::findUsingEmail($req['email_id']);
+            if($user->name != $req['username']){
+                $user->name = $req['username'];
+                $user->save();
+                activity()
+                   ->performedOn($user)
+                   ->causedBy($user)
+                   ->log('user-details-updated');
+            }
 
-            $user->name = $req['username'];
-            $user->save();
             $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->where('is_primary',1)->first();
             if($comm_obj==null or $comm_obj->is_verified == 0){
             	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->delete();

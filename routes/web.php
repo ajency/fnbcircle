@@ -163,9 +163,10 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
 	Route::post('/profile/password-change', 'ProfileController@changePassword');
 	Route::post('/profile/number-change', 'ProfileController@changePhone');
+	// Route::post('/profile/get-user-activity', 'ProfileController@getUserActivity');
 });
 
-
+Route::post('/profile/get-user-activity', 'ProfileController@getUserActivity');
 
 
 

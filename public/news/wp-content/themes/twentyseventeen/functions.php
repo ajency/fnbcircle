@@ -668,9 +668,12 @@ function fnbcircleWpScripts(){
 								);
 	$cust_load_more_args['featurednews'] ='no';
  
-	if($post->post_name=="featured-news"){
-		$cust_load_more_args['featurednews'] ='yes';
-	}
+ 	if(isset($post)){
+ 		if($post->post_name=="featured-news"){
+			$cust_load_more_args['featurednews'] ='yes';
+		}	
+ 	}
+	
 
 	wp_localize_script( 'my_loadmore', 'aj_loadmore_params', $cust_load_more_args ); 
  	wp_enqueue_script( 'my_loadmore' );
@@ -1189,23 +1192,16 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 	if(isset($additional_args['paged'])){
 		$paged = $additional_args['paged'];
 	}
-
-
-	 
-
-
+	
 	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged, 'orderby'=>'date','post_status'      => 'publish'); 
-
-
- 
-
 
 	if(isset($_POST['city'])){
 		$city = $_POST['city'];
 		$query['category_name']=$city;
-
 	}
 
+
+	$query = array_merge($query,$args);
 
 	if(isset($additional_args['featured'])){
 		if($additional_args['featured']=='yes'){
@@ -1214,9 +1210,7 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 			 $query['meta_value']   =  'yes'; 
 		}
 	}
-	else{
-		$query = array_merge($query,$args);
-	}
+	 
 
  
  

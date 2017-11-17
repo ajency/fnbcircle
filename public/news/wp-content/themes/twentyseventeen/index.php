@@ -132,7 +132,8 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
   <?php endwhile; ?>
   <?php 
 	 if($custom_query->post_count>4){
-		echo "<a href='javascript:void(0);'>View more...</a>";
+		//echo "<a href='javascript:void(0);'>View more...</a>";
+		echo "<a href='".site_url()."/featured-news'>View more...</a>";
 	}
   ?>
   <!-- end of the loop -->

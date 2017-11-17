@@ -905,3 +905,67 @@ button:hover{
 	// 	&__banner{}
 	// }
 }
+
+
+
+// Custom Search box
+
+// .custom-search-expand{
+// 	width: 15px;
+//     padding-left: 10px;
+//     color: transparent;
+//     cursor: pointer;
+// 	background: #ededed url('../img/search-icon.png') no-repeat 9px center;
+//     border: solid 1px #ccc;
+//     padding: 9px 10px 9px 32px;
+//     width: 55px;
+//     -webkit-border-radius: 10em;
+//     -moz-border-radius: 10em;
+//     border-radius: 10em;
+//     -webkit-transition: all .5s;
+//     -moz-transition: all .5s;
+//     transition: all .5s;
+// }
+
+.expandSearch,
+.expandSearch input,
+.expandSearch a{
+	float: left;
+	-webkit-transition: all 0.4s ease-in-out;
+	-moz-transition: all 0.4s ease-in-out;
+	transition: all 0.4s ease-in-out;
+}
+
+.expandSearch{
+	border: solid 1px #eeeeee;
+}
+
+.expandSearch input{
+	height: 22px;
+	overflow: hidden;
+	width: 0px;
+	opacity: 0;
+}
+
+.expandSearch a{
+	display: block;
+	padding: 12px 15px 8px 15px;
+	background-color: #eeeeee;
+}
+
+.showSearch input{
+	margin-left: 10px;
+	margin-right: 10px;
+	width: 200px;
+	opacity: 1;
+}
+
+.showSearch a{
+	background-color: #b3d2f2;
+}
+
+.showSearch{
+	border-color: #b3d2f2;
+}
+
+

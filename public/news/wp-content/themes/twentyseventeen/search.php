@@ -117,7 +117,7 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php
 			 
 			// don't display the button if there are not enough posts
 			if (  $wp_query->max_num_pages > 1 ){
-				echo '<div class="misha_loadmore">More posts</div>'; // you can use <a> as well
+				echo '<div class="aj_cust_loadmore">More posts</div>'; // you can use <a> as well
 			}
 echo " ";
 			/*the_posts_pagination( array(

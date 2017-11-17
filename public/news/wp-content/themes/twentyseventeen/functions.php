@@ -651,20 +651,23 @@ function fnbcircleWpScripts(){
 	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
 	wp_localize_script('wpnews', 'SITEURL', esc_url( home_url( '/' ) ));
 
+
+	/* Load More Scripts*/
 	global $wp_query;
-	wp_register_script( 'my_loadmore', get_template_directory_uri() . '/assets/js/myloadmore.js', array('jquery') );
-	 
+	wp_register_script( 'my_loadmore', get_template_directory_uri() . '/assets/js/myloadmore.js', array('jquery') );	 
 	// now the most interesting part
 	// we have to pass parameters to myloadmore.js script but we can get the parameters values only in PHP
 	// you can define variables directly in your HTML but I decided that the most proper way is wp_localize_script()
-	wp_localize_script( 'my_loadmore', 'misha_loadmore_params', array(
+	wp_localize_script( 'my_loadmore', 'aj_loadmore_params', array(
 		'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
 		'posts' => json_encode( $wp_query->query_vars ), // everything about your loop is here
 		'current_page' => get_query_var( 'paged' ) ? get_query_var('paged') : 1,
 		'max_page' => $wp_query->max_num_pages
-	) );
- 
+	) ); 
  	wp_enqueue_script( 'my_loadmore' );
+
+
+ 	
 
 	
 }

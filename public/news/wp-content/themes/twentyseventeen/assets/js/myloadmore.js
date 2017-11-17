@@ -1,15 +1,15 @@
 jQuery(function($){
-	$('.misha_loadmore').click(function(){
+	$('.aj_cust_loadmore').click(function(){
  
 		var button = $(this),
 		    data = {
 			'action': 'loadmore',
-			'query': misha_loadmore_params.posts, // that's how we get params from wp_localize_script() function
-			'page' : misha_loadmore_params.current_page
+			'query': aj_loadmore_params.posts, // that's how we get params from wp_localize_script() function
+			'page' : aj_loadmore_params.current_page
 		};
  
 		$.ajax({
-			url : misha_loadmore_params.ajaxurl, // AJAX handler
+			url : ajax_url, // AJAX handler
 			data : data,
 			type : 'POST',
 			beforeSend : function ( xhr ) {
@@ -20,9 +20,9 @@ jQuery(function($){
 					//$(".site-main .list-layout").append( data.html ); 
 					button.text( 'More posts' ).prev().before(data.html); // insert new posts
 					
-					misha_loadmore_params.current_page++;
+					aj_loadmore_params.current_page++;
  
-					if ( misha_loadmore_params.current_page == misha_loadmore_params.max_page ) 
+					if ( aj_loadmore_params.current_page == aj_loadmore_params.max_page ) 
 						button.remove(); // if last page, remove the button
 				} else {
 					button.remove(); // if no data, remove the button as well

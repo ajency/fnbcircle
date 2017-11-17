@@ -227,8 +227,18 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
 <?php endwhile; 
 
 
-$recent_news_pagination_html=vb_ajax_pager($wp_query,1,'home_recent_pagination');
-echo $recent_news_pagination_html;
+global $wp_query; // you can remove this line if everything works for you
+ 
+// don't display the button if there are not enough posts
+if (  $wp_query->max_num_pages > 1 ){
+	echo '<div class="misha_loadmore">More posts</div>'; // you can use <a> as well
+}
+
+/* $recent_news_pagination_html=vb_ajax_pager($wp_query,1,'home_recent_pagination');
+echo $recent_news_pagination_html;*/
+
+echo " ";
+
 /*the_posts_pagination( array(
 				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 				'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),

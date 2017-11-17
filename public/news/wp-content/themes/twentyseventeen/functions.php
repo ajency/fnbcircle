@@ -651,12 +651,61 @@ function fnbcircleWpScripts(){
 	wp_localize_script('wpnews', 'ajax_url', admin_url( 'admin-ajax.php' ));
 	wp_localize_script('wpnews', 'SITEURL', esc_url( home_url( '/' ) ));
 
+	global $wp_query;
+	wp_register_script( 'my_loadmore', get_template_directory_uri() . '/assets/js/myloadmore.js', array('jquery') );
+	 
+	// now the most interesting part
+	// we have to pass parameters to myloadmore.js script but we can get the parameters values only in PHP
+	// you can define variables directly in your HTML but I decided that the most proper way is wp_localize_script()
+	wp_localize_script( 'my_loadmore', 'misha_loadmore_params', array(
+		'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
+		'posts' => json_encode( $wp_query->query_vars ), // everything about your loop is here
+		'current_page' => get_query_var( 'paged' ) ? get_query_var('paged') : 1,
+		'max_page' => $wp_query->max_num_pages
+	) );
+ 
+ 	wp_enqueue_script( 'my_loadmore' );
+
 	
 }
 add_action('wp_enqueue_scripts', 'fnbcircleWpScripts', 100);
 
 
-
+function misha_loadmore_ajax_handler(){
+ 
+	// prepare our arguments for the query
+	$args = json_decode( stripslashes( $_POST['query'] ), true );
+	$args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
+	$args['post_status'] = 'publish';
+	$args['show_pagination'] = false;
+ 
+	// it is always better to use WP_Query but not here
+	query_posts( $args );
+ 
+	if( have_posts() ) :
+ 
+		// run the loop
+		while( have_posts() ): the_post();
+ 
+			// look into your theme code how the posts are inserted, but you can use your own HTML of course
+			// do you remember? - my example is adapted for Twenty Seventeen theme
+			/*get_template_part( 'template-parts/post/content', get_post_format() );*/
+			$html = get_recent_news_by_city($args);
+			echo $html;
+			// for the test purposes comment the line above and uncomment the below one
+			// the_title();
+ 
+ 
+		endwhile;
+ 
+	endif;
+	die; // here we exit the script and even no wp_reset_query() required!
+}
+ 
+ 
+ 
+add_action('wp_ajax_loadmore', 'misha_loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_loadmore', 'misha_loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
 
 
  
@@ -1113,8 +1162,13 @@ function get_featured_news_by_city(){
 	 	die;
 }
 
-function get_recent_news_by_city($city){ 
+function get_recent_news_by_city($args=array()){ 
 
+
+	$paged = isset($_POST['paged'])?$_POST['paged']:1;
+	if(isset($args['paged'])){
+		$paged = $args['paged'];
+	}
 
 	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged);
 	if(isset($_POST['city'])){
@@ -1123,13 +1177,13 @@ function get_recent_news_by_city($city){
 
 	}
 
-	$paged = isset($_POST['paged'])?$_POST['paged']:1;
+	
 	
 	$wp_query = new WP_Query($query);
 
 	 
 
-	if ( $wp_query->have_posts() ) : 
+	if ( $wp_query->have_posts() ) {
 		while ( $wp_query->have_posts() ) : $wp_query->the_post();  
 	//while ( have_posts() ) : the_post(); 
 	$featured_img_id ="";
@@ -1191,12 +1245,21 @@ function get_recent_news_by_city($city){
          'post_type' => get_query_var('post_type'),
     	 )
  	));*/
+ 	$show_pagination = true;
 
- 	$html.=vb_ajax_pager($wp_query,$paged,'home_recent_pagination');
-
-	else: 
-	$html.='<span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no recent news matched your criteria.</h6></span>';
-	endif; 
+ 	if(isset($args['show_pagination'])){			
+ 		$show_pagination = $args['show_pagination'];	
+ 	}
+ 	if($show_pagination!=false){
+ 		$html.=vb_ajax_pager($wp_query,$paged,'home_recent_pagination');	
+ 	}
+ 	
+ 	
+ 	}// end if ( $wp_query->have_posts() ) {
+	else{ 
+		$html.='<span class="no-posts-msg"><i class="fa fa-frown-o" aria-hidden="true"></i> <h6>Sorry, no recent news matched your criteria.</h6></span>';
+	}
+	
 
 
 	wp_send_json(array('html'=>$html));

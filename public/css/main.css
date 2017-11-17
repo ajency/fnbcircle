@@ -4850,6 +4850,7 @@ input[type=checkbox].custom-checkbox:before {
   background-repeat: no-repeat;
   outline: 0;
   border-color: #adadad;
+  padding-bottom: 10px;
 }
 .verification-modal .areas-select .caret {
   border: 0;

@@ -171,7 +171,7 @@
                         </li>
                         <li>
                             <div class="flex-row">
-                                <select class="fnb-select select-variant areas-appended" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-mincheck="1">
+                                <select class="fnb-select select-variant areas-appended default-area-select" multiple="multiple" name="area" data-parsley-trigger="change" data-parsley-mincheck="1">
                                     <!-- <option>Bandra</option>
                                     <option>Andheri</option>
                                     <option>Dadar</option>

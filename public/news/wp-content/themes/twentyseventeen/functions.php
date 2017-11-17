@@ -982,8 +982,10 @@ function get_featured_news_by_city11($city){
 	    		    //<?php the_excerpt(6);  
 	    		$html.='<div class="featured-meta">
 	    		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"/>
-	    		By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  in <a href="'.$category_link.'">'.$category->cat_name.'</a> 
-	    		</div>   
+	    		By <a href="'.$author_link.'">'.$author_display_name.'</a><br> on '.$display_date.'  ';
+	    		/*$html.=' in <a href="'.$category_link.'">'.$category->cat_name.'</a> ';  // commented by client request*/
+
+	    		$html.='</div>   
 	    		   </div>
 	    		   <div class="clear"></div>
 	    		</div>
@@ -1016,13 +1018,19 @@ add_action('wp_ajax_get_featured_news_by_city', 'get_featured_news_by_city',10,1
 function get_featured_news_by_city(){
 
 
-	$city =$_POST['city'];
 	$custom_query_args = array(
 	  'post_type'  => 'post',
 	  'meta_key'   => '_is_ns_featured_post',
-	  'meta_value' => 'yes',
-	  'category_name' =>$city
+	  'meta_value' => 'yes'
+	  
 	  );
+	if(isset($_POST['city'])){
+		$city =$_POST['city'];
+		$custom_query_args['category_name'] = $city;
+	}
+
+	
+
 	// Get current page and append to custom query parameters array
 	$custom_query_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 	$custom_query = new WP_Query( $custom_query_args );  
@@ -1076,8 +1084,9 @@ function get_featured_news_by_city(){
 	    '.get_the_excerpt(6).'
 	<div class="featured-meta">
 	<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
-	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
-	</div>   
+	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
+	/* $html.=' in '.$category_display; //commented on client request */
+	$html.='</div>   
 	   </div>
 	   <div class="clear"></div>
 	</div>
@@ -1107,9 +1116,15 @@ function get_featured_news_by_city(){
 function get_recent_news_by_city($city){ 
 
 
-	$city = $_POST['city'];
+	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' , 'paged' =>$paged);
+	if(isset($_POST['city'])){
+		$city = $_POST['city'];
+		$query['category_name']=$city;
+
+	}
+
 	$paged = isset($_POST['paged'])?$_POST['paged']:1;
-	$query = array( 'posts_per_page' => 10, 'order' => 'DESC' ,'category_name'=>$city, 'paged' =>$paged);
+	
 	$wp_query = new WP_Query($query);
 
 	 
@@ -1151,8 +1166,9 @@ function get_recent_news_by_city($city){
 	<div class="featured-meta">
 		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
 
-	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  in '.$category_display.' 
-	</div>   
+	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
+	 /* $html.='in '.$category_display; //commented on client request   */ 
+	$html.='</div>   
 	   </div>
 	   <div class="featured-image" '.$style_avatar.'></div>
 	   <div class="clear"></div>

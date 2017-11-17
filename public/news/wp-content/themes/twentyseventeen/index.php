@@ -95,12 +95,14 @@ $wp_query   = $custom_query;
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
 <?php 
+/* commented on client request 
 $show_categories = true;
 $categories = wp_get_post_categories( $post->ID );
 // We don't want to show the categories if there is a single category and it is "uncategorized"
 if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
   $show_categories = false;
-endif;
+endif;*/
+$show_categories =false;
 
 ?>
 
@@ -202,12 +204,13 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
 
 <?php 
-$show_categories = true;
+/*$show_categories = true;
 $categories = wp_get_post_categories( $post->ID );
 // We don't want to show the categories if there is a single category and it is "uncategorized"
 if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
   $show_categories = false;
-endif;
+endif;*/
+$show_categories = false;
 
 ?>
 

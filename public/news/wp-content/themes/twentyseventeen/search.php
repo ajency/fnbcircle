@@ -102,7 +102,7 @@ get_header(); ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
-By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  in <?php the_category(', '); ?> 
+By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php /* commented on client request in <?php the_category(', '); ?> */ ?>
 </div>   
    </div>
    <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 

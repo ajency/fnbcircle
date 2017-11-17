@@ -66,6 +66,9 @@ if ( count( $categories ) == 1 && in_array( 1, $categories ) ) :
   $show_categories = false;
 endif;
 
+/* category display disabled  */
+$show_categories = false;
+
 ?>
 
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php if($show_categories==true){ ?> in <?php the_category(', '); ?>  <?php } ?>

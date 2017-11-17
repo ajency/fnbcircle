@@ -1503,6 +1503,20 @@ function custom_author_post_link($link_pretext='',$link_posttext=''){
 }
 
 
+ 
+//Exclude pages from WordPress Search
+if (!is_admin()) {
+	function wpb_search_filter($query) {
+	if ($query->is_search) {
+	$query->set('post_type', 'post');
+	}
+	return $query;
+	}
+	add_filter('pre_get_posts','wpb_search_filter');
+}
+
+
+
 
 
 /*Remove Logged in as admin@ajency.in. Log out? from comment section*/

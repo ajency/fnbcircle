@@ -132,6 +132,7 @@ class EnquiryController extends Controller {
 		$data['bcc'] = isset($email_details['bcc']) ? $email_details['bcc'] : [];
 		$data['subject'] = 'Your enquiry has been sent successfully';
 		
+		/* Email to Seeker / Enquired Person */
 		if($send_seeker_email) { // Send Seeker, the mail only if the Flag is true
 			if($is_premium) { // Send mail to the seeker with only that enquiry
 				$data['template_data'] = ["name" => $email_details['name'], "listing_name" => $email_content['listing_name'], "listing_data" => $email_content['listing_data'], "is_premium" => true];
@@ -143,7 +144,9 @@ class EnquiryController extends Controller {
 
 		}
 
+		/* Email & SMS to Listing owners */
 		$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
+		$sms['to'] = $email_content["listing_owner"]["mobile"];
 		
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
 			/* Send Email */
@@ -159,15 +162,7 @@ class EnquiryController extends Controller {
 			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 			
 			/* Send SMS */
-			$sms = [
-	            'to' => "+917875223701",//$key_value,
-	            'message' => "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle. 
-	            	Details of the seeker: Name: " . $email_details['name'] . " 
-	            	Email:  " . $email_details['email'] . " 
-	            	Phone Number: " . $email_details['contact'] . "
-					
-					Click " . $email_details['dashboard_url'] . " to view the enquiry."
-	        ];
+			$sms ['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle.\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\n\nClick " . $email_details['dashboard_url'] . " to view the enquiry.";
 
 	        if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$sms['delay'] = 60;
@@ -187,10 +182,7 @@ class EnquiryController extends Controller {
 			sendEmail('shared-listing-email', $data);
 
 			/* Send SMS */
-			$sms = [
-	            'to' => "+917875223701",
-	            'message' => "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle, Details of the seeker: Name: " . $email_details['name'] . " Email:  " . $email_details['email'] . " Phone Number: " . $email_details['contact'] . " Click " . "here" . " to view the enquiry."
-	        ];
+			$sms['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle,\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\nClick " . "here" . " to view the enquiry.";
 
 	        $sms["priority"] = "default";
         	sendSms('verification', $sms);
@@ -241,7 +233,7 @@ class EnquiryController extends Controller {
 				if($listing_obj) {
 					if($listing_obj->owner_id) { // If owner ID !== NULL
 						$user_id = $listing_obj->owner_id;
-					} else {
+					} else { // Else get Created_by's ID
 						$user_id = $listing_obj->created_by;
 					}
 						
@@ -250,8 +242,10 @@ class EnquiryController extends Controller {
 
 					$listing_owner = [
 						"name" => $owner_data["user"]->name, 
-						"email" => ($owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->count() > 0) ? $owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->first()->value : $owner_data["user_comm"]->where('type', 'email')->first()->value
+						"email" => ($owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->count() > 0) ? $owner_data["user_comm"]->where('type', 'email')->where('is_primary', true)->first()->value : $owner_data["user_comm"]->where('type', 'email')->first()->value,
+						"mobile" => ($owner_data["user_comm"]->where('type', 'mobile')->where('is_primary', true)->count() > 0) ? $owner_data["user_comm"]->where('type', 'mobile')->where('is_primary', true)->first()->value : ($owner_data["user_comm"]->where('type', 'mobile')->first() ? $owner_data["user_comm"]->where('type', 'mobile')->first()->value : null)
 					];
+
 					$listing_url = env('APP_URL') . "/" . Area::find($listing_obj->locality_id)->city()->first()->slug . "/" . $listing_obj->slug;
 					$email_content = ["listing_name" => $listing_obj->title, "listing_owner" => $listing_owner, "listing_url" => $listing_url, "listing_data" => []];
 

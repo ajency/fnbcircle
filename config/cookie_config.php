@@ -12,5 +12,5 @@
 	    	"is_verified"
 		],
 		"expires_in" => 10080, //120,
-
+		"app_url" => env("APP_URL", "http://fnbcircle.com"),
 	];

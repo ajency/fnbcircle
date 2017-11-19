@@ -15,8 +15,11 @@ class CookieController extends Controller {
 	*/
     public function set($key, $value, $other_params = [], $is_encrypted = true) {
     	if(sizeof($other_params) > 0) {
-    		Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'));
-    		//Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'), isset($other_params['path']) ? $other_params['path'] : '/', isset($other_params['domain']) ? $other_params['domain'] : explode('://', env('APP_URL'))[1], '', isset($other_params['http_only']) ? $other_params['http_only'] : true);
+    		if(env('APP_URL')) { // If not NULL
+    			Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'), isset($other_params['path']) ? $other_params['path'] : '/', isset($other_params['domain']) ? $other_params['domain'] : explode('://', config('cookie_config.app_url'))[1], '', isset($other_params['http_only']) ? $other_params['http_only'] : true);
+    		} else {
+    			Cookie::queue($key, $value, isset($other_params['expires_in']) ? $other_params['expires_in'] : config('session.lifetime'));
+    		}
     	} else {
     		Cookie::queue($key, $value);
     	}
@@ -39,7 +42,7 @@ class CookieController extends Controller {
     public function generateDefaults() {
     	$status = 'success';
     	try {
-	    	$other_params = ["expires_in" => config('cookie_config.expires_in'), "path" => "/", "domain" => explode('://', env('APP_URL'))[1], "http_only" => false];
+	    	$other_params = ["expires_in" => config('cookie_config.expires_in'), "path" => "/", "domain" => explode('://', config('cookie_config.app_url'))[1], "http_only" => false];
 	    	$this->set('user_id', Auth::guest() ? '0' : Auth::user()->id, $other_params);
 	    	$this->set('user_type', Auth::guest() ? '-' : 'user', $other_params);
 	    	$this->set('is_logged_in', Auth::guest() ? 'false' : 'true', $other_params);

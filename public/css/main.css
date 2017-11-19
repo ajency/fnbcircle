@@ -1224,6 +1224,7 @@ input[type=radio].fnb-radio.disabled:before {
 .fnb-header.trans-header.change {
   background-color: #fff;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.32);
+  z-index: 10;
 }
 .fnb-header.trans-header.change .navbar .nav-color {
   color: #6b6b6b;
@@ -4849,6 +4850,7 @@ input[type=checkbox].custom-checkbox:before {
   background-repeat: no-repeat;
   outline: 0;
   border-color: #adadad;
+  padding-bottom: 10px;
 }
 .verification-modal .areas-select .caret {
   border: 0;

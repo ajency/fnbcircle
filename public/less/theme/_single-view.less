@@ -1423,6 +1423,42 @@
 }
 
 
+.dash-enquiry-form{
+	label{
+		font-weight: 500;
+	}
+	.location-select .select-col{
+		flex: 1;
+	}
+	.job-type{
+		.checkbox-inline{
+		    margin-right: 10px;
+		    flex: 1 0 45%;
+		    font-weight: 400;
+		    font-size: 0.95em;
+		    max-width: inherit;
+		    white-space: nowrap;
+		}
+	}
+	label.radio-inline{
+		flex: 1 0 30.33%;
+    	margin-left: 0;
+    	margin-bottom: 10px;
+    	font-weight: 400;
+    	font-size: 0.95em;
+    	&:last-child{
+    		margin-bottom: 0;
+    	}
+	}
+	.salary-range{
+		margin: 1em 0;
+		.input-group{
+			width: 128px;
+		}
+	}
+}
+
+
 .resume-card{
 	border-bottom: 0;
 	background-color: #fffeea;
@@ -1443,7 +1479,6 @@
     	color: #bcbcbc;
 	}
 }
-
 
 
 // Interested toggle
@@ -3707,4 +3742,123 @@ and (max-device-width: 650px) {
 	}
 }
 
+
+// ---------------------------
+// CUSTOMER DASHBOARD -----------
+// ---------------------------
+
+
+.no-data-card{
+	i{
+		font-size: 3em;
+	}
+	&__title{
+		font-size: 1.4em;
+	}
+	@media screen and (max-width: @mobile){
+		h6{
+			font-size: 1.15em;
+    		line-height: 1.4;
+		}
+	}
+}
+
+.selection-card{
+	margin: 6em 0;
+	.card{
+		flex: 1;
+		&__section{
+			flex: 1;
+			text-align: center;
+		}
+		h5{
+			line-height: 1.2;
+			margin-bottom: 1.3em;
+		}
+		.or{
+			flex: 0.25;
+			align-self: normal;
+			margin: 0 1em;
+    		justify-content: center;
+    		position: relative;
+			&__text{
+				border-radius: 50%;
+			    height: 45px;
+			    width: 45px;
+			    border: 1px solid #ddd;
+			    color: #9c8884;
+			    font-size: 1.15em;
+			    font-weight: 500;
+			    justify-content: center;
+			    position: relative;
+			    background-color: #fff;
+			}
+		    &:before{
+		    	content: '';
+		    	display: inline-block;
+		    	position: absolute;
+		    	height: 100%;
+		    	top: 0;
+		    	width: 1px;
+		    	background-color: #ddd;
+		    }
+		}
+		&:first-child{
+			margin-right: 1.5em;
+		}
+	}
+}
+
+.customer-jobs{
+	.filter-data{
+		margin-top: 0;
+	}
+}
+
+.job-alert-location{
+	.location-select{
+		padding-top: 0.2em;
+		padding-bottom: 0;	
+	}
+}
+
+.customer-resume-download{
+	.download{
+		transform: scale(0.75);
+	}
+}
+
+
+@media screen and (max-width: @mobile){
+	.selection-card{
+		margin: 3em 0 2em 0;
+		flex-direction: column;
+		.card{
+			padding: 1em 0.8em;
+			h5{
+				font-size: 1.1em;
+    			margin-top: 0;
+			}
+			.fnb-btn{
+				font-size: 0.9em;
+			}
+			&:first-child{
+				margin-right: 0;
+				margin-bottom: 1.5em;
+			}
+		}
+	}
+	.resume-card{
+		padding: 2em 1em;
+		.fileUpload{
+			width: 150px;
+			.dropify-font-file{
+				&:before{
+					margin-top: 10px !important;
+					margin-bottom: 10px !important;
+				}
+			}
+		}
+	}
+}
 

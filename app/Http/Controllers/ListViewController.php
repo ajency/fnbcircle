@@ -27,23 +27,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ListViewController extends Controller {
     /**
-    * Note: 
-    * The Wordpress or other PHP frameworks send data in the format "[\"<val1>\", \"<val2>\"]" & is converted to "["<val1>", "<val2>"]", 
-    * hence to convert, a 2 step process is done below 
-    */
-    public function jsonDecoder($string) {
-        if(is_string($string)) {
-            if(strpos($string, "\\") !== false) { // If "\" exist in the JSON string, then remove them
-                $string = str_replace("\\", "", $string);
-                return json_decode($string);
-            } else {
-                return json_decode($string);
-            }
-        } else {
-            return $string;
-        }
-    }
-    /**
 	* This function will load the List View Blade of Listing
 	*/
     public function listView(Request $request, $city='all') { 
@@ -77,19 +60,19 @@ class ListViewController extends Controller {
 		}
 
 		if($request->has('listing_status') && $request->listing_status) {
-			$filters["listing_status"] = $this->jsonDecoder($request->listing_status);
+			$filters["listing_status"] = jsonDecoder($request->listing_status);
 		} else {
 			$filters["listing_status"] = [];
 		}
 
 		if($request->has('business_types') && $request->business_types) {
-			$filters["business_type"] = $this->jsonDecoder($request->business_types);
+			$filters["business_type"] = jsonDecoder($request->business_types);
 		} else {
 			$filters["business_type"] = [];
 		}
 
-    	if($request->has('areas_selected') && $this->jsonDecoder($request->areas_selected) && Area::whereIn('slug', $this->jsonDecoder($request->areas_selected))->count() > 0) {
-    		$category_search_filter = $this->jsonDecoder($request->areas_selected);
+    	if($request->has('areas_selected') && jsonDecoder($request->areas_selected) && Area::whereIn('slug', jsonDecoder($request->areas_selected))->count() > 0) {
+    		$category_search_filter = jsonDecoder($request->areas_selected);
 
 			if(isset($filters["areas_selected"])) {
 				$filters["areas_selected"] = array_merge($filters["areas_selected"], is_array($category_search_filter) ? $category_search_filter : [$category_search_filter]);
@@ -625,7 +608,7 @@ class ListViewController extends Controller {
     		// If a Category is selected from the List on the Left-hand side
     		if(isset($request->filters["categories"])) {
     			$filter_filters["category"] = array("slug" => explode("|", $request->filters["categories"])[0]);
-                $category_search_filter = $this->jsonDecoder(explode("|", $request->filters["categories"])[1]); // Get the Node_categories list
+                $category_search_filter = jsonDecoder(explode("|", $request->filters["categories"])[1]); // Get the Node_categories list
 
     			/*if($filter_filters["category"]["id"] > 0 && sizeof($category_search_filter) <= 0) {
     				$category_search_filter = [0];
@@ -644,7 +627,7 @@ class ListViewController extends Controller {
     		}
 
     		if(isset($request->filters["listing_status"]) && $request->filters["listing_status"]) {
-				$filters["listing_status"] = $this->jsonDecoder($request->listing_status);
+				$filters["listing_status"] = jsonDecoder($request->listing_status);
 			} else {
 				$filters["listing_status"] = [];
 			}

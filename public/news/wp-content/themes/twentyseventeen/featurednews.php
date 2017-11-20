@@ -12,7 +12,7 @@
  */
 
 get_header(); ?>
-	<header class="header-image <?php /* page-header */ ?> text-center">
+	<header class="header-image <?php /* page-header */ ?> text-center news-banner">
 <div class="search-container custom-search">
 		<!-- <select>
 		  <option value="volvo">Panjim</option>
@@ -67,6 +67,7 @@ get_header(); ?>
 	<div class="clear"></div>
 </div>
 		<H1 class="bold-t" >FnB Circle News</H1>
+		<div class="news-banner__overlay"></div>
 	
 	</header><!-- .page-header -->
 

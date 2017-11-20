@@ -31,7 +31,7 @@ get_header(); ?>
 				the_archive_description( '<div class="taxonomy-description">', '</div>' );
 			?>
 		</header><!-- .page-header --> */ ?>
-		<div class="header-image text-center">
+		<div class="header-image text-center news-banner">
 			<div class="search-container custom-search">
 					<!-- <select>
 					  <option value="volvo">Panjim</option>
@@ -67,6 +67,7 @@ get_header(); ?>
 				<div class="clear"></div>
 			</div>
 			<H1 class="bold-t" >FnB Circle News</H1>
+			<div class="news-banner__overlay"></div>
 
 		</div>
 	<?php endif; ?>

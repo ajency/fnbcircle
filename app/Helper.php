@@ -655,7 +655,7 @@ function sendEmailTo($emails = [], $type='to') {
 * The Wordpress or other PHP frameworks send data in the format "[\"<val1>\", \"<val2>\"]" & is converted to "["<val1>", "<val2>"]", 
 * hence to convert, a 2 step process is done below 
 */
-public function jsonDecoder($string) {
+function jsonDecoder($string) {
     if(is_string($string)) {
         if(strpos($string, "\\") !== false) { // If "\" exist in the JSON string, then remove them
             $string = str_replace("\\", "", $string);

@@ -170,7 +170,7 @@ Job Listing
                         <div class="nav-info scroll-tabs">
                             <ul class="nav-info__tab flex-row" role="tablist">
                                 <li role="presentation" class="nav-section active"><a href="#mylistings" aria-controls="mylistings" role="tab" data-toggle="tab">My Listings (5)</a></li>
-                                <li role="presentation" class="nav-section"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobApplication)}})</a></li>
+                                <li role="presentation" class="nav-section"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobPosted)}})</a></li>
                                 <li role="presentation" class="nav-section"><a href="#appliedjobs" aria-controls="appliedjobs" role="tab" data-toggle="tab">Jobs I Applied To ({{ count($jobApplication)}})</a></li>
                             </ul>
                         </div>
@@ -299,7 +299,15 @@ Job Listing
                                 <div class="job-listings customer-jobs">
                                     @php
                                         $jobs = $jobPosted;
-                                        echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false])->render();  
+                                        if (count($jobs)){
+                                            echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false])->render();  
+                                        }
+                                        else{
+                                            echo '<div class="no-results">
+                                                <h3 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+                                            </div>';
+                                        }
+                                        
                                     @endphp
                                 </div>
                             </div>
@@ -308,7 +316,14 @@ Job Listing
                                 <div class="job-listings customer-jobs">
                                     @php
                                         $jobs = $jobApplication;
-                                        echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false,'showApplication'=>true])->render();  
+                                        if (count($jobs)){
+                                            echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false,'showApplication'=>true])->render();  
+                                        }
+                                        else{
+                                            echo '<div class="no-results">
+                                                <h3 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+                                            </div>';
+                                        }
                                     @endphp 
                                 </div>
                             </div>
@@ -326,7 +341,7 @@ Job Listing
                                </div>
                             </div>
                             <div class="fly-out__content">
-                                <form id="job-form" method="post" action="{{url('customer-dashboard/users/update-resume')}}"   enctype="multipart/form-data">
+                                <form id="job-form" method="post" data-parsley-validate action="{{url('customer-dashboard/users/update-resume')}}"   enctype="multipart/form-data">
                                     <div class="card resume-card m-b-20">
                                         <div class="flex-row align-top">
                                             <img src="/img/resume.png" class="m-r-15">
@@ -342,7 +357,7 @@ Job Listing
                                                         
                                                     </div>
                                                     <div class="m-t-10 fileUpload">
-                                                            <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-errors-container="#resume-error"/> 
+                                                            <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-required data-parsley-errors-container="#resume-error"/> 
                                                             <div id="resume-error"></div>
                                                     </div>
                                                 </div>
@@ -435,9 +450,9 @@ Job Listing
                                                                 <div id="city-errors{{ $i }}" class="city-errors fnb-errors"></div>
                                                             </div>
                                                             
-                                                            <div class=" remove-select-col removelocRow flex-row ">
+                                                           <!--  <div class=" remove-select-col removelocRow flex-row ">
                                                                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
-                                                            </div>
+                                                            </div> -->
                                                             
                                                         </div>
                                                         <?php $i ++?>
@@ -521,7 +536,7 @@ Job Listing
                                                 </div>
                                             </div>
                                             <div class="form-group p-t-20 m-b-0 text-center">
-                                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send">Modify <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">Modify <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                                             </div>
                                         </div>
                                     </form>

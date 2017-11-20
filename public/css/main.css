@@ -6285,6 +6285,9 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-direction: column;
             flex-direction: column;
   }
+  .multi-quote-modal .looking-for__toggle {
+    display: none;
+  }
   .multi-quote-modal .describe-section {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;

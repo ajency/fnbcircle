@@ -3328,13 +3328,16 @@ input[type=checkbox].custom-checkbox:before {
     font-size: 0.85em;
   }
 }
-.nav-info__tabs {
+.nav-info__tabs,
+.nav-info__tab {
   border: 0;
 }
-.nav-info__tabs li {
+.nav-info__tabs li,
+.nav-info__tab li {
   padding-right: 1.5em;
 }
-.nav-info__tabs li a {
+.nav-info__tabs li a,
+.nav-info__tab li a {
   font-size: 1.05em;
   border: 0;
   color: #000;
@@ -3345,20 +3348,26 @@ input[type=checkbox].custom-checkbox:before {
   text-transform: uppercase;
 }
 .nav-info__tabs li a:hover,
-.nav-info__tabs li a:active {
+.nav-info__tab li a:hover,
+.nav-info__tabs li a:active,
+.nav-info__tab li a:active {
   border: 0;
   background-color: transparent;
   color: inherit;
   text-decoration: none;
 }
 .nav-info__tabs li a:hover:after,
-.nav-info__tabs li a:active:after {
+.nav-info__tab li a:hover:after,
+.nav-info__tabs li a:active:after,
+.nav-info__tab li a:active:after {
   width: 100%;
 }
-.nav-info__tabs li a:focus {
+.nav-info__tabs li a:focus,
+.nav-info__tab li a:focus {
   text-decoration: none;
 }
-.nav-info__tabs li a:after {
+.nav-info__tabs li a:after,
+.nav-info__tab li a:after {
   content: "";
   position: relative;
   bottom: -4px;
@@ -3370,23 +3379,42 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-transition: opacity .3s ease,width .3s ease;
   transition: opacity .3s ease,width .3s ease;
 }
-.nav-info__tabs li a.active {
+.nav-info__tabs li a.active,
+.nav-info__tab li a.active {
   border: 0;
   border-bottom: 2px solid #27b7b0;
   color: #27b7b0;
   font-weight: 500;
 }
-.nav-info__tabs li a.active:hover {
+.nav-info__tabs li a.active:hover,
+.nav-info__tab li a.active:hover {
   border: 0;
   background-color: transparent;
   color: inherit;
   border-bottom: 2px solid #27b7b0;
 }
-.nav-info__tabs li a.active:after {
+.nav-info__tabs li a.active:after,
+.nav-info__tab li a.active:after {
   width: 100%;
 }
-.nav-info__tabs li:first-child a {
+.nav-info__tabs li:first-child a,
+.nav-info__tab li:first-child a {
   padding-left: 0;
+}
+.nav-info__tab li.active a {
+  border: 0;
+  border-bottom: 2px solid #27b7b0;
+  color: #27b7b0;
+  font-weight: 500;
+}
+.nav-info__tab li.active a:hover {
+  border: 0;
+  background-color: transparent;
+  color: #27b7b0;
+  border-bottom: 2px solid #27b7b0;
+}
+.nav-info__tab li.active a:after {
+  width: 100%;
 }
 .nav-info .sticky-section {
   position: fixed;
@@ -3979,6 +4007,24 @@ input[type=checkbox].custom-checkbox:before {
 }
 .enquiry-form .float-label.filled {
   font-size: 1.15em;
+}
+.resume-card {
+  border-bottom: 0;
+  background-color: #fffeea;
+}
+.resume-card .catalogue {
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+.resume-card .catalogue .flex-1:first-child {
+  padding-top: 0;
+}
+.resume-card .catalogue .flex-1:last-child {
+  border-bottom: 0;
+}
+.resume-card .remove-resume {
+  font-size: 1.25em;
+  color: #bcbcbc;
 }
 .interested-options {
   -webkit-box-align: start;
@@ -6044,6 +6090,13 @@ input[type=checkbox].custom-checkbox:before {
     padding-left: 0.3em;
     padding-top: 0.15em;
   }
+  .scroll-tabs {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+  .dash-enquiry-form .enquiry-form__body {
+    margin-top: 0;
+  }
 }
 .contact-social {
   border-radius: 5px;
@@ -6073,6 +6126,107 @@ input[type=checkbox].custom-checkbox:before {
 }
 .application-table.table-responsive {
   border: 0;
+}
+.no-data-card i {
+  font-size: 3em;
+}
+.no-data-card__title {
+  font-size: 1.4em;
+}
+@media screen and (max-width: 768px) {
+  .no-data-card h6 {
+    font-size: 1.15em;
+    line-height: 1.4;
+  }
+}
+.selection-card {
+  margin: 6em 0;
+}
+.selection-card .card {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.selection-card .card__section {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+.selection-card .card h5 {
+  line-height: 1.2;
+  margin-bottom: 1.3em;
+}
+.selection-card .card .or {
+  -webkit-box-flex: 0.25;
+  -webkit-flex: 0.25;
+      -ms-flex: 0.25;
+          flex: 0.25;
+  -webkit-align-self: normal;
+      -ms-flex-item-align: normal;
+          align-self: normal;
+  margin: 0 1em;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+}
+.selection-card .card .or__text {
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  border: 1px solid #ddd;
+  color: #9c8884;
+  font-size: 1.15em;
+  font-weight: 500;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  background-color: #fff;
+}
+.selection-card .card .or:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 1px;
+  background-color: #ddd;
+}
+.selection-card .card:first-child {
+  margin-right: 1.5em;
+}
+@media screen and (max-width: 768px) {
+  .selection-card {
+    margin: 3em 0 2em 0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .selection-card .card {
+    padding: 1em 0.8em;
+  }
+  .selection-card .card h5 {
+    font-size: 1.1em;
+    margin-top: 0;
+  }
+  .selection-card .card .fnb-btn {
+    font-size: 0.9em;
+  }
+  .selection-card .card:first-child {
+    margin-right: 0;
+    margin-bottom: 1.5em;
+  }
+  .resume-card {
+    padding: 2em 1em;
+  }
 }
 .search-section {
   position: relative;

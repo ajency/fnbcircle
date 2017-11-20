@@ -64,7 +64,6 @@
       success: function(data) {
         if (data["popup_template"].length > 0) {
           $(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html(data["popup_template"]);
-          $(document).find("div.container #enquiry-modal").modal('show');
           if ($("#level-three-enquiry").length > 0) {
             initCatSearchBox();
             multiSelectInit("#level-three-enquiry", false);
@@ -188,9 +187,10 @@
       success: function(data) {
         var key;
         key = void 0;
+        $(path).addClass("default-area-select");
         for (key in data) {
           key = key;
-          html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>';
+          html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>';
         }
         $(path).html(html);
         $("#level-three-enquiry" + ' .default-area-select').multiselect('destroy');
@@ -418,7 +418,7 @@
       /* --- On click of "Send Enquiry 1" button --- */
       $(document).on("click", "#level-one-enquiry #level-one-form-btn", function() {
         var page_level;
-        page_level = ($(this).data('value') && $(this).data('value').length > 0) ? $(this).data('value') : 'step_1';
+        page_level = $(this).data('value') && $(this).data('value').length > 0 ? $(this).data('value') : 'step_1';
         $(this).find("i.fa-circle-o-notch").removeClass("hidden");
         if ($(document).find("#level-one-enquiry").parsley().validate()) {
           getContent(page_level, $("#enquiry_slug").val());
@@ -474,7 +474,8 @@
       });
 
       /* --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- */
-      $(document).on("click", "#level-three-enquiry #add-city-areas", function() {
+      $(document).on("click", "#level-three-enquiry #add-city-areas", function(event) {
+        console.log("cloning..");
         $("#area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo("#area_section #area_operations");
       });
 
@@ -520,10 +521,10 @@
         if ($("#level-three-enquiry #modal_categories_chosen").val().length > 2 && JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0) {
           checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val());
         }
-        console.log(checked_categories);
+        $("#level-three-enquiry input[name='categories_interested[]']").prop("checked", false);
         while (index < checked_categories.length) {
           if ($("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0) {
-            $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", "true");
+            $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop("checked", true);
           } else {
             html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\"> <p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label> </li>";
           }

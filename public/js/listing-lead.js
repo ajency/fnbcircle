@@ -1,8 +1,8 @@
 (function() {
-  var filters, format, table;
+  var filters, format, table, tooltipinit;
 
   format = function(d) {
-    return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">City - areas</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
+    return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">State - Cities</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
   };
 
   $('.requestDate').daterangepicker();
@@ -45,14 +45,22 @@
         "data": 'archive',
         "render": function(d) {
           if (d === 0) {
-            return '<a href="#" class="archiveaction">archive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+            return '<a href="#" class="archiveaction"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
           } else {
-            return '<a href="#" class="unarchiveaction">unarchive</a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
+            return '<a href="#" class="unarchiveaction"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>  <span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>';
           }
         }
       }
     ]
   });
+
+  tooltipinit = function() {
+    return setTimeout((function() {
+      return $('[data-toggle="tooltip"]').tooltip();
+    }), 1000);
+  };
+
+  tooltipinit();
 
   $('#listing-leads tbody').on('click', '.details-control', function() {
     var row, tr;
@@ -70,11 +78,14 @@
     }
   });
 
+  $('#submissionDate').val('');
+
   $('body').on('click', 'a#clearSubDate', function(e) {
     e.preventDefault();
     $('#submissionDate').val('');
     filters['request_date'] = [];
-    return table.ajax.reload();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
   $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
@@ -84,6 +95,7 @@
     $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
     console.log(filters);
     table.ajax.reload();
+    tooltipinit();
   });
 
   $('body').on('change', '.type-filter', function() {
@@ -93,22 +105,29 @@
       return array.push($(element).val());
     });
     filters['enquiry_type'] = array;
-    return table.ajax.reload();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
-  $('body').on('change', 'input#namefilter', function() {
+  $('body').on('keyup', 'input#namefilter', function() {
     filters['enquirer_name'] = this.value;
-    return table.ajax.reload();
+    table.settings()[0].jqXHR.abort();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
-  $('body').on('change', 'input#emailfilter', function() {
+  $('body').on('keyup', 'input#emailfilter', function() {
     filters['enquirer_email'] = this.value;
-    return table.ajax.reload();
+    table.settings()[0].jqXHR.abort();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
-  $('body').on('change', 'input#phonefilter', function() {
+  $('body').on('keyup', 'input#phonefilter', function() {
     filters['enquirer_contact'] = this.value;
-    return table.ajax.reload();
+    table.settings()[0].jqXHR.abort();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
   $('body').on('click', 'button#applyLocFilter', function() {
@@ -128,7 +147,8 @@
     }
     filters['city'] = loc_city_array;
     filters['area'] = loc_area_array;
-    return table.ajax.reload();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
   $('body').on('change', 'input#archivefilter', function() {
@@ -137,13 +157,15 @@
     } else {
       filters['archive'] = 0;
     }
-    return table.ajax.reload();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
   $('body').on('click', 'button#applyCategFilter', function() {
     console.log('worls');
     filters['categories'] = JSON.stringify(getLeafNodes());
-    return table.ajax.reload();
+    table.ajax.reload();
+    return tooltipinit();
   });
 
   $('body').on('click', '.archiveaction', function() {
@@ -152,7 +174,8 @@
     enquiry = table.row(editrow).data();
     console.log(enquiry);
     $('#enquiryarchive a.archive-enquiry-confirmed').attr('data-enquiry-id', enquiry['id']);
-    return $('#enquiryarchive').modal('show');
+    $('#enquiryarchive').modal('show');
+    return tooltipinit();
   });
 
   $('body').on('click', '#cancelenquiryarchive', function() {
@@ -174,6 +197,7 @@
           table.ajax.reload();
           $('.alert-success span.message').html('enquiry archived successfully');
           $('.alert-success').addClass('active');
+          tooltipinit();
           return setTimeout((function() {
             $('.alert-success').removeClass('active');
           }), 5000);
@@ -199,6 +223,7 @@
           table.ajax.reload();
           $('.alert-success span.message').html('enquiry unarchived successfully');
           $('.alert-success').addClass('active');
+          tooltipinit();
           return setTimeout((function() {
             $('.alert-success').removeClass('active');
           }), 5000);

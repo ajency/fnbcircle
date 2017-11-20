@@ -8,8 +8,10 @@ use App\User;
 use Spatie\Activitylog\Models\Activity;
 // use AjComm;
 
-
-function getOperationTime($info=null,$type= "from",$diff=30){
+/**
+*
+*/
+function getOperationTime($info=null,$type= "from",$diff=30) {
 	$time = null;
 	if($info != null and !empty($info)) {
 		if($type == 'from') $time = substr($info->from,0,5);
@@ -89,7 +91,7 @@ function generateHTML($reference, $values = []) {
 		$temp_html = [];
 		if($value["type"] == "checkbox") {
 			if(!auth()->guest()) {
-				$userDetailsObj = auth()->user()->getUserDetails()->first();
+				$userDetailsObj = auth()->user()->getUserDetails;
 			} else {
 				$userDetailsObj = null;
 			}
@@ -108,6 +110,28 @@ function generateHTML($reference, $values = []) {
 				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			} else {
 				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
+			}
+		} else if($value["type"] == "option") {
+			if(!auth()->guest()) {
+				$userDetailsObj = auth()->user()->getUserDetails;
+			} else {
+				$userDetailsObj = null;
+			}
+
+			/* Parsley field */
+			$parsley = "";
+			if(isset($value["parsley"]) && sizeof($value["parsley"]) > 0) {
+				foreach ($value["parsley"] as $parsley_key => $parsley_value) {
+					$parsley .= $parsley_key . '="' . $parsley_value . '" ';
+				}
+			}
+
+			if(!auth()->guest() && $userDetailsObj && $userDetailsObj->subtype && in_array($value["value"], unserialize($userDetailsObj->subtype))) { // If logged in & has userDetails & has atleast 1 option in array
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else if(in_array($value["value"], $values)) { // If the value is passed in the Array, then ENABLE that Checkbox
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else {
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
 			}
 		} else if($value["type"] == "li_label") {
 			if (sizeof($values) > 0) {
@@ -208,7 +232,9 @@ function getDefaultValues($type, $arrayType=1){
 	return $defaultValues;
 }
 
-
+/**
+*
+*/
 function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
 	if($mode == 'edit')
     	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
@@ -226,6 +252,9 @@ function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit')
     return $contactInfo;
 }
 
+/**
+*
+*/
 function moneyFormatIndia($amount){
     $num = floatval($amount);
     $splitNum = explode('.', $amount);
@@ -255,12 +284,19 @@ function moneyFormatIndia($amount){
     return $thecash.$decimalValue; // writes the final format where $currency is the currency symbol.
 }
 
+/**
+*
+*/
 function salarayTypeText($type){
    $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
 
    return $salaryTpes[$type];
 }
 
+
+/**
+*
+*/ 
 function getCities(){
 	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
@@ -321,7 +357,10 @@ function pagination($totalRecords,$currentPage,$limit){
 }
 
 
-function salaryRange(){
+/**
+*
+*/ 
+function salaryRange() {
 	$range = [	'5'=>['min' => 0,
 					'max' => 300000000
 					],
@@ -342,7 +381,10 @@ function salaryRange(){
 	return  $range;
 }
 
-function getUploadFileUrl($id){
+/**
+*
+*/
+function getUploadFileUrl($id) {
 	$url = '';
 	if(!empty($id)){
 		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
@@ -364,6 +406,9 @@ function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
 }
 
+/**
+*
+*/
 function getSinglePopularCity() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
 }
@@ -387,6 +432,7 @@ function generateUrl($city, $slug, $slug_extra = []) {
 	return $url;
 }
 
+ 
 
 /**
 * This function is used to send email for each event
@@ -399,57 +445,66 @@ function generateUrl($city, $slug, $slug_extra = []) {
 *	@param from
 *	@param name
 * 	@param subject
+*   @param delay  - @var integer
+*   @param priority - @var string -> ['low','default','high']
 *	@param attach - An Array of arrays each containing the following parameters:
 *			@param file - base64 encoded raw file
 *			@param as - filename to be given to the attachment
 *			@param mime - mime of the attachment
 */
 function sendEmail($event='new-user', $data=[]) {
-	$email = new \Ajency\Comm\Models\EmailRecipient();
-	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
-	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
-	$email->setFrom($from, $name);
+	if(!in_develop() || (in_develop() && config('constants.send_email_dev'))) { // if (in Production Mode) or (in Dev mode & send_email_dev == true)
+		$email = new \Ajency\Comm\Models\EmailRecipient();
 
-	/* to */
-	if(!isset($data['to']))
-		$data['to']= [];
-	else
-		if(!is_array($data['to'])) // If not in array format
-			$data['to'] = [$data['to']];
-	$to = sendEmailTo($data['to'], 'to');
-	$email->setTo($to);
+		/* from */
+		$from = (isset($data['from']))? $data['from'] : config('tempconfig.email.defaultID');
+		$name = (isset($data['name']))? $data['name'] : config('tempconfig.email.defaultName');
+		$from = sendEmailTo($from, 'from');
+		$email->setFrom($from, $name);
 
-	/* cc */
-	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');
-	if(!is_array($cc)) $cc = [$cc];
+		/* to */
+		if(!isset($data['to']))
+			$data['to']= [];
+		else
+			if(!is_array($data['to'])) // If not in array format
+				$data['to'] = [$data['to']];
+		$to = sendEmailTo($data['to'], 'to');
+		$email->setTo($to);
 
-	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)){
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
-		$cc = array_merge($cc,$notify_data);
+		/* cc */
+		$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
+		if(!is_array($cc)) $cc = [$cc];
+
+		$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
+		if(in_array($event, $notify)) {
+			$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+			$cc = array_merge($cc,$notify_data);
+		}
+		$email->setCc($cc);
+
+		/* bcc */
+		if(isset($data['bcc'])) {
+			$bcc = sendEmailTo($data['bcc'], 'bcc');
+			$email->setCc($bcc);
+		}
+		
+		$params = (isset($data['template_data']))? $data['template_data']:[];
+		if(!is_array($params)) $params = [$params];
+		$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+	 
+		$email->setParams($params);
+
+		if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
+		$notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$email]); 
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    // $notify->setRecipientIds([$email,$email1]);
+	    AjComm::sendNotification($notify);
 	}
-	$email->setCc($cc);
-
-	/* bcc */
-	if(isset($data['bcc'])) {
-		$bcc = sendEmailTo($data['bcc'], 'bcc');
-		$email->setCc($bcc);
-	}
-
-	$params = (isset($data['template_data']))? $data['template_data']:[];
-	if(!is_array($params)) $params = [$params];
-	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
-
-	$email->setParams($params);
-
-	if(isset($data['attach'])) $email->setAttachments($data['attach']);
-
-	$notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$email]);
-    // $notify->setRecipientIds([$email,$email1]);
-    AjComm::sendNotification($notify);
-
 }
 
 /**
@@ -458,71 +513,57 @@ function sendEmail($event='new-user', $data=[]) {
 * @param data can contain the following extra parameters
 *	@param to - array
 * 	@param message - string
+*   @param delay  - @var integer
 * @param override
 */
 function sendSms($event='new-user', $data=[], $override = false) {
-	if(!isset($data['to'])) return false;
-	if(!is_array($data['to'])) $data['to'] = [$data['to']];
-	if(!isset($data['message'])) return false;
-	$sms = new \Ajency\Comm\Models\SmsRecipient();
-    $sms->setTo($data['to']);
-    $sms->setMessage($data['message']);
-    if($override) $sms->setOverride(true);
-    $notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$sms]);
-    AjComm::sendNotification($notify);
+	if(!in_develop() || (in_develop() && config('constants.send_sms_dev'))) { // If not dev or (if dev && the 'send_sms_dev' flag == true)
+		if(in_develop()) { // If develop, then send SMS among dev accounts
+			if(config('constants.sms_to_dev_array')) {
+				$data['to'] = config('constants.sms_to_dev');
+			} else {
+				$data['to'] = config('constants.sms_to_dev')[0];
+			}
+		}
+
+		if(!isset($data['to'])) return false;
+		if(!is_array($data['to'])) $data['to'] = [$data['to']];
+		if(!isset($data['message'])) return false;
+		
+		$sms = new \Ajency\Comm\Models\SmsRecipient();
+	    $sms->setTo($data['to']);
+	    $sms->setMessage($data['message']);
+	    if($override) $sms->setOverride(true);
+	    $notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$sms]);
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    AjComm::sendNotification($notify);
+ 	} else {
+ 		return false;
+ 	}
 
 
 }
 
-function generateCategoryHierarchy($category_id) {
-	$cat_obj = Category::find($category_id);
-	$position = ["parent", "branch", "node"];
-	$value = [];
-	$categ = $cat_obj;
-	$level = $cat_obj->level;
 
-	do{
-		if($level!=$cat_obj->level) $categ = Category::find($categ->parent_id);
-		$value[$position[$categ->level - 1]] = array("id" => $categ->id, "name" => $categ->name, "slug" => $categ->slug, "level" => $categ->level, "icon_url" => $categ->icon_url);
-		$level--;
-	}while($level > 0);
 
-	// if($cat_obj->path) {
-	// 	$id_arr = str_split($cat_obj->path, 5);
-	// 	$id_arr = array_reverse($id_arr);
-
-	// 	$value[$position[sizeof($id_arr)]] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level);
-
-	// 	foreach ($id_arr as $id_key => $id_value) {
-	// 		$cat_temp = Category::find($id_value);
-	// 		if ($position[sizeof($id_arr) - $id_key - 1] == "parent") {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level, "icon_url" => $cat_temp->icon_url);
-	// 		} else {
-	// 			$value[$position[sizeof($id_arr) - $id_key - 1]] = array("id" => $cat_temp->id, "name" => $cat_temp->name, "slug" => $cat_temp->slug, "level" => $cat_temp->level);
-	// 		}
-	// 	}
-	// } else {
-	// 	$value["parent"] = array("id" => $cat_obj->id, "name" => $cat_obj->name, "slug" => $cat_obj->slug, "level" => $cat_obj->level, "icon_url" => $cat_obj->icon_url);
-	// 	$value["branch"] = []; $value["node"] = [];
-	// }
-
-	return $value;
-}
-
-function getFileMimeType($ext){
+/**
+* 
+*/
+function getFileMimeType($ext) {
 	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
 	$mimeType = $mimeTypes[$ext];
 
-	return $mimeType;
-
-
 }
 
-
-function sendUserRegistrationMails($user){
+/**
+*
+*/
+function sendUserRegistrationMails($user) {
 
     $userDetail = $user->getUserDetails;
     $userDetail->has_previously_login = 1;
@@ -538,7 +579,7 @@ function sendUserRegistrationMails($user){
     $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [$userEmail];
-    $data['cc'] = ['prajay@ajency.in'];
+    $data['cc'] = [];
     $data['subject'] = "Welcome to FnB Circle!";
     $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
     sendEmail('welcome-user', $data);
@@ -548,15 +589,18 @@ function sendUserRegistrationMails($user){
     $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [config('constants.email_from')];
-    $data['cc'] = ['prajay@ajency.in'];
+    $data['cc'] = [];
     $data['subject'] = "New user registration on FnB Circle.";
     $data['template_data'] = ['user' => $user];
     sendEmail('user-register', $data);
 
     return true;
 
-    }
+}
 
+/**
+*
+*/
 function firstTimeUserLoginUrl(){
 
 	$redirectUrl = '/';
@@ -571,6 +615,26 @@ function firstTimeUserLoginUrl(){
 
 	return $redirectUrl;
 
+}
+
+
+/**
+* This function will generate Category's Hierarchy from bottom to top -> Node to Parent
+*/
+function generateCategoryHierarchy($category_id) {
+	$cat_obj = Category::find($category_id);
+	$position = ["parent", "branch", "node"];
+	$value = [];
+	$categ = $cat_obj;
+	$level = $cat_obj->level;
+
+	do{
+		if($level!=$cat_obj->level) $categ = Category::find($categ->parent_id);
+		$value[$position[$categ->level - 1]] = array("id" => $categ->id, "name" => $categ->name, "slug" => $categ->slug, "level" => $categ->level, "icon_url" => $categ->icon_url);
+		$level--;
+	}while($level > 0);
+
+	return $value;
 }
 
 
@@ -612,3 +676,4 @@ function saveListingStatusChange($listing, $from, $to){
 	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
 	   ->log('listing-status-change');
 }
+

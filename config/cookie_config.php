@@ -8,8 +8,9 @@
 			"user_id",
 	    	"user_type",
 	    	"mobile_otp",
-	    	"is_logged_in"
+	    	"is_logged_in",
+	    	"is_verified"
 		],
-		"expires_in" => 120,
-
+		"expires_in" => 10080, //120,
+		"app_url" => env("APP_URL", "http://fnbcircle.com"),
 	];

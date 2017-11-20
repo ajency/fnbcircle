@@ -1,5 +1,5 @@
 (function() {
-  var capitalize, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, isMobile, resetFilter, resetPagination, updateCityDropdown, updateTextLabels, updateUrlPushstate;
+  var capitalize, checkForInput, getCity, getFilterContent, getFilters, getListContent, getTemplateHTML, getUrlSearchParams, initFlagDrop, isMobile, resetFilter, resetPagination, updateCityDropdown, updateTextLabels, updateUrlPushstate;
 
   getTemplateHTML = function(templateToRender, data) {
     var htmlToRender, list, theTemplate, theTemplateScript;
@@ -315,13 +315,27 @@
 
         /* --- Note: the function below is called again to update the URL post AJAX --- */
         getFilters(true);
-        return $("input[type='hidden'][name='area_hidden']").val("");
+        $("input[type='hidden'][name='area_hidden']").val("");
 
         /* ---- HAndleBar template content load ---- */
+
+        /* --- If enquiry card exist, then --- */
+        if ($("#listing_card_view #listing_list_view_enquiry").length) {
+          initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']");
+          $(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 2,
+            delimiterText: ',',
+            nonSelectedText: 'Select that describes you best'
+          });
+          $(document).find('.float-input').each(function() {
+            checkForInput(this);
+          });
+        }
       },
       error: function(request, status, error) {
         $(".listings-page .site-loader.section-loader").addClass("hidden");
-        return console.log(error);
+        console.log(error);
       }
     });
   };
@@ -338,7 +352,7 @@
       success: function(data) {
         var html_content;
         html_content = "";
-        return updateCityDropdown(data["data"], populate_id);
+        updateCityDropdown(data["data"], populate_id);
       },
       error: function(request, status, error) {
         return console.log(error);
@@ -353,12 +367,46 @@
     var html_content;
     if (data.length) {
       data.forEach(function(value, index) {
-        return html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>";
+        html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>";
       });
     } else {
       html_content = "<option value=\"\"></option>";
     }
     $("#" + populate_id).html(html_content);
+  };
+
+
+  /* --- Initialize international flag --- */
+
+  initFlagDrop = function(path) {
+    $(document).find(path).intlTelInput({
+      initialCountry: 'auto',
+      separateDialCode: true,
+      geoIpLookup: function(callback) {
+        $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+          var countryCode;
+          countryCode = void 0;
+          countryCode = resp && resp.country ? resp.country : '';
+          callback(countryCode);
+        });
+      },
+      preferredCountries: ['IN'],
+      americaMode: false,
+      formatOnDisplay: false
+    });
+  };
+
+
+  /* --- For label slide out in <input> textareas --- */
+
+  checkForInput = function(element) {
+    var $label;
+    $label = $(element).siblings('label');
+    if ($(element).val().length > 0) {
+      $label.addClass('filled lab-color');
+    } else {
+      $label.removeClass('filled lab-color');
+    }
   };
 
   $(document).ready(function() {
@@ -717,7 +765,7 @@
     $(document).on('click', '.send-enquiry', function() {
       $('.enquiry-card').addClass('active');
     });
-    return $(document).on('click', '.back-icon', function() {
+    $(document).on('click', '.back-icon', function() {
       $('.fly-out').removeClass('active');
     });
   });

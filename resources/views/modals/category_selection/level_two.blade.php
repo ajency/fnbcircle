@@ -8,7 +8,10 @@
     @if(sizeof($sub_categories) > 0)
         <div class="instructions flex-row space-between">
             <div class="cat-name flex-row">
-                <span class="fnb-icons cat-icon meat m-r-15"></span>
+                <!-- <span class="fnb-icons cat-icon m-r-15"></span> -->
+                <div class="option flex-row">
+                    <img class="import-icon cat-icon m-r-15" src="{{ $sub_categories['icon_url'] }}" />
+                </div>
                 <div>
                     <p class="instructions__title bat-color default-size">Please choose the sub categories under "<span class="main-cat-name" id="main-cat-name">{{ $sub_categories['name'] }}</span>"</p>
                     <h5 class="sub-title cat-title bat-color main-cat-name" id="main-cat-title">{{ $sub_categories['name'] }}</h5>
@@ -25,14 +28,22 @@
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
                             <li role="presentation" class="active">
-                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
-                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                @if(isset($is_branch_select) && $is_branch_select)
+                                    <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
+                                @endif
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
+                                    <p class="lighter nodes__text m-b-0" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
+                                </a>
                                 <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
                             </li>
                         @else
                             <li role="presentation">
-                                <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
-                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">{{ $sub_value["name"] }}</a>
+                                @if(isset($is_branch_select) && $is_branch_select)
+                                    <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}">
+                                @endif
+                                <a href="#{{ $sub_value['id'] }}" aria-controls="{{ $sub_value['id'] }}" role="tab" data-toggle="tab">
+                                    <p class="lighter nodes__text" id="{{ $sub_value['id'] }}">{{ $sub_value["name"] }}</p>
+                                </a>
                                 <input type="hidden" name="hierarchy" id="hierarchy" value="{{ json_encode(generateCategoryHierarchy($sub_value['id'])) }}">
                             </li>
                         @endif
@@ -43,16 +54,18 @@
                     <!-- mobile collapse -->
                     @foreach($sub_categories["children"] as $sub_index => $sub_value)
                         @if($sub_index == 0)
-                            <div class="flex-row mobile-custom-child">
+                            <div class="flex-row mobile-custom-child desk-hide">
                                 <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}" class="mobile-child-selection">
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">
-                                {{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                                    {{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
                             </div>
-                            
                         @else
-                            <div class="flex-row mobile-custom-child">
+                            <div class="flex-row mobile-custom-child desk-hide">
                                 <input type="checkbox" name="branch_categories_select" id="" value="{{ $sub_value['id'] }}" class="mobile-child-selection">
-                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">{{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                                <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{ $sub_value['id'] }}" aria-expanded="false" aria-controls="{{ $sub_value['id'] }}">
+                                    {{ $sub_value["name"] }} <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </div>
                             </div>
                         @endif
                     @endforeach

@@ -1,14 +1,14 @@
 <!-- Enquiry modal -->
 
 <div class="modal fnb-modal enquiry-modal verification-modal multilevel-modal fade" id="enquiry-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document" style="width:95%">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close mobile-hide" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                 <div class="mobile-back flex-row desk-hide">
                     <div class="back ellipsis">
                         <button class="btn fnb-btn outline border-btn no-border ellipsis" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i></button>
-                        <span class="m-b-0 ellipsis heavier back-text">Back to Mystical the meat and fish store</span>
+                        <span class="m-b-0 ellipsis heavier back-text">Back to {{ $data['title']['name'] }}</span>
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                             <div class="seller-info__body filter-cards__body white-space">
                                 <div class="flex-row suppliers-title-head">
                                     <div class="suppliers-title">
-                                        <h3 class="seller-info__title main-heading ellipsis" title="Mystical the meat and fish store">Mystical the meat and fish store</h3>
+                                        <h3 class="seller-info__title main-heading ellipsis" title="{{ $data['title']['name'] }}">{{ $data['title']['name'] }}</h3>
                                         <div class="location flex-row">
                                             <span class="fnb-icons map-icon"></span>
                                             <p class="location__title m-b-0 text-lighter">Gandhi Nagar, Delhi</p>
@@ -292,11 +292,24 @@
                     </div>
                     <!-- col left ends -->
                     <!-- col right -->
-                    <div class="detail-cols col-right enquiry-details__content" id="listing_popup_fill">
+                    <div class="detail-cols col-right enquiry-details__content relative" id="listing_popup_fill">
                        <!-- level one starts -->
                        @include('modals.listing_enquiry_popup.popup_level_one')
                        <!-- Level one ends -->
 
+                      <!-- Loader -->
+                        <div class="site-loader section-loader {{ !Auth::guest() ? 'hidden' : '' }}">
+                            <div id="floatingBarsG">
+                                <div class="blockG" id="rotateG_01"></div>
+                                <div class="blockG" id="rotateG_02"></div>
+                                <div class="blockG" id="rotateG_03"></div>
+                                <div class="blockG" id="rotateG_04"></div>
+                                <div class="blockG" id="rotateG_05"></div>
+                                <div class="blockG" id="rotateG_06"></div>
+                                <div class="blockG" id="rotateG_07"></div>
+                                <div class="blockG" id="rotateG_08"></div>
+                            </div>
+                        </div>      
                         
                     </div>
                     <!-- col right ends -->
@@ -315,5 +328,5 @@
 
 @section('js')
     <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/listing_enquiry.js') }}"></script> -->
 @endsection

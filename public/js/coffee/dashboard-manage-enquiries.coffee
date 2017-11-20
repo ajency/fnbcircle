@@ -58,6 +58,10 @@ $('body').on 'change','select#updateUser', ->
   filters['enquirer_type'] = $(this).val()
   enquiry_table.ajax.reload()
 
+$('body').on 'change','select#updateUserDetails', ->
+  filters['enquirer_details'] = $(this).val()
+  enquiry_table.ajax.reload()
+
 $('body').on 'click','a#clearSubDate', ->
   $('#submissionDate').val('')
   filters['request_date'] = []
@@ -111,3 +115,25 @@ $('body').on 'click','button#applyCategFilter', ->
   filters['categories'] = JSON.stringify(getLeafNodes())
   enquiry_table.ajax.reload()
 
+
+$('#datatable-manage_enquiries').closest('.row').addClass 'overflow-table'
+
+$('body').on 'click','button#resetAll', (e)->
+  $('div#categories.node-list').html ''
+  $('div#disp-operation-areas.node-list').html ''
+  $('select#updateType').multiselect('rebuild')
+  $('select#updateUser').multiselect('rebuild')
+  $('#submissionDate').val('')
+  $('#namefilter').val('')
+  $('#emailfilter').val('')
+  $('#phonefilter').val('')
+  $('#madetofilter').val('')
+  $('#senttofilter').val('')
+  $('.multi-dd').each ->
+    # console.log this
+    $(this).multiselect('deselectAll',false)
+  filters = {}
+  enquiry_table.ajax.reload()
+  categories = 'parents': []
+  cities = 'cities': []
+  return

@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="business-info  post-update tab-pane fade in active business-leads" id="my-leads">
+<div class="business-info  post-update tab-pane fade in active business-leads" id="manage-leads">
     <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm flex-row space-between preview-detach post-up-head align-top">
     <div class="flex-row space-between">
         <img src="/img/post-update.png" class="img-responsive mobile-hide m-r-15" width="60">
@@ -50,11 +50,85 @@
     
 
 
+<!-- listing summary section -->
+
+<!-- <div class="row">
+    <div class="col-sm-12">
+        <div class="update-sec sidebar-article listing-summary-row"> 
+            <div class="update-sec__body update-space"> 
+                <div class="flex-row space-between"> 
+                    <p class="element-title update-sec__heading m-t-15 bolder">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta explicabo esse dolorum officia molestiae est provident quidem itaque possimus asperiores!</p>
+                </div>
+                 <p class="update-sec__caption text-lighter">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn'</p>
+                 <p class="m-b-0 posted-date text-secondary flex-row"><i class="fa fa-clock-o sub-title p-r-5" aria-hidden="true"></i> Your last update was 12 hours ago</p> 
+            </div>
+         </div>
+         <div class="post-update-row flex-row space-between">
+             <p class="m-b-0 grey-darker">Recently updated listings usually get more Leads. <br> Go ahead and post an update.</p>
+             <button class="btn fnb-btn primary-btn full post-btn" id="" type="button">Post</button>
+         </div>
+    </div>
+</div>
+
+
+<div class="row m-t-20">
+    <div class="col-sm-12">
+        <div class="listing-stats">
+            <div class="listing-stats__header">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <h4 class="m-t-0 list-stat-title">Listing Stats</h4>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="flex-row period-filter space-between flex-wrap align-top">
+                            <p class="m-b-0 default-size text-color title p-r-10">Filter your stats for a particular time period</p>   
+                            <div class="relative date-icon">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                <input type="text" class="form-control fnb-input requestDate stat-filter default-size" placeholder="Request Date" id="submissionDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listing-stats__body flex-row flex-wrap m-t-40 align-full">
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Views</p>
+                    <h3 class="m-t-15 heavier">50</h3>
+                    <p class="text-lighter default-size">By default displays the number of views in the last 30 days.</p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Contact requests</p>
+                    <h3 class="m-t-15 heavier">4</h3>
+                    <p class="text-lighter default-size">Number of requests sent for the contact details of the listing.</p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Direct enquiries</p>
+                    <h3 class="m-t-15 heavier">0</h3>
+                    <p class="text-lighter default-size">Number of direct enquiries sent to this listing. <a href="#" class="x-small primary-link">View</a></p>
+                </div>
+                <div class="list-cols views">
+                    <p class="default-size text-uppercase text-color heavier">Indirect enquiries</p>
+                    <h3 class="m-t-15 heavier">4</h3>
+                    <p class="text-lighter default-size">Number of indirect enquiries sent to this listing based on the category and area the listing belongs to. <a href="#" class="x-small primary-link">View</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- listing summary section ends -->
+
+
+
+
+
+
 
 <div class="row">
     <div class="col-sm-2 p-l-0">
         <div class="filter-trigger">
-            <button class="btn fnb-btn primary-btn border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
+            <button class="btn fnb-btn outline border-btn fullwidth default-size" data-toggle="collapse" href="#collapsefilter" aria-expanded="false" aria-controls="collapsefilter"><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
         </div>
     </div>
 </div>
@@ -168,7 +242,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <!-- <tr>
                 <td>
                     <label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>
                     Request sent on 10 oct 2017
@@ -200,7 +274,7 @@
                 <td>9878738444 <img src="/img/verified.png" class="lead-verify" width="12"></td>
                 <td>Working Professional<br> Business Owner</td>
                 <td class="details-control text-secondary cursor-pointer"><div class="rating"><div class="bg"></div><div class="value" style="width: 0;"></div></div><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></td>
-            </tr>
+            </tr> -->
         </tbody>
     </table> 
 
@@ -214,9 +288,7 @@
 
 </div>
 
-@include('modals.location_select.popup')
 
-@include('modals.categories_list')
 <!-- archive confirmation modal -->
 
 <div class="modal fnb-modal confirm-box fade modal-center" id="enquiryarchive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -241,9 +313,13 @@
   </div>
 </div>
 
+
+@include('modals.location_select.popup')
+
+@include('modals.categories_list')
 <!-- Category modal -->
 
- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <!-- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -372,6 +448,6 @@
                     
                 </div>
             </div>
-        </div>
+        </div> -->
 
 @endsection

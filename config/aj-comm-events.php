@@ -82,4 +82,9 @@ return [
         "laravel" => "email.listing_owner_shared",
         "pushcrew" => ""
     ],
+    "dev-dump" => [
+        "laravel" => "email.dev_dump",
+        "pushcrew" => "",
+        "smsgupshup" => ""
+    ],
 ];

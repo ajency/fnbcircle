@@ -18,6 +18,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Internationalization CSS -->
     <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
@@ -49,7 +51,9 @@
                         <a class="navbar-brand nav-color" href="#"><img src="/img/logo-fnb.png" class="img-responsive"></a>
                     </div>
                     <div class="mobile-head__right mobile-flex">
-                        <button class="btn fnb-btn outline mini quote-btn half-border">Get Multiple quotes</button>
+                        @if(Auth::guest() || Auth::user()->type == "external")
+                            <button class="btn fnb-btn outline mini quote-btn half-border" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
+                        @endif
                          <a href="" class="login">
                             <i class="fa fa-user-circle user-icon" aria-hidden="true"></i>
                         </a>
@@ -102,7 +106,7 @@
                                 <a href="" class="nav-title-size nav-color">News</a>
                             </li>
                             <li class="mobile-hide">
-                                <button class="btn fnb-btn outline mini quote-btn half-border nav-color">Get Multiple quotes</button>
+                                <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>
                             </li>
                            
                             <li class="mobile-hide">
@@ -188,6 +192,12 @@
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
 
+    @include('modals.categories_list')
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <!-- Multi quote Enquiry Modal -->
+        @include('modals.multi_quote_enquiry')
+    @endif
+
     </div>
     <!-- page shifter end-->
     <!-- banner ends -->
@@ -210,9 +220,15 @@
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- Internationalization plugin -->
     <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <!-- Multi Select plugin -->
+    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <script type="text/javascript" src="{{ asset('js/multi_quote_enquiry.js') }}"></script>
+    @endif
+    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
 
     @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         <!-- This is defined here as the "require" modal is included to this blade -->

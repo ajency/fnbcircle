@@ -67,7 +67,7 @@
                     </div>
                     <div class="cat-filter__wrapper">
                       <label>Location Filter</label>
-                      <a href="#area-select" data-target="#area-select" data-toggle="modal" class="secondary-link text-decor heavier addArea" id="area-modal-link">Filter based on Locations</a>
+                      <a href="#area-select" data-target="#area-select" data-toggle="modal" class="btn btn-link btn-sm heavier addArea" id="area-modal-link">Filter based on Locations</a>
                       @include('modals.location_select.display')
                     </div>
                   </div>
@@ -87,56 +87,56 @@
                 <table id="datatable-manage_enquiries" class="table table-striped" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th style="min-width: 8%;" class="no-sort">Enquiry Type
+                      <th style="min-width: 120px;" class="no-sort">Enquiry Type
                         <select multiple class="form-control multi-dd" id="updateType">
                           <option value="direct" >Direct Enquiry</option>
                           <option value="shared" >Shared Enquiry</option>
                         </select>
                       </th>
-                      <th style="min-width: 5%;" class="no-sort">Enquirer Type
+                      <th style="min-width: 100px;" class="no-sort">User Type
                         <select multiple class="form-control multi-dd" id="updateUser">
                           <option value="user" >User</option>
                           <option value="lead" >Lead</option>
                         </select>
                       </th>
-                      <th style="min-width: 8%;">
+                      <th style="min-width: 120px;">
                         Request Date
                       </th>
-                      <th class="no-sort">
+                      <th class="no-sort no-sort-icon" style="max-width: 150px;">
                         Name
-                        <input id="namefilter">
+                        <input type="text" class="form-control fnb-input x-small text-medium" id="namefilter" placeholder="Search" style="max-width: 150px;">
                       </th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort no-sort-icon" style="max-width: 150px;">
                         Email
-                        <input id="emailfilter">
+                        <input type="text" class="form-control fnb-input x-small text-medium" id="emailfilter" placeholder="Search" style="max-width: 150px;">
                       </th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort no-sort-icon" style="max-width: 150px;">
                         Phone
-                        <input id="phonefilter">
+                        <input type="text" class="form-control fnb-input x-small text-medium" id="phonefilter" placeholder="Search" style="max-width: 150px;">
                       </th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort" style="max-width: 100px;">
                         What describes you Best
-                        <select multiple class="form-control multi-dd" id="updateUser">
-                          <option value="hospitality" >Hospitality</option>
-                          <option value="professional" >Professional</option>
-                          <option value="vendor" >Vendor</option>
-                          <option value="student" >Student</option>
-                          <option value="enterpreneur" >Enterpreneur</option>
+                        <select multiple class="form-control multi-dd" id="updateUserDetails">
+                          <option value="hospitality" >Hospitality Business Owner</option>
+                          <option value="professional" >Working Professional</option>
+                          <option value="vendor" >Vendor/Supplier/Service provider</option>
+                          <option value="student" >Hospitality Student</option>
+                          <option value="enterpreneur" >Prospective Entrepreneur</option>
                           <option value="others" >Others</option>
                         </select>
                       </th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort" style="min-width: 80px;">
                         Message
                       </th>
-                      <th class="no-sort">Categories</th>
-                      <th class="no-sort" style="min-width: 10%;">Areas</th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort" style="min-width: 80px;">Categories</th>
+                      <th class="no-sort" style="min-width: 60px;">Areas</th>
+                      <th class="no-sort no-sort-icon" style="max-width: 130px;">
                         Enquiry Made to
-                        <input id="madetofilter">
+                        <input type="text" class="form-control fnb-input x-small text-medium" id="madetofilter" placeholder="Search" style="max-width: 130px;">
                       </th>
-                      <th class="no-sort" style="min-width: 10%;">
+                      <th class="no-sort no-sort-icon" style="max-width: 130px;">
                         Enquiry Sent to
-                        <input id="senttofilter">
+                        <input type="text" class="form-control fnb-input x-small text-medium" id="senttofilter" placeholder="Search" style="max-width: 130px;">
                       </th>
                     </tr>
                   </thead>

@@ -62,7 +62,7 @@ getContent = (enquiry_level, listing_slug) ->
 		success: (data) ->
 			if data["popup_template"].length > 0
 				$(document).find("#updateTemplate #enquiry-modal #listing_popup_fill").html data["popup_template"]
-				$(document).find("div.container #enquiry-modal").modal 'show'
+				# $(document).find("div.container #enquiry-modal").modal 'show'
 				if $("#level-three-enquiry").length > 0
 					initCatSearchBox()
 					multiSelectInit("#level-three-enquiry", false)
@@ -158,9 +158,10 @@ getArea = (city, path) ->
 		data: 'city': city
 		success: (data) ->
 			key = undefined
+			$(path).addClass "default-area-select"
 			for key of data
 				key = key
-				html += '<option value="' + data[key]['id'] + '">' + data[key]['name'] + '</option>'
+				html += '<option value="' + data[key]['slug'] + '" name="area_multiple[]" >' + data[key]['name'] + '</option>'
 
 			#$('#' + path + ' select[name="area"]').html html
 			$(path).html html
@@ -478,7 +479,8 @@ $(document).ready () ->
 			return
 		
 		### --- On click of "+ Add more" on Enquiry 3 Popup "Areas", new set will be added --- ###
-		$(document).on "click", "#level-three-enquiry #add-city-areas", () ->
+		$(document).on "click", "#level-three-enquiry #add-city-areas", (event) ->
+			console.log "cloning.."
 			$("#area_dom_skeleton").clone("true").removeAttr('id').removeClass('hidden').appendTo("#area_section #area_operations")
 			return
 
@@ -493,6 +495,7 @@ $(document).ready () ->
 		$(document).on "click", "#level-three-enquiry #level-three-form-btn", () ->
 			page_level = if ($(this).data('value') and $(this).data('value').length > 0) then $(this).data('value') else 'step_1'
 
+			# if $(document).find("#level-three-enquiry #other_details_container").parsley().validate()
 			if $(document).find("#level-three-enquiry #enquiry_core_categories").parsley().validate() and $(document).find("#level-three-enquiry #area_operations").parsley().validate()
 				getContent(page_level, $("#enquiry_slug").val())
 			else
@@ -523,10 +526,10 @@ $(document).ready () ->
 			if $("#level-three-enquiry #modal_categories_chosen").val().length > 2 and JSON.parse($("#level-three-enquiry #modal_categories_chosen").val()).length > 0
 				checked_categories = JSON.parse($("#level-three-enquiry #modal_categories_chosen").val())
 
-			console.log checked_categories
+			$("#level-three-enquiry input[name='categories_interested[]']").prop "checked", false
 			while index < checked_categories.length
 				if $("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").length > 0
-					$("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", "true"
+					$("#level-three-enquiry input[name='categories_interested[]'][value='" + checked_categories[index]["slug"] + "']").prop "checked", true
 				else
 					html += "<li><label class=\"flex-row\"><input type=\"checkbox\" class=\"checkbox\" for=\" " + checked_categories[index]["slug"] + " \" name=\"categories_interested[]\" value=\"" + checked_categories[index]["slug"] + "\" data-parsley-trigger=\"change\" data-parsley-mincheck=\"1\" data-required=\"true\" required=\"true\" checked=\"checked\">
 						<p class=\"text-medium categories__text flex-points__text text-color\" id=\"\">" + checked_categories[index]["name"] + "</p></label>

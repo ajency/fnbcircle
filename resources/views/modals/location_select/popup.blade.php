@@ -3,9 +3,9 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header p-l-0 p-r-0 p-t-0 p-b-0">
-                <!-- <div class="level-one mobile-hide text-right">
+                <div class="level-one mobile-hide text-right">
                     <a href="#" data-dismiss="modal" class="mobile-hide btn fnb-btn text-color m-l-5 cat-cancel text-color">&#10005;</a>
-                </div> -->
+                </div>
                 <div class="mobile-back flex-row desk-level-two">
                     <div class="back">
                         <button class="desk-hide btn fnb-btn outline border-btn no-border mobileCat-back" type="button" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i> Back</button>
@@ -44,7 +44,7 @@
                             </div>
                             <!-- mobile collapse -->
                             @foreach($cities as $city)
-                            <div class="flex-row mobile-custom-child">
+                            <div class="flex-row mobile-custom-child desk-hide">
                                 <input type="checkbox" name="branch_categories_select" id="" value="" class="mobile-child-selection">
                                 <div class="toggle-collapse desk-hide" data-toggle="collapse" data-target="#{{$city->slug}}" aria-expanded="false" aria-controls="{{$city->slug}}" name="{{$city->id}}">
                                     {{$city->name}} <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -71,8 +71,8 @@
                 </div>
             </div>
             <div class="footer-actions mobile-hide text-right">
-                <!-- <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button> -->
-                <!-- <button id="category-select" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">Save</button> -->
+                <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
+                <button id="category-select" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">Save</button>
             </div>
         </div>
     </div>

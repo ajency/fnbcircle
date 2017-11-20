@@ -14,6 +14,7 @@ use App\User;
 use App\Lead;
 use App\UserCommunication;
 use App\Area;
+use App\UserDetail;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -43,14 +44,14 @@ class AdminEnquiryController extends Controller
             $enquiry['enquirer_type'] = $enquirer_type[$enquiry['enquirer_type']];
             $enquiry['request_date'] = $enquiry['request_date']->toDateString();
             if($enquiry['enquirer_email']['is_verified']){
-                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-check"></i>';
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-check text-success"></i>';
             }else{
-                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-times"></i>';
+                $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].' <i class="fa fa-times text-danger"></i>';
             }
             if($enquiry['enquirer_phone']['is_verified']==1){
-                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-check"></i>';
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-check text-success"></i>';
             }else{
-                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-times"></i>';
+                $enquiry['enquirer_phone'] = $enquiry['enquirer_phone']['contact_region'].'-'.$enquiry['enquirer_phone']['contact'].' <i class="fa fa-times text-danger"></i>';
             }
             $config = config('helper_generate_html_config.enquiry_popup_display');
             foreach ($enquiry['enquirer_details'] as &$detail) {
@@ -81,8 +82,12 @@ class AdminEnquiryController extends Controller
                 $areas[] = $city;               
             }
             $enquiry['areas'] = implode('<br/>',$areas);
-            $against_city = Area::with('city')->find($enquiry['made_against']->locality_id);
-            $enquiry['made_against'] = '<a href="'.url('/'.$against_city->city['slug'].'/'.$enquiry['made_against']->slug).'"  target="_blank" >'.$enquiry['made_against']->title;
+            try{
+                $against_city = Area::with('city')->find($enquiry['made_against']->locality_id);
+                $enquiry['made_against'] = '<a href="'.url('/'.$against_city->city['slug'].'/'.$enquiry['made_against']->slug).'"  target="_blank" >'.$enquiry['made_against']->title;
+            }catch(\Exception $e){
+                $enquiry['made_against'] = "N/A";
+            }
             $sendTo = [];
             foreach ($enquiry['sent_to'] as $listing) {
                 // $sendTo[] = $listing->title;
@@ -116,7 +121,7 @@ class AdminEnquiryController extends Controller
         ];
         foreach ($response['data'] as &$enquiry) {
             //get data in correct text format here
-            $enquiry['type'] = $enquiry_type[$enquiry['type']].' Request sent '.$enquiry['request_date']->diffForHumans();
+            $enquiry['type'] = $enquiry_type[$enquiry['type']].' Request sent '.$enquiry['request_date']->format('F j, Y');
             if($enquiry['enquirer_email']['is_verified']){
                 $enquiry['enquirer_email'] = $enquiry['enquirer_email']['email'].'<img src="/img/verified.png" class="lead-verify" width="12">';
             }else{
@@ -224,8 +229,12 @@ class AdminEnquiryController extends Controller
             if($type=='admin') {
                 if(count($filters['enquiry_type']) == 1){
                     $direct = EnquirySent::select('enquiry_id',DB::raw('count(*) as count'))->groupBy('enquiry_id')->having('count',1)->pluck('enquiry_id')->toArray();
-                    if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct);
-                    else $enquiries = $enquiries->whereNotIn('id',$direct);
+                    if($filters['enquiry_type'][0] == 'direct')   $enquiries = $enquiries->whereIn('id',$direct)->where('enquiry_to_id','!=',0);
+                    else $enquiries = $enquiries->where(function($sql) use ($direct){
+                        $sql->whereNotIn('id',$direct)->orWhere('enquiry_to_id',0);
+                    });
+
+                       
                 }
             }
             else {
@@ -258,7 +267,7 @@ class AdminEnquiryController extends Controller
                         $i++;
                     }
                 })->pluck('user_id')->toArray();
-                $leads = Leads::where(function ($sql) use ($filters) {
+                $leads = Lead::where(function ($sql) use ($filters) {
                     $i=0;
                     foreach ($filters['enquirer_details'] as $detail) {
                         if($i!=0)$sql->orWhere('user_details_meta','like','%'.$detail.'%');
@@ -330,15 +339,17 @@ class AdminEnquiryController extends Controller
             $enquiry_ids = EnquirySent::whereIn('enquiry_to_id',$listings1)->pluck('enquiry_id')->toArray();
             $enquiries->whereIn('id',$enquiry_ids);
         }
-        $enquiries = $enquiries->skip($start)->take($display_limit)->orderBy('created_at',$order);
         $filtered = $enquiries->count();
+        // dd($filtered);
+        $enquiries = $enquiries->skip($start)->take($display_limit)->orderBy('created_at',$order);
+        
         $enquiries = $enquiries->get();
     	// dd($enquiries);
     	$response = [];
     	foreach($enquiries as $enquiry){
             $response[$enquiry->id] = [];
             if($type=='admin') {
-                if($enquiry->sentTo()->count() > 1) $response[$enquiry->id]['type'] = 'shared';
+                if($enquiry->sentTo()->count() > 1 or $enquiry->enquiry_to_id == 0) $response[$enquiry->id]['type'] = 'shared';
                 else $response[$enquiry->id]['type'] = 'direct';
             }
             else {
@@ -371,8 +382,12 @@ class AdminEnquiryController extends Controller
             $sentTo = $enquiry->sentTo()->get();
 
             foreach ($sentTo as $to) {
-                $object = $to->enquiry_to()->first();
-                $response[$enquiry->id]['sent_to'][$object->id] = $object;
+                try{
+                    $object = $to->enquiry_to()->first();
+                    $response[$enquiry->id]['sent_to'][$object->id] = $object;
+                }catch (\Exception $e) {
+                    dd($to);
+                }
             }
 
 

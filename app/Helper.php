@@ -667,3 +667,36 @@ function jsonDecoder($string) {
         return $string;
     }
 }
+
+/**
+* This function is used to shorten/lengthen the URL -> using google "goo.gl"
+*/
+function urlShortner($url,$shorten = true) {
+	// Create cURL
+	$ch = curl_init();
+	$google_api_key = config('services.google.api_key');
+
+	if($google_api_key && is_string($url) && strlen($url) > 0) { // If API key exist, & URL is a string & has value
+		$apiUrl = "https://www.googleapis.com/urlshortener/v1/url" .'?key=' . $google_api_key;
+		// If we're shortening a URL...
+		if($shorten) {
+			curl_setopt($ch, CURLOPT_URL, $apiUrl);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array("longUrl" => $url)));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+		} else {
+			curl_setopt($ch, CURLOPT_URL, $apiUrl . '&shortUrl='.$url);
+		}
+
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+		// Execute the post
+		$result = curl_exec($ch);
+		// Close the connection
+		curl_close($ch);
+
+		// Return the result
+		return json_decode($result,true);
+	} else { // Else return back same value
+		return ["id" => $url, "longUrl" => $url];
+	}
+}

@@ -5,6 +5,11 @@
     <script type="text/javascript" src="/js/my-activities.js"></script>
 @endsection
 
+@section('meta')
+    @parent
+    <meta property="get-activities-url" content="{{action('ProfileController@getUserActivity')}}">
+@endsection
+
 @section('main-content')
  <div class="enquiry-info tab-pane fade in active" id="enquiry-info">
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">

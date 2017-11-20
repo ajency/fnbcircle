@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Area;
 use App\EnquiryCategory;
-use Auth;
-use Illuminate\Http\Request;
-use Hash;
+use App\User;
 use App\UserCommunication;
-use Spatie\Activitylog\Models\Activity;
 use Carbon\Carbon;
+use Auth;
+use Hash;
+use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class ProfileController extends Controller
 {
@@ -23,17 +23,20 @@ class ProfileController extends Controller
         } elseif ($email == Auth::user()->getPrimaryEmail()) {
             return redirect('profile/' . $step);
         } else {
-            $usercomm = UserCommunication::where('value',$email)->where('object_type','App\\User')->where('is_primary',1)->first();
-            $user = User::findUsingEmail($email);
-            if($usercomm!=null and $user != null){
-              if(hasAccess('view_profile_element_cls',$usercomm->id,'communication')){
-                  $self = true;
-              }else{
-                  if($step == 'basic-details') abort(403);
-                  $self = false;
-              }
-            }else{
-              abort(403);
+            $usercomm = UserCommunication::where('value', $email)->where('object_type', 'App\\User')->where('is_primary', 1)->first();
+            $user     = User::findUsingEmail($email);
+            if ($usercomm != null and $user != null) {
+                if (hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) {
+                    $self = true;
+                } else {
+                    if ($step == 'basic-details') {
+                        abort(403);
+                    }
+
+                    $self = false;
+                }
+            } else {
+                abort(403);
             }
 
         }
@@ -52,8 +55,11 @@ class ProfileController extends Controller
                 $data['joined'] = $user->created_at->format('F Y');
                 $data['email']  = $user->getPrimaryEmail(true);
                 $data['phone']  = $user->getPrimaryContact();
-                if($data['phone'] == null) $data['phone'] = ['contact' => '', 'contact_region' => '91', 'is_verified'=>0];
-                $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook')? true:false;
+                if ($data['phone'] == null) {
+                    $data['phone'] = ['contact' => '', 'contact_region' => '91', 'is_verified' => 0];
+                }
+
+                $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook') ? true : false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
             case 'description':
 
@@ -68,167 +74,111 @@ class ProfileController extends Controller
 
     }
 
-    public function getUserActivity(Request $request){
+    public function getUserActivity(Request $request)
+    {
         $this->validate($request, [
             'email' => 'required|email',
-            'week' => 'nullable|integer'
+            'date'  => 'nullable',
         ]);
-        $user = User::findUsingEmail($request->email);
-        $week = (isset($request->week))? $request->week : 0;
+        $user          = User::findUsingEmail($request->email);
+        $day          = (isset($request->day)) ? Carbon::createFromFormat('j F Y h:m:s', $request->day." 00:00:00") : Carbon::now();
         $activity_type = config('tempconfig.activity-types');
-        $activities = $user->activities(config('tempconfig.activity-display-classes'))->orderBy('created_at','desc')->take(config('tempconfig.activity-display-number'))->get();
-        $activities1 = $user->activities(config('tempconfig.activity-display-classes'))->orderBy('created_at','desc')->where('created_at','like', $activities->last()->created_at->toDateString().'%')->get();
-        $response = [];
-        foreach ($activities as $activity) {
-            $activity_date = $activity->created_at->toDateString();
-            if(!isset($response[$activity_date])) 
-                $response[$activity_date] = [];
-            
-            $temp = [];
-            $temp['type'] = $activity_type[get_class($activity->subject)];
-            switch($temp['type']){
-                case 'enquiry':
-                    $enquiry = $activity->subject;
-                    // Enquiry Type
-                    if($enquiry->sentTo()->count() > 1 or $enquiry->enquiry_to_id == 0) $temp['enquiry-type']  = 'shared';
-                    else $temp['enquiry-type'] = 'direct';
+        $activities    = $user->activities(config('tempconfig.activity-display-classes'))->where('created_at','<',$day)->orderBy('created_at', 'desc')->take(config('tempconfig.activity-display-number'))->get();
+        $activities1   = $user->activities(config('tempconfig.activity-display-classes'))->orderBy('created_at', 'desc')->where('created_at', 'like', $activities->last()->created_at->toDateString() . '%')->get();
+        $response      = [];
+        $objects       = [$activities, $activities1];
+        foreach ($objects as $object) {
+            foreach ($object as $activity) {
+                $activity_date = $activity->created_at->format('j F Y');
+                if (!isset($response[$activity_date])) {
+                    $response[$activity_date] = [];
+                }
 
-                    //Enquiry Made To
-                    if($enquiry->enquiry_to_id != 0) {
-                        $temp['enquiree'] = $enquiry->enquiry_to()->first();
-                        $temp['enquiree_name'] = $temp['enquiree']->title;
-                        $against_city = Area::with('city')->find($temp['enquiree']->locality_id);
-                        $temp['enquiree_link'] = url('/'.$against_city->city['slug'].'/'.$temp['enquiree']->slug);
-                        unset($temp['enquiree']);
-                    }
-
-                    //Enquiry Made By
-                    $temp['made-by-name'] = $user->name;
-                    $temp['made-by-email'] = $user->getPrimaryEmail(true);
-                    $temp['made-by-phone'] = $user->getPrimaryContact();
-                    $temp['made-by-description'] = unserialize($user->getUserDetails()->first()->subtype);
-                    $config = config('helper_generate_html_config.enquiry_popup_display');
-                    foreach ($temp['made-by-description'] as &$detail) {
-                        $detail = $config[$detail]['title'];
-                    }
-
-                    //categories
-                    $temp['categories'] = EnquiryCategory::getCategories($enquiry->id);
-                    if(empty($temp['categories'])) unset($temp['categories']);
-
-                    //areas
-                    $temp['areas'] = $enquiry->areas()->with('area')->with('city')->get()->groupBy('city_id');
-                    foreach($temp['areas'] as $city_id => $cities){
-                        $city = $cities[0]->city()->first()->name.' - <span class="text-medium"> ';
-                        $area = [];
-                        foreach($cities as $city_area_ref){
-                            $city_area = $city_area_ref->area()->first();
-                            $area[] = $city_area->name; 
+                $temp         = [];
+                // die(get_class($activity->subject));
+                $temp['type'] = $activity_type[get_class($activity->subject)];
+                switch ($temp['type']) {
+                    case 'enquiry':
+                        $enquiry = $activity->subject;
+                        // Enquiry Type
+                        if ($enquiry->sentTo()->count() > 1 or $enquiry->enquiry_to_id == 0) {
+                            $temp['enquiry-type'] = 'shared';
+                        } else {
+                            $temp['enquiry-type'] = 'direct';
                         }
-                        $city .= implode(', ',$area);
-                        $city .= '</span>';
-                        $areas[] = $city;               
-                    }
-                    $temp['areas'] = implode('<br/>',$areas);
-                    if(count($temp['areas']) == 0) unset($temp['areas']);
 
+                        //Enquiry Made To
+                        if ($enquiry->enquiry_to_id != 0) {
+                            $temp['enquiree']      = $enquiry->enquiry_to()->first();
+                            $temp['enquiree_name'] = $temp['enquiree']->title;
+                            $against_city          = Area::with('city')->find($temp['enquiree']->locality_id);
+                            $temp['enquiree_link'] = url('/' . $against_city->city['slug'] . '/' . $temp['enquiree']->slug);
+                            unset($temp['enquiree']);
+                        }
 
-                    //Message
-                    $temp['message'] = $enquiry->enquiry_message;
-                    if($temp['message'] == null) $temp['message'] = "No description given";
+                        //Enquiry Made By
+                        $temp['made-by-name']        = $user->name;
+                        $temp['made-by-email']       = $user->getPrimaryEmail(true);
+                        $temp['made-by-phone']       = $user->getPrimaryContact();
+                        $temp['made-by-description'] = unserialize($user->getUserDetails()->first()->subtype);
+                        $config                      = config('helper_generate_html_config.enquiry_popup_display');
+                        foreach ($temp['made-by-description'] as &$detail) {
+                            $detail = $config[$detail]['title'];
+                        }
 
-                    //HTML
-                    switch ($temp['enquiry-type']) {
-                        case 'direct':
-                        $temp['html'] = '
-                            <div class="enquire-container">
-                                <h6 class="enquiry-made-by text-medium">
-                                    You made a
-                                    <label class="fnb-label">
-                                        Direct Enquiry
-                                    </label>
-                                    to
-                                    <a class=" text-decor" href="'.$temp['enquiree_link'].'">
-                                        '.$temp['enquiree_name'].'
-                                    </a>
-                                </h6>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <dl class="flex-row flex-wrap enquiriesRow">
-                                            <div class="enquiriesRow__cols">
-                                                <dt>
-                                                    Name
-                                                </dt>
-                                                <dd>
-                                                    '.$temp['made-by-name'].'
-                                                </dd>
-                                            </div>
-                                            <div class="enquiriesRow__cols">
-                                                <dt>
-                                                    Email address
-                                                </dt>
-                                                <dd>
-                                                       '.$temp['made-by-email']['email'].'
-                                                        <span class="fnb-icons verified-icon mini">
-                                                        </span>
-                                                    </dd>
-                                            </div>
+                        //categories
+                        $temp['categories'] = EnquiryCategory::getCategories($enquiry->id);
+                        // if(empty($temp['categories'])) unset($temp['categories']);
 
-                                            <div class="enquiriesRow__cols">
-                                                <dt>
-                                                    Phone number
-                                                </dt>
-                                                <dd>+'.$temp['made-by-phone']['contact_region'].' '.$temp['made-by-phone']['contact'];
-                                    
-                                    if($temp['made-by-phone']['is_verified'] == 1) $temp['html'] .= '<span class="fnb-icons verified-icon"></span>' ;
-                                    else $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
-
-                            $temp['html'] .=    '</dd>
-                                            </div>
-                                            <div class="enquiriesRow__cols">
-                                                <dt>
-                                                    What describe you best?
-                                                </dt>
-                                                <dd>';
-                            foreach ($temp['made-by-description'] as $value) {
-                                $temp['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$value.'</p>';
+                        //areas
+                        $temp['areas'] = $enquiry->areas()->with('city')->get()->groupBy('city_id');
+                        $areas         = [];
+                        foreach ($temp['areas'] as $city_id => $cities) {
+                            $city = $cities[0]->city()->first()->name . ' - <span class="text-medium"> ';
+                            $area = [];
+                            foreach ($cities as $city_area_ref) {
+                                $city_area = $city_area_ref->area()->first();
+                                $area[]    = $city_area->name;
                             }
-                            $temp['html'] .=   '</dd>
-                                            </div>
-                                            <div class="enquiriesRow__cols last-col">
-                                                 <dt>
-                                                    Give the supplier/service provider some details of your requirement
-                                                </dt>
-                                                <dd>
-                                                    '.$temp['message'].'
-                                                </dd>
-                                            </div>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        ';    
-                        break;
+                            $city .= implode(', ', $area);
+                            $city .= '</span>';
+                            $areas[] = $city;
+                        }
+                        $temp['areas'] = implode('<br/>', $areas);
+                        if (count($temp['areas']) == 0) {
+                            unset($temp['areas']);
+                        }
 
-                        case 'shared':
-                            $temp['html'] = '
+                        //Message
+                        $temp['message'] = $enquiry->enquiry_message;
+                        if ($temp['message'] == null) {
+                            $temp['message'] = "No description given";
+                        }
+
+                        //HTML
+                        switch ($temp['enquiry-type']) {
+                            case 'direct':
+                                $temp['html'] = '
                                 <div class="enquire-container">
                                     <h6 class="enquiry-made-by text-medium">
                                         You made a
                                         <label class="fnb-label">
-                                            Shared Enquiry
-                                        </label>';
-                            if(isset($temp['enquiree_name']))  $temp['html'] .= 'to <a class=" text-decor" href="'.$temp['enquiree_link'].'">'.$temp['enquiree_name'].'</a>';
-                            $temp['html'] .= '</h6>
+                                            Direct Enquiry
+                                        </label>
+                                        to
+                                        <a class=" text-decor" href="' . $temp['enquiree_link'] . '">
+                                            ' . $temp['enquiree_name'] . '
+                                        </a>
+                                    </h6>
                                     <div class="row">
-                                        <div class="col-sm-5 b-r">
-                                            <dl class="flex-row flex-wrap enquiriesRow withCat">
+                                        <div class="col-sm-12">
+                                            <dl class="flex-row flex-wrap enquiriesRow">
                                                 <div class="enquiriesRow__cols">
                                                     <dt>
                                                         Name
                                                     </dt>
                                                     <dd>
-                                                        '.$temp['made-by-name'].'
+                                                        ' . $temp['made-by-name'] . '
                                                     </dd>
                                                 </div>
                                                 <div class="enquiriesRow__cols">
@@ -236,93 +186,171 @@ class ProfileController extends Controller
                                                         Email address
                                                     </dt>
                                                     <dd>
-                                                       '.$temp['made-by-email']['email'].'
-                                                        <span class="fnb-icons verified-icon mini">
-                                                        </span>
-                                                    </dd>
+                                                           ' . $temp['made-by-email']['email'] . '
+                                                            <span class="fnb-icons verified-icon mini">
+                                                            </span>
+                                                        </dd>
                                                 </div>
 
                                                 <div class="enquiriesRow__cols">
                                                     <dt>
                                                         Phone number
                                                     </dt>
-                                                     <dd>+'.$temp['made-by-phone']['contact_region'].' '.$temp['made-by-phone']['contact'];
-                                    
-                                    if($temp['made-by-phone']['is_verified'] == 1) $temp['html'] .= '<span class="fnb-icons verified-icon"></span>' ;
-                                    else $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                                    <dd>+' . $temp['made-by-phone']['contact_region'] . ' ' . $temp['made-by-phone']['contact'];
 
-                            $temp['html'] .=    '</dd>
+                                if ($temp['made-by-phone']['is_verified'] == 1) {
+                                    $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                } else {
+                                    $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                }
+
+                                $temp['html'] .= '</dd>
                                                 </div>
                                                 <div class="enquiriesRow__cols">
                                                     <dt>
                                                         What describe you best?
                                                     </dt>
                                                     <dd>';
-                            foreach ($temp['made-by-description'] as $value) {
-                                $temp['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> '.$value.'</p>';
-                            }
-                            $temp['html'] .=   '</dd>
+                                foreach ($temp['made-by-description'] as $value) {
+                                    $temp['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> ' . $value . '</p>';
+                                }
+                                $temp['html'] .= '</dd>
                                                 </div>
-
-                                            </dl>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <dl class="enquiriesRow">
-                                                <div class="enquiriesRow__cols">
-                                                    <dt>
-                                                        Categories
+                                                <div class="enquiriesRow__cols last-col">
+                                                     <dt>
+                                                        Give the supplier/service provider some details of your requirement
                                                     </dt>
                                                     <dd>
-                                                        <ul class="fnb-cat flex-row">';
-                                        foreach ($temp['categories'] as $category) {
-                                            foreach ($category['nodes'] as $node) {
-                                                $temp['html'] .= '
-                                                     <li>
-                                                        <a class="fnb-cat__title" href="">
-                                                            '.$node['name'].'
-                                                        </a>
-                                                    </li>
-                                                ';
-                                            }
-                                        }
-                                        $temp['html'] .='</ul>
+                                                        ' . $temp['message'] . '
                                                     </dd>
                                                 </div>
-
-                                                <div class="enquiriesRow__cols">
-                                                    <dt>
-                                                        Areas
-                                                    </dt>
-                                                    <dd>
-                                                        <p class="default-size">
-                                                            '.$temp['areas'].'
-                                                        </p>
-                                                    </dd>
-                                                </div>
-
                                             </dl>
-                                        </div>
-                                        <div class="col-sm-12 m-t-10">
-                                            <div class="enquiriesRow__cols last-col">
-                                                 <dt>
-                                                    Give the supplier/service provider some details of your requirement
-                                                </dt>
-                                                <dd>
-                                                    '.$temp['message'].'
-                                                </dd>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             ';
-                        break;
-                    }
+                                break;
 
-                    //break
-                    break;
+                            case 'shared':
+                                $temp['html'] = '
+                                    <div class="enquire-container">
+                                        <h6 class="enquiry-made-by text-medium">
+                                            You made a
+                                            <label class="fnb-label">
+                                                Shared Enquiry
+                                            </label>';
+                                if (isset($temp['enquiree_name'])) {
+                                    $temp['html'] .= 'to <a class=" text-decor" href="' . $temp['enquiree_link'] . '">' . $temp['enquiree_name'] . '</a>';
+                                }
+
+                                $temp['html'] .= '</h6>
+                                        <div class="row">
+                                            <div class="col-sm-5 b-r">
+                                                <dl class="flex-row flex-wrap enquiriesRow withCat">
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            Name
+                                                        </dt>
+                                                        <dd>
+                                                            ' . $temp['made-by-name'] . '
+                                                        </dd>
+                                                    </div>
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            Email address
+                                                        </dt>
+                                                        <dd>
+                                                           ' . $temp['made-by-email']['email'] . '
+                                                            <span class="fnb-icons verified-icon mini">
+                                                            </span>
+                                                        </dd>
+                                                    </div>
+
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            Phone number
+                                                        </dt>
+                                                         <dd>+' . $temp['made-by-phone']['contact_region'] . ' ' . $temp['made-by-phone']['contact'];
+
+                                if ($temp['made-by-phone']['is_verified'] == 1) {
+                                    $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                } else {
+                                    $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                }
+
+                                $temp['html'] .= '</dd>
+                                                    </div>
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            What describe you best?
+                                                        </dt>
+                                                        <dd>';
+                                foreach ($temp['made-by-description'] as $value) {
+                                    $temp['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> ' . $value . '</p>';
+                                }
+                                $temp['html'] .= '</dd>
+                                                    </div>
+
+                                                </dl>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <dl class="enquiriesRow">
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            Categories
+                                                        </dt>
+                                                        <dd>
+                                                            <ul class="fnb-cat flex-row">';
+                                foreach ($temp['categories'] as $category) {
+                                    foreach ($category['nodes'] as $node) {
+                                        $temp['html'] .= '
+                                                         <li>
+                                                            <a class="fnb-cat__title" href="">
+                                                                ' . $node['name'] . '
+                                                            </a>
+                                                        </li>
+                                                    ';
+                                    }
+                                }
+                                $temp['html'] .= '</ul>
+                                                        </dd>
+                                                    </div>
+
+                                                    <div class="enquiriesRow__cols">
+                                                        <dt>
+                                                            Areas
+                                                        </dt>
+                                                        <dd>
+                                                            <p class="default-size">
+                                                                ' . $temp['areas'] . '
+                                                            </p>
+                                                        </dd>
+                                                    </div>
+
+                                                </dl>
+                                            </div>
+                                            <div class="col-sm-12 m-t-10">
+                                                <div class="enquiriesRow__cols last-col">
+                                                     <dt>
+                                                        Give the supplier/service provider some details of your requirement
+                                                    </dt>
+                                                    <dd>
+                                                        ' . $temp['message'] . '
+                                                    </dd>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                ';
+                                break;
+                        }
+
+                        //break
+                        break;
+                }
+                $response[$activity_date][$activity->id] = $temp;
             }
-            $response[$activity_date][$activity->id] = $temp;
         }
         return response()->json($response);
 
@@ -332,7 +360,7 @@ class ProfileController extends Controller
     {
         $this->validate(request(), [
             'old_password' => 'required|current_password',
-            'new_password'     => 'required|string|min:6|confirmed',
+            'new_password' => 'required|string|min:6|confirmed',
         ]);
 
         request()->user()->fill([
@@ -340,46 +368,46 @@ class ProfileController extends Controller
         ])->save();
         request()->session()->flash('passwordChange', 'Password changed!');
 
-        return  \Redirect::back();
+        return \Redirect::back();
     }
 
     public function changePhone()
     {
-    	$req = request()->all();
-        $usercomm = UserCommunication::where('value',$req['email_id'])->where('object_type','App\\User')->where('is_primary',1)->first();
-        if(($usercomm!=null and hasAccess('view_profile_element_cls',$usercomm->id,'communication')) or $req['email_id'] ==  Auth::user()->getPrimaryEmail()){
+        $req      = request()->all();
+        $usercomm = UserCommunication::where('value', $req['email_id'])->where('object_type', 'App\\User')->where('is_primary', 1)->first();
+        if (($usercomm != null and hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) or $req['email_id'] == Auth::user()->getPrimaryEmail()) {
             $user = User::findUsingEmail($req['email_id']);
-            if($user->name != $req['username']){
+            if ($user->name != $req['username']) {
                 $user->name = $req['username'];
                 $user->save();
                 activity()
-                   ->performedOn($user)
-                   ->causedBy($user)
-                   ->log('user-details-updated');
+                    ->performedOn($user)
+                    ->causedBy($user)
+                    ->log('user-details-updated');
             }
 
-            $comm_obj = UserCommunication::where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->where('is_primary',1)->first();
-            if($comm_obj==null or $comm_obj->is_verified == 0){
-            	UserCommunication::where('id','!=',$req['contact_mobile_id'])->where('object_type','App\\User')->where('object_id',$user->id)->where('type','mobile')->delete();
-            	if($req['contact_mobile_id']==''){
-            		$comm = New UserCommunication;
-            	}else{
-            		$comm = UserCommunication::find($req['contact_mobile_id']);
-            	}
-            	if($req['contactNumber'] !=""){
-            		$comm->type = 'mobile';
-            		$comm->object_type = 'App\\User';
-            		$comm->object_id = $user->id;
-            		$comm->value = $req['contactNumber'];
-            		$comm->country_code = $req['contact_country_code'][0];
-            		$comm->is_primary = 1;
-            		$comm->is_communication = 1;
-            		// $comm->is_verified = 0;
-            		// $comm->is_visible = 0;
-            		$comm->save();
-            	}
+            $comm_obj = UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type', 'mobile')->where('is_primary', 1)->first();
+            if ($comm_obj == null or $comm_obj->is_verified == 0) {
+                UserCommunication::where('id', '!=', $req['contact_mobile_id'])->where('object_type', 'App\\User')->where('object_id', $user->id)->where('type', 'mobile')->delete();
+                if ($req['contact_mobile_id'] == '') {
+                    $comm = new UserCommunication;
+                } else {
+                    $comm = UserCommunication::find($req['contact_mobile_id']);
+                }
+                if ($req['contactNumber'] != "") {
+                    $comm->type             = 'mobile';
+                    $comm->object_type      = 'App\\User';
+                    $comm->object_id        = $user->id;
+                    $comm->value            = $req['contactNumber'];
+                    $comm->country_code     = $req['contact_country_code'][0];
+                    $comm->is_primary       = 1;
+                    $comm->is_communication = 1;
+                    // $comm->is_verified = 0;
+                    // $comm->is_visible = 0;
+                    $comm->save();
+                }
             }
         }
-    	return  \Redirect::back();
+        return \Redirect::back();
     }
 }

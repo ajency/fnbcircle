@@ -14,6 +14,7 @@ use Auth;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+use App\User;
 use App\UserCommunication;
 use App\Category;
 use App\City;

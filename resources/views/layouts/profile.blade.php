@@ -2,6 +2,10 @@
 @section('title')
 @if($self) My @else User @endif Profile
 @endsection
+
+@section('meta')
+    <meta property="user-email" content="{{$data['email']['email']}}">
+@endsection
 @section('content')
     <div class="profile-stats edit-mode">
             <div class="container">

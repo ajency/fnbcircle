@@ -3759,6 +3759,21 @@ and (max-device-width: 650px) {
 	   		max-width: 25%;	
 	   	}
 	}
+	@media screen and (max-width: @mobile){
+		.modal-body{
+			padding-top: 7em;
+		}
+		.formFields{
+			flex-direction: column;
+		}
+		.looking-for__toggle{
+			display: none;
+		}
+		.describe-section{
+			flex-direction: column;
+    		align-items: flex-start;
+		}
+	}
 }
 
 

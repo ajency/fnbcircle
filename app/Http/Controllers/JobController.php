@@ -1214,6 +1214,7 @@ class JobController extends Controller
     public function getNewsList($keywords,$locations)
     {
         $news = new WpNewsHelper();
+        $cat_ar = [];
 
         /*foreach ($locations as   $city => $locAreas) {
             $cities[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city))); ;
@@ -1222,9 +1223,13 @@ class JobController extends Controller
         $news_args = array("category"=>$cities,'num_of_items'=>2); */
         $news_args = array('num_of_items'=>2);
 
-        foreach ($keywords as $keyword) {
-            $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $keyword))); 
+
+        if(is_array($keywords)){
+            foreach ($keywords as $keyword) {
+                $cat_ar[] = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $keyword))); 
+            }
         }
+        
 
         if(count($cat_ar)>0){
             $news_args["tag"] = $cat_ar;    

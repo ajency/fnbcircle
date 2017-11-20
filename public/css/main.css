@@ -2600,6 +2600,13 @@ input[type="checkbox"].toggle__check {
   .full-m-width {
     width: 100%;
   }
+  .mobile-column {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 .rating.rating-small {
   width: 86px;
@@ -6266,6 +6273,29 @@ input[type=checkbox].custom-checkbox:before {
 }
 .multi-quote-modal .areas-select__selection li {
   max-width: 25%;
+}
+@media screen and (max-width: 768px) {
+  .multi-quote-modal .modal-body {
+    padding-top: 7em;
+  }
+  .multi-quote-modal .formFields {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .multi-quote-modal .describe-section {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
 }
 .search-section {
   position: relative;

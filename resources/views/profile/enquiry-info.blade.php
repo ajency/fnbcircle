@@ -1,5 +1,9 @@
 @extends('layouts.profile')
 
+@section('js')
+    @parent
+    <script type="text/javascript" src="/js/my-activities.js"></script>
+@endsection
 
 @section('main-content')
  <div class="enquiry-info tab-pane fade in active" id="enquiry-info">
@@ -7,12 +11,12 @@
                                         My Activity
                                     </h3>
                                     <ul class="nav activityTab" role="tablist">
-                                        <li class="active" role="presentation">
+                                        <!-- <li class="active" role="presentation">
                                             <a aria-controls="recent-activity" data-toggle="tab" href="#recent-activity" role="tab">
                                                 Recent Activity <span class="xx-small text-medium text-lighter">(<i class="fa fa-clock-o" aria-hidden="true"></i> Last 7 days)</span>
                                             </a>
-                                        </li>
-                                        <li role="presentation">
+                                        </li> -->
+                                        <li role="presentation" class="active">
                                             <a aria-controls="all-activity" data-toggle="tab" href="#all-activity" role="tab">
                                                 All time activity
                                             </a>
@@ -27,7 +31,7 @@
                                             </h6> -->
                                             <!-- <p class="text-color default-size m-b-0 text-right lastUpdated heavier"></p> -->
 
-                                            <p class="default-size mainDate"><span><i class="fa fa-calendar p-r-5" aria-hidden="true"></i> 03 July 2017</span></p>
+                                            <!-- <p class="default-size mainDate"><span><i class="fa fa-calendar p-r-5" aria-hidden="true"></i> 03 July 2017</span></p>
 
                                             <div class="enquire-container">
                                                 <h6 class="enquiry-made-by text-medium">
@@ -300,7 +304,7 @@
                                                         View Job
                                                     </a>
                                                 </h6>
-                                            </div>
+                                            </div> -->
 
                                         </div>
 

@@ -346,15 +346,11 @@ class RegisterController extends Controller
         }
     }
 
-<<<<<<< HEAD
 
-    public function sendConfirmationLink(Request $request)
-=======
     /**
     * This function is called to send confirmation link post Registration
     */ 
     public function sendConfirmationLink(Request $request)  
->>>>>>> listings-enquiry
     {
         $email = Session::get('userLoginEmail');
         $user = User::where('email',$email)->get()->first();

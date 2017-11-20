@@ -31,5 +31,9 @@ return [
 		'defaultID'=>'shashank@ajency.in',
 		'defaultName' => 'FnB Circle'
 	],
-	'activity-display-classes' => ['listing-status-change','listing-update-posted'],
+	'activity-display-classes' => ['enquiry-created'],
+	'activity-display-number' => 4,
+	'activity-types' => [
+		'App\\Enquiry' => 'enquiry',
+	],
 ];

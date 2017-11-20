@@ -325,8 +325,8 @@ $(function(){
 		function validatePassword(password, confirm_password, parent_path, child_path) {
 			// Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
 			// var expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
-			// Password should have 8 or more characters with 1 No
-			var expression = /^(?=.*[0-9])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
+			// Password should have 8 or more characters and No (atleast 1 char & 1 no)
+			var expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/;
 			var message = '', status = true;
 
 			if(expression.test(password)) {

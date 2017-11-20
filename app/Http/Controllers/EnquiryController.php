@@ -147,12 +147,14 @@ class EnquiryController extends Controller {
 		/* Email & SMS to Listing owners */
 		$data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 		$sms['to'] = $email_content["listing_owner"]["mobile"];
-		
+		$short_listing_url = urlShortner($email_content["listing_url"], true)["id"];
+		$short_customer_dashboard_url = urlShortner($email_details['dashboard_url'], true)["id"];
+
 		if($enquiry_type == 'direct') { // If listing enquiry type is DIRECT, then
 			/* Send Email */
 			// $data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'You just received an enquiry for your listing';
-			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
+			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $short_listing_url, "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $short_customer_dashboard_url];
 			
 			if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$data['delay'] = 60;
@@ -162,7 +164,7 @@ class EnquiryController extends Controller {
 			sendEmail('direct-listing-email', $data);//->delay(Carbon::now()->addHours(1));
 			
 			/* Send SMS */
-			$sms ['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $email_content["listing_url"] . ") on FnB Circle.\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\n\nClick " . $email_details['dashboard_url'] . " to view the enquiry.";
+			$sms ['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nThere is an enquiry for " . $email_content["listing_name"] . " (" . $short_listing_url . ") on FnB Circle.\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\n\nClick " . $short_customer_dashboard_url . " to view the enquiry.";
 
 	        if(!$is_premium) { // If listing is not PREMIUM, then send an mail after 60 mins
 				$sms['delay'] = 60;
@@ -176,13 +178,13 @@ class EnquiryController extends Controller {
 			// $data['to'] = $email_content["listing_owner"]["email"];//$email_details['listing_to'];
 			$data['subject'] = 'Enquiry matching your listing on FnB Circle.';
 
-			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $email_content["listing_url"], "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $email_details['dashboard_url']];
+			$data["template_data"] = ["name" => $email_content["listing_owner"]["name"], "listing_name" => $email_content["listing_name"], "listing_url" => $short_listing_url, "customer_name" => $email_details['name'], "customer_email" => $email_details['email'], "customer_contact" => $email_details['contact'], "customer_describes_best" => $email_details['describes_best'], "customer_message" => $email_details['message'], "customer_dashboard_url" => $short_customer_dashboard_url];
 
 			$data['priority'] = 'low';
 			sendEmail('shared-listing-email', $data);
 
 			/* Send SMS */
-			$sms['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $email_content["listing_url"] . " ) on FnB Circle,\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\nClick " . "here" . " to view the enquiry.";
+			$sms['message'] = "Hi " . $email_content["listing_owner"]["name"] . ",\nWe have received an enquiry matching " . $email_content["listing_name"] . " ( " . $short_listing_url . " ) on FnB Circle,\nDetails of the seeker:\nName: " . $email_details['name'] . "\nEmail:  " . $email_details['email'] . "\nPhone Number: " . $email_details['contact'] . "\nClick " . $short_customer_dashboard_url . " to view the enquiry.";
 
 	        $sms["priority"] = "default";
         	sendSms('verification', $sms);

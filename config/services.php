@@ -39,6 +39,7 @@ return [
         'client_id' => env('GOOGLE_ID'),
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => env('GOOGLE_URL','http://localhost:8000/callback/google'),
+        'api_key' => env('GOOGLE_API_KEY', "AIzaSyD8r1Tb-kmJaozbJv2yh29EWNIhHWEtg1Y"),
     ],
     'facebook' => [
         'client_id'     => env('FACEBOOK_ID'),

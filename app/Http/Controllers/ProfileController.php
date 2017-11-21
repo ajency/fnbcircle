@@ -72,7 +72,7 @@ class ProfileController extends Controller
                 if(!$self){
                     $data = $this->getUserEnquiryActivity($user);
                     if($data == "") abort(403);    
-                }else $data = [];
+                }else $data = "";
                 
                 return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('self', $self);
             default:
@@ -325,10 +325,10 @@ class ProfileController extends Controller
             'email' => 'required|email',
             'date'  => 'nullable',
         ]);
-        $usercomm = UserCommunication::where('value', $request->email)->where('object_type', 'App\\User')->where('is_primary', 1)->first();
-        if (!hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) {
-            return response()->json(['data'=>[],'more'=>0]);
-        }
+        // $usercomm = UserCommunication::where('value', $request->email)->where('object_type', 'App\\User')->where('is_primary', 1)->first();
+        // if (!hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) {
+        //     return response()->json(['data'=>[],'more'=>0]);
+        // }
         $user          = User::findUsingEmail($request->email);
         $day          = (isset($request->day)) ? Carbon::createFromFormat('j F Y', $request->day)->startOfDay() : Carbon::now();
         $activity_type = config('tempconfig.activity-types');

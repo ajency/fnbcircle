@@ -2,7 +2,7 @@
 
 
 @section('main-content')
-                                <div class="describe-best tab-pane fade active in" id="describe-best">
+                                <div class="describe-best tab-pane fade active in" id="description">
                                     <!-- <h6 class="enquiries-made title">
                                         <i aria-hidden="true" class="fa fa-thumbs-up">
                                         </i>

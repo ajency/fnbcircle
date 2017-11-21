@@ -349,6 +349,7 @@ class ProfileController extends Controller
         }
         $response      = [];
         $prev = [];
+        $name = (Auth::user()->getPrimaryEmail() == $request->email)? 'You' : $user->name;
         $objects       = [$activities, $activities1];
         foreach ($objects as $object) {
             foreach ($object as $activity) {
@@ -428,7 +429,7 @@ class ProfileController extends Controller
                                 $temp['html'] = '
                                 <div class="enquire-container">
                                     <h6 class="enquiry-made-by text-medium">
-                                        You made a
+                                        '.$name.' made a
                                         <label class="fnb-label">
                                             Direct Enquiry
                                         </label>
@@ -502,7 +503,7 @@ class ProfileController extends Controller
                                 $temp['html'] = '
                                     <div class="enquire-container">
                                         <h6 class="enquiry-made-by text-medium">
-                                            You made a
+                                            '.$name.' made a
                                             <label class="fnb-label">
                                                 Shared Enquiry
                                             </label>';

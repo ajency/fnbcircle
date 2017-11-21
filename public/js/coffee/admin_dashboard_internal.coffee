@@ -289,7 +289,7 @@ $(document).ready () ->
 					$("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 					$("#add_newuser_modal").modal "hide"
 					if url_type == "add"
-						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new User"
+						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new user"
 					else
 						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "User updated successfully"
 

@@ -209,7 +209,7 @@ Internal Users
 	                          <label>Status  <span class="text-danger">*</span></label>
 	                          <select class="form-control fnb-select dashboard-select status-select" name="status">
 	                            <option value="active">Active</option>
-	                            <option value="inactive">Inactive</option>
+	                            <!-- <option value="inactive">Inactive</option> -->
 	                            <option value="suspended">Suspended</option>
 	                            <!-- <option value="">Published</option>
 	                            <option value="">Draft</option>

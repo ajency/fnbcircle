@@ -108,7 +108,7 @@ Job Listing
 
 
 
-                <div class="row m-t-20">
+                <div class="row m-t-20 row-btm-space">
                     <div class="col-sm-8">
 
                         <!-- No data -->
@@ -546,9 +546,12 @@ Job Listing
                     </div>
                 </div>
 
-                <div class="sticky-bottom mobile-flex desk-hide active">
-                    <div class="actions">
-                       <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Modify Details</button>
+                <div class="sticky-bottom alert-bottom mobile-flex desk-hide active">
+                    <div class="actions flex-row space-between">
+                        <p class="m-b-0 bolder default-size m-r-10 text-center flex-1">Receive job recommendation</p>
+                        <div class="flex-1 text-center">
+                            <button class="btn fnb-btn primary-btn full border-btn send-enquiry form-toggle">Job Alert</button>     
+                        </div>
                     </div>
                  </div>
             </div>

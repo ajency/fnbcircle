@@ -138,6 +138,7 @@ $(function(){
 			}
 			 if($(window).scrollTop() + $(window).height() > ($(document).height() - 100) ) {
        			$(".sticky-bottom").removeClass('active');
+       			$(".alert-bottom").addClass('active');
    			}
 		});
 		$('.tab-con').addClass('tab-content');

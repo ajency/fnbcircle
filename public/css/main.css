@@ -6386,6 +6386,9 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 10px !important;
     margin-bottom: 10px !important;
   }
+  .row-btm-space {
+    margin-bottom: 3em;
+  }
 }
 .search-section {
   position: relative;

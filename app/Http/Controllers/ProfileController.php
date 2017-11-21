@@ -277,9 +277,9 @@ class ProfileController extends Controller
                                     foreach ($category['nodes'] as $node) {
                                         $details['html'] .= '
                                                          <li>
-                                                            <a class="fnb-cat__title" href="">
+                                                            <span class="fnb-cat__title">
                                                                 ' . $node['name'] . '
-                                                            </a>
+                                                            </span>
                                                         </li>
                                                     ';
                                     }
@@ -569,9 +569,9 @@ class ProfileController extends Controller
                                     foreach ($category['nodes'] as $node) {
                                         $temp['html'] .= '
                                                          <li>
-                                                            <a class="fnb-cat__title" href="">
+                                                            <span class="fnb-cat__title" >
                                                                 ' . $node['name'] . '
-                                                            </a>
+                                                            </span>
                                                         </li>
                                                     ';
                                     }

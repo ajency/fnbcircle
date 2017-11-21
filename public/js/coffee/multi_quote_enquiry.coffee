@@ -368,7 +368,7 @@ $(document).ready () ->
 		
 		$(document).find("#rhs-enquiry-form .level-one #level-one-enquiry select[name='description']").multiselect
 			includeSelectAllOption: true
-			numberDisplayed: 2
+			numberDisplayed: 1
 			delimiterText: ','
 			nonSelectedText: 'Select that describes you best'
 

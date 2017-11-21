@@ -91,7 +91,7 @@ body {
   width: 100%;
 }
 @media screen and (max-width: 768px) {
-  body {
+  body.body-animate {
     -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
             transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
@@ -4063,8 +4063,9 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-transform: translateX(100%);
         -ms-transform: translateX(100%);
             transform: translateX(100%);
-    -webkit-transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
-            transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+    -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+            transition: transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+    display: none;
   }
   .fly-out.no-transition {
     -webkit-transition: inherit;
@@ -4416,7 +4417,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 @media screen and (max-width: 768px) {
   .collapse.m-side-bar {
-    display: block;
+    display: none;
     position: fixed;
     background-color: #fff;
     width: 280px;
@@ -5052,11 +5053,8 @@ input[type=checkbox].custom-checkbox:before {
           flex: 0.5;
   padding-left: 4em;
 }
-.verification-modal .seller-enquiry {
-  margin-top: 1em;
-}
 .verification-modal .seller-enquiry__title {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 0;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
@@ -6298,6 +6296,50 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-align-items: flex-start;
         -ms-flex-align: start;
             align-items: flex-start;
+  }
+}
+.common-enquiry-form .describes,
+.common-enquiry-form .looking-for {
+  margin-top: 1em;
+}
+.common-enquiry-form .describes__title {
+  margin-bottom: 0;
+}
+.common-enquiry-form .describes__title span {
+  display: inline-block;
+  font-size: 0.9em;
+}
+.common-enquiry-form .describes .points,
+.common-enquiry-form .describes .multiselect-native-select {
+  width: 100%;
+  margin-top: 0;
+}
+.common-enquiry-form .describes .points .multiselect,
+.common-enquiry-form .describes .multiselect-native-select .multiselect {
+  font-size: 1em;
+}
+.common-enquiry-form .describes .points .multiselect-container .checkbox,
+.common-enquiry-form .describes .multiselect-native-select .multiselect-container .checkbox {
+  margin: 0.5em 0;
+}
+.common-enquiry-form .describes .points .multiselect-container .checkbox input[type='checkbox'],
+.common-enquiry-form .describes .multiselect-native-select .multiselect-container .checkbox input[type='checkbox'] {
+  position: relative;
+}
+.common-enquiry-form .describes .points .multiselect-container .checkbox input[type='checkbox']:before,
+.common-enquiry-form .describes .multiselect-native-select .multiselect-container .checkbox input[type='checkbox']:before {
+  top: -7px;
+}
+.common-enquiry-form p.text-darker {
+  font-size: 1em;
+}
+.common-enquiry-form .float-label.filled {
+  font-size: 1em;
+}
+@media screen and (max-width: 768px) {
+  .common-enquiry-form .looking-for__toggle {
+    display: block;
+    margin-bottom: 0.8em;
   }
 }
 .search-section {

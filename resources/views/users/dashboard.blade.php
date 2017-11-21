@@ -20,6 +20,7 @@ Job Listing
 <script type="text/javascript" src="{{ asset('js/jobs.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bower_components/jquery-flexdatalist/jquery.flexdatalist.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/customer-dashboard.js') }}"></script>
 
  
     <script type="text/javascript">

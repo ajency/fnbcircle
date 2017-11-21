@@ -904,25 +904,25 @@ $(function(){
 			var businessListing = $('.businessListing').detach();
 			$('.addShow').after(businessListing);
 			
-			$('.filter-data').each(function(){
+			// $('.filter-data').each(function(){
 
-				var detailrow = $(this).find('.recent-updates__content');
-				var detailbtn = $(this).find('.detail-move').detach();
-				$(detailrow).append(detailbtn);
+			// 	var detailrow = $(this).find('.recent-updates__content');
+			// 	var detailbtn = $(this).find('.detail-move').detach();
+			// 	$(detailrow).append(detailbtn);
 
-				var recentrow = $(this).find('.updates-dropDown');
-				var recentData = $(this).find('.recent-data').detach();
-				$(recentrow).append(recentData);
+			// 	var recentrow = $(this).find('.updates-dropDown');
+			// 	var recentData = $(this).find('.recent-data').detach();
+			// 	$(recentrow).append(recentData);
 
-				var publishedAdd = $(this).find('.stats');
-				var publisherow = $(this).find('.rat-pub').detach();
-				$(publishedAdd).append(publisherow);
+			// 	var publishedAdd = $(this).find('.stats');
+			// 	var publisherow = $(this).find('.rat-pub').detach();
+			// 	$(publishedAdd).append(publisherow);
 
-				var power = $(this).find('.power-seller-container');
-				var powerseller = $(this).find('.power-seller').detach();
-				$(power).append(powerseller);
+			// 	var power = $(this).find('.power-seller-container');
+			// 	var powerseller = $(this).find('.power-seller').detach();
+			// 	$(power).append(powerseller);
 
-			});
+			// });
 
 
 			var advAdd = $('.adv-row').detach();

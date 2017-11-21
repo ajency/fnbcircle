@@ -104,7 +104,7 @@ Internal Users
 	                      <th class="">Email <span class="sort-icon"/></th>
 	                      <th class="no-sort" data-col="3">Roles
 	                        <select multiple class="form-control multi-ddd" id="status_filters">
-	                          @foreach(Role::all() as $key_role => $value_role)
+	                          @foreach(Role::where('name','!=','customer')->get() as $key_role => $value_role)
 	                          	<option value="{{$value_role->name}}">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>
@@ -197,7 +197,8 @@ Internal Users
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
 	                        <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
-	                          @foreach(Role::all() as $key_role => $value_role)
+	                        
+	                          @foreach(Role::where('name','!=','customer')->get() as $key_role => $value_role)
 	                          	<option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option>
 	                          @endforeach
 	                        </select>

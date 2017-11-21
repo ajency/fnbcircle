@@ -92,7 +92,9 @@ get_sort_order = () ->
 
 validatePassword = (password, confirm_password = '', parent_path = '', child_path = "#password_errors") ->
 	# Password should have 8 or more characters with atleast 1 lowercase, 1 UPPERCASE, 1 No or Special Chaaracter
-	expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+	# expression = /^(?=.*[0-9!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
+	# Password should have 8 or more characters and No (atleast 1 char & 1 no)
+	expression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z])(?!.*\s).{8,}$/
 	message = ''
 	status = true
 
@@ -105,11 +107,15 @@ validatePassword = (password, confirm_password = '', parent_path = '', child_pat
 			message = "Password & Confirm Password are not matching"
 			status = false
 	else # Else password not Satisfied the criteria
-		message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character"
-		status = false
+		if password.length > 0
+	      # message = "Please enter a password of minimum 8 characters and has atleast 1 lowercase, 1 UPPERCASE, and 1 Number or Special character";
+	      message = 'Please enter a password of minimum 8 characters and has atleast 1 number.<br/><div class=\'note-popover popover top\'><div class=\'arrow\'></div> <div class=\'popover-content\'><b class=\'fnb-errors\'>Note:</b> Don’t use obvious passwords or easily guessable like your or your pet’s name. Also try and avoid using passwords you may have on a lot of other sites.</div></div>'
+	    else
+	      message = 'Please enter a Password'
+	    status = false
 
 	if(!status && parent_path != '')
-		$(parent_path + " " + child_path).removeClass('hidden').text(message)
+		$(parent_path + " " + child_path).removeClass('hidden').html(message)
 	else if(status && parent_path != '')
 		#$(parent_path + " " + child_path).addClass('hidden')
 		$(parent_path + " " + child_path).addClass('hidden')
@@ -267,7 +273,7 @@ $(document).ready () ->
 			user_type : "internal"
 			name : form_obj.find('input[type="text"][name="name"]').val()
 			email : form_obj.find('input[type="email"][name="email"]').val()
-			roles : if form_obj.find('select[name="role"]').val().length then form_obj.find('select[name="role"]').val() else []
+			roles : if form_obj.find('select[name="role"]').val().length then [form_obj.find('select[name="role"]').val()] else []
 			status : form_obj.find('select[name="status"]').val()
 			#'old_password' : if form_obj.find('input[type="password"][name="old_password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="old_password"]').val()
 			password : if form_obj.find('input[type="password"][name="password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="password"]').val()
@@ -289,7 +295,7 @@ $(document).ready () ->
 					$("#add_newuser_modal #add_newuser_modal_btn").find(".fa-circle-o-notch.fa-spin").addClass "hidden"
 					$("#add_newuser_modal").modal "hide"
 					if url_type == "add"
-						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new User"
+						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "Successfully created new user"
 					else
 						$(".admin_internal_users.right_col").parent().find('div.alert-success #message').text "User updated successfully"
 

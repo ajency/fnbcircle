@@ -133,12 +133,13 @@
                                     <ul class="gs-steps" role="tablist">
                                         <li @if($data['step'] == 'activity') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#enquiry-info" role="tab"> -->
-                                            <a @if($data['step'] == 'activity') href="#" class="active" @else href="activity" @endif >
-                                                My Activity
+                                            <a @if($data['step'] == 'activity') href="#" class="active" @else @if($self) href="activity" @else href="../activity/{{$data['email']['email']}}" @endif @endif >
+                                                @if($self) My @else User @endif Activity
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
                                         </li>
+                                        @if($self)
                                         <li @if($data['step'] == 'basic-details') class="active"  @endif>
                                             <a @if($data['step'] == 'basic-details') href="#" class="active" @else href="basic-details" @endif >
                                                 Basic Details
@@ -146,10 +147,11 @@
                                                 </i>
                                             </a>
                                         </li>
+                                        @endif
                                         <li @if($data['step'] == 'description') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
-                                            <a @if($data['step'] == 'description') href="#" class="active" @else href="description" @endif>
-                                                What describe you the best?
+                                            <a @if($data['step'] == 'description') href="#" class="active" @else @if($self) href="description" @else href="../description/{{$data['email']['email']}}" @endif @endif>
+                                                What describe @if($self) me @else user @endif the best?
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>

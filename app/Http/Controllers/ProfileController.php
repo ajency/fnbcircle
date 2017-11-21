@@ -69,7 +69,11 @@ class ProfileController extends Controller
                 $data = [];
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('self', $self);
             case 'activity':
-                $data = $this->getUserEnquiryActivity($user);
+                if(!$self){
+                    $data = $this->getUserEnquiryActivity($user);
+                    if($data == "") abort(403);    
+                }
+                
                 return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('self', $self);
             default:
                 abort(404);

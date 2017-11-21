@@ -21,7 +21,7 @@
                                         What describe Abhay the best?
                                     </h6> -->
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
-                                        What describes @if($self) you @else {{$data['name']}} @endif the best?
+                                        What describes @if($self) me @else {{$data['name']}} @endif the best?
                                     </h3>
                                     <!-- <div class="panel-group" id="accordion">
                                         <div class="panel panel-default">

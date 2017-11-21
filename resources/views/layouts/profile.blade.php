@@ -151,7 +151,7 @@
                                         <li @if($data['step'] == 'description') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
                                             <a @if($data['step'] == 'description') href="#" class="active" @else @if($self) href="description" @else href="../description/{{$data['email']['email']}}" @endif @endif>
-                                                What describe @if($self) me @else user @endif the best?
+                                                What describes @if($self) me @else user @endif the best?
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>

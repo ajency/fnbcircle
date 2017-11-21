@@ -391,7 +391,7 @@ Job Listing
                                         <div class="enquiry-form__body m-t-10">
                                             <div class="form-group">
                                                 <label class="checkbox-inline">
-                                                    <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1" checked="">Send Alerts</span>
+                                                    <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1">Send Alerts</span>
                                                 </label>
                                             </div>
                                             

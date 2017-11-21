@@ -72,7 +72,7 @@ class ProfileController extends Controller
                 $data = [];
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':
-                if(!$self){
+                if(!$self and !$admin){
                     $data = $this->getUserEnquiryActivity($user);
                     if($data == "") abort(403);    
                 }else $data = "";

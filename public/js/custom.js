@@ -1225,6 +1225,11 @@ $(function(){
 				var sort = $('.page-sidebar .sort').detach();
 				$('.page-sidebar').closest('.fly-out').find('.right').append(sort);
 			});
+			// adding class and css on load
+			$(document).ready(function(){
+				$('body').addClass('body-animate');
+				$('.m-side-bar,.fly-out').css("display",'block');
+			})
 		}
 
 		// Login

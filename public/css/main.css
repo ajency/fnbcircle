@@ -91,7 +91,7 @@ body {
   width: 100%;
 }
 @media screen and (max-width: 768px) {
-  body {
+  body.body-animate {
     -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
             transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
@@ -4063,8 +4063,9 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-transform: translateX(100%);
         -ms-transform: translateX(100%);
             transform: translateX(100%);
-    -webkit-transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
-            transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+    -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+            transition: transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+    display: none;
   }
   .fly-out.no-transition {
     -webkit-transition: inherit;
@@ -4416,7 +4417,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 @media screen and (max-width: 768px) {
   .collapse.m-side-bar {
-    display: block;
+    display: none;
     position: fixed;
     background-color: #fff;
     width: 280px;

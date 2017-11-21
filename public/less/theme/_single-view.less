@@ -1474,7 +1474,9 @@
 	// }
 	.fly-out{
 		transform: translateX(100%);
-		transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+		transition: transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+		// visibility: hidden;
+		display: none;
 		&.no-transition{
 			transition: inherit;
 		}
@@ -1517,6 +1519,7 @@
 		}
 		&.active{
 			transform: translateX(0);
+			// visibility: visible;
 		}
 		&__content{
 			height: calc(~'100% - 25px');
@@ -1829,7 +1832,7 @@
 	// mobile sidebar
 
 	.collapse.m-side-bar{
-		display: block;
+		display: none;
 		position: fixed;
 		background-color: #fff;
 		width: 280px;

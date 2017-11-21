@@ -274,7 +274,7 @@
         user_type: "internal",
         name: form_obj.find('input[type="text"][name="name"]').val(),
         email: form_obj.find('input[type="email"][name="email"]').val(),
-        roles: form_obj.find('select[name="role"]').val().length ? form_obj.find('select[name="role"]').val() : [],
+        roles: form_obj.find('select[name="role"]').val().length ? [form_obj.find('select[name="role"]').val()] : [],
         status: form_obj.find('select[name="status"]').val(),
         password: form_obj.find('input[type="password"][name="password"]').prop('disabled') ? '' : form_obj.find('input[type="password"][name="password"]').val(),
         confirm_password: form_obj.find('input[type="password"][name="confirm_password"]').prop('disabled') ? '' : form_obj.find('input[type="password"][name="confirm_password"]').val()

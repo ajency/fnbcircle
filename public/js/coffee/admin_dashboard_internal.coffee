@@ -267,7 +267,7 @@ $(document).ready () ->
 			user_type : "internal"
 			name : form_obj.find('input[type="text"][name="name"]').val()
 			email : form_obj.find('input[type="email"][name="email"]').val()
-			roles : if form_obj.find('select[name="role"]').val().length then form_obj.find('select[name="role"]').val() else []
+			roles : if form_obj.find('select[name="role"]').val().length then [form_obj.find('select[name="role"]').val()] else []
 			status : form_obj.find('select[name="status"]').val()
 			#'old_password' : if form_obj.find('input[type="password"][name="old_password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="old_password"]').val()
 			password : if form_obj.find('input[type="password"][name="password"]').prop('disabled') then '' else form_obj.find('input[type="password"][name="password"]').val()

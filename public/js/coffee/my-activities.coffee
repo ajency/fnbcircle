@@ -9,8 +9,8 @@ getUserActivities =  () ->
           email : document.head.querySelector('[property="user-email"]').content
           day : day
         success: (response)->
-            if Object.keys(response['data']).length > 0
-                $('#load-more-container').remove()
+            # if Object.keys(response['data']).length > 0
+            $('#load-more-container').remove()
             for key of response['data']
                 # skip loop if the property is from prototype
                 if !response['data'].hasOwnProperty(key)

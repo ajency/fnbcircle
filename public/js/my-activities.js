@@ -16,9 +16,7 @@
       },
       success: function(response) {
         var act, activity, key;
-        if (Object.keys(response['data']).length > 0) {
-          $('#load-more-container').remove();
-        }
+        $('#load-more-container').remove();
         for (key in response['data']) {
           if (!response['data'].hasOwnProperty(key)) {
             continue;

@@ -13,8 +13,9 @@
 @section('main-content')
  <div class="enquiry-info tab-pane fade in active" id="enquiry-info">
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
-                                        My Activity
+                                        @if($self) My @else {{$data['name']}}'s @endif Activity
                                     </h3>
+                                    @if($self)
                                     <ul class="nav activityTab" role="tablist">
                                         <!-- <li class="active" role="presentation">
                                             <a aria-controls="recent-activity" data-toggle="tab" href="#recent-activity" role="tab">
@@ -316,5 +317,8 @@
 
 
                                     </div>
+                                    @else
+                                        {!!$details!!}
+                                    @endif
                                 </div>
 @endsection                                

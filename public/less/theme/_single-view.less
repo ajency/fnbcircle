@@ -3776,9 +3776,58 @@ and (max-device-width: 650px) {
 	}
 }
 
+// Single view enquiry form
 
 
+.common-enquiry-form{
+	.describes,.looking-for{
+		margin-top: 1em;
+	}
+	.describes{
+		&__title{
+			margin-bottom: 0;
+			span{
+				display: inline-block;
+				font-size: 0.9em;
+			}
+		}
+		.points,.multiselect-native-select{
+			width: 100%;
+			margin-top: 0;
+			.multiselect{
+				font-size: 1em;
+			}
+			.multiselect-container{
+				.checkbox{
+					margin: 0.5em 0;
+					input[type='checkbox']{
+						position: relative;
+						&:before{
+							top: -7px;
+						}
+					}
+				}
+			}
+		}
+	}
+	p.text-darker{
+		font-size: 1em;
+	}
+	.float-label{
+		&.filled{
+			font-size: 1em;
+		}
+	}
+}
 
+@media screen and (max-width: @mobile){
+	.common-enquiry-form{
+		.looking-for__toggle{
+			display: block;
+			margin-bottom: 0.8em;
+		}
+	}
+}
 
 
 

@@ -857,11 +857,11 @@
                                         <div class="enquiry-form__header flex-row space-between">
                                             <div class="enquiry-title">
                                                 <h6 class="element-title m-t-0 m-b-0">Send Enquiry To</h6>
-                                                <p class="sub-title">Mystical the meat and fish store</p>
+                                                <p class="m-b-0 text-lighter m-t-5">Mystical the meat and fish store</p>
                                             </div>
                                             <span class="fnb-icons enquiry"></span>
                                         </div>
-                                        <div class="enquiry-form__body m-t-10 send-enquiry-section" id="rhs-enquiry-form">
+                                        <div class="enquiry-form__body m-t-10 send-enquiry-section common-enquiry-form" id="rhs-enquiry-form">
                                             <!-- <div class="form-group p-t-10 m-b-0">
                                                 <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                                                 <input type="text" class="form-control fnb-input float-input" id="contact_name">

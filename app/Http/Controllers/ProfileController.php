@@ -623,6 +623,23 @@ class ProfileController extends Controller
 
     }
 
+    public function updateUserDetails(Request $request){
+        $this->validate($request, [
+            'email_id' => 'required|email',
+        ]);
+        $req      = request()->all();
+        $usercomm = UserCommunication::where('value', $req['email_id'])->where('object_type', 'App\\User')->where('is_primary', 1)->first();
+        if (($usercomm != null and hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) or $req['email_id'] == Auth::user()->getPrimaryEmail()) {
+            $user = User::findUsingEmail($req['email_id']);
+            $details = $user->getUserDetails()->first();
+            $details->subtype = serialize($req['user_details']);
+            $details->save();
+            request()->session()->flash('updateDescription', 'Description Updated');
+            
+        }
+        return \Redirect::back();
+    }
+
     public function changePassword()
     {
         $this->validate(request(), [

@@ -56,7 +56,10 @@
                                             </div>
                                         </div>
                                     </div> -->
+
                                     @if($self or $admin)
+                                    <form action="{{action('ProfileController@updateUserDetails')}}" method="POST" id="details-form">
+                                    <input type="hidden" name="email_id" value="{{$data['email']['email']}}">
                                     <div class="save-best-data text-right">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
@@ -65,7 +68,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingOne">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif @isset($details['hospitality']) checked @endisset ></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="hospitality" @if(!$self and !$admin) disabled @endif @isset($details['hospitality']) checked @endisset ></div>
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 <div>
                                                     Hospitality Business Owner <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -83,7 +86,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingTwo">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif @isset($details['professional']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="professional" @if(!$self and !$admin) disabled @endif @isset($details['professional']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 <div>
                                                     Working Professional <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -101,7 +104,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingThree">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif @isset($details['vendor']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="vendor" @if(!$self and !$admin) disabled @endif @isset($details['vendor']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Vendor/Suppliers/Service Provider <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -119,7 +122,7 @@
                                        <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingFour">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif  @isset($details['student']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="student" @if(!$self and !$admin) disabled @endif  @isset($details['student']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Student <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -137,7 +140,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingFive">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif  @isset($details['entrepreneur']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="entrepreneur" @if(!$self and !$admin) disabled @endif  @isset($details['entrepreneur']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Prospective Entrepreneur <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -155,7 +158,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingSix">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" @if(!$self and !$admin) disabled @endif  @isset($details['others']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="others" @if(!$self and !$admin) disabled @endif  @isset($details['others']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Others <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -175,6 +178,7 @@
                                     <div class="save-best-data text-right mobile-hide">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
+                                    </form>
                                     @endif
                                 </div>
 @endsection

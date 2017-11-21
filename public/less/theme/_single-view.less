@@ -1474,7 +1474,9 @@
 	// }
 	.fly-out{
 		transform: translateX(100%);
-		transition: all 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+		transition: transform 0.5s cubic-bezier(0.44, -0.25, 0.75, 1);
+		// visibility: hidden;
+		display: none;
 		&.no-transition{
 			transition: inherit;
 		}
@@ -1517,6 +1519,7 @@
 		}
 		&.active{
 			transform: translateX(0);
+			// visibility: visible;
 		}
 		&__content{
 			height: calc(~'100% - 25px');
@@ -1829,7 +1832,7 @@
 	// mobile sidebar
 
 	.collapse.m-side-bar{
-		display: block;
+		display: none;
 		position: fixed;
 		background-color: #fff;
 		width: 280px;
@@ -2456,9 +2459,9 @@
     	padding-left: 4em;
 	}
 	.seller-enquiry{
-		margin-top: 1em;
+		// margin-top: 1em;
 		&__title{
-			font-size: 1.2em;
+			font-size: 1.1em;
 			margin-bottom: 0;
     		align-items: flex-start;
 		}
@@ -3759,11 +3762,75 @@ and (max-device-width: 650px) {
 	   		max-width: 25%;	
 	   	}
 	}
+	@media screen and (max-width: @mobile){
+		.modal-body{
+			padding-top: 7em;
+		}
+		.formFields{
+			flex-direction: column;
+		}
+		.looking-for__toggle{
+			display: none;
+		}
+		.describe-section{
+			flex-direction: column;
+    		align-items: flex-start;
+		}
+	}
 }
 
+// Single view enquiry form
 
 
+.common-enquiry-form{
+	.describes,.looking-for{
+		margin-top: 1em;
+	}
+	.describes{
+		&__title{
+			margin-bottom: 0;
+			span{
+				display: inline-block;
+				font-size: 0.9em;
+			}
+		}
+		.points,.multiselect-native-select{
+			width: 100%;
+			margin-top: 0;
+			.multiselect{
+				font-size: 1em;
+			}
+			.multiselect-container{
+				.checkbox{
+					margin: 0.5em 0;
+					input[type='checkbox']{
+						position: relative;
+						&:before{
+							top: -7px;
+						}
+					}
+				}
+			}
+		}
+	}
+	p.text-darker{
+		font-size: 1em;
+	}
+	.float-label{
+		&.filled{
+			font-size: 1em;
+		}
+	}
+}
 
+@media screen and (max-width: @mobile){
+	.common-enquiry-form{
+		.looking-for__toggle{
+			display: block;
+			margin-bottom: 0.8em;
+		}
+	}
+}
 
 
 

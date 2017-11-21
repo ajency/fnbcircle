@@ -58,6 +58,17 @@ class User extends Authenticatable
 		return $this->hasOne('App\UserDetail', 'user_id');
 	}
 
+ 
+    public function setNameAttribute( $value ) { 
+        $this->attributes['name'] = title_case( $value );
+
+    }
+
+    public function setEmailAttribute( $value ) { 
+        $this->attributes['email'] = strtolower( $value );
+
+    }
+
     public function getUserCommunications() { // Get all the communication related to that user
         return $this->hasMany('App\UserCommunication', 'object_id')->where('object_type', 'App\User');
     }

@@ -3,6 +3,12 @@
         <div class="modal-content">
             <div class="modal-header">
             	<button class="close mobile-hide" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <div class="mobile-back flex-row desk-hide">
+                    <div class="back ellipsis">
+                        <button class="btn fnb-btn outline border-btn no-border ellipsis" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i></button>
+                        <span class="m-b-0 ellipsis heavier back-text">Back</span>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="success-stuff hidden">

@@ -197,7 +197,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
     <div class="flex-row">
         <i class="fa fa-check-circle" aria-hidden="true"></i>
-        Description Updated successfully.
+        Description updated successfully.
     </div>
 </div>
 

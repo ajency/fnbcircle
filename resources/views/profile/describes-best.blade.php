@@ -151,7 +151,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingFive">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="entrepreneur" @if(!$self and !$admin) disabled @endif  @isset($details['entrepreneur']) checked @endisset></div>
+                                            <div><input type="checkbox" class="checkbox" name="user_details[]" value="enterpreneur" @if(!$self and !$admin) disabled @endif  @isset($details['enterpreneur']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Prospective Entrepreneur <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>

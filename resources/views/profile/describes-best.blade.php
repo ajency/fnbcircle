@@ -9,7 +9,7 @@
                                         What describe Abhay the best?
                                     </h6> -->
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
-                                        What describes you the best?
+                                        What describes @if($self) you @else {{$data['name']}} @endif the best?
                                     </h3>
                                     <!-- <div class="panel-group" id="accordion">
                                         <div class="panel panel-default">
@@ -55,16 +55,16 @@
                                             </div>
                                         </div>
                                     </div> -->
-
+                                    @if($self)
                                     <div class="save-best-data text-right">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
-
+                                    @endif
                                     <div class="describe-best" id="accordion" role="tablist" aria-multiselectable="true">
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingOne">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 <div>
                                                     Hospitality Business Owner <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -82,7 +82,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingTwo">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 <div>
                                                     Working Professional <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -100,7 +100,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingThree">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Vendor/Suppliers/Service Provider <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -118,7 +118,7 @@
                                        <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingFour">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Student <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -136,7 +136,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingFive">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Prospective Entrepreneur <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -154,7 +154,7 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingSix">
                                           <h4 class="panel-title flex-row">
-                                            <div><input type="checkbox" class="checkbox"></div>
+                                            <div><input type="checkbox" class="checkbox" @if(!$self) disabled @endif></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
                                                     Others <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
@@ -165,29 +165,15 @@
                                         </div>
                                         <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                                           <div class="panel-body option-col flex-row flex-wrap">
-                                            <div class="form-group m-b-0">
-                                                <label class="m-b-0 text-lighter float-label required" for="test">Label</label>
-                                                <input type="text" class="form-control fnb-input float-input" id="test">
-                                            </div>
-                                            <div class="form-group m-b-0">
-                                                <label class="m-b-0 text-lighter float-label required" for="new">Label</label>
-                                                <input type="email" class="form-control fnb-input float-input" id="new" value="">
-                                            </div>
-                                            <div class="form-group m-b-0">
-                                                <label class="m-b-0 text-lighter float-label required" for="confirm">Label</label>
-                                                <input type="tel" class="form-control fnb-input float-input" id="confirm">
-                                            </div>
-                                            <div class="form-group m-b-0">
-                                                <label class="m-b-0 text-lighter float-label required" for="confirm">Label</label>
-                                                <input type="tel" class="form-control fnb-input float-input" id="confirm">
-                                            </div>
+                                           
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-
+                                    @if($self)
                                     <div class="save-best-data text-right mobile-hide">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
+                                    @endif
                                 </div>
 @endsection

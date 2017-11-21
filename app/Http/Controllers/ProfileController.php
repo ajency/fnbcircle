@@ -72,7 +72,7 @@ class ProfileController extends Controller
                 if(!$self){
                     $data = $this->getUserEnquiryActivity($user);
                     if($data == "") abort(403);    
-                }
+                }else $data = [];
                 
                 return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('self', $self);
             default:

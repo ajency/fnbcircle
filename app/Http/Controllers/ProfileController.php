@@ -81,10 +81,12 @@ class ProfileController extends Controller
             'date'  => 'nullable',
         ]);
         $user          = User::findUsingEmail($request->email);
-        $day          = (isset($request->day)) ? Carbon::createFromFormat('j F Y h:m:s', $request->day." 00:00:00") : Carbon::now();
+        $day          = (isset($request->day)) ? Carbon::createFromFormat('j F Y', $request->day)->startOfDay() : Carbon::now();
         $activity_type = config('tempconfig.activity-types');
         $activities    = $user->activities(config('tempconfig.activity-display-classes'))->where('created_at','<',$day)->orderBy('created_at', 'desc')->take(config('tempconfig.activity-display-number'))->get();
         $activities1   = $user->activities(config('tempconfig.activity-display-classes'))->orderBy('created_at', 'desc')->where('created_at', 'like', $activities->last()->created_at->toDateString() . '%')->get();
+        $last_date = $activities->last()->created_at;
+        $more = $user->activities(config('tempconfig.activity-display-classes'))->where('created_at','<', $last_date->startOfDay())->count();
         $response      = [];
         $objects       = [$activities, $activities1];
         foreach ($objects as $object) {
@@ -352,7 +354,7 @@ class ProfileController extends Controller
                 $response[$activity_date][$activity->id] = $temp;
             }
         }
-        return response()->json($response);
+        return response()->json(['data'=>$response, 'more'=>$more]);
 
     }
 

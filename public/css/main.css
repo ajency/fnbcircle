@@ -1224,7 +1224,7 @@ input[type=radio].fnb-radio.disabled:before {
 .fnb-header.trans-header.change {
   background-color: #fff;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.32);
-  z-index: 10;
+  z-index: 9999;
 }
 .fnb-header.trans-header.change .navbar .nav-color {
   color: #6b6b6b;
@@ -6914,6 +6914,40 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-flex: 1 0 55%;
       -ms-flex: 1 0 55%;
           flex: 1 0 55%;
+}
+.add-card label,
+.add-card .supplier-detail {
+  color: #6b6b6b;
+}
+.add-card .describes__title {
+  display: none;
+}
+.add-card .describes .points {
+  margin: 0;
+  width: 100%;
+  margin-top: 1.7em;
+}
+.add-card .describes .multiselect-native-select {
+  width: 100%;
+}
+.add-card .describes .multiselect-native-select .multiselect {
+  font-size: 0.95em;
+}
+.add-card .describes .multiselect-native-select label.checkbox {
+  margin: 5px 0;
+}
+.add-card .describes .multiselect-native-select label.checkbox input[type='checkbox'] {
+  position: relative;
+}
+.add-card .describes .multiselect-native-select label.checkbox input[type='checkbox']:before {
+  top: -6px;
+}
+.add-card .supplier-detail {
+  font-size: 1em;
+  font-weight: 400;
+}
+.add-card .collapse {
+  margin-top: 0.5em;
 }
 .list-title-container .seller-info__title {
   line-height: 1.3;

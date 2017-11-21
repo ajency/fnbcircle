@@ -256,7 +256,7 @@
       data: data,
       dataType: 'json',
       success: function(data) {
-        var advAdd, businessListing, end, start;
+        var advAdd, businessListing, describe, end, start;
         if (parseInt(data["count"]) > parseInt(data["page"] - 1) * parseInt(data["page_size"])) {
           start = (parseInt(data["page"]) - 1) * parseInt(data["page_size"]) + 1;
           end = start + parseInt(data["page_size"]) - 1;
@@ -321,10 +321,13 @@
 
         /* --- If enquiry card exist, then --- */
         if ($("#listing_card_view #listing_list_view_enquiry").length) {
+          describe = $('.add-card__form .describes').detach();
+          $('.add-card__form .formFields .col-sm-6:nth-child(4n)').append(describe);
+          $('#lookingfor .x-small').text('Give the supplier/service provider some details of your requirements').addClass('supplier-detail');
           initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']");
           $(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect({
             includeSelectAllOption: true,
-            numberDisplayed: 2,
+            numberDisplayed: 1,
             delimiterText: ',',
             nonSelectedText: 'Select that describes you best'
           });

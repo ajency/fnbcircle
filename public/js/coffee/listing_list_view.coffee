@@ -374,12 +374,19 @@ getListContent = () ->
 			# $('#listing_card_view').append(templateHTML)
 
 			### --- If enquiry card exist, then --- ###
+			
+			
+
 			if $("#listing_card_view #listing_list_view_enquiry").length 
+
+				describe = $('.add-card__form .describes').detach();
+				$('.add-card__form .formFields .col-sm-6:nth-child(4n)').append describe				
+				$('#lookingfor .x-small').text('Give the supplier/service provider some details of your requirements').addClass 'supplier-detail'
 				initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']")
 				
 				$(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect
 					includeSelectAllOption: true
-					numberDisplayed: 2
+					numberDisplayed: 1
 					delimiterText: ','
 					nonSelectedText: 'Select that describes you best'
 
@@ -387,6 +394,7 @@ getListContent = () ->
 					checkForInput this
 					return
 				return
+
 
 		error: (request, status, error) ->
 			$(".listings-page .site-loader.section-loader").addClass "hidden"
@@ -921,7 +929,6 @@ $(document).ready () ->
 # 			  $(this).find('.arrowDown').toggleClass 'fa-rotate-180'
 # 		return
 # 	), 1500
-
 
 
 

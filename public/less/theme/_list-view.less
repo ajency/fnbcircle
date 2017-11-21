@@ -566,6 +566,41 @@
 	&__form{
 		flex: 1 0 55%;
 	}
+	label,.supplier-detail{
+		color: @text-color;
+	}
+	.describes{
+		&__title{
+			display: none;
+		}
+		.points{
+			margin: 0;
+    		width: 100%;
+    		margin-top: 1.7em;
+		}
+		.multiselect-native-select{
+			width: 100%;
+			.multiselect{
+				font-size: 0.95em;
+			}
+			label.checkbox{
+				margin: 5px 0;
+				input[type='checkbox']{
+					position: relative;
+					&:before{
+						top: -6px;
+					}
+				}
+			}
+		}
+	}
+	.supplier-detail{
+		font-size: 1em;
+		font-weight: 400;
+	}
+	.collapse{
+		margin-top: 0.5em;
+	}
 }
 
 .list-title-container{

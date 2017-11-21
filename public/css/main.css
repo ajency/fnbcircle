@@ -5052,11 +5052,8 @@ input[type=checkbox].custom-checkbox:before {
           flex: 0.5;
   padding-left: 4em;
 }
-.verification-modal .seller-enquiry {
-  margin-top: 1em;
-}
 .verification-modal .seller-enquiry__title {
-  font-size: 1.2em;
+  font-size: 1.1em;
   margin-bottom: 0;
   -webkit-box-align: start;
   -webkit-align-items: flex-start;

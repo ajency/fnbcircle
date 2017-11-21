@@ -252,7 +252,7 @@
                         </h5> -->
                         <!-- premium details -->
                         <div class="send-enquiry">
-                            <h5 class="bolder intro-text flex-row space-between">Send a<br class="mobile-hide"> direct enquiry to...
+                            <h5 class="bolder intro-text flex-row space-between">Send your enquiry to...
                                 <div class="rotator mobile-hide">
                                     <img src="{{ asset('img/direction-down.png') }}" class="img-responsive direction-down">
                                 </div>

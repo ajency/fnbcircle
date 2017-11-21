@@ -82,7 +82,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="hospitality" @if(!$self and !$admin) disabled @endif @isset($details['hospitality']) checked @endisset ></div>
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                 <div>
-                                                    Hospitality Business Owner <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Hospitality Business Owner 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -100,7 +100,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="professional" @if(!$self and !$admin) disabled @endif @isset($details['professional']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                 <div>
-                                                    Working Professional <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Working Professional 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -118,7 +118,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="vendor" @if(!$self and !$admin) disabled @endif @isset($details['vendor']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Vendor/Suppliers/Service Provider <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Vendor/Suppliers/Service Provider 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -136,7 +136,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="student" @if(!$self and !$admin) disabled @endif  @isset($details['student']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Student <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Student 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -154,7 +154,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="enterpreneur" @if(!$self and !$admin) disabled @endif  @isset($details['enterpreneur']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Prospective Entrepreneur <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Prospective Entrepreneur 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -172,7 +172,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="others" @if(!$self and !$admin) disabled @endif  @isset($details['others']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Others <i class="fa fa-info-circle p-l-5" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Some data"></i>
+                                                    Others 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>

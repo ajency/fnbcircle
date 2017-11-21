@@ -21,7 +21,7 @@
 
                         <b style="display: block;font-size: 15px;color: #616161;">OR</b><br>
 
-                        You can copy paste the link: {{ $reset_password_url }}<br>
+                        You can copy paste the link: <div style="word-break: breal-all;">{{ $reset_password_url }}</div><br>
                         If you don't want to reset your password, you can ignore this email.<br><br>
                         <b style="color: #616161;">NOTE</b> : The above link is valid only for 2 hours.<br><br><br>
                         <div style="text-align: left;">

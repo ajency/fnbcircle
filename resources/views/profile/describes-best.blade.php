@@ -1,5 +1,16 @@
 @extends('layouts.profile')
 
+@section('js')
+    @parent
+    @if(Session::has('updateDescription')) 
+    <script type="text/javascript">
+    $('.alert-success').addClass('active');
+    setTimeout((function() {
+      $('.alert-success').removeClass('active');
+    }), 5000);
+    </script>
+    @endif
+@endsection
 
 @section('main-content')
 
@@ -181,4 +192,15 @@
                                     </form>
                                     @endif
                                 </div>
+@if(Session::has('updateDescription')) 
+<div class="alert fnb-alert alert-success alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <div class="flex-row">
+        <i class="fa fa-check-circle" aria-hidden="true"></i>
+        Description Updated successfully.
+    </div>
+</div>
+
+@endif
+
 @endsection

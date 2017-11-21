@@ -68,8 +68,11 @@ class ProfileController extends Controller
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook') ? true : false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'description':
-
-                $data = [];
+                $details = unserialize($user->getUserDetails()->first()->subtype);
+                $config                      = config('helper_generate_html_config.enquiry_popup_display');
+                foreach ($details as $detail) {
+                    $data[$detail] = $config[$detail]['title'];
+                }
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':
                 if(!$self and !$admin){

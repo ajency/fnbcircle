@@ -23,6 +23,7 @@ class ProfileController extends Controller
         if ($email == null) {
             $user = Auth::user();
             $self = true;
+            $admin = false;
         } elseif ($email == Auth::user()->getPrimaryEmail()) {
             return redirect('profile/' . $step);
         } else {
@@ -30,13 +31,15 @@ class ProfileController extends Controller
             $user     = User::findUsingEmail($email);
             if ($usercomm != null and $user != null) {
                 if (hasAccess('view_profile_element_cls', $usercomm->id, 'communication')) {
-                    $self = true;
+                    $self = false;
+                    $admin = true;
                 } else {
                     if ($step == 'basic-details') {
                         abort(403);
                     }
 
                     $self = false;
+                    $admin = false;
                 }
             } else {
                 abort(403);
@@ -63,18 +66,18 @@ class ProfileController extends Controller
                 }
 
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook') ? true : false;
-                return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('self', $self);
+                return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'description':
 
                 $data = [];
-                return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('self', $self);
+                return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':
                 if(!$self){
                     $data = $this->getUserEnquiryActivity($user);
                     if($data == "") abort(403);    
                 }else $data = "";
                 
-                return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('self', $self);
+                return view('profile.enquiry-info')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             default:
                 abort(404);
         }

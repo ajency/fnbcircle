@@ -139,9 +139,9 @@
                                                 </i>
                                             </a>
                                         </li>
-                                        @if($self)
+                                        @if($self or $admin)
                                         <li @if($data['step'] == 'basic-details') class="active"  @endif>
-                                            <a @if($data['step'] == 'basic-details') href="#" class="active" @else href="basic-details" @endif >
+                                            <a @if($data['step'] == 'basic-details') href="#" class="active" @else @if($self) href="basic-details" @else href="../basic-details/{{$data['email']['email']}}" @endif @endif >
                                                 Basic Details
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>

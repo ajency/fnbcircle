@@ -179,7 +179,7 @@ class ProfileController extends Controller
                                 if ($details['made-by-phone']['is_verified'] == 1) {
                                     $details['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                 } else {
-                                    $details['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                    $details['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                 }
 
                                 $details['html'] .= '</dd>
@@ -250,7 +250,7 @@ class ProfileController extends Controller
                                 if ($details['made-by-phone']['is_verified'] == 1) {
                                     $details['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                 } else {
-                                    $details['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                    $details['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                 }
 
                                 $details['html'] .= '</dd>
@@ -459,7 +459,7 @@ class ProfileController extends Controller
                                                             if ($temp['made-by-email']['is_verified'] == 1) {
                                                                 $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                                             } else {
-                                                                $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                                                $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                                             }
 
                                 $temp['html'] .= '</dd>
@@ -474,7 +474,7 @@ class ProfileController extends Controller
                                 if ($temp['made-by-phone']['is_verified'] == 1) {
                                     $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                 } else {
-                                    $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                    $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                 }
 
                                 $temp['html'] .= '</dd>
@@ -538,7 +538,7 @@ class ProfileController extends Controller
                                                             if ($temp['made-by-email']['is_verified'] == 1) {
                                                                 $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                                             } else {
-                                                                $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                                                $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                                             }
 
                                 $temp['html'] .= '</dd>
@@ -553,7 +553,7 @@ class ProfileController extends Controller
                                 if ($temp['made-by-phone']['is_verified'] == 1) {
                                     $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
                                 } else {
-                                    $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                    $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
                                 }
 
                                 $temp['html'] .= '</dd>

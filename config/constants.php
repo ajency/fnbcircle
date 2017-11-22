@@ -25,7 +25,7 @@ return [
  
 
     'send_email_dev' => env('SEND_EMAIL_DEV', true), // If true, Email will be sent, else will not send Email -> ONLY on DEV mode, else Email will be sent in Production mode
-    'send_sms_dev' => env('SEND_SMS_DEV', false), // IF true, SMS will be sent, else will not send SMS -> ONLY on DEV mode, else SMS will be sent in Production mode
+    'send_sms_dev' => env('SEND_SMS_DEV', true), // IF true, SMS will be sent, else will not send SMS -> ONLY on DEV mode, else SMS will be sent in Production mode
 
     'send_delay_dev' => 2, // In mins -> This delay will be used in Email / SMS sending
  	/* Dev Mode Ends */

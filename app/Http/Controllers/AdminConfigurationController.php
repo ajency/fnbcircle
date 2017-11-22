@@ -640,7 +640,7 @@ class AdminConfigurationController extends Controller
             }
           
             $userEmail = $request["email"];
-            $userEmail = 'prajay@ajency.in';
+            // $userEmail = 'prajay@ajency.in';
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');

@@ -9,8 +9,11 @@
                   <div class="flex-row space-between">
 
                     <h3 class="seller-info__title ellipsis-2" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class=" text-darker" target="_blank">{{ $job->title }}</a></h3>
- 
-
+                    
+                    @if($job->premium)
+                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                    @endif
+                    
                     @if(isset($showApplication) && $showApplication)
                     <div class="get-details detail-move">
                         <a href="#" class="apply-jobs" data-toggle="modal" data-target="#job-application-{{ $job->id}}"><button class="btn fnb-btn outline full border-btn fullwidth default-size">View Application <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></button></a>
@@ -194,12 +197,10 @@
                @endif
 
               <div class="get-details detail-move mobile-hide">
-                <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
                 <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
               </div>
           </div>
           <div class="get-details detail-move desk-hide">
-            <!-- <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120"> -->
             <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
           </div>
       </div>

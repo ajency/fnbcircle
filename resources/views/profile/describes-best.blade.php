@@ -186,7 +186,7 @@
                                       </div>
                                     </div>
                                     @if($self or $admin)
-                                    <div class="save-best-data mobile-hide">
+                                    <div class="save-best-data text-right mobile-hide">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
                                     </form>

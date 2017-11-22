@@ -69,11 +69,11 @@
                                     </div> -->
 
                                     @if($self or $admin)
-                                    <form action="{{action('ProfileController@updateUserDetails')}}" method="POST" id="details-form">
+                                    <form action="{{action('ProfileController@updateUserDetails')}}" method="POST" id="details-form" class="m-t-40">
                                     <input type="hidden" name="email_id" value="{{$data['email']['email']}}">
-                                    <div class="save-best-data text-right">
+                                    <!-- <div class="save-best-data text-right">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
-                                    </div>
+                                    </div> -->
                                     @endif
                                     <div class="describe-best" id="accordion" role="tablist" aria-multiselectable="true">
                                       <div class="panel panel-default">
@@ -186,7 +186,7 @@
                                       </div>
                                     </div>
                                     @if($self or $admin)
-                                    <div class="save-best-data text-right mobile-hide">
+                                    <div class="save-best-data mobile-hide">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
                                     </div>
                                     </form>

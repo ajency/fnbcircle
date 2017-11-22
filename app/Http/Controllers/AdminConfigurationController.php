@@ -632,6 +632,11 @@ class AdminConfigurationController extends Controller
             $create_response = $userauth_obj->updateOrCreateUser($user_data, [], $user_comm);
             
             $userRoles = $create_response['user']->getRoleNames()->toArray();
+
+            $roles = array();
+            foreach ($userRoles as $key => $userRole) {
+                $roles[] = ucfirst(implode(" ", explode("_",$userRole)));
+            }
           
             $userEmail = $request["email"];
             // $userEmail = 'prajay@ajency.in';
@@ -641,7 +646,7 @@ class AdminConfigurationController extends Controller
             $data['to'] = [$userEmail];
             // $data['cc'] = 'prajay@ajency.in';
             $data['subject'] = "You are added as internal user on FnB Circle.";
-            $data['template_data'] = ['request' => $request,'userRoles' => $userRoles];
+            $data['template_data'] = ['request' => $request,'userRoles' => $roles];
             sendEmail('register-internal-user', $data);
 
             $output->writeln(json_encode($create_response));

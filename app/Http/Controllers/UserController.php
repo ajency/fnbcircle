@@ -180,6 +180,12 @@ class UserController extends Controller
             $contact = UserCommunication::find($request->id);
             $contact->is_verified = 1;
             $contact->save();
+            if($contact->object_type == 'App\\User'){
+                activity()
+                   ->performedOn($contact)
+                   ->causedBy(\Auth::user())
+                   ->log('contact-verified');
+            }
             // dd($request->session);
             $request->session()->forget('contact#' . $request->id);
             return response()->json(array('success' => "1"));

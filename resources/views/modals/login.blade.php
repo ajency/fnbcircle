@@ -1,5 +1,5 @@
 <!-- Login Popup Modal -->
-<div class="modal fnb-modal login-modal modal-center" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fnb-modal login-modal modal-center fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

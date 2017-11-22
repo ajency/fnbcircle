@@ -19,7 +19,7 @@ use Ajency\User\Ajency\socialaccount\SocialAccountService;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Illuminate\Support\Facades\Hash;
 use Exception;
-use Auth; 
+use Auth;
 use Session;
 
 class RegisterController extends Controller
@@ -209,13 +209,13 @@ class RegisterController extends Controller
             $request_data["user_details"]["area"] = $request->area;
             $request_data["user_details"]["city"] = $request->city;
         }
-        
+
         //$social_data = $socialaccount_obj->getSocialData($account, "email_signup");
         $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");
 
         if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
             $fnb_auth = new FnbAuthController;
-            
+
             if ($valid_response["authentic_user"]) { // If the user is Authentic, then Log the user in
                 if($valid_response["user"]) { // If $valid_response["user"] == None, then Create/Update the User, User Details & User Communications
                     $user_resp = $userauthObj->getUserData($valid_response["user"]);
@@ -227,7 +227,7 @@ class RegisterController extends Controller
 
                 if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
                     $usercomm_obj = UserCommunication::create([
-                        "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91", 
+                        "type" => "mobile", "country_code" => ($request->has("contact_locality")) ? $request->contact_locality : "91",
                         "value" => $request->contact, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
                     ]);
                 }
@@ -237,7 +237,7 @@ class RegisterController extends Controller
 
                 //send email
                 $this->registerConfirmEmail($user_resp["user"]);
- 
+
                 if($user_resp["user"]) {
                     return $fnb_auth->rerouteUser(array("user" => $user_resp["user"], "status" => "success", "filled_required_status" => ["filled_required" => $required_fields_check['has_required_fields_filled'], "fields_to_be_filled" => $required_fields_check["fields_to_be_filled"]]), "website");
                 } else {
@@ -247,7 +247,7 @@ class RegisterController extends Controller
                 $previous_url = url()->previous();
                 $redirect_url = strpos($previous_url, "?") >= 0 ? explode('?', url()->previous())[0] : url()->previous();
 
-                return redirect($redirect_url . "?login=true&message=" . $valid_response["message"]);    
+                return redirect($redirect_url . "?login=true&message=" . $valid_response["message"]);
             }
         } else {
             $previous_url = url()->previous();
@@ -257,41 +257,64 @@ class RegisterController extends Controller
         }
     }
 
+    /**
+    * This function is used to send a confirm mail for a Lead / Register User
+    */
+    public function confirmEmail($token_type = 'register', $user_data = [], $email_template_key = 'user-verify') {
+        if(sizeof($user_data) > 0 && isset($user_data["id"]) && isset($user_data["email"])) {
+            $token = str_random(50);
+            if(!isset($user_data["user_type"]) || $user_data["user_type"] !== "lead") {
+                $userToken = new UserToken();
+                $userToken->user_id = $user_data["id"];
+                $userToken->token = $token;
+                $userToken->token_type = $token_type;
+                $userToken->token_expiry_date = date("Y-m-d H:i:s", strtotime('+2 hours'));
+                $userToken->status = 'sent';
+                $userToken->save();
+            }
 
-    public function registerConfirmEmail($user)
-    {
-        $token = str_random(50);
-        $userToken = new UserToken();
-        $userToken->user_id = $user->id;
-        $userToken->token = $token;
-        $userToken->token_type = 'register';
-        $userToken->token_expiry_date = date("Y-m-d H:i:s", strtotime('+2 hours'));
-        $userToken->status = 'sent';
-        $userToken->save();
+            $confirmationLink = url('/user-confirmation/' . $token);
+            $userEmail = $user_data["email"];
 
-        $confirmationLink =url('/user-confirmation/'.$token);
-        $userEmail = $user->getPrimaryEmail();
-        $data = [];
-        $data['from'] = config('constants.email_from'); 
-        $data['name'] = config('constants.email_from_name');
-        $data['to'] = [$userEmail];
-        $data['cc'] = [];
-        $data['subject'] = "Verify your email address!";
-        $data['template_data'] = ['name' => $user->name,'confirmationLink' => $confirmationLink];
-        sendEmail('user-verify', $data);
-        Session::put('userLoginEmail', $userEmail);
-                 
-        return true;    
+           $data = [];
+            $data['from'] = config('constants.email_from'); 
+            $data['name'] = config('constants.email_from_name');
+            $data['to'] = [$userEmail];
+            $data['cc'] = [];
+            $data['subject'] = "Verify your email address!";
+            $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
+            sendEmail($email_template_key, $data);
+            Session::put('userLoginEmail', $userEmail);
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
+            
 
+    /**
+    * Send Register confirmation link after Registration
+    */
+    public function registerConfirmEmail($user) {
+
+        $user_data = array("id" => $user->id, "name" => $user->name, "email" => $user->getPrimaryEmail());
+
+        return $this->confirmEmail("register", $user_data, 'user-verify');
+
+    }
+
+    /**
+    * This function is called on click of Email Link click
+    */
     public function userConfirmation($usertoken)
     {
         $token = UserToken:: where(['token'=>$usertoken,'token_type'=>'register'])->first();
 
-        $today = new \DateTime(); 
-        $expireDate = new \DateTime($token['token_expiry_date']);  
- 
+        $today = new \DateTime();
+        $expireDate = new \DateTime($token['token_expiry_date']);
+
         if(!empty($token) && $expireDate > $today &&  $token->status == 'sent')
         {
             $user = User::find($token['user_id']);
@@ -315,24 +338,27 @@ class RegisterController extends Controller
         } else {
 
             if(!empty($token) && $token->status == "completed") {
-                return redirect(url('/').'?login=true&message=token_already_verified'); 
+                return redirect(url('/').'?login=true&message=token_already_verified');
             } else if(!empty($token) && $expireDate > $today) {
                 $user = User::find($token['user_id']);
                 Session::put('userLoginEmail', $user->email);
-                return redirect(url('/').'?login=true&message=token_expired'); 
+                return redirect(url('/').'?login=true&message=token_expired');
             } else
-                return redirect(url('/')); 
-            
-            
+                return redirect(url('/'));
+
+
         }
     }
 
- 
+
+    /**
+    * This function is called to send confirmation link post Registration
+    */ 
     public function sendConfirmationLink(Request $request)  
     {
         $email = Session::get('userLoginEmail');
         $user = User::where('email',$email)->get()->first();
         $confirmation = $this->registerConfirmEmail($user);
-        return redirect(url('/').'?login=true&message=resend_verification'); 
+        return redirect(url('/').'?login=true&message=resend_verification');
     }
 }

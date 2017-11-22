@@ -54,7 +54,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Listing', 'last_updated_by');
     }
 
-	public function getUserDetails() { 
+	public function getUserDetails() {
 		return $this->hasOne('App\UserDetail', 'user_id');
 	}
 
@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function jobApplications()
     {
-        $applications = $this->applications()->get(); 
+        $applications = $this->applications()->get();
         $jobs = [];
         foreach ($applications as $key => $application) {
             $job = $application->job;
@@ -120,7 +120,7 @@ class User extends Authenticatable
     }
 
     public function saveContactDetails($data,$type){
-       
+
         if($type=='listing'){
             if ($data['id'] == null) {
                 $object = new ListingCommunication;
@@ -161,7 +161,7 @@ class User extends Authenticatable
 
                 $object->save();
             }
-            
+
 
         }
 
@@ -177,8 +177,8 @@ class User extends Authenticatable
         return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
     }
 
- 
- 
+
+
     public Function uploadUserResume($file){
         $id = $this->uploadFile($file,false);
         $this->remapFiles([$id]);
@@ -189,11 +189,11 @@ class User extends Authenticatable
     public function getUserProfileDetails(){
         $user = $this;
         // $userDetails = $userAuth->getUserData($this);
-       
+
         $user['email'] = '';
         $user['city'] = '';
         $user['phone'] = '';
-     
+
         if((!empty($this->getUserDetails()->first())) && !empty($this->getUserDetails()->first()->city)){
             $city = $this->getUserDetails()->first()->city;
             $user['city'] = $city;
@@ -209,16 +209,16 @@ class User extends Authenticatable
             $email = $this->getUserCommunications()->where('type','email')->first()->value;
             $user['email'] = $email;
         }
-       
+
         return $user;
     }
 
-     
+
 
 
     public Function getUserResume(){
         $userResumeUrl  ='';
-        $userResume = $this->getFiles(); 
+        $userResume = $this->getFiles();
         foreach ($userResume as $key => $resume) {
             $url = $resume['url'];
         }
@@ -227,7 +227,7 @@ class User extends Authenticatable
     }
 
     public function getUserJobLastApplication(){
-         
+
         $userDetails = $this->getUserDetails;
         $resumeId = $userDetails->resume_id;
         $lastUpdated = $userDetails->resumeUpdated();
@@ -239,7 +239,7 @@ class User extends Authenticatable
         return $application;
     }
 
- 
+
     public function userCreated($format=1){
         $date = '';
 
@@ -259,9 +259,9 @@ class User extends Authenticatable
         }
 
         return $date;
-      
+
     }
- 
+
     /* Refer Illuminate\Auth\Passwords\CanResetPassword.php */
     /**
      * Send the password reset notification.
@@ -271,5 +271,11 @@ class User extends Authenticatable
      */
     public function sendPasswordResetNotification($token) {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function activities ($activities)
+    {
+      if(!is_array($activities)) $activities = [$activities];
+      return $this->morphMany('Spatie\Activitylog\Models\Activity', 'causer')->whereIn('description',$activities);
     }
 }

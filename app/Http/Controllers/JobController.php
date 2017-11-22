@@ -22,6 +22,7 @@ use View;
 use \Input;
 use App\JobApplicant;
 use Ajency\User\Ajency\userauth\UserAuth;
+use Spatie\Activitylog\Models\Activity;
  
 
 class JobController extends Controller
@@ -1188,6 +1189,10 @@ class JobController extends Controller
         $jobApplicant->resume_id = $resumeId; 
 
         $jobApplicant->save();
+        activity()
+           ->performedOn($jobApplicant)
+           ->causedBy($user)
+           ->log('job-applied');
 
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();

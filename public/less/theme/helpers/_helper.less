@@ -221,6 +221,11 @@
   justify-content: center;
 }
 
+.align-full{
+  align-items: inherit;
+}
+
+
 .flex-1{
   flex: 1;
 }
@@ -264,6 +269,11 @@
       position: absolute;
       left: -5px;
     }
+  }
+  &.with-flag{
+    position: relative;
+    top: -6px;
+    left: -6px;
   }
 }
 
@@ -328,6 +338,9 @@
   }
   .full-m-width{
     width: 100%;
+  }
+  .mobile-column{
+    flex-direction: column;
   }
 }
 

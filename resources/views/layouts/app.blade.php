@@ -18,6 +18,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/magnify.css') }}">
     <!-- Internationalization CSS -->
     <link rel="stylesheet" href="{{ asset('/bower_components/intl-tel-input/build/css/intlTelInput.css') }}">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-multiselect.min.css">
     <!-- Main styles -->
     <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
     @yield('css')
@@ -70,6 +72,12 @@
     <!-- Mobile Verification popup -->
     @include('modals.verification.mobile-modal')
 
+    @include('modals.categories_list')
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <!-- Multi quote Enquiry Modal -->
+        @include('modals.multi_quote_enquiry')
+    @endif
+
     </div>
     <!-- page shifter end-->
     <!-- banner ends -->
@@ -111,9 +119,15 @@
     <script type="text/javascript" src="{{ asset('/js/parsley.min.js') }}" ></script>
     <!-- Internationalization plugin -->
     <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
+    <!-- Multi Select plugin -->
+    <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
     <!-- custom script -->
     <script type="text/javascript" src="{{ asset('/js/custom.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/verification.js') }}"></script>
+    @if(Auth::guest() || Auth::user()->type == "external")
+        <script type="text/javascript" src="{{ asset('js/multi_quote_enquiry.js') }}"></script>
+    @endif
+    <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
 
     @if(!Auth::guest() && !Auth::user()->has_required_fields_filled)
         <!-- This is defined here as the "require" modal is included to this blade -->

@@ -2,6 +2,10 @@
 @section('title')
 @if($self) My @else User @endif Profile
 @endsection
+
+@section('meta')
+    <meta property="user-email" content="{{$data['email']['email']}}">
+@endsection
 @section('content')
     <div class="profile-stats edit-mode">
             <div class="container">
@@ -47,7 +51,7 @@
                                     </p>
                                 </div>
                             </div> -->
-                            
+
                         <!-- </div> -->
                     </div>
                     <div class="col-sm-8">
@@ -99,7 +103,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 @endisset
                                                 @isset($data['phone'])
@@ -127,25 +131,27 @@
                                 </div>
                                 <div class="nav nav-tabs">
                                     <ul class="gs-steps" role="tablist">
-                                        <li>
+                                        <li @if($data['step'] == 'activity') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#enquiry-info" role="tab"> -->
-                                            <a href="#">
-                                                My Activity
+                                            <a @if($data['step'] == 'activity') href="#" class="active" @else @if($self) href="activity" @else href="../activity/{{$data['email']['email']}}" @endif @endif >
+                                                @if($self) My @else User @endif Activity
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
                                         </li>
-                                        <li class="active">
-                                            <a class="form-toggle" data-toggle="tab" href="#activity" role="tab">
+                                        @if($self or $admin)
+                                        <li @if($data['step'] == 'basic-details') class="active"  @endif>
+                                            <a @if($data['step'] == 'basic-details') href="#" class="active" @else @if($self) href="basic-details" @else href="../basic-details/{{$data['email']['email']}}" @endif @endif >
                                                 Basic Details
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
                                         </li>
-                                        <li>
+                                        @endif
+                                        <li @if($data['step'] == 'description') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
-                                            <a href="#">
-                                                What describe you the best?
+                                            <a @if($data['step'] == 'description') href="#" class="active" @else @if($self) href="description" @else href="../description/{{$data['email']['email']}}" @endif @endif>
+                                                What describes @if($self) me @else user @endif the best?
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>

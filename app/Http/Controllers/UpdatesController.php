@@ -7,6 +7,7 @@ use App\Update;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 /*
  *    This class defines the actions required for adding a update to the database and editing it.
@@ -64,9 +65,11 @@ class UpdatesController extends Controller
         // dd($images);
         if(isset($request->postID)){
             $update =  Update::find($request->postID);
+            $log = 'listing-update-edited';
         }else {
             $update =  new Update;
             $update->posted_by = Auth::user()->id;
+            $log = 'listing-update-posted';
         }
         $update->last_updated_by = Auth::user()->id;
         $update->title = $request->title;
@@ -74,6 +77,10 @@ class UpdatesController extends Controller
         $update->photos = ($request->photos == '')? '[]':json_encode($request->photos);
         $update->status = 1;
         $update->save();
+        activity()
+      	   ->performedOn($update)
+      	   ->causedBy(\Auth::user())
+      	   ->log($log);
         // dd($update->id);
         $object->updates()->save($update);
         $object->updated_at = Carbon::now();
@@ -114,7 +121,7 @@ class UpdatesController extends Controller
                 'contents' => nl2br(e($update->contents)),
                 'images'=> $update->getImages(),
                 'updated'=>$update->created_at->diffForHumans(),
-            ];          
+            ];
         }
         return response()->json(['status'=>'200', 'message'=>'OK', 'data'=>['updates' => $update_json, 'more'=>$more]]);
     }

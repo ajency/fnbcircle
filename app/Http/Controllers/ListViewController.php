@@ -22,6 +22,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use App\Helper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -184,6 +185,16 @@ class ListViewController extends Controller {
 		$category_obj = Category::where([["status", 1], ["type", "listing"]])->orderBy('order', 'asc');
 
 		$output = new ConsoleOutput;
+
+        if($request->has('category_level') && $request->category_level) {
+            $category_obj = $category_obj->where('level', $request->category_level);
+        }
+
+        if($request->has("ignore_categories") && is_array($request->ignore_categories) && sizeof($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->whereNotIn('slug', $request->ignore_categories);
+        } else if ($request->has('ignore_categories') && !is_array($request->ignore_categories) && strlen($request->ignore_categories) > 0) {
+            $category_obj = $category_obj->where('slug', '<>', $request->ignore_categories);
+        }
 
 		if($request->has("search") && $request->search) {
 			$response_data = $this->searchData($request->search, $category_obj, 'name', ['id', 'name', 'slug', 'level'], 1, true);
@@ -683,7 +694,9 @@ class ListViewController extends Controller {
 
     	$filtered_list_response = $this->getListingSummaryData($city, $filters, $start, $page_size, $sort_by, $sort_order); // Get list of all the data
     	$listing_data = $filtered_list_response["data"];
-    	$list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data'))->render();
+
+        $enquiry_data = Session::get('enquiry_data', []);
+        $list_view_html = View::make('list-view.single-card.listing_card')->with(compact('listing_data', 'enquiry_data'))->render();
 
     	if($request->has('state') && $request->state && (City::where('slug', $request->state)->count() > 0 || Area::where('slug', request()->state)->count() > 0)) {
     		$filter_filters["state"] = $request->state;

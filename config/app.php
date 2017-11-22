@@ -186,6 +186,7 @@ return [
 
         // Aws\Laravel\AwsServiceProvider::class,
         Ajency\User\LaravelAjUserServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
     ],
 

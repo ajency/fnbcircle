@@ -2,11 +2,16 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
+use App\Category;
 use App\Defaults;
+use App\User;
+use Spatie\Activitylog\Models\Activity;
 // use AjComm;
 
-
-function getOperationTime($info=null,$type= "from",$diff=30){
+/**
+*
+*/
+function getOperationTime($info=null,$type= "from",$diff=30) {
 	$time = null;
 	if($info != null and !empty($info)) {
 		if($type == 'from') $time = substr($info->from,0,5);
@@ -29,8 +34,8 @@ function getOperationTime($info=null,$type= "from",$diff=30){
 	if($type == 'to'){
 		if ($time == '24:00') $html.='<option selected>24:00</option>';
 		else $html.='<option>24:00</option>';
-	} 
-		
+	}
+
 	echo $html;
 }
 
@@ -75,38 +80,80 @@ function generateRefernceId(\Illuminate\Database\Eloquent\Model $model, $refernc
 *	array("html" => "", "title" => "", "content" => ""),
 * 	....
 * ]
-* 
+*
 * Note: If a new content is to be generated, please refer config/helper_generate_html_config.php
 */
-function generateHTML($reference) {
+function generateHTML($reference, $values = []) {
 	$config_content = config("helper_generate_html_config." . $reference);
 	$response_html = [];
-	
+
 	foreach ($config_content as $key => $value) {
 		$temp_html = [];
 		if($value["type"] == "checkbox") {
 			if(!auth()->guest()) {
-				$userDetailsObj = auth()->user()->getUserDetails()->first();
+				$userDetailsObj = auth()->user()->getUserDetails;
 			} else {
 				$userDetailsObj = null;
 			}
 
+			/* Parsley field */
+			$parsley = "";
+			if(isset($value["parsley"]) && sizeof($value["parsley"]) > 0) {
+				foreach ($value["parsley"] as $parsley_key => $parsley_value) {
+					$parsley .= $parsley_key . '="' . $parsley_value . '" ';
+				}
+			}
+
 			if(!auth()->guest() && $userDetailsObj && $userDetailsObj->subtype && in_array($value["value"], unserialize($userDetailsObj->subtype))) { // If logged in & has userDetails & has atleast 1 option in array
-				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\"/>";
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
+			} else if(in_array($value["value"], $values)) { // If the value is passed in the Array, then ENABLE that Checkbox
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" checked=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
 			} else {
-				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\"/>";
+				$temp_html["html"] = "<input type=\"checkbox\" class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . "/>";
+			}
+		} else if($value["type"] == "option") {
+			if(!auth()->guest()) {
+				$userDetailsObj = auth()->user()->getUserDetails;
+			} else {
+				$userDetailsObj = null;
+			}
+
+			/* Parsley field */
+			$parsley = "";
+			if(isset($value["parsley"]) && sizeof($value["parsley"]) > 0) {
+				foreach ($value["parsley"] as $parsley_key => $parsley_value) {
+					$parsley .= $parsley_key . '="' . $parsley_value . '" ';
+				}
+			}
+
+			if(!auth()->guest() && $userDetailsObj && $userDetailsObj->subtype && in_array($value["value"], unserialize($userDetailsObj->subtype))) { // If logged in & has userDetails & has atleast 1 option in array
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else if(in_array($value["value"], $values)) { // If the value is passed in the Array, then ENABLE that Checkbox
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" selected=\"true\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			} else {
+				$temp_html["html"] = "<option class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\" value=\"" . $value["value"] . "\" " . $parsley . " ". (isset($value["required"]) ? ("required='" . $value["required"] . "'") : '' ) . ">" . $value["title"] . "</option>";
+			}
+		} else if($value["type"] == "li_label") {
+			if (sizeof($values) > 0) {
+				if(in_array($key, $values)) {
+					$temp_html["html"] = "<li class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\">" . $value["title"] . "</li>";
+				}
+			} else {
+				$temp_html["html"] = "<li class=\"" . $value["css_classes"] . "\" for=\"" . $value["for"] . "\" name=\"" . $value["name"] . "\">" . $value["title"] . "</li>";
 			}
 		}
 
-		if(isset($value["title"])) {
+		if(isset($value["title"]) && isset($temp_html["html"])) {
 			$temp_html["title"] = $value["title"];
 		}
 
-		if(isset($value["content"])) {
+		if(isset($value["content"])  && isset($temp_html["html"])) {
 			$temp_html["content"] = $value["content"];
 		}
 
-		array_push($response_html, $temp_html);
+		if(isset($temp_html["html"])) { // If html value exist, then push it in array
+			array_push($response_html, $temp_html);
+		}
 	}
 
 	return $response_html;
@@ -115,16 +162,16 @@ function generateHTML($reference) {
 
 /***
 breaks the array data by the given limit
-"array"  will contain limited array values 
-"moreArray"  will contain remaining array values 
+"array"  will contain limited array values
+"moreArray"  will contain remaining array values
 "moreArrayCount" will conatin count of remaing values
 eg: $a = [1,2,3,4,5,6]
 splitJobArrayData($a,3)
 $data['array'] = [1,2,3]
 $data['moreArray'] = [4,5,6]
-$data['moreArrayCount'] = 3 
+$data['moreArrayCount'] = 3
 ***/
-function splitJobArrayData($array,$limit){	 
+function splitJobArrayData($array,$limit){
     $arrayCount = count($array);
     $limitedArray = ($arrayCount > $limit) ? array_splice($array,0,$limit) : $array;
     $moreArray = $array;
@@ -185,24 +232,29 @@ function getDefaultValues($type, $arrayType=1){
 	return $defaultValues;
 }
 
-
+/**
+*
+*/
 function getCommunicationContactDetail($objectId,$objectType,$type,$mode='edit'){
 	if($mode == 'edit')
     	$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type])->get();
    	else
    		$commObjs = App\UserCommunication::where(['object_type'=>$objectType,'object_id'=>$objectId,'type'=>$type,'is_visible'=>1])->get();
-    
+
     $contactInfo = [];
     if(!empty($commObjs)){
         foreach ($commObjs as $key => $commObj) {
             $contactInfo[] = ['id'=>$commObj->id,$type =>$commObj->value,'country_code' =>$commObj->country_code,'visible'=>$commObj->is_visible,'verified'=>$commObj->is_verified];
         }
-         
+
     }
 
     return $contactInfo;
 }
 
+/**
+*
+*/
 function moneyFormatIndia($amount){
     $num = floatval($amount);
     $splitNum = explode('.', $amount);
@@ -232,18 +284,25 @@ function moneyFormatIndia($amount){
     return $thecash.$decimalValue; // writes the final format where $currency is the currency symbol.
 }
 
+/**
+*
+*/
 function salarayTypeText($type){
    $salaryTpes = ['Annually'=>'per annum' ,'Monthly'=>'per month', 'Daily'=>'per day','Hourly'=>'per hour']  ;
 
    return $salaryTpes[$type];
 }
- 
+
+
+/**
+*
+*/ 
 function getCities(){
 	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
 	return $cities;
 }
- 
+
 /**
 * This function will return DOM for the pagination
 * This function will @return
@@ -252,11 +311,11 @@ function getCities(){
 * Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
 *		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
 */
- 
+
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage) ? 1 : $currentPage;
-	$totalPages = intVal(ceil($totalRecords/$limit)); 
+	$totalPages = intVal(ceil($totalRecords/$limit));
 	$next = false;
 	$previous = false;
 	$html = '';
@@ -269,7 +328,7 @@ function pagination($totalRecords,$currentPage,$limit){
 			$startPage = $currentPage - 4;
 		} else
 			$startPage = 1;
-		 
+
 		if(($currentPage + $endCounterValue) < $totalPages){
 			$next = true;
 			$endPage = $currentPage + $endCounterValue;
@@ -277,11 +336,11 @@ function pagination($totalRecords,$currentPage,$limit){
 			$endPage = $currentPage + ($totalPages-$currentPage);
 
 		$html = View::make('pagination')->with(compact('previous', 'next', 'currentPage', 'startPage', 'endPage'))->render();
- 
+
 		/*if($previous)
 			$html .= '<a href="javascript:void(0)" class="paginate previous" page="'.($startPage-1).'">previous</a> | ';
 
-		for ($i=$startPage; $i <= $endPage; $i++) { 
+		for ($i=$startPage; $i <= $endPage; $i++) {
 			$active = ($i == $currentPage) ? 'active' : '';
 			$html .= '<a href="javascript:void(0)" class="paginate page '.$active.'" page="'.($i).'">'.$i.'</a>';
 
@@ -297,8 +356,11 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
- 
-function salaryRange(){
+
+/**
+*
+*/ 
+function salaryRange() {
 	$range = [	'5'=>['min' => 0,
 					'max' => 300000000
 					],
@@ -317,21 +379,24 @@ function salaryRange(){
 
 			];
 	return  $range;
-} 
+}
 
-function getUploadFileUrl($id){
+/**
+*
+*/
+function getUploadFileUrl($id) {
 	$url = '';
 	if(!empty($id)){
 		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
-	
+
 		if(!empty($fileUrl)){
 			$url = $fileUrl[0]->url;
 		}
 	}
-	
+
 	 return $url;
 }
- 
+
 /**
 * This function is used to get Popular city object that will be used in Every page dropdown -> Header page
 * This function will @return
@@ -341,6 +406,9 @@ function getPopularCities() {
 	return App\City::where('status', 1)->orderBy('order', 'asc')->get(); //where('is_popular_city', 1)->
 }
 
+/**
+*
+*/
 function getSinglePopularCity() {
 	return App\City::where('status', 1)->orderBy('order', 'asc')->first(); //where('is_popular_city', 1)->
 }
@@ -368,73 +436,83 @@ function generateUrl($city, $slug, $slug_extra = []) {
 			$url .= "/" . str_slug($slug_value, '-');
 		}
 	}
- 
+
 	return $url;
 }
 
  
+
 /**
 * This function is used to send email for each event
 * This function will send an email to given recipients
 * @param data can contain the following extra parameters
 *	@param template_data
-*	@param to 
+*	@param to
 *	@param cc
 *	@param bcc
 *	@param from
 *	@param name
 * 	@param subject
+*   @param delay  - @var integer
+*   @param priority - @var string -> ['low','default','high']
 *	@param attach - An Array of arrays each containing the following parameters:
 *			@param file - base64 encoded raw file
 *			@param as - filename to be given to the attachment
 *			@param mime - mime of the attachment
 */
 function sendEmail($event='new-user', $data=[]) {
-	$email = new \Ajency\Comm\Models\EmailRecipient();
-	$from = (isset($data['from']))? $data['from']:config('tempconfig.email.defaultID');
-	$name = (isset($data['name']))? $data['name']:config('tempconfig.email.defaultName');
-	$email->setFrom($from, $name);
+	if(!in_develop() || (in_develop() && config('constants.send_email_dev'))) { // if (in Production Mode) or (in Dev mode & send_email_dev == true)
+		$email = new \Ajency\Comm\Models\EmailRecipient();
 
-	/* to */
-	if(!isset($data['to']))
-		$data['to']= [];
-	else
-		if(!is_array($data['to'])) // If not in array format
-			$data['to'] = [$data['to']];
-	$to = sendEmailTo($data['to'], 'to');
-	$email->setTo($to);
+		/* from */
+		$from = (isset($data['from']))? $data['from'] : config('tempconfig.email.defaultID');
+		$name = (isset($data['name']))? $data['name'] : config('tempconfig.email.defaultName');
+		$from = sendEmailTo($from, 'from');
+		$email->setFrom($from, $name);
 
-	/* cc */
-	$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
-	if(!is_array($cc)) $cc = [$cc];
+		/* to */
+		if(!isset($data['to']))
+			$data['to']= [];
+		else
+			if(!is_array($data['to'])) // If not in array format
+				$data['to'] = [$data['to']];
+		$to = sendEmailTo($data['to'], 'to');
+		$email->setTo($to);
 
-	$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
-	if(in_array($event, $notify)){
-		$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value; 
-		$cc = array_merge($cc,$notify_data);
+		/* cc */
+		$cc = isset($data['cc']) ? sendEmailTo($data['cc'], 'cc') : sendEmailTo([], 'cc');	
+		if(!is_array($cc)) $cc = [$cc];
+
+		$notify = Defaults::where('type','email_notification')->pluck('label')->toArray();
+		if(in_array($event, $notify)) {
+			$notify_data = json_decode(Defaults::where('type','email_notification')->where('label',$event)->pluck('meta_data')->first())->value;
+			$cc = array_merge($cc,$notify_data);
+		}
+		$email->setCc($cc);
+
+		/* bcc */
+		if(isset($data['bcc'])) {
+			$bcc = sendEmailTo($data['bcc'], 'bcc');
+			$email->setCc($bcc);
+		}
+		
+		$params = (isset($data['template_data']))? $data['template_data']:[];
+		if(!is_array($params)) $params = [$params];
+		$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
+	 
+		$email->setParams($params);
+
+		if(isset($data['attach'])) $email->setAttachments($data['attach']);
+
+		$notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$email]); 
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    // $notify->setRecipientIds([$email,$email1]);
+	    AjComm::sendNotification($notify);
 	}
-	$email->setCc($cc);
-
-	/* bcc */
-	if(isset($data['bcc'])) {
-		$bcc = sendEmailTo($data['bcc'], 'bcc');
-		$email->setCc($bcc);
-	}
-	
-	$params = (isset($data['template_data']))? $data['template_data']:[];
-	if(!is_array($params)) $params = [$params];
-	$params['email_subject'] = (isset($data['subject']))? $data['subject']:"";
- 
-	$email->setParams($params);
-
-	if(isset($data['attach'])) $email->setAttachments($data['attach']);
-
-	$notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$email]); 
-    // $notify->setRecipientIds([$email,$email1]);
-    AjComm::sendNotification($notify);
-
 }
 
 /**
@@ -443,36 +521,57 @@ function sendEmail($event='new-user', $data=[]) {
 * @param data can contain the following extra parameters
 *	@param to - array
 * 	@param message - string
+*   @param delay  - @var integer
 * @param override
 */
 function sendSms($event='new-user', $data=[], $override = false) {
-	if(!isset($data['to'])) return false;
-	if(!is_array($data['to'])) $data['to'] = [$data['to']];
-	if(!isset($data['message'])) return false;
-	$sms = new \Ajency\Comm\Models\SmsRecipient();
-    $sms->setTo($data['to']);
-    $sms->setMessage($data['message']);
-    if($override) $sms->setOverride(true);
-    $notify = new \Ajency\Comm\Communication\Notification();
-    $notify->setEvent($event);
-    $notify->setRecipientIds([$sms]);
-    AjComm::sendNotification($notify);
- 
- 	
+	if(!in_develop() || (in_develop() && config('constants.send_sms_dev'))) { // If not dev or (if dev && the 'send_sms_dev' flag == true)
+		if(in_develop()) { // If develop, then send SMS among dev accounts
+			if(config('constants.sms_to_dev_array')) {
+				$data['to'] = config('constants.sms_to_dev');
+			} else {
+				$data['to'] = config('constants.sms_to_dev')[0];
+			}
+		}
+
+		if(!isset($data['to'])) return false;
+		if(!is_array($data['to'])) $data['to'] = [$data['to']];
+		if(!isset($data['message'])) return false;
+		
+		$sms = new \Ajency\Comm\Models\SmsRecipient();
+	    $sms->setTo($data['to']);
+	    $sms->setMessage($data['message']);
+	    if($override) $sms->setOverride(true);
+	    $notify = new \Ajency\Comm\Communication\Notification();
+	    $notify->setEvent($event);
+	    $notify->setRecipientIds([$sms]);
+	    if(isset($data['delay']) && in_develop()) $data['delay'] = config('constants.send_delay_dev');
+	    if (isset($data['delay']) and is_integer($data['delay'])) $notify->setDelay($data['delay']);
+	    if (isset($data['priority'])) $notify->setPriority($data['priority']);
+	    AjComm::sendNotification($notify);
+ 	} else {
+ 		return false;
+ 	}
+
+
 }
 
-function getFileMimeType($ext){
+
+
+/**
+* 
+*/
+function getFileMimeType($ext) {
 	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
 	$mimeType = $mimeTypes[$ext];
 
-	return $mimeType;
- 
- 
 }
 
-
-function sendUserRegistrationMails($user){
+/**
+*
+*/
+function sendUserRegistrationMails($user) {
 
     $userDetail = $user->getUserDetails;
     $userDetail->has_previously_login = 1;
@@ -482,31 +581,34 @@ function sendUserRegistrationMails($user){
     Auth::login($user);
     $userEmail = $user->getPrimaryEmail();
     // $userEmail = 'nutan@ajency.in';
-    
+
     //send welcome mail
     $data = [];
-    $data['from'] = config('constants.email_from'); 
+    $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [$userEmail];
-    $data['cc'] = ['prajay@ajency.in'];
+    $data['cc'] = [];
     $data['subject'] = "Welcome to FnB Circle!";
     $data['template_data'] = ['name' => $user->name,'contactEmail' => config('constants.email_from')];
     sendEmail('welcome-user', $data);
 
 
     $data = [];
-    $data['from'] = config('constants.email_from'); 
+    $data['from'] = config('constants.email_from');
     $data['name'] = config('constants.email_from_name');
     $data['to'] = [config('constants.email_from')];
-    $data['cc'] = ['prajay@ajency.in'];
+    $data['cc'] = [];
     $data['subject'] = "New user registration on FnB Circle.";
     $data['template_data'] = ['user' => $user];
     sendEmail('user-register', $data);
 
     return true;
 
-    }
+}
 
+/**
+*
+*/
 function firstTimeUserLoginUrl(){
 
 	$redirectUrl = '/';
@@ -518,7 +620,7 @@ function firstTimeUserLoginUrl(){
         else
             $redirectUrl = '/profile/basic-details';
     }
- 
+
 	return $redirectUrl;
 
 }
@@ -533,6 +635,27 @@ function getUserSessionState(){
 
 }
  
+
+
+/**
+* This function will generate Category's Hierarchy from bottom to top -> Node to Parent
+*/
+function generateCategoryHierarchy($category_id) {
+	$cat_obj = Category::find($category_id);
+	$position = ["parent", "branch", "node"];
+	$value = [];
+	$categ = $cat_obj;
+	$level = $cat_obj->level;
+
+	do{
+		if($level!=$cat_obj->level) $categ = Category::find($categ->parent_id);
+		$value[$position[$categ->level - 1]] = array("id" => $categ->id, "name" => $categ->name, "slug" => $categ->slug, "level" => $categ->level, "icon_url" => $categ->icon_url);
+		$level--;
+	}while($level > 0);
+
+	return $value;
+}
+
 
 /**
 * This function is used to determine whether the Server Hosted is in Development or Production Mode
@@ -574,3 +697,53 @@ function jsonDecoder($string) {
         return $string;
     }
 }
+
+/**
+* This function is used to shorten/lengthen the URL -> using google "goo.gl"
+*/
+function urlShortner($url,$shorten = true) {
+	// Create cURL
+	$ch = curl_init();
+	$google_api_key = config('services.google.api_key');
+
+	if($google_api_key && is_string($url) && strlen($url) > 0) { // If API key exist, & URL is a string & has value
+		$apiUrl = "https://www.googleapis.com/urlshortener/v1/url" .'?key=' . $google_api_key;
+		// If we're shortening a URL...
+		if($shorten) {
+			curl_setopt($ch, CURLOPT_URL, $apiUrl);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(array("longUrl" => $url)));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+		} else {
+			curl_setopt($ch, CURLOPT_URL, $apiUrl . '&shortUrl='.$url);
+		}
+
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER, 1);
+		// Execute the post
+		$result = curl_exec($ch);
+		// Close the connection
+		curl_close($ch);
+
+		// Return the result
+		return json_decode($result,true);
+	} else { // Else return back same value
+		return ["id" => $url, "longUrl" => $url];
+	}
+}
+
+/**
+*		this function creates a new activity on status change
+*/
+function saveListingStatusChange($listing, $from, $to){
+	($listing->owner_id != null)?
+	activity()
+	   ->performedOn($listing)
+	   ->causedBy(User::find($listing->owner_id))
+	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
+	   ->log('listing-status-change')
+	: activity()
+	   ->performedOn($listing)
+	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
+	   ->log('listing-status-change');
+}
+

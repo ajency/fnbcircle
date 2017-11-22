@@ -372,9 +372,26 @@ getListContent = () ->
 			### ---- HAndleBar template content load ---- ###
 			# templateHTML = getTemplateHTML('listing_card_template',data["data"])
 			# $('#listing_card_view').append(templateHTML)
+
+			### --- If enquiry card exist, then --- ###
+			if $("#listing_card_view #listing_list_view_enquiry").length 
+				initFlagDrop("#listing_card_view #listing_list_view_enquiry input[name='contact']")
+				
+				$(document).find("#listing_card_view #listing_list_view_enquiry select[name='description']").multiselect
+					includeSelectAllOption: true
+					numberDisplayed: 2
+					delimiterText: ','
+					nonSelectedText: 'Select that describes you best'
+
+				$(document).find('.float-input').each ->
+					checkForInput this
+					return
+				return
+
 		error: (request, status, error) ->
 			$(".listings-page .site-loader.section-loader").addClass "hidden"
 			console.log error
+			return
 	return
 
 ### --- Search the list of city & area on text type --- ###
@@ -388,6 +405,7 @@ getCity = (data, populate_id) ->
 		success: (data) ->
 			html_content = ""
 			updateCityDropdown(data["data"], populate_id)
+			return
 		error: (request, status, error) ->
 			console.log error
 	return
@@ -397,10 +415,43 @@ updateCityDropdown = (data, populate_id) ->
 	if data.length
 		data.forEach (value, index) ->
 			html_content += "<option value=\"" + value.slug + "\">" + value.name + "</option>"
+			return
 	else
 		html_content = "<option value=\"\"></option>"
 	
 	$("#" + populate_id).html html_content
+	return
+
+### --- Initialize international flag --- ###
+initFlagDrop = (path) ->
+	$(document).find(path).intlTelInput
+		initialCountry: 'auto'
+		separateDialCode: true
+		geoIpLookup: (callback) ->
+			$.get('https://ipinfo.io', (->
+			), 'jsonp').always (resp) ->
+				countryCode = undefined
+				countryCode = if resp and resp.country then resp.country else ''
+				callback countryCode
+				return
+			return
+		preferredCountries: [ 'IN' ]
+		americaMode: false
+		formatOnDisplay: false
+
+	# $(document).find(path).on "countrychange", () ->
+	# 	$(this).val($(this).intlTelInput("getNumber"))
+	# 	return
+	return
+
+### --- For label slide out in <input> textareas --- ###
+checkForInput = (element) ->
+	# element is passed to the function ^
+	$label = $(element).siblings('label')
+	if $(element).val().length > 0
+		$label.addClass 'filled lab-color'
+	else
+		$label.removeClass 'filled lab-color'
 	return
 
 $(document).ready () ->
@@ -559,11 +610,11 @@ $(document).ready () ->
 			$('input[name="business_search"]').flexdatalist('params', {'city': $('input[name="city"]').val()})
 		
 		if $(this).val().length <= 0
-			updateUrlPushstate(key, "")
-
 			if $(this).prop("name") == "category_search"
 				### --- update the value to null on change --- ###
 				$(document).find(".results__body ul.contents #current_category").val($(this).val())
+			else
+				updateUrlPushstate(key, "")
 
 			# console.log $(this).val()
 			## -- Do not make AJAX request if state is empty -- ##
@@ -840,6 +891,7 @@ $(document).ready () ->
 	$(document).on 'click', '.back-icon', ->
 		$('.fly-out').removeClass 'active'
 		return
+	return
 
 # $(document).ready ->
 # 	setTimeout (->

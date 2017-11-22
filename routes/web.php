@@ -11,6 +11,8 @@
 */
 Route::get('/', function () {
 	$header_type = "home-header";
+	// dd(Cookie::get('laravel_session'));
+	// cookie()->queue('user_id', '12345', 120, '/', "localhost", '', false);
     return view('welcome', compact('header_type'));
 });
  
@@ -71,6 +73,10 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	
 	Route::post('admin/moderation/set-bulk-status','AdminModerationController@setStatus');
 	Route::post('/all-listing','AdminModerationController@displayListingsDum');
+
+	Route::post('/get-enquiries','AdminEnquiryController@displayEnquiriesDum');
+
+
 });
 Route::post('/change-notification-recipients','AdminModerationController@setNotificationDefault');
 Route::group( ['middleware' => ['auth']], function() { 
@@ -85,6 +91,9 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 	Route::post('/delete-post','UpdatesController@deletePost');
+	Route::post('/get-listing-enquiries','AdminEnquiryController@displaylistingEnquiries');
+	Route::post('/listing-enquiry-archive','AdminEnquiryController@archiveEnquiry');
+	Route::post('/listing-enquiry-unarchive','AdminEnquiryController@unarchiveEnquiry');
 });
 /******
 JOBS/USERS
@@ -121,6 +130,8 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
 	Route::post('/profile/password-change', 'ProfileController@changePassword');
 	Route::post('/profile/number-change', 'ProfileController@changePhone');
+	Route::post('/profile/get-user-activity', 'ProfileController@getUserActivity');
+	Route::post('/profile/update-user-details', 'ProfileController@updateUserDetails');
 });
 /*************/
   
@@ -149,6 +160,7 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::get('email-notification', 'AdminModerationController@emailNotification');
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
+		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
 	});
 	
 	Route::group(['prefix' => 'users'], function() {
@@ -204,3 +216,18 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::get('/', 'LocationController@location');
 });
 
+Route::group(['prefix' => 'api'], function() {
+	Route::post('/get-listview-data', 'ListViewController@getListViewData');
+	Route::post('/search-city', 'ListViewController@searchCity');
+	Route::post('/search-category', 'ListViewController@searchCategory');
+	Route::post('/search-business', 'ListViewController@searchBusiness');
+
+	/* Enquiry APIs */
+	Route::post('/get_enquiry_template', 'EnquiryController@requestTemplateEnquiry');
+	Route::post('/send_enquiry', 'EnquiryController@getEnquiry');
+	Route::post('/verify_enquiry_otp', 'EnquiryController@verifyOtp');
+
+	Route::post('get_listing_categories', 'EnquiryController@getListingCategories');
+	Route::post('get_node_listing_categories', 'EnquiryController@getNodeCategories');
+	Route::post('get_categories_modal_dom', 'EnquiryController@getCategoryModalDom');
+});

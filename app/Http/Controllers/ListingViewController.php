@@ -11,6 +11,7 @@ use App\ListingCategory;
 use App\User;
 use App\Helpers\WpNewsHelper;
 // use App\ListingCategory;
+use Illuminate\Support\Facades\Session;
 
 class ListingViewController extends Controller
 {
@@ -25,14 +26,11 @@ class ListingViewController extends Controller
         // dd($pagedata);
         $similar = $this->similarBusinesses($listing);
         // dd($similar);
-        
         $news_items = $this->getNewsList($pagedata,$city);
         $pagedata['news_items'] = $news_items;
-
-        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar);
+        $enquiry_data = Session::get('enquiry_data', []);
+        return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar)->with('enquiry_data', $enquiry_data);
     }
-
-    
 
     private function getListingData($listing)
     {
@@ -41,8 +39,8 @@ class ListingViewController extends Controller
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
         $pagedata['verified']  = ($listing->owner_id == null)? false:true;
-        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name);
-        $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => ''];
+        $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name, 'slug'=>$area->city['slug'], 'id' => $area->city['id']);
+        $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => '', 'slug' => $listing->slug];
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
         $pagedata['updates_count'] = $listing->updates()->count();

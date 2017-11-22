@@ -142,7 +142,7 @@
   if ($(window).width() < 769) {
     browsecat = $('.browse-cat').detach();
     $('.similar-business').after(browsecat);
-    status = $('.contact__enquiry .approval').detach();
+    status = $('.contact__enquiry').detach();
     $('.new-changes .seller-info__body').append(status);
     moveelement = $('.move-element').detach();
     $('.nav-info').before(moveelement);

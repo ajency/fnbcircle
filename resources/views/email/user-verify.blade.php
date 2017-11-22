@@ -9,15 +9,10 @@
 
         <div style="color: rgba(97, 95, 95, 0.77);font-weight: 300;">
           <p>Hi <b style="color: #7f7f7f;">{{ $name}} </b></p>
-         
-          
         </div>
 
         <!-- Tips -->
- 
         <div style="margin-top: 2em;">
-         
-
           <div style="margin-bottom: 0.8em;">
         
             <div style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;">
@@ -29,23 +24,15 @@
              Copy and paste this link into your browser: {{ $confirmationLink }}
           <br><br>
           <b style="color: #616161;">NOTE</b> : The above link is valid only for 2 hours.<br><br><br>
-           
-            <br><br>
-          <div style="text-align: left;">
-          Regards,<br>
-          Team FnB Circle<br>
-          </div>
-
-
+              <div>
+                Regards,<br>
+                Team FnB Circle<br>
+              </div>
             </div>
             <div style="clear: both;display:table;"></div>
           </div>
- 
-
         </div>
-
-      <!-- Tips ends -->
-
+        <!-- Tips ends -->
       </td>
     </tr>
   </table>

@@ -171,7 +171,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="fly-out__content edit-mode profile-info-card">
+                        <div class="fly-out__content edit-mode profile-info-card m-b-40">
                             <div class=" tab-content">
                             @yield('main-content')
                             </div>

@@ -32,7 +32,7 @@ class ListingViewController extends Controller
         return view('single-view.listing')->with('data', $pagedata)->with('similar', $similar)->with('enquiry_data', $enquiry_data);
     }
 
-    private function getListingData($listing)
+    public function getListingData($listing)
     {
         $pagedata              = array();
         $area                  = Area::with('city')->find($listing->locality_id);

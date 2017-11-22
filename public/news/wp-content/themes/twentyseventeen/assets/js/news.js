@@ -22,32 +22,34 @@ jQuery(document).ready(function($) {
     });
 
 
-    $.get(LARAURL + '/wp-laravel-header', {
+   /* $.get(LARAURL + '/wp-laravel-header', {
 
     }, function(response) { 
 
 
-    	/*console.log('LARAVEL HEADER')
-    	console.log(response)*/
+    	//console.log('LARAVEL HEADER')
+    	//console.log(response)
     	 
 
     	$('#laravel-header-container').html(response);
 
+
         lara_login_error_checks();
 
-    });
+    }); */
 
 
 
 
-    $.get(LARAURL + '/wp-laravel-footer', {
+
+    /*$.get(LARAURL + '/wp-laravel-footer', {
     }, function(response) { 
     	 
-		/*console.log('LARAVEL FOOTER')
-    	console.log(response)*/
+		//console.log('LARAVEL FOOTER')
+    	//console.log(response)
     	$('#laravel-footer-container').html(response);
 
-    });
+    });*/
 
 
     function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid
@@ -196,6 +198,85 @@ jQuery(document).ready(function($) {
 
 
 
+    function lara_login_error_checks(){
+
+            if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
+                $("#login-modal").modal('show');
+            }
+
+            if (window.location.search.indexOf("message=") > -1) { // If login=true exist & message param exist in URL, then trigger the Popup
+                var message_key = window.location.search.split("message=")[1].split("&")[0];
+
+                var popup_message = "#login-modal .login-container .alert";
+                console.log(message_key);
+                if (message_key == 'is_google_account') { // Account exist & linked via Google Login
+                    $(popup_message + ".alert-danger .account-exist.google-exist-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'is_facebook_account') { // Account exist & linked via Facebook Login
+                    $(popup_message + ".alert-danger .account-exist.facebook-exist-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'is_email_account' || message_key == 'is_email_signup_account') { // Account exist & linked via Email Login
+                    $(popup_message + ".alert-danger .account-exist.email-exist-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'account_suspended') {
+                    $(popup_message + ".alert-danger .account-exist.email-suspend-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'social_permission_denied') {
+                    $(popup_message + ".alert-danger .no-account.no-email-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'email_confirm') {
+                    $(popup_message + ".alert-warning .account-inactive.email-exist-error").removeClass('hidden');
+                    $(popup_message + ".alert-warning").removeClass('hidden');
+                } else if (message_key == 'resend_verification') {
+                    $(popup_message + ".alert-warning .resend-verification.resend-verification-error").removeClass('hidden');
+                    $(popup_message + ".alert-warning").removeClass('hidden');
+                } else if (message_key == 'is_verified') {
+                    $(popup_message + ".alert-success").removeClass('hidden');
+                } else if (message_key == 'no_account') { // Account with this email ID doesn't exist
+                    $(popup_message + ".alert-danger .no-account-exist.no-email-exist-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
+                    $(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'token_expired') { // Token expired
+                    $(popup_message + ".alert-danger .user-token-expiry.token-expiry-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'token_already_verified') { // Token already Verfied / Used
+                    $(popup_message + ".alert-warning .token-already-verified.already-verified-error").removeClass('hidden');
+                    $(popup_message + ".alert-warning").removeClass('hidden');
+                } else if (message_key == 'facebook_email_missing') {
+                    $(popup_message + ".alert-danger .email-missing.facebook-email-miss-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                } else if (message_key == 'google_email_missing') {
+                    $(popup_message + ".alert-danger .email-missing.google-email-miss-error").removeClass('hidden');
+                    $(popup_message + ".alert-danger").removeClass('hidden');
+                }
+
+            }
+
+            if (window.location.search.indexOf("required_field=true") > -1) { // If required_field=true exist in URL, then trigger the Popup
+                $(".require-modal").modal('show');
+
+                if (window.location.search.indexOf("login=") >= 0) { // check if the login=true exist in the URL, if it Does, then remove it
+                    var url_split = window.location.search.split('?')[1].split('&');
+                    for(i = 0; i < url_split.length; i++) {
+                        if(url_split[i] != "login=true" && url_split[i].indexOf("message=") < 0) { // Remove 'login' & 'message' Params
+                            url += (url == '/' ? '?': '&') + url_split[i];
+                        }
+                    }
+                } else {
+                    url = window.location.search;
+                }
+
+                if (window.location.hash) {
+                    url += window.location.hash;
+                }
+
+                window.history.pushState('', '', url);
+            }
+    }
+
+    lara_login_error_checks();
 
     $('.home_recent_pagination .page-numbers').live('click',function(evt){
        evt.preventDefault();

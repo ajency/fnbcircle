@@ -134,7 +134,7 @@
                                         <li @if($data['step'] == 'activity') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#enquiry-info" role="tab"> -->
                                             <a @if($data['step'] == 'activity') href="#" class="active" @else @if($self) href="activity" @else href="../activity/{{$data['email']['email']}}" @endif @endif >
-                                                @if($self) My @else User @endif Activity
+                                                @if($self) My @else {{$data['name']}} @endif Activity
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
@@ -151,7 +151,7 @@
                                         <li @if($data['step'] == 'description') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
                                             <a @if($data['step'] == 'description') href="#" class="active" @else @if($self) href="description" @else href="../description/{{$data['email']['email']}}" @endif @endif>
-                                                What describes @if($self) me @else user @endif the best?
+                                                What describes @if($self) me @else {{$data['name']}} @endif the best?
                                                 <i aria-hidden="true" class="fa fa-arrow-right">
                                                 </i>
                                             </a>
@@ -171,7 +171,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="fly-out__content edit-mode profile-info-card">
+                        <div class="fly-out__content edit-mode profile-info-card m-b-40">
                             <div class=" tab-content">
                             @yield('main-content')
                             </div>

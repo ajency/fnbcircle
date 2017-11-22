@@ -33,7 +33,7 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="recent-activity" role="tabpanel">
-                                            <div id="load-more-container"><button type="button" id="load-more-action">View More</button></div>
+                                            <div id="load-more-container" class="text-center"><button type="button" id="load-more-action" class="btn fnb-btn primary-btn border-btn posUpdate full">View More</button></div>
                                             <!-- <h6 class="enquiries-made title">
                                                 <i aria-hidden="true" class="fa fa-comments">
                                                 </i>

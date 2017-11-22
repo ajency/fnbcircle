@@ -24,10 +24,16 @@ class FnbAuthController extends Controller {
                 $user->last_login = date('Y-m-d H:i:s');
                 $user->save();
 
-                //set user state session
-                $userState = $user->getUserDetails->userCity->slug;
-                session(['user_location' => $userState]);
-                $cookie = cookie('user_state', $userState, config('constants.user_state_cookie_expiry'));
+                if($user->type != "internal") { // If not internal user, then get his/her city value from profile
+                    //set user state session
+                    $userState = $user->getUserDetails->userCity->slug;
+                    session(['user_location' => $userState]);
+                    $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
+                } else { // If internal User, then get a City 
+                    $userState = getSinglePopularCity()->slug;
+                    session(['user_location' => $userState]);
+                    $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
+                }
 
              //    if(!$redirect_url) { // If redirect URL is Empty
 	            //     if ($user->hasPermissionTo('add_internal_user')) {

@@ -22,32 +22,34 @@ jQuery(document).ready(function($) {
     });
 
 
-    $.get(LARAURL + '/wp-laravel-header', {
+   /* $.get(LARAURL + '/wp-laravel-header', {
 
     }, function(response) { 
 
 
-    	/*console.log('LARAVEL HEADER')
-    	console.log(response)*/
+    	//console.log('LARAVEL HEADER')
+    	//console.log(response)
     	 
 
     	$('#laravel-header-container').html(response);
 
+
         lara_login_error_checks();
 
-    });
+    }); */
 
 
 
 
-    $.get(LARAURL + '/wp-laravel-footer', {
+
+    /*$.get(LARAURL + '/wp-laravel-footer', {
     }, function(response) { 
     	 
-		/*console.log('LARAVEL FOOTER')
-    	console.log(response)*/
+		//console.log('LARAVEL FOOTER')
+    	//console.log(response)
     	$('#laravel-footer-container').html(response);
 
-    });
+    });*/
 
 
     function validateEmail(email, error_path) { // Check if User has entered Email ID & is valid

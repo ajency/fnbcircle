@@ -329,10 +329,17 @@ class RegisterController extends Controller
             sendUserRegistrationMails($user);
             $redirectUrl = firstTimeUserLoginUrl();
 
-            $userState = $user->getUserDetails->userCity->slug;
-            session(['user_location' => $userState]);
-            $cookie = cookie('user_state', $userState, config('constants.user_state_cookie_expiry'));
-            
+            if($user->type != "internal") { // If not internal user, then get his/her city value from profile
+                //set user state session
+                $userState = $user->getUserDetails->userCity->slug;
+                session(['user_location' => $userState]);
+                $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
+            } else { // If internal User, then get a City 
+                $userState = getSinglePopularCity()->slug;
+                session(['user_location' => $userState]);
+                $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
+            }
+
             return redirect(url($redirectUrl))->withCookie($cookie);
             
         } else {

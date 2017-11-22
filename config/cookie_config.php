@@ -11,6 +11,7 @@
 	    	"is_logged_in",
 	    	"is_verified"
 		],
-		"expires_in" => 10080, //120,
+		"expires_in" => 10080, // 7 days //120, // 2 hours
+		'user_state_expiry' => 45000, // 31 days
 		"app_url" => env("APP_URL", "http://fnbcircle.com"),
 	];

@@ -890,14 +890,17 @@ dl{
     		border-bottom: 1px solid #ddd;
     		padding: 0;
     	}
+    	.panel-body{
+    		font-size: 1.05em;
+    	}
     	a{
     		font-size: 0.9em;
     		color: #585858;
-    		font-weight: 400;
     		flex: 1;
     		display: flex;
     		justify-content: space-between;
     		padding: 13px 10px;
+    		font-weight: 600;
     		&:hover,&:active,&:focus{
     			text-decoration: none;
     		}
@@ -907,6 +910,9 @@ dl{
     					content: '\f056';
     				}
     			}
+    		}
+    		&.collapsed{
+    			font-weight: 400;
     		}
     	}
     	.option-col{

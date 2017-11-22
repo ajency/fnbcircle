@@ -183,7 +183,7 @@
                                         </br>
                                     </div> -->
 
-                                    <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
+                                    <h3 class="profile-stats__title text-medium sectionTitle">
                                         My Basic Details
                                     </h3>
                                     

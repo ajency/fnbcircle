@@ -20,7 +20,7 @@
                                         </i>
                                         What describe Abhay the best?
                                     </h6> -->
-                                    <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
+                                    <h3 class="profile-stats__title text-medium sectionTitle">
                                         What describes @if($self) me @else {{$data['name']}} @endif the best?
                                     </h3>
                                     <!-- <div class="panel-group" id="accordion">
@@ -69,11 +69,11 @@
                                     </div> -->
 
                                     @if($self or $admin)
-                                    <form action="{{action('ProfileController@updateUserDetails')}}" method="POST" id="details-form" class="m-t-40">
+                                    <form action="{{action('ProfileController@updateUserDetails')}}" method="POST" id="details-form" class="m-t-40 describe-form">
                                     <input type="hidden" name="email_id" value="{{$data['email']['email']}}">
-                                    <!-- <div class="save-best-data text-right">
+                                    <div class="save-best-data text-right desk-hide">
                                         <button class="btn fnb-btn outline full border-btn">Save</button>
-                                    </div> -->
+                                    </div>
                                     @endif
                                     <div class="describe-best" id="accordion" role="tablist" aria-multiselectable="true">
                                       <div class="panel panel-default">

@@ -608,7 +608,7 @@ class AdminConfigurationController extends Controller
         $request = $request->all();
 
         $user_data = array("name" => $request["name"], "username" => $request["email"], "email" => $request["email"], "has_required_fields_filled" => true, "type" => "internal", "provider" => "added_by_internal");
-        $user_comm = array("email" => $request["email"], "is_verified" => true);
+        $user_comm = array("email" => $request["email"], "is_verified" => true, "is_primary" => true);
         
         if(isset($request["password"]) && $request["password"] == $request["confirm_password"]) {
             $user_data["password"] = $request["password"];
@@ -680,7 +680,7 @@ class AdminConfigurationController extends Controller
             $user_obj = User::find($username)->first();
 
             $user_data = array("name" => $request["name"], "username" => $user_obj->email, "email" => $request["email"], "has_required_fields_filled" => true);
-            $user_comm = array("email" => $request["email"], "is_verified" => true);
+            $user_comm = array("email" => $request["email"], "is_verified" => true, "is_primary" => true);
             if(isset($request["roles"]) && sizeof($request["roles"]) > 0) {
                 $user_data["roles"] = $request["roles"][0];
             }

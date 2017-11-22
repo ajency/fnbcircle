@@ -78,7 +78,12 @@ class User extends Authenticatable
         if($comm_obj) {
             return (!$return_array)? $comm_obj->value : ['email' => $comm_obj->value, 'is_verified' => $comm_obj->is_verified];
         } else {
-            return null;
+            $comm_obj = $this->hasMany('App\UserCommunication', 'object_id')->where([['object_type','App\User'], ['type', 'email']])->first();
+            if($comm_obj) {
+                return (!$return_array)? $comm_obj->value : ['email' => $comm_obj->value, 'is_verified' => $comm_obj->is_verified];
+            } else {
+                return null;
+            }
         }
     }
 

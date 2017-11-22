@@ -13281,6 +13281,12 @@ dl dd {
   padding-bottom: 1em;
   font-size: 1.2em;
 }
+@media screen and (max-width: 768px) {
+  .public-enquiry-title {
+    margin-top: 1em;
+    font-size: 1.1em;
+  }
+}
 @media screen and (min-width: 650px) {
   .login-modal .modal-dialog {
     width: 450px;

@@ -805,3 +805,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 .no-sort-icon .sort-icon {
   display: none;
 }
+.fnb-select.single-role-select {
+  font-size: 1em;
+  padding-left: 0;
+}

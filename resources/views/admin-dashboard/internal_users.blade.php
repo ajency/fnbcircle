@@ -197,7 +197,7 @@ Internal Users
 	                      <div class="form-group">
 	                        <label>Roles  <span class="text-danger">*</span></label>
 	                        <!-- <select class="form-control fnb-select roles-select multiSelect" multiple="role_option[]" name="role" data-parsley-mincheck="1" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error"> -->
-	                        <select class="form-control fnb-select single-role-select" name="role" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
+	                        <select class="form-control fnb-select single-role-select select-variant" name="role" data-required="true" data-parsley-required="true" data-parsley-errors-container="#role-error">
 	                        
 	                          @foreach(Role::where('name','!=','customer')->get() as $key_role => $value_role)
 	                          	<!-- <option value="{{$value_role->name}}" name="role_option[]">{{ ucfirst(implode(" ", explode("_", $value_role->name))) }}</option> -->

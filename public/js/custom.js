@@ -856,7 +856,7 @@ $(function(){
 	        		$("#forgot-password-form-btn").prop('disabled', true);
 	        	}
 
-	        	$("#forgot-password-form #forgot_password_email").on("change keyup", function() {
+	        	$("#forgot-password-form #forgot_password_email").on("change keyup input", function() {
 	        		if($(this).val().length <= 0 || !validateEmail($(this).val(), "#as")) {
 	        			$("#forgot-password-form-btn").prop('disabled', true);
 	        			$("#email-error-container").text("");

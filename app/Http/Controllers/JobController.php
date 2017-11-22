@@ -53,7 +53,7 @@ class JobController extends Controller
      */
     public function create()
     {   
- 
+
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
         $job    = new Job;
@@ -74,6 +74,7 @@ class JobController extends Controller
                                     ->with('defaultKeywords', $defaultKeywords) 
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
+                                    ->with('isPremiumPage', false)
                                     ->with('step', 'job-details')
                                     ->with('pageName', $pageName)
                                     ->with('breadcrumb', $breadcrumb)
@@ -1140,9 +1141,10 @@ class JobController extends Controller
         $job->status = $statusId; 
         $job->save();
 
-        if($status == 3){
-            $activePlan = getActivePlan($job); 
+        if($statusId == 3){
+            updateJobExpiry($job);
         }
+
         $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
  
         Session::flash('job_review_pending',$successMessage[$statusId]);

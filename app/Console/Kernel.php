@@ -35,6 +35,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             sendNotifications();
         })->everyTenMinutes();  
+
+        $schedule->call(function () {
+            archivePublishedJobs();
+        })->daily();  
     }
 
     /**

@@ -46,6 +46,10 @@ return [
         "laravel" => "email.job-rejected",
         "pushcrew" => ""
     ],
+    "job-expiry" => [
+        "laravel" => "email.job-expiry",
+        "pushcrew" => ""
+    ],
     "job-alert" => [
         "laravel" => "email.job-alert",
         "pushcrew" => ""

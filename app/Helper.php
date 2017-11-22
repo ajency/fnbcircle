@@ -694,14 +694,92 @@ function getrequestedPlan($object){
 }
 
 function getjobFreePlan(){
-	$plan = Plan::where('amount',0)->where('type','job')->first();
+	$plan = App\Plan::where('amount',0)->where('type','job')->first();
 	return $plan;
 }
 
 function archivePublishedJobs(){
+	$currentDate  = date('Y-m-d H:i:s');
+	$jobs = App\Job::where('job_expires_on','<=',$currentDate)->get(); 
+
+	foreach ($jobs as $key => $job) {
+
+		$job->premium = 0;
+		$job->status = 4;	//mark job as archieve
+		$job->job_expires_on = NULL; 
+		$job->save();
+
+		//send email
+		$jobOwner = $job->createdBy;
+        $ownerDetails = $jobOwner->getUserProfileDetails();
+
+		$templateData['job'] = $job;
+        $templateData['ownerName'] = $jobOwner->name;
+        $ownerDetails['email'] = $jobOwner->getPrimaryEmail();
+        $ownerDetails['email'] = 'prajay@ajency.in';
+
+         
+        $subject =  'Your job has expired. Do you want to relist the job?';
+ 
+        $data = [];
+        $data['from'] = config('constants.email_from');
+        $data['name'] = config('constants.email_from_name');
+        $data['to'] = [ $ownerDetails['email']];
+ 
+        $data['subject'] = $subject;
+        $data['template_data'] = $templateData;
+        
+        sendEmail('job-expiry', $data);
+
+		 
+	}
+
+	return true;
 
 }
 
+function activateJobPlan($job,$jobRequestedPlan){
+	$currentDate  = date('Y-m-d H:i:s');
+	$plan =  $jobRequestedPlan->plan;
+	$duration = $plan->duration;
+	$expiryDate = date('Y-m-d H:i:s', strtotime("+".$duration." days"));
+
+	$jobRequestedPlan->approval_date = $currentDate;
+	$jobRequestedPlan->billing_start = $currentDate;
+	$jobRequestedPlan->billing_end = $expiryDate;
+	$jobRequestedPlan->status = 1;
+	$jobRequestedPlan->save();
+
+	$job->premium = 1;
+	$job->job_expires_on = $expiryDate;
+	$job->save();
+
+	return true;
+ 
+}
+
+function updateJobExpiry($job,$newPlan=[]){
+	if(empty($job->job_expires_on)){
+
+		if(!empty($newPlan)){
+			$plan = $newPlan;
+			$job->premium = 1;
+		}
+		else{
+			$plan = getjobFreePlan();
+			$job->premium = 0;
+		}
+		
+		$duration = $plan->duration;
+		$expiryDate = date('Y-m-d H:i:s', strtotime("+".$duration." days"));
+		$job->job_expires_on = $expiryDate;
+		$job->save();
+
+		return true;
+	}
+
+	return false;
+}
 // function createNewPlan($objectType,$objectid,$planId){
 // 	//check if any plan is active or requested
 // 	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();

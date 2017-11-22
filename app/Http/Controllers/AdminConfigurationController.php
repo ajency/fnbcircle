@@ -994,11 +994,15 @@ class AdminConfigurationController extends Controller
             $jobOwner = $job->createdBy;
             $ownerDetails = $jobOwner->getUserProfileDetails();
 
+            //update job expiry time
+            updateJobExpiry($job);
+
             //for testing
-            $ownerDetails['email'] = 'nutan@ajency.in';
+            // $ownerDetails['email'] = 'nutan@ajency.in';
 
             $templateData['job'] = $job;
             $templateData['ownerName'] = $jobOwner->name;
+            $ownerDetails['email'] = $jobOwner->getPrimaryEmail();
 
             $template = ($job->status == '3') ?'job-published'  : 'job-rejected';
             $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
@@ -1007,7 +1011,7 @@ class AdminConfigurationController extends Controller
             $data['from'] = config('constants.email_from');
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [ $ownerDetails['email']];
-            $data['cc'] = [ config('constants.email_to')];
+            // $data['cc'] = [ config('constants.email_to')];
             $data['subject'] = $subject;
             $data['template_data'] = $templateData;
             

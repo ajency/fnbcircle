@@ -9,7 +9,8 @@ getUserActivities =  () ->
           email : document.head.querySelector('[property="user-email"]').content
           day : day
         success: (response)->
-            # if Object.keys(response['data']).length > 0
+            if Object.keys(response['data']).length == 0
+                container.append '<div id="load-more-container">No activities found</div>'
             $('#load-more-container').remove()
             for key of response['data']
                 # skip loop if the property is from prototype

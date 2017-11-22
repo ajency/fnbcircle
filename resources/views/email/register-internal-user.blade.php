@@ -27,7 +27,7 @@
             Please use the following credentials to login. <br>
             <b>Email:</b> {{ $request['email'] }}<br>
             <b>Password:</b> {{ $request['password'] }}<br>
-
+            <br>
             If you wish to change the password, you will have to login using the existing credentials and you will be redirected to the change password screen under your profile. 
             <a href="{{ url('/profile/basic-details') }}" style="color: #ec6d4b;">click here</a> to change your password.
      

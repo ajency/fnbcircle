@@ -66,7 +66,10 @@ get_header(); ?>
 	</form>
 	<div class="clear"></div>
 </div>
-		<H1 class="bold-t" >FnB Circle News</H1>
+		<!-- <H1 class="bold-t" >FnB Circle News</H1> -->
+<h1 class="bold-t">
+	<div class="dis-inline custom-logo">FnB</div><div class="dis-inline news-tag">News</div>
+</h1>
 		<div class="news-banner__overlay"></div>
 	
 	</header><!-- .page-header -->

@@ -70,14 +70,18 @@ if(isset($laravel_user_state)){
 		</form>
 		<div class="clear"></div>
 	</div>
-	<H1 class="bold-t" >FnB Circle News</H1>
+	<!-- <H1 class="bold-t" >FnB Circle News</H1> -->
 	
+<h1 class="bold-t">
+	<div class="dis-inline custom-logo">FnB</div><div class="dis-inline news-tag">News</div>
+</h1>
+
 	<div class="news-banner__overlay"></div>
 	
 
 </div>
 <div class="wrap">
-<h3 class="bold-t">Featured News on FnB</h3>
+<h3 class="bold-t">Top Stories</h3>
 <p class="text-lighter">What's trending on FnB Circle right now.</p>	
 	<?php
 $custom_query_args = array(
@@ -175,7 +179,7 @@ $wp_query = $temp_query;
 <br>
 
 
-<h3 class="bold-t recent_news_title">Recent News on FnB</h3>
+<h3 class="bold-t recent_news_title">Latest News</h3>
 <p class="text-lighter">What's trending on FnBCircle right now.</p>	
 
 <hr>

@@ -215,7 +215,7 @@ body .submit{
 		    h5{
 					padding: 0px;
 				     letter-spacing: 0;
-				    font-weight: 500;
+				    font-weight: 600;
 				    a{
 				    	 color: #000;
 				    }
@@ -376,7 +376,7 @@ body .submit{
     	font-weight: 800;
     	text-align: center;
     	font-size: 3em;
-    	padding-top: 2.5em !important;
+    	padding-top: 1.25em !important;
     	 @media screen and (max-width: @mobile) {
 	     	    margin-bottom: 20px;
 	     	    position: relative;
@@ -1068,7 +1068,35 @@ button:hover{
     .bold-t{
     	position: relative;
     	z-index: 1;
-    	text-shadow: 1px 1px 1px #000;
+    	// text-shadow: 1px 1px 1px #000;
+    	.custom-logo{
+	    	font-size: 1.5em;
+	    	letter-spacing: -0.05em;
+		    padding: 0.1em;
+		    background-color: #ec6c4b;
+		    border-radius: 50%;
+		    height: 150px;
+		    width: 150px;
+		    padding-top: 0.65em;
+		    margin-right: 0.15em;
+		    @media screen and (max-width: @mobile){
+		    	font-size: 1.2em;
+    			height: 80px;
+    			width: 80px;
+    			margin-right: 0.3em;
+		    }
+	    }
+	    .news-tag{
+	    	font-size: 1em;
+    		text-transform: lowercase;
+    		font-weight: 100;
+    		position: relative;
+    		top: -5px;
+    		left: -5px;
+	    }
+	    @media screen and (max-width: @mobile){
+	    	margin-top: 0.5em;
+	    }
     }
     .expandSearch{
 		z-index: 10;

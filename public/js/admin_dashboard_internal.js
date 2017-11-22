@@ -237,7 +237,6 @@
       templates: {
         button: '<span class="multiselect dropdown-toggle" data-toggle="dropdown"><i class="fa fa-filter"></i></span>'
       },
-      includeSelectAllOption: true,
       numberDisplayed: 5,
       onChange: function(element, checked) {
         var categories, col, search, selected;

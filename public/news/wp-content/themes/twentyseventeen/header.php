@@ -13,6 +13,9 @@
  */
 require_once("inc/laravel/laravel-app.php");
 loginCreateWpUserByLaravelEMail();
+$laravel_header = wp_get_laravel_header();
+
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
@@ -29,7 +32,8 @@ loginCreateWpUserByLaravelEMail();
 <body <?php body_class(); ?>>
 
 <!-- -->	
-<div id="laravel-header-container"><i class="loader-center2 fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div>
+<!-- <div id="laravel-header-container"><i class="loader-center2 fa fa-circle-o-notch fa-spin fa-2x" style="color:#EC6D4B"></i></div> -->
+	<div id="laravel-header-container"><?php echo $laravel_header;?></div> 
 
 
 <div id="page" class="site">

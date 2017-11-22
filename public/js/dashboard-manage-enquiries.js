@@ -72,6 +72,11 @@
     return enquiry_table.ajax.reload();
   });
 
+  $('body').on('change', 'select#updateUserDetails', function() {
+    filters['enquirer_details'] = $(this).val();
+    return enquiry_table.ajax.reload();
+  });
+
   $('body').on('click', 'a#clearSubDate', function() {
     $('#submissionDate').val('');
     filters['request_date'] = [];
@@ -138,5 +143,30 @@
   });
 
   $('#datatable-manage_enquiries').closest('.row').addClass('overflow-table');
+
+  $('body').on('click', 'button#resetAll', function(e) {
+    var categories, cities;
+    $('div#categories.node-list').html('');
+    $('div#disp-operation-areas.node-list').html('');
+    $('select#updateType').multiselect('rebuild');
+    $('select#updateUser').multiselect('rebuild');
+    $('#submissionDate').val('');
+    $('#namefilter').val('');
+    $('#emailfilter').val('');
+    $('#phonefilter').val('');
+    $('#madetofilter').val('');
+    $('#senttofilter').val('');
+    $('.multi-dd').each(function() {
+      return $(this).multiselect('deselectAll', false);
+    });
+    filters = {};
+    enquiry_table.ajax.reload();
+    categories = {
+      'parents': []
+    };
+    cities = {
+      'cities': []
+    };
+  });
 
 }).call(this);

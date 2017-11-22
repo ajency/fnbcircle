@@ -116,12 +116,12 @@
                       </th>
                       <th class="no-sort" style="max-width: 100px;">
                         What describes you Best
-                        <select multiple class="form-control multi-dd" id="updateUser">
-                          <option value="hospitality" >Hospitality</option>
-                          <option value="professional" >Professional</option>
-                          <option value="vendor" >Vendor</option>
-                          <option value="student" >Student</option>
-                          <option value="enterpreneur" >Enterpreneur</option>
+                        <select multiple class="form-control multi-dd" id="updateUserDetails">
+                          <option value="hospitality" >Hospitality Business Owner</option>
+                          <option value="professional" >Working Professional</option>
+                          <option value="vendor" >Vendor/Supplier/Service provider</option>
+                          <option value="student" >Hospitality Student</option>
+                          <option value="enterpreneur" >Prospective Entrepreneur</option>
                           <option value="others" >Others</option>
                         </select>
                       </th>

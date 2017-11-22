@@ -16,6 +16,9 @@
       },
       success: function(response) {
         var act, activity, key;
+        if (Object.keys(response['data']).length === 0) {
+          container.append('<div id="load-more-container">No activities found</div>');
+        }
         $('#load-more-container').remove();
         for (key in response['data']) {
           if (!response['data'].hasOwnProperty(key)) {

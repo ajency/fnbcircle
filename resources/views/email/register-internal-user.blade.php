@@ -28,7 +28,7 @@
             <b>Email:</b> {{ $request['email'] }}<br>
             <b>Password:</b> {{ $request['password'] }}<br>
 
-            If you wish to change the password, please <a href="#" style="color: #ec6d4b;">click here</a>.
+            If you wish to change the password, please <a href="{{ url('/profile/basic-details') }}" style="color: #ec6d4b;">click here</a>.
 
            <br><br>
             

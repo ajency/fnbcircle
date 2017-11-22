@@ -15,7 +15,9 @@
                                     <h3 class="profile-stats__title text-medium sectionTitle mobile-hide">
                                         @if($self) My @else {{$data['name']}}'s @endif Activity
                                     </h3>
-                                    <h6 class="public-enquiry-title text-color">Enquiries made to you by @username</h6>
+                                    @if(!$self and !$admin)
+                                    <h6 class="public-enquiry-title text-color">Enquiries made to you by {{$data['name']}}</h6>
+                                    @endif
                                     {!!$details!!}
                                     <ul class="nav activityTab" role="tablist">
                                         <!-- <li class="active" role="presentation">

@@ -174,7 +174,7 @@ class User extends Authenticatable
     * @return array
     */
     public static function userStatuses() {
-        return  ["active" => "Active", "inactive" => "Inactive", "suspended" => "Suspended"];
+        return  ["active" => "Active",  "suspended" => "Suspended"];
     }
 
 

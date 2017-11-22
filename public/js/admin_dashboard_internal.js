@@ -368,8 +368,7 @@
       modal_object.find("input[type='email'][name='email']").val(row.find('td:eq(2)').text()).attr("disabled", "true");
 
       /* --- Select the user's Role --- */
-      modal_object.find('select.form-control.multiSelect').multiselect('select', [row.find('td:eq(3)').text().toLowerCase()]);
-      modal_object.find('select.form-control.multiSelect').multiselect('updateButtonText', true);
+      modal_object.find('select.form-control.fnb-select.single-role-select').val(row.find('td:eq(3)').text().toLowerCase());
       console.log(row.find('td:eq(4)').text().toLowerCase());
       modal_object.find('select.form-control.status-select').val(row.find('td:eq(4)').text().toLowerCase());
       modal_object.find('.createSave').addClass('hidden');

@@ -791,7 +791,7 @@ $additionalData = ['job'=>$job];
            <div class="contact__enquiry text-center m-t-15">    
                
               @if(Auth::check())
-                <a href="/jobs/create" >
+                <a href="/jobs/create" target="_blank" >
               @else
                 <a href="#" data-toggle="modal" data-target="#login-modal">
               @endif  

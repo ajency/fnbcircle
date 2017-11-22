@@ -49,6 +49,29 @@ Job Listing
 
             <div class="container">
 
+        @if(!$jobPosted->count() && !$jobApplication->count())
+
+                    <!-- No activity -->
+
+                <div class="row m-b-30 m-t-30">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <div class="featured-jobs browse-cat card text-center no-data-card">
+                            <i class="fa fa-frown-o text-primary element-title" aria-hidden="true"></i>
+                            <div class="m-t-20">
+                                <h6 class="element-title m-b-20 no-data-card__title">You don't have any Business Listing or Job Posts Yet !</h6>
+                                <h6 class="text-lighter text-medium m-b-20">You Business Listing and Job Post will appear here</h6>
+                                <h6 class="eleent-title m-b-20">Get Started Now</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+
+                <!-- No activity div ends -->
+
+        @else
+
         <div class="selection-card flex-row space-between">
             <div class="card business-card flex-row space-between">
                 <div class="card__section own-business">
@@ -70,50 +93,30 @@ Job Listing
             <div class="card card-jobs-card flex-row space-between">
                 <div class="card__section own-business">
                     <h5>Looking for<br> talent?</h5>
-                    <button class="btn fnb-btn outline  border-btn" type="button" >
-                        Create a Listing
-                    </button>
+                    <a href="{{ url('/jobs/create') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button" >
+                        Post A Job
+                    </button></a>
                 </div>
                 <div class="card__section or flex-row">
                     <div class="or__text flex-row">OR</div>
                 </div>
                 <div class="card__section browse-business">
                     <h5>View jobs on<br> FnB Circle</h5>
-                    <button class="btn fnb-btn outline  border-btn" type="button" >
-                        Browse Listings
-                    </button>
+                    <a href="{{ url($browserState.'/job-listings') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button" >
+                        Browse Jobs
+                    </button></a>
                 </div>
             </div>
         </div>
-
-
-
-                <!-- No activity -->
-
-                <!-- <div class="row m-b-30 m-t-30">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6">
-                        <div class="featured-jobs browse-cat card text-center no-data-card">
-                            <i class="fa fa-frown-o text-primary element-title" aria-hidden="true"></i>
-                            <div class="m-t-20">
-                                <h6 class="element-title m-b-20 no-data-card__title">You don't have any Business Listing or Job Posts Yet !</h6>
-                                <h6 class="text-lighter text-medium m-b-20">You Business Listing and Job Post will appear here</h6>
-                                <h6 class="eleent-title m-b-20">Get Started Now</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-3"></div>
-                </div> -->
-
-                <!-- No activity div ends -->
-
-
-
+        @endif
+ 
                 <div class="row m-t-20 row-btm-space">
                     <div class="col-sm-8">
 
+                        
+                    @if(!$jobPosted->count() && !$jobApplication->count())
                         <!-- No data -->
-                    <!--    <div class="card">
+                       <div class="card">
 
                             <div class="row">
                                                 <div class="col-sm-3"></div>
@@ -147,26 +150,27 @@ Job Listing
                                                     <div class="featured-jobs browse-cat card text-center">
                                                         <h6 class="sub-title m-t-0">Looking for talent?</h6>
                                                         <hr>
-                                                        <button class="btn fnb-btn outline  border-btn" type="button">
+                                                        <a href="{{ url('/jobs/create') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
                                                             Post a Job
                                                         </button>
+                                                        </a>
 
                                                         <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
 
                                                         <h6 class="sub-title m-t-0">View jobs on FnB Circle</h6>
                                                         <hr>
-                                                        <button class="btn fnb-btn outline  border-btn" type="button">
+                                                        <a href="{{ url($browserState.'/job-listings') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
                                                             Browse Jobs
-                                                        </button>
+                                                        </button></a>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3"></div>
                             </div>
 
-                        </div> -->
+                        </div>
                         
                         <!-- no data -->
-
+                        @else
                         <!-- Nav tabs -->
                         <div class="nav-info scroll-tabs">
                             <ul class="nav-info__tab flex-row" role="tablist">
@@ -329,6 +333,9 @@ Job Listing
                                 </div>
                             </div>
                         </div>
+                        @endif
+
+
                     </div>
                     <div class="col-sm-4">
                         <div class="pos-fixed fly-out">
@@ -366,7 +373,7 @@ Job Listing
                                                     <p class="x-small flex-row m-b-0 text-color word-break align-top">Resume last updated on: {{ $userResume['resume_updated_on'] }}</p>
                                                     <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
                                                     <div class="flex-row">
-                                                        <a href="{{ url('/user/download-resume')}}?resume={{ $userResume['resume_url'] }}" class="customer-resume-download">
+                                                        <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="customer-resume-download">
                                                             <span class="fnb-icons download"></span>
                                                         </a>
                                                         <a href="javascript:void(0)" class="remove_resume no-decor"><i class="fa fa-times p-l-10 remove-resume cursor-pointer" aria-hidden="true"></i></a>
@@ -425,7 +432,7 @@ Job Listing
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group p-t-10 job-alert-location">
+                                            <div class="form-group p-t-10 job-alert-location areas-select job-areas">
                                                 <label class="label-size">Where is the job located?  </label>
                                                 <?php $i = 1?>
                                                     @if(isset($jobAlertConfig['job_location']) && !empty($jobAlertConfig['job_location']))
@@ -451,9 +458,9 @@ Job Listing
                                                                 <div id="city-errors{{ $i }}" class="city-errors fnb-errors"></div>
                                                             </div>
                                                             
-                                                           <!--  <div class=" remove-select-col removelocRow flex-row ">
+                                                            <div class=" remove-select-col removelocRow flex-row ">
                                                                 <i class="fa fa-times text-primary" aria-hidden="true"></i>
-                                                            </div> -->
+                                                            </div>
                                                             
                                                         </div>
                                                         <?php $i ++?>
@@ -479,6 +486,33 @@ Job Listing
                                                         </div>
 
                                                         @endif
+                                                        <div class="location-select cityArea flex-row flex-wrap area-append hidden" >
+
+                                                                <div class="select-col city">
+                                                     
+                                                                    <select class="fnb-select select-variant form-control text-lighter selectCity" name="job_city[]" >
+                                                     
+                                                                        <option value="">Select State</option>
+                                                                        @foreach($cities as $city)
+                                                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <div id="state-errors" class="state-errors fnb-errors"></div>
+                                                                </div>
+                                                                <div class="select-col area">
+
+                                                                    <select class="fnb-select select-variant form-control text-lighter areas-appended job-areas" name="job_area[]" multiple="multiple" data-parsley-errors-container="#site-errors">
+                                                     
+                                                                    </select>
+                                                                   <div id="city-errors" class="city-errors fnb-errors"></div>
+                                                                </div>
+                                                                <div class=" remove-select-col removelocRow flex-row">
+                                                                    <i class="fa fa-times text-primary" aria-hidden="true"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="adder">
+                                                                <a href="#" class="secondary-link text-decor heavier add-job-areas">+ Add more</a>
+                                                            </div>
                                                         <div id="areaError" ></div>
                                             </div>
                                             <div class="form-group p-t-10">

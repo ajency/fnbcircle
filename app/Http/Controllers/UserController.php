@@ -318,6 +318,8 @@ class UserController extends Controller
         $defaultKeywords  = $job->jobKeywords();
         $jobCategories = $job->jobCategories();
 
+        $browserState = (getUserSessionState()) ? getUserSessionState() : getSinglePopularCity()->slug;
+
         return view('users.dashboard') ->with('user', $user)
                                        ->with('salaryRange', $salaryRange)
                                        ->with('cities', $cities)
@@ -331,6 +333,7 @@ class UserController extends Controller
                                         ->with('salaryTypes', $salaryTypes) 
                                         ->with('defaultKeywords', $defaultKeywords) 
                                         ->with('jobTypes', $jobTypes)
+                                        ->with('browserState', $browserState)
                                        ->with('jobPosted', $jobPosted);
     }
 

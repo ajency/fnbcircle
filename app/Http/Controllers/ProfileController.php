@@ -164,10 +164,15 @@ class ProfileController extends Controller
                                                         Email address
                                                     </dt>
                                                     <dd>
-                                                           ' . $details['made-by-email']['email'] . '
-                                                            <span class="fnb-icons verified-icon mini">
-                                                            </span>
-                                                        </dd>
+                                                           ' . $temp['made-by-email']['email'] ;
+
+                                                            if ($temp['made-by-email']['is_verified'] == 1) {
+                                                                $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                                            } else {
+                                                                $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                                            }
+
+                                $temp['html'] .= '</dd>
                                                 </div>
 
                                                 <div class="enquiriesRow__cols">
@@ -235,10 +240,15 @@ class ProfileController extends Controller
                                                             Email address
                                                         </dt>
                                                         <dd>
-                                                           ' . $details['made-by-email']['email'] . '
-                                                            <span class="fnb-icons verified-icon mini">
-                                                            </span>
-                                                        </dd>
+                                                           ' . $temp['made-by-email']['email'] ;
+
+                                                            if ($temp['made-by-email']['is_verified'] == 1) {
+                                                                $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                                            } else {
+                                                                $temp['html'] .= '<i class="fa fa-times not-verified" aria-hidden="true"></i> ';
+                                                            }
+
+                                $temp['html'] .= '</dd>
                                                     </div>
 
                                                     <div class="enquiriesRow__cols">

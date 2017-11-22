@@ -6207,7 +6207,6 @@ input[type=checkbox].custom-checkbox:before {
 .application-table.table-responsive {
   border: 0;
 }
-<<<<<<< HEAD
 .no-articles {
   padding: 1.5em;
   -webkit-box-pack: center;
@@ -6221,7 +6220,8 @@ input[type=checkbox].custom-checkbox:before {
 @media screen and (max-width: 768px) {
   .cust-title-height {
     height: 40px;
-=======
+  }
+}
 .new-mobile-modal .modal-content {
   padding: 1.5em;
 }
@@ -6359,7 +6359,6 @@ input[type=checkbox].custom-checkbox:before {
   .common-enquiry-form .looking-for__toggle {
     display: block;
     margin-bottom: 0.8em;
->>>>>>> my-profile
   }
 }
 .search-section {

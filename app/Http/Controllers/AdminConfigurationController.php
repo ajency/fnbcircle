@@ -635,11 +635,12 @@ class AdminConfigurationController extends Controller
 
             $roles = array();
             foreach ($userRoles as $key => $userRole) {
-                $roles[] = ucfirst(implode(" ", explode("_",$userRole)));
+                $rolename = str_replace('_', ' ', $userRole);
+                $roles[] = ucwords($rolename);
             }
           
             $userEmail = $request["email"];
-            // $userEmail = 'prajay@ajency.in';
+            $userEmail = 'prajay@ajency.in';
             $data = [];
             $data['from'] = config('constants.email_from'); 
             $data['name'] = config('constants.email_from_name');

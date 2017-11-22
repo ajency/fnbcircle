@@ -256,8 +256,8 @@ if ( !class_exists('wpt_widget') ) {
 				$tabs_count = 4;      
 			}
 	        
-	        $available_tabs = array('featured' => __('featured', 'wp-tab-widget'), 
-	            'recent' => __('Recent', 'wp-tab-widget'), 
+	        $available_tabs = array('featured' => __('Top Stories', 'wp-tab-widget'), 
+	            'recent' => __('Latest News', 'wp-tab-widget'), 
 	            'comments' => __('Comments', 'wp-tab-widget'), 
 	            'tags' => __('Tags', 'wp-tab-widget'));
 	            

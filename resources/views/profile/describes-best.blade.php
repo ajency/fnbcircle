@@ -118,7 +118,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="vendor" @if(!$self and !$admin) disabled @endif @isset($details['vendor']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Vendor/Suppliers/Service Provider 
+                                                    Vendor/Supplier/Service Provider 
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>
@@ -136,7 +136,7 @@
                                             <div><input type="checkbox" class="checkbox" name="user_details[]" value="student" @if(!$self and !$admin) disabled @endif  @isset($details['student']) checked @endisset></div>
                                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
                                                 <div>
-                                                    Student 
+                                                    Hospitality Student
                                                 </div>
                                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                             </a>

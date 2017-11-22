@@ -15,6 +15,10 @@ class PlanAssociation extends Model
         'billing_end'
     ];
 
+    public function plan() {
+        return $this->belongsTo( 'App\Plan');
+    }
+
     public function premium()
     {
         return $this->morphTo();

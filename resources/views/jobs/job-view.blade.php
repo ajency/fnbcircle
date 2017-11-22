@@ -186,7 +186,7 @@ $additionalData = ['job'=>$job];
                        <!-- <span class="fnb-icons map-icon"></span> -->
                        <!-- <i class="fa fa-tag p-r-5 x-small" aria-hidden="true"></i> -->
  
-                       <a href="{{ url(getSinglePopularCity()->slug.'/job-listings') }}?state={{ getSinglePopularCity()->slug }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
+                       <a href="{{ url(getSinglePopularCitySlug().'/job-listings') }}?state={{ getSinglePopularCitySlug() }}&business_type={{ $job->category->slug }}" class="location__title default-size cat-label fnb-label wholesaler lighter no-decor" title="Find all jobs matching {{ $job->getJobCategoryName() }}" target="_blank">{{ $job->getJobCategoryName() }}</a>
  
                     </div>
                     <!-- publish date -->
@@ -224,7 +224,7 @@ $additionalData = ['job'=>$job];
 
                             @foreach($keywords as $keywordId=> $keyword)
                              <li>
-                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCity()->slug."/job-listings") }}?state={{ getSinglePopularCity()->slug }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
+                                <p class="default-size cities__title"> <a href='{{ url(getSinglePopularCitySlug()."/job-listings") }}?state={{ getSinglePopularCitySlug() }}&job_roles=["{{ $keywordId }}|{{ str_slug($keyword) }}"]' class="primary-link" title="Find all jobs matching {{ $keyword }}" target="_blank"> {{ $keyword }}</a> </p>
 
                              </li>
                              @endforeach

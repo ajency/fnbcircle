@@ -992,8 +992,9 @@ class JobController extends Controller
 
     public function jobListing(Request $request,$serachCity){ 
 
-        $cities  = City::where('status', 1)->orderBy('name')->get();
-        $requestData = $request->all();   
+ 
+        $cities  = getPopularCities() ; 
+        $requestData = $request->all();  
         $job    = new Job;
         $jobTypes  = $job->jobTypes();
         $salaryTypes  = $job->salaryTypes();

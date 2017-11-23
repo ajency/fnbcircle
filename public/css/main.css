@@ -7664,6 +7664,10 @@ input[type=checkbox].custom-checkbox:before {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
   }
   .job-listings .site-loader {
     margin-top: 0;
@@ -11830,6 +11834,11 @@ input[type='checkbox'].remove-addr {
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+}
+@media screen and (max-width: 768px) {
+  .customer-job-modal .c-gap {
+    margin-top: 1em;
+  }
 }
 .app-sent {
   -webkit-box-pack: center;

@@ -1,4 +1,4 @@
-    <div class="modal fnb-modal center-modal apply-jobs-modal fade" id="job-application-{{ $job->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal fnb-modal center-modal apply-jobs-modal fade customer-job-modal" id="job-application-{{ $job->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -86,8 +86,10 @@
                             </div>
                         </div>
                         
-                          
-                            <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}">download resume</a>
+                        <div class="text-center">
+                          <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}" class="btn fnb-btn full primary-btn border-btn default-size"><i class="fa fa-download" aria-hidden="true"></i> Download Resume</a>  
+                        </div>
+                        
                               
  
                          

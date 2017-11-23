@@ -6251,6 +6251,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .selection-card .card {
     padding: 1em 0.8em;
+    width: 100%;
   }
   .selection-card .card h5 {
     font-size: 1.1em;
@@ -7627,6 +7628,16 @@ input[type=checkbox].custom-checkbox:before {
   }
   .job-listings .filter-cards .get-details .fnb-btn:hover {
     box-shadow: 0px 0px 0px 2px #ec6d4b;
+  }
+  .job-listings .filter-cards .get-details.mobile-get-detail {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+  }
+  .job-listings .filter-cards .get-details.mobile-get-detail .applicant-link + .btn {
+    margin-left: 0;
   }
   .job-listings .filter-cards .seller-info .cities.cities {
     padding-left: 0;
@@ -11809,6 +11820,12 @@ input[type='checkbox'].remove-addr {
   font-size: 0.9em;
 }
 .apply-jobs-modal .av-job-type {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+.customer-job-modal .jobDetail__row {
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;

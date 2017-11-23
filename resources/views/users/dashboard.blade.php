@@ -399,7 +399,7 @@ Job Listing
                                         <div class="enquiry-form__body m-t-10">
                                             <div class="form-group">
                                                 <label class="checkbox-inline">
-                                                    <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1">Send Alerts</span>
+                                                    <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1"><span class="default-size">Send Alerts</span></span>
                                                 </label>
                                             </div>
                                             
@@ -510,7 +510,7 @@ Job Listing
                                                                     <i class="fa fa-times text-primary" aria-hidden="true"></i>
                                                                 </div>
                                                             </div>
-                                                            <div class="adder">
+                                                            <div class="adder m-t-10">
                                                                 <a href="#" class="secondary-link text-decor heavier add-job-areas">+ Add more</a>
                                                             </div>
                                                         <div id="areaError" ></div>

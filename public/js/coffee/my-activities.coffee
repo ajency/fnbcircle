@@ -9,7 +9,6 @@ getUserActivities =  () ->
           email : document.head.querySelector('[property="user-email"]').content
           day : day
         success: (response)->
-            $('[data-toggle="tooltip"]').tooltip()
             if Object.keys(response['data']).length == 0
                 container.append '<div id="load-more-container" class="heavier sub-title text-center text-color m-t-30"><i class="fa fa-frown-o p-r-5 text-darker" aria-hidden="true"></i> No activities found</div>'
             $('#load-more-container').remove()
@@ -28,7 +27,8 @@ getUserActivities =  () ->
             if response['more']>0
             	container.append '<div id="load-more-container"><button type="button" id="load-more-action">Load More</button></div>'
             return
-
+            $('[data-toggle="tooltip"]').tooltip()
+            
 getUserActivities()
 
 $('body').on 'click','#load-more-action', () ->

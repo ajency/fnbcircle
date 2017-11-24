@@ -768,7 +768,7 @@
                                         <div class="approval m-t-20">
                                             <p class="contact__title lighter">{{$data['status']['text']}}</p>
                                             <div class="heavier sub-title m-b-10 pending-stuff">{!! $data['status']['status'] !!} </div>
-                                            @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
+                                            @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                         </div>
                                     @endif
                                 @endif

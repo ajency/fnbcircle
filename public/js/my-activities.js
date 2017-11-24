@@ -38,13 +38,15 @@
         if (response['more'] > 0) {
           container.append('<div id="load-more-container"><button type="button" id="load-more-action">Load More</button></div>');
         }
-        return;
-        return $('[data-toggle="tooltip"]').tooltip();
       }
     });
   };
 
   getUserActivities();
+
+  setTimeout((function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  }), 1000);
 
   $('body').on('click', '#load-more-action', function() {
     return getUserActivities();

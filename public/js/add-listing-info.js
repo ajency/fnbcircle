@@ -1,4 +1,21 @@
 (function() {
+  $('.contact-info').on('change', '.contact-input', function(event) {
+    var contacts, email, index, phone, value;
+    contacts = document.getElementsByClassName('contact-input');
+    email = $('input[name="primary_email_txt"]').val();
+    phone = $('input[name="primary_phone_txt"]').val();
+    index = 0;
+    while (index < contacts.length) {
+      value = contacts[index].value;
+      console.log(value, email);
+      if (value === email || value === phone) {
+        $(this).closest('.contact-container').find('.dupError').html('Same contact detail has been added multiple times.');
+        contacts[index].value = "";
+      }
+      ++index;
+    }
+  });
+
   $(document).on('blur', '.fnb-input', function() {
     $('#info-form').parsley();
   });

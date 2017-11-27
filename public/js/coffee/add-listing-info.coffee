@@ -46,26 +46,21 @@
 #     $('#phone-modal').modal 'hide'
 #   return
 
-# window.checkDuplicates = ->
-#   contacts = document.getElementsByClassName('contact-input')
-#   index = 0
-#   while index < contacts.length
-#     others = document.getElementsByClassName('contact-input')
-#     value = contacts[index].value
-#     # console.log 'value=' + value
-#     if value != ''
-#       index1 = 0
-#       while index1 < others.length
-#         if value == others[index1].value and index != index1
-#           # console.log 'DupValue=' + others[index1].value
-#           # console.log 'duplicate found'
-#           $(others[index1]).closest('.get-val').find('.dupError').html 'Same contact detail has been added multiple times.'
-#           return true
-#         else
-#           $(others[index1]).closest('.get-val').find('.dupError').html ''
-#         ++index1
-#     ++index
-#   return
+$('.contact-info').on 'change', '.contact-input', (event) ->
+  contacts = document.getElementsByClassName('contact-input')
+  email = $('input[name="primary_email_txt"]').val();
+  phone = $('input[name="primary_phone_txt"]').val();
+  index = 0
+  while index < contacts.length
+    value = contacts[index].value
+    console.log value, email
+    if value == email or value == phone
+      # setTimeout ->
+      $(this).closest('.contact-container').find('.dupError').html 'Same contact detail has been added multiple times.'
+      # , 1000
+      contacts[index].value = ""
+    ++index
+  return
 
 $(document).on 'blur', '.fnb-input', ->
   # checkDuplicates()

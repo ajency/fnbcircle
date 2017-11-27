@@ -68,7 +68,7 @@ function listingInformation() {
     }
     // parameters['type'] = '11';
     parameters['primary_email'] = (document.getElementsByName("primary_email")[0].checked) ? "1" : "0";
-    parameters['primary_phone'] = '0';
+    parameters['primary_phone'] = (document.getElementsByName("primary_phone")[0].checked) ? "1" : "0";
     parameters['area'] = $('.area select').val();
     parameters['contacts'] = JSON.stringify(contacts);
     if (submit == 1) {

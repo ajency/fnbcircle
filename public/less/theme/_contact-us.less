@@ -1,0 +1,40 @@
+// ---------------------------
+// CONTACT STYLES -----------
+// ---------------------------
+
+.contact-card{
+	@media screen and (min-width: 769px){
+		&__address{
+    		flex: 1 0 33.33% - 1em;
+    		background-color: #eeeeee9e;
+		}
+		&__form{
+			flex: 1 0 66.66%;
+    		padding-left: 1.5em;
+    		border-left: 3px solid #dcdbdb5e;
+		}
+	}
+	.location-icon{
+		font-size: 1.2em;
+	}
+	.contact-title{
+		padding-bottom: 0.8em;
+		border-bottom: 1px solid #dddddd;
+		.fa{
+			font-size: 1.5em;
+		}
+	}
+	@media screen and (max-width: @mobile){
+		margin: 0.2em;
+    	padding: 1.5em;
+    	&__address{
+    		order: 2;
+    		background-color: #eeeeee9e;
+    		margin: 1.5em -1.5em -1.5em;
+    		width: calc(~'100% + 3em');
+    		padding: 0;
+    		justify-content: flex-start;
+    		padding-left: 2em;
+    	}
+	}
+}

@@ -115,22 +115,25 @@
                 <h1 class="text-center m-t-50 m-b-50 text-white">Contact Us</h1>
 
                 <!-- business listing ends -->
-                <div class="row flex-row flex-wrap shadow-1 white-box">
-                    <div class="col-sm-4 flex-row justify-center">
+                <div class="row flex-row flex-wrap align-reset card contact-card">
+
+                    <div class="col-sm-4 flex-row justify-center contact-card__address">
 
                       <div class="more-details p-t-20 p-b-20">
 
                         <div class="detail-3 flex-row m-t-25 m-b-25">
                           <div class="address">
-
-                            <h5>Address</h5>
-                            <p class=" lighter">
+                            <h5 class="element-title m-b-15">Address</h5>
+                            <p class=" lighter flex-row align-top m-b-15">
+                              <i class="fa fa-map-marker lighter p-r-10 location-icon" aria-hidden="true"></i>
                                Shop No 1, Navjeevan Building,<br>
                                Evershine Nagar-Malad West,<br>
                                Mumbai - 400064.</p>
-                            <p>
-                              <i class="fa fa-envelope lighter"></i> <a href="mailto:dummy@mail.com" class="text-primary">dummy@mail.com</a><br>
-                              <i class="fa fa-phone lighter"></i> <a href="tel:987987456" class="text-primary">+91 9789784565</a><br>
+                            <p class="flex-row m-b-15">
+                              <i class="fa fa-envelope lighter p-r-10"></i> <a href="mailto:dummy@mail.com" class="primary-link">dummy@mail.com</a>
+                            </p>
+                            <p class="flex-row">
+                              <i class="fa fa-phone lighter p-r-10"></i> <a href="tel:987987456" class="primary-link">+91 9789784565</a><br>
                             </p>
                           </div>
                         </div>
@@ -138,19 +141,20 @@
                       </div>
 
                     </div>
-                    <div class="col-sm-8 p-r-0 p-l-0">
+                    <div class="col-sm-8 p-r-0 p-l-0 contact-card__form">
                       <!-- enquiry form -->
-                       <div class="card">
+                       <div class="p-t-10 p-b-10">
                           <form method="">
-                             <div class="enquiry-form__header flex-row space-between">
+                             <div class="enquiry-form__header flex-row space-between contact-title">
                                 <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
-                                <div class="enquiry-title">
-                                   <h6 class="element-title m-t-0 m-b-0">Get in touch</h6>
+                                <div class="enquiry-title flex-row">
+                                  <i class="fa fa-envelope text-primary p-r-10" aria-hidden="true"></i>
+                                  <h3 class="element-title m-t-0 m-b-0">Get in touch</h3>
                                    <!-- <p class="sub-title">How can we help you?</p> -->
                                 </div>
-                                        <span class="fnb-icons enquiry"></span>
+                                <!-- <span class="fnb-icons enquiry"></span> -->
                              </div>
-                             <div class="enquiry-form__body m-t-10">
+                             <div class="enquiry-form__body">
                                 <div class="row">
                                    <div class="col-sm-4">
                                       <div class="form-group p-t-10 m-b-0">
@@ -176,17 +180,16 @@
                                    </div>
                                 </div>
 
-
-                                   <div class="form-group p-t-30 p-b-20 m-b-0">
+                                   <div class="form-group p-t-20 p-b-20 m-b-0">
                                       <!-- <label class="custom-label">Message</label> -->
                                       <!-- <textarea class="form-control fnb-textarea" col="2"></textarea> -->
-                                            <label class="text-lighter" for="contact_msg">Tell us what you're looking for</label>
+                                            <label class="m-b-0 text-lighter float-label" for="contact_msg">Tell us what you're looking for</label>
                                             <!-- <input> -->
                                             <textarea class="form-control fnb-textarea float-input" id="contact_msg"></textarea>
                                             <!-- <input type="text" class="form-control fnb-input" id="contact_msg" placeholder="Eg: The categories that you're interested in"> -->
                                    </div>
-                                   <div class="form-group p-t-10 m-b-0">
-                                      <button class="btn fnb-btn primary-btn full border-btn">Send</button>
+                                   <div class="form-group p-t-10 m-b-0 mobile-center">
+                                      <button class="btn fnb-btn primary-btn full border-btn">Send <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                    </div>
                              </div>
                           </form>
@@ -201,7 +204,7 @@
         <!-- map starts -->
         <div class="row m-t-20">
            <div class="col-sm-12">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15380.091383021922!2d73.81245283848914!3d15.483203277923609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc0a93361ccd9%3A0xdd98120b24e5be61!2sPanjim%2C+Goa!5e0!3m2!1sen!2sin!4v1498804405360" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
            </div>
         </div>
         <!-- map ens -->

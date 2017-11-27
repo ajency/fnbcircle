@@ -52,6 +52,7 @@ class ProfileController extends Controller
         $template['joined'] = $user->created_at->toFormattedDateString();
         $template['email']  = $user->getPrimaryEmail(true);
         $template['phone']  = $user->getPrimaryContact();
+        $template['type']   = $user->type; 
         $template['step']   = $step;
 
         switch ($step) {

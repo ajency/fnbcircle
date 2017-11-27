@@ -131,6 +131,7 @@
                                 </div>
                                 <div class="nav nav-tabs">
                                     <ul class="gs-steps" role="tablist">
+                                        @if($data['type'] == 'external')
                                         <li @if($data['step'] == 'activity') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#enquiry-info" role="tab"> -->
                                             <a @if($data['step'] == 'activity') href="#" class="active" @else @if($self) href="activity" @else href="../activity/{{$data['email']['email']}}" @endif @endif >
@@ -139,6 +140,7 @@
                                                 </i>
                                             </a>
                                         </li>
+                                        @endif
                                         @if($self or $admin)
                                         <li @if($data['step'] == 'basic-details') class="active"  @endif>
                                             <a @if($data['step'] == 'basic-details') href="#" class="active" @else @if($self) href="basic-details" @else href="../basic-details/{{$data['email']['email']}}" @endif @endif >
@@ -148,6 +150,7 @@
                                             </a>
                                         </li>
                                         @endif
+                                        @if($data['type'] == "external")
                                         <li @if($data['step'] == 'description') class="active"  @endif>
                                             <!-- <a class="form-toggle" data-toggle="tab" href="#describe-best" role="tab"> -->
                                             <a @if($data['step'] == 'description') href="#" class="active" @else @if($self) href="description" @else href="../description/{{$data['email']['email']}}" @endif @endif>
@@ -156,6 +159,7 @@
                                                 </i>
                                             </a>
                                         </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

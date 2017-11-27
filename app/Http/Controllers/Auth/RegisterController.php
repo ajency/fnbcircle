@@ -259,8 +259,9 @@ class RegisterController extends Controller
 
     /**
     * This function is used to send a confirm mail for a Lead / Register User
+    * Please pass other_data in the specific key-value pair format
     */
-    public function confirmEmail($token_type = 'register', $user_data = [], $email_template_key = 'user-verify') {
+    public function confirmEmail($token_type = 'register', $user_data = [], $email_template_key = 'user-verify', $other_data = []) { 
         if(sizeof($user_data) > 0 && isset($user_data["id"]) && isset($user_data["email"])) {
             $token = str_random(50);
             if(!isset($user_data["user_type"]) || $user_data["user_type"] !== "lead") {
@@ -283,6 +284,10 @@ class RegisterController extends Controller
             $data['cc'] = [];
             $data['subject'] = "Verify your email address!";
             $data['template_data'] = ['name' => $user_data["name"], 'confirmationLink' => $confirmationLink, 'contactEmail' => config('constants.email_from')];
+            if(sizeof($other_data) > 0) {
+                $data['template_data'] = array_merge($data['template_data'], $other_data); // Please pass other_data in the specific key-value pair format
+            }
+
             sendEmail($email_template_key, $data);
             Session::put('userLoginEmail', $userEmail);
 

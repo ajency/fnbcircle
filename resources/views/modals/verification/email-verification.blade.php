@@ -36,7 +36,7 @@
 
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="{{ $email['visible'] }}">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">@if($email['visible']) Visible to the applicant @else Not visible to the applicant @endif</p>
+                        <p class="m-b-0 text-color toggle-state">@if($email['visible']) Visible  @else Not visible  @endif</p>
                     </div>
                      <i class="fa fa-times removeRow delete-contact"></i>
                 </div>
@@ -68,7 +68,7 @@
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">  Not visible to the applicant </p>
+                        <p class="m-b-0 text-color toggle-state">  Not visible </p>
                     </div>
                      <i class="fa fa-times removeRow delete-contact"></i>
                 </div>
@@ -101,7 +101,7 @@
                             <b class="track"></b>
                             <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
                         </div>
-                        <p class="m-b-0 text-color toggle-state">Not visible to the applicant</p>
+                        <p class="m-b-0 text-color toggle-state">Not visible</p>
                     </div>
                     <i class="fa fa-times removeRow delete-contact"></i>
                 </div>

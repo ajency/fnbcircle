@@ -16,9 +16,9 @@
 
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the listing');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible ');
     } else {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible on the listing');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible ');
     }
   });
 

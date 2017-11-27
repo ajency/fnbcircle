@@ -752,9 +752,37 @@ class ListingController extends Controller
         if ($step == 'business-information') {
 
             $emails  = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'email')->get();
+            $emails1=[];
+            foreach ($emails as $email) {
+                $emails1[] = [
+                    'id' => $email->id,
+                    'email' => $email->value,
+                    'verified' => $email->is_verified,
+                    'visible' => $email->is_visible,
+                ];
+            }
             $mobiles = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'mobile')->get();
-            // dd($mobiles);
+             $mobiles1=[];
+            foreach ($mobiles as $mobile) {
+                $mobiles1[] = [
+                    'id' => $mobile->id,
+                    'country_code' => $mobile->country_code,
+                    'mobile' => $mobile->value,
+                    'verified' => $mobile->is_verified,
+                    'visible' => $mobile->is_visible,
+                ];
+            }
             $phones = UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->where('type', 'landline')->get();
+            $landlines=[];
+            foreach ($phones as $landline) {
+                $landlines[] = [
+                    'id' => $landline->id,
+                    'country_code' => $landline->country_code,
+                    'landline' => $landline->value,
+                    'verified' => $landline->is_verified,
+                    'visible' => $landline->is_visible,
+                ];
+            }
             $cities = City::where('status', '1')->orderBy('order')->orderBy('name')->get();
             $areas  = Area::where('city_id', function ($area) use ($listing) {
                 $area->from('areas')->select('city_id')->where('id', $listing->locality_id);
@@ -764,7 +792,7 @@ class ListingController extends Controller
             else
                 $user = Auth::user();
             // dd($cityy);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails)->with('mobiles', $mobiles)->with('phones', $phones)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails1)->with('mobiles', $mobiles1)->with('phones', $landlines)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
         }
         if ($step == 'business-categories') {
             $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();

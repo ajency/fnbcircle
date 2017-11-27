@@ -18,17 +18,14 @@ function listingInformation() {
     form.attr("method", "post");
     form.attr("action", "/listing");
     var contacts = {};
-    var contact_IDs = document.getElementsByName("contact_IDs");
-    var value = document.getElementsByName("contacts");
-    var contact_verified = document.getElementsByName("verified_contact");
-    var contact_visible = document.getElementsByName("visible_contact");
+    var value = document.getElementsByClassName("contact-input");
     var i = 0;
-    while (i < contact_IDs.length) {
+    while (i < value.length) {
         if (value[i].value != "") {
             var contact = {};
             if ($(value[i]).closest('.business-contact').hasClass('business-email')) var type = 1
             if ($(value[i]).closest('.business-contact').hasClass('business-phone')) var type = 2
-            if ($(value[i]).closest('.business-contact').hasClass('landline')) var type = 3
+            if ($(value[i]).closest('.business-contact').hasClass('contact-info-landline')) var type = 3
             $.ajax({
                 type: 'post',
                 url: '/contact_save',
@@ -36,10 +33,10 @@ function listingInformation() {
                     'value': value[i].value,
                     'country' : $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'],
                     'type': type,
-                    'id': contact_IDs[i].value
+                    'id': $(value[i]).closest('.contact-container').find('.contact-id').val()
                 },
                 success: function(data) {
-                    contact_IDs[i].value = data['id'];
+                    $(value[i]).closest('.business-contact').find('.contact-id').val(data['id']);
                     console.log(data['id']);
                 },
                 failure: function(){
@@ -48,13 +45,13 @@ function listingInformation() {
                 },
                 async: false
             });
-            contact['id'] = contact_IDs[i].value;
+            contact['id'] = $(value[i]).closest('.contact-container').find('.contact-id').val();
             contact['country'] =  $(value[i]).intlTelInput("getSelectedCountryData")['dialCode'];
-
-            // contact['email'] = emails[i].value;
-            // contact['verify'] = (contact_verified[i].checked) ? "1" : "0";
-            contact['visible'] = (contact_visible[i].checked) ? "1" : "0";
+            contact['visible'] = ($(value[i]).closest('.contact-container').find('.toggle__check').prop('checked')) ? "1" : "0";
+            // contact['visible'] = $(value[i]).closest('.contact-container').find('.contact-visible').prop('checked');
+            contact['value'] = $(value[i]).val()
             contacts[i] = contact;
+            console.log(contact)
         }
         i++;
     }
@@ -120,7 +117,7 @@ function validateListing(event) {
           if ($(value[i]).closest('.business-contact').hasClass('business-phone')) {
             type = 'mobile';
           }
-          if ($(value[i]).closest('.business-contact').hasClass('landline')) {
+          if ($(value[i]).closest('.business-contact').hasClass('contact-info-landline')) {
             type = 'landline';
           }
 

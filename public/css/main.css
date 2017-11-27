@@ -2020,6 +2020,23 @@ input[type="checkbox"].toggle__check {
     margin: 0.8em 0;
   }
 }
+.about-card .card {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 50%;
+      -ms-flex: 1 0 50%;
+          flex: 1 0 50%;
+}
+.about-card .card:first-child {
+  margin-right: 2em;
+}
+.about-card hr {
+  width: 58%;
+  border-color: #ec6d4b;
+  border-width: 2px;
+}
+.about-card .fa {
+  font-size: 2.5em;
+}
 .m-t-0 {
   margin-top: 0px;
 }

@@ -134,12 +134,12 @@ class Job extends Model
 
     public function getSalaryType(){
         $salaryType = Defaults::find($this->salary_type);
-        return ucwords($salaryType->label);
+        return (!empty($salaryType)) ? ucwords($salaryType->label) : '';
     }
 
     public function getSalaryTypeShortForm(){
         $salaryType = Defaults::find($this->salary_type);
-        return salarayTypeText($salaryType->label);
+        return (!empty($salaryType)) ? salarayTypeText($salaryType->label) : '';
     }
 
 
@@ -174,8 +174,36 @@ class Job extends Model
 		return $this->hasMany('App\JobKeyword');
 	}
 
+ 
+    public function hasJobTypes(){
+        return $this->hasMany('App\JobTypes');
+    }
+ 
+    public function jobApplicants(){
+        return $this->hasMany('App\JobApplicant');
+ 
+    }
+
 	public function jobCompany() {
         return $this->hasOne('App\JobCompany');
+    }
+
+    public function getJobSavedKeywords($format=1){
+        if($format==1)
+        {
+            $keywords = $this->meta_data['job_keyword'];
+
+        }
+        elseif($format==2)
+        {
+            $keywordIds = $this->hasKeywords()->pluck('keyword_id');
+            $keywords = Defaults::whereIn('id',$keywordIds)->get()->toArray();
+        }
+        elseif($format==3){
+            $keywords = $this->hasKeywords()->pluck('keyword_id')->toArray();
+        }
+
+        return $keywords;
     }
 
 
@@ -204,7 +232,9 @@ class Job extends Model
         $jobExperience =  $this->getJobExperience();
 
         $description = $this->title. ' in '.implode(', ', $cities).' for '.  $this->getJobCategoryName().'.';
-        $description .= ' Job Description: Job opening for '.$jobRoles . 'in '.$jobCompany->title;
+        $description .= ' Job Description: Job opening for '.$jobRoles;
+        if(!empty($jobCompany))
+            $description .= ' in '.$jobCompany->title;
 
         $description .= (!empty($jobExperience)) ?' for '.implode(', ', $jobExperience) .' years of experience.' : '.';
    
@@ -238,6 +268,26 @@ class Job extends Model
         return $seoImage;
     }
 
+ 
+    public function getShortDescription(){
+       if(!empty($this->description)){            
+
+        $overflow = true;
+        $array = explode(" ", $this->description);
+        $output = '';
+        for ($i = 0; $i < 30; $i++) {
+
+            if (isset($array[$i])) $output .= $array[$i] . " ";
+            else $overflow = false;
+        }
+            return strip_tags(trim($output)) . ($overflow ? "..." : '');
+
+        }else{
+            return '';
+        } 
+    }
+
+ 
     public function getAllJobKeywords(){
         $metaData = $this->meta_data;
         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
@@ -245,8 +295,7 @@ class Job extends Model
         return implode(',', $jobKeywords);
     }
 
-    
-
+ 
     public function getJobCompany(){
         $jobCompany = $this->jobCompany()->first();
         $company = null;
@@ -278,22 +327,26 @@ class Job extends Model
 
     public function getJobSingleState(){
         $jobLoction = $this->hasLocations()->first();
-        $city = City::find($jobLoction['city_id'])->name;
+        $city = City::find($jobLoction['city_id']);
         return $city;
     }
 
     public function  getJobLocationNames($getData='all'){
-        $locations = $this->hasLocations()->get()->toArray(); 
+        // $locations = $this->hasLocations()->get()->toArray(); 
         $savedLocation = [];
         $cityNames = [] ;
         $areas = [] ;
         $cityId =  $area ='';
+ 
+        $locations = JobLocation::where('job_id',$this->id)->join('cities', 'job_locations.city_id', '=', 'cities.id')->orderBy('order','asc')->get();
+         ;
         foreach ($locations as $key => $location) {
 
             if($getData=='city' || $getData=='all'){
 
                 if(!isset($cityNames[$location['city_id']])){
-                    $city = City::find($location['city_id'])->name;
+                    // $city = City::find($location['city_id'])->name;
+                    $city = $location->name;
                     $cityNames[$location['city_id']] = $city;
 
                     if($getData=='city')
@@ -402,8 +455,8 @@ class Job extends Model
 
     }
 
-    public function canEditJob(){
-        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id))
+    public function jobOwnerOrAdmin(){
+        if(isAdmin() || (Auth::check() && $this->job_creator == Auth::user()->id) )
             return true;
         else
             return false;
@@ -412,7 +465,7 @@ class Job extends Model
 
     public function isJobVisible(){
         
-        if(hasAccess('edit_permission',$this->reference_id,'jobs') && $this->isJobDataComplete())
+        if(hasAccess('edit_permission_element_cls',$this->reference_id,'jobs') && $this->isJobDataComplete())
             return true;
         elseif($this->status == 3 || $this->status == 4)
             return true;
@@ -454,7 +507,7 @@ class Job extends Model
 
     public function submitForReview(){
      
-        if($this->status == 1 && $this->isJobDataComplete())
+        if($this->status == 1 && $this->isJobDataComplete() && hasAccess('submit_review_element_cls',$this->reference_id,'jobs'))
             return true;
         else
             return false;
@@ -471,8 +524,9 @@ class Job extends Model
 
     public function getJobSlug(){
         $titleSlug = str_slug($this->title);
-        $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug :'';
-
+ 
+        $companySlug = (!empty($this->getJobCompany())) ? $this->getJobCompany()->slug : '';
+ 
         if(empty($this->slug))
             $slug = $titleSlug.'-'.$this->category->slug.'-'.$companySlug.'-'.$this->reference_id;
         else
@@ -549,4 +603,5 @@ class Job extends Model
     public function premium(){
         return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
+ 
 }

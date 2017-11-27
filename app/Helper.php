@@ -234,7 +234,13 @@ function salarayTypeText($type){
 
    return $salaryTpes[$type];
 }
+ 
+function getCities(){
+	$cities  = App\City::where('status', 1)->orderBy('name')->get();
 
+	return $cities;
+}
+ 
 /**
 * This function will return DOM for the pagination
 * This function will @return
@@ -243,6 +249,7 @@ function salarayTypeText($type){
 * Note: If the main page is loaded via AJAX, it is advisable to render from ServerSide i.e. from Controller,
 *		else you can use in blade via {!! pagination(<param1>, <param2>, <param3>) !!}
 */
+ 
 function pagination($totalRecords,$currentPage,$limit){
 
 	$currentPage = (!$currentPage) ? 1 : $currentPage;
@@ -287,6 +294,41 @@ function pagination($totalRecords,$currentPage,$limit){
 	return $html;
 }
 
+ 
+function salaryRange(){
+	$range = [	'5'=>['min' => 0,
+					'max' => 300000000
+					],
+
+				'6'=>['min' => 0,
+					'max' => 25000000
+					],
+
+				'7'=>['min' => 0,
+					'max' => 822000
+					],
+
+				'8'=>['min' => 0,
+					'max' => 34500
+					]
+
+			];
+	return  $range;
+} 
+
+function getUploadFileUrl($id){
+	$url = '';
+	if(!empty($id)){
+		$fileUrl = \DB::select('select url  from  fileupload_files where id ='.$id);
+	
+		if(!empty($fileUrl)){
+			$url = $fileUrl[0]->url;
+		}
+	}
+	
+	 return $url;
+}
+ 
 /**
 * This function is used to get Popular city object that will be used in Every page dropdown -> Header page
 * This function will @return
@@ -294,6 +336,10 @@ function pagination($totalRecords,$currentPage,$limit){
 */
 function getPopularCities() {
 	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->get();
+}
+
+function getSinglePopularCity() {
+	return App\City::where('is_popular_city', 1)->orderBy('order', 'asc')->first();
 }
 
 /**
@@ -311,6 +357,14 @@ function generateUrl($city, $slug, $slug_extra = []) {
 			$url .= "/" . str_slug($slug_value, '-');
 		}
 	}
-
+ 
 	return $url;
+}
+
+function getFileMimeType($ext){
+	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
+
+	$mimeType = $mimeTypes[$ext];
+
+	return $mimeType;
 }

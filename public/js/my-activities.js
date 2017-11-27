@@ -7,6 +7,7 @@
     var container, url;
     container = $('#recent-activity');
     url = document.head.querySelector('[property="get-activities-url"]').content;
+    $('.post-loader').removeClass('hidden');
     return $.ajax({
       type: 'post',
       url: url,
@@ -36,7 +37,7 @@
         }
         console.log(day);
         if (response['more'] > 0) {
-          container.append('<div id="load-more-container"><button type="button" id="load-more-action">Load More</button></div>');
+          container.append('<div id="load-more-container"><div class="text-center text-primary m-t-20 hidden post-loader"><i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i></div><button type="button" id="load-more-action">Load More</button></div>');
         }
       }
     });

@@ -33,10 +33,13 @@
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="recent-activity" role="tabpanel">
-                                            <div class="text-center text-primary m-t-20 hidden post-loader">
-                                                <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                                            
+                                            <div id="load-more-container" class="text-center">
+                                            <div class="text-center text-primary m-t-20 post-loader">
+                                                    <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+                                                </div>
+                                                <button type="button" id="load-more-action" class="btn fnb-btn primary-btn border-btn posUpdate full">View More</button>
                                             </div>
-                                            <div id="load-more-container" class="text-center"><button type="button" id="load-more-action" class="btn fnb-btn primary-btn border-btn posUpdate full">View More</button></div>
                                             <!-- <h6 class="enquiries-made title">
                                                 <i aria-hidden="true" class="fa fa-comments">
                                                 </i>

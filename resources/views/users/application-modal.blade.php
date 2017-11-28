@@ -13,7 +13,7 @@
                   </div>
                     <!-- <p class="text-lighter x-small"> -->
                     <div class="jobDetail">
-                      <div class="flex-row jobDetail__row align-top">
+                      <div class="flex-row jobDetail__row mainRow align-top">
                         <div class="joblogo">
                           @if(($job->getJobCompany()->logo))
                             <img src="{{ $job->getJobCompany()->getCompanyLogo('company_logo') }}" width="60">
@@ -62,8 +62,8 @@
                       <!-- </p> -->
                     <div class=" ">
                      
-                        <div class="  flex-row space-between">
-                             <h6 class="m-b-20">Your details as follows:</h6> 
+                        <div class="text-center">
+                             <h6 class="m-b-15 label-size applied-details">Your details as follows:</h6> 
                         </div>
                         <div class="row m-b-10">
                             <div class="col-sm-6 form-group c-gap">

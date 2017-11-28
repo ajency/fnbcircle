@@ -11742,11 +11742,15 @@ input[type='checkbox'].remove-addr {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-.customer-job-modal .jobDetail__row {
+.customer-job-modal .jobDetail__row:not(.mainRow) {
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+}
+.customer-job-modal .applied-details {
+  background-color: #eee;
+  padding: 0.8em;
 }
 @media screen and (max-width: 768px) {
   .customer-job-modal .c-gap {

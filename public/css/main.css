@@ -3599,6 +3599,11 @@ input[type=checkbox].custom-checkbox:before {
     margin: 10px 0;
   }
 }
+@media screen and (max-width: 320px) {
+  .listed .parent-cat {
+    width: 60%;
+  }
+}
 @media screen and (max-width: 1024px) {
   .listed .fnb-cat {
     -webkit-box-flex: 1;
@@ -5991,6 +5996,28 @@ input[type=checkbox].custom-checkbox:before {
 @media screen and (max-width: 650px) {
   .design-2-card .seller-info .c-title {
     width: 160px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .design-2-card .stats .views,
+  .design-2-card .stats .verified {
+    margin-right: 8px;
+  }
+  .design-2-card .stats .views .views__title,
+  .design-2-card .stats .verified .views__title {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .design-2-card .stats .views .views__title span,
+  .design-2-card .stats .verified .views__title span {
+    padding-right: 3px;
+  }
+  .design-2-card .stats .eye-icon {
+    -webkit-transform: scale(0.7);
+        -ms-transform: scale(0.7);
+            transform: scale(0.7);
   }
 }
 .social-drop .dropdown-menu {

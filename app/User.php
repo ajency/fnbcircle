@@ -39,7 +39,6 @@ class User extends Authenticatable
 
     public static function findUsingEmail($email_id){
         try{
-            return 
             $user_comm = UserCommunication::where('value', $email_id)->where('type','email')->where('is_primary',1)->where('object_type','App\\User')->first();
             if($user_comm != null)
                 return $user_comm->object()->first();

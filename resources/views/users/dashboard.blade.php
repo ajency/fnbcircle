@@ -370,7 +370,7 @@ Job Listing
                                                     </div>
                                                 </div>
                                                 <div class="catalogue flex-row has_resume @if(empty($userResume['resume_id'])) hidden @endif">
-                                                    <p class="x-small flex-row m-b-0 text-color word-break align-top">Resume last updated on: {{ $userResume['resume_updated_on'] }}</p>
+                                                    <p class="x-small flex-row m-b-0 text-color word-break align-top bolder">Resume last updated on: {{ $userResume['resume_updated_on'] }}</p>
                                                     <input type="hidden" name="resume_id" value="{{ $userResume['resume_id'] }}">
                                                     <div class="flex-row">
                                                         <a href="{{ url('/user/'.$userResume['resume_id'].'/download-resume')}}" class="customer-resume-download">

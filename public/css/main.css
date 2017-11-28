@@ -9297,6 +9297,14 @@ input[type='checkbox'].remove-addr {
     padding-right: 2em;
   }
 }
+@media screen and (max-width: 320px) {
+  .location-select .city {
+    padding-right: 1em;
+  }
+  .location-select .fnb-select {
+    font-size: 0.95em;
+  }
+}
 @media screen and (max-width: 768px) {
   .location-hours iframe {
     height: 250px;
@@ -10504,6 +10512,12 @@ input[type='checkbox'].remove-addr {
 .auto-exp-select .multiselect-container.multiselect-container li label.checkbox input[type=checkbox]:before {
   top: -8px;
 }
+@media screen and (max-width: 320px) {
+  .location-select .multiselect-selected-text,
+  .auto-exp-select .multiselect-selected-text {
+    font-size: 0.95em;
+  }
+}
 .cityArea {
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
@@ -10769,6 +10783,17 @@ input[type='checkbox'].remove-addr {
   .job-plans.pricing-table .selection {
     bottom: -2.5em;
     margin-top: -2.5em;
+  }
+}
+@media screen and (max-width: 320px) {
+  .salary-range {
+    margin-top: -1em;
+  }
+  .salary-range .input-group {
+    width: 105px;
+  }
+  .fnb-select.select-variant {
+    font-size: 0.95em;
   }
 }
 @media screen and (min-width: 769px) {

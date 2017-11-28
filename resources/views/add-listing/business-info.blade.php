@@ -8,10 +8,13 @@
     <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <script type="text/javascript" src="/js/add-listing-info.js"></script>
 @endsection
+@section('meta')
+<meta property="check-user-exist" content="{{action('CommonController@checkIfEmailExist')}}">
+@endsection
 @section('form-data')
 
 
-
+<input type="hidden" id="user-type" value="{{$owner->type}}" readonly>
 
 <div class="business-info tab-pane fade in active" id="add_listing">
     <div class="flex-row space-between preview-detach">
@@ -178,7 +181,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4 col-xs-8">
-                    <div class="verified-toggle flex-row @if($owner->type != 'external')hidden @endif">
+                    <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
                             <input name="primary_phone" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
                             <b class="switch"></b>
@@ -224,5 +227,27 @@
     </div>
 </div>
 
+
+<div class="modal fnb-modal confirm-box fade modal-center" id="user-exist-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+          </div>
+          <div class="modal-body text-center">
+              <div class="listing-message">
+                  <h4 class="element-title text-medium text-left text-color" id="user-exist-text"></h4>
+              </div>  
+              <div class="confirm-actions text-right">
+                  <button class="btn fnb-btn text-primary border-btn no-border" id="save-listing" >Save Listing</button></a>
+                  <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+          <!-- <div class="modal-footer">
+              <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+          </div> -->
+      </div>
+  </div>
+</div>
 
 @endsection

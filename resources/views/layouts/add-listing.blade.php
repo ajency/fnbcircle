@@ -27,7 +27,6 @@
     <!-- custom script -->
     <script type="text/javascript" src="/js/custom.js"></script>
 
-     <script src="{{ asset('js/AddListing.js') }}"></script>
     <script type="text/javascript" src="/js/handlebars.js"></script>
    @if(Session::has('statusChange'))
     <script> 
@@ -389,6 +388,7 @@
                                     </div>
                                         <form id="info-form">
                                        <input type="hidden" id="step-name" value="{{$step}}" readonly>
+                                       
                                         @yield('form-data')
 
                                         <!-- Submit for review section -->

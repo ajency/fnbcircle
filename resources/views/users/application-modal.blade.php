@@ -9,7 +9,7 @@
                 <div class="apply-job-form">
                   <div class="apply-info text-center">
                     <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
-                    <h6>You are applying for the following job.</h6>
+                    <h6>You have applied for the following job.</h6>
                   </div>
                     <!-- <p class="text-lighter x-small"> -->
                     <div class="jobDetail">
@@ -79,7 +79,7 @@
                                 +({{ $job->application->country_code}}) {{ $job->application->phone}}
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">City: </label>
+                                <label class="label-size">State: </label>
                                 @if($job->application->city_id)
                                 {{ $job->application->applicantCity->name}}
                                 @endif

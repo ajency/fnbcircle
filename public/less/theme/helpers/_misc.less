@@ -397,6 +397,24 @@
 	.fa{
 		font-size: 2.5em;
 	}
+	@media screen and (max-width: @mobile){
+		flex-direction: column;
+		.card{
+			&:first-child{
+				margin-right: 1.5em;
+				margin-bottom: 1.5em;
+			}
+			margin: 0 1.5em;
+			p{
+				font-size: 1em;
+			}
+		}
+	}
 }
 
 
+@media screen and (max-width: @mobile){
+	.page-title{
+		font-size: 2em;
+	}
+}

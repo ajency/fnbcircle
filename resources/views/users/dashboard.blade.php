@@ -54,18 +54,18 @@ Job Listing
                     <!-- No activity -->
 
                 <div class="row m-b-30 m-t-30">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
                         <div class="featured-jobs browse-cat card text-center no-data-card">
                             <i class="fa fa-frown-o text-primary element-title" aria-hidden="true"></i>
                             <div class="m-t-20">
-                                <h6 class="element-title m-b-20 no-data-card__title">You don't have any Business Listing or Job Posts Yet !</h6>
-                                <h6 class="text-lighter text-medium m-b-20">You Business Listing and Job Post will appear here</h6>
-                                <h6 class="eleent-title m-b-20">Get Started Now</h6>
+                                <h6 class="element-title m-b-15 no-data-card__title">You don't have any Business Listings or Job Posts yet !</h6>
+                                <h6 class="text-lighter text-medium m-b-15 label-size">Your Business Listings and Job Posts will appear here.</h6>
+                                <h6 class="sub-title m-b-20">Get Started Now</h6>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3"></div>
+                    <div class="col-sm-2"></div>
                 </div>
 
                 <!-- No activity div ends -->
@@ -116,55 +116,55 @@ Job Listing
                         
                     @if(!$jobPosted->count() && !$jobApplication->count())
                         <!-- No data -->
-                       <div class="card">
+                       <div class="card no-listing-card">
 
                             <div class="row">
-                                                <div class="col-sm-3"></div>
-                                                <div class="col-sm-6">
-                                                    <div class="featured-jobs browse-cat card text-center">
-                                                        <h6 class="sub-title m-t-0">Do you own a Business?</h6>
-                                                        <hr>
-                                                        <button class="btn fnb-btn outline  border-btn" type="button">
-                                                            Create a Listing
-                                                        </button>
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-6">
+                                    <div class="featured-jobs browse-cat text-center">
+                                        <h6 class="sub-title m-t-0">Do you own a Business?</h6>
+                                        <hr>
+                                        <button class="btn fnb-btn outline  border-btn" type="button">
+                                            Create a Listing
+                                        </button>
 
-                                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
+                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
 
-                                                        <h6 class="sub-title m-t-0">Browse other Businesses</h6>
-                                                        <hr>
-                                                        <button class="btn fnb-btn outline  border-btn" type="button">
-                                                            Browse Listings
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-sm-3"></div>
+                                        <h6 class="sub-title m-t-0">Browse other Businesses</h6>
+                                        <hr>
+                                        <button class="btn fnb-btn outline  border-btn" type="button">
+                                            Browse Listings
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-3"></div>
                             </div>
 
-                            <hr>
+                            <hr class="separator">
 
                             <div class="row">
-                                                <div class="col-sm-3"></div>
-                                                
-                                                <div class="col-sm-6">
-                                                    <div class="featured-jobs browse-cat card text-center">
-                                                        <h6 class="sub-title m-t-0">Looking for talent?</h6>
-                                                        <hr>
-                                                        <a href="{{ url('/jobs/create') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
-                                                            Post a Job
-                                                        </button>
-                                                        </a>
+                                <div class="col-sm-3"></div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="featured-jobs browse-cat text-center">
+                                        <h6 class="sub-title m-t-0">Looking for talent?</h6>
+                                        <hr>
+                                        <a href="{{ url('/jobs/create') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
+                                            Post a Job
+                                        </button>
+                                        </a>
 
-                                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
+                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
 
-                                                        <h6 class="sub-title m-t-0">View jobs on FnB Circle</h6>
-                                                        <hr>
-                                                        <a href="{{ url($browserState.'/job-listings') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
-                                                            Browse Jobs
-                                                        </button></a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3"></div>
+                                        <h6 class="sub-title m-t-0">View jobs on FnB Circle</h6>
+                                        <hr>
+                                        <a href="{{ url($browserState.'/job-listings') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
+                                            Browse Jobs
+                                        </button></a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
                             </div>
 
                         </div>
@@ -350,7 +350,7 @@ Job Listing
                             </div>
                             <div class="fly-out__content">
                                 <form id="job-form" method="post" data-parsley-validate action="{{url('customer-dashboard/users/update-resume')}}"   enctype="multipart/form-data">
-                                    <div class="card resume-card m-b-20">
+                                    <div class="card resume-card m-b-30">
                                         <div class="flex-row align-top">
                                             <img src="/img/resume.png" class="m-r-15">
                                             <div class="flex-1">

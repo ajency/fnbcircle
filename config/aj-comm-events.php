@@ -87,4 +87,12 @@ return [
         "pushcrew" => "",
         "smsgupshup" => ""
     ],
+    "listing-user-verify"=> [
+        "laravel" => "email.listing-user-verify",
+        "pushcrew" => ""
+    ],
+    "listing-user-notify"=> [
+        "laravel" => "email.listing-user-notify",
+        "pushcrew" => ""
+    ],
 ];

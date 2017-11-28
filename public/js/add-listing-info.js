@@ -32,7 +32,7 @@
   };
 
   listingInformation = function() {
-    var contact, contacts, form, i, parameters, type, user, value;
+    var contact, contacts, form, i, parameters, phone, type, user, value;
     form = $('<form></form>');
     form.attr('method', 'post');
     form.attr('action', '/listing');
@@ -94,7 +94,9 @@
     }
     user = {};
     user['email'] = document.getElementsByName('primary_email_txt')[0].value;
-    user['phone'] = document.getElementsByName('primary_phone_txt')[0].value;
+    phone = document.getElementsByName('primary_phone_txt')[0];
+    user['locality'] = $(phone).intlTelInput('getSelectedCountryData')['dialCode'];
+    user['phone'] = phone.value;
     parameters['user'] = JSON.stringify(user);
     parameters['primary_email'] = document.getElementsByName('primary_email')[0].checked ? '1' : '0';
     parameters['primary_phone'] = document.getElementsByName('primary_phone')[0].checked ? '1' : '0';

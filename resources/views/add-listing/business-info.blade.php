@@ -145,7 +145,7 @@
         <div class="contact-row m-t-5">
             <div class="row no-m-b">
                 <div class="col-sm-5">
-                    <input name="primary_email_txt"  placeholder="User Email" type="email" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null) {{$owner->getPrimaryEmail()}} @endif"   @if($owner->type == 'external') readonly="" data-parsley-required @endif >
+                    <input name="primary_email_txt"  placeholder="User Email" type="email" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryEmail()}}@endif"   @if($owner->type == 'external') readonly="" data-parsley-required @endif >
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">

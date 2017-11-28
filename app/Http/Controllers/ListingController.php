@@ -20,7 +20,7 @@ use App\Plan;
 use App\PlanAssociation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Password;
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
  *    This can be used as a route or as a resource.
@@ -47,6 +47,71 @@ class ListingController extends Controller
         // Common::authenticate('listing', $this);
     }
 
+    
+    public function createUserAndAssignListing($user_details,$listing){
+        if($user_details->email == "") return false;
+        $user = User::findUsingEmail($user_details->email);
+        if($user != null){
+            $listing->owner_id = $user->id;
+            $listing->save();
+            $area = Area::with('city')->find($listing->locality_id);
+            $email = [
+                    'to' => $listing->owner()->first()->getPrimaryEmail(),
+                    'subject' => "Listing added under your account on F&B Circle",
+                    'template_data' => [
+                        'listing_name' => $listing->title,
+                        'listing_type' => Listing::listing_business_type[$listing->type],
+                        'listing_state' => $area->city['name'],
+                        'listing_city' => $area->name,
+                    ],
+                ];
+            sendEmail('listing-user-notify',$email);
+            return true;
+        }
+        $request_data = [
+            "user" => array("username" => $user_details->email, "email" => $user_details->email, "password" => str_random(10) , "provider" => "internal_listing_signup", "name" => explode('@', $user_details->email)[0]),
+            "user_comm" => array("email" => $user_details->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0, "is_verified" => 0),
+            "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+        ];
+        $userauth_obj = new UserAuth;
+        $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");
+        if($valid_response["status"] == "success" || $valid_response["message"] == "no_account") {
+            if ($valid_response["authentic_user"]) {
+                if(!$valid_response["user"]) {
+                    $request_data["user"]["roles"] = "customer";
+                    $request_data["user"]["type"] = "external";
+                    $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
+                }
+                if($user_details->phone != "" && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table
+                    $usercomm_obj = UserCommunication::create([
+                        "type" => "mobile", "country_code" => ($user_details->locality) ? $user_details->locality : "91",
+                        "value" => $user_details->phone, "object_id" => $user_resp["user"]->id, "object_type" => "App\User", "is_primary" => 1
+                    ]);
+                }
+                $listing->owner_id = $user_resp["user"]->id;
+                $listing->save();
+                //send email here
+                $user = Password::broker()->getUser(['email'=>$user_details->email]);
+                $token =Password::broker()->createToken($user);
+                $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email;
+                // dd($reset_password_url);
+                $area = Area::with('city')->find($listing->locality_id);
+                $email = [
+                        'to' => $user_details->email,
+                        'subject' => "Activate your account to claim your business on FnB Circle",
+                        'template_data' => [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                            'confirmationLink' => $reset_password_url,
+                        ],
+                    ];
+                sendEmail('listing-user-verify',$email);
+            }
+        }
+    }
+
     //-----------------------------------Step 1-----------------------
 
     public function listingInformation($data)
@@ -56,6 +121,8 @@ class ListingController extends Controller
             'title'         => 'required|max:255',
             'type'          => 'required|integer|between:11,16',
             'primary_email' => 'required|boolean',
+            'primary_phone' => 'required|boolean',
+            'user'          => 'required|json',
             'area'          => 'required|integer|min:1',
             'contacts'      => 'required|json|contacts',
             'change'        => 'nullable|boolean',
@@ -84,6 +151,10 @@ class ListingController extends Controller
             $com->is_visible   = $info['visible'];
             $com->save();
         }
+
+        $user = json_decode($data->user);
+        if($listing->owner_id == null and $user->email != "") $this->createUserAndAssignListing($user,$listing);
+
         $change = "";
         if (isset($data->change) and $data->change == "1") {
             $change = "&success=true";

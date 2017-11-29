@@ -17,6 +17,11 @@ use App\City;
 use App\Area;
 use App\Defaults;
 use App\Category;
+use App\Listing;
+use App\ListingAreasOfOperation;
+use App\ListingCategory;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ListViewController;
 
 
 class UserController extends Controller
@@ -289,10 +294,53 @@ class UserController extends Controller
  
     // }
 
+    public function getMyListingData($listing_obj){
+        try{
+            $listing_obj = $listing_obj->orderBy('updated_at', 'desc')->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at']);
+            $listing_obj = $listing_obj->each(function($list){ // Get following data for each list
+                    $list["area"] = $list->location()->where('status', 1)->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
+                    $list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
+
+                    // $list["status"] = Listing::listing_status[$list["status"]]; // Get the string of the Listing Status
+                    // $list["business_type"]['name'] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+
+                    $list["business_type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
+
+                    // Get list of areas under that Listing
+                    $areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+                    $city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+                    $areas_operation = [];
+                    foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+                        array_push($areas_operation, 
+                            array("city" => City::where("id", $city_id)->first(['id', 'name', 'slug']),
+                            "areas" => $city_areas
+                        ));
+                    }
+                    $list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+
+                    $recent_update_obj = DB::table('updates')->where([["object_type", "App\Listing"], ['object_id', $list->id], ['deleted_at', null]])->orderBy('updated_at', "desc")->get();
+                    $list["recent_updates"] = $recent_update_obj->count() > 0 ? $recent_update_obj->first() : null;
+
+                    // Fetches the list of all the Core categories & it's details
+                    $list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+                            $listViewCont_obj = new ListViewController;
+
+                            $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+                    });
+
+                });
+        }catch (Exception $e) {
+            return collect([]);
+        }
+        return $listing_obj;
+    }
     public function customerdashboard(){
         $user = Auth::user();
         $jobPosted = $user->jobPosted()->get();  
         $jobApplication = $user->jobApplications(); 
+        $myListingsCount = $user->listing()->count();
+        $listings = $this->getMyListingData($user->listing());
         $userResume = $user->getUserJobLastApplication();
         $userDetails = $user->getUserDetails; 
         $jobAlertConfig =  $userDetails->job_alert_config;//dd($jobAlertConfig);
@@ -334,6 +382,8 @@ class UserController extends Controller
                                         ->with('defaultKeywords', $defaultKeywords) 
                                         ->with('jobTypes', $jobTypes)
                                         ->with('browserState', $browserState)
+                                        ->with('myListingsCount', $myListingsCount)
+                                        ->with('listing_data', $listings)
                                        ->with('jobPosted', $jobPosted);
     }
 

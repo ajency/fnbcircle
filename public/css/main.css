@@ -5708,6 +5708,11 @@ input[type=checkbox].custom-checkbox:before {
 .design-2-card .set-width {
   min-width: 70px;
 }
+@media screen and (max-width: 320px) {
+  .design-2-card .set-width {
+    min-width: 90px;
+  }
+}
 .equal-col {
   background-color: #f3f3f3;
   box-shadow: 10px -1px 20px 0px rgba(0, 0, 0, 0.17);
@@ -6571,9 +6576,6 @@ input[type=checkbox].custom-checkbox:before {
   .search-actions__btn .trigger-section i {
     font-size: 1.15em;
     vertical-align: baseline;
-  }
-  .seller-info.seller-info .cities.cities li:not(.line):not(.more-show) {
-    display: none;
   }
   .seller-info.seller-info .cities.cities li:not(.line):not(.more-show):nth-child(-n+2) {
     display: block;

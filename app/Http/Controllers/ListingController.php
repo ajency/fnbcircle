@@ -286,6 +286,10 @@ class ListingController extends Controller
         foreach ($contacts as $value) {
             if($value['type'] == 'email') $check_emails[] = $value['value'];
         }
+        $check_mobile = [];
+        foreach ($contacts as $value) {
+            if($value['type'] == 'mobile') $check_mobile[] = $value['value'];
+        }
 
         // dd($output);
         $owner = User::find($listing->owner_id);
@@ -293,6 +297,10 @@ class ListingController extends Controller
         $query = $query->where(function ($query) use ($contacts, $owner) {
             $query->where(function ($query) use ($owner) {
                 if($owner!=null) $query->where('value', $owner->getPrimaryEmail())->where('type','email');
+                else $query->whereNull('value');
+            });
+            $query->orWhere(function ($query) use ($owner) {
+                if($owner!=null) $query->where('value', $owner->getPrimaryContact()['contact'])->where('country_code',$owner->getPrimaryContact()['contact_region'])->where('type','mobile');
                 else $query->whereNull('value');
             });
             foreach ($contacts as $value) {
@@ -327,6 +335,24 @@ class ListingController extends Controller
                     $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
                 }
                 $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
+                $emails[$business['reference']]['email'][]     = $user->email;
+            }
+        }
+        $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_mobile,'mobile',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
+        $users = User::whereIn('id', $user_comm)->with('listing')->get();
+        foreach ($users as $user) {
+            foreach ($user->listing as $business) {
+                if ($business['status'] != 1) {
+                    continue;
+                }
+                if (!isset($similar[$business['reference']]) /* listing is published*/) {
+                    $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+
+                }
+                if (!isset($phones[$business['reference']])) {
+                    $phones[$business['reference']] = array('id' => $business['reference'], 'email' => []);
+                }
+                $similar[$business['reference']]['messages'][] = "Matches found Phone Number (<span class=\"heavier\">{$user->email}</span>)";
                 $emails[$business['reference']]['email'][]     = $user->email;
             }
         }

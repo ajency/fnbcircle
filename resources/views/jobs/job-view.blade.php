@@ -1081,6 +1081,78 @@ $additionalData = ['job'=>$job];
                           <div class="row flex-row flex-wrap align-top edit-criteria xx-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
                             <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size dis-block">Job category: </label>
+                                 <span class="location__title default-size text-color">{{ $job->getJobCategoryName() }}</span>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <label class="label-size">Role: </label>
+                                <ul class="j-role flex-row flex-wrap">
+                                  @foreach($keywords as $keyword)
+                                   <li>
+                                      <p class="default-size cities__title m-b-0 text-color"> {{ $keyword }} </p>
+                                   </li>
+                                   @endforeach
+                                </ul>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
+                                <div class="flex-row flex-wrap">
+                                  <div class="p-r-20">
+                                    <label class="label-size">City: </label>
+                                    @foreach($locations as $city => $locAreas)
+                                      <div class="opertaions__container flex-row job-location">
+                                         <div class="location flex-row">
+                                             <!-- <span class="fnb-icons map-icon"></span> -->
+                                             <!-- <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i> -->
+                                             <p class="default-size location__title c-title flex-row space-between text-color m-b-5">{{ $city }}</h6>
+                                         </div>
+                                      </div>
+                                    @endforeach  
+                                    </div>
+                                  <div class="">
+                                    <label class="label-size">Areas: </label>
+                                    @foreach($locations as $city => $locAreas)
+                                      <div class="opertaions__container flex-row job-location">
+                                         <ul class="cities flex-row">
+
+                                            <?php
+                                            $splitAreas =  splitJobArrayData($locAreas,2);
+                                            $areas = $splitAreas['array'];
+                                            $moreAreas = $splitAreas['moreArray'];
+                                            $moreAreaCount = $splitAreas['moreArrayCount'];
+                                            $areaCount = count($areas);
+                                            $areaInc = 0;
+                                            ?>
+                                            @foreach($areas as $area)
+                                              <?php
+                                               $areaInc++;
+                                              ?>
+                                             <li>
+                                                <p class="cities__title text-color m-b-5">{{ $area }} 
+                                 
+                                                @if($areaInc != $areaCount)
+                                                 , 
+                                                @endif
+
+                                                </p>
+                                             </li>
+                                            @endforeach  
+
+                                             @if($moreAreaCount) 
+                                             <!-- <li class="remain more-show">
+                                                 <a href="" class="secondary-link remain__number">+10</a>
+                                             </li> -->
+               
+                                          <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
+                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+               
+                                            @endif
+                                         </ul>
+                                      </div>
+                                    @endforeach  
+                                  </div>
+                                  </div>
+                            </div>
+                            <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))
                                 <div class="flex-row">
@@ -1127,78 +1199,7 @@ $additionalData = ['job'=>$job];
                                   @endif
                              </div>
                             </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size dis-block">Job category: </label>
-                                 <span class="location__title default-size text-color">{{ $job->getJobCategoryName() }}</span>
-                            </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Role: </label>
-                                <ul class="j-role flex-row flex-wrap">
-                                  @foreach($keywords as $keyword)
-                                   <li>
-                                      <p class="default-size cities__title m-b-0 text-color"> {{ $keyword }} </p>
-                                   </li>
-                                   @endforeach
-                                </ul>
-                            </div>
-                            <div class="col-sm-6 form-group c-gap">
-                                <div class="flex-row flex-wrap">
-                                  <div class="p-r-20">
-                                    <label class="label-size">City: </label>
-                                    @foreach($locations as $city => $locAreas)
-                                      <div class="opertaions__container flex-row job-location">
-                                         <div class="location flex-row">
-                                             <!-- <span class="fnb-icons map-icon"></span> -->
-                                             <!-- <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i> -->
-                                             <p class="default-size location__title c-title flex-row space-between text-color">{{ $city }}</h6>
-                                         </div>
-                                      </div>
-                                    @endforeach  
-                                    </div>
-                                  <div class="">
-                                    <label class="label-size">Areas: </label>
-                                    @foreach($locations as $city => $locAreas)
-                                      <div class="opertaions__container flex-row job-location">
-                                         <ul class="cities flex-row">
-
-                                            <?php
-                                            $splitAreas =  splitJobArrayData($locAreas,2);
-                                            $areas = $splitAreas['array'];
-                                            $moreAreas = $splitAreas['moreArray'];
-                                            $moreAreaCount = $splitAreas['moreArrayCount'];
-                                            $areaCount = count($areas);
-                                            $areaInc = 0;
-                                            ?>
-                                            @foreach($areas as $area)
-                                              <?php
-                                               $areaInc++;
-                                              ?>
-                                             <li>
-                                                <p class="cities__title text-color">{{ $area }} 
-                                 
-                                                @if($areaInc != $areaCount)
-                                                 , 
-                                                @endif
-
-                                                </p>
-                                             </li>
-                                            @endforeach  
-
-                                             @if($moreAreaCount) 
-                                             <!-- <li class="remain more-show">
-                                                 <a href="" class="secondary-link remain__number">+10</a>
-                                             </li> -->
-               
-                                          <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
-               
-                                            @endif
-                                         </ul>
-                                      </div>
-                                    @endforeach  
-                                  </div>
-                                  </div>
-                            </div>
+                            
                             <div class="col-sm-12">
                               <div class="text-center jobdata-action">
                                   <a href="{{ url('customer-dashboard') }}"><button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button></a>

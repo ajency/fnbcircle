@@ -1097,7 +1097,7 @@ $additionalData = ['job'=>$job];
                             <div class="col-sm-6 form-group c-gap">
                                 <div class="flex-row flex-wrap">
                                   <div class="p-r-20">
-                                    <label class="label-size">City: </label>
+                                    <label class="label-size">State: </label>
                                     @foreach($locations as $city => $locAreas)
                                       <div class="opertaions__container flex-row job-location">
                                          <div class="location flex-row">
@@ -1109,7 +1109,7 @@ $additionalData = ['job'=>$job];
                                     @endforeach  
                                     </div>
                                   <div class="">
-                                    <label class="label-size">Areas: </label>
+                                    <label class="label-size">City: </label>
                                     @foreach($locations as $city => $locAreas)
                                       <div class="opertaions__container flex-row job-location">
                                          <ul class="cities flex-row">

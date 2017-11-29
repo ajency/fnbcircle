@@ -4047,6 +4047,15 @@ input[type=checkbox].custom-checkbox:before {
 .dash-enquiry-form .salary-range .input-group {
   width: 128px;
 }
+.dash-enquiry-form .cityArea {
+  position: relative;
+}
+.dash-enquiry-form .cityArea .remove-select-col {
+  position: absolute;
+  right: -15px;
+  top: 5px;
+  left: inherit;
+}
 .resume-card {
   border-bottom: 0;
   background-color: #fffeea;

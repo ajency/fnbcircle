@@ -391,7 +391,7 @@ Job Listing
                                         <div class="enquiry-form__header flex-row space-between align-top">
                                             <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
                                             <div class="enquiry-title">
-                                                <h6 class="element-title m-t-0 m-b-0">Job Alerts</h6>
+                                                <h6 class="element-title m-t-0 m-b-5">Job Alerts</h6>
                                                 <p class="default-size text-lighter">You will receive job recommendation based on following</p>
                                             </div>
                                             <span class="fnb-icons enquiry"></span>

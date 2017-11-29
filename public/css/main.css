@@ -6454,6 +6454,11 @@ input[type=checkbox].custom-checkbox:before {
       -ms-flex: 1;
           flex: 1;
 }
+_::-webkit-full-page-media,
+_:future,
+:root .search-section .icons {
+  top: 15px;
+}
 @media screen and (max-width: 768px) {
   .search-section {
     padding: 0 15px;

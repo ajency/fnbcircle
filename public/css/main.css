@@ -8767,6 +8767,18 @@ input[type=checkbox].custom-checkbox:before {
             transition: inherit;
   }
 }
+@media screen and (max-width: 320px) {
+  .imageUpload .dropify-wrapper.touch-fallback.has-preview .dropify-clear,
+  .J-company .dropify-wrapper.touch-fallback.has-preview .dropify-clear,
+  .fileUpload .dropify-wrapper.touch-fallback.has-preview .dropify-clear {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 320px) {
+  .imageUpload .dropify-wrapper.touch-fallback.has-preview .dropify-clear {
+    width: 100%;
+  }
+}
 .dropify-wrapper.touch-fallback.has-preview .dropify-clear {
   bottom: 4px;
   border: 0;

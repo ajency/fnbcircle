@@ -1548,6 +1548,27 @@
 }
 
 
+// Form collapse
+
+.form-collapse-hide{
+	&.in{
+		& + [data-class='more']{
+			display: none;
+			& + [data-class='less']{
+				display: block;
+			}
+		}
+	}
+}
+
+.form-collapse{
+	&[data-class='less']{
+		display: none;
+	}
+}
+
+
+
 @media screen and (max-width: @mobile){
 	// .form-toggle{
 	// 	position: fixed;
@@ -3767,6 +3788,7 @@ and (max-device-width: 650px) {
 		flex-direction: column;
 		.card{
 			padding: 1em 0.8em;
+			// width: 100%;
 			h5{
 				font-size: 1.1em;
     			margin-top: 0;

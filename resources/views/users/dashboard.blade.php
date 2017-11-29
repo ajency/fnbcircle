@@ -515,61 +515,75 @@ Job Listing
                                                             </div>
                                                         <div id="areaError" ></div>
                                             </div>
-                                            <div class="form-group p-t-10">
-                                                <label class="label-size">Job Type</label>
-                                                <div class="form-group m-t-5 job-type mobile-flex flex-row flex-wrap align-top">
-                                                    @foreach($jobTypes as $jobTypeId => $jobType)
-                                                      <label class="checkbox-inline">
-                                                        <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($jobAlertConfig['job_type']) && in_array($jobTypeId,$jobAlertConfig['job_type'])) checked @endif> {{ $jobType }}
-                                                      </label>
-                                                    @endforeach 
-                                                </div>
-                                            </div>
-                                            <div class="form-group p-t-10">
-                                                <label class="label-size">Years of experience</label>
-                                                    <div class="brands-container businessType auto-exp-select">
-                                                      <select class="fnb-select select-variant form-control text-lighter expSelect" name="experience[]" id="yrsExpInput"  multiple="multiple">
-                                                        @foreach($defaultExperience as $experienceId =>$experience)
-                                                            <option @if(isset($jobAlertConfig['experience']) && in_array($experience,$jobAlertConfig['experience'])) selected @endif  value="{{ $experience }}">{{ $experience }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group p-t-10">
-                                                <label class="label-size">Salary</label>
-                                                <div class="form-group m-t-5">
-                                                    <div class="flex-row flex-wrap align-top">
-                                                        @foreach($salaryTypes as $salaryTypeId => $salaryType)
-                                                          <label class="radio-inline">
-                                                            <input type="radio" name="salary_type" class="fnb-radio"   value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."  @if($jobAlertConfig['salary_type'] == $salaryTypeId) checked @endif> {{ $salaryType }}
-                                                          </label>
-                                                        @endforeach
-                                                    </div>
-                                                    <div id="salary-type-errors" class="fnb-errors"></div>
-                                                    <a href="javascript:void(0)" class="text-right clear-salary secondary-link text-decor dis-block">Clear</a>
+    
 
-                                                    <div class="salary-range flex-row">
-                                                        <div class="flex-row">
-                                                            <div class="input-group">
-                                                              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                                             
+                                             <div class=" form-collapse-hide" id="more-field">
+
+                                                <div class="form-group p-t-10">
+                                                    <label class="label-size">Job Type</label>
+                                                    <div class="form-group m-t-5 job-type mobile-flex flex-row flex-wrap align-top">
+                                                        @foreach($jobTypes as $jobTypeId => $jobType)
+                                                          <label class="checkbox-inline">
+                                                            <input type="checkbox" name="job_type[]" id="job_type" value="{{ $jobTypeId }}" class="fnb-checkbox custom-checkbox" @if(isset($jobAlertConfig['job_type']) && in_array($jobTypeId,$jobAlertConfig['job_type'])) checked @endif> {{ $jobType }}
+                                                          </label>
+                                                        @endforeach 
+                                                    </div>
+                                                </div>
+                                                <div class="form-group p-t-10">
+                                                    <label class="label-size">Years of experience</label>
+                                                        <div class="brands-container businessType auto-exp-select">
+                                                          <select class="fnb-select select-variant form-control text-lighter expSelect" name="experience[]" id="yrsExpInput"  multiple="multiple">
+                                                            @foreach($defaultExperience as $experienceId =>$experience)
+                                                                <option @if(isset($jobAlertConfig['experience']) && in_array($experience,$jobAlertConfig['experience'])) selected @endif  value="{{ $experience }}">{{ $experience }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group p-t-10">
+                                                    <label class="label-size">Salary</label>
+                                                    <div class="form-group m-t-5">
+                                                        <div class="flex-row flex-wrap align-top">
+                                                            @foreach($salaryTypes as $salaryTypeId => $salaryType)
+                                                              <label class="radio-inline">
+                                                                <input type="radio" name="salary_type" class="fnb-radio"   value="{{ $salaryTypeId }}"   data-parsley-errors-container="#salary-type-errors" data-parsley-required-message="Please select salary type."  @if($jobAlertConfig['salary_type'] == $salaryTypeId) checked @endif> {{ $salaryType }}
+                                                              </label>
+                                                            @endforeach
+                                                        </div>
+                                                        <div id="salary-type-errors" class="fnb-errors"></div>
+                                                        <a href="javascript:void(0)" class="text-right clear-salary secondary-link text-decor dis-block">Clear</a>
+
+                                                        <div class="salary-range flex-row">
+                                                            <div class="flex-row">
+                                                                <div class="input-group">
+                                                                  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
                                                  
-                                                              <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($jobAlertConfig['salary_type']) data-parsley-required salary-type-checked="true" @else salary-type-checked="false" @endif    data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary." salary_type_checked max="300000000" value="{{ $jobAlertConfig['salary_lower'] }}">
-                                                           
-                                                               <div id="errors" class="ctm-error fnb-errors"></div>
-                                                            </div>
-                                                            <p class="m-b-0 sal-divider">to</p>
-                                                            <div class="input-group">
-                                                              <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-                                             
-                                                              <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"    data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary." max="300000000" value="{{ $jobAlertConfig['salary_upper'] }}">
-                                             
-                                                               <div id="error" class="ctm-error fnb-errors"></div>
+                                                     
+                                                                  <input type="number" min="0" class="form-control salary-amt " name="salary_lower" id="salary_lower"  data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"  @if($jobAlertConfig['salary_type']) data-parsley-required salary-type-checked="true" @else salary-type-checked="false" @endif    data-parsley-errors-container="#errors" data-parsley-required-message="Please enter minimum salary." salary_type_checked max="300000000" value="{{ $jobAlertConfig['salary_lower'] }}">
+                                                               
+                                                                   <div id="errors" class="ctm-error fnb-errors"></div>
+                                                                </div>
+                                                                <p class="m-b-0 sal-divider">to</p>
+                                                                <div class="input-group">
+                                                                  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                                                 
+                                                                  <input type="number" class="form-control salary-amt" name="salary_upper" id="salary_upper" data-parsley-type="number" aria-describedby="inputGroupSuccess3Status"    data-parsley-errors-container="#error" data-parsley-required-message="Please enter maximum salary." max="300000000" value="{{ $jobAlertConfig['salary_upper'] }}">
+                                                 
+                                                                   <div id="error" class="ctm-error fnb-errors"></div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
+
+                                            <a class="primary-link form-collapse dis-block m-t-25 m-b-5" href="javascript:void(0);" type="button" data-toggle="collapse" data-target="#more-field" aria-expanded="false" aria-controls="more-field" data-class="more">
+                                              More data <i class="fa fa-angle-down sub-title" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="primary-link form-collapse dis-block m-t-25 m-b-5" href="javascript:void(0);" type="button" data-toggle="collapse" data-target="#more-field" aria-expanded="false" aria-controls="more-field" data-class="less">
+                                              Less data <i class="fa fa-angle-up sub-title" aria-hidden="true"></i>
+                                            </a>
+
                                             <div class="form-group p-t-20 m-b-0 text-center">
                                                 <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">Modify <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                                             </div>

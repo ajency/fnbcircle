@@ -4133,6 +4133,15 @@ input[type=checkbox].custom-checkbox:before {
   font-size: 0.9em;
   font-weight: 500;
 }
+.form-collapse-hide.in + [data-class='more'] {
+  display: none;
+}
+.form-collapse-hide.in + [data-class='more'] + [data-class='less'] {
+  display: block;
+}
+.form-collapse[data-class='less'] {
+  display: none;
+}
 @media screen and (max-width: 768px) {
   .fly-out {
     -webkit-transform: translateX(100%);

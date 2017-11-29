@@ -93,7 +93,7 @@ class ListingController extends Controller
                 //send email here
                 $user = Password::broker()->getUser(['email'=>$user_details->email]);
                 $token =Password::broker()->createToken($user);
-                $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email;
+                $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email.'&new_user=true';
                 // dd($reset_password_url);
                 $area = Area::with('city')->find($listing->locality_id);
                 $email = [

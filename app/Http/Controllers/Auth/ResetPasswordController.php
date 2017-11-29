@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 
+use App\UserCommunication;
 use Illuminate\Support\Facades\DB;
 
 
@@ -68,10 +69,14 @@ class ResetPasswordController extends Controller
                 $email = null;
             }
         }
-
+        if($request->has('new_user') and $request->new_user == "true"){
+            $new_user = true;
+        }else{
+            $new_user=false;
+        }
         return view('auth.passwords.reset')->with(
             ['token' => $token, 'email' => $email]
-        );
+        )->with('new_user',$new_user);
     }
 
      /**
@@ -91,6 +96,8 @@ class ResetPasswordController extends Controller
         }
 
         $user->save();
+
+        UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
 
         event(new PasswordReset($user));
 

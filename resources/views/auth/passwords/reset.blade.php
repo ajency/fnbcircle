@@ -10,7 +10,7 @@
                             <i class="fa fa-lock text-primary lock" aria-hidden="true"></i>
                         </div>
                         <div class="text-center m-t-30 log-sign">
-                            <h5 class="welcome-text">Reset Password</h5>
+                            <h5 class="welcome-text">@if($new_user)Set @else Reset @endif Password</h5>
                             <p class="text-lighter">Please enter your new password</p>
                         </div>
 
@@ -38,7 +38,7 @@
                                         <div class="col-sm-2"></div>
                                         <div class="col-sm-12">
                                              <div class="form-group text-center m-t-20 m-b-20 signBtn">
-                                                <button type="submit" id="" class="btn btn-primary btn-lg fnb-btn primary-btn border-btn full">Reset Password<i class="fa fa-circle-o-notch fa-spin hidden"></i>
+                                                <button type="submit" id="" class="btn btn-primary btn-lg fnb-btn primary-btn border-btn full">@if($new_user)Set @else Reset @endif Password<i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                                 </button>
                                             </div>
                                         </div>

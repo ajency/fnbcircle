@@ -335,27 +335,28 @@ class ListingController extends Controller
                     $emails[$business['reference']] = array('id' => $business['reference'], 'email' => []);
                 }
                 $similar[$business['reference']]['messages'][] = "Matches found Email (<span class=\"heavier\">{$user->email}</span>)";
-                $emails[$business['reference']]['email'][]     = $user->email;
+                $emails[$business['reference']]['email'][]     = $user->getPrimaryEmail();
             }
         }
-        $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_mobile,'mobile',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
-        $users = User::whereIn('id', $user_comm)->with('listing')->get();
-        foreach ($users as $user) {
-            foreach ($user->listing as $business) {
-                if ($business['status'] != 1) {
-                    continue;
-                }
-                if (!isset($similar[$business['reference']]) /* listing is published*/) {
-                    $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
+        // $user_comm = $userauth_obj->getPrimanyUsersUsingContact($check_mobile,'mobile',true)->where('object_type','App\\User')->pluck('object_id')->toArray();
+        // $users = User::whereIn('id', $user_comm)->with('listing')->get();
+        // foreach ($users as $user) {
+        //     foreach ($user->listing as $business) {
+        //         if ($business['status'] != 1) {
+        //             continue;
+        //         }
+        //         if (!isset($similar[$business['reference']]) /* listing is published*/) {
+        //             $similar[$business['reference']] = array('name' => $business['title'], 'messages' => array());
 
-                }
-                if (!isset($phones[$business['reference']])) {
-                    $phones[$business['reference']] = array('id' => $business['reference'], 'email' => []);
-                }
-                $similar[$business['reference']]['messages'][] = "Matches found Phone Number (<span class=\"heavier\">{$user->email}</span>)";
-                $emails[$business['reference']]['email'][]     = $user->email;
-            }
-        }
+        //         }
+        //         if (!isset($phones[$business['reference']])) {
+        //             $phones[$business['reference']] = array('id' => $business['reference'], 'email' => []);
+        //         }
+        //         $similar[$business['reference']]['messages'][] = "Matches found Email Number (<span class=\"heavier\">{$user->email}</span>)";
+        //         $user_mobile = $user->getPrimaryContact();
+        //         $emails[$business['reference']]['email'][]     = '+'.$user_mobile['contact_region'].'-'.$user_mobile['contact'];
+        //     }
+        // }
 
         foreach ($dup_com as $row) {
             if ($row->object['status'] != 1) {
@@ -844,6 +845,7 @@ class ListingController extends Controller
     }
     public function edit($reference, $step = 'business-information')
     {
+        // dd(request()->has('show_duplicates'));
         $listing = Listing::where('reference', $reference)->with('location')->with('operationTimings')->firstorFail();
         $cityy = City::find($listing->location['city_id']);
         if ($step == 'business-information') {
@@ -889,7 +891,17 @@ class ListingController extends Controller
             else
                 $user = Auth::user();
             // dd($cityy);
-            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails1)->with('mobiles', $mobiles1)->with('phones', $landlines)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('cityy',$cityy);
+            if(request()->has('show_duplicates') and request()->show_duplicates == 'true'){
+                $show_duplicates = true;
+                $request  = new Request;
+                $request->merge(array('id' => $listing->id));
+                $duplicates = $this->findDuplicates($request)->original["similar"];
+                // dd($duplicates);
+            }else{
+                $show_duplicates = false;
+                $duplicates = null;
+            }
+            return view('add-listing.business-info')->with('listing', $listing)->with('step', $step)->with('emails', $emails1)->with('mobiles', $mobiles1)->with('phones', $landlines)->with('cities', $cities)->with('areas', $areas)->with('owner', $user)->with('show_duplicates',$show_duplicates)->with('duplicates',$duplicates)->with('cityy',$cityy);
         }
         if ($step == 'business-categories') {
             $parent_categ  = Category::where('type', 'listing')->whereNull('parent_id')->where('status', '1')->orderBy('order')->orderBy('name')->get();

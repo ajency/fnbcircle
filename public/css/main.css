@@ -11879,8 +11879,18 @@ input[type='checkbox'].remove-addr {
         -ms-flex-align: center;
             align-items: center;
   }
+  .apply-jobs-modal .edit-criteria {
+    font-size: 1em;
+  }
   .apply-jobs-modal .edit-criteria .c-gap {
     margin-top: 1em;
+  }
+  .open-details .j-alert-title {
+    line-height: 1.3;
+    font-size: 1.15em;
+  }
+  .open-details p {
+    font-size: 1em;
   }
   .app-sent {
     font-size: 1.25em;

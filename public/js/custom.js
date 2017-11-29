@@ -1184,7 +1184,7 @@ $(function(){
 			// var getheight = $('.design-2-card').outerHeight();
 			// $('.equal-col').css('height',getheight);
 			
-				$('.open-sidebar').click(function(){
+				$('.open-sidebar').click(function(event){
 					event.preventDefault();
 					$('.animate-row').addClass('body-slide');
 					// setTimeout((function() {
@@ -1204,7 +1204,7 @@ $(function(){
 					// }), 500);
 				});
 
-			$('.article-back').click(function(){
+			$('.article-back').click(function(event){
 				event.preventDefault();
 				$('.animate-row').removeClass('body-slide');
 			});

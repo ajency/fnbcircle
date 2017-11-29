@@ -6296,6 +6296,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .selection-card .card {
     padding: 1em 0.8em;
+    width: 100%;
   }
   .selection-card .card h5 {
     font-size: 1.1em;

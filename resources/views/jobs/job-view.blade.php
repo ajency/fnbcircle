@@ -1064,12 +1064,13 @@ $additionalData = ['job'=>$job];
                           </div>
                           @endif
                           
-                          <!-- <div class="job-alert text-center">
+
+                          <div class="job-alert text-center xx-small">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
                               <h6 class="text-medium m-b-15 m-t-15">Your job alert for <b>'Food &amp; beverage manager'</b> has been created</h6>
                               <p>You will receive the job alert in your email <b>'abhayrajput@gmail.com'</b> as per the below criteria</p>
                               <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
-                          </div> -->
+                          </div>
   
 
                           <!-- <hr> -->
@@ -1077,12 +1078,12 @@ $additionalData = ['job'=>$job];
                           <div>
                           Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
                           </div>
-                          <div class="row flex-row flex-wrap align-top edit-criteria {{ ($sendJobAlerts) ? '' : 'hidden' }}">
+                          <div class="row flex-row flex-wrap align-top edit-criteria xx-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Job type: </label>
                                 @if(!empty($jobTypes))
-                                <div class="flex-row jobDetail__row">
+                                <div class="flex-row">
                                    <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
                                    <div class="featured-jobs__row flex-row">
                                         <div class="job-type">
@@ -1122,20 +1123,20 @@ $additionalData = ['job'=>$job];
                                   </div>
 
                                   @else
-                                  <div class="text-color lighter">Not disclosed</div>
+                                  <div class="text-color">Not disclosed</div>
                                   @endif
                              </div>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size dis-block">Job category: </label>
-                                 <span class="location__title default-size">{{ $job->getJobCategoryName() }}</span>
+                                 <span class="location__title default-size text-color">{{ $job->getJobCategoryName() }}</span>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size">Role: </label>
                                 <ul class="j-role flex-row flex-wrap">
                                   @foreach($keywords as $keyword)
                                    <li>
-                                      <p class="default-size cities__title m-b-0"> {{ $keyword }} </p>
+                                      <p class="default-size cities__title m-b-0 text-color"> {{ $keyword }} </p>
                                    </li>
                                    @endforeach
                                 </ul>
@@ -1149,7 +1150,7 @@ $additionalData = ['job'=>$job];
                                          <div class="location flex-row">
                                              <!-- <span class="fnb-icons map-icon"></span> -->
                                              <!-- <i class="fa fa-map-marker p-r-5 text-color" aria-hidden="true"></i> -->
-                                             <p class="default-size location__title c-title flex-row space-between">{{ $city }}</h6>
+                                             <p class="default-size location__title c-title flex-row space-between text-color">{{ $city }}</h6>
                                          </div>
                                       </div>
                                     @endforeach  
@@ -1173,7 +1174,7 @@ $additionalData = ['job'=>$job];
                                                $areaInc++;
                                               ?>
                                              <li>
-                                                <p class="cities__title">{{ $area }} 
+                                                <p class="cities__title text-color">{{ $area }} 
                                  
                                                 @if($areaInc != $areaCount)
                                                  , 

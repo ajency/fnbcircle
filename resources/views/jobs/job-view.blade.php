@@ -982,7 +982,7 @@ $additionalData = ['job'=>$job];
                         <div class="  flex-row space-between">
                              <h6 class="m-b-20">Your details as follows:</h6> 
                         </div>
-                        <div class="row m-b-10 flex-row flex-wrap contact-info">
+                        <div class="row m-b-10 flex-row flex-wrap contact-info cust-detail-row">
                             <div class="col-sm-6 form-group c-gap details-fill-col">
                                 <label class="label-size">Name: </label>
                                 <input text="text" class="form-control fnb-input" name="applicant_name" placeholder="Enter name" value="{{ $userProfile->name}}" data-parsley-required-message="Please enter name." data-parsley-required>

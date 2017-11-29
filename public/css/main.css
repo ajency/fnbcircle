@@ -7783,6 +7783,11 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 2em;
   }
 }
+@media screen and (max-width: 320px) {
+  .home-search {
+    top: 6em;
+  }
+}
 .listed-cat {
   margin-top: 12em;
 }
@@ -11934,6 +11939,11 @@ input[type='checkbox'].remove-addr {
 .jobdata-action .fnb-btn:first-child {
   padding: 0.65em 1.8em;
   margin-right: 1em;
+}
+_::-webkit-full-page-media,
+_:future,
+:root .cust-detail-row .details-fill-col {
+  width: 49%;
 }
 @media screen and (max-width: 768px) {
   .apply-jobs-modal .jobDetail__row {

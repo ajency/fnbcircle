@@ -517,7 +517,7 @@ Job Listing
                                             </div>
     
 
-                                             <div class=" form-collapse-hide" id="more-field">
+                                             <div class="collapse form-collapse-hide" id="more-field">
 
                                                 <div class="form-group p-t-10">
                                                     <label class="label-size">Job Type</label>

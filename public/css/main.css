@@ -4056,6 +4056,9 @@ input[type=checkbox].custom-checkbox:before {
   top: 5px;
   left: inherit;
 }
+.dash-enquiry-form input[type='radio'].fnb-radio:before {
+  top: -1px;
+}
 .resume-card {
   border-bottom: 0;
   background-color: #fffeea;

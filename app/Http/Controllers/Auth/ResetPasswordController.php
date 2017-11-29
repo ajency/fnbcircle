@@ -52,8 +52,7 @@ class ResetPasswordController extends Controller
      * @param  string|null  $token
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showResetForm(Request $request, $token = null)
-    {
+    public function showResetForm(Request $request, $token = null) {
         if($request->has('email') && $request->email) {
             $email = $request->email;
         } else {
@@ -68,5 +67,28 @@ class ResetPasswordController extends Controller
         return view('auth.passwords.reset')->with(
             ['token' => $token, 'email' => $email]
         );
+    }
+
+     /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password) {
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        if($user->status == "inactive") { // Activate the User
+            $user->status = "active";
+        }
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        $this->guard()->login($user);
     }
 }

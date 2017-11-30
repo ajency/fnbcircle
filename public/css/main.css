@@ -6378,7 +6378,9 @@ input[type=checkbox].custom-checkbox:before {
   }
   .your-activity .nav-info__tab {
     margin: 0;
-    width: 100vh;
+  }
+  .your-activity .nav-info li {
+    background-color: #fff;
   }
   .send-alert span {
     padding-left: 5px;

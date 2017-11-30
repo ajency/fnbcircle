@@ -159,7 +159,14 @@ $('.similar-card').click ->
   window.location.href = gethref
   return
 
-
-
-
-
+$('body').on 'click','#contact-info', () ->
+  $('#contact-modal').modal 'show'
+  # show loader
+  $.ajax
+    url : 'http://localhost:8000/contact-request'
+    type : 'post'
+    data :
+      'id': document.getElementById('listing_id').value
+    success: (data) ->
+      $('#contact-modal .modal-body').html data
+      # remove loader

@@ -215,6 +215,7 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::get('/{listing_slug}', 'ListingViewController@index');
 	Route::get('/', 'LocationController@location');
 });
+Route::post('/contact-request','ContactRequestController@getContactRequest');
 
 Route::group(['prefix' => 'api'], function() {
 	Route::post('/get-listview-data', 'ListViewController@getListViewData');

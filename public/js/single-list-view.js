@@ -164,4 +164,18 @@
     window.location.href = gethref;
   });
 
+  $('body').on('click', '#contact-info', function() {
+    $('#contact-modal').modal('show');
+    return $.ajax({
+      url: 'http://localhost:8000/contact-request',
+      type: 'post',
+      data: {
+        'id': document.getElementById('listing_id').value
+      },
+      success: function(data) {
+        return $('#contact-modal .modal-body').html(data);
+      }
+    });
+  });
+
 }).call(this);

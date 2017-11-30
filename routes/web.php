@@ -16,9 +16,6 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
  
-// Route::get('/test','TestController@index');
-// Forgot Password
-Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
 /****
 api
 ****/
@@ -51,6 +48,7 @@ Route::post('/duplicates','ListingController@findDuplicates');
 Route::post('/get_areas','CommonController@getAreas');
 Route::post('/get-map-key', 'CommonController@mapKey');
 Route::post('/slugify', 'CommonController@slugifyCitiesAreas');
+Route::post('/check-user-exist','CommonController@checkIfEmailExist');
 Route::group( ['middleware' => ['auth','fnbpermission']], function() { 
 	//add listing
 	Route::get('listing/create','ListingController@create');

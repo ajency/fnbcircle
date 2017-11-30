@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\User;
 use Session;
 use Illuminate\Http\Request;
+use Ajency\User\Ajency\userauth\UserAuth;
 
 class CommonController extends Controller
 {
@@ -143,13 +144,13 @@ class CommonController extends Controller
 
         $user_data = array("email" => $request["email"], "username" => $request["email"]);
 
-        $response_obj = $userauth_obj->checkIfUserExist($user_data, true);
+        $response_obj = $userauth_obj->checkIfUserExists($user_data, true);
 
-        if($respone_obj["comm"] || $respone_obj["user"]) {
-            $response_data = array("message" => "Email exist");
-            $status = 400;
+        if($response_obj["comm"] || $response_obj["user"]) {
+            $response_data = array("result"=>true, "message" => "Email exist", 'user' => User::findUsingEmail($request['email']));
+            $status = 200;
         } else {
-            $response_data = array("message" => "No such email");
+            $response_data = array( "result"=>false, "message" => "No such email");
             $status = 200;
         }
 

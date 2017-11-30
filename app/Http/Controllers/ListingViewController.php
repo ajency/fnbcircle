@@ -41,6 +41,7 @@ class ListingViewController extends Controller
         $pagedata['verified']  = ($listing->owner_id == null)? false:true;
         $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name, 'slug'=>$area->city['slug'], 'id' => $area->city['id']);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => '', 'slug' => $listing->slug];
+        // $pagedata['contact-requests'] = displayCount($listing->contact_request_count)
         $pagedata['update']    = $listing->updated_at->format('jS F');
         $pagedata['updates']   = $listing->updates()->orderBy('updated_at', 'desc')->first();
         $pagedata['updates_count'] = $listing->updates()->count();
@@ -48,7 +49,7 @@ class ListingViewController extends Controller
         if ($listing->status == 1) {
             $pagedata['publish_date'] = $listing->published_on->format('F j, Y');
             $pagedata['rating']       = '50';
-            $pagedata['views']        = $listing->views_count;
+            $pagedata['views']        = displayCount($listing->views_count);
             // $pagedata['verified']     = ($listing->verified == 1) ? true : false;
         }
 
@@ -60,7 +61,7 @@ class ListingViewController extends Controller
             unset($pagedata['operationAreas']);
         }
 
-        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => $listing->contact_request_count];
+        $pagedata['contact'] = ['email' => [], 'mobile' => [], 'landline' => [], 'requests' => displayCount($listing->contact_request_count)];
         if ($listing->show_primary_email and $listing->owner_id != null) {
             $pagedata['contact']['email'][] = ['value' => User::find($listing->owner_id)->getPrimaryEmail(), 'verified' => true, 'type' => 'email'];
         }
@@ -231,7 +232,10 @@ class ListingViewController extends Controller
         if (isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) {
             $pagedata['overview'] = true;
         }
-
+        if(!hasAccess('edit_permission_element_cls',$listing['reference'],'listing')){
+            $listing->views_count++;
+            $listing->save();
+        }
         return $pagedata;
     }
 

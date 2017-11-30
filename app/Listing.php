@@ -161,7 +161,9 @@ class Listing extends Model
      }
 
     public function save(array $options = []){
-        $this->last_updated_by = Auth::user()->id;
+        if(!Auth::guest()){
+            $this->last_updated_by = Auth::user()->id;
+        }
         parent::save();
     }
 

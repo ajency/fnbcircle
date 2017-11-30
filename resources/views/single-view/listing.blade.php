@@ -207,7 +207,9 @@
                             <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row space-between flex-wrap">
                                     <div class="contact__info flex-row">
+                                        @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                         <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
+                                        @endif
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
@@ -215,7 +217,7 @@
                                         <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                         <!-- <p class="m-b-0">20</p> -->
-                                        <!-- <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p> -->
+                                        <p class="contact__title lighter">This lisiting got <b>{{$data['contact']['requests']}}</b> contact requests</p>
                                     </div>
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
@@ -1138,4 +1140,7 @@
         </div>
     </div>
 @endif
+    @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+    @include('modals.listing_contact_request.modal')
+    @endif
 @endsection

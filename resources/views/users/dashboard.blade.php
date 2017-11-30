@@ -110,7 +110,7 @@ Dashboard
         @endif
  
                 <div class="row m-t-20 row-btm-space">
-                    <div class="col-sm-8">
+                    <div class="col-sm-8 your-activity">
 
                         
                     @if(!$jobPosted->count() && !$jobApplication->count())
@@ -179,7 +179,7 @@ Dashboard
                             </ul>
                         </div>
 
-                        <div class="tab-content p-t-20">
+                        <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="mylistings">
                                 @php
                                         if ($myListingsCount){
@@ -188,8 +188,8 @@ Dashboard
                                             @php
                                         }
                                         else{
-                                            echo '<div class="no-results">
-                                                <h3 class="seller-info__title ellipsis text-primary">No Listings Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+                                            echo '<div class="no-results m-b-40">
+                                                <h4 class="seller-info__title ellipsis text-primary">No Listings Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
                                             </div>';
                                         }
                                         
@@ -204,8 +204,8 @@ Dashboard
                                             echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false])->render();  
                                         }
                                         else{
-                                            echo '<div class="no-results">
-                                                <h3 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+                                            echo '<div class="no-results m-b-40">
+                                                <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
                                             </div>';
                                         }
                                         
@@ -221,8 +221,8 @@ Dashboard
                                             echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false,'showApplication'=>true])->render();  
                                         }
                                         else{
-                                            echo '<div class="no-results">
-                                                <h3 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h3>
+                                            echo '<div class="no-results m-b-40">
+                                                <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
                                             </div>';
                                         }
                                     @endphp 
@@ -294,7 +294,7 @@ Dashboard
                                         </div>
                                         <div class="enquiry-form__body m-t-10">
                                             <div class="form-group">
-                                                <label class="checkbox-inline">
+                                                <label class="checkbox-inline send-alert">
                                                     <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_job_alerts" class="fnb-checkbox custom-checkbox" value="1"><span class="default-size">Send Alerts</span></span>
                                                 </label>
                                             </div>

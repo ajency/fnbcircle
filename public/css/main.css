@@ -4059,6 +4059,9 @@ input[type=checkbox].custom-checkbox:before {
 .dash-enquiry-form input[type='radio'].fnb-radio:before {
   top: -1px;
 }
+.dash-enquiry-form .fnb-icons.enquiry {
+  width: 53px;
+}
 .resume-card {
   border-bottom: 0;
   background-color: #fffeea;
@@ -6314,6 +6317,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .resume-card {
     padding: 2em 1em;
+    margin-bottom: 0;
   }
   .resume-card .fileUpload {
     width: 150px;
@@ -6324,6 +6328,62 @@ input[type=checkbox].custom-checkbox:before {
   }
   .row-btm-space {
     margin-bottom: 3em;
+  }
+}
+.your-activity {
+  background-color: #eee;
+}
+.your-activity .nav-info__tab {
+  background-color: #fff;
+  margin: 0 -15px;
+  margin-right: -15px;
+}
+.your-activity .nav-info__tab li {
+  padding-right: 0;
+}
+.your-activity .nav-info__tab li.active a {
+  background-color: #33bbb4;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  color: #fff;
+  border-bottom: 0;
+}
+.your-activity .nav-info__tab li.active a:after {
+  background-color: transparent;
+  bottom: -12px;
+}
+.your-activity .nav-info__tab li a {
+  padding: 10px 20px 10px 20px;
+  padding-right: 1.5em;
+  margin-bottom: 0;
+}
+.your-activity .nav-info__tab li:first-child a {
+  padding-left: 15px;
+}
+.your-activity .filter-data {
+  margin: 1em 0;
+}
+.your-activity .no-results {
+  margin-top: 2em;
+}
+@media screen and (max-width: 768px) {
+  .row-btm-space {
+    background-color: #eee;
+    margin-top: 3.5em;
+  }
+  .your-activity .nav-info {
+    padding-top: 0;
+    margin: 0 -15px;
+    margin-top: 0;
+  }
+  .your-activity .nav-info__tab {
+    margin: 0;
+    width: 100vh;
+  }
+  .send-alert span {
+    padding-left: 5px;
+    margin-top: 1px;
+    display: block;
   }
 }
 .search-section {

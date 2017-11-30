@@ -237,4 +237,8 @@ class Listing extends Model
         return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
 
+    public function getAllContacts(){
+        
+    }
+
 }

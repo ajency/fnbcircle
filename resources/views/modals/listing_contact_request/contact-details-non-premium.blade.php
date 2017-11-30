@@ -1,5 +1,5 @@
 <!-- Thank you -->
-                           <div class="thankyou-msg success-stuff hidden">
+                           <div class="thankyou-msg success-stuff">
                               <div class="enquiry-success contact-success">
                                  <div class="flex-row align-top">
                                     <i class="fa fa-check-circle" aria-hidden="true"></i>
@@ -9,7 +9,7 @@
                                           Email &amp; SMS with the contact details of <a href="#" class="text-darker text-decor heavier">Mystical The Meat and Fish Store</a> have been sent to you. You can now contact the owner directly.
                                        </p>
                                        <p class="enquiry-success__sub-text m-b-0 owner-detail">
-                                          We have also shared your contact details with the owner <i class="fa fa-user-circle text-color"></i> <span class="bolder text-darker">Sameer Rawool</span>
+                                          
                                        </p>
                                     </div>
                                  </div>

@@ -1,15 +1,15 @@
 <!-- Thank you -->
-<div class="thankyou-msg success-stuff hidden">
+<div class="thankyou-msg success-stuff">
    <div class="enquiry-success contact-success">
       <div class="flex-row align-top">
          <i class="fa fa-check-circle" aria-hidden="true"></i>
          <div>
             <h6 class="enquiry-success__text m-t-0 thanks-text">Thank you for showing your interest!</h6>
             <p class="enquiry-success__sub-text">
-               Email &amp; SMS with the contact details of <a href="#" class="text-darker text-decor heavier">Mystical The Meat and Fish Store</a> have been sent to you. You can now contact the owner directly.
+               Email &amp; SMS with the contact details of <span class="text-darker text-decor heavier">{{$listing->title}}</span> have been sent to you. You can now contact the owner directly.
             </p>
             <p class="enquiry-success__sub-text m-b-0 owner-detail">
-               We have also shared your contact details with the owner <i class="fa fa-user-circle text-color"></i> <span class="bolder text-darker">Sameer Rawool</span>
+               @if($listing->owner != null) We have also shared your contact details with the owner <i class="fa fa-user-circle text-color"></i> <span class="bolder text-darker">{{$listing->owner()->first()->name}}</span> @endif
             </p>
          </div>
       </div>

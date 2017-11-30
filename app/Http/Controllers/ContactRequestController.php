@@ -17,21 +17,33 @@ class ContactRequestController extends Controller
     	if(Auth::guest()){
     		$otp = Session::get('otp_verified', []);
     		if(!empty($otp)){
-    			return response()->json(['Display contact request popup']);
+    			return $this->displayContactInformation($request);
     		}else{
-    			// session(['otp_verified' => ['value']]);
-    			// return response()->json(['Display login popup']);
 				return $this->displayLoginPopup($request);	    				
     		}
     	}elseif(!Auth::user()->getPrimaryContact()['is_verified']){
     		return response()->json(['Display verification popup']);
     	}else{
-    		return response()->json(['Display contact request popup']);
+    		return $this->displayContactInformation($request);
     	}
     }
 
     public function displayLoginPopup(Request $request){
     	$listing = Listing::where('reference',$request->id)->firstorfail();
     	return View::make('modals.listing_contact_request.get_details')->with('listing',$listing)->render();
+    }
+
+    public function displayContactInformation(Request $request){
+    	$listing = Listing::where('reference',$request->id)->firstorfail();
+    	//send email to the lead/user with the contact details
+    	if($listing->premium){
+    		if($listing->owner != null){
+    			$user = $listing->owner()->first();
+    			// Send email to listing owner
+    		}
+    		return View::make('modals.listing_contact_request.contact-details-premium')->with('listing',$listing)->render();
+    	}else{
+    		return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing',$listing)->render();
+    	}
     }	
 }

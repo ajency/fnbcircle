@@ -97,7 +97,7 @@ class Listing extends Model
 
     }
 
-    public function saveInformation($title, $type, $email, $area)
+    public function saveInformation($title, $type, $email, $area, $phone = 0)
     {
         $slug  = str_slug($title);
         $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
@@ -118,6 +118,7 @@ class Listing extends Model
         }
 
         $this->show_primary_email = $email;
+        $this->show_primary_phone = $phone;
         if($this->locality_id != $area){
             $this->locality_id        = $area;
             $this->latitude = null;

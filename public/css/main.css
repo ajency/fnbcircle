@@ -12147,6 +12147,32 @@ input[type='checkbox'].remove-addr {
 .remove_resume:hover {
   color: rgba(255, 0, 0, 0.71);
 }
+@media screen and (max-width: 768px) {
+  .terms-row {
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+  .terms-row .terms-label {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+    font-size: 0.8em;
+    padding: 0 10px;
+    margin-bottom: 1.5em;
+  }
+}
+.terms-privacy-section .job-save-btn {
+  margin: 0;
+  border: 2px solid transparent;
+}
+.terms-privacy-section input[type="checkbox"]:before {
+  color: #6b6b6b;
+}
+.terms-privacy-section input[type="checkbox"]:checked:before {
+  color: #27b7b0;
+}
 .profile-stats {
   color: #fff;
   background: #f85032;

@@ -453,4 +453,12 @@
     }
   });
 
+  $('body').on('change', '.terms-check', function() {
+    if ($(this).prop('checked')) {
+      return $('.job-save-btn').removeClass('disable');
+    } else {
+      return $('.job-save-btn').addClass('disable');
+    }
+  });
+
 }).call(this);

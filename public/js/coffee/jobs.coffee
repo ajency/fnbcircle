@@ -474,5 +474,9 @@ $('body').on 'click', '.removelocRow', ->
     $(this).closest('.job-areas').find('.add-job-areas').click()
 
 
-
+$('body').on 'change', '.terms-check', ->
+  if $(this).prop('checked')
+    $('.job-save-btn').removeClass 'disable'
+  else
+    $('.job-save-btn').addClass 'disable'
 

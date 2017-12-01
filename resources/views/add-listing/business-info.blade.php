@@ -147,11 +147,11 @@
             <label class="element-title">User Details</label>
         </div>
     </div>
-    <div class="business-contact">
+    <div class="business-contact user-details-container">
         <div class="contact-row m-t-5">
             <div class="row no-m-b">
                 <div class="col-sm-5">
-                    <input name=""  placeholder="User Email" type="email" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryEmail()}}@endif"   @if($owner->type == 'external') readonly="" data-parsley-required @endif >
+                    <input name="user-email"  placeholder="User Email" type="email" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryEmail()}}@endif"   @if($owner->type == 'external') readonly="" data-parsley-required @endif >
                 </div>
                 <div class="col-sm-3 col-xs-4">
                     <div class="verified flex-row">
@@ -166,7 +166,7 @@
             </div>
             <div class="row no-m-b contact-container">
                 <div class="col-sm-5">
-                    <input name="" class="contact-mobile-input contact-mobile-number" type="tel" placeholder="User Contact" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}}@endif"   @if($owner->type == 'external') readonly=""  @endif data-intl-country="{{$owner->getPrimaryContact()['contact_region']}}" >
+                    <input name="user-phone" class="contact-mobile-input contact-mobile-number" type="tel" placeholder="User Contact" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}}@endif"   @if($owner->type == 'external') readonly=""  @endif data-intl-country="{{$owner->getPrimaryContact()['contact_region']}}" >
                     <input type="hidden" class="contact-country-code" name="contact_country_code[]" @if($owner->type == 'external')  value="{{$owner->getPrimaryContact()['contact_region']}}" @endif>
                 </div>
                 <div class="col-sm-3 col-xs-4">

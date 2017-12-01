@@ -218,7 +218,6 @@
     index = 0;
     while (index < contacts.length) {
       value = contacts[index].value;
-      console.log(value, email);
       if (value === email || value === phone) {
         $(this).closest('.contact-container').find('.dupError').html('Same contact detail has been added multiple times.');
         contacts[index].value = "";
@@ -229,6 +228,23 @@
 
   $(document).on('blur', '.fnb-input', function() {
     $('#info-form').parsley();
+  });
+
+  $('.user-details-container').on('keyup', 'input[name="user-email"]', function(event) {
+    return $('input[name="primary_email_txt"]').val(this.value);
+  });
+
+  $('.user-details-container').on('keyup', 'input[name="user-phone"]', function(event) {
+    return $('input[name="primary_phone_txt"]').val(this.value);
+  });
+
+  $('.contact-info').on('change', 'input.toggle__check', function(event) {
+    console.log($(this).closest('.contact-container').find('.contact-input').val());
+    if (this.checked) {
+      if ($(this).closest('.contact-container').find('.contact-input').val() === '') {
+        return $(this).prop('checked', false);
+      }
+    }
   });
 
   $('body').on('click', '.removeRow', function() {

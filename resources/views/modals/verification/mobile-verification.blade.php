@@ -16,7 +16,7 @@
             <div class="row phone-row get-val ">
                 <div class="col-sm-5">
                     <div class="input-row test">
-                        <input type="text" class="form-control fnb-input p-l-5 contact-mobile-input contact-mobile-number"  name="primary_phone_txt" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-errors-container="#mobileError0" value="{{$mobile['contact']}}" readonly>
+                        <input type="text" class="form-control fnb-input p-l-5  contact-mobile-input contact-mobile-number"  name="primary_phone_txt" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-errors-container="#mobileError0" value="{{$mobile['contact']}}" readonly>
                         <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$mobile['contact_region']}}">
                         <div class="dupError" id="mobileError0"></div>
                         <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->

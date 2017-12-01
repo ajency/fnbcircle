@@ -8,7 +8,13 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\PasswordReset;
+
+use App\UserCommunication;
 use Illuminate\Support\Facades\DB;
+
 
 class ResetPasswordController extends Controller
 {
@@ -52,8 +58,7 @@ class ResetPasswordController extends Controller
      * @param  string|null  $token
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showResetForm(Request $request, $token = null)
-    {
+    public function showResetForm(Request $request, $token = null) {
         if($request->has('email') && $request->email) {
             $email = $request->email;
         } else {
@@ -64,9 +69,38 @@ class ResetPasswordController extends Controller
                 $email = null;
             }
         }
-
+        if($request->has('new_user') and $request->new_user == "true"){
+            $new_user = true;
+        }else{
+            $new_user=false;
+        }
         return view('auth.passwords.reset')->with(
             ['token' => $token, 'email' => $email]
-        );
+        )->with('new_user',$new_user);
+    }
+
+     /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password) {
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        if($user->status == "inactive") { // Activate the User
+            $user->status = "active";
+        }
+
+        $user->save();
+
+        UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
+
+        event(new PasswordReset($user));
+
+        $this->guard()->login($user);
     }
 }

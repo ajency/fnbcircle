@@ -1,6 +1,46 @@
 (function() {
   var $_GET, getID, previewL, submitForm;
 
+  window.change = 0;
+
+  window.submit = 0;
+
+  window.archive = 0;
+
+  window.publish = 0;
+
+  $('body').on('change', 'input', function() {
+    var change;
+    change = 1;
+  });
+
+  $('body').on('change', 'select', function() {
+    var change;
+    change = 1;
+  });
+
+  $('body').on('change', 'textarea', function() {
+    var change;
+    change = 1;
+  });
+
+  $('#info-form').on('keypress', function(e) {
+    var keyCode, temp;
+    keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      temp = document.activeElement;
+      if ($(temp).hasClass('blur')) {
+        $(temp).blur();
+      }
+      if ($(temp).hasClass('allow-newline')) {
+        $(temp).val($(temp).val() + '\n');
+        e.preventDefault();
+      }
+      return false;
+    }
+  });
+
   $('body').on('click', '.gs-next', function() {
     return $('.gs-steps > .active').next('li').find('a').trigger('click');
   });
@@ -60,7 +100,7 @@
     step = $('input#step-name').val();
     e.preventDefault();
     if (step === 'business-information') {
-      window.validateListing(e);
+      validateListing(e);
     }
     if (step === 'business-categories') {
       validateCategories();

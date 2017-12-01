@@ -7,11 +7,19 @@
     @parent
     <script type="text/javascript" src="{{ asset('/bower_components/intl-tel-input/build/js/intlTelInput.min.js') }}"></script>
     <script type="text/javascript" src="/js/add-listing-info.js"></script>
+    @if($show_duplicates and count($duplicates) > 0)
+        <script type="text/javascript">
+            $('#duplicate-listing').modal('show');
+        </script>
+    @endif
+@endsection
+@section('meta')
+<meta property="check-user-exist" content="{{action('CommonController@checkIfEmailExist')}}">
 @endsection
 @section('form-data')
 
 
-
+<input type="hidden" id="user-type" value="{{$owner->type}}" readonly>
 
 <div class="business-info tab-pane fade in active" id="add_listing">
     <div class="flex-row space-between preview-detach">
@@ -135,6 +143,66 @@
     </div>
     <div class="m-t-20 flex-row c-gap">
         <div class="m-r-10 no-m-l">
+            <label class="element-title">User Details</label>
+        </div>
+    </div>
+    <div class="business-contact">
+        <div class="contact-row m-t-5">
+            <div class="row no-m-b">
+                <div class="col-sm-5">
+                    <input name="primary_email_txt"  placeholder="User Email" type="email" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryEmail()}}@endif"   @if($owner->type == 'external') readonly="" data-parsley-required @endif >
+                </div>
+                <div class="col-sm-3 col-xs-4">
+                    <div class="verified flex-row">
+                    @if($owner->getPrimaryEmail(true)['is_verified'] == true and $owner->type == 'external' )
+                        <span class="fnb-icons verified-icon"></span>
+                        <p class="c-title">Verified</p>
+                    @endif
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-8">
+                    <div class="verified-toggle flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state"> @if(($listing->show_primary_email === null and $owner->type == 'external') or $listing->show_primary_email == "1")  Visible  @else Not Visible  @endif</p>
+                    </div>
+                    <div id="toggleError" class="visible-error"></div>
+                </div>
+            </div>
+            <div class="row no-m-b contact-container">
+                <div class="col-sm-5">
+                    <input name="primary_phone_txt" class="contact-mobile-input contact-mobile-number" type="tel" placeholder="User Contact" class="form-control fnb-input p-l-5" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}}@endif"   @if($owner->type == 'external') readonly=""  @endif data-intl-country="{{$owner->getPrimaryContact()['contact_region']}}" >
+                    <input type="hidden" class="contact-country-code" name="contact_country_code[]" @if($owner->type == 'external')  value="{{$owner->getPrimaryContact()['contact_region']}}" @endif>
+                </div>
+                <div class="col-sm-3 col-xs-4">
+                    <div class="verified flex-row">
+                    @if($owner->getPrimaryContact()['is_verified'] == true and $owner->type == 'external' )
+                        <span class="fnb-icons verified-icon"></span>
+                        <p class="c-title">Verified</p>
+                    @endif
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-8">
+                    <div class="verified-toggle flex-row">
+                        <div class="toggle m-l-10 m-r-10">
+                            <input name="primary_phone" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
+                            <b class="switch"></b>
+                            <b class="track"></b>
+                        </div>
+                        <p class="m-b-0 text-color toggle-state"> @if(($listing->show_primary_email === null and $owner->type == 'external') or $listing->show_primary_email == "1")  Visible  @else Not Visible @endif</p>
+                    </div>
+                    <div id="toggleError" class="visible-error"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="m-t-20 flex-row c-gap">
+        <div class="m-r-10 no-m-l">
             <label class="element-title">Contact Details</label>
             <div class="text-lighter">
                 Seekers would like to contact you or send enquiries. Please share your contact details below. We have pre-populated your email and phone number from your profile details.
@@ -147,309 +215,91 @@
 <!-- contact verification HTML -->
     <div class="verification-content">
         <input type="hidden" name="object_type" value="App\Listing">
+        @php
+            $contactEmail = $emails;
+        @endphp
+        @include('modals.verification.email-verification')
+        @php
+            $contactMobile = $mobiles;
+        @endphp
+        @include('modals.verification.mobile-verification')
+        @php
+            $contactLandline = $phones;
+        @endphp
+        @include('modals.verification.landline-verification')
 
-        <!-- email -->
+        
+    </div>
+</div>
 
-        <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
-            <div class="flex-row space-between mobile-sp-row">
-                <label class="label-size">Enter your business email address @if($owner->type == 'external') <span class="text-primary">*</span> @endif </label>
-                <a href="#" class="dark-link text-medium add-another">+ Add another email</a>
-            </div>
-                <div class="contact-row m-t-5">
-                    <div class="row no-m-b">
-                        <div class="col-sm-5">
-                            <input type="email" class="form-control fnb-input p-l-5 contact-input" value="@if($listing->owner_id != null) {{$owner->getPrimaryEmail()}} @endif" readonly=""  @if($owner->type == 'external')data-parsley-required @endif >
-                        </div>
-                        <div class="col-sm-3 col-xs-4">
-                            <div class="verified flex-row">
-                            @if($listing->owner_id != null )
-                                <span class="fnb-icons verified-icon"></span>
-                                <p class="c-title">Verified</p>
-                            @endif
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-8">
-                            <div class="verified-toggle flex-row @if($owner->type != 'external')hidden @endif">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" @if($owner->type == 'external')data-parsley-required @endif  @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                </div>
-                                <p class="m-b-0 text-color toggle-state"> @if(($listing->show_primary_email === null and $owner->type == 'external') or $listing->show_primary_email == "1")  Visible on the listing @else Not Visible on the listing @endif</p>
-                            </div>
-                            <div id="toggleError" class="visible-error"></div>
-                        </div>
-                    </div>
-                </div>
-                @foreach($emails as $email)
-                <div class="contact-row m-t-5 contact-container">
-                    <div class="row p-t-10 p-b-10 no-m-b get-val ">
-                        <div class="col-sm-5">
-                            <input type="hidden" class="comm-id contact_email_id contact-id" readonly  name="contact_IDs" value="{{$email->id}}">
-                            <input type="email" class="form-control fnb-input p-l-5 contact-input" value="{{$email->value}}" name="contacts" data-parsley-required-message="Please enter a valid email." data-parsley-type-message="Please enter a valid email." data-parsley-type="email"  @if($email->is_verified==1) readonly @endif required>
-                            <div class=dupError ></div>
-                        </div>
-                        <div class="col-sm-3 col-xs-4">
-                            <div class="verified flex-row">
-                                @if($email->is_verified==1)
-                                <span class="fnb-icons verified-icon"></span>
-                                <p class="c-title">Verified</p>
-                                <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="" checked>
-                                @else
-                                <!-- <a href="#" class="dark-link contact-verify-link verify-link">Verify now</a> -->
-                                @if(Auth::user()->type == 'external') <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a> @endif
-                                <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-xs-8">
-                            <div class="flex-row close-section">
-                                <div class="verified-toggle flex-row">
-                                    <div class="toggle m-l-10 m-r-10">
-                                        <input type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" name="visible_contact" data-parsley-multiple="contacts" @if($email->is_visible==1) checked @endif>
-                                        <b class="switch"></b>
-                                        <b class="track"></b>
-                                        <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="{{ $email->is_visible }}">
-                                    </div>
-                                    <p class="m-b-0 text-color toggle-state">@if($email->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
-                                </div>
-                                <i class="fa fa-times removeRow"></i>
-                            </div>
-                            <div id="toggleError"></div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
 
-            <div class="contact-row m-t-5 contact-container contact-group hidden">
-                <div class="row no-m-b get-val ">
-                    <div class="col-sm-5">
-                        <input type="hidden" class="comm-id contact_email_id contact-id" readonly  name="contact_IDs">
-                        <input type="email" class="form-control fnb-input p-l-5 contact-input" value="" name="contacts" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" data-parsley-required-message="Please enter a valid email.">
-                        <div class=dupError ></div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="verified flex-row">
-                            @if(Auth::user()->type == 'external')<a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>@endif
-                            <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <div class="flex-row close-section">
-                            <div class="verified-toggle flex-row">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                    <input type="hidden" class="contact-visible" name="visible_email_contact[]" value="0">
-                                </div>
-                                <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
-                            </div>
-                            <i class="fa fa-times removeRow"></i>
-                        </div>
-                        <div id="toggleError"></div>
-                    </div>
+<div class="modal fnb-modal confirm-box fade modal-center" id="user-exist-confirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="text-medium m-t-0 bolder">Confirm</h5>
+          </div>
+          <div class="modal-body text-center">
+              <div class="listing-message">
+                  <h4 class="element-title text-medium text-left text-color" id="user-exist-text"></h4>
+              </div>  
+              <div class="confirm-actions text-right">
+                  <button class="btn fnb-btn text-primary border-btn no-border" id="save-listing" >Save Listing</button></a>
+                  <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+          <!-- <div class="modal-footer">
+              <button class="btn fnb-btn outline cancel-modal border-btn" data-dismiss="modal">Close</button>
+          </div> -->
+      </div>
+  </div>
+</div>
+
+ <div class="modal fnb-modal duplicate-listing fade multilevel-modal" id="duplicate-listing" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="level-one mobile-hide">
+                    <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
             </div>
-            </div>
-       
-
-        <!-- phone number -->
-
-        <div class="m-t-40 business-phone business-contact contact-info contact-info-phone"  contact-type="mobile">
-            <div class="flex-row space-between mobile-sp-row">
-                <label class="label-size">Enter your business mobile number @if($owner->type == 'external') <span class="text-primary">*</span> @endif </label>
-                <a href="#" class="dark-link text-medium add-another">+ Add another mobile number</a>
-            </div>
-            @if($listing->reference===null and $owner->type == 'external')
-            <div class="contact-row m-t-5  contact-container">
-                <div class="row phone-row get-val ">
-                    <div class="col-sm-5">
-                        <div class="input-row">
-                            <input type="hidden" class="comm-id contact_mobile_id contact-id " readonly  name="contact_IDs">
-                            <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="@if($listing->owner_id != null){{$owner->getPrimaryContact()['contact']}}@endif" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($owner->type == 'external')data-parsley-required @endif >
-                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$owner->getPrimaryContact()['contact_region']}}">
-                            
-                            <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
+            <div class="modal-body">
+                <div class="listing-details text-center">
+                    <img src="/img/listing-search.png" class="img-responsive center-block">
+                    <h5 class="listing-details__title sub-title">Looks like the listing is already present on FnB Circle.</h5>
+                    @if(Auth::user()->type == 'external')
+                    <p class="text-lighter lighter listing-details__caption default-size">Please confirm if the following listing(s) belongs to you.
+                        <br> You can either Claim the listing or Delete it.</p>
+                    @endif
+                </div>
+                <div class="list-entries">
+                    @if($show_duplicates)
+                    @foreach($duplicates as $reference => $duplicate)
+                    <div class="list-row flex-row">
+                        <div class="left">
+                            <h5 class="sub-title text-medium text-capitalise list-title">{{$duplicate['name']}}</h5>
+                            @foreach($duplicate['messages'] as $message)
+                            <p class="text-color default-size">
+                                <i class="fa fa-exclamation-circle p-r-5 text-primary" aria-hidden="true"></i> <span class="lighter">{!!$message!!}</span>
+                            </p>
+                            @endforeach
                         </div>
-                        <div class="dupError" id="phone-error"></div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="verified flex-row">
-
-                            @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
-                            <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <div class="verified-toggle no-m-t flex-row">
-                            <div class="toggle m-l-10 m-r-10">
-                                <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
-                                <b class="switch"></b>
-                                <b class="track"></b>
-                                 <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
+                        <div class="right">
+                            <div class="capsule-btn flex-row">
+                                <button class="btn fnb-btn outline full border-btn no-border claim text-danger">Claim</button>
+                                <button class="btn fnb-btn outline full border-btn no-border delete">Delete</button>
                             </div>
-                            <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
                         </div>
-                        <div id="toggleError"></div>
                     </div>
+                    @endforeach
+                    @endif
                 </div>
             </div>
-            @endif
-
-            @foreach ($mobiles as $mobile)
-            
-            <div class="contact-row m-t-5  contact-container">
-                <div class="row no-m-b get-val phone-row">
-                    <div class="col-sm-5">
-
-                        <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs" value="{{$mobile->id}}">
-
-                        <div class="input-row">
-                            <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input contact-mobile-number" value="{{$mobile->value}}" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-required-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" @if($mobile->is_verified==1) readonly @endif required>
-                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$mobile->country_code}}">
-                            <div class="dupError" ></div>
-                             <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="verified flex-row">
-                            @if($mobile->is_verified==1)
-                            <span class="fnb-icons verified-icon"></span>
-                            <p class="c-title">Verified</p>
-                            <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="" checked>
-                            @else
-                            @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
-                            <input type="checkbox" name="verified_contact" class="hidden" style="visibility: hidden;" readonly="">
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <div class="flex-row close-section">
-                            <div class="verified-toggle flex-row">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" @if($mobile->is_visible==1) checked @endif >
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                       <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="{{ $mobile->is_visible }}">
-                                </div>
-                                <p class="m-b-0 text-color toggle-state">@if($mobile->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
-                            </div>
-                            @if (!$loop->first)<i class="fa fa-times removeRow"></i>@endif
-                        </div>
-                        <div id="toggleError"></div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-            <div class="contact-row m-t-5 contact-container contact-group hidden">
-                <div class="row no-m-b get-val phone-row ">
-                    <div class="col-sm-5">
-
-                        <input type="hidden" class="comm-id contact_mobile_id contact-id" readonly  name="contact_IDs">
-
-                        <div class="input-row">
-                            <input type="tel" class="form-control fnb-input p-l-5 contact-input contact-mobile-input " value="" name="contacts" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" data-parsley-required-message="Mobile number should be 10 digits.">
-                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="">
-                            <div class="dupError" ></div>
-                             <!-- <i class="fa fa-mobile" aria-hidden="true"></i> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="verified flex-row">
-                            <input type="checkbox" class="hidden" name="verified_contact" style="visibility: hidden;" readonly="">
-                            @if(Auth::user()->type == 'external')<a href="#" class="dark-link contact-verify-link">Verify now</a>@endif
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-8">
-                        <div class="flex-row close-section">
-                            <div class="verified-toggle flex-row">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts" data-parsley-errors-container="#toggleError">
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                    <input type="hidden" class="contact-visible" name="visible_mobile_contact[]" value="0">
-                                </div>
-                                <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
-                            </div>
-                            <i class="fa fa-times removeRow"></i>
-                        </div>
-                        <div id="toggleError"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- landline -->
-
-        <div class="m-t-40 business-phone landline business-contact contact-info contact-info-landline">
-            <div class="flex-row space-between mobile-sp-row">
-                <label class="label-size">Enter your business landline number <span class="text-lighter heavier">(Please input the city code prefixed)</span></label>
-                <a href="#" class="dark-link text-medium add-another">+ Add landline number</a>
-            </div>
-            @foreach($phones as $phone)
-            <div class="contact-row m-t-5 contact-container">
-                <div class="row no-m-b phone-row get-val ">
-                    <div class="col-sm-5">
-                        <input type="hidden" readonly class="comm-id"  name="contact_IDs" value="{{$phone->id}}">
-                        <div class="input-row">
-                            <input type="tel" class="form-control fnb-input p-l-5  contact-mobile-input contact-mobile-number" value="{{$phone->value}}" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10 - 12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" @if($phone->is_verified==1) readonly @endif required>
-                            <input type="hidden" class="contact-country-code" name="contact_country_code[]" value="{{$phone->country_code}}">
-                            <div class=dupError ></div>
-                            <!-- <i class="fa fa-phone" aria-hidden="true"></i> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4 mobile-hide">
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="flex-row close-section">
-                            <div class="verified-toggle flex-row">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" @if($phone->is_visible==1) checked @endif>
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                </div>
-                                <p class="m-b-0 text-color toggle-state">@if($phone->is_visible==1) Visible on the listing @else Not visible on the listing @endif </p>
-                            </div>
-                            <i class="fa fa-times removeRow"></i>
-                        </div>
-                        <div id="toggleError"></div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-            <div class="contact-row m-t-5 contact-group contact-container hidden">
-                <div class="row no-m-b phone-row get-val">
-                    <div class="col-sm-5">
-                        <input type="hidden" readonly class="comm-id"  name="contact_IDs">
-                        <div class="input-row">
-                            <input type="tel" class="form-control fnb-input p-l-5  contact-mobile-input" value="" name="contacts" data-parsley-length-message="Landline number should be 10 - 12 digits." data-parsley-required-message="Landline number should be 10-12 digits." data-parsley-type="digits" data-parsley-length="[10, 12]" >
-                            <div class=dupError ></div>
-                            <!-- <i class="fa fa-phone" aria-hidden="true"></i> -->
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-4 mobile-hide">
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
-                        <div class="flex-row close-section">
-                            <div class="verified-toggle flex-row">
-                                <div class="toggle m-l-10 m-r-10">
-                                    <input type="checkbox" class="toggle__check" name="visible_contact" data-parsley-multiple="contacts">
-                                    <b class="switch"></b>
-                                    <b class="track"></b>
-                                </div>
-                                <p class="m-b-0 text-color toggle-state">Not visible on the listing</p>
-                            </div>
-                            <i class="fa fa-times removeRow"></i>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-footer">
+                <button class="btn fnb-btn outline full border-btn no-border skip text-danger" data-dismiss="modal" aria-label="Close" id="skip-duplicates">Skip to Continue <i class="fa fa-forward p-l-5" aria-hidden="true" ></i></button>
             </div>
         </div>
     </div>
 </div>
-
 
 @endsection

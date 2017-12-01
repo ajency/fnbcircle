@@ -43,7 +43,7 @@ class ForgotPasswordController extends Controller
         if($user_comm_obj) {
             $user_obj = User::find($user_comm_obj->object_id);
 
-            if($user_obj->status == "active") {
+            if($user_obj->status == "active" || $user_obj->status == "inactive") {
                 if(!in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))) {
                     $this->sendResetLinkEmail($request);
                     $message = "success";
@@ -57,11 +57,12 @@ class ForgotPasswordController extends Controller
                 }
             } else {
                 $status = 406; // Not Acceptable
-                if($user_obj->status == "inactive") {
+                /*if($user_obj->status == "inactive") {
                     $message = "Please activate your account. An activation link was sent to this Email ID.";
                 } else {
                     $message = "Your account is suspended. Please contact us to know why.";
-                }
+                }*/
+                $message = "Your account is suspended. Please contact us to know why.";
             }
         } else {
             $status = 404; // Not found
@@ -92,8 +93,15 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request) {
         $this->validateEmail($request);
+        
+        $this->sendResetLinkEmailFunction($request->only('email'));
+    }
 
-        $user_comm_obj = UserCommunication::where([['object_type', 'App\User'], ['type', 'email'], ['value', $request->email]])->first();
+    /**
+    * This function is used to send email
+    */
+    public function sendResetLinkEmailFunction($email) {
+        $user_comm_obj = UserCommunication::where([['object_type', 'App\User'], ['type', 'email'], ['value', $email["email"]]])->first();
         $user_obj = User::find($user_comm_obj->object_id);
 
         if(!in_array($user_obj->signup_source, config('aj_user_config.social_account_provider'))){
@@ -101,7 +109,7 @@ class ForgotPasswordController extends Controller
             // to send the link, we will examine the response then see the message we
             // need to show to the user. Finally, we'll send out a proper response.
             $response = $this->broker()->sendResetLink(
-                $request->only('email')
+                $email
             );
             
             return $response == Password::RESET_LINK_SENT ? $this->sendResetLinkResponse($response) : $this->sendResetLinkFailedResponse($request, $response);

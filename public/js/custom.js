@@ -1105,7 +1105,7 @@ $(function(){
 		if($('.multi-select,.default-area-select').length > 0){
 			$('.multi-select').multiselect({
 	            includeSelectAllOption: true,
-	            numberDisplayed: 1
+	            numberDisplayed: 3
 	        });
 	        // different select init
 	        $('.default-area-select').multiselect({

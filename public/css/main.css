@@ -6361,6 +6361,9 @@ input[type=checkbox].custom-checkbox:before {
     margin-bottom: 0.8em;
   }
 }
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle {
+  font-size: 0.98em;
+}
 .search-section {
   position: relative;
   top: 2em;

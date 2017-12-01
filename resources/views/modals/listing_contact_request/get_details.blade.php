@@ -46,9 +46,27 @@
                </div>
             </div>
             <div class="col-sm-12">
-               <div class="form-group">
+               <div class="">
                   <label class="m-b-0 text-lighter float-label required" for="contact_number">Phone</label>
                   <input type="tel" class="form-control fnb-input float-input" id="contact_number">
+               </div>
+            </div>
+            <div class="col-sm-12">
+               <div class="describes best-section m-t-5">
+                  <label class="m-b-0 text-lighter float-label filled focused required" for="contact_describe">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></label>
+                  <!-- <p class="text-darker describes__title text-medium"></p> -->
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <select class="fnb-select select-variant entry-describe-best" multiple="multiple">
+                           <option>I work in the F&amp;B industry</option>
+                           <option>I am a resturant owner</option>
+                           <option>I am a supplier to F&amp;B industry</option>
+                           <option>I provide services to F&amp;B industry</option>
+                           <option>I am a manufacturer</option>
+                           <option>Others...</option>
+                        </select>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>

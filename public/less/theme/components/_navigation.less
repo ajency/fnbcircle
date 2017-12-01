@@ -10,7 +10,7 @@
 			padding-top: 0;
 	    	color: @accent-primary;
 	    	font-weight: 400;
-	    	transition: all 0.5s ease;
+	    	// transition: all 0.5s ease;
 	    	&:hover{
 	    		color: lighten(@accent-primary,5%);
 	    	}
@@ -20,6 +20,9 @@
 	    		margin: 0 auto;
 	    		transition: width 0.5s ease;
 	    	}
+	    	@media screen and (min-width: 1200px){
+    			margin-bottom: 0.2em;		
+    		}
 		}
 	}
 	&-nav{

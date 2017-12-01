@@ -27,7 +27,7 @@
  
     <!-- <h5 class="no-m-t fly-out-heading-size main-heading white m-t-0 margin-btm ">Job Information</h5> -->
     <div class="flex-row space-between preview-detach">
-        <h5 class="nno-m-t main-heading  white m-t-0">Plan Selection</h5>
+        <h5 class="nno-m-t main-heading  white m-t-0">Choose Your Plan</h5>
     </div>
 
     <!-- Job title/category -->

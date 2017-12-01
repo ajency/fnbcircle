@@ -2,7 +2,6 @@ userCheck = ->
   if $('#user-type').val() == 'external' or document.getElementsByName('primary_email_txt')[0].value == ""
     listingInformation()
     return
-
   $.ajax
     type: 'post'
     url: document.head.querySelector('[property="check-user-exist"]').content
@@ -233,7 +232,6 @@ $('.contact-info').on 'change', '.contact-input', (event) ->
   index = 0
   while index < contacts.length
     value = contacts[index].value
-    console.log value, email
     if value == email or value == phone
       # setTimeout ->
       $(this).closest('.contact-container').find('.dupError').html 'Same contact detail has been added multiple times.'
@@ -248,6 +246,17 @@ $(document).on 'blur', '.fnb-input', ->
   return
 
 
+$('.user-details-container').on 'keyup', 'input[name="user-email"]', (event) ->
+  $('input[name="primary_email_txt"]').val @value
+
+$('.user-details-container').on 'keyup', 'input[name="user-phone"]', (event) ->
+  $('input[name="primary_phone_txt"]').val @value
+
+$('.contact-info').on 'change','input.toggle__check', (event) ->
+  console.log  $(this).closest('.contact-container').find('.contact-input').val()
+  if @checked
+    if $(this).closest('.contact-container').find('.contact-input').val() == ''
+      $(this).prop('checked',false)
 
 # $(document).on 'click', '.verify-link', (event) ->
 # 	event.preventDefault()

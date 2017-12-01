@@ -841,7 +841,7 @@ class ListingController extends Controller
             }
         }
         if($user->type == 'external') $listing->owner_id = $user->id;
-        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas);
+        return view('add-listing.business-info')->with('listing', $listing)->with('step', 'business-information')->with('emails', array())->with('mobiles', array())->with('phones', array())->with('cities', $cities)->with('owner', $user)->with('areas', $areas)->with('show_duplicates',false);
     }
     public function edit($reference, $step = 'business-information')
     {

@@ -141,7 +141,7 @@ class ListingController extends Controller
         } else {
             $listing = Listing::where('reference', $data->listing_id)->firstorFail();
         }
-        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area);
+        $listing->saveInformation($data->title, $data->type, $data->primary_email, $data->area, $data->primary_phone);
         UserCommunication::where('object_type', 'App\\Listing')->where('object_id', $listing->id)->update(['object_id' => null]);
         foreach ($contacts as $contact => $info) {
             // dd($info);

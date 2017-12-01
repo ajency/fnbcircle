@@ -84,7 +84,7 @@
                     <span class="dis-block lighter text-lighter">Your current plan</span>
                     @elseif(!empty($requestedPlan) && $requestedPlan->plan_id == $plan->id)
                     <span class="dis-block lighter text-lighter">Your request for this plan is under process.<br>
-                    click <a href="{{ url('premium/job/'.$job->reference_id.'/cancle-request') }}">here</a> to cancle request.
+                    click <a href="{{ url('premium/job/'.$job->reference_id.'/cancle-request') }}" class="primary-link">Here</a> to cancel request.
                     </span>  
 
                     @else

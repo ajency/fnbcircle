@@ -760,7 +760,7 @@ class JobController extends Controller
         
         $job = Job::where('reference_id',$referenceId)->first();
         
-        $this->submitForReviewEmail();
+        $job->submitForReviewEmail();
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect()->back();

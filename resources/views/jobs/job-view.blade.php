@@ -1165,6 +1165,8 @@ $additionalData = ['job'=>$job];
                                         </div>
                                    </div>
                                 </div>
+                                @else
+                                 N/A
                                 @endif
                             </div>
                             <div class="col-sm-6 form-group c-gap">
@@ -1179,6 +1181,8 @@ $additionalData = ['job'=>$job];
                                         </div>
                                      </div>
                                  </div>
+                                 @else
+                                 N/A
                                  @endif
                             </div>
                             <div class="col-sm-6 form-group c-gap">

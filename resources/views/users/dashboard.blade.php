@@ -22,19 +22,6 @@ Dashboard
 <script type="text/javascript" src="{{ asset('js/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/customer-dashboard.js') }}"></script>
 
- 
-    <script type="text/javascript">
-    $(document).ready(function() {
-      
-         setTimeout((function() {
-            $('.alert-success').addClass('active');
-          }), 1000);
-
-          setTimeout((function() {
-            $('.alert-success').removeClass('active');
-          }), 6000);    });
-    </script> 
- 
 @endsection
 
 @section('content')

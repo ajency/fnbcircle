@@ -1277,7 +1277,7 @@ class JobController extends Controller
                     $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
         }
 
-        Session::flash('success_message','Job Alert Configuration Successfully Updated.');
+        // Session::flash('success_message','Job Alert Configuration Successfully Updated.');
         Session::flash('success_apply_job','Job Alert Configuration Successfully Updated.');
         return redirect(url('/job/'.$job->getJobSlug())); 
     }

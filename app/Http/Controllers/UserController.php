@@ -367,7 +367,7 @@ class UserController extends Controller
         $jobCategories = $job->jobCategories();
 
         $browserState = (getUserSessionState()) ? getUserSessionState() : getSinglePopularCity()->slug;
-
+        
         return view('users.dashboard') ->with('user', $user)
                                        ->with('salaryRange', $salaryRange)
                                        ->with('cities', $cities)
@@ -467,9 +467,9 @@ class UserController extends Controller
         }
  
   
-        Session::flash('success_message','Job Alert Configuaration Successfully Updated ');
+        Session::flash('success_message','Job Alert Configuaration Successfully Updated');
         
-        return redirect()->back();
+        return redirect(url('customer-dashboard'));
     }
     
     public function removeResume(Request $request){

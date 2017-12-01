@@ -169,25 +169,25 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Fill in the details of the job properly.
+                                        <div class="p-l-5">Fill in the details of the job properly.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             2
                                         </span>
-                                        Ensure that you provide correct contact details.
+                                        <div class="p-l-10">Ensure that you provide correct contact details.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             3
                                         </span>
-                                        Job description should be clear.
+                                        <div class="">Job description should be clear.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             4
                                         </span>
-                                        Highlight the important details related to the job.
+                                        <div class="p-l-10">Highlight the important details related to the job.</div>
                                     </div>
                                 </div>
                             </div>
@@ -213,31 +213,31 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Get 10 X times more response.
+                                        <div class="">Get 10 X times more response.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             2
                                         </span>
-                                        Get premium tag which makes your requirement stand out from rest.
+                                        <div class="p-l-15">Get premium tag which makes your requirement stand out from rest.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             3
                                         </span>
-                                        Your job gets displayed on top of other non premium jobs and gets top priority.
+                                        <div class="p-l-15">Your job gets displayed on top of other non premium jobs and gets top priority.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             4
                                         </span>
-                                        20 extra days of visibility.
+                                        <div class="">20 extra days of visibility.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             5
                                         </span>
-                                        Your job is displayed to candidates while searching for similar other jobs of other employers.
+                                        <div class="p-l-20">Your job is displayed to candidates while searching for similar other jobs of other employers.</div>
                                     </div>
                                 </div>
                             </div>

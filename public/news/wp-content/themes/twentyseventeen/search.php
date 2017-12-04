@@ -106,11 +106,36 @@ get_header(); ?>
         id="featured-img"
     <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+
+
+  <?php  
+  	  $current_tags_html =""; 
+  	  $current_tags = [];
+  	  $current_tag_html_items = [];
+
+  	  $posttags = get_the_tags($post->ID);	  
+   
+	  	if($posttags){
+	    
+	    foreach($posttags as $tag) {	    	
+	      	$current_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_tags[] =   $tag->name;  
+	    }
+	    
+	    $current_post_tags_container_title = implode(',',$current_tags);
+	    $current_tags_html="<div class='post_tags ellipsis text-color' title='".$current_post_tags_container_title."' >";
+	    $current_tags_html.= implode('',$current_tag_html_items);
+	    $current_tags_html.="</div>";
+	  }
+?>	
+
+
           
   
   <div class="featured-content">
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
+    <?php echo $current_tags_html; ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 

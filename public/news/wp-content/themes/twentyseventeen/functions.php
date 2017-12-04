@@ -1157,12 +1157,39 @@ function get_featured_news_by_city(){
 	    		else{
 	    			$style_avatar ="";
 	    		}
-	    		
-	          
+	 
+	 
+
+
+	    
+	   	  $current_featured_tags_html =""; 
+	   	  $current_featured_tags = [];
+	   	  $current_featured_tag_html_items = [];
+
+	   	  $featured_posttags = get_the_tags();	  
+	    
+	 	  	if($featured_posttags){
+	 	    
+	 	    foreach($featured_posttags as $tag) {	    	
+	 	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	 	      	$current_featured_tags[] =   $tag->name;  
+	 	    }
+	 	    
+	 	    $current_featured_post_tags_container_title = implode(',',$current_featured_tags);
+	 	    $current_featured_tags_html="<div class='post_tags ellipsis text-color' title='".$current_featured_post_tags_container_title."' >";
+	 	    $current_featured_tags_html.= implode('',$current_featured_tag_html_items);
+	 	    $current_featured_tags_html.="</div>";
+	 	  }
+	 
+
+
+	  
+
+
 	 $html.=' <div class="featured-image" '.$style_avatar.'></div>
 	  <div class="featured-content">
 	    <h5 class="font-weight-bold"><a href="'.get_permalink().'">'.get_the_title().'</a></h5>
-	    '.get_the_excerpt(6).'
+	    '.get_the_excerpt(6).$current_featured_tags_html.'
 	<div class="featured-meta">
 	<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
 	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
@@ -1258,11 +1285,33 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
   		} 
 	  }
 
-	      
-	  
+	 
+  	  $current_recent_tags_html =""; 
+  	  $current_recent_tags = [];
+
+  	  $recent_posttags = get_the_tags();	  
+   
+	  	if($recent_posttags){
+	    
+	    foreach($recent_posttags as $tag) {	    	
+	      	$current_recent_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_recent_tags[] =   $tag->name;  
+	    }
+	    
+	    $current_recent_post_tags_container_title = implode(',',$current_recent_tags);
+	    $current_recent_tags_html="<div class='post_tags ellipsis text-color' title='".$current_recent_post_tags_container_title."' >";
+	    $current_recent_tags_html.= implode('',$current_recent_tag_html_items);
+	    $current_recent_tags_html.="</div>";
+	  }
+ 
+
+
+
+
+
 	  $html.='<div class="featured-content">
 	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'"  target ="_blank" >  <h5>'.get_the_title().'</h5> </a>
-	    '.get_the_excerpt(15).'
+	    '.get_the_excerpt(15).$current_recent_tags_html.'
 	<div class="featured-meta">
 		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
 
@@ -1566,3 +1615,20 @@ function no_mo_dashboard() {
   }
 }
 //add_action('admin_init', 'no_mo_dashboard');
+
+
+//Display tags with link on sigle post page
+function tags_after_single_post_content($content) {
+  $posttags = get_the_tags();
+  if ($posttags) {
+    $array = [];
+    foreach($posttags as $tag) {
+      //$array[] = '<a href="/tag/' . $tag->slug . '/">' . $tag->name . '</a>';
+       $array[] =  $tag->name;
+    }
+    $content .=  implode(', ', $array) . '<br>';
+  }
+
+  return $content;
+}
+//add_filter( 'the_content', 'tags_after_single_post_content' );

@@ -57,6 +57,34 @@
 			get_the_title()
 		) );
 
+		if(is_single()){ 
+
+
+
+			   
+			$current_tags_html =""; 
+			$current_tags = [];
+			$current_tag_html_items = [];
+
+			$posttags = get_the_tags($post->ID);	  
+
+			if($posttags){
+
+			foreach($posttags as $tag) {	    	
+				$current_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+				$current_tags[] =   $tag->name;  
+			}
+
+			$current_post_tags_container_title = implode(',',$current_tags);
+			$current_tags_html="<div class='post_tags ellipsis text-color' title='".$current_post_tags_container_title."' >";
+			$current_tags_html.= implode('',$current_tag_html_items);
+			$current_tags_html.="</div>";
+			}
+			  
+ 
+		  echo $current_tags_html;
+		}
+
 		wp_link_pages( array(
 			'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
 			'after'       => '</div>',

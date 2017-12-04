@@ -689,6 +689,13 @@
                                             <div class="fnb-article__content m-t-15">
                                                 <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="color-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
                                                 <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}    </p>
+                                                @if(count($news_item['tags']) > 0)
+                                                   <div class="post_tags ellipsis text-color" title="{{ implode(',',$news_item['tags']) }}">
+                                                     @foreach($news_item['tags'] as $news_tag)
+                                                     <i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}
+                                                      @endforeach
+                                                   </div>
+                                                @endif
                                                 <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
                                             </div>
                                         </a>

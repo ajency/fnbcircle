@@ -107,11 +107,33 @@ get_header(); ?>
         id="featured-img"
     <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
-          
+  
+
+    <<?php  
+  	  $current_featured_tags_html =""; 
+  	  $current_featured_tags = [];
+  	  $current_featured_tag_html_items = [];
+
+  	  $featured_posttags = get_the_tags($post->ID);	  
+   
+	  	if($featured_posttags){
+	    
+	    foreach($featured_posttags as $tag) {	    	
+	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_featured_tags[] =   $tag->name;  
+	    }
+	    
+	    $current_featured_post_tags_container_title = implode(',',$current_featured_tags);
+	    $current_featured_tags_html="<div class='post_tags ellipsis text-color' title='".$current_featured_post_tags_container_title."' >";
+	    $current_featured_tags_html.= implode('',$current_featured_tag_html_items);
+	    $current_featured_tags_html.="</div>";
+	  }
+?>	 
   
   <div class="featured-content">
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
+    <?php echo $current_featured_tags_html;?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 

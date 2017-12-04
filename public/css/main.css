@@ -6341,6 +6341,18 @@ input[type=checkbox].custom-checkbox:before {
 .customer-jobs .filter-data {
   margin-top: 0;
 }
+.customer-jobs .recent-updates {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+.customer-jobs .recent-updates > div:not(:last-child) {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
 .job-alert-location .location-select {
   padding-top: 0.2em;
   padding-bottom: 0;

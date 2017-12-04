@@ -1646,16 +1646,16 @@ function get_tags_markup($posttags,$is_single=false){
 	if($posttags){
 
 	foreach($posttags as $tag) {	    	
-		$current_tag_html_items[]= "<span title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
+		$current_tag_html_items[]= "<span class='post-tags__child' title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
 		$current_tags[] =   $tag->name;  
 	}
 
 	$current_post_tags_container_title = implode(',',$current_tags);
 	if($is_single==true){
-		$current_tags_html="<div class='post_tags text-color' title='".$current_post_tags_container_title."' >";
+		$current_tags_html="<div class='post-tags text-color' title='".$current_post_tags_container_title."' >";
 	}
 	else{
-		$current_tags_html="<div class='post_tags ellipsis text-color' title='".$current_post_tags_container_title."' >";	
+		$current_tags_html="<div class='post-tags text-color' title='".$current_post_tags_container_title."' >";	
 	}
 	
 	$current_tags_html.= implode('',$current_tag_html_items);

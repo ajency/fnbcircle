@@ -526,9 +526,9 @@ $additionalData = ['job'=>$job];
                           <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}</p>
                           
                            @if(count($news_item['tags']) > 0)
-                            <div class="post_tags ellipsis text-color" title="{{ implode(',',$news_item['tags']) }}">
+                            <div class="post-tags ellipsis text-color" title="{{ implode(',',$news_item['tags']) }}">
                               @foreach($news_item['tags'] as $news_tag)
-                              <span title="{{ $news_tag}}"><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
+                              <span  class="post-tags__child" title="{{ $news_tag}}"><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
                                @endforeach
                             </div>
                            @endif

@@ -1211,6 +1211,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .post-tags {
   padding-right: 0.8em;
+  width: 100%;
 }
 .post-tags__child {
   color: #27b7b0;

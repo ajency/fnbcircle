@@ -599,7 +599,7 @@ $additionalData = ['job'=>$job];
                       @if(Auth::check())
                         <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
                       @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        <a href="#" class="login dis-block" data-toggle="modal" data-target="#login-modal">
                       @endif
                             <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                         </a>
@@ -610,7 +610,7 @@ $additionalData = ['job'=>$job];
                   @if(Auth::check())
                       <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert">
                     @else
-                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
                       
                   <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>

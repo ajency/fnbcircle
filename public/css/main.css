@@ -6362,6 +6362,9 @@ input[type=checkbox].custom-checkbox:before {
       -ms-transform: scale(0.75);
           transform: scale(0.75);
 }
+.send-job-alert input[type='checkbox']:before {
+  top: -13px;
+}
 @media screen and (max-width: 768px) {
   .selection-card {
     margin: 3em 0 2em 0;

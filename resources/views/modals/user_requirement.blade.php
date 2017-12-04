@@ -178,6 +178,9 @@
                             Save <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                         </button>
                     </div>
+                    <div class="col-sm-12 text-center m-t-10">
+                        <div class="text-medium text-lighter accept_terms x-small">By clicking Save, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
+                    </div>
                 </div>
             </div>
         </div>

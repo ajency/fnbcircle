@@ -651,13 +651,13 @@ $(function(){
 				}
 			});
 
-			$("#register_form #accept_terms_checkbox").on('change', function() {
-				if(!$(this).prop("checked")) {
-					$("#register_form_btn").attr("disabled","disabled");
-				} else {
-					$("#register_form_btn").removeAttr("disabled");
-				}
-			});
+			// $("#register_form #accept_terms_checkbox").on('change', function() {
+			// 	if(!$(this).prop("checked")) {
+			// 		$("#register_form_btn").attr("disabled","disabled");
+			// 	} else {
+			// 		$("#register_form_btn").removeAttr("disabled");
+			// 	}
+			// });
 
 			if (window.location.search.indexOf("login=true") > -1) { // If login=true exist in URL, then trigger the Popup
 				$("#login-modal").modal('show');
@@ -819,11 +819,11 @@ $(function(){
                 validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors");
 
                 if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors")) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
-                	if($("#accept_terms_checkbox").prop("checked")) {
-                		return $(parent).submit(); // Submit the form
-                	} else {
-                		$("#accept_terms_checkbox").removeClass("hidden");
-                	}
+                	// if($("#accept_terms_checkbox").prop("checked")) {
+                	// 	return $(parent).submit(); // Submit the form
+                	// } else {
+                	// 	$("#accept_terms_checkbox").removeClass("hidden");
+                	// }
                 }
 
                 e.stopImmediatePropagation();

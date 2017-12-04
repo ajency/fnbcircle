@@ -1174,7 +1174,7 @@ function get_featured_news_by_city(){
 	 	  	if($featured_posttags){
 	 	    
 	 	    foreach($featured_posttags as $tag) {	    	
-	 	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	 	      	$current_featured_tag_html_items[]= "<span title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
 	 	      	$current_featured_tags[] =   $tag->name;  
 	 	    }
 	 	    
@@ -1297,7 +1297,7 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 	  	if($recent_posttags){
 	    
 	    foreach($recent_posttags as $tag) {	    	
-	      	$current_recent_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_recent_tag_html_items[]= "<span title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
 	      	$current_recent_tags[] =   $tag->name;  
 	    }
 	    
@@ -1635,3 +1635,38 @@ function tags_after_single_post_content($content) {
   return $content;
 }
 //add_filter( 'the_content', 'tags_after_single_post_content' );
+
+
+
+
+function get_tags_markup($posttags,$is_single=false){
+
+	$current_tags_html =""; 
+	$current_tags = [];
+	$current_tag_html_items = [];
+
+	//$posttags = get_the_tags($post->ID);	  
+
+	if($posttags){
+
+	foreach($posttags as $tag) {	    	
+		$current_tag_html_items[]= "<span title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
+		$current_tags[] =   $tag->name;  
+	}
+
+	$current_post_tags_container_title = implode(',',$current_tags);
+	if($is_single==true){
+		$current_tags_html="<div class='post_tags text-color' title='".$current_post_tags_container_title."' >";
+	}
+	else{
+		$current_tags_html="<div class='post_tags ellipsis text-color' title='".$current_post_tags_container_title."' >";	
+	}
+	
+	$current_tags_html.= implode('',$current_tag_html_items);
+	$current_tags_html.="</div>";
+	}
+
+	return $current_tags_html;
+
+}
+

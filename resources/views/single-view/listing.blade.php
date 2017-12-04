@@ -696,7 +696,7 @@
                                                 @if(count($news_item['tags']) > 0)
                                                    <div class="post_tags ellipsis text-color" title="{{ implode(',',$news_item['tags']) }}">
                                                      @foreach($news_item['tags'] as $news_tag)
-                                                     <i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}
+                                                     <span title="{{ $news_tag}}" ><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
                                                       @endforeach
                                                    </div>
                                                 @endif

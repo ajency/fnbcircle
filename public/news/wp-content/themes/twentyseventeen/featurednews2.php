@@ -179,24 +179,12 @@ get_header(); ?>
 			  
 
 			    <?php  
-			      	  $current_featured_post_tags =""; 
-			      	  $current_featured_tags = [];
-			      	  $current_featured_tag_html_items = [];
-
-			      	  $featured_posttags = get_the_tags($post->ID);	  
-			       
-			    	  	if($featured_posttags){
-			    	    
-			    	    foreach($featured_posttags as $tag) {	    	
-			    	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
-			    	      	$current_featured_tags[] =   $tag->name;  
-			    	    }
-			    	    
-			    	    $current_featured_post_tags_container_title = implode(',',$current_featured_tags);
-			    	    $current_featured_tags_html="<div class='post_tags ellipsis text-color' title='".$current_featured_post_tags_container_title."' >";
-			    	    $current_featured_tags_html.= implode('',$current_featured_tag_html_items);
-			    	    $current_featured_tags_html.="</div>";
-			    	  }
+		      	  $current_featured_post_tags =""; 
+		      	  $featured_posttags = get_the_tags($post->ID);	  
+		       
+		    	  if($featured_posttags){
+		    	  		$current_featured_tags_html = get_tags_markup($featured_posttags,false); 
+		    	  }
 			    ?>	            
 			  
 			  <div class="featured-content">

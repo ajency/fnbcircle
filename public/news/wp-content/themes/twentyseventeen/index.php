@@ -113,7 +113,27 @@ $featured_cnt =0;
   <!-- the loop -->
   <?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
 
-  <?php if($featured_cnt<4) : ?>	
+  <?php if($featured_cnt<4) : ?>
+  <?php  
+  	  $current_featured_tags_html =""; 
+  	  $current_featured_tags = [];
+  	  $current_featured_tag_html_items = [];
+
+  	  $featured_posttags = get_the_tags();	  
+   
+	  	if($featured_posttags){
+	    
+	    foreach($featured_posttags as $tag) {	    	
+	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_featured_tags[] =   $tag->name;  
+	    }
+	    
+	    $current_featured_post_tags_container_title = implode(',',$current_featured_tags);
+	    $current_featured_tags_html="<div class='post_tags ellipsis text-color' title='".$current_featured_post_tags_container_title."' >";
+	    $current_featured_tags_html.= implode('',$current_featured_tag_html_items);
+	    $current_featured_tags_html.="</div>";
+	  }
+?>	
 <div class="featured-post">
 	<div class="border-layout">
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
@@ -124,6 +144,7 @@ $featured_cnt =0;
 
     <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
     <?php the_excerpt(6); ?>
+    <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
@@ -233,13 +254,39 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
         id="featured-img"
     <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+
+
+
+  <?php  
+  	  $current_recent_tags_html =""; 
+  	  $current_recent_tags = [];
+  	  $current_recent_tag_html_items = [];
+
+  	  $recent_posttags = get_the_tags();	  
+   
+	  	if($recent_posttags){
+	    
+	    foreach($recent_posttags as $tag) {	    	
+	      	$current_recent_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
+	      	$current_recent_tags[] =   $tag->name;  
+	    }
+	    
+	    $current_recent_post_tags_container_title = implode(',',$current_recent_tags);
+	    $current_recent_tags_html="<div class='post_tags ellipsis text-color' title='".$current_recent_post_tags_container_title."' >";
+	    $current_recent_tags_html.= implode('',$current_recent_tag_html_items);
+	    $current_recent_tags_html.="</div>";
+	  }
+?>	
+
+
           
-  
+     
   <div class="featured-content">
  <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
   
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
+    <?php echo $current_recent_tags_html; ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 

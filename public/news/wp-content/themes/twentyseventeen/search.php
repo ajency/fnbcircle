@@ -110,22 +110,11 @@ get_header(); ?>
 
   <?php  
   	  $current_tags_html =""; 
-  	  $current_tags = [];
-  	  $current_tag_html_items = [];
-
+  	 
   	  $posttags = get_the_tags($post->ID);	  
    
-	  	if($posttags){
-	    
-	    foreach($posttags as $tag) {	    	
-	      	$current_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
-	      	$current_tags[] =   $tag->name;  
-	    }
-	    
-	    $current_post_tags_container_title = implode(',',$current_tags);
-	    $current_tags_html="<div class='post_tags ellipsis text-color' title='".$current_post_tags_container_title."' >";
-	    $current_tags_html.= implode('',$current_tag_html_items);
-	    $current_tags_html.="</div>";
+	  if($posttags){
+	  		$current_tags_html = get_tags_markup($posttags,false);
 	  }
 ?>	
 

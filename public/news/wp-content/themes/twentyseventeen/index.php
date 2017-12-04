@@ -97,23 +97,12 @@ $featured_cnt =0;
 
   <?php if($featured_cnt<4) : ?>
   <?php  
-  	  $current_featured_tags_html =""; 
-  	  $current_featured_tags = [];
-  	  $current_featured_tag_html_items = [];
-
+  	  $current_featured_tags_html ="";  
   	  $featured_posttags = get_the_tags();	  
    
-	  	if($featured_posttags){
-	    
-	    foreach($featured_posttags as $tag) {	    	
-	      	$current_featured_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
-	      	$current_featured_tags[] =   $tag->name;  
-	    }
-	    
-	    $current_featured_post_tags_container_title = implode(',',$current_featured_tags);
-	    $current_featured_tags_html="<div class='post_tags ellipsis text-color' title='".$current_featured_post_tags_container_title."' >";
-	    $current_featured_tags_html.= implode('',$current_featured_tag_html_items);
-	    $current_featured_tags_html.="</div>";
+	  if($featured_posttags){
+
+	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);
 	  }
 ?>	
 <div class="featured-post">
@@ -240,23 +229,12 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
 
   <?php  
-  	  $current_recent_tags_html =""; 
-  	  $current_recent_tags = [];
-  	  $current_recent_tag_html_items = [];
-
+  	  $current_recent_tags_html ="";   	 
   	  $recent_posttags = get_the_tags();	  
    
-	  	if($recent_posttags){
-	    
-	    foreach($recent_posttags as $tag) {	    	
-	      	$current_recent_tag_html_items[]= "<i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name." "; 	   
-	      	$current_recent_tags[] =   $tag->name;  
-	    }
-	    
-	    $current_recent_post_tags_container_title = implode(',',$current_recent_tags);
-	    $current_recent_tags_html="<div class='post_tags ellipsis text-color' title='".$current_recent_post_tags_container_title."' >";
-	    $current_recent_tags_html.= implode('',$current_recent_tag_html_items);
-	    $current_recent_tags_html.="</div>";
+	  if($recent_posttags){ 
+
+	  		$current_recent_tags_html = get_tags_markup($recent_posttags,false) ; 
 	  }
 ?>	
 

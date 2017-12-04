@@ -1282,10 +1282,6 @@ input[type=checkbox].custom-checkbox:before {
 .clear {
   clear: both;
 }
-.post-tags {
-  height: 56px;
-  overflow: hidden;
-}
 .post-tags__child {
   color: #27b7b0;
   border: 1px solid;

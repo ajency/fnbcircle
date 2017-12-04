@@ -2743,6 +2743,9 @@ input[type=checkbox].custom-checkbox:before {
   color: #27b7b0;
   padding-right: 5px;
 }
+.related-article .post-tags .fa {
+  padding-right: 0;
+}
 .slide-nav {
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;

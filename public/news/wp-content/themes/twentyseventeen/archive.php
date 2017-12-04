@@ -50,11 +50,20 @@ get_header(); ?>
         id="featured-img"
     <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
-          
+ 	
+<?php  
+	  $current_featured_tags_html =""; 
+	  $posttags = get_the_tags($post->ID);	  
+
+  if($posttags){
+  		$current_featured_tags_html = get_tags_markup($posttags,false); 
+  }
+?>	         
   
   <div class="featured-content">
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>">  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
+    <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
@@ -84,11 +93,26 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php
 <?php
 			endwhile; // End of the loop.
 
-			the_posts_pagination( array(
+			global $wp_query; // you can remove this line if everything works for you
+
+
+			if (  $wp_query->max_num_pages > 1 ){
+				echo '<div class="aj_cust_loadmore">More posts</div>'; // you can use <a> as well
+			}
+
+			/* $recent_news_pagination_html=vb_ajax_pager($wp_query,1,'home_recent_pagination');
+			echo $recent_news_pagination_html;*/
+
+			echo " ";
+
+
+
+
+			/*the_posts_pagination( array(
 				'prev_text' => twentyseventeen_get_svg( array( 'icon' => 'arrow-left' ) ) . '<span class="screen-reader-text">' . __( 'Previous page', 'twentyseventeen' ) . '</span>',
 				'next_text' => '<span class="screen-reader-text">' . __( 'Next page', 'twentyseventeen' ) . '</span>' . twentyseventeen_get_svg( array( 'icon' => 'arrow-right' ) ),
 				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentyseventeen' ) . ' </span>',
-			) );
+			) );*/
 
 		else :
 

@@ -1298,6 +1298,9 @@ input[type=checkbox].custom-checkbox:before {
   color: #27b7b0;
   padding-right: 5px;
 }
+.related-article .post-tags .fa {
+  padding-right: 0;
+}
 .fnb-header .navbar {
   padding: 0.3em 0;
   border: 0;

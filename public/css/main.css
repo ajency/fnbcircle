@@ -2802,6 +2802,9 @@ input[type=checkbox].custom-checkbox:before {
 .clear {
   clear: both;
 }
+.post-tags {
+  padding-right: 0.8em;
+}
 .post-tags__child {
   color: #27b7b0;
   border: 1px solid;

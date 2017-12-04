@@ -1,5 +1,5 @@
 (function() {
-  var browsecat, catlabel, contactrow, equalcol, getheight, loadUpdates, moveelement, offset, order, status;
+  var browsecat, catlabel, contactrow, equalcol, getheight, handleResponse, loadUpdates, moveelement, offset, order, status;
 
   $('.shareRoundIcons').jsSocials({
     showLabel: false,
@@ -164,6 +164,26 @@
     window.location.href = gethref;
   });
 
+  handleResponse = function(step, html) {
+    $('#contact-modal .modal-body').html(html);
+    if (step === 'get-details') {
+      return $('#contact-modal #contact_number').intlTelInput({
+        initialCountry: 'auto',
+        separateDialCode: true,
+        geoIpLookup: function(callback) {
+          $.get('https://ipinfo.io', (function() {}), 'jsonp').always(function(resp) {
+            var countryCode;
+            countryCode = resp && resp.country ? resp.country : '';
+            callback(countryCode);
+          });
+        },
+        preferredCountries: ['IN'],
+        americaMode: false,
+        formatOnDisplay: false
+      });
+    }
+  };
+
   $('body').on('click', '#contact-info', function() {
     $('#contact-modal').modal('show');
     return $.ajax({
@@ -173,9 +193,42 @@
         'id': document.getElementById('listing_id').value
       },
       success: function(data) {
-        return $('#contact-modal .modal-body').html(data);
+        return handleResponse(data['step'], data['html']);
       }
     });
+  });
+
+  $('#contact-modal').on('click', '#cr-get-details-form-submit', function() {
+    var description, email, mobile, name, region, url;
+    if (!$('#contact-modal #get-crdetails-form').parsley().validate()) {
+      return;
+    }
+    name = $('#contact-modal #get-crdetails-form #contact_name').val();
+    email = $('#contact-modal #get-crdetails-form #contact_email').val();
+    mobile = $('#contact-modal #get-crdetails-form #contact_number').val();
+    region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode'];
+    description = $('#contact-modal #get-crdetails-form #contact_description').val();
+    url = $('#contact-modal #cr-details-form-submit-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value,
+        name: name,
+        email: email,
+        mobile: mobile,
+        mobile_region: region,
+        description: JSON.stringify(description)
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
+  $('#contact-modal').on('click', '#edit-cr-number', function() {
+    console.log('enters');
+    return $('#new-mobile-modal').modal('show');
   });
 
 }).call(this);

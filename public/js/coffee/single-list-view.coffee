@@ -159,6 +159,25 @@ $('.similar-card').click ->
   window.location.href = gethref
   return
 
+handleResponse = (step,html) ->
+  $('#contact-modal .modal-body').html html
+  if step == 'get-details'
+    $('#contact-modal #contact_number').intlTelInput
+      initialCountry: 'auto'
+      separateDialCode: true
+      geoIpLookup: (callback) ->
+        $.get('https://ipinfo.io', (->
+        ), 'jsonp').always (resp) ->
+          countryCode = if resp and resp.country then resp.country else ''
+          callback countryCode
+          return
+        return
+      preferredCountries: [ 'IN' ]
+      americaMode: false
+      formatOnDisplay:false
+    # $('#contact-modal #get-crdetails-form').parsley().validate()
+    # remove loader
+
 $('body').on 'click','#contact-info', () ->
   $('#contact-modal').modal 'show'
   # show loader
@@ -168,5 +187,31 @@ $('body').on 'click','#contact-info', () ->
     data :
       'id': document.getElementById('listing_id').value
     success: (data) ->
-      $('#contact-modal .modal-body').html data
-      # remove loader
+      handleResponse(data['step'],data['html'])
+
+$('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
+  if !$('#contact-modal #get-crdetails-form').parsley().validate()
+    return
+  name = $('#contact-modal #get-crdetails-form #contact_name').val()
+  email = $('#contact-modal #get-crdetails-form #contact_email').val()
+  mobile = $('#contact-modal #get-crdetails-form #contact_number').val()
+  region = $('#contact-modal #get-crdetails-form #contact_number').intlTelInput('getSelectedCountryData')['dialCode']
+  description = $('#contact-modal #get-crdetails-form #contact_description').val()
+  # console.log name, email, mobile, description
+  url = $('#contact-modal #cr-details-form-submit-link').val()
+  $.ajax
+    url: url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+      name: name
+      email: email
+      mobile: mobile
+      mobile_region: region
+      description: JSON.stringify description
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+
+$('#contact-modal').on 'click','#edit-cr-number', () ->
+  console.log 'enters'
+  $('#new-mobile-modal').modal('show')

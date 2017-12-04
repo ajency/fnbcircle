@@ -1379,6 +1379,14 @@ input[type=radio].fnb-radio.disabled:before {
   margin-left: -10px;
 }
 @media screen and (max-width: 768px) {
+  .fnb-header .user-logged .fa {
+    font-size: 2.8em;
+  }
+  .fnb-header .user-logged .userName {
+    display: block;
+    margin-top: 0.8em;
+    font-size: 1.1em;
+  }
   .fnb-header .user-logged .drop-trigger {
     background-color: transparent;
     color: #fff;
@@ -1408,6 +1416,9 @@ input[type=radio].fnb-radio.disabled:before {
   }
   .fnb-header.trans-header .navbar-brand {
     color: #27b7b0;
+  }
+  .fnb-header.trans-header .city-select .fnb-select {
+    background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#6b6b6b' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
   }
 }
 @media screen and (min-width: 1024px) and (max-width: 1200px) {

@@ -62,24 +62,21 @@
                             <li><p class="mobile-top__text x-small">Sign in to get a personalised feed!</p></li>
                             <li><button type="button" class="fnb-btn outline bnw close-sidebar" data-toggle="modal" data-target="#login-modal">Login</button></li>
                         @else
-                            <li><p class="mobile-top__text x-small">Find suppliers, jobs and a lot more</p></li>
-                            <!-- <li>
-                                <a href="{{ route('logout') }}" class="fnb-btn outline bnw close-sidebar">Logout</a>
-                            </li> -->
-                            <li>
+                            <!-- <li><p class="mobile-top__text x-small">Find suppliers, jobs and a lot more</p></li> -->
+                            
+                            <li class="full-width text-center">
                                 <div class="dropdown user-logged">
-                                  <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger flex-row">
-                                     <i class="fa fa-user-circle user-icon nav-color p-r-5" aria-hidden="true"></i>
-                                     <p class="userName text-medium m-b-0 x-small p-r-5 ellipsis">{{ Auth::user()->name }}</p>
-                                     <!-- <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i> -->
-                                    <!-- <span class="caret"></span> -->
+                                    <i class="fa fa-user-circle user-icon nav-color p-r-5" aria-hidden="true"></i>
+                                    <p class="userName text-medium m-b-0 x-small p-r-5 ellipsis">{{ Auth::user()->name }}</p>
+                                  <!-- <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger flex-row">
+                                     
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                  </button>
-                                  <ul class="dropdown-menu card arrowBox" aria-labelledby="dLabel">
+                                  </button> -->
+                                  <!-- <ul class="dropdown-menu card arrowBox" aria-labelledby="dLabel">
                                         <li><a href="{{url('customer-dashboard')}}"><i class="fa fa-tachometer text-color p-r-5" aria-hidden="true"></i> My Dashboard</a></li>
                                         <li><a href="{{url('profile/basic-details')}}"><i class="fa fa-user text-color p-r-5" aria-hidden="true"></i> My Profile</a></li>
                                         <li><a href="{{ route('logout') }}"><i class="fa fa-power-off text-color p-r-5" aria-hidden="true"></i> Logout</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </li>
                         @endif
@@ -169,8 +166,17 @@
                             </li>
                         </ul>
                     </div>
+                                      
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">
+                        @if(!Auth::guest())
+                        <li class="desk-hide">
+                            <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
+                        </li>
+                        <li class="desk-hide">
+                            <a href="{{url('profile/basic-details')}}" class="nav-title-size">My Profile</a>
+                        </li>
+                        @endif  
                         <li>
                             <a href="" class="nav-title-size">About us</a>
                         </li>
@@ -186,6 +192,11 @@
                         <li>
                              <a href="" class="nav-title-size">FAQ</a>
                         </li>
+                        @if(!Auth::guest())
+                        <li>
+                            <a href="{{ route('logout') }}" class="nav-title-size">Logout</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

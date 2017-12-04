@@ -2,6 +2,7 @@ userCheck = ->
   if $('#user-type').val() == 'external' or document.getElementsByName('primary_email_txt')[0].value == ""
     listingInformation()
     return
+  email = document.getElementsByName('primary_email_txt')[0].value
   $.ajax
     type: 'post'
     url: document.head.querySelector('[property="check-user-exist"]').content
@@ -10,7 +11,7 @@ userCheck = ->
     success: (data) ->
       $('.section-loader').addClass 'hidden'
       if data['result']
-        text = 'Email id already exists with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'” , Created on '+data['user']['created_at'].slice(0,10)
+        text = 'Email id "'+email+'" already exists with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'” , Created on '+data['user']['created_at'].slice(0,10)
       else
         text = 'Email id does not exist. New Account will be created';
       $('#user-exist-text').html text

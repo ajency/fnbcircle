@@ -1656,10 +1656,10 @@ function get_tags_markup($posttags,$is_single=false){
 
 	$current_post_tags_container_title = implode(',',$current_tags);
 	if($is_single==true){
-		$current_tags_html="<div class='post-tags text-color' title='".$current_post_tags_container_title."' >";
+		$current_tags_html="<div class='post-tags ellipsis-2 text-color' title='".$current_post_tags_container_title."' >";
 	}
 	else{
-		$current_tags_html="<div class='post-tags text-color' title='".$current_post_tags_container_title."' >";	
+		$current_tags_html="<div class='post-tags ellipsis-2 text-color' title='".$current_post_tags_container_title."' >";	
 	}
 	
 	$current_tags_html.= implode('',$current_tag_html_items);

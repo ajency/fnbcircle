@@ -599,7 +599,7 @@ $additionalData = ['job'=>$job];
                       @if(Auth::check())
                         <a href="#" class="apply-jobs" data-toggle="modal" data-target="#apply-jobs">
                       @else
-                        <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                        <a href="#" class="login dis-block" data-toggle="modal" data-target="#login-modal">
                       @endif
                             <button class="btn fnb-btn primary-btn full border-btn" type="button"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Apply now</button>
                         </a>
@@ -610,7 +610,7 @@ $additionalData = ['job'=>$job];
                   @if(Auth::check())
                       <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert">
                     @else
-                      <a href="#" class="login" data-toggle="modal" data-target="#login-modal">
+                      <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
                       
                   <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
@@ -1065,7 +1065,7 @@ $additionalData = ['job'=>$job];
                           @endif
                           
 
-                          <div class="job-alert text-center xx-small">
+                          <div class="job-alert text-center x-small">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
                               <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'{{ $job->title }}'</b> has been created</h6>
                               <p>You will receive the job alert in your email <b>'{{ Session::get('applicant_email') }}'</b> as per the below criteria</p>
@@ -1075,10 +1075,10 @@ $additionalData = ['job'=>$job];
 
                           <!-- <hr> -->
 
-                          <div>
+                          <div class="m-b-20 m-t-10 send-job-alert heavier">
                           Send job alerts : <input type="checkbox" {{ ($sendJobAlerts) ? 'checked' : '' }}  name="send_alert" value="1">
                           </div>
-                          <div class="row flex-row flex-wrap align-top edit-criteria xx-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
+                          <div class="row flex-row flex-wrap align-top edit-criteria x-small {{ ($sendJobAlerts) ? '' : 'hidden' }}">
 
                             <div class="col-sm-6 form-group c-gap">
                                 <label class="label-size dis-block">Job category: </label>
@@ -1095,7 +1095,7 @@ $additionalData = ['job'=>$job];
                                 </ul>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <div class="flex-row flex-wrap">
+                                <div class="flex-row flex-wrap align-top">
                                   <div class="p-r-20">
                                     <label class="label-size">State: </label>
                                     @foreach($locations as $city => $locAreas)
@@ -1143,7 +1143,7 @@ $additionalData = ['job'=>$job];
                                              </li> -->
                
                                           <!--    <i class="fa fa-ellipsis-h text-color" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}"></i> -->
-                                             <span class="x-small text-secondary cursor-pointer p-b-10 p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
+                                             <span class="text-secondary cursor-pointer p-l-5" data-toggle="tooltip" data-placement="top" title="{{ implode (',',$moreAreas)}}">+{{ $moreAreaCount}} more</span>
                
                                             @endif
                                          </ul>

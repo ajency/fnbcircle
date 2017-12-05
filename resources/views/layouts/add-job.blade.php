@@ -154,7 +154,7 @@
                                     </li>
 
                                     <li class="@if(!$job->isJobDataComplete()) disable @endif">
-                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Go Premium<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Choose Your Plan<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -320,10 +320,17 @@
                                         @endif
                                        
                                         <!-- content navigation -->
-                                        <div class="gs-form__footer flex-row m-t-30">
+                                        <div class="gs-form__footer flex-row m-t-30 @if($isPremiumPage) terms-row @endif">
+                                        @if($isPremiumPage)
+                                            <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 desk-hide terms-label"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0">I agree to Terms and Privacy on FnB Services</p></label>
+                                         @endif
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
+                                            @if($isPremiumPage)
+                                                <div class="flex-row flex-end flex-1 terms-privacy-section">
+                                                <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 mobile-hide"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0 p-r-25">I agree to Terms and Privacy on FnB Services</p></label>
+                                             @endif
                                             <button class="btn fnb-btn primary-btn full info-save gs-next job-save-btn" type="submit">
 
                                             @if(!$isPremiumPage)
@@ -333,6 +340,9 @@
                                             @endif
                                             </button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
+                                            @if($isPremiumPage)
+                                            </div>
+                                            @endif
                                         </div>
                                         <input type="hidden" name="has_changes" value="0">
                                         </form>

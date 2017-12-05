@@ -1379,6 +1379,14 @@ input[type=radio].fnb-radio.disabled:before {
   margin-left: -10px;
 }
 @media screen and (max-width: 768px) {
+  .fnb-header .user-logged .fa {
+    font-size: 2.8em;
+  }
+  .fnb-header .user-logged .userName {
+    display: block;
+    margin-top: 0.8em;
+    font-size: 1.1em;
+  }
   .fnb-header .user-logged .drop-trigger {
     background-color: transparent;
     color: #fff;
@@ -1408,6 +1416,9 @@ input[type=radio].fnb-radio.disabled:before {
   }
   .fnb-header.trans-header .navbar-brand {
     color: #27b7b0;
+  }
+  .fnb-header.trans-header .city-select .fnb-select {
+    background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#6b6b6b' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
   }
 }
 @media screen and (min-width: 1024px) and (max-width: 1200px) {
@@ -6341,6 +6352,18 @@ input[type=checkbox].custom-checkbox:before {
 .customer-jobs .filter-data {
   margin-top: 0;
 }
+.customer-jobs .recent-updates {
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+.customer-jobs .recent-updates > div:not(:last-child) {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
 .job-alert-location .location-select {
   padding-top: 0.2em;
   padding-bottom: 0;
@@ -6349,6 +6372,9 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-transform: scale(0.75);
       -ms-transform: scale(0.75);
           transform: scale(0.75);
+}
+.send-job-alert input[type='checkbox']:before {
+  top: -13px;
 }
 @media screen and (max-width: 768px) {
   .selection-card {
@@ -12146,6 +12172,32 @@ input[type='checkbox'].remove-addr {
 }
 .remove_resume:hover {
   color: rgba(255, 0, 0, 0.71);
+}
+@media screen and (max-width: 768px) {
+  .terms-row {
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+  }
+  .terms-row .terms-label {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 100%;
+        -ms-flex: 1 0 100%;
+            flex: 1 0 100%;
+    font-size: 0.8em;
+    padding: 0 10px;
+    margin-bottom: 1.5em;
+  }
+}
+.terms-privacy-section .job-save-btn {
+  margin: 0;
+  border: 2px solid transparent;
+}
+.terms-privacy-section input[type="checkbox"]:before {
+  color: #6b6b6b;
+}
+.terms-privacy-section input[type="checkbox"]:checked:before {
+  color: #27b7b0;
 }
 .profile-stats {
   color: #fff;

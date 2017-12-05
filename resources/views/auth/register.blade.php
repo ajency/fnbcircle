@@ -237,7 +237,7 @@
                                             <label id="password_confirm_errors" class="fnb-errors hidden"></label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <!-- <div class="col-sm-12">
                                         <div class="form-group m-t-30 m-b-40">
                                             <label class="flex-row accept-row">
                                                   <input type="checkbox" class="checkbox" for="accept_terms" id="accept_terms_checkbox" checked>
@@ -245,11 +245,14 @@
                                                   <label id="terms_conditions" class="fnb-errors hidden">Please accept our terms and conditions</label>
                                             </label>
                                         </div>
+                                    </div> -->
+                                    <div class="col-sm-12 text-center">
+                                        <div class="text-medium text-lighter accept_terms m-t-5 m-b-5">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
                                     </div>
                                     <div class="col-sm-12">
-                                         <div class="form-group text-center m-t-20 m-b-20 signBtn">
+                                         <div class="form-group text-center m-t-20 signBtn">
                                             <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
-                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn" disabled="disabled">
+                                            <button type="button" id="register_form_btn" class="btn btn-lg fnb-btn primary-btn border-btn">
                                                 Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>

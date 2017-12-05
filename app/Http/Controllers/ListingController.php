@@ -66,6 +66,10 @@ class ListingController extends Controller
                     ],
                 ];
             sendEmail('listing-user-notify',$email);
+            if(1 == $user->getPrimaryEmail(true)['is_verified']){
+                $listing->verified = 1;
+                $listing->save();
+            }
             return true;
         }
         $request_data = [

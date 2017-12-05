@@ -240,6 +240,10 @@
     return $('input[name="primary_phone_txt"]').val(this.value);
   });
 
+  $('.user-details-container input[name="user-phone"]').on('countrychange', function(e, countryData) {
+    $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
+  });
+
   $('.contact-info').on('change', 'input.toggle__check', function(event) {
     console.log($(this).closest('.contact-container').find('.contact-input').val());
     if (this.checked) {

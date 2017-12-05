@@ -253,6 +253,10 @@ $('.user-details-container').on 'keyup', 'input[name="user-email"]', (event) ->
 $('.user-details-container').on 'keyup', 'input[name="user-phone"]', (event) ->
   $('input[name="primary_phone_txt"]').val @value
 
+$('.user-details-container input[name="user-phone"]').on 'countrychange', (e, countryData) ->
+  $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
+  return
+
 $('.contact-info').on 'change','input.toggle__check', (event) ->
   console.log  $(this).closest('.contact-container').find('.contact-input').val()
   if @checked

@@ -702,7 +702,7 @@
                                                       @endforeach
                                                    </div>
                                                 @endif
-                                                <span class="dis-block fnb-article__caption lighter date m-t-5">Posted on {{$news_item['display_date']}}</span>
+                                                <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
                                             </div>
                                         </a>
                                     </div>

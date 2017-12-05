@@ -33,12 +33,15 @@ listingInformation = ->
   while i < value.length
     if value[i].value != ''
       contact = {}
+      id=""
       if $(value[i]).closest('.business-contact').hasClass('business-email')
         type = 1
       if $(value[i]).closest('.business-contact').hasClass('business-phone')
         type = 2
       if $(value[i]).closest('.business-contact').hasClass('contact-info-landline')
         type = 3
+      id = $(value[i]).closest('.contact-container').find('.contact-id').val()
+      console.log value[i].value,'=>',id
       $.ajax
         type: 'post'
         url: '/contact_save'
@@ -46,17 +49,17 @@ listingInformation = ->
           'value': value[i].value
           'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
           'type': type
-          'id': $(value[i]).closest('.contact-container').find('.contact-id').val()
+          'id': id
         success: (data) ->
-          $(value[i]).closest('.business-contact').find('.contact-id').val data['id']
-          console.log data['id']
+          $(value[i]).closest('.contact-container').find('.contact-id').val data['id']
+          id = data['id']
           return
         failure: ->
           $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page'
           $('.alert-failure').addClass 'active'
           return
         async: false
-      contact['id'] = $(value[i]).closest('.contact-container').find('.contact-id').val()
+      contact['id'] = id
       contact['country'] = $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
       contact['visible'] = if $(value[i]).closest('.contact-container').find('.toggle__check').prop('checked') then '1' else '0'
       # contact['visible'] = $(value[i]).closest('.contact-container').find('.contact-visible').prop('checked');
@@ -114,13 +117,12 @@ window.validateListing = (event) ->
   if $('#listing_id').val() == ''
     # console.log(true);
     title = document.getElementsByName('listing_title')[0].value
-    value = document.getElementsByName('contacts')
+    value = document.getElementsByClassName('contact-input')
     cont = []
     i = 0
     while i < value.length
       type = undefined
       if value[i].value == ''
-        i++
         i++
         continue
       if $(value[i]).closest('.business-contact').hasClass('business-email')
@@ -134,6 +136,15 @@ window.validateListing = (event) ->
         'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
         'type': type
       i++
+    if $('input[name="primary_email_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_email_txt"]').val();
+        'type': "email"
+    if $('input[name="primary_phone_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_phone_txt"]').val();
+        'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode']
+        'type': "mobile"
     json = JSON.stringify(cont)
     # console.log(json);
     $.ajax

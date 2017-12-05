@@ -693,7 +693,7 @@ $(function(){
 				} else if (message_key == 'no_account') { // Account with this email ID doesn't exist
 					$(popup_message + ".alert-danger .no-account-exist.no-email-exist-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
-				} else if (message_key == 'incorrect_password') { // Account with this email ID doesn't exist
+				} else if (message_key == 'incorrect_password' || message_key == 'is_internal_listing_signup_account') { // Account with this email ID doesn't exist
 					$(popup_message + ".alert-danger .account-exist.wrong-password-error").removeClass('hidden');
 					$(popup_message + ".alert-danger").removeClass('hidden');
 				} else if (message_key == 'token_expired') { // Token expired

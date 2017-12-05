@@ -70,9 +70,14 @@ class ProfileController extends Controller
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'description':
                 $details = unserialize($user->getUserDetails()->first()->subtype);
-                $config                      = config('helper_generate_html_config.enquiry_popup_display');
-                foreach ($details as $detail) {
-                    $data[$detail] = $config[$detail]['title'];
+                $data = [];
+                if($details != false) {
+                    $config                      = config('helper_generate_html_config.enquiry_popup_display');
+                    foreach ($details as $detail) {
+                        $data[$detail] = $config[$detail]['title'];
+                    }
+                }else{
+
                 }
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':

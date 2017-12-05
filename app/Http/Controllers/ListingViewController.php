@@ -38,7 +38,7 @@ class ListingViewController extends Controller
         $area                  = Area::with('city')->find($listing->locality_id);
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
-        $pagedata['verified']  = ($listing->owner_id == null)? false:true;
+        $pagedata['verified']  = ($listing->verified == 1)? true:false;
         $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name, 'slug'=>$area->city['slug'], 'id' => $area->city['id']);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => '', 'slug' => $listing->slug];
         $pagedata['update']    = $listing->updated_at->format('jS F');

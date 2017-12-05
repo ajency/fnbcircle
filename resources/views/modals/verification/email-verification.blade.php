@@ -57,7 +57,7 @@
                 @if($email['verified'])
                     <span class="fnb-icons verified-icon"></span><p class="c-title">Verified</p>
                 @else
-                    <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a>
+                    @if(Auth::user()->type == 'external') <a href="javascript:void(0)" class="dark-link contact-verify-link">Verify now</a> @endif
                 @endif
                     <input type="checkbox" name="verified_contact" class="hidden" readonly="">
                 </div>

@@ -15,14 +15,16 @@
         'email': document.getElementsByName('primary_email_txt')[0].value
       },
       success: function(data) {
-        var text;
+        var check, text;
         $('.section-loader').addClass('hidden');
         if (data['result']) {
           text = 'Email id "' + email + '" already exists with account status “' + data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1) + '” , Created on ' + data['user']['created_at'].slice(0, 10);
         } else {
           text = 'Email id does not exist. New Account will be created';
         }
+        check = email;
         $('#user-exist-text').html(text);
+        $('#status-address').html(check);
         $('#user-exist-confirmation').modal('show');
         return $('#user-exist-confirmation').on('click', '#save-listing', function(e) {
           event.preventDefault();

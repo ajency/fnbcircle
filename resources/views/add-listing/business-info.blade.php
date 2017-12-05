@@ -229,6 +229,10 @@
           <div class="modal-body text-center">
               <div class="listing-message">
                   <h4 class="element-title text-medium text-left text-color" id="user-exist-text"></h4>
+                  <div class="status-checkbox" id="status-c">
+                      <input type="checkbox" class="checkbox"> 
+                      Send email to <div id="status-address"></div>
+                  </div>
               </div>  
               <div class="confirm-actions text-right">
                   <button class="btn fnb-btn text-primary border-btn no-border" id="save-listing" >Save Listing</button></a>

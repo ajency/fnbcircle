@@ -819,6 +819,7 @@ $(function(){
                 validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors");
 
                 if(validateUser(request_data, parent) && validatePassword($(parent + " input[type='password'][name='password']").val(), $(parent + " input[type='password'][name='password_confirmation']").val(), parent, "#password_errors")) { // If the validate User details, password & terms & conditions are satisfied, then Submit the form
+                	$(parent).submit();
                 	// if($("#accept_terms_checkbox").prop("checked")) {
                 	// 	return $(parent).submit(); // Submit the form
                 	// } else {

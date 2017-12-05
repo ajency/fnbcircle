@@ -136,13 +136,12 @@
     $('.section-loader').removeClass('hidden');
     if ($('#listing_id').val() === '') {
       title = document.getElementsByName('listing_title')[0].value;
-      value = document.getElementsByName('contacts');
+      value = document.getElementsByClassName('contact-input');
       cont = [];
       i = 0;
       while (i < value.length) {
         type = void 0;
         if (value[i].value === '') {
-          i++;
           i++;
           continue;
         }
@@ -161,6 +160,19 @@
           'type': type
         });
         i++;
+      }
+      if ($('input[name="primary_email_txt"]').val() !== "") {
+        cont.push({
+          'value': $('input[name="primary_email_txt"]').val(),
+          'type': "email"
+        });
+      }
+      if ($('input[name="primary_phone_txt"]').val() !== "") {
+        cont.push({
+          'value': $('input[name="primary_phone_txt"]').val(),
+          'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode'],
+          'type': "mobile"
+        });
       }
       json = JSON.stringify(cont);
       $.ajax({

@@ -114,13 +114,12 @@ window.validateListing = (event) ->
   if $('#listing_id').val() == ''
     # console.log(true);
     title = document.getElementsByName('listing_title')[0].value
-    value = document.getElementsByName('contacts')
+    value = document.getElementsByClassName('contact-input')
     cont = []
     i = 0
     while i < value.length
       type = undefined
       if value[i].value == ''
-        i++
         i++
         continue
       if $(value[i]).closest('.business-contact').hasClass('business-email')
@@ -134,6 +133,15 @@ window.validateListing = (event) ->
         'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
         'type': type
       i++
+    if $('input[name="primary_email_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_email_txt"]').val();
+        'type': "email"
+    if $('input[name="primary_phone_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_phone_txt"]').val();
+        'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode']
+        'type': "mobile"
     json = JSON.stringify(cont)
     # console.log(json);
     $.ajax

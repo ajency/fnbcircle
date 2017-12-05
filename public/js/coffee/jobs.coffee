@@ -49,8 +49,10 @@ $(document).on 'click', '.remove_resume', ->
     data:
       'user': ''
     success: (data) ->
+      $('input[name="resume_id"]').val('')
       $('.no_resume').removeClass 'hidden'
       $('.has_resume').addClass 'hidden'
+
       
     error: (request, status, error) ->
       throwError()

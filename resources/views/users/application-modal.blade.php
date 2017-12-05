@@ -85,11 +85,11 @@
                                 @endif
                             </div>
                         </div>
-                        
+                        @if($job->application->resume_id)
                         <div class="text-center">
                           <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}" class="btn fnb-btn full primary-btn border-btn default-size"><i class="fa fa-download" aria-hidden="true"></i> Download Resume</a>  
                         </div>
-                        
+                        @endif
                               
  
                          

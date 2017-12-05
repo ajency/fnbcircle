@@ -35,7 +35,7 @@ Dashboard
         <div class="single-view-head">
 
             <div class="container">
-        @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount())
+        @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount)
 
                     <!-- No activity -->
 

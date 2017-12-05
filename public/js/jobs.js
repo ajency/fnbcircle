@@ -56,6 +56,7 @@
         'user': ''
       },
       success: function(data) {
+        $('input[name="resume_id"]').val('');
         $('.no_resume').removeClass('hidden');
         return $('.has_resume').addClass('hidden');
       },

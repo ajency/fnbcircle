@@ -1,3 +1,4 @@
+<div id="emailError"></div>
 <div class="m-t-20 business-email business-contact contact-info contact-info-email" contact-type="email">
     <div class="flex-row space-between mobile-sp-row">
         <label class="label-size">Enter your email address </label>
@@ -28,13 +29,13 @@
             <div class="col-sm-4 col-xs-8">
                 <div class="verified-toggle flex-row">
                         <div class="toggle m-l-10 m-r-10">
-                            <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#toggleError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" data-parsley-required @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
+                            <input name="primary_email" type="checkbox" class="toggle__check" data-parsley-errors-container="#emailError" data-parsley-multiple="contacts" data-parsley-required-message="At least one contact detail either email or phone number should be visible on the listing." data-parsley-mincheck="1" data-parsley-required @if(($listing->show_primary_email === null and $owner->type == 'external')  or $listing->show_primary_email == "1") checked="true" @endif>
                             <b class="switch"></b>
                             <b class="track"></b>
                         </div>
                         <p class="m-b-0 text-color toggle-state"> @if(($listing->show_primary_email === null and $owner->type == 'external') or $listing->show_primary_email == "1")  Visible  @else Not Visible  @endif</p>
                     </div>
-                <div id="toggleError"></div>
+                
             </div>
         </div>
     </div>

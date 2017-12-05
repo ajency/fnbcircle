@@ -523,7 +523,7 @@ $additionalData = ['job'=>$job];
                         <div class="fnb-article__banner"  <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
                         <div class="fnb-article__content m-t-15">
                           <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="color-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
-                          <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}</p>
+                          <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}</p>
                           
                            @if(count($news_item['tags']) > 0)
                             <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
@@ -533,7 +533,7 @@ $additionalData = ['job'=>$job];
                             </div>
                            @endif
                        
-                          <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
+                          <span class="dis-block fnb-article__caption lighter date m-t-5">Posted on {{$news_item['display_date']}}</span>
                         </div>
                       </a>
                     </div>

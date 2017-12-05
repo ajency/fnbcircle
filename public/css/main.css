@@ -6387,6 +6387,14 @@ input[type=checkbox].custom-checkbox:before {
 .internal-contact-row .intl-tel-input {
   display: block;
 }
+.status-checkbox {
+  border-bottom: 1px solid #eee;
+  padding-top: 0.5em;
+  padding-bottom: 0.9em;
+}
+.status-checkbox .email-append {
+  padding-left: 3px;
+}
 @media screen and (max-width: 768px) {
   .user-details-container .user-fields {
     padding-bottom: 0;
@@ -11553,15 +11561,32 @@ input[type='checkbox'].remove-addr {
   margin-bottom: 0;
   font-size: 1em;
 }
+.confirm-box .modal-content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .confirm-box .modal-header {
-  padding: 0.5em;
-  border-bottom: 1px solid #eee;
+  margin: -21px;
+  padding: 15px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  background-color: #ec6d4b;
+  color: #fff;
+}
+.confirm-box .modal-header > h5 {
+  font-weight: 500;
 }
 .confirm-box .modal-body {
   padding-bottom: 0;
 }
 .confirm-box .listing-message h4 {
   line-height: 1.5;
+}
+.confirm-box .confirm-actions {
+  padding-bottom: 15px;
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-top: 10px;
 }
 .confirm-box .confirm-actions .fnb-btn {
   outline: 0;

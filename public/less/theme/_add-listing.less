@@ -3860,9 +3860,22 @@ input[type='checkbox'].remove-addr{
 }
 
 .confirm-box{
+	.modal-content{
+		padding-top: 0;
+    	padding-bottom: 0;
+	}
 	.modal-header{
-		padding: 0.5em;
-    	border-bottom: 1px solid #eee;
+		// padding: 0.5em;
+  //   	border-bottom: 1px solid #eee;
+      	margin: -21px;
+	    padding: 15px;
+	    margin-bottom: 0;
+	    padding-bottom: 0;
+	    background-color: @accent-primary;
+	    color: #fff;
+	    & > h5{
+	    	font-weight: 500;
+	    }
 	}
 	.modal-body{
 		padding-bottom: 0;
@@ -3873,6 +3886,10 @@ input[type='checkbox'].remove-addr{
 		}
 	}
 	.confirm-actions{
+		padding-bottom: 15px;
+		margin-left: -15px;
+    	margin-right: -15px;
+    	margin-top: 10px;
 		.fnb-btn{
 			outline: 0;
 		}

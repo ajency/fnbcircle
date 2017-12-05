@@ -163,6 +163,9 @@ class Listing extends Model
 
     public function save(array $options = []){
         $this->last_updated_by = Auth::user()->id;
+        if(Auth::user()->type == 'external') {
+            $this->verified = 1;
+        }
         parent::save();
     }
 

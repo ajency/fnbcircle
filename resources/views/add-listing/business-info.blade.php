@@ -230,7 +230,7 @@
               <div class="listing-message">
                   <h4 class="element-title text-medium text-left text-color" id="user-exist-text"></h4>
                   <div class="status-checkbox" id="status-c">
-                      <input type="checkbox" class="checkbox"> 
+                      <input type="checkbox" class="checkbox" id="send-email-checkbox"> 
                       Send email to <div id="status-address"></div>
                   </div>
               </div>  

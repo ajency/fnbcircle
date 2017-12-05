@@ -27,16 +27,21 @@
         $('#status-address').html(check);
         $('#user-exist-confirmation').modal('show');
         return $('#user-exist-confirmation').on('click', '#save-listing', function(e) {
+          var sendmail;
           event.preventDefault();
           $('.section-loader').removeClass('hidden');
-          listingInformation();
+          sendmail = $('#send-email-checkbox').prop('checked');
+          listingInformation(sendmail);
         });
       }
     });
   };
 
-  listingInformation = function() {
+  listingInformation = function(sendmail) {
     var contact, contacts, form, i, id, parameters, phone, type, user, value;
+    if (sendmail == null) {
+      sendmail = false;
+    }
     form = $('<form></form>');
     form.attr('method', 'post');
     form.attr('action', '/listing');
@@ -104,6 +109,7 @@
     phone = document.getElementsByName('primary_phone_txt')[0];
     user['locality'] = $(phone).intlTelInput('getSelectedCountryData')['dialCode'];
     user['phone'] = phone.value;
+    user['sendmail'] = sendmail;
     parameters['user'] = JSON.stringify(user);
     parameters['primary_email'] = document.getElementsByName('primary_email')[0].checked ? '1' : '0';
     parameters['primary_phone'] = document.getElementsByName('primary_phone')[0].checked ? '1' : '0';

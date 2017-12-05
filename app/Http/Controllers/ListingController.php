@@ -54,18 +54,20 @@ class ListingController extends Controller
         if($user != null){
             $listing->owner_id = $user->id;
             $listing->save();
-            $area = Area::with('city')->find($listing->locality_id);
-            $email = [
-                    'to' => $listing->owner()->first()->getPrimaryEmail(),
-                    'subject' => "Listing added under your account on F&B Circle",
-                    'template_data' => [
-                        'listing_name' => $listing->title,
-                        'listing_type' => Listing::listing_business_type[$listing->type],
-                        'listing_state' => $area->city['name'],
-                        'listing_city' => $area->name,
-                    ],
-                ];
-            sendEmail('listing-user-notify',$email);
+            if($user_details->sendmail == "true"){    
+                $area = Area::with('city')->find($listing->locality_id);
+                $email = [
+                        'to' => $listing->owner()->first()->getPrimaryEmail(),
+                        'subject' => "Listing added under your account on F&B Circle",
+                        'template_data' => [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                        ],
+                    ];
+                sendEmail('listing-user-notify',$email);
+            }
             if(1 == $user->getPrimaryEmail(true)['is_verified']){
                 $listing->verified = 1;
                 $listing->save();
@@ -95,23 +97,25 @@ class ListingController extends Controller
                 $listing->owner_id = $user_resp["user"]->id;
                 $listing->save();
                 //send email here
-                $user = Password::broker()->getUser(['email'=>$user_details->email]);
-                $token =Password::broker()->createToken($user);
-                $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email.'&new_user=true';
-                // dd($reset_password_url);
-                $area = Area::with('city')->find($listing->locality_id);
-                $email = [
-                        'to' => $user_details->email,
-                        'subject' => "Activate your account to claim your business on FnB Circle",
-                        'template_data' => [
-                            'listing_name' => $listing->title,
-                            'listing_type' => Listing::listing_business_type[$listing->type],
-                            'listing_state' => $area->city['name'],
-                            'listing_city' => $area->name,
-                            'confirmationLink' => $reset_password_url,
-                        ],
-                    ];
-                sendEmail('listing-user-verify',$email);
+                if($user_details->sendmail == "true"){ 
+                    $user = Password::broker()->getUser(['email'=>$user_details->email]);
+                    $token =Password::broker()->createToken($user);
+                    $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user_details->email.'&new_user=true';
+                    // dd($reset_password_url);
+                    $area = Area::with('city')->find($listing->locality_id);
+                    $email = [
+                            'to' => $user_details->email,
+                            'subject' => "Activate your account to claim your business on FnB Circle",
+                            'template_data' => [
+                                'listing_name' => $listing->title,
+                                'listing_type' => Listing::listing_business_type[$listing->type],
+                                'listing_state' => $area->city['name'],
+                                'listing_city' => $area->name,
+                                'confirmationLink' => $reset_password_url,
+                            ],
+                        ];
+                    sendEmail('listing-user-verify',$email);
+                }
             }
         }
     }

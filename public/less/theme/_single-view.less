@@ -1489,7 +1489,7 @@
     		position: fixed;
     		top: 0;
     		width: 100%;
-    		z-index: 10;
+    		z-index: 11;
     		&.p-v-10{
     			padding-top: 10px;
     			padding-bottom: 10px;
@@ -3857,4 +3857,12 @@ and (max-device-width: 650px) {
 	}
 }
 
+@media screen and (max-width: @mobile){
+	.user-details-container{
+		.user-fields{
+			padding-bottom: 0;
+			font-size: 0.85em !important;
+		}
+	}
+}
 

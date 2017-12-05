@@ -246,6 +246,9 @@
                                             </label>
                                         </div>
                                     </div> -->
+                                    <div class="col-sm-12 text-center">
+                                        <div class="text-medium text-lighter accept_terms m-t-5 m-b-5">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
+                                    </div>
                                     <div class="col-sm-12">
                                          <div class="form-group text-center m-t-20 signBtn">
                                             <!-- <button type="submit" class="btn btn-lg fnb-btn primary-btn border-btn"> -->
@@ -253,9 +256,6 @@
                                                 Sign Up <i class="fa fa-circle-o-notch fa-spin hidden"></i>
                                             </button>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 text-center">
-                                        <div class="text-medium text-lighter accept_terms m-b-10">By clicking Sign Up, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
                                     </div>
                                    
                                 </div>

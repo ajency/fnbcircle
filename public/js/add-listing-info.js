@@ -34,7 +34,7 @@
   };
 
   listingInformation = function() {
-    var contact, contacts, form, i, parameters, phone, type, user, value;
+    var contact, contacts, form, i, id, parameters, phone, type, user, value;
     form = $('<form></form>');
     form.attr('method', 'post');
     form.attr('action', '/listing');
@@ -44,6 +44,7 @@
     while (i < value.length) {
       if (value[i].value !== '') {
         contact = {};
+        id = "";
         if ($(value[i]).closest('.business-contact').hasClass('business-email')) {
           type = 1;
         }
@@ -53,6 +54,8 @@
         if ($(value[i]).closest('.business-contact').hasClass('contact-info-landline')) {
           type = 3;
         }
+        id = $(value[i]).closest('.contact-container').find('.contact-id').val();
+        console.log(value[i].value, '=>', id);
         $.ajax({
           type: 'post',
           url: '/contact_save',
@@ -60,11 +63,11 @@
             'value': value[i].value,
             'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode'],
             'type': type,
-            'id': $(value[i]).closest('.contact-container').find('.contact-id').val()
+            'id': id
           },
           success: function(data) {
-            $(value[i]).closest('.business-contact').find('.contact-id').val(data['id']);
-            console.log(data['id']);
+            $(value[i]).closest('.contact-container').find('.contact-id').val(data['id']);
+            id = data['id'];
           },
           failure: function() {
             $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page');
@@ -72,7 +75,7 @@
           },
           async: false
         });
-        contact['id'] = $(value[i]).closest('.contact-container').find('.contact-id').val();
+        contact['id'] = id;
         contact['country'] = $(value[i]).intlTelInput('getSelectedCountryData')['dialCode'];
         contact['visible'] = $(value[i]).closest('.contact-container').find('.toggle__check').prop('checked') ? '1' : '0';
         contact['value'] = $(value[i]).val();

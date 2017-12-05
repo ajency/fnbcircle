@@ -215,3 +215,17 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
 $('#contact-modal').on 'click','#edit-cr-number', () ->
   console.log 'enters'
   $('#new-mobile-modal').modal('show')
+
+$('#contact-modal').on 'click','#submit-cr-otp', () ->
+  if !$('#contact-modal #input-cr-otp').parsley().validate()
+    return
+  url = $('#contact-modal #cr-otp-submit-link').val()
+  $.ajax
+    url: url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+      otp: $('#contact-modal #input-cr-otp').val()
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+

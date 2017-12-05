@@ -231,4 +231,23 @@
     return $('#new-mobile-modal').modal('show');
   });
 
+  $('#contact-modal').on('click', '#submit-cr-otp', function() {
+    var url;
+    if (!$('#contact-modal #input-cr-otp').parsley().validate()) {
+      return;
+    }
+    url = $('#contact-modal #cr-otp-submit-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value,
+        otp: $('#contact-modal #input-cr-otp').val()
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
 }).call(this);

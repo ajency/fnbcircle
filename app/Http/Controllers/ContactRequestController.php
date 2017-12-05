@@ -30,7 +30,7 @@ class ContactRequestController extends Controller
     	if(Auth::guest()){
     		$otp = Session::get('otp_verified', []);
     		if(!empty($otp)){
-    			return response()->json(['html'=> $this->displayContactInformation($request)]);
+    			return response()->json(['html'=> $this->displayContactInformation($request), 'step'=>'contact-info']);
     		}else{
                 $number = $this->getNumberFromSession($request);
                 if(!is_numeric($number)) return $number;
@@ -41,7 +41,7 @@ class ContactRequestController extends Controller
     	}elseif(!Auth::user()->getPrimaryContact()['is_verified']){
     		return response()->json(['Display verification popup']);
     	}else{
-    		return response()->json(['html'=> $this->displayContactInformation($request)]);
+    		return response()->json(['html'=> $this->displayContactInformation($request), 'step'=>'contact-info']);
     	}
     }
 
@@ -124,5 +124,21 @@ class ContactRequestController extends Controller
         $enq_cont_obj->generateContactOtp($number, 'contact');
 
         return $number;
+    }
+
+    public function verifyOTP(Request $request){
+        $this->validate($request,[
+            'id' => 'required',
+            'otp' => 'required|numeric'
+        ]);
+        $enq_cont_obj = new EnquiryController;
+        $validate = $enq_cont_obj->validateContactOtp(['otp'=>$request->otp]);
+        if($validate[status] == 200) {
+            
+        }
+    }
+
+    public function resendOTP(){
+
     }
 }

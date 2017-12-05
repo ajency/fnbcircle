@@ -215,6 +215,8 @@ Route::group(['prefix' => '{city}'], function() {
 });
 Route::post('/contact-request','ContactRequestController@getContactRequest');
 Route::post('/contact-request-details','ContactRequestController@getDetails');
+Route::post('/contact-request-otp','ContactRequestController@verifyOtp');
+Route::post('/contact-request-otp-resend','ContactRequestController@resendOtp');
 
 Route::group(['prefix' => 'api'], function() {
 	Route::post('/get-listview-data', 'ListViewController@getListViewData');

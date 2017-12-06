@@ -1,7 +1,7 @@
 @extends('layouts.email')
 
 @section('content')
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="text-align: center;">
       <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
 
@@ -12,21 +12,23 @@
         </div>
 
         <!-- Tips -->
-        <div style="margin-top: 2em;">
+        <div style="margin-top: 1.5em;">
           <div style="margin-bottom: 0.8em;">
 
-            We have added listing {{$listing_name}} under your account on FnB Circle.<br>
-<br>
-            Details of the Listing:<br>
-            Listing Name:{{$listing_name}}<br>
-            Type:{{$listing_type}}<br>
-            State:{{$listing_state}}<br>
-            City:{{$listing_city}}<br>
-            
-            <div style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;">
-          Please login to your account to access/edit the listing.<br>
+            <b>{{$listing_name}}</b> is added under your account on FnB Circle.<br>
+            <br>
+            <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
+              <b style="display: block;padding-bottom: 5px;">Details of the Listing</b>
+              <b>Listing Name</b>: {{$listing_name}}<br>
+              <b>Type</b>: {{$listing_type}}<br>
+              <b>State</b>: {{$listing_state}}<br>
+              <b>City</b>: {{$listing_city}}<br>
+            </div>
 
-              <div>
+            <div style="text-align: left;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-top: 20px;">
+          Please login to your account to access/edit the listing.<br><br>
+
+              <div style="text-align: left;">
                 Regards,<br>
                 Team FnB Circle<br>
               </div>

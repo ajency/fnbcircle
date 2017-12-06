@@ -690,10 +690,19 @@
                                         <a href="" class="article-link">
                                             <div class="fnb-article__banner" <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
                                             <div class="fnb-article__content m-t-15">
+                                            
                                                 <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
 
-                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}    </p>
-                                                <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
+                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}    </p>
+
+                                                @if(count($news_item['tags']) > 0)
+                                                   <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
+                                                     @foreach($news_item['tags'] as $news_tag)
+                                                     <span  class="post-tags__child"  title="{{ $news_tag}}" ><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
+                                                      @endforeach
+                                                   </div>
+                                                @endif
+                                                <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
                                             </div>
                                         </a>
                                     </div>

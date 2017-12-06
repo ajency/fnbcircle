@@ -4,13 +4,13 @@ window.archive = 0
 window.publish = 0
 
 $('body').on 'change', 'input', ->
-  change = 1
+  window.change = 1
   return
 $('body').on 'change', 'select', ->
-  change = 1
+  window.change = 1
   return
 $('body').on 'change', 'textarea', ->
-  change = 1
+  window.change = 1
   return
 $('#info-form').on 'keypress', (e) ->
   keyCode = e.keyCode or e.which

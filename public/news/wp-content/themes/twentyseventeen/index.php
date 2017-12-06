@@ -113,7 +113,16 @@ $featured_cnt =0;
   <!-- the loop -->
   <?php while ( $custom_query->have_posts() ) : $custom_query->the_post(); ?>
 
-  <?php if($featured_cnt<4) : ?>	
+  <?php if($featured_cnt<4) : ?>
+  <?php  
+  	  $current_featured_tags_html ="";  
+  	  $featured_posttags = get_the_tags();	  
+   
+	  if($featured_posttags){
+
+	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);
+	  }
+?>	
 <div class="featured-post">
 	<div class="border-layout">
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
@@ -124,6 +133,7 @@ $featured_cnt =0;
 
     <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
     <?php the_excerpt(6); ?>
+    <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 
@@ -233,13 +243,28 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
         id="featured-img"
     <?php } ?>>
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+
+
+
+  <?php  
+  	  $current_recent_tags_html ="";   	 
+  	  $recent_posttags = get_the_tags();	  
+   
+	  if($recent_posttags){ 
+
+	  		$current_recent_tags_html = get_tags_markup($recent_posttags,false) ; 
+	  }
+?>	
+
+
           
-  
+     
   <div class="featured-content">
  <?php $my_post_meta = get_post_meta($post->ID, '_is_ns_featured_post', true); ?>
   
   <a href="<?php the_permalink() ?>" title="Link to <?php the_title_attribute() ?>"  target ="_blank" >  <h5><?php the_title(); ?></h5> </a>
     <?php the_excerpt(15); ?>
+    <?php echo $current_recent_tags_html; ?>
 <div class="featured-meta">
 	<img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
 

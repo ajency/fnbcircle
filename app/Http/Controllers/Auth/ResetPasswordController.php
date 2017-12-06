@@ -99,6 +99,8 @@ class ResetPasswordController extends Controller
 
         UserCommunication::where('object_type', 'App\\User')->where('object_id', $user->id)->where('type','email')->where('is_primary',1)->update(['is_verified'=>1]);
 
+        Listing::where('owner_id',$user->id)->update(['verified'=>1]);
+
         event(new PasswordReset($user));
 
         $this->guard()->login($user);

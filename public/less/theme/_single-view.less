@@ -1489,7 +1489,7 @@
     		position: fixed;
     		top: 0;
     		width: 100%;
-    		z-index: 10;
+    		z-index: 11;
     		&.p-v-10{
     			padding-top: 10px;
     			padding-bottom: 10px;
@@ -3849,6 +3849,29 @@ and (max-device-width: 650px) {
 }
 
 
+// Orphan listing
 
+.internal-contact-row{
+	.intl-tel-input{
+		display: block;
+	}
+}
 
+.status-checkbox{
+	// border-bottom: 1px solid #eee;
+    padding-top: 0.5em;
+    // padding-bottom: 0.9em;
+    .email-append{
+    	padding-left: 3px;
+    }
+}
+
+@media screen and (max-width: @mobile){
+	.user-details-container{
+		.user-fields{
+			padding-bottom: 0;
+			font-size: 0.85em !important;
+		}
+	}
+}
 

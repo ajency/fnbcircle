@@ -137,8 +137,8 @@ class AdminModerationController extends Controller
             $listings = $listings->where(function ($listings) use ($filters){
                 foreach($filters['type'] as $type ){
                     $listings->whereNull('id');
-                    if($type == 'orphan') $listings->orWhereNull('owner_id');
-                    if($type == 'verified') $listings->orWhereNotNull('owner_id');
+                    if($type == 'orphan') $listings->orWhereNull('verified')->orWhere('verified',0);
+                    if($type == 'verified') $listings->orWhere('verified',1);
                 }
             });
         }
@@ -194,8 +194,8 @@ class AdminModerationController extends Controller
             $response[$listing->id]['duplicates'] = $dup['phone'] . ',' . $dup['email'] . ',' . $dup['title'];
             $response[$listing->id]['premium']    = (count($listing->premium()->get())>0)? "Yes":"No";
             $response[$listing->id]['categories'] = ListingCategory::getCategories($listing->id);
-            if($listing->owner == null) $response[$listing->id]['type'] = 'orphan';
-            else $response[$listing->id]['type'] = 'verified';
+            if($listing->verified == 1) $response[$listing->id]['type'] = 'Verified';
+            else $response[$listing->id]['type'] = 'Orphan';
         }
         $response1 = array();
         foreach ($response as $resp) {

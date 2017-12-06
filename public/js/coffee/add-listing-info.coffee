@@ -273,9 +273,9 @@ $('.user-details-container input[name="user-phone"]').on 'countrychange', (e, co
   return
 
 $('.contact-info').on 'change','input.toggle__check', (event) ->
-  console.log  $(this).closest('.contact-container').find('.contact-input').val()
+  # console.log  $(this).closest('.contact-container').find('.fnb-input').val()
   if @checked
-    if $(this).closest('.contact-container').find('.contact-input').val() == ''
+    if $(this).closest('.contact-container').find('.fnb-input').val() == ''
       $(this).prop('checked',false)
 
 # $(document).on 'click', '.verify-link', (event) ->

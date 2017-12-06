@@ -427,12 +427,21 @@ $(document).on 'click', '.business-type .radio', ->
   return
 
 
+# On load change toggle text
+
+$('.business-contact .toggle__check').each ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
+  return
+
 $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->
 	if $(this).is(':checked')
-		$(this).closest('.toggle').siblings('.toggle-state').text('Visible ')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
 	else
-		$(this).closest('.toggle').siblings('.toggle-state').text('Not visible ')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
 	return
 
 $(document).on 'change', '.city select', ->

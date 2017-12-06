@@ -287,11 +287,19 @@
     }
   });
 
+  $('.business-contact .toggle__check').each(function() {
+    if ($(this).is(':checked')) {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing');
+    } else {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing');
+    }
+  });
+
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible ');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing');
     } else {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible ');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing');
     }
   });
 

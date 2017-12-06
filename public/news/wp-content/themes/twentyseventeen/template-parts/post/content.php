@@ -57,6 +57,15 @@
 			get_the_title()
 		) );
 
+		if(is_single()){ 
+			   
+			$current_tags_html =""; 			 
+			$posttags = get_the_tags($post->ID);	  
+			$current_tags_html = get_tags_markup($posttags,is_single());			  
+ 
+		  echo $current_tags_html;
+		}
+
 		wp_link_pages( array(
 			'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
 			'after'       => '</div>',

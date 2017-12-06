@@ -2,10 +2,12 @@
   var listingInformation, userCheck;
 
   userCheck = function() {
+    var email;
     if ($('#user-type').val() === 'external' || document.getElementsByName('primary_email_txt')[0].value === "") {
       listingInformation();
       return;
     }
+    email = document.getElementsByName('primary_email_txt')[0].value;
     $.ajax({
       type: 'post',
       url: document.head.querySelector('[property="check-user-exist"]').content,
@@ -13,26 +15,33 @@
         'email': document.getElementsByName('primary_email_txt')[0].value
       },
       success: function(data) {
-        var text;
+        var check, text;
         $('.section-loader').addClass('hidden');
         if (data['result']) {
-          text = 'Email id already exists with account status “' + data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1) + '” , Created on ' + data['user']['created_at'];
+          text = 'Email id "' + email + '" already exists with us with account status “' + data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1) + '”. Do you want to create listing under this account?';
         } else {
-          text = 'Email id does not exist. New Account will be created';
+          text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
         }
+        check = email;
         $('#user-exist-text').html(text);
+        $('#status-address').html(check);
         $('#user-exist-confirmation').modal('show');
         return $('#user-exist-confirmation').on('click', '#save-listing', function(e) {
+          var sendmail;
           event.preventDefault();
           $('.section-loader').removeClass('hidden');
-          listingInformation();
+          sendmail = $('#send-email-checkbox').prop('checked');
+          listingInformation(sendmail);
         });
       }
     });
   };
 
-  listingInformation = function() {
-    var contact, contacts, form, i, parameters, phone, type, user, value;
+  listingInformation = function(sendmail) {
+    var contact, contacts, form, i, id, parameters, phone, type, user, value;
+    if (sendmail == null) {
+      sendmail = false;
+    }
     form = $('<form></form>');
     form.attr('method', 'post');
     form.attr('action', '/listing');
@@ -42,6 +51,7 @@
     while (i < value.length) {
       if (value[i].value !== '') {
         contact = {};
+        id = "";
         if ($(value[i]).closest('.business-contact').hasClass('business-email')) {
           type = 1;
         }
@@ -51,6 +61,8 @@
         if ($(value[i]).closest('.business-contact').hasClass('contact-info-landline')) {
           type = 3;
         }
+        id = $(value[i]).closest('.contact-container').find('.contact-id').val();
+        console.log(value[i].value, '=>', id);
         $.ajax({
           type: 'post',
           url: '/contact_save',
@@ -58,11 +70,11 @@
             'value': value[i].value,
             'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode'],
             'type': type,
-            'id': $(value[i]).closest('.contact-container').find('.contact-id').val()
+            'id': id
           },
           success: function(data) {
-            $(value[i]).closest('.business-contact').find('.contact-id').val(data['id']);
-            console.log(data['id']);
+            $(value[i]).closest('.contact-container').find('.contact-id').val(data['id']);
+            id = data['id'];
           },
           failure: function() {
             $('.fnb-alert.alert-failure div.flex-row').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page');
@@ -70,7 +82,7 @@
           },
           async: false
         });
-        contact['id'] = $(value[i]).closest('.contact-container').find('.contact-id').val();
+        contact['id'] = id;
         contact['country'] = $(value[i]).intlTelInput('getSelectedCountryData')['dialCode'];
         contact['visible'] = $(value[i]).closest('.contact-container').find('.toggle__check').prop('checked') ? '1' : '0';
         contact['value'] = $(value[i]).val();
@@ -97,6 +109,7 @@
     phone = document.getElementsByName('primary_phone_txt')[0];
     user['locality'] = $(phone).intlTelInput('getSelectedCountryData')['dialCode'];
     user['phone'] = phone.value;
+    user['sendmail'] = sendmail;
     parameters['user'] = JSON.stringify(user);
     parameters['primary_email'] = document.getElementsByName('primary_email')[0].checked ? '1' : '0';
     parameters['primary_phone'] = document.getElementsByName('primary_phone')[0].checked ? '1' : '0';
@@ -134,13 +147,12 @@
     $('.section-loader').removeClass('hidden');
     if ($('#listing_id').val() === '') {
       title = document.getElementsByName('listing_title')[0].value;
-      value = document.getElementsByName('contacts');
+      value = document.getElementsByClassName('contact-input');
       cont = [];
       i = 0;
       while (i < value.length) {
         type = void 0;
         if (value[i].value === '') {
-          i++;
           i++;
           continue;
         }
@@ -159,6 +171,19 @@
           'type': type
         });
         i++;
+      }
+      if ($('input[name="primary_email_txt"]').val() !== "") {
+        cont.push({
+          'value': $('input[name="primary_email_txt"]').val(),
+          'type': "email"
+        });
+      }
+      if ($('input[name="primary_phone_txt"]').val() !== "") {
+        cont.push({
+          'value': $('input[name="primary_phone_txt"]').val(),
+          'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode'],
+          'type': "mobile"
+        });
       }
       json = JSON.stringify(cont);
       $.ajax({
@@ -238,6 +263,10 @@
     return $('input[name="primary_phone_txt"]').val(this.value);
   });
 
+  $('.user-details-container input[name="user-phone"]').on('countrychange', function(e, countryData) {
+    $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
+  });
+
   $('.contact-info').on('change', 'input.toggle__check', function(event) {
     console.log($(this).closest('.contact-container').find('.contact-input').val());
     if (this.checked) {
@@ -258,11 +287,19 @@
     }
   });
 
+  $('.business-contact .toggle__check').each(function() {
+    if ($(this).is(':checked')) {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing');
+    } else {
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing');
+    }
+  });
+
   $(document).on('change', '.business-contact .toggle__check', function() {
     if ($(this).is(':checked')) {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Visible ');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing');
     } else {
-      $(this).closest('.toggle').siblings('.toggle-state').text('Not visible ');
+      $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing');
     }
   });
 

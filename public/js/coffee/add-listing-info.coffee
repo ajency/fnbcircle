@@ -2,6 +2,7 @@ userCheck = ->
   if $('#user-type').val() == 'external' or document.getElementsByName('primary_email_txt')[0].value == ""
     listingInformation()
     return
+  email = document.getElementsByName('primary_email_txt')[0].value
   $.ajax
     type: 'post'
     url: document.head.querySelector('[property="check-user-exist"]').content
@@ -10,19 +11,22 @@ userCheck = ->
     success: (data) ->
       $('.section-loader').addClass 'hidden'
       if data['result']
-        text = 'Email id already exists with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'” , Created on '+data['user']['created_at']
+        text = 'Email id "'+email+'" already exists with us with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'”. Do you want to create listing under this account?'
       else
-        text = 'Email id does not exist. New Account will be created';
+        text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
+      check = email
       $('#user-exist-text').html text
+      $('#status-address').html check
       $('#user-exist-confirmation').modal 'show'
       $('#user-exist-confirmation').on 'click', '#save-listing', (e) ->
         event.preventDefault()
         $('.section-loader').removeClass 'hidden'
-        listingInformation()
+        sendmail = $('#send-email-checkbox').prop('checked')
+        listingInformation(sendmail)
         return
   return
 
-listingInformation = ->
+listingInformation = (sendmail = false)->
   form = $('<form></form>')
   form.attr 'method', 'post'
   form.attr 'action', '/listing'
@@ -32,12 +36,15 @@ listingInformation = ->
   while i < value.length
     if value[i].value != ''
       contact = {}
+      id=""
       if $(value[i]).closest('.business-contact').hasClass('business-email')
         type = 1
       if $(value[i]).closest('.business-contact').hasClass('business-phone')
         type = 2
       if $(value[i]).closest('.business-contact').hasClass('contact-info-landline')
         type = 3
+      id = $(value[i]).closest('.contact-container').find('.contact-id').val()
+      console.log value[i].value,'=>',id
       $.ajax
         type: 'post'
         url: '/contact_save'
@@ -45,17 +52,17 @@ listingInformation = ->
           'value': value[i].value
           'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
           'type': type
-          'id': $(value[i]).closest('.contact-container').find('.contact-id').val()
+          'id': id
         success: (data) ->
-          $(value[i]).closest('.business-contact').find('.contact-id').val data['id']
-          console.log data['id']
+          $(value[i]).closest('.contact-container').find('.contact-id').val data['id']
+          id = data['id']
           return
         failure: ->
           $('.fnb-alert.alert-failure div.flex-row').html '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Oh snap! Some error occurred. Please <a href="/login">login</a> or refresh your page'
           $('.alert-failure').addClass 'active'
           return
         async: false
-      contact['id'] = $(value[i]).closest('.contact-container').find('.contact-id').val()
+      contact['id'] = id
       contact['country'] = $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
       contact['visible'] = if $(value[i]).closest('.contact-container').find('.toggle__check').prop('checked') then '1' else '0'
       # contact['visible'] = $(value[i]).closest('.contact-container').find('.contact-visible').prop('checked');
@@ -79,6 +86,7 @@ listingInformation = ->
   phone = document.getElementsByName('primary_phone_txt')[0]
   user['locality'] = $(phone).intlTelInput('getSelectedCountryData')['dialCode']
   user['phone'] = phone.value
+  user['sendmail'] = sendmail
   parameters['user'] = JSON.stringify(user)
   parameters['primary_email'] = if document.getElementsByName('primary_email')[0].checked then '1' else '0'
   parameters['primary_phone'] = if document.getElementsByName('primary_phone')[0].checked then '1' else '0'
@@ -113,13 +121,12 @@ window.validateListing = (event) ->
   if $('#listing_id').val() == ''
     # console.log(true);
     title = document.getElementsByName('listing_title')[0].value
-    value = document.getElementsByName('contacts')
+    value = document.getElementsByClassName('contact-input')
     cont = []
     i = 0
     while i < value.length
       type = undefined
       if value[i].value == ''
-        i++
         i++
         continue
       if $(value[i]).closest('.business-contact').hasClass('business-email')
@@ -133,6 +140,15 @@ window.validateListing = (event) ->
         'country': $(value[i]).intlTelInput('getSelectedCountryData')['dialCode']
         'type': type
       i++
+    if $('input[name="primary_email_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_email_txt"]').val();
+        'type': "email"
+    if $('input[name="primary_phone_txt"]').val() != ""
+      cont.push
+        'value': $('input[name="primary_phone_txt"]').val();
+        'country': $('input[name="primary_phone_txt"]').intlTelInput('getSelectedCountryData')['dialCode']
+        'type': "mobile"
     json = JSON.stringify(cont)
     # console.log(json);
     $.ajax
@@ -251,6 +267,10 @@ $('.user-details-container').on 'keyup', 'input[name="user-email"]', (event) ->
 
 $('.user-details-container').on 'keyup', 'input[name="user-phone"]', (event) ->
   $('input[name="primary_phone_txt"]').val @value
+
+$('.user-details-container input[name="user-phone"]').on 'countrychange', (e, countryData) ->
+  $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
+  return
 
 $('.contact-info').on 'change','input.toggle__check', (event) ->
   console.log  $(this).closest('.contact-container').find('.contact-input').val()
@@ -407,12 +427,21 @@ $(document).on 'click', '.business-type .radio', ->
   return
 
 
+# On load change toggle text
+
+$('.business-contact .toggle__check').each ->
+  if $(this).is(':checked')
+    $(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
+  else
+    $(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
+  return
+
 $(document).on 'change', '.business-contact .toggle__check', ->
 # $('.business-contact .toggle__check').change ->
 	if $(this).is(':checked')
-		$(this).closest('.toggle').siblings('.toggle-state').text('Visible ')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Visible on the Listing')
 	else
-		$(this).closest('.toggle').siblings('.toggle-state').text('Not visible ')
+		$(this).closest('.toggle').siblings('.toggle-state').text('Not Visible on the Listing')
 	return
 
 $(document).on 'change', '.city select', ->

@@ -165,6 +165,9 @@ class Listing extends Model
         if(!Auth::guest()){
             $this->last_updated_by = Auth::user()->id;
         }
+        if(Auth::user()->type == 'external') {
+            $this->verified = 1;
+        }
         parent::save();
     }
 

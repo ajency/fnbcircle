@@ -10,18 +10,15 @@
   window.publish = 0;
 
   $('body').on('change', 'input', function() {
-    var change;
-    change = 1;
+    window.change = 1;
   });
 
   $('body').on('change', 'select', function() {
-    var change;
-    change = 1;
+    window.change = 1;
   });
 
   $('body').on('change', 'textarea', function() {
-    var change;
-    change = 1;
+    window.change = 1;
   });
 
   $('#info-form').on('keypress', function(e) {

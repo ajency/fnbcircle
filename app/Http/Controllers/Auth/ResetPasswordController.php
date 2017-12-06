@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 
 use App\UserCommunication;
+use App\Listing;
 use Illuminate\Support\Facades\DB;
 
 

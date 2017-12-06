@@ -239,7 +239,34 @@ class Listing extends Model
     }
 
     public function getAllContacts(){
-        
+        $contacts = ['email'=>[],'mobile'=>[], 'landline'=>[]];
+        if($this->show_primary_email){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $email = $owner->getPrimaryEmail(true);
+                $contacts['email'][] = $email;
+            }
+        }
+        if($this->show_primary_phone){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $phone = $owner->getPrimaryContact();
+                $contacts['mobile'][] = $phone;
+            }
+        }
+        $user_comm = $this->contacts()->where('is_visible',1)->get();
+        foreach ($user_comm as $contact) {
+            if($contact->type == 'email'){
+                $contacts['email'][] =['email'=>$contact->value, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'mobile'){
+                $contacts['mobile'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'landline'){
+                $contacts['landline'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+        }
+        return $contacts;
     }
 
 }

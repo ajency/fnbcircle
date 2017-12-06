@@ -17,48 +17,65 @@
    <div class="vendor-contact-details">
       <h6 class="text-color m-b-5">Mystical The Meat and Fish Store Details</h6>
       <div class="row">
-         <div class="col-sm-6">
+         @php
+            $contacts = $listing->getAllContacts();
+         @endphp
+         @if(count($contacts['email']))
+         <div class="col-sm-4">
             <label class="m-t-15 vendor-label">Email</label>
+            @foreach($contacts['email'] as $email)
             <div class="flex-row flex-wrap">
                <p class="m-b-0">
-                  <a href="#" class="text-darker m-r-15">contactus@mystical.com</a>
+                  <a href="email:{{$email['email']}}" class="text-darker m-r-15">{{$email['email']}}</a>
                </p>
                <div class="flex-row">
+               @if($email['is_verified'])
                   <span class="fnb-icons verified-icon scale-down"></span>
                   <span class="text-color">Verified</span>
-               </div>
-            </div>
-            <div class="flex-row flex-wrap">
-               <p class="m-b-0">
-                  <a href="#" class="text-darker m-r-15">contactus@mystical.com</a>
-               </p>
-               <div class="flex-row">
-                  <span class="fnb-icons verified-icon scale-down"></span>
-                  <span class="text-color">Verified</span>
-               </div>
-            </div>
-         </div>
-         <div class="col-sm-6">
-            <label class="m-t-15 vendor-label">Phone</label>
-            <div class="flex-row flex-wrap">
-               <p class="m-b-0">
-                  <a href="#" class="text-darker m-r-20">+91 9876543200</a>
-               </p>
-               <div class="flex-row">
-                  <span class="fnb-icons verified-icon scale-down"></span>
-                  <span class="text-color">Verified</span>
-               </div>
-            </div>
-            <div class="flex-row flex-wrap">
-               <p class="m-b-0">
-                  <a href="#" class="text-darker m-r-20">+91 9876543200</a>
-               </p>
-               <div class="flex-row">
+               @else
                   <span class="fa fa-times-circle text-danger m-l-10 m-r-10"></span>
                   <span class="text-color">Unverified</span>
+               @endif
                </div>
             </div>
+            @endforeach
          </div>
+         @endif
+         @if(count($contacts['mobile']))
+         <div class="col-sm-4">
+            <label class="m-t-15 vendor-label">Phone</label>
+            @foreach($contacts['mobile'] as $phone)
+            <div class="flex-row flex-wrap">
+               <p class="m-b-0">
+                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-20">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
+               </p>
+               <div class="flex-row">
+               @if($phone['is_verified'])
+                  <span class="fnb-icons verified-icon scale-down"></span>
+                  <span class="text-color">Verified</span>
+               @else
+                  <span class="fa fa-times-circle text-danger m-l-10 m-r-10"></span>
+                  <span class="text-color">Unverified</span>
+               @endif
+               </div>
+            </div>
+            @endforeach
+         </div>
+         @endif
+         @if(count($contacts['landline']))
+         <div class="col-sm-4">
+            <label class="m-t-15 vendor-label">Landline</label>
+            @foreach($contacts['landline'] as $phone)
+            <div class="flex-row flex-wrap">
+               <p class="m-b-0">
+                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-20">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
+               </p>
+               <div class="flex-row">
+               </div>
+            </div>
+            @endforeach
+         </div>
+         @endif
       </div>
       <div class="sub-title m-t-30 m-b-10 flex-row flex-wrap">
          <span class="fnb-icons exclamation m-r-10"></span>

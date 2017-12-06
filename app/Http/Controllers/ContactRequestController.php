@@ -6,6 +6,7 @@ use App\Listing;
 use App\User;
 use App\UserCommunication;
 use App\Lead;
+use App\ListingCategory;
 use Auth;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -75,8 +76,54 @@ class ContactRequestController extends Controller
             }
             return View::make('modals.listing_contact_request.contact-details-premium')->with('listing', $listing)->render();
         } else {
-            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->render();
+            $ld = $this->similarBusinesses($listing);
+            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
         }
+    }
+
+    public function similarBusinesses($listing)
+    {
+        $similar_id = [$listing->id];
+        $categories = ListingCategory::where('listing_id', $listing->id)->where('core', 1)->pluck('category_id')->toArray();
+        $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
+
+        //rule : At least 1 core category matching + type + locality
+        $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+        foreach ($similar as $sim) {
+            $similar_id[] = $sim->id;
+
+        }
+
+        if (count($similar_id) < 4) {
+            //rule : At least 1 core category matching + type
+            $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->orderBy('premium')->orderBy('updated_at')->take(2)->get();
+            foreach ($similar as $sim) {
+                $similar_id[] = $sim->id;
+
+            }
+            if (count($similar_id) < 4) {
+                //rule : At least 1 core category matching + location
+                $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                foreach ($similar as $sim) {
+                    $similar_id[] = $sim->id;
+
+                }
+                if (count($similar_id) < 4) {
+                    //rule : At least 1 core category matching
+                    $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                    foreach ($similar as $sim) {
+                        $similar_id[] = $sim->id;
+
+                    }
+                }
+            }
+        }
+        unset($similar_id[0]);
+        $filters = ["listing_ids" => $similar_id];
+        $listviewObj = new ListViewController;
+        $listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];
+
+        return $listing_data;
     }
 
     public function getDetails(Request $request)

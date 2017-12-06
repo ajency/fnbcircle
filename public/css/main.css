@@ -2424,6 +2424,9 @@ input[type="checkbox"].toggle__check {
 .text-danger {
   color: #d0021b;
 }
+.cloud-color {
+  color: #fff;
+}
 .primary-link {
   color: #ec6d4b;
 }
@@ -4151,12 +4154,22 @@ input[type=checkbox].custom-checkbox:before {
   color: #bcbcbc;
 }
 .no-listing-card {
-  background-color: #eee;
+  background-color: transparent;
   box-shadow: none;
+  padding: 0;
+  padding-bottom: 2em;
+  margin: 0 -15px;
 }
 .no-listing-card .browse-cat {
-  box-shadow: none;
   background-color: #fff;
+  margin-top: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.no-listing-card .browse-cat:first-child {
+  margin-right: 1.5em;
 }
 .no-listing-card .separator {
   border-color: #ec6d4b;
@@ -6287,6 +6300,13 @@ input[type=checkbox].custom-checkbox:before {
     line-height: 1.4;
   }
 }
+.no-listing-job {
+  padding: 1.5em;
+  margin: 2em 0;
+}
+.no-listing-job .sad-icon {
+  font-size: 3em;
+}
 .selection-card {
   margin: 6em 0;
 }
@@ -6349,6 +6369,14 @@ input[type=checkbox].custom-checkbox:before {
 .selection-card .card:first-child {
   margin-right: 1.5em;
 }
+.cust-dashboard__title {
+  line-height: 1.6;
+}
+@media screen and (min-width: 1024px) {
+  .cust-dashboard__title {
+    margin-left: -15px;
+  }
+}
 .customer-jobs .filter-data {
   margin-top: 0;
 }
@@ -6368,6 +6396,12 @@ input[type=checkbox].custom-checkbox:before {
   padding-top: 0.2em;
   padding-bottom: 0;
 }
+@media screen and (min-width: 1024px) {
+  .tabs-listing {
+    margin: 0 -15px;
+    padding: 0 15px 2px;
+  }
+}
 .customer-resume-download .download {
   -webkit-transform: scale(0.75);
       -ms-transform: scale(0.75);
@@ -6375,6 +6409,61 @@ input[type=checkbox].custom-checkbox:before {
 }
 .send-job-alert input[type='checkbox']:before {
   top: -13px;
+}
+@media screen and (min-width: 1024px) {
+  .row-pull-up {
+    margin-top: -3.5em;
+  }
+}
+.customer-card__logo {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #9a9292;
+}
+.customer-card__divider {
+  position: relative;
+  margin-left: 1.1em;
+}
+.customer-card__divider p {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #9a9292;
+  line-height: 30px;
+}
+.customer-card__divider:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 1em;
+  height: 100%;
+  width: 1px;
+  background-color: #9a9292;
+}
+.no-activity-data .no-listing-card {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 2.5em;
+  padding-bottom: 1em;
+}
+.no-activity-data .customer-card {
+  width: 45%;
+}
+.no-activity-data .customer-card:first-child {
+  margin-right: 0;
+  margin-bottom: 1em;
+}
+.no-activity-data .card-separator {
+  border-color: #ec6d4b;
+  width: 90%;
+  padding-bottom: 1em;
 }
 @media screen and (max-width: 768px) {
   .selection-card {
@@ -6452,9 +6541,41 @@ input[type=checkbox].custom-checkbox:before {
   margin-top: 2em;
 }
 @media screen and (max-width: 768px) {
+  .cust-dashboard__title {
+    font-size: 1em;
+  }
   .row-btm-space {
-    background-color: #eee;
     margin-top: 3.5em;
+  }
+  .no-listing-job {
+    padding: 1em;
+    margin: 2em auto 0 auto;
+  }
+  .no-listing-card {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    position: relative;
+    top: -2.5em;
+  }
+  .no-listing-card .browse-cat {
+    width: 300px;
+  }
+  .no-listing-card .browse-cat:first-child {
+    margin-right: 0;
+  }
+  .no-listing-card .browse-cat:last-child {
+    margin-bottom: 0;
+  }
+  .no-p-l {
+    padding: 0 1em;
+  }
+  .your-activity {
+    margin: 0 -15px;
+    padding: 0 15px;
+    padding-bottom: 2px;
   }
   .your-activity .nav-info {
     padding-top: 0;
@@ -6469,6 +6590,15 @@ input[type=checkbox].custom-checkbox:before {
   }
   .your-activity .nav-info li a {
     font-size: 0.85em;
+  }
+  .your-activity.no-activity-data {
+    margin: 0;
+    margin-top: -15px;
+  }
+  .your-activity.no-activity-data .no-listing-card {
+    top: 0;
+    margin-top: 0;
+    padding: 2em 0;
   }
   .send-alert span {
     padding-left: 5px;

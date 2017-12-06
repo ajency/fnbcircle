@@ -40,25 +40,32 @@ Dashboard
                     <!-- No activity -->
 
                 <div class="row m-b-30 m-t-30">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-8">
-                        <div class="featured-jobs browse-cat card text-center no-data-card">
+                    <div class="col-sm-12 p-l-0 no-p-l">
+                        <!-- <div class="featured-jobs browse-cat card text-center no-data-card">
                             <i class="fa fa-frown-o text-primary element-title" aria-hidden="true"></i>
                             <div class="m-t-20">
                                 <h6 class="element-title m-b-15 no-data-card__title">You don't have any Business Listings or Job Posts yet !</h6>
                                 <h6 class="text-lighter text-medium m-b-15 label-size">Your Business Listings and Job Posts will appear here.</h6>
                                 <h6 class="sub-title m-b-20">Get Started Now</h6>
                             </div>
+                        </div> -->
+                        <div class="pre-benefits flex-row no-listing-job">
+                            <div class="pre-benefits__intro flex-row">
+                                <i class="fa fa-frown-o text-primary sad-icon" aria-hidden="true"></i><div class="pre-benefits__content">
+                                    <h5 class="section-title pre-benefits__title">You don't have any Business Listings or Job Posts yet !</h5>
+                                    <p class="sub-title pre-benefits__caption lighter text-color m-b-0">Your Business Listings and Job Posts will appear here.</p>
+                                </div>
+                            </div>
+                            <a href="#" class="btn fnb-btn primary-btn full border-btn get-dash-started">Get Started Now</a>
                         </div>
                     </div>
-                    <div class="col-sm-2"></div>
                 </div>
 
                 <!-- No activity div ends -->
 
         @else
 
-        <div class="selection-card flex-row space-between">
+<!--         <div class="selection-card flex-row space-between">
             <div class="card business-card flex-row space-between">
                 <div class="card__section own-business">
                     <h5>Do you own a<br> Business?</h5>
@@ -93,134 +100,176 @@ Dashboard
                     </button></a>
                 </div>
             </div>
-        </div>
+        </div> -->
+
+            <div class="row m-t-30">
+                <div class="col-sm-8 m-t-15 m-b-15">
+                    <p class="element-title cloud-color m-b-0 lighter cust-dashboard__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Nemo, quidem. Magni autem ipsum est, quos numquam unde voluptatibus nobis quae.</p>
+                </div>    
+            </div>
+
+
         @endif
+
+    
+        
  
                 <div class="row m-t-20 row-btm-space">
-                    <div class="col-sm-8 your-activity">
 
-                        
-                    @if(!$jobPosted->count() && !$jobApplication->count())
+                    <div class="col-sm-8 @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount) your-activity no-activity-data @endif">
+
+                    
                         <!-- No data -->
-                       <div class="card no-listing-card">
-
-                            <div class="row">
-                                <div class="col-sm-3"></div>
-                                <div class="col-sm-6">
-                                    <div class="featured-jobs browse-cat text-center">
-                                        <h6 class="sub-title m-t-0">Do you own a Business?</h6>
-                                        <hr>
-                                        <button class="btn fnb-btn outline  border-btn" type="button">
-                                            Create a Listing
-                                        </button>
-
-                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
-
-                                        <h6 class="sub-title m-t-0">Browse other Businesses</h6>
-                                        <hr>
-                                        <button class="btn fnb-btn outline  border-btn" type="button">
-                                            Browse Listings
-                                        </button>
+                       <div class="card no-listing-card flex-row">
+                            <div class="featured-jobs browse-cat text-center customer-card flex-row space-between col-direction align-baseline">
+                                <div class="customer-card__col flex-row">
+                                    <div class="flex-row justify-center customer-card__logo">
+                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                    </div>
+                                    <div class="text-left p-l-20">
+                                        <h6 class="sub-title m-t-0 text-medium">Do you own a Business?</h6>
+                                        <a href="#" class="primary-link m-t-10 dis-block sub-title">Create a Listing</a>
                                     </div>
                                 </div>
                                 
-                                <div class="col-sm-3"></div>
+                                <div class="customer-card__divider p-t-20 p-b-20">
+                                    <p class="bolder x-small m-b-0">OR</p>    
+                                </div>
+                                
+                                    
+                                <div class="customer-card__col flex-row">
+                                    <div class="flex-row justify-center customer-card__logo">
+                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                    </div>
+                                    <div class="text-left p-l-20">
+                                        <h6 class="sub-title m-t-0 text-medium">Browse other Businesses</h6>
+                                        <a href="#" class="primary-link m-t-10 dis-block sub-title">Browse Listings</a>
+                                    </div>
+                                </div>   
+                                
+                            </div>
+                            
+                            @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount)
+                            <hr class="card-separator">
+                            @endif
+
+                            <div class="featured-jobs browse-cat text-center customer-card flex-row space-between col-direction align-baseline">
+                                <div class="customer-card__col flex-row">
+                                    <div class="flex-row justify-center customer-card__logo">
+                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                    </div>
+                                    <div class="text-left p-l-20">
+                                        <h6 class="sub-title m-t-0 text-medium">Looking for talent?</h6>
+                                        <a href="{{ url('/jobs/create') }}" target="_blank" class="primary-link m-t-10 dis-block sub-title">Post a Job</a>
+                                    </div>
+                                </div>
+                                
+                                <div class="customer-card__divider p-t-20 p-b-20">
+                                    <p class="bolder x-small m-b-0">OR</p>    
+                                </div>
+                                
+                                    
+                                <div class="customer-card__col flex-row">
+                                    <div class="flex-row justify-center customer-card__logo">
+                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                    </div>
+                                    <div class="text-left p-l-20">
+                                        <h6 class="sub-title m-t-0 text-medium">View jobs on FnB Circle</h6>
+                                        <a href="{{ url($browserState.'/job-listings') }}" target="_blank" class="primary-link m-t-10 dis-block sub-title">Browse Jobs</a>
+                                    </div>
+                                </div>   
+                                
                             </div>
 
-                            <hr class="separator">
 
-                            <div class="row">
+                            <!-- <hr class="separator"> -->
+
+                          <!--   <div class="row">
                                 <div class="col-sm-3"></div>
                                 
                                 <div class="col-sm-6">
-                                    <div class="featured-jobs browse-cat text-center">
-                                        <h6 class="sub-title m-t-0">Looking for talent?</h6>
-                                        <hr>
-                                        <a href="{{ url('/jobs/create') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
-                                            Post a Job
-                                        </button>
-                                        </a>
-
-                                        <h6 class="bolder p-b-20 p-t-20 text-muted">OR</h6>
-
-                                        <h6 class="sub-title m-t-0">View jobs on FnB Circle</h6>
-                                        <hr>
-                                        <a href="{{ url($browserState.'/job-listings') }}" target="_blank"><button class="btn fnb-btn outline  border-btn" type="button">
-                                            Browse Jobs
-                                        </button></a>
-                                    </div>
+                                    
                                 </div>
                                 <div class="col-sm-3"></div>
-                            </div>
+                            </div> -->
 
                         </div>
                         
                         <!-- no data -->
-                        @else
+                        
                         <!-- Nav tabs -->
-                        <div class="nav-info scroll-tabs">
-                            <ul class="nav-info__tab flex-row" role="tablist">
-                                <li role="presentation" class="nav-section active"><a href="#mylistings" aria-controls="mylistings" role="tab" data-toggle="tab">My Listings ({{$myListingsCount}})</a></li>
-                                <li role="presentation" class="nav-section"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobPosted)}})</a></li>
-                                <li role="presentation" class="nav-section"><a href="#appliedjobs" aria-controls="appliedjobs" role="tab" data-toggle="tab">Jobs I Applied To ({{ count($jobApplication)}})</a></li>
-                            </ul>
-                        </div>
+                        @if($jobPosted->count() || $jobApplication->count() || $myListingsCount)
+                        
 
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="mylistings">
-                                @php
-                                        if ($myListingsCount){
-                                            @endphp
-                                            @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
-                                            @php
-                                        }
-                                        else{
-                                            echo '<div class="no-results m-b-40">
-                                                <h4 class="seller-info__title ellipsis text-primary">No Listings Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
-                                            </div>';
-                                        }
-                                        
-                                    @endphp
+                        <div class="your-activity tabs-listing">
+                            
+                            <div class="nav-info scroll-tabs">
+                                <ul class="nav-info__tab flex-row" role="tablist">
+                                    <li role="presentation" class="nav-section active"><a href="#mylistings" aria-controls="mylistings" role="tab" data-toggle="tab">My Listings ({{$myListingsCount}})</a></li>
+                                    <li role="presentation" class="nav-section"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobPosted)}})</a></li>
+                                    <li role="presentation" class="nav-section"><a href="#appliedjobs" aria-controls="appliedjobs" role="tab" data-toggle="tab">Jobs I Applied To ({{ count($jobApplication)}})</a></li>
+                                </ul>
                             </div>
 
-                            <div role="tabpanel" class="tab-pane" id="myjobs">
-                                <div class="job-listings customer-jobs">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="mylistings">
                                     @php
-                                        $jobs = $jobPosted;
-                                        if (count($jobs)){
-                                            echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false])->render();  
-                                        }
-                                        else{
-                                            echo '<div class="no-results m-b-40">
-                                                <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
-                                            </div>';
-                                        }
-                                        
-                                    @endphp
+                                            if ($myListingsCount){
+                                                @endphp
+                                                @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
+                                                @php
+                                            }
+                                            else{
+                                                echo '<div class="no-results m-b-40">
+                                                    <h4 class="seller-info__title ellipsis text-primary">No Listings Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
+                                                </div>';
+                                            }
+                                            
+                                        @endphp
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="myjobs">
+                                    <div class="job-listings customer-jobs">
+                                        @php
+                                            $jobs = $jobPosted;
+                                            if (count($jobs)){
+                                                echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false])->render();  
+                                            }
+                                            else{
+                                                echo '<div class="no-results m-b-40">
+                                                    <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
+                                                </div>';
+                                            }
+                                            
+                                        @endphp
+                                    </div>
+                                </div>
+
+                                <div role="tabpanel" class="tab-pane" id="appliedjobs">
+                                    <div class="job-listings customer-jobs">
+                                        @php
+                                            $jobs = $jobApplication;
+                                            if (count($jobs)){
+                                                echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false,'showApplication'=>true])->render();  
+                                            }
+                                            else{
+                                                echo '<div class="no-results m-b-40">
+                                                    <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
+                                                </div>';
+                                            }
+                                        @endphp 
+                                    </div>
                                 </div>
                             </div>
 
-                            <div role="tabpanel" class="tab-pane" id="appliedjobs">
-                                <div class="job-listings customer-jobs">
-                                    @php
-                                        $jobs = $jobApplication;
-                                        if (count($jobs)){
-                                            echo View::make('jobs.job-listing-card', compact('jobs'))->with(['isListing'=>false,'append'=>false,'showApplication'=>true])->render();  
-                                        }
-                                        else{
-                                            echo '<div class="no-results m-b-40">
-                                                <h4 class="seller-info__title ellipsis text-primary">No Jobs Found <i class="fa fa-frown-o" aria-hidden="true"></i></h4>
-                                            </div>';
-                                        }
-                                    @endphp 
-                                </div>
-                            </div>
                         </div>
+
                         @endif
-
-
+                        
                     </div>
-                    <div class="col-sm-4">
+
+
+                    <div class="col-sm-4 @if($jobPosted->count() || $jobApplication->count() || $myListingsCount) row-pull-up @endif">
                         <div class="pos-fixed fly-out">
                             <div class="mobile-back desk-hide mobile-flex">
                                <div class="left mobile-flex">

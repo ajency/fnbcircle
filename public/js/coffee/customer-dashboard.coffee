@@ -20,3 +20,9 @@ if $(window).width() <= 768
     return
 
 
+$('.get-dash-started').click ->
+  $('html, body').animate { scrollTop: $('.no-activity-data').offset().top }, 1000
+  return
+
+
+

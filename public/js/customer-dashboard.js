@@ -23,4 +23,10 @@
     });
   }
 
+  $('.get-dash-started').click(function() {
+    $('html, body').animate({
+      scrollTop: $('.no-activity-data').offset().top
+    }, 1000);
+  });
+
 }).call(this);

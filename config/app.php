@@ -188,6 +188,13 @@ return [
         Ajency\User\LaravelAjUserServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
 
+        /*
+        * Laravel Framework Service Providers...
+        */         
+
+         /** Aj laravel import Package Service Providers */       
+        Ajency\Ajfileimport\AjFileImportServiceProvider::class        
+
     ],
 
     /*

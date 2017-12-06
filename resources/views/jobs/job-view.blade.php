@@ -1067,8 +1067,8 @@ $additionalData = ['job'=>$job];
 
                           <div class="job-alert text-center x-small">
                               <i class="fa fa-bell alert-icon text-primary" aria-hidden="true"></i>
-                              <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'Food &amp; beverage manager'</b> has been created</h6>
-                              <p>You will receive the job alert in your email <b>'abhayrajput@gmail.com'</b> as per the below criteria</p>
+                              <h6 class="text-medium m-b-15 m-t-15 j-alert-title">Your job alert for <b>'{{ $job->title }}'</b> has been created</h6>
+                              <p>You will receive the job alert in your email <b>'{{ Session::get('applicant_email') }}'</b> as per the below criteria</p>
                               <p class="text-lighter">if you are not satisfied with the results, modify the criteria.</p>
                           </div>
   

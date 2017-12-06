@@ -1181,7 +1181,7 @@ class JobController extends Controller
         $jobApplicant->country_code = $applicantCountryCode;
         
         $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
-
+ 
         if(!empty($resume)){
             $resumeId = $user->uploadUserResume($resume);
             $jobApplicant->resume_updated_on  = date('Y-m-d H:i:s');
@@ -1208,10 +1208,9 @@ class JobController extends Controller
         
     
         //for testing
-        $ownerDetails['email'] = 'nutan@ajency.in';
-         
-        $filePath = getUploadFileUrl($resumeId);
-        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+        // $ownerDetails['email'] = 'nutan@ajency.in';
+           
+       
 
  
         // $data = [];
@@ -1222,18 +1221,24 @@ class JobController extends Controller
         // $data['subject'] = "New application for job ".$job->title;
         // $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         // sendEmail('job-application', $data);
- 
+        
+        Session::put('applicant_email',$ownerDetails['email']);
         $data = [];
-        $data['from'] = 'prajay@ajency.in';
+        $data['from'] = config('constants.email_from');
         $data['name'] = $applicantName;
         $data['to'] = [ $ownerDetails['email']];
         $data['cc'] = [ config('constants.email_to')];
         $data['subject'] = "New application for job ".$job->title;
- 
-        $mimeType = getFileMimeType($ext);
- 
-        $file = $user->getSingleFile($resumeId);
-        $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
+        
+
+        if($resumeId){
+            $filePath = getUploadFileUrl($resumeId);
+            $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+            $mimeType = getFileMimeType($ext);
+            $file = $user->getSingleFile($resumeId);
+            $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
+        }
+        
 
         $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         sendEmail('job-application', $data);

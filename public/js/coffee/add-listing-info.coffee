@@ -13,7 +13,7 @@ userCheck = ->
       if data['result']
         text = 'Email id "'+email+'" already exists with us with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'”. Do you want to create listing under this account?'
       else
-        text = 'No account exists with this email id. Do you want to create new account? Listing will be created under this new account.';
+        text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
       check = email
       $('#user-exist-text').html text
       $('#status-address').html check

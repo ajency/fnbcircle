@@ -6390,8 +6390,8 @@ input[type=checkbox].custom-checkbox:before {
 .status-checkbox {
   padding-top: 0.5em;
 }
-.status-checkbox .email-append {
-  padding-left: 3px;
+.status-checkbox input[type='checkbox']:before {
+  top: -2px;
 }
 @media screen and (max-width: 768px) {
   .user-details-container .user-fields {
@@ -11579,7 +11579,7 @@ input[type='checkbox'].remove-addr {
 }
 .confirm-box .listing-message h4 {
   line-height: 1.5;
-  font-size: 1.15em;
+  font-size: 1.05em;
   margin-top: 5px;
 }
 .confirm-box .confirm-actions {

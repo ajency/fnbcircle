@@ -229,9 +229,12 @@
           <div class="modal-body text-center">
               <div class="listing-message">
                   <h4 class="sub-title text-medium text-left text-color m-t-0" id="user-exist-text"></h4>
-                  <label class="flex-row text-color text-medium status-checkbox cursor-pointer">
-                      <input type="checkbox" class="checkbox" id="send-email-checkbox">  
-                      Send email to <div id="status-address" class="email-append"></div>
+                  <label class="flex-row text-color text-medium status-checkbox cursor-pointer align-top">
+                      <input type="checkbox" class="checkbox" id="send-email-checkbox">
+                      <div class="dis-inline text-left full-width">
+                        Send email to <div id="status-address" class="email-append dis-inline"></div>    
+                      </div>
+                      
                   </label>
               </div>  
               <div class="confirm-actions text-right">

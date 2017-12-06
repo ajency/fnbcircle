@@ -11,9 +11,9 @@ userCheck = ->
     success: (data) ->
       $('.section-loader').addClass 'hidden'
       if data['result']
-        text = 'Email id "'+email+'" already exists with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'” , Created on '+data['user']['created_at'].slice(0,10)
+        text = 'Email id "'+email+'" already exists with us with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'”. Do you want to create listing under this account?'
       else
-        text = 'Email id does not exist. New Account will be created';
+        text = 'No account exists with this email id. Do you want to create new account? Listing will be created under this new account.';
       check = email
       $('#user-exist-text').html text
       $('#status-address').html check

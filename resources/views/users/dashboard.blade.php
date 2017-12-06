@@ -124,7 +124,7 @@ Dashboard
                             <div class="featured-jobs browse-cat text-center customer-card flex-row space-between col-direction align-baseline">
                                 <div class="customer-card__col flex-row">
                                     <div class="flex-row justify-center customer-card__logo">
-                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                        <img src="/img/create-list.png" class="img-responsive center-block">
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">Do you own a Business?</h6>
@@ -139,7 +139,7 @@ Dashboard
                                     
                                 <div class="customer-card__col flex-row">
                                     <div class="flex-row justify-center customer-card__logo">
-                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                        <img src="/img/browse-business.png" class="img-responsive center-block" width="35">
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">Browse other Businesses</h6>
@@ -156,7 +156,7 @@ Dashboard
                             <div class="featured-jobs browse-cat text-center customer-card flex-row space-between col-direction align-baseline">
                                 <div class="customer-card__col flex-row">
                                     <div class="flex-row justify-center customer-card__logo">
-                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                        <img src="/img/talent.png" class="img-responsive center-block" width="35">
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">Looking for talent?</h6>
@@ -171,7 +171,7 @@ Dashboard
                                     
                                 <div class="customer-card__col flex-row">
                                     <div class="flex-row justify-center customer-card__logo">
-                                        <img src="/img/note.png" class="img-responsive center-block" width="35">
+                                        <img src="/img/handshake.png" class="img-responsive center-block" width="35">
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">View jobs on FnB Circle</h6>

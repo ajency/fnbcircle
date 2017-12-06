@@ -18,12 +18,14 @@ class ContactRequestController extends Controller
 {
     public function getNumberFromSession($request)
     {
-        $session_data = Session::get('contact');
-        if ($session_data == null) {
+        $session_data = json_decode(Session::get('contact_info'),true);
+        if ($session_data == null) {/*Known bug: if lead is verified and then user logs in, Verification sms isnt sent */
             // generate OTP for first time
-            $session_data = Session::get('enquiry_data');
-            if ($session_data == null) {
-                return response()->json(['html' => $this->displayLoginPopup($request), 'step' => 'get-details']);
+            if(Auth::guest()){
+                $session_data = Session::get('enquiry_data');
+                if ($session_data == null) {
+                    return response()->json(['html' => $this->displayLoginPopup($request), 'step' => 'get-details']);
+                }
             }
 
             $number = $this->generateOTP();
@@ -33,6 +35,17 @@ class ContactRequestController extends Controller
             $number = $session_data['contact'];
         }
         return $number;
+    }
+
+    public function displayVerificationPopup(Request $request){
+        $number = $this->getNumberFromSession($request);
+        if (!is_numeric($number)) {
+            return $number;
+        }
+
+        $listing = Listing::where('reference', $request->id)->firstorfail();
+        $html    = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->render();
+        return response()->json(['html' => $html, 'step' => 'verification']);
     }
 
     public function getContactRequest(Request $request)
@@ -45,17 +58,10 @@ class ContactRequestController extends Controller
             if (!empty($otp)) {
                 return response()->json(['html' => $this->displayContactInformation($request), 'step' => 'contact-info']);
             } else {
-                $number = $this->getNumberFromSession($request);
-                if (!is_numeric($number)) {
-                    return $number;
-                }
-
-                $listing = Listing::where('reference', $request->id)->firstorfail();
-                $html    = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->render();
-                return response()->json(['html' => $html, 'step' => 'verification']);
+                return $this->displayVerificationPopup($request);
             }
         } elseif (!Auth::user()->getPrimaryContact()['is_verified']) {
-            return response()->json(['Display verification popup']);
+            return $this->displayVerificationPopup($request);
         } else {
             return response()->json(['html' => $this->displayContactInformation($request), 'step' => 'contact-info']);
         }
@@ -192,8 +198,8 @@ class ContactRequestController extends Controller
         } else {
             $data = Auth::user()->getPrimaryContact();
             if ($data['is_verified'] == 0) {
-                $json = Session::get('contact_info',true);
-                $session_data = json_decode($json);
+                $json = Session::get('contact_info');
+                $session_data = json_decode($json,true);
                 if ($session_data == null) {
                     // generate OTP for first time
                     $number = $data['contact_region'] . $data['contact'];

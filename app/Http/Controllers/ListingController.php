@@ -58,12 +58,13 @@ class ListingController extends Controller
                 $area = Area::with('city')->find($listing->locality_id);
                 $email = [
                         'to' => $listing->owner()->first()->getPrimaryEmail(),
-                        'subject' => "Listing added under your account on F&B Circle",
+                        'subject' => "Listing added under your account on FnB Circle",
                         'template_data' => [
                             'listing_name' => $listing->title,
                             'listing_type' => Listing::listing_business_type[$listing->type],
                             'listing_state' => $area->city['name'],
                             'listing_city' => $area->name,
+                            'owner_name' => $user->name,
                         ],
                     ];
                 sendEmail('listing-user-notify',$email);

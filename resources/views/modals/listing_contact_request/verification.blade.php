@@ -1,6 +1,7 @@
 <div class="content-data">
    <input type="hidden" id="cr-otp-submit-link" value="{{action('ContactRequestController@verifyOtp')}}">
    <input type="hidden" id="cr-otp-resend-link" value="{{action('ContactRequestController@resendOtp')}}">
+   <input type="hidden" id="cr-number-change-link" value="{{action('ContactRequestController@editNumber')}}">
    <!-- Verify Details -->
    <div class="level-two levels verify-details detail-cols shown">
       <h6 class="intro-text">Verify your number to contact {{$listing->title}}
@@ -19,7 +20,7 @@
                   <input type="password" class="form-control fnb-input" placeholder="Enter the code" id="input-cr-otp" data-parsley-required data-parsley-error-message="Please enter valid OTP" data-parsley-length="[4, 4]"  data-parsley-type="digits">
                   <div class="error">@isset($error){{$error}}@endisset</div>
                   <a href="#" class="secondary-link text-decor p-l-10 x-small" id="submit-cr-otp">Submit</a>
-                  <p class="x-small text-lighter m-b-0 m-t-5 didnt-receive">Didn't receive the code? <a href="#" class="dark-link x-small heavier"><i class="fa fa-refresh" aria-hidden="true"></i> Resend SMS</a></p>
+                  <p class="x-small text-lighter m-b-0 m-t-5 didnt-receive">Didn't receive the code? <a href="#" id="cr-resend-sms" class="dark-link x-small heavier"><i class="fa fa-refresh" aria-hidden="true"></i> Resend SMS</a></p>
                </div>
             </div>
          </div>

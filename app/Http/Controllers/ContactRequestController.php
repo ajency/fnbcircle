@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Session;
 use View;
+use Carbon\Carbon;
 
 class ContactRequestController extends Controller
 {
@@ -33,6 +34,7 @@ class ContactRequestController extends Controller
         }
         return $number;
     }
+
     public function getContactRequest(Request $request)
     {
         $this->validate($request, [
@@ -156,7 +158,7 @@ class ContactRequestController extends Controller
         $session_data["enquiry_message"] = "";
 
         Session::put('enquiry_data', $session_data); // Update the session with New User details
-        Session::forget('contact');
+        Session::forget('contact_info');
 
         $number = $this->generateOTP();
 
@@ -169,7 +171,8 @@ class ContactRequestController extends Controller
     {
         $enq_cont_obj = new EnquiryController;
         if (Auth::guest()) {
-            $session_data = Session::get('contact');
+            $json = Session::get('contact_info');
+            $session_data = json_decode($json,true);
             if ($session_data == null) {
                 // generate OTP for first time
                 $session_data = Session::get('enquiry_data');
@@ -189,9 +192,19 @@ class ContactRequestController extends Controller
         } else {
             $data = Auth::user()->getPrimaryContact();
             if ($data['is_verified'] == 0) {
-                $number = $data['contact_region'] . $data['contact'];
-                $country = $data['contact_region'];
-                $phone = $data['contact'];
+                $json = Session::get('contact_info',true);
+                $session_data = json_decode($json);
+                if ($session_data == null) {
+                    // generate OTP for first time
+                    $number = $data['contact_region'] . $data['contact'];
+                    $country = $data['contact_region'];
+                    $phone = $data['contact'];
+                } else {
+                    //generate otp for otp timeout and edit number
+                    $number = $session_data['contact'];
+                    $country = $session_data['country_code'];
+                    $phone = $session_data['phone_no'];
+                }
             } else {
                 return $data['contact_region'] . $data['contact'];
             }
@@ -289,14 +302,47 @@ class ContactRequestController extends Controller
             'id'=>'required',
         ]);
         $listing = Listing::where('reference', $request->id)->firstorfail();
-        $session_data = Session::get('contact');
+        $session_data = json_decode(Session::get('contact_info'),true);
         $number = $session_data['contact'];
         if($expired){
             $error = "OTP expired. New OTP has been sent to you";
+            $session_data['OTP'] = rand(1000, 9999);
         }else{
             $error = 'OTP sent again';
         }
+        $session_data['timestamp'] = Carbon::now()->timestamp;
+        Session::put('contact_info', json_encode($session_data));
+        error_log(json_encode($session_data));
+        $sms = [
+            'to' => $session_data['contact'],
+            'message' => "Use " . $session_data['OTP'] . " to verify your phone number. This code can be used only once and is valid for 15 mins.",
+        ];
+        $sms["priority"] = "high";
+        sendSms('verification', $sms);
         $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->with('error',$error)->render();
         return response()->json(['html' => $html, 'step' => 'verification']);
+    }
+
+    public function editNumber(Request $request){
+        $this->validate($request,[
+            'id' => 'required',
+            'contact'=> 'required|numeric',
+            'contact_region'=> 'required|numeric'
+        ]);
+        $listing = Listing::where('reference', $request->id)->firstorfail();
+        $json = Session::get('contact_info',[]);
+        $session_info = json_decode($json,true);
+        $session_info['contact'] = $request->contact_region.$request->contact;
+        $session_info['country_code'] = $request->contact_region;
+        $session_info['phone_no'] = $request->contact;
+        Session::forget('contact_info');
+        Session::put('contact_info',json_encode($session_info));
+
+        $number = $this->generateOTP();
+        $error = "Otp is sent to your number";
+        $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->with('error',$error)->render();
+
+        return response()->json(['html' => $html, 'step' => 'verification']);
+
     }
 }

@@ -231,6 +231,53 @@
     return $('#new-mobile-modal').modal('show');
   });
 
+  $('#CR').on('click', '#new-mobile-verify-btn', function() {
+    var country, force, number, url;
+    $('#CR #new-mobile-modal input').attr('required', 'required');
+    console.log($('#new-mobile-modal input').parsley().validate()[0]);
+    if (!$('#new-mobile-modal input').parsley().validate(force = true)[0]) {
+      $('#CR #new-mobile-modal input').removeAttr('required');
+      $(this).prop('disabled', true);
+      number = $('#new-mobile-modal input').val();
+      country = $('#new-mobile-modal input').intlTelInput('getSelectedCountryData')['dialCode'];
+      console.log(number, country);
+      url = $('#contact-modal #cr-number-change-link').val();
+      return $.ajax({
+        url: url,
+        type: 'post',
+        data: {
+          id: document.getElementById('listing_id').value,
+          contact: number,
+          contact_region: country
+        },
+        success: function(data) {
+          handleResponse(data['step'], data['html']);
+          $('#new-mobile-modal input').intlTelInput("setCountry", "in");
+          $('#new-mobile-modal input').val('');
+          return $('#new-mobile-modal').modal('hide');
+        }
+      });
+    } else {
+      $('#CR #new-mobile-modal input').removeAttr('required');
+      return false;
+    }
+  });
+
+  $('#contact-modal').on('click', '#cr-resend-sms', function() {
+    var url;
+    url = $('#contact-modal #cr-otp-resend-link').val();
+    return $.ajax({
+      url: url,
+      type: 'post',
+      data: {
+        id: document.getElementById('listing_id').value
+      },
+      success: function(data) {
+        return handleResponse(data['step'], data['html']);
+      }
+    });
+  });
+
   $('#contact-modal').on('click', '#submit-cr-otp', function() {
     var url;
     if (!$('#contact-modal #input-cr-otp').parsley().validate()) {

@@ -178,6 +178,9 @@ handleResponse = (step,html) ->
     # $('#contact-modal #get-crdetails-form').parsley().validate()
     # remove loader
 
+
+
+
 $('body').on 'click','#contact-info', () ->
   $('#contact-modal').modal 'show'
   # show loader
@@ -215,6 +218,45 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
 $('#contact-modal').on 'click','#edit-cr-number', () ->
   console.log 'enters'
   $('#new-mobile-modal').modal('show')
+  
+
+$('#CR').on 'click','#new-mobile-verify-btn',()->
+  $('#CR #new-mobile-modal input').attr('required','required')
+  console.log $('#new-mobile-modal input').parsley().validate()[0]
+  if !$('#new-mobile-modal input').parsley().validate(force = true)[0]
+    $('#CR #new-mobile-modal input').removeAttr('required')
+    $(this).prop 'disabled',true
+    number = $('#new-mobile-modal input').val()
+    country = $('#new-mobile-modal input').intlTelInput('getSelectedCountryData')['dialCode']
+    console.log number,country
+    url = $('#contact-modal #cr-number-change-link').val()
+    $.ajax
+      url:  url
+      type: 'post'
+      data:
+        id: document.getElementById('listing_id').value
+        contact: number
+        contact_region: country
+      success: (data) ->
+        handleResponse(data['step'],data['html'])
+        $('#new-mobile-modal input').intlTelInput("setCountry", "in");
+        $('#new-mobile-modal input').val('')
+        $('#new-mobile-modal').modal('hide')
+  else
+    $('#CR #new-mobile-modal input').removeAttr('required')
+    return false
+    
+
+$('#contact-modal').on 'click','#cr-resend-sms', () ->
+  url = $('#contact-modal #cr-otp-resend-link').val()
+  $.ajax
+    url:  url
+    type: 'post'
+    data:
+      id: document.getElementById('listing_id').value
+    success: (data) ->
+      handleResponse(data['step'],data['html'])
+
 
 $('#contact-modal').on 'click','#submit-cr-otp', () ->
   if !$('#contact-modal #input-cr-otp').parsley().validate()
@@ -228,4 +270,5 @@ $('#contact-modal').on 'click','#submit-cr-otp', () ->
       otp: $('#contact-modal #input-cr-otp').val()
     success: (data) ->
       handleResponse(data['step'],data['html'])
+
 

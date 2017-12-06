@@ -440,6 +440,10 @@ class JobController extends Controller
             $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'go-premium'){
+
+            if(!$job->isJobDataComplete())
+                abort(404);
+
             $plans = Plan::where('type','job')->orderBy('order','asc')->get();
             $activePlan = getActivePlan($job);
             $requestedPlan = getrequestedPlan($job); 
@@ -1071,7 +1075,7 @@ class JobController extends Controller
     public function getListingJobs(Request $request){
        
         $length = 10;
-        $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+        $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $page = $filters['page'];
@@ -1303,7 +1307,7 @@ class JobController extends Controller
 
             $length = 5;
             $skip = 0;
-            $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+            $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
             $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy);
             $jobs = $filterJobs['jobs']; 
             $totalJobs = $filterJobs['totalJobs'];  

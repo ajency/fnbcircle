@@ -335,6 +335,8 @@
 
                                             @if(!$isPremiumPage)
                                             Save &amp; Next
+                                            @elseif($job->status!=1)
+                                            Subscribe
                                             @else
                                             Submit Job
                                             @endif

@@ -649,8 +649,8 @@ class Job extends Model
         $data = [];
         $data['from'] = $ownerDetails['email'];
         $data['name'] = $jobOwner->name;
-        $data['to'] = [ config('constants.email_to')];
-        $data['cc'] = [ config('constants.email_to')];
+        $data['to'] = [config('constants.email_to')];
+        $data['cc'] = [config('constants.email_to')];
         $data['subject'] = "A job has been submitted for review.";
         $data['template_data'] = $templateData;
         

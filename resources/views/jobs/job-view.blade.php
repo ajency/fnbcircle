@@ -205,6 +205,9 @@ $additionalData = ['job'=>$job];
                         </div>
                       </div>
                     </div>
+                     @if($job->premium)
+                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                    @endif
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->

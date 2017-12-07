@@ -255,12 +255,14 @@
     $('#info-form').parsley();
   });
 
-  $('.user-details-container').on('keyup', 'input[name="user-email"]', function(event) {
-    return $('input[name="primary_email_txt"]').val(this.value);
+  $('.user-details-container').on('keyup keypress blur change', 'input[name="user-email"]', function(event) {
+    $('input[name="primary_email_txt"]').val(this.value);
+    return $('input[name="primary_email_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change();
   });
 
-  $('.user-details-container').on('keyup', 'input[name="user-phone"]', function(event) {
-    return $('input[name="primary_phone_txt"]').val(this.value);
+  $('.user-details-container').on('keyup keypress blur change', 'input[name="user-phone"]', function(event) {
+    $('input[name="primary_phone_txt"]').val(this.value);
+    return $('input[name="primary_phone_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change();
   });
 
   $('.user-details-container input[name="user-phone"]').on('countrychange', function(e, countryData) {

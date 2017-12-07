@@ -312,7 +312,7 @@ Dashboard
                                                     </div>
                                                 </div>
                                                 <div class="form-group p-t-5 m-b-0">
-                                                    <button class="btn fnb-btn btn-link code-send primary-link p-l-0" type="submit">Upload Resume </button>
+                                                    <button class="btn fnb-btn btn-link code-send primary-link p-l-0 no-outline" type="submit">Upload Resume <i class="fa fa-circle-o-notch fa-spin fa-fw label-size hidden resume-loader"></i></button>
                                                 </div>
                                             </div>
                                         </div>

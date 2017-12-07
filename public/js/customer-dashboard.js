@@ -29,4 +29,10 @@
     }, 1000);
   });
 
+  $('#job-form').on('submit', function(event) {
+    if ($(this).parsley().isValid()) {
+      $('.resume-loader').removeClass('hidden');
+    }
+  });
+
 }).call(this);

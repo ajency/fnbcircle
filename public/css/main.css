@@ -2626,6 +2626,13 @@ input[type="checkbox"].toggle__check {
   white-space: nowrap;
   overflow: hidden;
 }
+.no-outline {
+  outline: 0;
+}
+.no-outline:focus,
+.no-outline:active {
+  outline: 0 !important;
+}
 @media screen and (min-width: 769px) {
   .ellipsis-desk {
     text-overflow: ellipsis;

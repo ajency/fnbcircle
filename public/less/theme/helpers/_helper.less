@@ -304,6 +304,13 @@
     overflow: hidden;
 }
 
+.no-outline{
+  outline: 0;
+  &:focus,&:active{
+    outline: 0 !important;
+  }
+}
+
 @media screen and (min-width: 769px){
   .ellipsis-desk{
     text-overflow: ellipsis;

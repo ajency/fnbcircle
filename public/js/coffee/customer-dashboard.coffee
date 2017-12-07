@@ -26,3 +26,7 @@ $('.get-dash-started').click ->
 
 
 
+$('#job-form').on 'submit', (event) ->
+  if $(this).parsley().isValid()
+    $('.resume-loader').removeClass 'hidden'
+  return

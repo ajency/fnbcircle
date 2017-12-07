@@ -341,6 +341,7 @@ class JobController extends Controller
         $userResume = false;
         $hasAppliedForJob = false;
         $sendJobAlerts = false;
+        $hasAlertConfig = false;
  
         if(Auth::check()){
             $user = Auth::user();
@@ -352,6 +353,7 @@ class JobController extends Controller
             $userDetails = $user->getUserDetails;  
             if(!empty($userDetails)){
                 $sendJobAlerts = $userDetails->send_job_alerts;  
+                $hasAlertConfig = (!empty($userDetails->job_alert_config)) ? true : false;  
             }
  
         }
@@ -362,6 +364,7 @@ class JobController extends Controller
             
         }
        
+        $data['hasAlertConfig'] = $hasAlertConfig;
         $data['sendJobAlerts'] = $sendJobAlerts;
         $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;

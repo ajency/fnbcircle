@@ -15,7 +15,7 @@
         <div style="margin-top: 1.5em;">
           <div style="margin-bottom: 0.8em;">
 
-            <b>{{$listing_name}}</b> is added under your account on FnB Circle.<br>
+            <b><a href="{{url('/listing/'.$listing_reference.'/edit')}}">{{$listing_name}}</a></b> is added under your account on FnB Circle.<br>
             <br>
             <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
               <b style="display: block;padding-bottom: 5px;">Details of the Listing</b>

@@ -65,6 +65,7 @@ class ListingController extends Controller
                             'listing_state' => $area->city['name'],
                             'listing_city' => $area->name,
                             'owner_name' => $user->name,
+                            'listing_reference' => $listing->reference,
                         ],
                     ];
                 sendEmail('listing-user-notify',$email);

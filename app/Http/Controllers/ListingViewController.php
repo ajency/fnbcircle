@@ -239,6 +239,7 @@ class ListingViewController extends Controller
     {
 
         $similar_id = [$listing->id];
+        $area    = Area::with('city')->find($listing->locality_id);
         $categories = ListingCategory::where('listing_id', $listing->id)->where('core', 1)->pluck('category_id')->toArray();
         $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
 
@@ -291,7 +292,7 @@ class ListingViewController extends Controller
         foreach ($similar_id as $id) {
             $similar[] = $this->getListingData(Listing::find($id));
         }
-        $similar['url'] = $url;
+        $similar['url'] = url('/'.$area->city['slug'].'/business-listings');
         return $similar;
 
     }

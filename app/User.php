@@ -242,6 +242,19 @@ class User extends Authenticatable
  
     public function saveJobAlertConfig($job,$sendJobALert){
 
+        $criteria = $this->getJobCriterias($job);
+
+        $userDetails = $this->getUserDetails; 
+        $userDetails->job_alert_config = $criteria;
+        $userDetails->send_job_alerts = $sendJobALert;
+        $userDetails->save();
+
+        return $userDetails;
+
+    }
+
+    public function getJobCriterias($job){
+
         $metaData = $job->meta_data;
         
         //save job alert config
@@ -277,12 +290,7 @@ class User extends Authenticatable
         $criteria['area'] = array_unique($criteria['area']);
         $criteria['job_location'] = $jobLocations;
 
-        $userDetails = $this->getUserDetails; 
-        $userDetails->job_alert_config = $criteria;
-        $userDetails->send_job_alerts = $sendJobALert;
-        $userDetails->save();
-
-        return $userDetails;
+        return $criteria;
 
     }
  

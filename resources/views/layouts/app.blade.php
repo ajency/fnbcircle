@@ -136,7 +136,9 @@
                                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                                       </button>
                                       <ul class="dropdown-menu card arrowBox" aria-labelledby="dLabel">
+                                        @if(Auth::user()->type == 'internal')
                                         <li><a href="{{url('customer-dashboard')}}"><i class="fa fa-tachometer text-color p-r-5" aria-hidden="true"></i> My Dashboard</a></li>
+                                        @endif
                                         <li><a href="{{url('profile/basic-details')}}"><i class="fa fa-user text-color p-r-5" aria-hidden="true"></i> My Profile</a></li>
                                         <li><a href="{{ route('logout') }}"><i class="fa fa-power-off text-color p-r-5" aria-hidden="true"></i> Logout</a></li>
                                       </ul>

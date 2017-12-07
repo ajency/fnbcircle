@@ -341,6 +341,7 @@ class JobController extends Controller
         $userResume = false;
         $hasAppliedForJob = false;
         $sendJobAlerts = false;
+        $hasAlertConfig = false;
  
         if(Auth::check()){
             $user = Auth::user();
@@ -352,6 +353,7 @@ class JobController extends Controller
             $userDetails = $user->getUserDetails;  
             if(!empty($userDetails)){
                 $sendJobAlerts = $userDetails->send_job_alerts;  
+                $hasAlertConfig = (!empty($userDetails->job_alert_config)) ? true : false;  
             }
  
         }
@@ -362,6 +364,7 @@ class JobController extends Controller
             
         }
        
+        $data['hasAlertConfig'] = $hasAlertConfig;
         $data['sendJobAlerts'] = $sendJobAlerts;
         $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;
@@ -440,6 +443,10 @@ class JobController extends Controller
             $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'go-premium'){
+
+            if(!$job->isJobDataComplete())
+                abort(404);
+
             $plans = Plan::where('type','job')->orderBy('order','asc')->get();
             $activePlan = getActivePlan($job);
             $requestedPlan = getrequestedPlan($job); 
@@ -1071,7 +1078,7 @@ class JobController extends Controller
     public function getListingJobs(Request $request){
        
         $length = 10;
-        $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+        $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $page = $filters['page'];
@@ -1201,10 +1208,10 @@ class JobController extends Controller
         $ownerDetails = $jobOwner->getUserProfileDetails();
          
 
-        $userDetails = $user->getUserDetails;  
-        if(!empty($userDetails)){
-            $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
-        }
+        // $userDetails = $user->getUserDetails;  
+        // if(!empty($userDetails)){
+        //     $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+        // }
         
     
         //for testing
@@ -1303,7 +1310,7 @@ class JobController extends Controller
 
             $length = 5;
             $skip = 0;
-            $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+            $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
             $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy);
             $jobs = $filterJobs['jobs']; 
             $totalJobs = $filterJobs['totalJobs'];  

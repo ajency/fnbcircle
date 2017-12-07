@@ -205,6 +205,9 @@ $additionalData = ['job'=>$job];
                         </div>
                       </div>
                     </div>
+                     @if($job->premium)
+                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                    @endif
                      <!-- <a href="" class="secondary-link"><p class="m-b-0"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</p></a> -->
                      <!-- <img src="../public/img/power-seller.png" class="img-responsive mobile-hide" width="130"> -->
                      <!-- <img src="/img/power-icon.png" class="img-responsive" width="30"> -->
@@ -620,7 +623,7 @@ $additionalData = ['job'=>$job];
 
                       <!-- Popover data ends -->
 
-                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="Get Email Alert">
+                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
@@ -1218,7 +1221,8 @@ $additionalData = ['job'=>$job];
                             
                             <div class="col-sm-12 m-t-10">
                               <div class="text-center jobdata-action">
-                                  <a href="{{ url('customer-dashboard') }}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
+                                  <a href="{{ url('customer-dashboard') }}?job={{ $job->reference_id}}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
+                                  <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
                                   <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
                               </div>
                                

@@ -15,7 +15,7 @@
       </div>
    </div>
    <div class="vendor-contact-details">
-      <h6 class="text-color m-b-5">Mystical The Meat and Fish Store Details</h6>
+      <h6 class="text-color m-b-5">{{$listing->title}} Details</h6>
       <div class="row">
          @php
             $contacts = $listing->getAllContacts();

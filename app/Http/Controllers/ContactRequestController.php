@@ -77,15 +77,22 @@ class ContactRequestController extends Controller
     public function displayContactInformation(Request $request)
     {
         $listing = Listing::where('reference', $request->id)->firstorfail();
-        //send email to the lead/user with the contact details
         if ($listing->premium) {
+            //send email to the lead/user with the contact details
+        
+            //send sms to lead/user
             if ($listing->owner != null) {
                 $user = $listing->owner()->first();
                 // Send email to listing owner
+                //send sms to owner
             }
             return View::make('modals.listing_contact_request.contact-details-premium')->with('listing', $listing)->render();
         } else {
+
             $ld = $this->similarBusinesses($listing);
+            //send email to the lead/user with the contact details
+        
+            //send sms to lead/user
             return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
         }
     }

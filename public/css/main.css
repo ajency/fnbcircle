@@ -6618,10 +6618,12 @@ input[type=checkbox].custom-checkbox:before {
   text-align: center;
   color: #6e6e6e;
   font-size: 0.95em;
+  line-height: 1.4;
 }
 .job-alert-confirm {
   width: 170px;
   padding: 0.5em;
+  margin: 0 auto;
 }
 .job-alert-confirm .custom-pop-btn {
   background-color: transparent;

@@ -88,11 +88,11 @@ return [
         "smsgupshup" => ""
     ],
     "listing-user-verify"=> [
-        "laravel" => "email.listing-user-verify",
+        "laravel" => "email.listing-user-verify1",
         "pushcrew" => ""
     ],
     "listing-user-notify"=> [
-        "laravel" => "email.listing-user-notify",
+        "laravel" => "email.listing-user-notify1",
         "pushcrew" => ""
     ],
 ];

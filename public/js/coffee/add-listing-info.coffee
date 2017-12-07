@@ -13,7 +13,7 @@ userCheck = ->
       if data['result']
         text = 'Email id "'+email+'" already exists with us with account status “'+data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1)+'”. Do you want to create listing under this account?'
       else
-        text = 'No account exists with this email id. Do you want to create new account? Listing will be created under this new account.';
+        text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
       check = email
       $('#user-exist-text').html text
       $('#status-address').html check
@@ -262,20 +262,22 @@ $(document).on 'blur', '.fnb-input', ->
   return
 
 
-$('.user-details-container').on 'keyup', 'input[name="user-email"]', (event) ->
+$('.user-details-container').on 'keyup keypress blur change', 'input[name="user-email"]', (event) ->
   $('input[name="primary_email_txt"]').val @value
+  $('input[name="primary_email_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change()
 
-$('.user-details-container').on 'keyup', 'input[name="user-phone"]', (event) ->
+$('.user-details-container').on 'keyup keypress blur change', 'input[name="user-phone"]', (event) ->
   $('input[name="primary_phone_txt"]').val @value
+  $('input[name="primary_phone_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change()
 
 $('.user-details-container input[name="user-phone"]').on 'countrychange', (e, countryData) ->
   $('input[name="primary_phone_txt"]').intlTelInput("setCountry", countryData.iso2);
   return
 
 $('.contact-info').on 'change','input.toggle__check', (event) ->
-  console.log  $(this).closest('.contact-container').find('.contact-input').val()
+  # console.log  $(this).closest('.contact-container').find('.fnb-input').val()
   if @checked
-    if $(this).closest('.contact-container').find('.contact-input').val() == ''
+    if $(this).closest('.contact-container').find('.fnb-input').val() == ''
       $(this).prop('checked',false)
 
 # $(document).on 'click', '.verify-link', (event) ->

@@ -773,6 +773,7 @@
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
+                                @endif
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                         <div class="approval m-t-20">
                                             <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -780,7 +781,7 @@
                                             @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                         </div>
                                     @endif
-                                @endif
+                                
                             </div>
                             @isset($data['status']['next'])
                                 <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -20,7 +20,7 @@
         if (data['result']) {
           text = 'Email id "' + email + '" already exists with us with account status “' + data['user']['status'].charAt(0).toUpperCase() + data['user']['status'].slice(1) + '”. Do you want to create listing under this account?';
         } else {
-          text = 'No account exists with this email id. Do you want to create new account? Listing will be created under this new account.';
+          text = '<div class="m-b-5">No account exists with this email id.</div> Do you want to create new account? Listing will be created under this new account.';
         }
         check = email;
         $('#user-exist-text').html(text);
@@ -255,12 +255,14 @@
     $('#info-form').parsley();
   });
 
-  $('.user-details-container').on('keyup', 'input[name="user-email"]', function(event) {
-    return $('input[name="primary_email_txt"]').val(this.value);
+  $('.user-details-container').on('keyup keypress blur change', 'input[name="user-email"]', function(event) {
+    $('input[name="primary_email_txt"]').val(this.value);
+    return $('input[name="primary_email_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change();
   });
 
-  $('.user-details-container').on('keyup', 'input[name="user-phone"]', function(event) {
-    return $('input[name="primary_phone_txt"]').val(this.value);
+  $('.user-details-container').on('keyup keypress blur change', 'input[name="user-phone"]', function(event) {
+    $('input[name="primary_phone_txt"]').val(this.value);
+    return $('input[name="primary_phone_txt"]').closest('.contact-container').find('input.toggle__check').prop('checked', false).change();
   });
 
   $('.user-details-container input[name="user-phone"]').on('countrychange', function(e, countryData) {
@@ -268,9 +270,8 @@
   });
 
   $('.contact-info').on('change', 'input.toggle__check', function(event) {
-    console.log($(this).closest('.contact-container').find('.contact-input').val());
     if (this.checked) {
-      if ($(this).closest('.contact-container').find('.contact-input').val() === '') {
+      if ($(this).closest('.contact-container').find('.fnb-input').val() === '') {
         return $(this).prop('checked', false);
       }
     }

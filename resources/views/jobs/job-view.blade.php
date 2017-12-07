@@ -1216,10 +1216,10 @@ $additionalData = ['job'=>$job];
                              </div>
                             </div>
                             
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 m-t-10">
                               <div class="text-center jobdata-action">
-                                  <a href="{{ url('customer-dashboard') }}"><button class="btn fnb-btn primary-btn border-btn" type="button"> <i class="fa fa-pencil"></i> Modify</button></a>
-                                  <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
+                                  <a href="{{ url('customer-dashboard') }}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
+                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
                               </div>
                                
                             </div>

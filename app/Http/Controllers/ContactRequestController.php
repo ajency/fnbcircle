@@ -45,7 +45,8 @@ class ContactRequestController extends Controller
 
         $listing = Listing::where('reference', $request->id)->firstorfail();
         $html    = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->render();
-        return response()->json(['html' => $html, 'step' => 'verification']);
+        if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+        else return response()->json(['html' => $html, 'step' => 'verification']);
     }
 
     public function getContactRequest(Request $request)
@@ -170,7 +171,8 @@ class ContactRequestController extends Controller
 
         $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->render();
 
-        return response()->json(['html' => $html, 'step' => 'verification']);
+        if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+        else return response()->json(['html' => $html, 'step' => 'verification']);
     }
 
     public function generateOTP()
@@ -295,7 +297,8 @@ class ContactRequestController extends Controller
         }elseif($validate['status'] == 400){
             $error = "Incorrect OTP. Please enter valid OTP";
             $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $session_payload["contact"])->with('error',$error)->render();
-            return response()->json(['html' => $html, 'step' => 'verification']);
+            if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+            else return response()->json(['html' => $html, 'step' => 'verification']);
         }else{
 
             return $this->resendOTP($request,true);
@@ -326,7 +329,8 @@ class ContactRequestController extends Controller
         $sms["priority"] = "high";
         sendSms('verification', $sms);
         $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->with('error',$error)->render();
-        return response()->json(['html' => $html, 'step' => 'verification']);
+        if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => $session_data['OTP']]);
+        else return response()->json(['html' => $html, 'step' => 'verification']);
     }
 
     public function editNumber(Request $request){
@@ -348,7 +352,8 @@ class ContactRequestController extends Controller
         $error = "Otp is sent to your number";
         $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $number)->with('error',$error)->render();
 
-        return response()->json(['html' => $html, 'step' => 'verification']);
+        if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+        else return response()->json(['html' => $html, 'step' => 'verification']);
 
     }
 }

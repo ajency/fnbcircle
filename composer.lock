@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ajency/laravel-fileimport.git",
-                "reference": "2e96692a2f92d63dee28892381a5905597b09670"
+                "reference": "c1f6bf51cf18c73d5a2c460737632e128316305f"
             },
             "type": "library",
             "autoload": {
@@ -30,7 +30,7 @@
                 }
             ],
             "description": "This package allows to import large set of file data  into multiple tables",
-            "time": "2017-12-04 05:57:44"
+            "time": "2017-12-06 12:56:04"
         },
         {
             "name": "anahkiasen/underscore-php",

@@ -97,7 +97,7 @@ class Listing extends Model
 
     }
 
-    public function saveInformation($title, $type, $email, $area, $phone = 0)
+    public function saveInformation($title, $type, $email, $area, $phone = 0,$import=false)
     {
         $slug  = str_slug($title);
         $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
@@ -141,8 +141,11 @@ class Listing extends Model
             if(Auth::user()->type == 'external') {
                 $this->owner_id = Auth::user()->id;
                 $this->verified = 1;
-            }
-            else $this->owner_id = null;
+                $this->source = 'external_user';
+            }else{
+                $this->owner_id = null; 
+                $this->source = ($import)? 'import': 'internal_user'; 
+            } 
         }
 
         $this->save();

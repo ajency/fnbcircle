@@ -948,6 +948,7 @@ class AdminConfigurationController extends Controller
                             'published_date' => $job->jobPublishedOn(2),
                             'last_updated' => $job->jobUpdatedOn(2),
                             'last_updated_by' => ($job->job_modifier) ? $job->updatedBy->name :'',
+                            'premium_request' => ($job->hasPremiumRequest()) ? 'Yes' :'No', 
                             'status' => '<span status_value="'.$job->id.'">'.$job->getJobStatus().'</span> '.$statusEditHtml ,
                             ];
             

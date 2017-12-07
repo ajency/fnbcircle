@@ -126,7 +126,7 @@
 
                                             </div>
                                             @if($job->submitForReview() && !$isPremiumPage) 
-                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit for Review</a>
                                             @endif
 
                                             @if($job->getNextActionButton())

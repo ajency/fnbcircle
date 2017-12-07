@@ -852,6 +852,18 @@ class JobController extends Controller
             $jobQuery->where('jobs.date_of_submission','<=',$filters['submission_date_to'].' 23:59:59');
         }
 
+        if(isset($filters['premium_request']) && !empty($filters['premium_request']))
+        {
+            $jobIds = PlanAssociation::where('premium_type','App\Job')->where('status','0')->pluck('premium_id')->toArray();
+            $jobIds = (!empty($jobIds)) ? $jobIds : [0];
+            if($filters['premium_request'] == 'yes')
+                $jobQuery->whereIn('jobs.id',$jobIds);
+            else
+                $jobQuery->whereNotIn('jobs.id',$jobIds);
+
+            $jobQuery->distinct('jobs.id');
+        }
+
 
         if(isset($filters['experience']) && !empty($filters['experience']))
         {
@@ -1285,12 +1297,20 @@ class JobController extends Controller
         $job = Job::where('reference_id',$referenceId)->first();
         $user =  Auth::user();
         $userDetails = $user->getUserDetails;  
+        $message = 'Your Job alert for "'.$job->title.'" has been created.';
         if(!empty($userDetails)){
-                    $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+            $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+            if(!empty($userDetails->job_alert_config))
+                $message = 'Your Job alert for "'.$job->title.'" has been updated.'; 
+
+            $userDetails->send_job_alerts = 1;
+            $userDetails->save();
         }
 
+
+
         // Session::flash('success_message','Job Alert Configuration Successfully Updated.');
-        Session::flash('success_apply_job','Job Alert Configuration Successfully Updated.');
+        Session::flash('success_apply_job',$message);
         return redirect(url('/job/'.$job->getJobSlug())); 
     }
 

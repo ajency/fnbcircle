@@ -1023,7 +1023,13 @@ $additionalData = ['job'=>$job];
                   @endif
                    <div class="success-apply hidden">
                     <!-- <img src="/img/email-add.png" class="img-responsive center-block" width="60"> -->
-                    <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i> Your application has been sent</h6>
+                    <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i>
+                      @if(Session::has('success_apply_job')) 
+                        {{ Session::get('success_apply_job') }}
+                      @else
+                        Your application has been sent
+                      @endif
+                        </h6>
                     <div class="open-details">
                         <div class="jobdesc">
                           

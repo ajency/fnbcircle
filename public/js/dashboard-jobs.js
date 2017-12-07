@@ -21,6 +21,7 @@
         filters.job_status = $('select[name="job_status"]').val();
         filters.city = $('select[name="job_city"]').val();
         filters.category = $('select[name="job_category"]').val();
+        filters.premium_request = $('select[name="premium_request"]').val();
         filters.keywords = $('select[name="job_keywords"]').val();
         filters.published_date_from = $('input[name="published_from"]').val();
         filters.published_date_to = $('input[name="published_to"]').val();
@@ -59,6 +60,9 @@
         'data': 'last_updated_by',
         "orderable": false
       }, {
+        'data': 'premium_request',
+        "orderable": false
+      }, {
         'data': 'status',
         "orderable": false
       }
@@ -95,8 +99,11 @@
         "width": "80px",
         "targets": 9
       }, {
-        "width": "70px",
+        "width": "60px",
         "targets": 10
+      }, {
+        "width": "70px",
+        "targets": 11
       }
     ]
   });

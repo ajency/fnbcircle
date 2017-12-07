@@ -613,6 +613,11 @@ class Job extends Model
         return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
 
+    public function hasPremiumRequest(){
+        $premiumRequest = $this->premium()->where('status',0)->first();
+        return (!empty($premiumRequest)) ? true : false;
+    }
+
 
     public function submitForReviewEmail(){
         $date = date('Y-m-d H:i:s');    

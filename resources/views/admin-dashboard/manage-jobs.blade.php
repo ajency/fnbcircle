@@ -139,6 +139,15 @@
                       <th>Last Updated on</th>
                       <th>Last Updated By</th>
                       <th class="no-sort man-status-col" data-col="9">
+                        Premium Request
+                        <select name="premium_request" class="form-control jobsearchinput">
+                          <option value="">-Select-</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                           
+                        </select>
+                      </th>
+                      <th class="no-sort man-status-col" data-col="9">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd  jobsearchinput">
                           @foreach($jobStatuses as $jobStatusId => $jobStatus)

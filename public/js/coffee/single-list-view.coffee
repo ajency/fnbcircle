@@ -185,7 +185,7 @@ $('body').on 'click','#contact-info', () ->
   $('#contact-modal').modal 'show'
   # show loader
   $.ajax
-    url : 'http://localhost:8000/contact-request'
+    url : '/contact-request'
     type : 'post'
     data :
       'id': document.getElementById('listing_id').value

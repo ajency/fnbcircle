@@ -608,7 +608,19 @@ $additionalData = ['job'=>$job];
                   <!-- <h1 class="m-b-0">20</h1> -->
 
                   @if(Auth::check())
-                      <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert">
+                      <!-- <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="secondary-link p-l-20 dis-block" title="Get Email Alert"> -->
+
+                      <!-- Popover data -->
+                      <div id="list-popover" class="hidden job-alert-confirm">
+                        <div class="flex-row space-between">
+                          <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn border-btn custom-pop-btn yes" type="button"><i class="p-r-5 fa fa-check" aria-hidden="true"></i> Yes</a>
+                          <a href="#" class="btn fnb-btn border-btn custom-pop-btn no" type="button"><i class="p-r-5 fa fa-times" aria-hidden="true"></i> No</a>
+                        </div>
+                      </div>
+
+                      <!-- Popover data ends -->
+
+                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="Get Email Alert">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif

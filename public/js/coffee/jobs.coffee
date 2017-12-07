@@ -482,3 +482,22 @@ $('body').on 'change', '.terms-check', ->
   else
     $('.job-save-btn').addClass 'disable'
 
+
+
+$('.open-popup-alert').popover(
+  container: 'body'
+  html: true
+  content: ->
+    clone = $($(this).data('popover-content')).clone(true).removeClass('hidden')
+    clone
+).click (e) ->
+  e.preventDefault()
+  return
+
+
+# $('.custom-pop-btn').click ->
+#   $('.open-popup-alert').popover 'hide'
+
+
+
+

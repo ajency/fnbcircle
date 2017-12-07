@@ -4040,5 +4040,31 @@ and (max-device-width: 650px) {
 
 
 
+// Send jobs like this popover
+
+.popover-title{
+	padding: 0.8em 1em;
+    text-align: center;
+    color: #6e6e6e;
+    font-size: 0.95em;
+}
+
+.job-alert-confirm{
+	width: 170px;
+    padding: 0.5em;
+    .custom-pop-btn{
+    	background-color: transparent;
+	    border-width: 1px;
+	    min-width: 65px;
+	    font-size: 0.85em;
+	    padding: 0.5em;
+	    &.yes{
+			color: @success;
+	    }
+	    &.no{
+	    	color: @danger;
+	    }
+    }
+}
 
 

@@ -6613,6 +6613,29 @@ input[type=checkbox].custom-checkbox:before {
     display: block;
   }
 }
+.popover-title {
+  padding: 0.8em 1em;
+  text-align: center;
+  color: #6e6e6e;
+  font-size: 0.95em;
+}
+.job-alert-confirm {
+  width: 170px;
+  padding: 0.5em;
+}
+.job-alert-confirm .custom-pop-btn {
+  background-color: transparent;
+  border-width: 1px;
+  min-width: 65px;
+  font-size: 0.85em;
+  padding: 0.5em;
+}
+.job-alert-confirm .custom-pop-btn.yes {
+  color: #11a44a;
+}
+.job-alert-confirm .custom-pop-btn.no {
+  color: #d0021b;
+}
 .search-section {
   position: relative;
   top: 2em;

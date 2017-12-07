@@ -344,6 +344,11 @@ class UserController extends Controller
         $userResume = $user->getUserJobLastApplication();
         $userDetails = $user->getUserDetails; 
         $jobAlertConfig =  $userDetails->job_alert_config;//dd($jobAlertConfig);
+        if(empty($jobAlertConfig) && isset($_GET['job'])){
+            $reference_id = $_GET['job'];
+            $job = Job::where('reference_id',$reference_id)->first();
+            $jobAlertConfig = $user->getJobCriterias($job);
+        }
         $sendJobAlerts = $userDetails->send_job_alerts;
         $areas = [];
 

@@ -1205,10 +1205,10 @@ class JobController extends Controller
         $ownerDetails = $jobOwner->getUserProfileDetails();
          
 
-        $userDetails = $user->getUserDetails;  
-        if(!empty($userDetails)){
-            $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
-        }
+        // $userDetails = $user->getUserDetails;  
+        // if(!empty($userDetails)){
+        //     $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+        // }
         
     
         //for testing

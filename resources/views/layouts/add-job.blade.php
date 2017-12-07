@@ -125,7 +125,7 @@
 
 
                                             </div>
-                                            @if($job->submitForReview()) 
+                                            @if($job->submitForReview() && !$isPremiumPage) 
                                             <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
                                             @endif
 

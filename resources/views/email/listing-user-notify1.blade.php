@@ -8,7 +8,7 @@
       <img src="{{ asset('img/email-processing.png') }}" style="margin: 0 auto;display:block;">
 
         <div style="color: rgba(97, 95, 95, 0.77);font-weight: 300;">
-          <p>Hi, {{$owner_name}}</p>
+          <p>Hi {{$owner_name}},</p>
         </div>
 
         <!-- Tips -->

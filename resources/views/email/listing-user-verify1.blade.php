@@ -15,14 +15,17 @@
         <div style="margin-top: 2em;">
           <div style="margin-bottom: 0.8em;">
 
-            We have added listing {{$listing_name}} under your account on FnB Circle.<br>
-<br>
-            Details of the Listing:<br>
-            Listing Name:{{$listing_name}}<br>
-            Type:{{$listing_type}}<br>
-            State:{{$listing_state}}<br>
-            City:{{$listing_city}}<br>
-            
+            <p style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-bottom: 15px;">We have added listing <b>{{$listing_name}}</b> under your account on FnB Circle.</p>
+
+
+        <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
+            <b style="display: block;padding-bottom: 5px;">Details of the Listing</b>
+            <b>Listing Name</b>: {{$listing_name}}<br>
+            <b>Type</b>: {{$listing_type}}<br>
+            <b>State</b>: {{$listing_state}}<br>
+            <b>City</b>: {{$listing_city}}<br>
+        </div>    
+        <br>
             <div style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;">
           Please click on the link below to activate your account and access/edit your business/listing.<br>
 
@@ -31,7 +34,7 @@
              Copy and paste this link into your browser: {{ $confirmationLink }}
           <br><br>
           <b style="color: #616161;">NOTE</b> : The above link is valid only for 2 hours.<br><br><br>
-              <div>
+              <div style="text-align: left;">
                 Regards,<br>
                 Team FnB Circle<br>
               </div>

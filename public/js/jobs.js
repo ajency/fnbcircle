@@ -474,4 +474,8 @@
     e.preventDefault();
   });
 
+  $('.custom-pop-btn.yes').click(function() {
+    return $('.send-jobs-loader').removeClass('hidden');
+  });
+
 }).call(this);

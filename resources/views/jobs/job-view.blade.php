@@ -628,7 +628,7 @@ $additionalData = ['job'=>$job];
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
                       
-                  <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this</a>
+                  <i class="fa fa-envelope p-r-5" aria-hidden="true"></i> Send me jobs like this <i class="fa fa-circle-o-notch fa-spin fa-fw hidden label-size send-jobs-loader"></i></a>
                   @endif
                </div>
               @if($job->isPublished()) 

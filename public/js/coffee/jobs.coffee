@@ -495,8 +495,8 @@ $('.open-popup-alert').popover(
   return
 
 
-# $('.custom-pop-btn').click ->
-#   $('.open-popup-alert').popover 'hide'
+$('.custom-pop-btn.yes').click ->
+  $('.send-jobs-loader').removeClass 'hidden'
 
 
 

@@ -1498,11 +1498,19 @@
 }
 
 .no-listing-card{
-	background-color: #eee;
+	background-color: transparent;
     box-shadow: none;
+    padding: 0;
+    padding-bottom: 2em;
+    margin: 0 -15px;
     .browse-cat{
-    	box-shadow: none;
+    	// box-shadow: none;
     	background-color: #fff;
+    	margin-top: 0;
+    	flex: 1;
+    	&:first-child{
+    		margin-right: 1.5em;
+    	}
     }
     .separator{
     	border-color: @accent-primary;
@@ -3724,6 +3732,14 @@ and (max-device-width: 650px) {
 	}
 }
 
+.no-listing-job{
+	padding: 1.5em;
+    margin: 2em 0;
+    .sad-icon{
+    	font-size: 3em;
+    }
+}
+
 .selection-card{
 	margin: 6em 0;
 	.card{
@@ -3770,6 +3786,13 @@ and (max-device-width: 650px) {
 	}
 }
 
+.cust-dashboard__title{
+	@media screen and (min-width: @sm-tab){
+		margin-left: -15px;
+	}
+	line-height: 1.6;
+}
+
 .customer-jobs{
 	.filter-data{
 		margin-top: 0;
@@ -3789,6 +3812,13 @@ and (max-device-width: 650px) {
 	}
 }
 
+.tabs-listing{
+	@media screen and (min-width: @sm-tab){
+		margin: 0 -15px;
+    	padding: 0 15px 2px;
+	}
+}
+
 .customer-resume-download{
 	.download{
 		transform: scale(0.75);
@@ -3800,6 +3830,64 @@ and (max-device-width: 650px) {
 		&:before{
 			top: -13px;
 		}
+	}
+}
+
+.row-pull-up{
+	@media screen and (min-width: @sm-tab){
+		margin-top: -3.5em;
+	}
+}
+
+.customer-card{
+	&__logo{
+		border-radius: 50%;
+	    width: 60px;
+	    height: 60px;
+	    border: 1px solid #9a9292;
+	}
+	&__divider{
+		position: relative;
+		margin-left: 1.1em;
+		p{
+			width: 30px;
+			height: 30px;
+			position: relative;
+    		background-color: #fff;
+			border-radius: 50%;
+			border: 1px solid #9a9292;
+			line-height: 30px;
+		}
+		&:before{
+			content: '';
+			display: inline-block;
+			position: absolute;
+		    top: 0;
+		    left: 1em;
+		    height: 100%;
+		    width: 1px;
+		    background-color: #9a9292;
+		}
+	}
+}
+
+.no-activity-data{
+	.no-listing-card{
+		flex-direction: column;
+    	margin-top: 2.5em;
+    	padding-bottom: 1em;
+	}
+	.customer-card{
+		width: 45%;
+		&:first-child{
+			margin-right: 0;
+    		margin-bottom: 1em;	
+		}
+	}
+	.card-separator{
+		border-color: @accent-primary;
+    	width: 90%;
+    	padding-bottom: 1em;
 	}
 }
 
@@ -3884,11 +3972,38 @@ and (max-device-width: 650px) {
 }
 
 @media screen and (max-width: @mobile){
+	.cust-dashboard__title{
+		font-size: 1em;
+	}
 	.row-btm-space{
-		background-color: #eee;
+		// background-color: #eee;
     	margin-top: 3.5em;
 	}
+	.no-listing-job{
+		padding: 1em;
+    	margin: 2em auto 0 auto;
+	}
+	.no-listing-card{
+		flex-direction: column;
+    	position: relative;
+    	top: -2.5em;
+    	.browse-cat{
+    		width: 300px;
+    		&:first-child{
+    			margin-right: 0;	
+    		}
+    		&:last-child{
+    			margin-bottom: 0;
+    		}
+    	}
+	}
+	.no-p-l{
+    	padding: 0 1em;
+	}
 	.your-activity{
+		margin: 0 -15px;
+    	padding: 0 15px;
+    	padding-bottom: 2px;
 		.nav-info{
 			padding-top: 0;
     		margin: 0 -15px;
@@ -3902,6 +4017,15 @@ and (max-device-width: 650px) {
     			a{
     				font-size: 0.85em;
     			}
+    		}
+		}
+		&.no-activity-data{
+			margin: 0;
+    		margin-top: -15px;
+    		.no-listing-card{
+    			top: 0;
+    			margin-top: 0;
+    			padding: 2em 0;
     		}
 		}
 	}

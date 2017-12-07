@@ -77,10 +77,39 @@ class ContactRequestController extends Controller
     public function displayContactInformation(Request $request)
     {
         $listing = Listing::where('reference', $request->id)->firstorfail();
+        if(Auth::guest()){
+            $session = Session::get('enquiry_data', ["name"=>""])
+            $name =  $session['name'];
+            $email = $session["email"]; 
+            $mobile = Session::get('otp_verified')['contact'];
+
+        }else{
+            $name = Auth::user()->name;
+            $email = Auth::user()->getPrimaryEmail();
+            $mobile = Auth::user()->getPrimaryContact();
+        }
         if ($listing->premium) {
             //send email to the lead/user with the contact details
-        
+            $area = Area::with('city')->find($listing->locality_id);
+            $email_data = [
+                'to' => $email,
+                'subject' => "Listing added under your account on FnB Circle",
+                'priority' =>'low',
+                'template_data' => [
+                    'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
+                    'listing' => $listing,
+                    'name'=>$name,
+                ],
+            ];
+            sendEmail('contact-request-seeker-premium',$email_data);
             //send sms to lead/user
+            $sms_data = [
+                'to' => $mobile,
+                'message' => ""
+                'priority' => 'low'
+
+            ];
+            sendSms('contact-request-seeker-premium',$sms_data);
             if ($listing->owner != null) {
                 $user = $listing->owner()->first();
                 // Send email to listing owner
@@ -91,8 +120,27 @@ class ContactRequestController extends Controller
 
             $ld = $this->similarBusinesses($listing);
             //send email to the lead/user with the contact details
-        
+            $area = Area::with('city')->find($listing->locality_id);
+            $email_data = [
+                'to' => $email,
+                'subject' => "Listing added under your account on FnB Circle",
+                'priority' =>'low',
+                'template_data' => [
+                    'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
+                    'listing' => $listing,
+                    'name'=>$name,
+                    'listing_data' => $ld,
+                ],
+            ];
+            sendEmail('contact-request-seeker-non-premium',$email_data);
             //send sms to lead/user
+            $sms_data = [
+                'to' => $mobile,
+                'message' => ""
+                'priority' => 'low'
+
+            ];
+            sendSms('contact-request-seeker-premium',$sms_data);
             return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
         }
     }
@@ -293,6 +341,7 @@ class ContactRequestController extends Controller
                     "enquiry_message" => $session_payload["enquiry_message"]];
                 $session_payload["user_object_id"] = $enquiry_data["user_object_id"];
                 $session_payload["user_object_type"] = $enquiry_data["user_object_type"];
+                Session::put('enquiry_data',$session_payload);
                 $enq_cont_obj->setOtpVerified(true, $session_payload["contact"]);
                 return $this->getContactRequest($request);
             }

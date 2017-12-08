@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function jobApplications()
     {
-        $applications = $this->applications()->get(); 
+        $applications = $this->applications()->orderBy('created_at','desc')->get(); 
         $jobs = [];
         foreach ($applications as $key => $application) {
             $job = $application->job;

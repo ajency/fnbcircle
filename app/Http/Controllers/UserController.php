@@ -336,8 +336,13 @@ class UserController extends Controller
         return $listing_obj;
     }
     public function customerdashboard(){
+
         $user = Auth::user();
-        $jobPosted = $user->jobPosted()->get();  
+ 
+        if($user->type != 'external')
+            abort(404);
+
+        $jobPosted = $user->jobPosted()->orderBy('created_at','desc')->get();  
         $jobApplication = $user->jobApplications(); 
         $myListingsCount = $user->listing()->count();
         $listings = $this->getMyListingData($user->listing());

@@ -614,7 +614,7 @@ class Job extends Model
     }
 
     public function hasPremiumRequest(){
-        $premiumRequest = $this->premium()->where('status',0)->first();
+        $premiumRequest = $this->premium()->first();
         return (!empty($premiumRequest)) ? true : false;
     }
 

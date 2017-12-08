@@ -136,7 +136,7 @@
                                         <i class="fa fa-angle-down" aria-hidden="true"></i>
                                       </button>
                                       <ul class="dropdown-menu card arrowBox" aria-labelledby="dLabel">
-                                        @if(Auth::user()->type == 'internal')
+                                        @if(Auth::user()->type == 'external')
                                         <li><a href="{{url('customer-dashboard')}}"><i class="fa fa-tachometer text-color p-r-5" aria-hidden="true"></i> My Dashboard</a></li>
                                         @endif
                                         <li><a href="{{url('profile/basic-details')}}"><i class="fa fa-user text-color p-r-5" aria-hidden="true"></i> My Profile</a></li>
@@ -172,7 +172,7 @@
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">
                         @if(!Auth::guest())
-                        @if(Auth::user()->type == 'internal')
+                        @if(Auth::user()->type == 'external')
                         <li class="desk-hide">
                             <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
                         </li>

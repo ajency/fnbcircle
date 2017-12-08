@@ -824,7 +824,7 @@ class AdminConfigurationController extends Controller
                             'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
                             'total_listing' => $user->listing()->count() ,
                             'published_listing' =>  $user->listing()->where('status','3')->count(),
-                            'total_jobs' =>  $user->jobs()->where('status','3')->count(),
+                            'total_jobs' =>  $user->jobs()->count(),
                             'published_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'job_applied' =>  $user->applications()->count(),
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',

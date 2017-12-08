@@ -199,19 +199,50 @@ Dashboard
                         
                         <!-- Nav tabs -->
                         @if($jobPosted->count() || $jobApplication->count() || $myListingsCount)
-                        
+                       
 
                         <div class="your-activity tabs-listing">
                             
                             <div class="nav-info scroll-tabs">
                                 <ul class="nav-info__tab flex-row" role="tablist">
+                                    @if($myListingsCount)
                                     <li role="presentation" class="nav-section active"><a href="#mylistings" aria-controls="mylistings" role="tab" data-toggle="tab">My Listings ({{$myListingsCount}})</a></li>
-                                    <li role="presentation" class="nav-section"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobPosted)}})</a></li>
-                                    <li role="presentation" class="nav-section"><a href="#appliedjobs" aria-controls="appliedjobs" role="tab" data-toggle="tab">Jobs I Applied To ({{ count($jobApplication)}})</a></li>
+                                        @php
+                                        $activeJobPostedTab = '';
+                                        @endphp
+                                    @else
+                                        @php
+                                        $activeJobPostedTab = 'active';
+                                        @endphp
+                                    @endif
+
+                                    @if($jobPosted->count())
+                                    <li role="presentation" class="nav-section {{ $activeJobPostedTab }}"><a href="#myjobs" aria-controls="myjobs" role="tab" data-toggle="tab">My Jobs ({{ count($jobPosted)}})</a></li>
+                                        @php
+                                        $activeJobApplicationTab = '';
+                                        @endphp
+                                    @else
+                                        @php
+                                        $activeJobApplicationTab = 'active';
+                                        @endphp
+                                    @endif
+
+                                    @if($jobApplication->count())
+                                    <li role="presentation" class="nav-section {{ $activeJobApplicationTab }}"><a href="#appliedjobs" aria-controls="appliedjobs" role="tab" data-toggle="tab">Jobs I Applied To ({{ count($jobApplication)}})</a></li>
+                                        @php
+                                        $activeTab = '';
+                                        @endphp
+                                    @else
+                                        @php
+                                        $activeTab = 'active';
+                                        @endphp
+                                    @endif
                                 </ul>
                             </div>
 
+
                             <div class="tab-content">
+                                @if($myListingsCount)
                                 <div role="tabpanel" class="tab-pane active" id="mylistings">
                                     @php
                                             if ($myListingsCount){
@@ -227,8 +258,10 @@ Dashboard
                                             
                                         @endphp
                                 </div>
+                                @endif
 
-                                <div role="tabpanel" class="tab-pane" id="myjobs">
+                                @if($jobPosted->count())
+                                <div role="tabpanel" class="tab-pane {{ $activeJobPostedTab }}" id="myjobs">
                                     <div class="job-listings customer-jobs">
                                         @php
                                             $jobs = $jobPosted;
@@ -244,8 +277,10 @@ Dashboard
                                         @endphp
                                     </div>
                                 </div>
+                                @endif
 
-                                <div role="tabpanel" class="tab-pane" id="appliedjobs">
+                                @if($jobApplication->count())
+                                <div role="tabpanel" class="tab-pane {{ $activeJobApplicationTab }}" id="appliedjobs">
                                     <div class="job-listings customer-jobs">
                                         @php
                                             $jobs = $jobApplication;
@@ -260,6 +295,8 @@ Dashboard
                                         @endphp 
                                     </div>
                                 </div>
+                                @endif
+                                
                             </div>
 
                         </div>

@@ -172,9 +172,11 @@
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">
                         @if(!Auth::guest())
+                        @if(Auth::user()->type == 'internal')
                         <li class="desk-hide">
                             <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
                         </li>
+                        @endif
                         <li class="desk-hide">
                             <a href="{{url('profile/basic-details')}}" class="nav-title-size">My Profile</a>
                         </li>

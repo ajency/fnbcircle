@@ -30,7 +30,7 @@ $(document).on 'change', 'select[name="job_city[]"]', ->
         jobCityObj.closest('.location-select').find('.job-areas').multiselect 'destroy'
         jobCityObj.closest('.location-select').find('.job-areas').multiselect
           includeSelectAllOption: true
-          numberDisplayed: 2
+          numberDisplayed: 1
           delimiterText:','
           nonSelectedText: 'Select City'
 
@@ -481,6 +481,14 @@ $('body').on 'change', '.terms-check', ->
     $('.job-save-btn').removeClass 'disable'
   else
     $('.job-save-btn').addClass 'disable'
+
+
+$('.default-area-select').multiselect
+  includeSelectAllOption: true
+  numberDisplayed: 1
+  delimiterText:','
+  nonSelectedText: 'Select City'
+          
 
 
 

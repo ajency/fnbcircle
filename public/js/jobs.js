@@ -58,7 +58,8 @@
       success: function(data) {
         $('input[name="resume_id"]').val('');
         $('.no_resume').removeClass('hidden');
-        return $('.has_resume').addClass('hidden');
+        $('.has_resume').addClass('hidden');
+        return $('.dropify-message').find('p').html('Upload my resume');
       },
       error: function(request, status, error) {
         throwError();

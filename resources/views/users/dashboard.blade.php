@@ -94,16 +94,14 @@ Dashboard
         </div> -->
 
             <div class="row m-t-30">
-                <div class="col-sm-8 m-t-15 m-b-15">
-                    <p class="element-title cloud-color m-b-0 lighter cust-dashboard__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Nemo, quidem. Magni autem ipsum est, quos numquam unde voluptatibus nobis quae.</p>
-                </div>    
+                <div class="col-sm-8 m-t-15 m-b-10">
+                    <div class="cust-dashboard__title">
+                        <h4 class="cloud-color">My Dashboard</h4>
+                        <!-- <p class="element-title cloud-color m-b-0 lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Nemo, quidem. Magni autem ipsum est, quos numquam unde voluptatibus nobis quae.</p> -->
+                    </div>
+                </div>
             </div>
 
-
-     
-
-    
-        
  
                 <div class="row m-t-20 row-btm-space">
 

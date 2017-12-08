@@ -6547,6 +6547,9 @@ input[type=checkbox].custom-checkbox:before {
 .your-activity .no-results {
   margin-top: 2em;
 }
+.your-activity .fnb-cat li {
+  cursor: auto;
+}
 @media screen and (max-width: 768px) {
   .cust-dashboard__title {
     font-size: 1em;

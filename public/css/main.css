@@ -6362,7 +6362,18 @@ input[type=checkbox].custom-checkbox:before {
   }
 }
 .contact-modal .best-section .multiselect.multiselect.dropdown-toggle {
-  font-size: 0.98em;
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle .caret {
+  margin-left: 0.5em;
+}
+.contact-modal .best-section .multiselect-container label.checkbox {
+  margin: 0.5em 0;
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect-container input[type='checkbox'] {
+  position: relative;
+  top: 3px;
 }
 .search-section {
   position: relative;

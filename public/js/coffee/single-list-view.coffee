@@ -170,3 +170,16 @@ $('body').on 'click','#contact-info', () ->
     success: (data) ->
       $('#contact-modal .modal-body').html data
       # remove loader
+
+
+$(".contact-modal").on 'shown.bs.modal', (e) ->  
+  # console.log 'test'
+  if $('.entry-describe-best').length
+    $('.entry-describe-best').multiselect
+      includeSelectAllOption: true
+      numberDisplayed: 2
+      delimiterText:','
+      nonSelectedText: 'Select Experience'
+
+
+

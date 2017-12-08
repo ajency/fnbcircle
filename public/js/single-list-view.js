@@ -178,4 +178,15 @@
     });
   });
 
+  $(".contact-modal").on('shown.bs.modal', function(e) {
+    if ($('.entry-describe-best').length) {
+      return $('.entry-describe-best').multiselect({
+        includeSelectAllOption: true,
+        numberDisplayed: 2,
+        delimiterText: ',',
+        nonSelectedText: 'Select Experience'
+      });
+    }
+  });
+
 }).call(this);

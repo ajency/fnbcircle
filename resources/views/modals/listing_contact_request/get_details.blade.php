@@ -56,7 +56,7 @@
                   <label class="m-b-0 text-lighter float-label filled focused required" for="contact_describe">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></label>
                   <!-- <p class="text-darker describes__title text-medium"></p> -->
                   <div class="row">
-                     <div class="col-sm-6">
+                     <div class="col-sm-12">
                         <select class="fnb-select select-variant entry-describe-best" multiple="multiple">
                            <option>I work in the F&amp;B industry</option>
                            <option>I am a resturant owner</option>

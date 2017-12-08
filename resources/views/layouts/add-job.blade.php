@@ -327,7 +327,7 @@
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
-                                            @if($isPremiumPage)
+                                            @if($isPremiumPage &&  ($job->status==1 || $job->status==5))
                                                 <div class="flex-row flex-end flex-1 terms-privacy-section">
                                                 <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 mobile-hide"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0 p-r-25">I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.</p></label>
                                              @endif

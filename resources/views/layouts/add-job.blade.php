@@ -322,14 +322,14 @@
                                         <!-- content navigation -->
                                         <div class="gs-form__footer flex-row m-t-30 @if($isPremiumPage) terms-row @endif">
                                         @if($isPremiumPage)
-                                            <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 desk-hide terms-label"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0">I agree to Terms and Privacy on FnB Services</p></label>
+                                            <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 desk-hide terms-label"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0">I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.</p></label>
                                          @endif
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
                                             @if($isPremiumPage)
                                                 <div class="flex-row flex-end flex-1 terms-privacy-section">
-                                                <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 mobile-hide"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0 p-r-25">I agree to Terms and Privacy on FnB Services</p></label>
+                                                <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 mobile-hide"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0 p-r-25">I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.</p></label>
                                              @endif
                                             <button class="btn fnb-btn primary-btn full info-save gs-next job-save-btn" type="submit">
 

@@ -18,7 +18,7 @@
             <b>{{$listing_name}}</b> is added under your account on FnB Circle.<br>
             <br>
             <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
-              <b style="display: block;padding-bottom: 5px;">Details of the Listing</b>
+              <b style="display: block;padding-bottom: 5px;font-size: 14px;margin-bottom: 5px;text-transform: uppercase;border-bottom: 1px solid #c7c3c3;color: #ec6d4b;">Details of the Listing</b>
               <b>Listing Name</b>: {{$listing_name}}<br>
               <b>Type</b>: {{$listing_type}}<br>
               <b>State</b>: {{$listing_state}}<br>

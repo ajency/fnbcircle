@@ -6398,7 +6398,8 @@ input[type=checkbox].custom-checkbox:before {
   position: relative;
   top: 3px;
 }
-.internal-contact-row .intl-tel-input {
+.internal-contact-row .intl-tel-input,
+.contact-phone-intl .intl-tel-input {
   display: block;
 }
 .status-checkbox {
@@ -6406,6 +6407,15 @@ input[type=checkbox].custom-checkbox:before {
 }
 .status-checkbox input[type='checkbox']:before {
   top: -2px;
+}
+.contactEnquiry .seller-enquiry .verified-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 26px;
+  margin-left: 0.3em;
+  position: relative;
+  top: -3px;
 }
 @media screen and (max-width: 768px) {
   .user-details-container .user-fields {

@@ -274,9 +274,12 @@ $('#contact-modal').on 'click','#submit-cr-otp', () ->
 
 $(".contact-modal").on 'shown.bs.modal', (e) ->  
   # console.log 'test'
-  if $('.entry-describe-best').length
-    $('.entry-describe-best').multiselect
-      includeSelectAllOption: true
-      numberDisplayed: 2
-      delimiterText:','
-      nonSelectedText: 'Select Experience'
+   setTimeout (->
+      if $('.entry-describe-best').length
+        $('.entry-describe-best').multiselect
+          includeSelectAllOption: true
+          numberDisplayed: 2
+          delimiterText:','
+          nonSelectedText: 'Select Experience'
+  ), 800
+

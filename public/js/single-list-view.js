@@ -298,14 +298,16 @@
   });
 
   $(".contact-modal").on('shown.bs.modal', function(e) {
-    if ($('.entry-describe-best').length) {
-      return $('.entry-describe-best').multiselect({
-        includeSelectAllOption: true,
-        numberDisplayed: 2,
-        delimiterText: ',',
-        nonSelectedText: 'Select Experience'
-      });
-    }
+    return setTimeout((function() {
+      if ($('.entry-describe-best').length) {
+        return $('.entry-describe-best').multiselect({
+          includeSelectAllOption: true,
+          numberDisplayed: 2,
+          delimiterText: ',',
+          nonSelectedText: 'Select Experience'
+        });
+      }
+    }), 800);
   });
 
 }).call(this);

@@ -344,6 +344,7 @@ class UserController extends Controller
         $userResume = $user->getUserJobLastApplication();
         $userDetails = $user->getUserDetails; 
         $jobAlertConfig =  $userDetails->job_alert_config;//dd($jobAlertConfig);
+        $setNewAlert = (empty($jobAlertConfig)) ? true :false;
         if(empty($jobAlertConfig) && isset($_GET['job'])){
             $reference_id = $_GET['job'];
             $job = Job::where('reference_id',$reference_id)->first();
@@ -389,6 +390,7 @@ class UserController extends Controller
                                         ->with('browserState', $browserState)
                                         ->with('myListingsCount', $myListingsCount)
                                         ->with('listing_data', $listings)
+                                        ->with('setNewAlert', $setNewAlert)
                                        ->with('jobPosted', $jobPosted);
     }
 

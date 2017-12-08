@@ -31,7 +31,7 @@
                           </span>
                           <!-- interview address -->
                           @if($job->interview_location!="")
-                          <div class="owner-address m-b-5">
+                          <div class="owner-address m-b-5 hidden ">
                             <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
                             <!-- <span class="fnb-icons map-icon"></span> -->
                             <div class="flex-row align-top">
@@ -43,7 +43,7 @@
                           @endif
                           
                           @if(!empty($job->getJobTypes()))
-                          <div class="flex-row jobDetail__row">
+                          <div class="flex-row jobDetail__row hidden">
                              <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
                              <div class="featured-jobs__row flex-row">
                                   <div class="job-type m-t-5">

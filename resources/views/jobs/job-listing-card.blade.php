@@ -198,7 +198,7 @@
                 @endif
 
  
-                @if($job->jobApplicants()->count())  
+                @if($job->jobOwner() && $job->jobApplicants()->count())  
                 <a href="javascript:void(0)" job-id="{{ $job->reference_id }}" class="secondary-link default-size open-sidebar view-applicant__btn"> View Applications  <span class="x-small">({{ $job->jobApplicants()->count() }})</span></a>
                 @endif
              
@@ -210,7 +210,7 @@
                 <a href="#"  class="apply-jobs secondary-link default-size applicant-link" data-toggle="modal" data-target="#job-application-{{ $job->id}}">View Your Application</a>
             @endif
             
-            @if($job->jobApplicants()->count())  
+            @if($job->jobOwner() && $job->jobApplicants()->count())  
             <a href="javascript:void(0)" job-id="{{ $job->reference_id }}" class="secondary-link default-size open-sidebar applicant-link view-applicant__btn"> View Applications  <span class="x-small">({{ $job->jobApplicants()->count() }})</span></a>
             @endif
 

@@ -52,7 +52,7 @@ $(document).on 'click', '.remove_resume', ->
       $('input[name="resume_id"]').val('')
       $('.no_resume').removeClass 'hidden'
       $('.has_resume').addClass 'hidden'
-
+      $('.dropify-message').find('p').html('Upload my resume')
       
     error: (request, status, error) ->
       throwError()

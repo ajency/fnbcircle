@@ -334,7 +334,7 @@ Dashboard
                                                         
                                                     </div>
                                                     <div class="m-t-10 fileUpload">
-                                                            <input type="file" name="resume" class="resume-upload" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-required data-parsley-errors-container="#resume-error"/> 
+                                                            <input type="file" name="resume" class="@if(empty($userResume['resume_id'])) resume-upload @else resume-already-upload @endif" data-height="100" data-max-file-size="3M" data-allowed-file-extensions="doc docx pdf" data-parsley-required data-parsley-errors-container="#resume-error"/> 
                                                             <div id="resume-error"></div>
                                                     </div>
                                                 </div>

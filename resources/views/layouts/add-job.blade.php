@@ -126,7 +126,7 @@
 
                                             </div>
                                             @if($job->submitForReview() && !$isPremiumPage) 
-                                            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit for Review</a>
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit Job</a>
                                             @endif
 
                                             @if($job->getNextActionButton())
@@ -335,7 +335,7 @@
 
                                             @if(!$isPremiumPage)
                                             Save &amp; Next
-                                            @elseif($job->status!=1)
+                                            @elseif($job->status!=1 && $job->status!=5)
                                             Subscribe
                                             @else
                                             Submit Job

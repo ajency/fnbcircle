@@ -11,7 +11,7 @@
                     <h3 class="seller-info__title ellipsis-2 p-r-10" title="{{ $job->title }}"><a href="{{ url('/job/'.$job->getJobSlug()) }}" class=" text-darker" target="_blank">{{ $job->title }}</a></h3>
 
                     @if($job->premium)
-                    <img src="{{ asset('/img/power-seller.png') }}" class="img-responsive power-seller" width="120">
+                    <img src="{{ asset('/img/hot-jobs.png') }}" class="img-responsive power-seller" width="120">
                     @endif
                     
                   </div>

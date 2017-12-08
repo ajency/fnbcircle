@@ -35,4 +35,9 @@
     }
   });
 
+  $('body').on('click', '.show-alert-form', function() {
+    $(this).closest('.alert-config').addClass('hidden');
+    return $('.job-form').removeClass('hidden');
+  });
+
 }).call(this);

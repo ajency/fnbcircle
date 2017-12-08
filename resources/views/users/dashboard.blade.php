@@ -35,20 +35,12 @@ Dashboard
         <div class="single-view-head">
 
             <div class="container">
-        @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount)
+   
 
                     <!-- No activity -->
 
-                <div class="row m-b-30 m-t-30">
+            <!--     <div class="row m-b-30 m-t-30">
                     <div class="col-sm-12 p-l-0 no-p-l">
-                        <!-- <div class="featured-jobs browse-cat card text-center no-data-card">
-                            <i class="fa fa-frown-o text-primary element-title" aria-hidden="true"></i>
-                            <div class="m-t-20">
-                                <h6 class="element-title m-b-15 no-data-card__title">You don't have any Business Listings or Job Posts yet !</h6>
-                                <h6 class="text-lighter text-medium m-b-15 label-size">Your Business Listings and Job Posts will appear here.</h6>
-                                <h6 class="sub-title m-b-20">Get Started Now</h6>
-                            </div>
-                        </div> -->
                         <div class="pre-benefits flex-row no-listing-job">
                             <div class="pre-benefits__intro flex-row">
                                 <i class="fa fa-frown-o text-primary sad-icon" aria-hidden="true"></i><div class="pre-benefits__content">
@@ -60,10 +52,9 @@ Dashboard
                         </div>
                     </div>
                 </div>
-
+ -->
                 <!-- No activity div ends -->
 
-        @else
 
 <!--         <div class="selection-card flex-row space-between">
             <div class="card business-card flex-row space-between">
@@ -109,14 +100,14 @@ Dashboard
             </div>
 
 
-        @endif
+     
 
     
         
  
                 <div class="row m-t-20 row-btm-space">
 
-                    <div class="col-sm-8 @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount) your-activity no-activity-data @endif">
+                    <div class="col-sm-8">
 
                     
                         <!-- No data -->
@@ -149,9 +140,7 @@ Dashboard
                                 
                             </div>
                             
-                            @if(!$jobPosted->count() && !$jobApplication->count() && !$myListingsCount)
-                            <hr class="card-separator">
-                            @endif
+                  
 
                             <div class="featured-jobs browse-cat text-center customer-card flex-row space-between col-direction align-baseline">
                                 <div class="customer-card__col flex-row">
@@ -300,13 +289,24 @@ Dashboard
                             </div>
 
                         </div>
+                        
+                        @else
+
+
+                        <div class="no-customer-activity text-center"> 
+                            
+                            <img src="/img/no-data.png" class="img-responsive center-block" width="100">
+
+                            <p class="m-b-30 m-t-30 text-lighter text-medium">You dont have any Jobs or Listings created</p>
+                        </div>
+
 
                         @endif
                         
                     </div>
 
 
-                    <div class="col-sm-4 @if($jobPosted->count() || $jobApplication->count() || $myListingsCount) row-pull-up @endif">
+                    <div class="col-sm-4">
                         <div class="pos-fixed fly-out">
                             <div class="mobile-back desk-hide mobile-flex">
                                <div class="left mobile-flex">
@@ -356,9 +356,10 @@ Dashboard
                                     </div>
                                 </form>
 
-                                @if(!$setNewAlert)
+                                
                                 <div class="enquiry-form card m-b-20 dash-enquiry-form">
-                                    <form id="job-form" method="post" data-parsley-validate action="{{url('customer-dashboard/users/set-job-alert')}}"   enctype="multipart/form-data">
+                                    
+                                    <form id="job-form" method="post" data-parsley-validate action="{{url('customer-dashboard/users/set-job-alert')}}" enctype="multipart/form-data" class="job-form @if($setNewAlert) hidden @endif">
                                         <div class="enquiry-form__header flex-row space-between align-top">
                                             <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
                                             <div class="enquiry-title">
@@ -567,15 +568,26 @@ Dashboard
                                             </div>
                                         </div>
                                     </form>
-                                </div>
-                                @else
-                                <!-- new config -->
-                                <div>
-                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">  
+                                    <!-- new config -->
+                                    <div class="alert-config @if(!$setNewAlert) hidden @endif">
+                                         <div class="enquiry-form__header flex-row space-between align-top">
+                                            <!-- <img src="img/enquiry.png" class="img-responsive p-r-10"> -->
+                                            <div class="enquiry-title">
+                                                <h6 class="element-title m-t-0 m-b-5">Job Alerts</h6>
+                                                <p class="default-size text-lighter">Set your criteria to receive job recommendation</p>
+                                            </div>
+                                            <span class="fnb-icons enquiry"></span>
+                                        </div>
+                                        <div class="m-b-20 m-t-20 text-center no-alert-set">
+                                            <button type="submit" class="btn fnb-btn primary-btn border-btn full code-send show-alert-form">  
                                                 Set Job Alert
-                                                <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                                                <i class="fa fa-circle-o-notch fa-spin hidden"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                @endif
+                                
                             </div>
                         </div>
                     </div>

@@ -826,7 +826,7 @@ class AdminConfigurationController extends Controller
                             'published_listing' =>  $user->listing()->where('status','3')->count(),
                             'total_jobs' =>  $user->jobs()->where('status','3')->count(),
                             'published_jobs' =>  $user->jobs()->where('status','3')->count(),
-                            'job_applied' =>  '',
+                            'job_applied' =>  $user->applications()->count(),
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
                             'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
                             'status_raw' => $user->status,

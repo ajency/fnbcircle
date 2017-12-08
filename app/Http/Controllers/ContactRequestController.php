@@ -7,6 +7,7 @@ use App\User;
 use App\UserCommunication;
 use App\Lead;
 use App\ListingCategory;
+use App\Area;
 use Auth;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class ContactRequestController extends Controller
             if (!empty($otp)) {
                 return response()->json(['html' => $this->displayContactInformation($request), 'step' => 'contact-info']);
             } else {
+
                 return $this->displayVerificationPopup($request);
             }
         } elseif (!Auth::user()->getPrimaryContact()['is_verified']) {
@@ -74,11 +76,9 @@ class ContactRequestController extends Controller
         return View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->render();
     }
 
-    public function displayContactInformation(Request $request)
-    {
-        $listing = Listing::where('reference', $request->id)->firstorfail();
+    public function sendPremiumContact($listing){
         if(Auth::guest()){
-            $session = Session::get('enquiry_data', ["name"=>""])
+            $session = Session::get('enquiry_data', ["name"=>""]);
             $name =  $session['name'];
             $email = $session["email"]; 
             $mobile = Session::get('otp_verified')['contact'];
@@ -88,59 +88,109 @@ class ContactRequestController extends Controller
             $email = Auth::user()->getPrimaryEmail();
             $mobile = Auth::user()->getPrimaryContact();
         }
-        if ($listing->premium) {
-            //send email to the lead/user with the contact details
-            $area = Area::with('city')->find($listing->locality_id);
+        
+        //send email to the lead/user with the contact details
+        $area = Area::with('city')->find($listing->locality_id);
+        $email_data = [
+            'to' => $email,
+            'subject' => "Listing added under your account on FnB Circle",
+            'priority' =>'low',
+            'template_data' => [
+                'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
+                'listing' => $listing,
+                'name'=>$name,
+            ],
+        ];
+        sendEmail('contact-request-seeker-premium',$email_data);
+
+        //send sms to lead/user
+        $sms_data = [
+            'to' => $mobile,
+            'message' => "",
+            'priority' => 'low'
+        ];
+        // sendSms('contact-request-seeker-premium',$sms_data);
+
+        if ($listing->owner != null) {
+            $user = $listing->owner()->first();
+            
+            // Send email to listing owner
             $email_data = [
-                'to' => $email,
-                'subject' => "Listing added under your account on FnB Circle",
-                'priority' =>'low',
+                'to' => $user->getPrimaryEmail(),
+                'subject' => 'Contact details of '.$listing->title.' shared with a seeker',
+                'priority' => 'low',
                 'template_data' => [
                     'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
-                    'listing' => $listing,
-                    'name'=>$name,
+                    'listing_name' => $listing->title,
+                    'name' => $user->name,
+                    'customer_name' => $name,
+                    'customer_email' => $email,
+                    'customer_contact' => $mobile,
                 ],
             ];
-            sendEmail('contact-request-seeker-premium',$email_data);
-            //send sms to lead/user
-            $sms_data = [
-                'to' => $mobile,
-                'message' => ""
-                'priority' => 'low'
-
-            ];
-            sendSms('contact-request-seeker-premium',$sms_data);
-            if ($listing->owner != null) {
-                $user = $listing->owner()->first();
-                // Send email to listing owner
-                //send sms to owner
+            if(!Auth::guest()){
+                $email_data['template_data']['customer_dashboard_url'] = url('/profile/basic-details/'.$email);
             }
+            sendEmail('contact-request-owner-premium',$email_data);
+            
+            //send sms to owner
+            $owner_cont = $user->getPrimaryContact();
+            $sms_data = [
+                'to' => $owner_cont['contact_region'].$owner_cont['contact'],
+                'message' => "",
+                'priority' => 'low'
+            ];
+            // sendSms('contact-request-owner-premium',$sms_data);
+        }
+    }
+
+    public function sendNonPremiumContact($listing,$ld){
+        if(Auth::guest()){
+            $session = Session::get('enquiry_data', ["name"=>""]);
+            $name =  $session['name'];
+            $email = $session["email"]; 
+            $mobile = Session::get('otp_verified')['contact'];
+
+        }else{
+            $name = Auth::user()->name;
+            $email = Auth::user()->getPrimaryEmail();
+            $mobile = Auth::user()->getPrimaryContact();
+        }
+        //send email to the lead/user with the contact details
+        $area = Area::with('city')->find($listing->locality_id);
+        $email_data = [
+            'to' => $email,
+            'subject' => "Listing added under your account on FnB Circle",
+            'priority' =>'low',
+            'template_data' => [
+                'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
+                'listing' => $listing,
+                'name'=>$name,
+                'listing_data' => $ld,
+            ],
+        ];
+        sendEmail('contact-request-seeker-non-premium',$email_data);
+        //send sms to lead/user
+        $sms_data = [
+            'to' => $mobile,
+            'message' => "",
+            'priority' => 'low'
+
+        ];
+        // sendSms('contact-request-seeker-premium',$sms_data);
+    }
+    
+    public function displayContactInformation(Request $request)
+    {
+        $listing = Listing::where('reference', $request->id)->firstorfail();
+        
+        if ($listing->premium) {
+            $this->sendPremiumContact($listing);
             return View::make('modals.listing_contact_request.contact-details-premium')->with('listing', $listing)->render();
         } else {
 
             $ld = $this->similarBusinesses($listing);
-            //send email to the lead/user with the contact details
-            $area = Area::with('city')->find($listing->locality_id);
-            $email_data = [
-                'to' => $email,
-                'subject' => "Listing added under your account on FnB Circle",
-                'priority' =>'low',
-                'template_data' => [
-                    'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
-                    'listing' => $listing,
-                    'name'=>$name,
-                    'listing_data' => $ld,
-                ],
-            ];
-            sendEmail('contact-request-seeker-non-premium',$email_data);
-            //send sms to lead/user
-            $sms_data = [
-                'to' => $mobile,
-                'message' => ""
-                'priority' => 'low'
-
-            ];
-            sendSms('contact-request-seeker-premium',$sms_data);
+            $this->sendNonPremiumContact($listing,$ld);
             return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
         }
     }

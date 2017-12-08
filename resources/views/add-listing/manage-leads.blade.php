@@ -141,7 +141,7 @@
             <div class="flex-row flex-wrap m-t-20">
                 <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="direct"> <div class="">Direct Enquiry</div></label>
                 <label class="flex-row text-lighter m-r-15 text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="shared"> <div class="">Shared Enquiry</div></label>
-                <label class="flex-row text-lighter text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="contact"> <div class="">Contact Request</div></label>
+                <label class="flex-row text-lighter text-medium cursor-pointer"><input type="checkbox" class="checkbox type-filter" value="contact-request"> <div class="">Contact Request</div></label>
             </div>
         </div>
         
@@ -239,6 +239,7 @@
                 <th style="min-width: 90px;">
                     <label class="flex-row show-archive"><input type="checkbox" class="checkbox" id="archivefilter"> Show archive</label>
                 </th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

@@ -8,12 +8,15 @@ use App\UserCommunication;
 use App\Lead;
 use App\ListingCategory;
 use App\Area;
+use App\Enquiry;
+use App\EnquirySent;
 use Auth;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Session;
 use View;
 use Carbon\Carbon;
+use Spatie\Activitylog\Models\Activity;
 
 class ContactRequestController extends Controller
 {
@@ -86,7 +89,8 @@ class ContactRequestController extends Controller
         }else{
             $name = Auth::user()->name;
             $email = Auth::user()->getPrimaryEmail();
-            $mobile = Auth::user()->getPrimaryContact();
+            $contact = Auth::user()->getPrimaryContact();
+            $mobile = $contact['contact_region'].$contact['contact'];
         }
         
         //send email to the lead/user with the contact details
@@ -183,6 +187,37 @@ class ContactRequestController extends Controller
     public function displayContactInformation(Request $request)
     {
         $listing = Listing::where('reference', $request->id)->firstorfail();
+        if(Auth::guest()){
+            $session = Session::get('enquiry_data');
+            $user = Lead::find($session['user_object_id']);
+        }else{
+            $user = Auth::user();
+        }
+        
+        $ec = new EnquiryController;
+
+        $enquiry = new Enquiry;
+        $enquiry->user_object_id = $user->id;
+        $enquiry->user_object_type = get_class($user);
+        $enquiry->enquiry_device = $ec->isMobile()? "mobile":'desktop'; 
+        $enquiry->enquiry_to_id = $listing->id;
+        $enquiry->enquiry_to_type = get_class($listing);
+        $enquiry->type = 'contact-request';
+        $enquiry->save();
+
+        $sent = new EnquirySent;
+        $sent->enquiry_id = $enquiry->id;
+        $sent->enquiry_type = 'contact-request';
+        $sent->enquiry_to_type = get_class($listing);
+        $sent->enquiry_to_id = $listing->id;
+        $sent->is_archived = 0;
+        $sent->save();
+
+
+        activity()
+           ->performedOn($enquiry)
+           ->causedBy($user)
+           ->log('contact-request-created');
         
         if ($listing->premium) {
             $this->sendPremiumContact($listing);

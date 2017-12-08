@@ -6631,6 +6631,11 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 0;
   }
 }
+@media screen and (max-width: 768px) {
+  .dashboardTitle {
+    font-size: 1.3em;
+  }
+}
 .popover-title {
   padding: 0.8em 1em;
   text-align: center;

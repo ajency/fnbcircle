@@ -852,14 +852,17 @@ class JobController extends Controller
             $jobQuery->where('jobs.date_of_submission','<=',$filters['submission_date_to'].' 23:59:59');
         }
 
-        if(isset($filters['premium_request']) && !empty($filters['premium_request']))
+        if(isset($filters['premium_request']) && !empty($filters['premium_request']) && count($filters['premium_request']) == 1)
         {
-            $jobIds = PlanAssociation::where('premium_type','App\Job')->where('status','0')->pluck('premium_id')->toArray();
+            
+            $jobIds = PlanAssociation::where('premium_type','App\Job')->pluck('premium_id')->toArray();
             $jobIds = (!empty($jobIds)) ? $jobIds : [0];
-            if($filters['premium_request'] == 'yes')
+            if(in_array('yes', $filters['premium_request'])){
                 $jobQuery->whereIn('jobs.id',$jobIds);
-            else
+            }
+            else{
                 $jobQuery->whereNotIn('jobs.id',$jobIds);
+            }
 
             $jobQuery->distinct('jobs.id');
         }

@@ -75,31 +75,31 @@
         "width": "60px",
         "targets": 1
       }, {
-        "width": "90px",
+        "width": "70px",
         "targets": 2
       }, {
-        "width": "100px",
+        "width": "80px",
         "targets": 3
       }, {
-        "width": "120px",
+        "width": "100px",
         "targets": 4
       }, {
-        "width": "80px",
+        "width": "60px",
         "targets": 5
       }, {
         "width": "100px",
         "targets": 6
       }, {
-        "width": "80px",
+        "width": "70px",
         "targets": 7
       }, {
-        "width": "80px",
+        "width": "90px",
         "targets": 8
       }, {
         "width": "80px",
         "targets": 9
       }, {
-        "width": "60px",
+        "width": "75px",
         "targets": 10
       }, {
         "width": "70px",

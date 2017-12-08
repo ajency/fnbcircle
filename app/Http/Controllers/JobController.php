@@ -1411,6 +1411,60 @@ class JobController extends Controller
         return response()->json(['results' => $jobTitles, 'options' => []]);
     }
 
+    public function getJobApplications(Request $request,$referenceId){
+        $job = Job::where('reference_id',$referenceId)->first();
+        $jobApplications = $job->jobApplicants()->orderBy('date_of_application','desc')->get();
+
+        $html ='';
+        if(!empty($jobApplications)){
+            foreach($jobApplications as $key => $application){
+                $resumeUrl = getUploadFileUrl($application->resume_id);
+
+                if(isset($jobApplications[($key - 1)]) && $application->date_of_application == $jobApplications[($key - 1)]->date_of_application)
+                {
+                    $date_of_application = '';
+                    $dateRepeat = 'date-repeat';
+                }
+                else
+                {
+                    $date_of_application = $application->dateOfSubmission();
+
+                    if(isset($jobApplications[($key + 1)]) && $application->date_of_application == $jobApplications[($key + 1)]->date_of_application)
+                      $dateRepeat = 'date-repeat';
+                    else
+                      $dateRepeat = '';
+                }
+            
+
+            
+                $html .='<tr>';
+                $html .='<td class="'.$dateRepeat.'">'.$date_of_application.' </td>';
+                $html .='<td>'. $application->name .'</td>';
+                $html .='<td>'.$application->email .'</td>';
+                $html .='<td> +('.$application->country_code.') '. $application->phone .'</td>';
+
+                $html .='<td>';
+                 if($application->city_id){
+                    $html .= $application->applicantCity->name;
+                 }  
+                $html .= '</td>';
+                $html .='<td class="download-col">';
+                if($application->resume_id){
+                    $html .='<a href="'.url('/user/'.$application->resume_id.'/download-resume').'">Download <i class="fa fa-download" aria-hidden="true"></i></a>';
+                }else{
+                    $html .='-';
+                }
+                $html .='</td>';
+                $html .='</tr>';
+            }
+
+        }
+
+        return response()->json(['results' => true, 'html' => $html]);
+        
+
+    }
+
  
 
 

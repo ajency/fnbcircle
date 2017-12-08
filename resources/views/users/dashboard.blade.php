@@ -593,7 +593,7 @@ Dashboard
                 </table> 
               </div>
               <div class="page-sidebar__footer"></div>
-              <div class="site-loader">
+              <div class="site-loader application-loader">
                     <div id="floatingBarsG">
                         <div class="blockG" id="rotateG_01"></div>
                         <div class="blockG" id="rotateG_02"></div>

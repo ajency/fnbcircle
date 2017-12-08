@@ -59,6 +59,28 @@ $(document).on 'click', '.remove_resume', ->
       return
 
 
+
+$(document).on 'click', '.view-applicant__btn', ->
+  $('.application-loader').removeClass('hidden')
+  jobId = $(this).attr('job-id')
+  $.ajax
+    type: 'post'
+    url: '/job/'+jobId+'/get-job-application'
+    data:
+      'user': ''
+    success: (data) ->
+    
+      $('.application-table').find('tbody').html(data.html)
+      $('.application-loader').addClass('hidden')
+      
+    error: (request, status, error) ->
+      throwError()
+      return
+
+
+
+
+
 $('input[name="salary_type"]').change (e) ->
   $('.salary-amt').attr('data-parsley-required',true)
   console.log $('input[name="salary_lower"]').attr('salary-type-checked')

@@ -66,6 +66,26 @@
     });
   });
 
+  $(document).on('click', '.view-applicant__btn', function() {
+    var jobId;
+    $('.application-loader').removeClass('hidden');
+    jobId = $(this).attr('job-id');
+    return $.ajax({
+      type: 'post',
+      url: '/job/' + jobId + '/get-job-application',
+      data: {
+        'user': ''
+      },
+      success: function(data) {
+        $('.application-table').find('tbody').html(data.html);
+        return $('.application-loader').addClass('hidden');
+      },
+      error: function(request, status, error) {
+        throwError();
+      }
+    });
+  });
+
   $('input[name="salary_type"]').change(function(e) {
     $('.salary-amt').attr('data-parsley-required', true);
     console.log($('input[name="salary_lower"]').attr('salary-type-checked'));

@@ -148,6 +148,7 @@ logged in users group
 */
 Route::group( ['middleware' => ['auth']], function() { 
 	Route::post('/jobs/{reference_id}/applyjob','JobController@applyJob');
+	Route::post('/job/{reference_id}/get-job-application','JobController@getJobApplications');
  	Route::post('/user/verify-contact-details','UserController@verifyContactDetails'); // Generate OTP
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp'); // Validate OTP
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');

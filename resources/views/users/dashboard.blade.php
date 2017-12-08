@@ -296,7 +296,7 @@ Dashboard
                                     </div>
                                 </div>
                                 @endif
-                                
+
                             </div>
 
                         </div>
@@ -355,6 +355,8 @@ Dashboard
                                         </div>
                                     </div>
                                 </form>
+
+                                @if(!$setNewAlert)
                                 <div class="enquiry-form card m-b-20 dash-enquiry-form">
                                     <form id="job-form" method="post" data-parsley-validate action="{{url('customer-dashboard/users/set-job-alert')}}"   enctype="multipart/form-data">
                                         <div class="enquiry-form__header flex-row space-between align-top">
@@ -554,11 +556,26 @@ Dashboard
                                             </a>
 
                                             <div class="form-group p-t-20 m-b-0 text-center">
-                                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">Modify <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">
+                                                @if($setNewAlert)
+                                                Set Job Alert
+                                                @else
+                                                Modify
+                                                @endif
+
+                                                 <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
+                                @else
+                                <!-- new config -->
+                                <div>
+                                <button  type="submit" class="btn fnb-btn primary-btn border-btn full code-send job-save-btn">  
+                                                Set Job Alert
+                                                <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

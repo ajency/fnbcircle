@@ -51,10 +51,12 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "updated_on"}
     {"data": "last_updated_by"}
     {"data": "type"}
+    {"data": "owner-status"}
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
     {"data": "status_ref"}
+    {"data": "source"}
   ]
   'select':
     'style': 'multi'

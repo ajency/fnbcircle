@@ -147,6 +147,14 @@
                           <option value="verified" >Verified</option>
                         </select>
                       </th>
+                      <th class="no-sort" data-col="8" style="min-width: 10%;">
+                        Owner Status
+                        <select multiple class="form-control multi-dd" id="listingType">
+                          <option value="active" >Active</option>
+                          <option value="inactive">Inactive</option>
+                          <option value="suspended" >Suspended</option>
+                        </select>
+                      </th>
                       <th class="no-sort">Duplicates<br><small>(Number,Email,Name)</small></th>
                       <th class="no-sort" data-col="10" style="min-width: 10%;">
                         Premium Request
@@ -163,6 +171,15 @@
                         <option value="4" >Archived</option>
                        
                         <option value="5" >Rejected</option>
+                        </select>
+                      </th>
+                      <th>Listing status ref</th>
+                      <th class="no-sort">
+                        Listing Source
+                        <select multiple class="form-control multi-dd" id="source-filter">
+                          <option value="internal_user" >Internal User</option>
+                          <option value="external_user" >External User</option>
+                          <option value="import" >Import</option>
                         </select>
                       </th>
                     </tr>

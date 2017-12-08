@@ -88,11 +88,19 @@ return [
         "smsgupshup" => ""
     ],
     "listing-user-verify"=> [
-        "laravel" => "email.listing-user-verify",
+        "laravel" => "email.listing-user-verify1",
         "pushcrew" => ""
     ],
     "listing-user-notify"=> [
-        "laravel" => "email.listing-user-notify",
+        "laravel" => "email.listing-user-notify1",
         "pushcrew" => ""
+    ],
+    "contact-request-seeker-premium"=>[
+        "laravel" => "email.success_seeker_contactrequest_premium",
+        "smsgupshup" => "",
+    ],
+    "contact-request-seeker-non-premium"=>[
+        "laravel" => "email.success_seeker_contactrequest_non_premium",
+        "smsgupshup" => "",
     ],
 ];

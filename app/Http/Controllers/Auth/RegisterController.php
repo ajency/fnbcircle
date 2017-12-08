@@ -93,7 +93,8 @@ class RegisterController extends Controller
 
         $request_data = [
             "user" => array("username" => $request->email, "email" => $request->email, "name" => $request->name),
-            "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
+            // "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
+            "user_comm" => array("object_type" => "App\User", "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
             "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
         ];
 
@@ -135,7 +136,18 @@ class RegisterController extends Controller
         if($request->has('contact_id') && $request->contact_id) {
             $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], $request->contact_id);
         } else {
-            $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], '');
+            // $userauth_obj->updateOrCreateUserComm($user_obj, $request_data["user_comm"], '');
+            $user_comm = new UserCommunication;
+            $user_comm->object_type = "App\\User";
+            $user_comm->object_id = $user_obj->id;
+            $user_comm->type = "mobile";
+            $user_comm->value = $request_data["user_comm"]["contact"];
+            $user_comm->country_code = $request_data["user_comm"]["country_code"];
+            $user_comm->is_primary = 1;
+            $user_comm->is_communication = 1;
+            $user_comm->is_verified = 0;
+            $user_comm->save();
+
         }
 
         // if(isset($request_data["user_comm"]["contact"])) {

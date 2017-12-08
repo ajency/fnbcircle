@@ -125,6 +125,23 @@ class WpNewsHelper
 
             $featured_image_id = get_post_thumbnail_id($post->ID);
 
+              $current_recent_post_tags_html ="";
+              $current_recent_tags = [];
+             
+              $recent_posttags = get_the_tags($post->ID);
+              
+              if ($recent_posttags) {
+                 
+                
+                
+                foreach($recent_posttags as $tag) {
+                     
+                    $current_recent_tags[]= $tag->name ; 
+                  
+                }
+                $current_recent_post_tags_html.=implode(',',$current_recent_tags);
+              } 
+
             if ($featured_image_id == false || $featured_image_id == "") {
                 $featured_image['thumbnail'] = '';
                 $featured_image['medium']    = '';
@@ -144,6 +161,8 @@ class WpNewsHelper
                 'date'                  => $post->post_date,
                 'display_date'          => date("F d,Y ", strtotime($post->post_date)),
                 'url'                   => get_permalink($post->ID), //$post->guid,
+                //'tags'                  =>$current_recent_post_tags_html,
+                'tags'                  => $current_recent_tags
 
             );
 

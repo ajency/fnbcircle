@@ -1160,12 +1160,30 @@ function get_featured_news_by_city(){
 	    		else{
 	    			$style_avatar ="";
 	    		}
-	    		
-	          
+	 
+	 
+
+
+	    
+	   	  $current_featured_tags_html =""; 
+	   	   
+	   	  $featured_posttags = get_the_tags();	  
+	    
+	 	  if($featured_posttags){
+
+	 	  	$current_featured_tags_html = get_tags_markup($featured_posttags);  
+	 	    
+	 	  }
+	 
+
+
+	  
+
+
 	 $html.=' <div class="featured-image" '.$style_avatar.'></div>
 	  <div class="featured-content">
 	    <h5 class="font-weight-bold"><a href="'.get_permalink().'">'.get_the_title().'</a></h5>
-	    '.get_the_excerpt(6).'
+	    '.get_the_excerpt(6).$current_featured_tags_html.'
 	<div class="featured-meta">
 	<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />
 	By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
@@ -1261,11 +1279,25 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
   		} 
 	  }
 
-	      
-	  
+	 
+  	  $current_recent_tags_html =""; 
+  	 
+
+  	  $recent_posttags = get_the_tags();	  
+   
+	  if($recent_posttags){ 
+	  		$current_recent_tags_html = get_tags_markup($recent_posttags); 
+	   
+	  }
+ 
+
+
+
+
+
 	  $html.='<div class="featured-content">
 	  <a href="'.get_permalink().'" title="Link to '.get_the_title().'"  target ="_blank" >  <h5>'.get_the_title().'</h5> </a>
-	    '.get_the_excerpt(15).'
+	    '.get_the_excerpt(15).$current_recent_tags_html.'
 	<div class="featured-meta">
 		<img src="'.site_url().'/wp-content/themes/twentyseventeen/assets/images/abstract-user.png" />';
 
@@ -1569,3 +1601,55 @@ function no_mo_dashboard() {
   }
 }
 //add_action('admin_init', 'no_mo_dashboard');
+
+
+//Display tags with link on sigle post page
+function tags_after_single_post_content($content) {
+  $posttags = get_the_tags();
+  if ($posttags) {
+    $array = [];
+    foreach($posttags as $tag) {
+      //$array[] = '<a href="/tag/' . $tag->slug . '/">' . $tag->name . '</a>';
+       $array[] =  $tag->name;
+    }
+    $content .=  implode(', ', $array) . '<br>';
+  }
+
+  return $content;
+}
+//add_filter( 'the_content', 'tags_after_single_post_content' );
+
+
+
+
+function get_tags_markup($posttags,$is_single=false){
+
+	$current_tags_html =""; 
+	$current_tags = [];
+	$current_tag_html_items = [];
+
+	//$posttags = get_the_tags($post->ID);	  
+
+	if($posttags){
+
+	foreach($posttags as $tag) {	    	
+		$current_tag_html_items[]= "<span class='post-tags__child' title='".$tag->name."'><i class='fa fa-tag text-lighter' aria-hidden='true'></i>".$tag->name."</span> "; 	   
+		$current_tags[] =   $tag->name;  
+	}
+
+	$current_post_tags_container_title = implode(',',$current_tags);
+	if($is_single==true){
+		$current_tags_html="<div class='post-tags text-color' title='".$current_post_tags_container_title."' >";
+	}
+	else{
+		$current_tags_html="<div class='post-tags ellipsis-2 text-color' title='".$current_post_tags_container_title."' >";	
+	}
+	
+	$current_tags_html.= implode('',$current_tag_html_items);
+	$current_tags_html.="</div>";
+	}
+
+	return $current_tags_html;
+
+}
+

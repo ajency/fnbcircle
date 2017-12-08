@@ -692,10 +692,19 @@
                                         <a href="" class="article-link">
                                             <div class="fnb-article__banner" <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
                                             <div class="fnb-article__content m-t-15">
+                                            
                                                 <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
 
-                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 150, $end = '...') }}    </p>
-                                                <span class="dis-block fnb-article__caption lighter date">Posted on {{$news_item['display_date']}}</span>
+                                                <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}    </p>
+
+                                                @if(count($news_item['tags']) > 0)
+                                                   <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
+                                                     @foreach($news_item['tags'] as $news_tag)
+                                                     <span  class="post-tags__child"  title="{{ $news_tag}}" ><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
+                                                      @endforeach
+                                                   </div>
+                                                @endif
+                                                <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
                                             </div>
                                         </a>
                                     </div>
@@ -766,6 +775,7 @@
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
+                                @endif
                                     @if(hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                         <div class="approval m-t-20">
                                             <p class="contact__title lighter">{{$data['status']['text']}}</p>
@@ -773,7 +783,7 @@
                                             @if($data['status']['change']!= '') <a href ="#" class="btn fnb-btn primary-btn full border-btn" data-toggle="modal" data-target="#confirmBox"> {{$data['status']['next']}} </a> @endif
                                         </div>
                                     @endif
-                                @endif
+                                
                             </div>
                             @isset($data['status']['next'])
                                 <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -1141,25 +1151,6 @@
     </div>
 @endif
 @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-<!-- Contact Modal -->
-<div class="modal fnb-modal contact-modal verification-modal multilevel-modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-     <div class="modal-content">
-        <div class="modal-header">
-           <button class="close mobile-hide" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
-           <div class="mobile-back flex-row desk-hide">
-              <div class="back ellipsis">
-                 <button class="btn fnb-btn outline border-btn no-border" data-dismiss="modal"><i class="fa fa-arrow-left p-r-10" aria-hidden="true"></i></button>
-                 <span class="m-b-0 ellipsis heavier back-text">Back to {{$data['title']['name']}}</span>
-              </div>
-           </div>
-        </div>
-        <div class="modal-body">
-           <!-- data goes here -->
-        </div>
-     </div>
-  </div>
-</div>
-<!-- Contact Modal End -->
+ @include('modals.listing_contact_request.modal')
 @endif
 @endsection

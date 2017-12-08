@@ -38,7 +38,7 @@ class ListingViewController extends Controller
         $area                  = Area::with('city')->find($listing->locality_id);
         $pagedata['pagetitle'] = getSingleListingTitle($listing);
         $pagedata['premium']   = $listing->isPremium();
-        $pagedata['verified']  = ($listing->owner_id == null)? false:true;
+        $pagedata['verified']  = ($listing->verified == 1)? true:false;
         $pagedata['city']      = array('name' => $area->city['name'], 'url' => '/'.$area->city['slug'].'/business-listings', 'alt' => 'All business listings in '.$area->city['name'], 'area' => $area->name, 'slug'=>$area->city['slug'], 'id' => $area->city['id']);
         $pagedata['title']     = ['name' => $listing->title, 'url' => env('APP_URL') . '/' . $area->city['slug'] . '/' . $listing->slug, 'alt' => '', 'slug' => $listing->slug];
         // $pagedata['contact-requests'] = displayCount($listing->contact_request_count)
@@ -243,6 +243,7 @@ class ListingViewController extends Controller
     {
 
         $similar_id = [$listing->id];
+        $area    = Area::with('city')->find($listing->locality_id);
         $categories = ListingCategory::where('listing_id', $listing->id)->where('core', 1)->pluck('category_id')->toArray();
         $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
 
@@ -295,7 +296,7 @@ class ListingViewController extends Controller
         foreach ($similar_id as $id) {
             $similar[] = $this->getListingData(Listing::find($id));
         }
-        $similar['url'] = $url;
+        $similar['url'] = url('/'.$area->city['slug'].'/business-listings');
         return $similar;
 
     }

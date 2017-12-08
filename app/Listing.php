@@ -97,7 +97,7 @@ class Listing extends Model
 
     }
 
-    public function saveInformation($title, $type, $email, $area)
+    public function saveInformation($title, $type, $email, $area, $phone = 0)
     {
         $slug  = str_slug($title);
         $count = self::where('slug', $slug)->where('id','!=',$this->id)->count();
@@ -118,6 +118,7 @@ class Listing extends Model
         }
 
         $this->show_primary_email = $email;
+        $this->show_primary_phone = $phone;
         if($this->locality_id != $area){
             $this->locality_id        = $area;
             $this->latitude = null;
@@ -163,6 +164,9 @@ class Listing extends Model
     public function save(array $options = []){
         if(!Auth::guest()){
             $this->last_updated_by = Auth::user()->id;
+            if(Auth::user()->type == 'external') {
+                $this->verified = 1;
+            }
         }
         parent::save();
     }
@@ -238,7 +242,34 @@ class Listing extends Model
     }
 
     public function getAllContacts(){
-        
+        $contacts = ['email'=>[],'mobile'=>[], 'landline'=>[]];
+        if($this->show_primary_email){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $email = $owner->getPrimaryEmail(true);
+                $contacts['email'][] = $email;
+            }
+        }
+        if($this->show_primary_phone){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $phone = $owner->getPrimaryContact();
+                $contacts['mobile'][] = $phone;
+            }
+        }
+        $user_comm = $this->contacts()->where('is_visible',1)->get();
+        foreach ($user_comm as $contact) {
+            if($contact->type == 'email'){
+                $contacts['email'][] =['email'=>$contact->value, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'mobile'){
+                $contacts['mobile'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'landline'){
+                $contacts['landline'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+        }
+        return $contacts;
     }
 
 }

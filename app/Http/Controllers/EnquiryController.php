@@ -94,10 +94,10 @@ class EnquiryController extends Controller {
 	/**
 	* Generate OTP for that contact Number
 	*/
-	public function generateContactOtp($key_value, $key = 'id') {
+	public function generateContactOtp($key_value, $key = 'id',$country = "", $phone = "") {
 		$OTP = rand(1000, 9999);
         $timestamp = Carbon::now()->timestamp;
-        $json = json_encode(array($key => $key_value, "OTP" => $OTP, "timestamp" => $timestamp));
+        $json = json_encode(array($key => $key_value, "OTP" => $OTP, "timestamp" => $timestamp, 'country_code' => $country,'phone_no' => $phone));
         error_log($json); //send sms or email here
         Session::put('contact_info', $json);
 
@@ -112,6 +112,7 @@ class EnquiryController extends Controller {
     	}
         
         if(in_develop()) { // Store OTP in Cookie, if in DEV mode
+        	error_log('in develop set cookie');
         	$cookie_cont_obj = new CookieController;
         	$other_cookie_params = ["path" => "/", "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true];
         	$cookie_cont_obj->set('mobile_otp', strVal($OTP), $other_cookie_params);
@@ -410,7 +411,7 @@ class EnquiryController extends Controller {
 	   				if(isset($payload_data["enquiry_data"]["contact"])) {
 	   					$data['next_page'] = $next_template_type;
 	   					$data['current_page'] = $template_type;
-		   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
+		   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact",$payload_data["enquiry_data"]["contact_code"], $payload_data["enquiry_data"]["contact"]); // Generate OTP
 		   				
 		   				$data["contact_code"] = $payload_data["enquiry_data"]["contact_code"];
 		   				$data["contact"] = $payload_data["enquiry_data"]["contact"];
@@ -505,10 +506,10 @@ class EnquiryController extends Controller {
    				if(!Auth::guest()) { // If logged In User
 					$auth_user_contact = Auth::user()->getPrimaryContact();
 					if($auth_user_contact && isset($auth_user_contact["is_verified"]) && !$auth_user_contact["is_verified"]) { // If the Primary Contact No is not Verified
-						$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
+						$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact",$payload_data["enquiry_data"]["contact_code"] , $payload_data["enquiry_data"]["contact"]); // Generate OTP
 					}
 				} else if(isset($payload_data["enquiry_data"]["contact"])) { // Else If the Enquiry Contact No is not Verified
-	   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact"); // Generate OTP
+	   				$this->generateContactOtp('+' . $payload_data["enquiry_data"]["contact_code"] . $payload_data["enquiry_data"]["contact"], "contact",$payload_data["enquiry_data"]["contact_code"] , $payload_data["enquiry_data"]["contact"]); // Generate OTP
 		   		}
 				
 				$data['next_page'] = $next_template_type;
@@ -959,7 +960,7 @@ class EnquiryController extends Controller {
 
     			Session::forget('enquiry_data'); // Delete the Old enquiry_data
 				Session::put('enquiry_data', $session_payload); // Create new Enquiry Data
-	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact"); // Generate OTP
+	    		$this->generateContactOtp('+' . $request->new_contact["country_code"] . $request->new_contact["contact"], "contact", $request->new_contact["country_code"] , $request->new_contact["contact"]); // Generate OTP
 	    		if($request->has('listing_slug') && strlen($request->listing_slug) > 0) {
     				$modal_template_html = $this->getEnquiryTemplate($template_type, $request->listing_slug, $session_id, false);
     			} else {

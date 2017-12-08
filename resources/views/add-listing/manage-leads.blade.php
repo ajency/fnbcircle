@@ -317,7 +317,7 @@
 
 @include('modals.location_select.popup')
 
-@include('modals.categories_list')
+
 <!-- Category modal -->
 
  <!-- <div class="modal fnb-modal category-modal multilevel-modal fade" id="category-select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

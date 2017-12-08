@@ -472,6 +472,14 @@ class Job extends Model
 
     }
 
+    public function jobOwner(){
+        if(Auth::check() && $this->job_creator == Auth::user()->id)
+            return true;
+        else
+            return false;
+
+    }
+
     public function isJobVisible(){
         
         if(hasAccess('edit_permission_element_cls',$this->reference_id,'jobs') && $this->isJobDataComplete())

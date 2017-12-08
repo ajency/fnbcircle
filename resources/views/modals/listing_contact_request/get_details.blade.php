@@ -4,12 +4,12 @@
    <!-- Contact Details -->
    <div class="level-one enquiry-details flex-row ">
       <div class="detail-cols extra-padding col-left col-left--full enquiry-details__intro flex-row">
-         <div class="send-enquiry">
+         <div class="send-enquiry contactEnquiry">
             <h5 class="intro-text flex-row space-between">
                Please login to view the <br class="mobile-hide"> contact details of...
             </h5>
             <div class="seller-enquiry">
-               <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title"><span class="brand-name">{{$listing->title}}</span> <span class="fnb-icons verified-icon"></span></p>
+               <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title m-t-10"><span class="brand-name">{{$listing->title}}</span> <span class="fnb-icons verified-icon"></span></p>
                <div class="location flex-row mobile-hide">
                   <span class="fnb-icons map-icon"></span>
                   <p class="location__title m-b-0 text-lighter">Mumbai, Andheri</p>
@@ -38,24 +38,25 @@
          <form id="get-crdetails-form"> 
          <h5 class="intro-text">Give your details below
          </h5>
-         <p class="content-title text-darker m-b-0 m-t-10 text-medium">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
+         <p class="content-title text-darker m-b-0 m-t-10 heavier">Ensure that you provide the correct details as the business owner will use these details to contact you.</p>
          <div class="formFields row">
             <div class="col-sm-12">
-               <div class="form-group m-b-0">
+               <div class="form-group m-b-10">
                   <label class="m-b-0 text-lighter float-label required" for="contact_name">Name</label>
                   <input type="text" class="form-control fnb-input float-input" id="contact_name" data-parsley-required data-parsley-required-message="Please enter your name">
                </div>
             </div>
             <div class="col-sm-12">
-               <div class="form-group m-b-0">
+               <div class="form-group m-b-10">
                   <label class="m-b-0 text-lighter float-label required" for="contact_email">Email</label>
                   <input type="email" class="form-control fnb-input float-input" id="contact_email" data-parsley-type-message="Please enter a valid email." data-parsley-type="email" required="" data-parsley-required-message="Please enter your email">
                </div>
             </div>
             <div class="col-sm-12">
-               <div class="">
-                  <label class="m-b-0 text-lighter float-label required" for="contact_number">Phone</label>
-                  <input type="tel" class="form-control fnb-input float-input" id="contact_number" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" required="" data-parsley-required-message="Please enter your contact number">
+               <div class="contact-phone-intl form-group m-b-10">
+                  <label class="m-b-0 text-lighter float-label filled dis-block required" for="contact_number">Phone</label>
+                  <input type="tel" class="form-control fnb-input float-input dis-block" id="contact_number" data-parsley-length-message="Mobile number should be 10 digits." data-parsley-type="digits" data-parsley-length="[10, 10]" required="" data-parsley-required-message="Please enter your contact number" data-parsley-errors-container="#intl-error">
+                  <div id="intl-error" class="fnb-errors"></div>
                </div>
             </div>
             <div class="col-sm-12">
@@ -63,7 +64,7 @@
                   <label class="m-b-0 text-lighter float-label filled focused required" for="contact_describe">What describes you the best? <span class="xx-small text-lighter">(Please select atleast one)</span></label>
                   <!-- <p class="text-darker describes__title text-medium"></p> -->
                   <div class="row">
-                     <div class="col-sm-6">
+                     <div class="col-sm-12">
                         <select class="fnb-select select-variant entry-describe-best" multiple="multiple" required="" data-parsley-required-message="Please select atleast one description" id="contact_description">
                            <option value="hospitality">Hospitality Business Owner</option>
                            <option value="vendor">Vendor/Supplier/Service provider</option>

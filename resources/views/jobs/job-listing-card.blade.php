@@ -196,6 +196,11 @@
                  @if(isset($showApplication) && $showApplication)
                     <a href="#" class="apply-jobs secondary-link default-size" data-toggle="modal" data-target="#job-application-{{ $job->id}}">View Your Application</a>
                 @endif
+
+                  
+                <a href="javascript:void(0)" class="secondary-link default-size open-sidebar view-applicant__btn"> View Applications  <span class="x-small">(2)</span></a>
+                
+             
               </div>
 
           </div>
@@ -203,6 +208,9 @@
             @if(isset($showApplication) && $showApplication)
                 <a href="#" class="apply-jobs secondary-link default-size applicant-link" data-toggle="modal" data-target="#job-application-{{ $job->id}}">View Your Application</a>
             @endif
+            
+            <a href="javascript:void(0)" class="secondary-link default-size open-sidebar applicant-link view-applicant__btn"> View Applications  <span class="x-small">(2)</span></a>
+
             <a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" class="btn fnb-btn full primary-btn border-btn fullwidth default-size">View Job <i class="fa fa-arrow-right p-l-5" aria-hidden="true"></i></a>
           </div>
       </div>

@@ -35,7 +35,7 @@
           jobCityObj.closest('.location-select').find('.job-areas').multiselect('destroy');
           jobCityObj.closest('.location-select').find('.job-areas').multiselect({
             includeSelectAllOption: true,
-            numberDisplayed: 2,
+            numberDisplayed: 1,
             delimiterText: ',',
             nonSelectedText: 'Select City'
           });
@@ -460,6 +460,13 @@
     } else {
       return $('.job-save-btn').addClass('disable');
     }
+  });
+
+  $('.default-area-select').multiselect({
+    includeSelectAllOption: true,
+    numberDisplayed: 1,
+    delimiterText: ',',
+    nonSelectedText: 'Select City'
   });
 
   $('.open-popup-alert').popover({

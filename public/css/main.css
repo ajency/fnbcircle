@@ -6549,6 +6549,7 @@ input[type=checkbox].custom-checkbox:before {
 }
 .your-activity .fnb-cat li {
   cursor: auto;
+  font-size: 0.9em;
 }
 @media screen and (max-width: 768px) {
   .cust-dashboard__title {

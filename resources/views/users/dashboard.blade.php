@@ -539,5 +539,80 @@ Dashboard
         </div>
 
 
+
+<!-- Applicant sidebar -->
+
+
+      <div class="pos-fixed fly-out side-toggle">
+        <div class="mobile-back desk-hide mobile-flex">
+           <div class="left mobile-flex">
+              <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
+              <p class="element-title heavier m-b-0">Back</p>
+           </div>
+           <div class="right">
+           </div>
+        </div>
+        <div class="fly-out__content">
+           <div class="sidebar-updates page-sidebar">
+              <div class="page-sidebar__header flex-row space-between mobile-hide">
+                 <div class="backLink flex-row">
+                    <a href="" class="primary-link p-r-10 element-title article-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                    <div class="element-title bolder">Job Applications</div>
+                 </div>
+                 <!-- <div class="sort flex-row">
+                    <p class="m-b-0 text-lighter default-size">Sort</p>
+                    <select name="" id="" class="fnb-select">
+                       <option>Recent</option>
+                       <option>Newer</option>
+                       <option>Older</option>
+                    </select>
+                 </div> -->
+              </div>
+              <div class="page-sidebar__body JA-sidebar">
+                <table class="table table-striped table-responsive application-table m-t-20">
+                    <thead>
+                        <tr>
+                            <th>Date of application</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>State</th>
+                            <th>Resume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="">November 23, 2017 </td>
+                            <td>Bruce Wayne</td>
+                            <td>bruce@gmail.com</td>
+                            <td> +(91) 7854785478</td>
+                            <td> Pune </td>
+                            <td class="download-col"> - </td>
+                        </tr>
+                    </tbody>
+                </table> 
+              </div>
+              <div class="page-sidebar__footer"></div>
+              <div class="site-loader">
+                    <div id="floatingBarsG">
+                        <div class="blockG" id="rotateG_01"></div>
+                        <div class="blockG" id="rotateG_02"></div>
+                        <div class="blockG" id="rotateG_03"></div>
+                        <div class="blockG" id="rotateG_04"></div>
+                        <div class="blockG" id="rotateG_05"></div>
+                        <div class="blockG" id="rotateG_06"></div>
+                        <div class="blockG" id="rotateG_07"></div>
+                        <div class="blockG" id="rotateG_08"></div>
+                    </div>
+                </div>
+           </div>
+        </div>
+     </div>
+
+
+
+
+
+
 @endsection
 <!-- </body> -->

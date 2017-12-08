@@ -313,7 +313,9 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the job, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" class="primary-link sub-title ">Submit Job</a>
+
+                                                    <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" class="primary-link sub-title ">Submit Job</a>
+
                                                </div>
                                            </div>
                                         </div>

@@ -557,7 +557,9 @@ $additionalData = ['job'=>$job];
                           @endif
 
                           @if($job->submitForReview()) 
-                           <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a>
+
+                           <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a>
+
                           @endif
 
                           @if($job->getNextActionButton())

@@ -76,7 +76,8 @@ class ContactRequestController extends Controller
     public function displayLoginPopup(Request $request)
     {
         $listing = Listing::where('reference', $request->id)->firstorfail();
-        return View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->render();
+        $area = Area::with('city')->find($listing->locality_id);
+        return View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('area',$area)->render();
     }
 
     public function sendPremiumContact($listing){
@@ -288,9 +289,9 @@ class ContactRequestController extends Controller
 
         $user    = User::findUsingEmail($request->email);
         $listing = Listing::where('reference', $request->id)->firstorfail();
-
+        $area = Area::with('city')->find($listing->locality_id);
         if ($user != null) {
-            $html = View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('error', 'Account already exists. Please login to continue.')->render();
+            $html = View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('area',$area)->with('error', 'Account already exists. Please login to continue.')->render();
             return response()->json(['html' => $html, 'step' => 'get-details']);
         }
 

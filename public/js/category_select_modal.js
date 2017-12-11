@@ -9,7 +9,7 @@
       url: '/api/get_listing_categories',
       data: {
         'category': [parent_id],
-        'is_branch_select': ($(document).find("#is_branch_category_checkbox").val()) ? true : false
+        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
       },
       success: function(data) {
         var key;
@@ -83,8 +83,8 @@
       if ($("#category-select #previously_available_categories").val().length > 1 && JSON.parse($("#category-select #previously_available_categories").val()).length > 0) {
         get_core_cat_checked = JSON.parse($("#category-select #previously_available_categories").val());
       }
-    } catch (error1) {
-      error = error1;
+    } catch (_error) {
+      error = _error;
       console.log("Sorry, met with a JSON.parse error for #previously_available_categories. Please pass it as Array & Stringify it.");
     }
     return get_core_cat_checked;
@@ -96,7 +96,7 @@
       url: '/api/get_categories_modal_dom',
       data: {
         'level': level,
-        'is_parent_select': ($(document).find("#is_parent_category_checkbox").val()) ? true : false
+        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);

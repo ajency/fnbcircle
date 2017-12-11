@@ -150,6 +150,13 @@ class AdminModerationController extends Controller
             if($filters["premium"][0] == 0) $listings->whereNotIn('id',$request_senders);
            }
         }
+        if(isset($filters['source'])){
+            $listings = $listings->whereIn('source', $filters['source']);
+        }
+        if(isset($filters['user-status'])){
+            $users = User::whereIn('status',$filters['user-status'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('owner_id',$users);
+        }
         if(isset($filters['type'])){
             $listings = $listings->where(function ($listings) use ($filters){
                 foreach($filters['type'] as $type ){

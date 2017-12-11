@@ -149,7 +149,7 @@
                       </th>
                       <th class="no-sort" data-col="8" style="min-width: 10%;">
                         Owner Status
-                        <select multiple class="form-control multi-dd" id="listingType">
+                        <select multiple class="form-control multi-dd" id="user-status">
                           <option value="active" >Active</option>
                           <option value="inactive">Inactive</option>
                           <option value="suspended" >Suspended</option>

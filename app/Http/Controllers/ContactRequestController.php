@@ -227,7 +227,7 @@ class ContactRequestController extends Controller
 
             $ld = $this->similarBusinesses($listing);
             $this->sendNonPremiumContact($listing,$ld);
-            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
+            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('new_tab',true)->with('listing_data',$ld)->render();
         }
     }
 

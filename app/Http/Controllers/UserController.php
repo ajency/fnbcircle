@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\Storage;
 // use Aws\Laravel\AwsServiceProvider;
 use Ajency\User\Ajency\userauth\UserAuth;
 use Session;
+use App\Job;
+use App\City;
+use App\Area;
+use App\Defaults;
+use App\Category;
+use App\Listing;
+use App\ListingAreasOfOperation;
+use App\ListingCategory;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\ListViewController;
+
 
 class UserController extends Controller
 {
@@ -289,15 +300,108 @@ class UserController extends Controller
  
     // }
 
+    public function getMyListingData($listing_obj){
+        try{
+            $listing_obj = $listing_obj->orderBy('updated_at', 'desc')->get(['id', 'title', 'status', 'verified', 'type', 'published_on', 'locality_id', 'display_address', 'premium', 'slug', 'updated_at']);
+            $listing_obj = $listing_obj->each(function($list){ // Get following data for each list
+                    $list["area"] = $list->location()->where('status', 1)->get(["id", "name", "slug", "city_id"])->first(); // Get the Primary area
+                    $list["city"] = ($list["area"]) ? $list['area']->city()->get(["id", "name", "slug"])->first() : "";
+
+                    // $list["status"] = Listing::listing_status[$list["status"]]; // Get the string of the Listing Status
+                    // $list["business_type"]['name'] = Listing::listing_business_type[$list["type"]]; // Get the string of the Listing Type
+
+                    $list["business_type"] = ['name' => Listing::listing_business_type[$list["type"]], 'slug' => Listing::listing_business_type_slug[$list["type"]]];
+
+                    // Get list of areas under that Listing
+                    $areas_operation_id = ListingAreasOfOperation::where("listing_id", $list->id)->pluck('area_id')->toArray();
+                    $city_areas = Area::whereIn('id', $areas_operation_id)->get(['id', 'name', 'slug', 'city_id'])->groupBy('city_id');
+
+                    $areas_operation = [];
+                    foreach ($city_areas as $city_id => $city_areas) { // Get City & areas that the Listing is under operation
+                        array_push($areas_operation, 
+                            array("city" => City::where("id", $city_id)->first(['id', 'name', 'slug']),
+                            "areas" => $city_areas
+                        ));
+                    }
+                    $list["areas_operation"] = $areas_operation; // Array of cities & areas under that city
+
+                    $recent_update_obj = DB::table('updates')->where([["object_type", "App\Listing"], ['object_id', $list->id], ['deleted_at', null]])->orderBy('updated_at', "desc")->get();
+                    $list["recent_updates"] = $recent_update_obj->count() > 0 ? $recent_update_obj->first() : null;
+
+                    // Fetches the list of all the Core categories & it's details
+                    $list["cores"] = Category::whereIn('id', ListingCategory::where([['listing_id', $list->id],['core',1]])->pluck('category_id')->toArray())->get(['id', 'name', 'slug', 'level', 'order'])->each(function($cat_obj) {
+                            $listViewCont_obj = new ListViewController;
+
+                            $cat_obj["node_categories"] = $listViewCont_obj->getCategoryNodeArray($cat_obj, "slug", false);
+                    });
+
+                });
+        }catch (Exception $e) {
+            return collect([]);
+        }
+        return $listing_obj;
+    }
     public function customerdashboard(){
+
         $user = Auth::user();
-        $jobPosted = $user->jobPosted()->get();  
-        $jobApplication = $user->jobApplications(); 
-        $userResume = $user->getUserJobLastApplication();
  
+        if($user->type != 'external')
+            abort(404);
+
+        $jobPosted = $user->jobPosted()->orderBy('created_at','desc')->get();  
+        $jobApplication = $user->jobApplications(); 
+        $myListingsCount = $user->listing()->count();
+        $listings = $this->getMyListingData($user->listing());
+        $userResume = $user->getUserJobLastApplication();
+        $userDetails = $user->getUserDetails; 
+        $jobAlertConfig =  $userDetails->job_alert_config;//dd($jobAlertConfig);
+        $setNewAlert = (empty($jobAlertConfig)) ? true :false;
+        if(empty($jobAlertConfig) && isset($_GET['job'])){
+            $reference_id = $_GET['job'];
+            $job = Job::where('reference_id',$reference_id)->first();
+            $jobAlertConfig = $user->getJobCriterias($job);
+        }
+        $sendJobAlerts = $userDetails->send_job_alerts;
+        $areas = [];
+
+        if(isset($jobAlertConfig['job_location']) && !empty($jobAlertConfig['job_location'])){
+            foreach ($jobAlertConfig['job_location'] as $cityId => $location) {
+ 
+                $areas[$cityId] = Area::where('status', 1)->where('city_id', $cityId)->orderBy('name')->get()->toArray();             
+            }
+        }
+
+        // dd($jobAlertConfig);
+
+        $salaryRange = salaryRange();
+        $cities  = City::where('status', 1)->orderBy('name')->get();
+
+        $job    = new Job;
+        $jobTypes  = $job->jobTypes();
+        $salaryTypes  = $job->salaryTypes();
+        $defaultExperience  = $job->jobExperience();
+        $defaultKeywords  = $job->jobKeywords();
+        $jobCategories = $job->jobCategories();
+
+        $browserState = (getUserSessionState()) ? getUserSessionState() : getSinglePopularCity()->slug;
+        
         return view('users.dashboard') ->with('user', $user)
+                                       ->with('salaryRange', $salaryRange)
+                                       ->with('cities', $cities)
+                                       ->with('areas', $areas)
                                        ->with('userResume', $userResume)
+                                       ->with('jobAlertConfig', $jobAlertConfig)
+                                       ->with('sendJobAlerts', $sendJobAlerts)
                                        ->with('jobApplication', $jobApplication)
+                                       ->with('jobCategories', $jobCategories)
+                                        ->with('defaultExperience', $defaultExperience) 
+                                        ->with('salaryTypes', $salaryTypes) 
+                                        ->with('defaultKeywords', $defaultKeywords) 
+                                        ->with('jobTypes', $jobTypes)
+                                        ->with('browserState', $browserState)
+                                        ->with('myListingsCount', $myListingsCount)
+                                        ->with('listing_data', $listings)
+                                        ->with('setNewAlert', $setNewAlert)
                                        ->with('jobPosted', $jobPosted);
     }
 
@@ -325,6 +429,67 @@ class UserController extends Controller
 
     }
 
+
+    public function setJobAlert(Request $request){
+
+        $user =  Auth::user();
+        $data = $request->all(); //dd($data);
+            
+        $criteria=[];
+        $criteria['job_type'] =  (isset($data['job_type'])) ? $data['job_type'] :[];
+        $criteria['job_type_text']='';
+        if(isset($data['job_type']) && !empty($data['job_type']))
+            $criteria['job_type_text'] = Defaults::whereIn("id",$data['job_type'])->pluck('label')->toArray();
+
+        $criteria['experience'] = (isset($data['experience'])) ? $data['experience'] :[];
+        $criteria['salary_lower'] = $data['salary_lower'];
+        $criteria['salary_upper'] = $data['salary_upper'];
+        $criteria['salary_type'] =  (isset($data['salary_type'])) ? $data['salary_type'] :0; 
+
+        $criteria['salary_type_text']='';
+        if(isset($data['salary_type']) && !empty($data['salary_type']))
+            $criteria['salary_type_text'] = Defaults::find($data['salary_type'])->label;
+
+        $criteria['category'] = $data['category'];
+        $criteria['category_name']='';
+        if(isset($data['category']) && !empty($data['category']))
+            $criteria['category_name'] = Category::find($data['category'])->name;
+
+        $criteria['job_keyword'] = $data['job_keyword'];
+        $criteria['keywords_id'] = $data['keyword_id'];
+        $criteria['keywords'] =  (!empty($data['keyword_id'])) ? array_keys($data['keyword_id']) :[];
+        // $criteria['city'] = (!empty($data['job_city'])) ? array_keys($data['job_city']) :[];
+        $jobArea  = (!empty($data['job_area'])) ? $data['job_area'] :[];
+        $criteria['job_location'] = $jobArea;
+
+        $criteria['area'] = [];
+        $criteria['city'] = [];
+        $areas = [];
+        foreach ($jobArea as $cityId => $areas) { 
+            $criteria['city'][] = $cityId;
+
+            foreach ($areas as $key => $area) {
+                $criteria['area'][] = $area;
+            }
+             
+        }
+        $criteria['city'] = array_unique($criteria['city']);
+        $criteria['area'] = array_unique($criteria['area']);
+
+        $sendJobAlerts = (isset($data['send_job_alerts'])) ? true :false;
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+            $userDetails->job_alert_config = $criteria;
+            $userDetails->send_job_alerts = $sendJobAlerts;
+            $userDetails->save();
+        }
+ 
+  
+        Session::flash('success_message','Job Alert Configuaration Successfully Updated');
+        
+        return redirect(url('customer-dashboard'));
+    }
+    
     public function removeResume(Request $request){
         $user =  Auth::user();
         $userDetails = $user->getUserDetails; 
@@ -335,6 +500,7 @@ class UserController extends Controller
         return response()->json(
             ['code' => 200, 
              'status' => true]);
+ 
 
     }
 

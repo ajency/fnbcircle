@@ -42,6 +42,11 @@
 					color: @text-color;
 				}
 			}
+			.user-logged{
+				.drop-trigger{
+					color: #fff;
+				}
+			}
 		}
 		&.change{
     		background-color: #fff;
@@ -87,6 +92,9 @@
     					border: 2px solid @accent-primary;
 					}
 				}
+			}
+			.user-logged{
+				display: none;
 			}
 		}
 	}
@@ -139,10 +147,10 @@
 		    font-weight: 500;
 		    margin-bottom: 0;
 		    color: #4a4a4a;
-		    padding-top: 5px;
+		    padding-top: 0.5em;
 		    position: relative;
 		    text-align: left;
-		    background-color: #fff;
+		    background-color: transparent;
     		border: 0;
     		outline: 0;
 		    .fa{
@@ -151,7 +159,7 @@
 		    }
 		}
 		.userName{
-			width: 80px;
+			// width: 80px;
     		display: inline-block;
     		vertical-align: middle;
 		}
@@ -159,15 +167,80 @@
 			padding: 0;
     		margin: 0;
     		border-radius: 0;
+    		border: 0;
+    		top: 150%;
+    		border: 2px solid #dcdcdc;
+    		width: 180px;
     		li{
-    			padding: 0.5em;
-    			margin: 0.2em 0;
+    			padding: 0;
+    			margin: 0;
     			border-bottom: 1px solid #eee;
-    			font-size: 0.95em;
     			&:last-child{
     				margin-bottom: 0;
+    				border-bottom: 0;
+    			}
+    			a{
+    				padding: 1em;
+    				font-size: 0.95em;
+    				&:hover{
+    					background-color: #dcdbdb70;
+    				}
     			}
     		}
+    		&.arrowBox {
+				// position: relative;
+				// background: #88b7d5;
+				// border: 2px solid #c2e1f5;
+				&:after,&:before{
+					bottom: 100%;
+					left: 80%;
+					border: solid transparent;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+				}
+				&:before{
+					border-color: rgba(194, 225, 245, 0);
+					border-bottom-color: #dcdcdc;
+					border-width: 13px;
+					margin-left: -13px;
+				}
+				&:after{
+					border-color: rgba(136, 183, 213, 0);
+					border-bottom-color: #fff;
+					border-width: 10px;
+					margin-left: -10px;
+				}
+			}
+		}
+		@media screen and (max-width: @mobile){
+			.fa{
+				font-size: 2.8em;
+			}
+			.userName{
+				display: block;
+    			margin-top: 0.8em;
+    			font-size: 1.1em;
+			}
+			.drop-trigger{
+				background-color: transparent;
+    			color: #fff;
+    			padding-top: 0;
+			}
+			.dropdown-menu{
+				right: 0;
+    			left: auto;
+    			width: auto;
+    			font-size: 0.9em;
+    			border-color: transparent;
+    			&.arrowBox{
+    				&:before{
+    					border-bottom-color: #fff;
+    				}
+    			}
+			}
 		}
 	}
 }
@@ -184,6 +257,11 @@
 				}
 				&-brand{
 					color: @accent-secondary;
+				}
+			}
+			.city-select{
+				.fnb-select{
+					background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#6b6b6b' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>")
 				}
 			}
 		}

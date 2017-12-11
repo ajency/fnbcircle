@@ -555,23 +555,147 @@ function sendSms($event='new-user', $data=[], $override = false) {
 
 
 }
-
-
-
+ 
 /**
 * 
 */
-function getFileMimeType($ext) {
+ 
+function generateJobListUrl($params,$urlCity,$userObj){
+
+	if($userObj){
+		$userDetails = $userObj->getUserDetails;
+		$urlCity = App\City::find($userDetails->city)->slug;
+
+	}
+	$stateCity = [];
+	$url = url($urlCity.'/job-listings?');
+
+	if(isset($params['state'])){
+		$state = App\City::find($params['state']);
+		$url .='&state='.$state->slug;
+		$stateCity['city_name'] = $state->name;
+
+		if(isset($params['job_location'][$params['state']]) ){
+			$areaIds = $params['job_location'][$params['state']];
+			$areas = App\Area::whereIn('id',$areaIds)->get();
+			$url .='&area=[';
+			$areaNames = [];
+			foreach ($areas as $key => $area) {
+				$areaNames[] = $area->name;
+				$url .= '"'.str_slug($area->slug).'",';
+			}
+
+			$stateCity['areas'] = $areaNames;
+			$url = rtrim($url, ",");
+			$url .= ']';
+
+		}
+	}
+
+	if(isset($params['salary_type_text'])){
+		$url .='&salary_type='.str_slug($params['salary_type_text']);
+	}
+
+	if(isset($params['salary_lower'])){
+		$url .='&salary_lower='.$params['salary_lower'];
+	}
+
+	if(isset($params['salary_upper'])){
+		$url .='&salary_upper='.$params['salary_upper'];
+	}
+
+	if(isset($params['category_slug'])){
+		$url .='&business_type='.$params['category_slug'];
+	}
+
+	if(isset($params['job_type_text'])){
+		$url .='&job_type=[';
+		foreach ($params['job_type_text'] as $key => $jobType) {
+			$url .= '"'.str_slug($jobType).'",';
+		}
+		$url = rtrim($url, ",");
+		$url .= ']';
+	}
+
+	if(isset($params['experience'])){
+		$url .='&experience=[';
+		foreach ($params['experience'] as $key => $exp) {
+			$url .= '"'.str_slug($exp).'",';
+		}
+		$url = rtrim($url, ",");
+		$url .= ']';
+	}
+
+	if(isset($params['experience'])){
+		$url .='&experience=[';
+		foreach ($params['experience'] as $key => $exp) {
+			$url .= '"'.str_slug($exp).'",';
+		}
+		$url = rtrim($url, ",");
+		$url .= ']';
+	}
+
+	if(isset($params['keywords_id'])){
+		$url .='&job_roles=[';
+		foreach ($params['keywords_id'] as $keywordId => $keyword) {
+			$url .= '"'.$keywordId.'|'.str_slug($keyword).'",';
+		}
+		$url = rtrim($url, ",");
+		$url .= ']';
+	}
+
+	return ['url'=>$url,'locationtext'=>$stateCity];
+
+	// http://fnbcircle.dev/pune/job-listings?page=1&state=mumbai&salary_type=annually&salary_lower=0&salary_upper=300000000&business_type=club-banquet-catering-unit&job_type=[%22full-time%22]&area=[%22andheri%22]&experience=[%220-1%22]&job_roles=[%2228|assistant-kitchen-manager%22]
+}
+ 
+
+function getFileMimeType($ext){
+ 
 	$mimeTypes = ['pdf'=>'application/pdf','docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document','doc'=>'application/msword'];
 
 	$mimeType = $mimeTypes[$ext];
 
 }
 
+ 
 /**
 *
 */
-function sendUserRegistrationMails($user) {
+ 
+function sendNotifications(){
+	$today = date('Y-m-d H:i:s');
+	$pendingNotifications = App\NotificationQueue::where('processed', 0)->where('send_at','<=',$today)->orderBy('created_at', 'asc')->get();
+
+	if(!empty($pendingNotifications)){
+		foreach ($pendingNotifications as $key => $pendingNotification) {
+
+			if($pendingNotification->notification_type == 'email'){
+				$data = [];
+                $data['from'] = $pendingNotification->from_email;
+                $data['name'] = $pendingNotification->from_name;
+                $data['to'] = $pendingNotification->to;
+                $data['cc'] = $pendingNotification->cc;
+                $data['subject'] = $pendingNotification->subject;
+                $data['template_data'] = $pendingNotification->template_data;
+                $emailResponse = sendEmail($pendingNotification->event_type, $data);
+
+                // $response = ($emailResponse) ? 1 : 2;
+			}
+	 
+			$pendingNotification->processed = 1;
+			$pendingNotification->processed_at = $today;
+			$pendingNotification->save();
+
+
+		}
+	}
+ }
+ 
+ 
+
+function sendUserRegistrationMails($user){
+ 
 
     $userDetail = $user->getUserDetails;
     $userDetail->has_previously_login = 1;
@@ -618,7 +742,7 @@ function firstTimeUserLoginUrl(){
 		if($userType == 'internal')
             $redirectUrl = '/admin-dashboard';
         else
-            $redirectUrl = '/profile/basic-details';
+            $redirectUrl = '/customer-dashboard';
     }
 
 	return $redirectUrl;
@@ -679,6 +803,7 @@ function sendEmailTo($emails = [], $type='to') {
 
 	return $emails;
 }
+
 
 /**
 * Note: 
@@ -746,4 +871,127 @@ function saveListingStatusChange($listing, $from, $to){
 	   ->withProperties(['changed_by' => \Auth::user()->id, 'prev_status' => $from, 'new_status' => $to])
 	   ->log('listing-status-change');
 }
+ 
+function getActivePlan($object){
+	$expiryDate = date('Y-m-d H:i:s'); 
+	$activePlan = $object->premium()->where('status',1)->where('billing_end', '>', $expiryDate)->first();
 
+	return $activePlan;
+            
+}
+
+function getrequestedPlan($object){
+	$requestedPlan = $object->premium()->where('status',0)->first(); 
+
+	return $requestedPlan;
+}
+
+function getjobFreePlan(){
+	$plan = App\Plan::where('amount',0)->where('type','job')->first();
+	return $plan;
+}
+
+function archivePublishedJobs(){
+	$currentDate  = date('Y-m-d H:i:s');
+	$jobs = App\Job::where('job_expires_on','<=',$currentDate)->get(); 
+
+	foreach ($jobs as $key => $job) {
+
+		$job->premium = 0;
+		$job->status = 4;	//mark job as archieve
+		$job->job_expires_on = NULL; 
+		$job->save();
+
+		//send email
+		$jobOwner = $job->createdBy;
+        $ownerDetails = $jobOwner->getUserProfileDetails();
+
+		$templateData['job'] = $job;
+        $templateData['ownerName'] = $jobOwner->name;
+        $ownerDetails['email'] = $jobOwner->getPrimaryEmail();
+         
+        $subject =  'Your job has expired. Do you want to relist the job?';
+ 
+        $data = [];
+        $data['from'] = config('constants.email_from');
+        $data['name'] = config('constants.email_from_name');
+        $data['to'] = [$ownerDetails['email']];
+ 
+        $data['subject'] = $subject;
+        $data['template_data'] = $templateData;
+        
+        sendEmail('job-expiry', $data);
+ 	 
+	}
+
+	return true;
+
+}
+
+function activateJobPlan($job,$jobRequestedPlan){
+	$currentDate  = date('Y-m-d H:i:s');
+	$plan =  $jobRequestedPlan->plan;
+	$duration = $plan->duration;
+	$expiryDate = date('Y-m-d H:i:s', strtotime("+".$duration." days"));
+
+	$jobRequestedPlan->approval_date = $currentDate;
+	$jobRequestedPlan->billing_start = $currentDate;
+	$jobRequestedPlan->billing_end = $expiryDate;
+	$jobRequestedPlan->status = 1;
+	$jobRequestedPlan->save();
+
+	$job->premium = 1;
+	$job->job_expires_on = $expiryDate;
+	$job->save();
+
+	return true;
+ 
+}
+
+function updateJobExpiry($job,$newPlan=[]){
+	if(empty($job->job_expires_on)){
+
+		if(!empty($newPlan)){
+			$plan = $newPlan;
+			$job->premium = 1;
+		}
+		else{
+			$plan = getjobFreePlan();
+			$job->premium = 0;
+		}
+		
+		$duration = $plan->duration;
+		$expiryDate = date('Y-m-d H:i:s', strtotime("+".$duration." days"));
+		$job->job_expires_on = $expiryDate;
+		$job->save();
+
+		return true;
+	}
+
+	return false;
+}
+// function createNewPlan($objectType,$objectid,$planId){
+// 	//check if any plan is active or requested
+// 	$objectplan = App\PlanAssociation::where(['premium_type'=>$objectType,'premium_id'=>$objectid,'plan_id'=>$planId])->whereIn('status',[0,1])->get();
+
+// 	if(!empty($objectplan)){
+// 		foreach ($objectplan as $key => $plan) {
+// 			$plan->status = 2;
+// 			$plan->save();
+// 		}
+// 	}
+
+// 	// add new  plan
+// 	$plan = new App\PlanAssociation;
+// 	$plan->premium_type = $objectType;
+// 	$plan->premium_id = $objectid;
+// 	$plan->plan_id = $planId;
+// 	$plan->status = 0;
+// 	$plan->save();
+
+
+// 	return $planId;
+
+// }
+ 
+ 

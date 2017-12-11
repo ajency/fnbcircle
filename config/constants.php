@@ -1,11 +1,12 @@
 <?php
+ 
 return [
 
     //job alert config 
     'job_alert_published_date_from' => date('Y-m-d',strtotime("-1 days")),
     'job_alert_published_date_to' => date('Y-m-d',strtotime("-1 days")),
-
-    
+ 
+ 
     'email_to' => 'nutan@ajency.in',
     'email_from' => 'nutan@ajency.in',
     'email_from_name' => 'Nutan',
@@ -30,3 +31,4 @@ return [
     'send_delay_dev' => 2, // In mins -> This delay will be used in Email / SMS sending
  	/* Dev Mode Ends */
 ];
+ 

@@ -94,6 +94,10 @@
   color: @danger;
 }
 
+.cloud-color{
+  color: #fff;
+}
+
 .primary-link{
   color: @accent-primary;
   &:hover,&:active,&:focus{
@@ -308,6 +312,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.no-outline{
+  outline: 0;
+  &:focus,&:active{
+    outline: 0 !important;
+  }
 }
 
 @media screen and (min-width: 769px){

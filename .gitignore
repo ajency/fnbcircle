@@ -18,3 +18,4 @@ public/bower_components/
 /public/news/wp-content/uploads
 /public/news/wp-config.php
 resources/views/errors/error.blade.php
+ 

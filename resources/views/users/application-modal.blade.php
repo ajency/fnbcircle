@@ -1,4 +1,4 @@
-    <div class="modal fnb-modal center-modal apply-jobs-modal fade" id="job-application-{{ $job->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal fnb-modal center-modal apply-jobs-modal fade customer-job-modal" id="job-application-{{ $job->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,12 +8,12 @@
    
                 <div class="apply-job-form">
                   <div class="apply-info text-center">
-                    <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
-                    <h6>You are applying for the following job.</h6>
+                    <i class="fa fa-briefcase text-primary" aria-hidden="true"></i>
+                    <h6>You have applied for the following job.</h6>
                   </div>
                     <!-- <p class="text-lighter x-small"> -->
                     <div class="jobDetail">
-                      <div class="flex-row jobDetail__row align-top">
+                      <div class="flex-row jobDetail__row mainRow align-top">
                         <div class="joblogo">
                           @if(($job->getJobCompany()->logo))
                             <img src="{{ $job->getJobCompany()->getCompanyLogo('company_logo') }}" width="60">
@@ -31,7 +31,7 @@
                           </span>
                           <!-- interview address -->
                           @if($job->interview_location!="")
-                          <div class="owner-address m-b-5">
+                          <div class="owner-address m-b-5 hidden ">
                             <!-- <h6 class="operations__title sub-title">Interview Address</h6> -->
                             <!-- <span class="fnb-icons map-icon"></span> -->
                             <div class="flex-row align-top">
@@ -43,7 +43,7 @@
                           @endif
                           
                           @if(!empty($job->getJobTypes()))
-                          <div class="flex-row jobDetail__row">
+                          <div class="flex-row jobDetail__row hidden">
                              <!-- <h6 class="m-t-0 company-section__title">Job Type</h6> -->
                              <div class="featured-jobs__row flex-row">
                                   <div class="job-type m-t-5">
@@ -62,8 +62,8 @@
                       <!-- </p> -->
                     <div class=" ">
                      
-                        <div class="  flex-row space-between">
-                             <h6 class="m-b-20">Your details as follows:</h6> 
+                        <div class="text-center">
+                             <h6 class="m-b-15 label-size applied-details">Your details as follows:</h6> 
                         </div>
                         <div class="row m-b-10">
                             <div class="col-sm-6 form-group c-gap">
@@ -79,15 +79,17 @@
                                 +({{ $job->application->country_code}}) {{ $job->application->phone}}
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">City: </label>
+                                <label class="label-size">State: </label>
                                 @if($job->application->city_id)
                                 {{ $job->application->applicantCity->name}}
                                 @endif
                             </div>
                         </div>
-                        
-                          
-                            <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}">download resume</a>
+                        @if($job->application->resume_id)
+                        <div class="text-center">
+                          <a href="{{ url('/user/'.$job->application->resume_id.'/download-resume')}}" class="btn fnb-btn full primary-btn border-btn default-size"><i class="fa fa-download" aria-hidden="true"></i> Download Resume</a>  
+                        </div>
+                        @endif
                               
  
                          

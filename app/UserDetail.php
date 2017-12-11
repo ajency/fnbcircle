@@ -38,6 +38,23 @@ class UserDetail extends Model
         return $date;
 
     }
+ 
+
+    public function getJobAlertConfigAttribute( $value ) { 
+        $value = unserialize( $value );
+         
+        return $value;
+    }
+
+    public function setJobAlertConfigAttribute( $value ) { 
+        $this->attributes['job_alert_config'] = serialize( $value );
+
+    }
+
+    public function user() { 
+        return $this->belongsTo('App\User');
+    }
+ 
     
     public function userCity() {
         return $this->belongsTo( 'App\City' ,'city');

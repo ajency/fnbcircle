@@ -125,8 +125,8 @@
 
 
                                             </div>
-                                            @if($job->submitForReview()) 
-                                            <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" >Submit for Review</a>
+                                            @if($job->submitForReview() && !$isPremiumPage) 
+                                            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit Job</a>
                                             @endif
 
                                             @if($job->getNextActionButton())
@@ -156,7 +156,7 @@
                                     </li>
 
                                     <li class="@if(!$job->isJobDataComplete()) disable @endif">
-                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Go Premium<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                                        <a href="@if($step == 'go-premium') # @else {{ url('/jobs/'.$job->reference_id.'/go-premium') }} @endif" class="@if(!$job->id || $step == 'go-premium') form-toggle @endif" id="plan_selection">Choose Your Plan<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -171,25 +171,25 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Fill in the details of the job properly.
+                                        <div class="p-l-5">Fill in the details of the job properly.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             2
                                         </span>
-                                        Ensure that you provide correct contact details.
+                                        <div class="p-l-10">Ensure that you provide correct contact details.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             3
                                         </span>
-                                        Job description should be clear.
+                                        <div class="">Job description should be clear.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             4
                                         </span>
-                                        Highlight the important details related to the job.
+                                        <div class="p-l-10">Highlight the important details related to the job.</div>
                                     </div>
                                 </div>
                             </div>
@@ -215,31 +215,31 @@
                                         <span class="number">
                                             1
                                         </span>
-                                        Get 10 X times more response.
+                                        <div class="">Get 10 X times more response.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             2
                                         </span>
-                                        Get premium tag which makes your requirement stand out from rest.
+                                        <div class="p-l-15">Get premium tag which makes your requirement stand out from rest.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             3
                                         </span>
-                                        Your job gets displayed on top of other non premium jobs and gets top priority.
+                                        <div class="p-l-15">Your job gets displayed on top of other non premium jobs and gets top priority.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row">
                                         <span class="number">
                                             4
                                         </span>
-                                        20 extra days of visibility.
+                                        <div class="">20 extra days of visibility.</div>
                                     </div>
                                     <div class="first tips-row__col flex-row align-top">
                                         <span class="number">
                                             5
                                         </span>
-                                        Your job is displayed to candidates while searching for similar other jobs of other employers.
+                                        <div class="p-l-20">Your job is displayed to candidates while searching for similar other jobs of other employers.</div>
                                     </div>
                                 </div>
                             </div>
@@ -307,7 +307,7 @@
 
                                         <!-- Submit for review section -->
                                  
-                                        @if($job->submitForReview() && hasAccess('submit_review_element',$job->reference_id,'jobs')) 
+                                        @if(!$isPremiumPage && $job->submitForReview() && hasAccess('submit_review_element',$job->reference_id,'jobs')) 
                                         <div class="m-t-0 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -315,19 +315,40 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the job, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                   <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}" class="primary-link sub-title ">Submit for Review</a>
+
+                                                    <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" class="primary-link sub-title ">Submit Job</a>
+
                                                </div>
                                            </div>
                                         </div>
                                         @endif
                                        
                                         <!-- content navigation -->
-                                        <div class="gs-form__footer flex-row m-t-30">
+                                        <div class="gs-form__footer flex-row m-t-30 @if($isPremiumPage) terms-row @endif">
+                                        @if($isPremiumPage)
+                                            <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 desk-hide terms-label"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0">I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.</p></label>
+                                         @endif
                                         @if($back_url)
                                             <a class="btn fnb-btn outline no-border gs-prev" href="{{ $back_url }}"><i class="fa fa-arrow-left" aria-hidden="true" ></i> Back</a>  
                                         @endif
-                                            <button class="btn fnb-btn primary-btn full  info-save gs-next job-save-btn" type="submit">Save &amp; Next</button>
+                                            @if($isPremiumPage &&  ($job->status==1 || $job->status==5))
+                                                <div class="flex-row flex-end flex-1 terms-privacy-section">
+                                                <label class="flex-row text-medium x-small text-color cursor-pointer m-b-0 mobile-hide"><input type="checkbox" class="checkbox terms-check" checked><p class="m-b-0 p-r-25">I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.</p></label>
+                                             @endif
+                                            <button class="btn fnb-btn primary-btn full info-save gs-next job-save-btn" type="submit">
+
+                                            @if(!$isPremiumPage)
+                                            Save &amp; Next
+                                            @elseif($job->status!=1 && $job->status!=5)
+                                            Subscribe
+                                            @else
+                                            Submit Job
+                                            @endif
+                                            </button>
                                             <!-- <button class="btn fnb-btn outline no-border ">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button> -->
+                                            @if($isPremiumPage)
+                                            </div>
+                                            @endif
                                         </div>
                                         <input type="hidden" name="has_changes" value="0">
                                         </form>

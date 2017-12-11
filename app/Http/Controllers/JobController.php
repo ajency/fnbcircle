@@ -21,6 +21,11 @@ use App\Helpers\WpNewsHelper;
 use View;
 use \Input;
 use App\JobApplicant;
+use App\NotificationQueue;
+use App\UserDetail;
+use App\Plan;
+use App\PlanAssociation;
+ 
 use Ajency\User\Ajency\userauth\UserAuth;
 use Spatie\Activitylog\Models\Activity;
  
@@ -50,7 +55,7 @@ class JobController extends Controller
      */
     public function create()
     {   
- 
+
         $cities  = City::where('status', 1)->orderBy('name')->get();
 
         $job    = new Job;
@@ -71,6 +76,7 @@ class JobController extends Controller
                                     ->with('defaultKeywords', $defaultKeywords) 
                                     ->with('jobTypes', $jobTypes)
                                     ->with('back_url', null)
+                                    ->with('isPremiumPage', false)
                                     ->with('step', 'job-details')
                                     ->with('pageName', $pageName)
                                     ->with('breadcrumb', $breadcrumb)
@@ -161,6 +167,7 @@ class JobController extends Controller
         $job->interview_location = $interviewLocation;
         $job->interview_location_lat = $latitude;
         $job->interview_location_long = $longitude;
+        $job->premium = 0;
         $job->save();
 
         $jobId = $job->id;
@@ -345,6 +352,8 @@ class JobController extends Controller
         $userProfile = false;
         $userResume = false;
         $hasAppliedForJob = false;
+        $sendJobAlerts = false;
+        $hasAlertConfig = false;
  
         if(Auth::check()){
             $user = Auth::user();
@@ -352,6 +361,12 @@ class JobController extends Controller
             $hasAppliedForJob = $user->applications()->where('job_id',$job->id)->first(); 
             $userResume = $user->getUserJobLastApplication();
             $userProfile = $user->getUserProfileDetails();
+
+            $userDetails = $user->getUserDetails;  
+            if(!empty($userDetails)){
+                $sendJobAlerts = $userDetails->send_job_alerts;  
+                $hasAlertConfig = (!empty($userDetails->job_alert_config)) ? true : false;  
+            }
  
         }
 
@@ -361,6 +376,8 @@ class JobController extends Controller
             
         }
        
+        $data['hasAlertConfig'] = $hasAlertConfig;
+        $data['sendJobAlerts'] = $sendJobAlerts;
         $data['hasAppliedForJob'] = $hasAppliedForJob;
         $data['userResume'] = $userResume;
         $data['userProfile'] = $userProfile;
@@ -388,6 +405,8 @@ class JobController extends Controller
         $postUrl = url('jobs/'.$job->reference_id);
         $data['postUrl'] = $postUrl;
         $data['step'] = $step;
+        $data['isPremiumPage'] = false;
+        $data['disableSave'] = false;
 
         $jobCompany  = $job->getJobCompany();
         $data['jobCompany'] = $jobCompany;
@@ -436,6 +455,19 @@ class JobController extends Controller
             $breadcrumb = $job->title .' / Edit Job' ;
         }
         elseif ($step == 'go-premium'){
+
+            if(!$job->isJobDataComplete())
+                abort(404);
+
+            $plans = Plan::where('type','job')->orderBy('order','asc')->get();
+            $activePlan = getActivePlan($job);
+            $requestedPlan = getrequestedPlan($job); 
+            $data['plans'] = $plans; 
+            $data['isPremiumPage'] = true;
+            $data['postUrl'] = url('/subscribe-to-premium');
+            $data['disableSave'] = true;
+            $data['activePlan'] = $activePlan; 
+            $data['requestedPlan'] = $requestedPlan; 
             $data['back_url'] = url('jobs/'.$job->reference_id.'/company-details'); 
             $blade = 'jobs.job-plan-selection';
             $pageName = $job->title .'- Go Premium' ;
@@ -471,7 +503,8 @@ class JobController extends Controller
             $response = $this->saveCompanyData($job,$request);
         }
         elseif ($request->step == 'go-premium'){
-            $response['next_step']='go-premium';
+            // $response['next_step']='go-premium';
+            $response = $this->savePremiumData($job,$request);
         }
         else{
             abort(404);
@@ -694,6 +727,23 @@ class JobController extends Controller
     }
 
 
+    public function savePremiumData($job,$request){ 
+       
+        $user = Auth::user();
+        $userId = $user->id;
+   
+
+        $data = $request->all();  
+         
+
+        
+
+        $request['next_step'] = 'go-premium';
+
+        return $request;
+    }
+
+
     public function getKeywords(Request $request){ 
 
         // $this->validate($request, [
@@ -726,50 +776,16 @@ class JobController extends Controller
     }
 
     public function submitForReview($referenceId){
-        $date = date('Y-m-d H:i:s');    
+        
         $job = Job::where('reference_id',$referenceId)->first();
-        // $job->status = 2; 
-        // $job->date_of_submission = $date; 
-        // $job->save();
-
-
-        //email data 
-
-        $jobOwner = $job->createdBy;
-        $ownerDetails = $jobOwner->getUserProfileDetails();
-
-        $templateData = [];
-        $jobCompany  = $job->getJobCompany();
-        $locations  = $job->getJobLocationNames();
-        $metaData = $job->meta_data;
-         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
         
-        $contactEmail = getCommunicationContactDetail($job->id,'App\Job','email');
-        $contactMobile = getCommunicationContactDetail($job->id,'App\Job','mobile');  
-        $contactLandline = getCommunicationContactDetail($job->id,'App\Job','landline');  
-
-        $templateData['keywords'] = $jobKeywords;
-        $templateData['jobCompany'] = $jobCompany;
-        $templateData['contactEmail'] = $contactEmail;
-        $templateData['contactMobile'] = $contactMobile;
-        $templateData['contactLandline'] = $contactLandline;
-        $templateData['locations'] = $locations;
-        $templateData['job'] = $job;
-        
-
-        $data = [];
-        $data['from'] = $ownerDetails['email'];
-        $data['name'] = $jobOwner->name;
-        $data['to'] = [ config('constants.email_to')];
-        $data['cc'] = [ config('constants.email_to')];
-        $data['subject'] = "A job has been submitted for review.";
-        $data['template_data'] = $templateData;
-        
-        sendEmail('job-submit-for-review', $data);
+        $job->submitForReviewEmail();
 
         Session::flash('job_review_pending','Job details submitted for review.');
         return redirect()->back();
     }
+
+    
 
  
     public function filterJobs($filters,$skip,$length,$orderDataBy){
@@ -777,12 +793,12 @@ class JobController extends Controller
         $jobQuery = Job::select('jobs.*')->join('categories', 'categories.id', '=', 'jobs.category_id'); 
 
 
-        if($filters['job_name']!="")
+        if(isset($filters['job_name']) && $filters['job_name']!="")
         {
             $jobQuery->where('jobs.title','like','%'.$filters['job_name'].'%');
         }
 
-        if($filters['company_name']!="")
+        if(isset($filters['job_name']) && $filters['company_name']!="")
         {
             $jobIds = Company:: where('title','like','%'.$filters['company_name'].'%')
                       ->join('job_companies', 'companies.id', '=', 'job_companies.company_id')
@@ -834,6 +850,7 @@ class JobController extends Controller
             $jobQuery->distinct('jobs.id');
         }
 
+ 
         if(isset($filters['published_date_from']) && !empty($filters['published_date_from']) && !empty($filters['published_date_to']))
         { 
 
@@ -845,6 +862,21 @@ class JobController extends Controller
         {
             $jobQuery->where('jobs.date_of_submission','>=',$filters['submission_date_from'].' 00:00:00'); 
             $jobQuery->where('jobs.date_of_submission','<=',$filters['submission_date_to'].' 23:59:59');
+        }
+
+        if(isset($filters['premium_request']) && !empty($filters['premium_request']) && count($filters['premium_request']) == 1)
+        {
+            
+            $jobIds = PlanAssociation::where('premium_type','App\Job')->pluck('premium_id')->toArray();
+            $jobIds = (!empty($jobIds)) ? $jobIds : [0];
+            if(in_array('yes', $filters['premium_request'])){
+                $jobQuery->whereIn('jobs.id',$jobIds);
+            }
+            else{
+                $jobQuery->whereNotIn('jobs.id',$jobIds);
+            }
+
+            $jobQuery->distinct('jobs.id');
         }
 
 
@@ -994,6 +1026,7 @@ class JobController extends Controller
 
     public function jobListing(Request $request,$serachCity){ 
 
+ 
         $cities  = getPopularCities() ; 
         $requestData = $request->all();  
         $job    = new Job;
@@ -1022,7 +1055,9 @@ class JobController extends Controller
             $requestData['experience'] = json_decode($requestData['experience']);
         }
 
+ 
         if(isset($requestData['city']) && $requestData['city']!=""){
+ 
             $cityId  = City::where('slug', $request->state)->first()->id;
             $city_areas = Area::where('city_id', $cityId)->where('status', '1')->orderBy('order')->orderBy('name')->get();
             
@@ -1032,11 +1067,14 @@ class JobController extends Controller
 
         if(isset($requestData['job_roles']) && $requestData['job_roles']!=""){
 
-            $keywordIdStr = json_decode($requestData['job_roles']); 
+            $keywordIdStr = json_decode($requestData['job_roles']);
             $keywordIds = [];
             foreach ($keywordIdStr as $key => $keywordstr) {
-                $keyword = explode('|', $keywordstr);
-                $keywordIds[] = $keyword[0];
+                if($keywordstr!=""){
+                    $keyword = explode('|', $keywordstr);
+                    $keywordIds[] = $keyword[0];
+                }
+                
             }
 
             $keywordData = Defaults::whereIn("id",$keywordIds)->get();
@@ -1067,7 +1105,7 @@ class JobController extends Controller
     public function getListingJobs(Request $request){
        
         $length = 10;
-        $orderDataBy = ['premium'=>'asc','published_on'=>'desc'];
+        $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
         $filters = $request->all(); 
         $append = $filters['append']; 
         $page = $filters['page'];
@@ -1137,6 +1175,9 @@ class JobController extends Controller
         $job->status = $statusId; 
         $job->save();
 
+        if($statusId == 3){
+            updateJobExpiry($job);
+        }
 
         $successMessage = [2 => 'Job details submitted for review.',4=> 'Job details archived.',3=>'Job details published.'];
  
@@ -1174,7 +1215,7 @@ class JobController extends Controller
         $jobApplicant->country_code = $applicantCountryCode;
         
         $jobApplicant->date_of_application  = date('Y-m-d H:i:s');
-
+ 
         if(!empty($resume)){
             $resumeId = $user->uploadUserResume($resume);
             $jobApplicant->resume_updated_on  = date('Y-m-d H:i:s');
@@ -1196,36 +1237,168 @@ class JobController extends Controller
 
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
-        //for testing
-        $ownerDetails['email'] = 'nutan@ajency.in';
          
-        $filePath = getUploadFileUrl($resumeId);
-        $ext = pathinfo($filePath, PATHINFO_EXTENSION);
 
+        // $userDetails = $user->getUserDetails;  
+        // if(!empty($userDetails)){
+        //     $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+        // }
+        
+    
+        //for testing
+        // $ownerDetails['email'] = 'nutan@ajency.in';
+           
+       
+
+ 
+        // $data = [];
+        // $data['from'] = $applicantEmail;
+        // $data['name'] = $applicantName;
+        // $data['to'] = [ $ownerDetails['email']];
+        // $data['cc'] = 'prajay@ajency.in';
+        // $data['subject'] = "New application for job ".$job->title;
+        // $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
+        // sendEmail('job-application', $data);
+        
+        Session::put('applicant_email',$ownerDetails['email']);
         $data = [];
-        $data['from'] = $applicantEmail;
+        $data['from'] = config('constants.email_from');
         $data['name'] = $applicantName;
         $data['to'] = [ $ownerDetails['email']];
         $data['cc'] = [ config('constants.email_to')];
         $data['subject'] = "New application for job ".$job->title;
         
-         
 
-        $mimeType = getFileMimeType($ext);
+        if($resumeId){
+            $filePath = getUploadFileUrl($resumeId);
+            $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+            $mimeType = getFileMimeType($ext);
+            $file = $user->getSingleFile($resumeId);
+            $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
+        }
         
-
-        $file = $user->getSingleFile($resumeId);
-        $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
 
         $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         sendEmail('job-application', $data);
-
-            
-    
-        // Session::flash('success_message','Successfully applied for job');
+ 
+         // Session::flash('success_message','Successfully applied for job');
         Session::flash('success_apply_job','Job apply');
         return redirect()->back();
 
+    }
+
+    /****
+    mark send alert true/false
+    *****/
+    public function changeSendJobAlertsFlag(Request $request){
+        $this->validate($request, [
+            'send_alert' => 'required',
+        ]);
+        
+        $results = false;
+        $sendAlert = ($request->send_alert == 'true')? 1 :0; 
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails;  
+        if(!empty($userDetails)){
+            $userDetails->send_job_alerts = $sendAlert;
+            $userDetails->save();
+
+            $results = true;
+        }
+        
+        return response()->json(['results' => $results]);
+    }
+
+    /****
+    update user alert config  as per job details
+    *****/
+    public function sendJobsToUser($referenceId){
+        $job = Job::where('reference_id',$referenceId)->first();
+        $user =  Auth::user();
+        $userDetails = $user->getUserDetails;  
+        $message = 'Your Job alert for "'.$job->title.'" has been created.';
+        if(!empty($userDetails)){
+            $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
+            if(!empty($userDetails->job_alert_config))
+                $message = 'Your Job alert for "'.$job->title.'" has been updated.'; 
+
+            $userDetails->send_job_alerts = 1;
+            $userDetails->save();
+        }
+
+
+
+        // Session::flash('success_message','Job Alert Configuration Successfully Updated.');
+        Session::flash('success_apply_job',$message);
+        return redirect(url('/job/'.$job->getJobSlug())); 
+    }
+
+    /****
+    Cron job
+    *****/
+    public function sendJobAlert(){
+        $userDetails = UserDetail::where('send_job_alerts',1)->get();
+        foreach ($userDetails as $key => $userDetail) {
+            $user = $userDetail->user;
+            $jobFilters = $userDetail->job_alert_config;
+            $jobFilters['published_date_from'] = config('constants.job_alert_published_date_from');  
+            $jobFilters['published_date_to']= config('constants.job_alert_published_date_to');
+            $category[] =  $jobFilters['category']; 
+            $jobFilters['category'] = $category;
+            $jobFilters['job_status'] = [3];
+
+            $length = 5;
+            $skip = 0;
+            $orderDataBy = ['premium'=>'desc','published_on'=>'desc'];
+            $filterJobs = $this->filterJobs($jobFilters,$skip,$length,$orderDataBy);
+            $jobs = $filterJobs['jobs']; 
+            $totalJobs = $filterJobs['totalJobs'];  
+
+            $userCommDetails = $user->getUserProfileDetails();
+            // $userCommDetails['email'] = 'prajay@ajency.in';
+
+            $searchUrls =[];
+            $jobFilters['location_text'] = [];
+             if(isset($jobFilters['city'])){
+                foreach($jobFilters['city'] as $cityId){
+                    $jobFilters['state'] = $cityId;
+                    $genUrl = generateJobListUrl($jobFilters,0,$user); 
+                    $locationText = $genUrl['locationtext'];
+                    $searchUrls[] = ['url'=>$genUrl['url'],'state'=>$locationText['city_name']];
+                    $jobFilters['location_text'][] = $locationText;
+
+                }
+             }
+             
+             
+            if($jobs->count()){
+                // $data = [];
+                // $data['from'] = config('constants.email_from');
+                // $data['name'] = config('constants.email_from_name');
+                // $data['to'] = [ $userCommDetails['email'] ];
+                // $data['cc'] = 'prajay@ajency.in';
+                // $data['subject'] = "Jobs matching your job alert criteria";
+                // $data['template_data'] = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
+                // sendEmail('job-alert', $data);
+
+                $notification = new NotificationQueue();
+                $notification->notification_type = 'email';
+                $notification->event_type = 'job-alert';
+                $notification->subject = "Jobs matching your job alert criteria";
+                $notification->to = [ $userCommDetails['email'] ];
+                $notification->cc = ['prajay@ajency.in'];
+                $notification->bcc = [];
+                $notification->from_name = config('constants.email_from_name');
+                $notification->from_email = config('constants.email_from');
+                $notification->send_at = date('Y-m-d H:i:s');
+                $notification->template_data = ['jobs' => $jobs,'username' => $user->name,'filters' => $jobFilters,'searchUrls' => $searchUrls];
+                $notification->processed = 0;
+                $notification->save();
+
+            }
+           
+
+        }
     }
 
     public function getJobTitles(Request $request){ 
@@ -1253,11 +1426,62 @@ class JobController extends Controller
         
     
         $jobTitles = \DB::select($query);
-        
-        
-        
-        
+ 
         return response()->json(['results' => $jobTitles, 'options' => []]);
+    }
+
+    public function getJobApplications(Request $request,$referenceId){
+        $job = Job::where('reference_id',$referenceId)->first();
+        $jobApplications = $job->jobApplicants()->orderBy('date_of_application','desc')->get();
+
+        $html ='';
+        if(!empty($jobApplications)){
+            foreach($jobApplications as $key => $application){
+                $resumeUrl = getUploadFileUrl($application->resume_id);
+
+                if(isset($jobApplications[($key - 1)]) && $application->date_of_application == $jobApplications[($key - 1)]->date_of_application)
+                {
+                    $date_of_application = '';
+                    $dateRepeat = 'date-repeat';
+                }
+                else
+                {
+                    $date_of_application = $application->dateOfSubmission();
+
+                    if(isset($jobApplications[($key + 1)]) && $application->date_of_application == $jobApplications[($key + 1)]->date_of_application)
+                      $dateRepeat = 'date-repeat';
+                    else
+                      $dateRepeat = '';
+                }
+            
+
+            
+                $html .='<tr>';
+                $html .='<td class="'.$dateRepeat.'">'.$date_of_application.' </td>';
+                $html .='<td>'. $application->name .'</td>';
+                $html .='<td>'.$application->email .'</td>';
+                $html .='<td> +('.$application->country_code.') '. $application->phone .'</td>';
+
+                $html .='<td>';
+                 if($application->city_id){
+                    $html .= $application->applicantCity->name;
+                 }  
+                $html .= '</td>';
+                $html .='<td class="download-col">';
+                if($application->resume_id){
+                    $html .='<a href="'.url('/user/'.$application->resume_id.'/download-resume').'">Download <i class="fa fa-download" aria-hidden="true"></i></a>';
+                }else{
+                    $html .='-';
+                }
+                $html .='</td>';
+                $html .='</tr>';
+            }
+
+        }
+
+        return response()->json(['results' => true, 'html' => $html]);
+        
+
     }
 
  

@@ -102,7 +102,9 @@ class User extends Authenticatable
 
     public function jobApplications()
     {
-        $applications = $this->applications()->get();
+
+        $applications = $this->applications()->orderBy('created_at','desc')->get(); 
+ 
         $jobs = [];
         foreach ($applications as $key => $application) {
             $job = $application->job;
@@ -252,11 +254,67 @@ class User extends Authenticatable
         return $application;
     }
 
+  
+    public function saveJobAlertConfig($job,$sendJobALert){
 
+        $criteria = $this->getJobCriterias($job);
+
+        $userDetails = $this->getUserDetails; 
+        $userDetails->job_alert_config = $criteria;
+        $userDetails->send_job_alerts = $sendJobALert;
+        $userDetails->save();
+
+        return $userDetails;
+
+    }
+
+    public function getJobCriterias($job){
+
+        $metaData = $job->meta_data;
+        
+        //save job alert config
+        $criteria=[];
+        $criteria['job_type'] =  (isset($metaData['job_type'])) ? $metaData['job_type'] :[];
+        $criteria['job_type_text'] = $job->getJobTypes();
+        $criteria['experience'] = (isset($metaData['experience'])) ? $metaData['experience'] :[];
+        $criteria['salary_lower'] = $job->salary_lower;
+        $criteria['salary_upper'] = $job->salary_upper;
+        $criteria['salary_type'] = $job->salary_type;
+        $criteria['salary_type_text'] = $job->getSalaryType();
+        $criteria['salary_type_slug'] = str_slug($job->getSalaryType());
+        $criteria['category'] = $job->category_id;
+        $criteria['category_name'] = $job->getJobCategoryName();
+        $criteria['category_slug'] = $job->category->slug;
+       
+        $criteria['job_keyword'] = implode(',', $metaData['job_keyword']);
+        $criteria['keywords'] =  array_keys($metaData['job_keyword']);
+        $criteria['keywords'] =  array_keys($metaData['job_keyword']);
+        $criteria['keywords_id'] =  $metaData['job_keyword'];
+
+        $savedJobLocations = $job->getJobLocation(); 
+        $jobLocations = $savedJobLocations['savedLocation'];
+        foreach ($jobLocations as $cityId => $areas) { 
+            $criteria['city'][] = $cityId;
+
+            foreach ($areas as $key => $area) {
+                $criteria['area'][] = $area;
+            }
+             
+        }
+        $criteria['city'] = array_unique($criteria['city']);
+        $criteria['area'] = array_unique($criteria['area']);
+        $criteria['job_location'] = $jobLocations;
+
+        return $criteria;
+
+    }
+ 
+ 
     public function userCreated($format=1){
         $date = '';
 
         if(!empty($this->created_at)){
+
 
             if($format==1)
                 $date = date('F j, Y', strtotime(str_replace('-','/', $this->created_at)));

@@ -173,6 +173,11 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+
+                    <div class="text-center m-t-10 m-b-10">
+                        <div class="text-medium text-lighter accept_terms x-small">By clicking Save, you agree to our <a href="#" class="secondary-link">Terms of Service</a> and <a href="#" class="secondary-link">Privacy Policy</a></div>
+                    </div>
+
                     <div class="form-group text-center m-b-0 m-t-10">
                         <button type="button" class="btn btn-lg fnb-btn primary-btn border-btn" id="requirement_form_btn">
                             Save <i class="fa fa-circle-o-notch fa-spin hidden"></i>

@@ -122,7 +122,7 @@
                           @endforeach
                           </select>
                       </th>
-                      <th width="20%">
+                      <th width="10%">
                          Job Role(s)
                          <select multiple class="form-control jobsearchinput admin-job-role-search" id="filterkeywords" name="job_keywords">
                             @foreach ($keywords as $keywordId => $keyword)
@@ -138,6 +138,13 @@
                       <th>Published Date</th>
                       <th>Last Updated on</th>
                       <th>Last Updated By</th>
+                      <th class="no-sort man-status-col" data-col="9">
+                        Premium Request
+                        <select multiple name="premium_request" class="form-control multi-dd jobsearchinput">
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </th>
                       <th class="no-sort man-status-col" data-col="9">
                         Status
                         <select name="job_status" multiple class="form-control multi-dd  jobsearchinput">

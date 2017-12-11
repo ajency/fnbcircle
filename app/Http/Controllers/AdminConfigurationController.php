@@ -830,9 +830,9 @@ class AdminConfigurationController extends Controller
                             'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
                             'total_listing' => $user->listing()->count() ,
                             'published_listing' =>  $user->listing()->where('status','3')->count(),
-                            'total_jobs' =>  $user->jobs()->where('status','3')->count(),
+                            'total_jobs' =>  $user->jobs()->count(),
                             'published_jobs' =>  $user->jobs()->where('status','3')->count(),
-                            'job_applied' =>  '',
+                            'job_applied' =>  $user->applications()->count(),
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
                             'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
                             'status_raw' => $user->status,
@@ -954,6 +954,7 @@ class AdminConfigurationController extends Controller
                             'published_date' => $job->jobPublishedOn(2),
                             'last_updated' => $job->jobUpdatedOn(2),
                             'last_updated_by' => ($job->job_modifier) ? $job->updatedBy->name :'',
+                            'premium_request' => ($job->hasPremiumRequest()) ? 'Yes' :'No', 
                             'status' => '<span status_value="'.$job->id.'">'.$job->getJobStatus().'</span> '.$statusEditHtml ,
                             ];
             
@@ -1000,11 +1001,15 @@ class AdminConfigurationController extends Controller
             $jobOwner = $job->createdBy;
             $ownerDetails = $jobOwner->getUserProfileDetails();
 
+            //update job expiry time
+            updateJobExpiry($job);
+
             //for testing
-            $ownerDetails['email'] = 'nutan@ajency.in';
+            // $ownerDetails['email'] = 'nutan@ajency.in';
 
             $templateData['job'] = $job;
             $templateData['ownerName'] = $jobOwner->name;
+            $ownerDetails['email'] = $jobOwner->getPrimaryEmail();
 
             $template = ($job->status == '3') ?'job-published'  : 'job-rejected';
             $subject = ($job->status == '3')? 'Congratulations! Your job is now live on FnB Circle'  : 'Your job is not approved and hence rejected on FnB Circle.';
@@ -1013,7 +1018,7 @@ class AdminConfigurationController extends Controller
             $data['from'] = config('constants.email_from');
             $data['name'] = config('constants.email_from_name');
             $data['to'] = [ $ownerDetails['email']];
-            $data['cc'] = [ config('constants.email_to')];
+            // $data['cc'] = [ config('constants.email_to')];
             $data['subject'] = $subject;
             $data['template_data'] = $templateData;
             

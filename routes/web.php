@@ -16,6 +16,11 @@ Route::get('/', function () {
     return view('welcome', compact('header_type'));
 });
  
+ 
+// Route::get('/test','TestController@index');
+// Forgot Password
+Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
+ 
 /****
 api
 ****/
@@ -86,6 +91,8 @@ Route::group( ['middleware' => ['auth']], function() {
 	Route::post('/listing','ListingController@store');
 	Route::post('/contact_save','ListingController@saveContact');
 	Route::post('/subscribe-to-premium', 'CommonController@premium' );//edit jobs
+	Route::get('/premium/{type}/{reference_id}/cancle-request', 'CommonController@canclePremiumRequest' );//edit jobs
+	
 	Route::post('/post-update', 'UpdatesController@postUpdate');
 	Route::post('/upload-update-photos', 'UpdatesController@uploadPhotos');
 	Route::post('/delete-post','UpdatesController@deletePost');
@@ -120,16 +127,25 @@ logged in users group
 */
 Route::group( ['middleware' => ['auth']], function() { 
 	Route::post('/jobs/{reference_id}/applyjob','JobController@applyJob');
+	Route::post('/job/{reference_id}/get-job-application','JobController@getJobApplications');
  	Route::post('/user/verify-contact-details','UserController@verifyContactDetails'); // Generate OTP
 	Route::post('/user/verify-contact-otp','UserController@verifyContactOtp'); // Validate OTP
 	Route::post('/user/delete-contact-details','UserController@deleteContactDetails');
+ 
+	Route::get('/user/send-job-alerts','JobController@changeSendJobAlertsFlag');
+	Route::get('/users/send-alert-for-job/{reference_id}','JobController@sendJobsToUser');
+ 
 	Route::get('/user/{resume_id}/download-resume','UserController@downloadResume');
+ 
 	Route::post('/user/remove-resume','UserController@removeResume');
+ 
 	Route::get('/profile/{step}/{email?}', 'ProfileController@displayProfile' );
 	Route::post('/profile/password-change', 'ProfileController@changePassword');
 	Route::post('/profile/number-change', 'ProfileController@changePhone');
+ 
 	Route::post('/profile/get-user-activity', 'ProfileController@getUserActivity');
 	Route::post('/profile/update-user-details', 'ProfileController@updateUserDetails');
+ 
 });
 /*************/
   
@@ -190,8 +206,10 @@ USER PROFILE
 Route::group(['middleware' => ['auth'], 'prefix' => 'customer-dashboard'], function () {
 	Route::get('/','UserController@customerdashboard');
 	Route::post('/users/update-resume','UserController@uploadResume');
+	Route::post('/users/set-job-alert','UserController@setJobAlert');
  
 });
+
 
 /** Routes for Wordpress News */
 //Route::group(['middleware' => ['web']], function () {
@@ -203,8 +221,7 @@ Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 //
 //});
 
-
-
+ 
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');

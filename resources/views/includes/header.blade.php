@@ -74,10 +74,21 @@
                                         <p class="login__title nav-title-size p-l-10 nav-color">Login</p>
                                     </a>
                                 @else
-                                    <a href="{{ route('logout') }}" class="login">
-                                        <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
-                                        <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
-                                    </a>
+                                    <div class="dropdown user-logged">
+                                      <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="drop-trigger">
+                                         <p class="userName text-medium m-b-0 default-size p-r-5 ellipsis">Welcome, <b>{{ Auth::user()->name }}</b></p>
+                                         <!-- <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i> -->
+                                        <!-- <span class="caret"></span> -->
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                      </button>
+                                      <ul class="dropdown-menu card arrowBox" aria-labelledby="dLabel">
+                                        @if(Auth::user()->type == 'external')
+                                        <li><a href="{{url('customer-dashboard')}}"><i class="fa fa-tachometer text-color p-r-5" aria-hidden="true"></i> My Dashboard</a></li>
+                                        @endif
+                                        <li><a href="{{url('profile/basic-details')}}"><i class="fa fa-user text-color p-r-5" aria-hidden="true"></i> My Profile</a></li>
+                                        <li><a href="{{ route('logout') }}"><i class="fa fa-power-off text-color p-r-5" aria-hidden="true"></i> Logout</a></li>
+                                      </ul>
+                                    </div>
                                     <!-- <a href="{{ route('logout') }}" class="login" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         <i class="fa fa-user-circle user-icon nav-color" aria-hidden="true"></i>
                                         <p class="login__title nav-title-size p-l-10 nav-color">Logout</p>
@@ -105,6 +116,17 @@
                     </div>
                     <p class="mobile-side-title">Explore</p>
                     <ul class="nav navbar-nav explore side-section">
+                        @if(!Auth::guest())
+                        @if(Auth::user()->type == 'external')
+                        <li class="desk-hide">
+                            <a href="{{url('customer-dashboard')}}" class="nav-title-size">My Dashboard</a>
+                        </li>
+                        @endif
+                        <li class="desk-hide">
+                            <a href="{{url('profile/basic-details')}}" class="nav-title-size">My Profile</a>
+                        </li>
+                        @endif  
+
                         <li>
                             <a href="" class="nav-title-size">About us</a>
                         </li>

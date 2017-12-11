@@ -483,12 +483,14 @@
     }
   });
 
-  $('.default-area-select').multiselect({
-    includeSelectAllOption: true,
-    numberDisplayed: 1,
-    delimiterText: ',',
-    nonSelectedText: 'Select City'
-  });
+  if ($('.default-area-select').length) {
+    $('.default-area-select').multiselect({
+      includeSelectAllOption: true,
+      numberDisplayed: 1,
+      delimiterText: ',',
+      nonSelectedText: 'Select City'
+    });
+  }
 
   $('.open-popup-alert').popover({
     container: 'body',

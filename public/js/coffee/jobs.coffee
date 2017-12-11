@@ -505,11 +505,12 @@ $('body').on 'change', '.terms-check', ->
     $('.job-save-btn').addClass 'disable'
 
 
-$('.default-area-select').multiselect
-  includeSelectAllOption: true
-  numberDisplayed: 1
-  delimiterText:','
-  nonSelectedText: 'Select City'
+if $('.default-area-select').length
+  $('.default-area-select').multiselect
+    includeSelectAllOption: true
+    numberDisplayed: 1
+    delimiterText:','
+    nonSelectedText: 'Select City'
           
 
 

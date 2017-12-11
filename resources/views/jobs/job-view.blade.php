@@ -1108,7 +1108,7 @@ $additionalData = ['job'=>$job];
                                  <span class="location__title default-size text-color">{{ $job->getJobCategoryName() }}</span>
                             </div>
                             <div class="col-sm-6 form-group c-gap">
-                                <label class="label-size">Role: </label>
+                                <label class="label-size">Job Role: </label>
                                 <ul class="j-role flex-row flex-wrap">
                                   @foreach($keywords as $keyword)
                                    <li>

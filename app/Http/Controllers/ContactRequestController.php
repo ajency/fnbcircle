@@ -238,7 +238,7 @@ class ContactRequestController extends Controller
         $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
 
         //rule : At least 1 core category matching + type + locality
-        $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+        $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('locality_id', $listing->locality_id)->where('premium',1)->orderBy('updated_at')->take(3)->get();
         foreach ($similar as $sim) {
             $similar_id[] = $sim->id;
 
@@ -246,21 +246,21 @@ class ContactRequestController extends Controller
 
         if (count($similar_id) < 4) {
             //rule : At least 1 core category matching + type
-            $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->orderBy('premium')->orderBy('updated_at')->take(2)->get();
+            $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('premium',1)->orderBy('updated_at')->take(2)->get();
             foreach ($similar as $sim) {
                 $similar_id[] = $sim->id;
 
             }
             if (count($similar_id) < 4) {
                 //rule : At least 1 core category matching + location
-                $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('premium',1)->orderBy('updated_at')->take(3)->get();
                 foreach ($similar as $sim) {
                     $similar_id[] = $sim->id;
 
                 }
                 if (count($similar_id) < 4) {
                     //rule : At least 1 core category matching
-                    $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                    $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('locality_id', $listing->locality_id)->where('premium',1)->orderBy('updated_at')->take(3)->get();
                     foreach ($similar as $sim) {
                         $similar_id[] = $sim->id;
 

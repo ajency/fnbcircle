@@ -117,7 +117,7 @@ Dashboard
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">Do you own a Business?</h6>
-                                        <a href="#" class="primary-link m-t-10 dis-block sub-title">Create a Listing</a>
+                                        <a href="{{url('/listing/create')}}" class="primary-link m-t-10 dis-block sub-title">Create a Listing</a>
                                     </div>
                                 </div>
                                 
@@ -132,7 +132,7 @@ Dashboard
                                     </div>
                                     <div class="text-left p-l-20">
                                         <h6 class="sub-title m-t-0 text-medium">Browse other Businesses</h6>
-                                        <a href="#" class="primary-link m-t-10 dis-block sub-title">Browse Listings</a>
+                                        <a href="{{ url($browserState.'/business-listings') }}" class="primary-link m-t-10 dis-block sub-title">Browse Listings</a>
                                     </div>
                                 </div>   
                                 

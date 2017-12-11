@@ -8,7 +8,7 @@
    
                 <div class="apply-job-form">
                   <div class="apply-info text-center">
-                    <i class="fa fa-briefcase text-lighter" aria-hidden="true"></i>
+                    <i class="fa fa-briefcase text-primary" aria-hidden="true"></i>
                     <h6>You have applied for the following job.</h6>
                   </div>
                     <!-- <p class="text-lighter x-small"> -->

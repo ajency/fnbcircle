@@ -42,7 +42,7 @@
                                     <div class="value" style="width: 80%;"></div>
                                 </div>
                             </div>
-                            <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
+                            @if($list_value->status ==1)<p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>@endif
                         </div>
                         <div class="stats flex-row m-t-10">
                             <a class="fnb-label wholesaler flex-row list-label m-r-10" href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]'>

@@ -154,6 +154,9 @@
         return contactObj.closest('.contact-container').find('.dupError').html('Please enter valid ' + contactType);
       }
     });
+    $('.contact-info').on('keyup keypress blur change', '.contact-input', function(event) {
+      return $(this).closest('.contact-container').find('input.toggle__check').prop('checked', false).change();
+    });
     checkDuplicateEntries = function(contactObj) {
       var contactval, result;
       contactval = contactObj.val();

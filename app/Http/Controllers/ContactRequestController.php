@@ -98,7 +98,7 @@ class ContactRequestController extends Controller
         $area = Area::with('city')->find($listing->locality_id);
         $email_data = [
             'to' => $email,
-            'subject' => "Listing added under your account on FnB Circle",
+            'subject' => "Contact Details of ".$listing->title,
             'priority' =>'low',
             'template_data' => [
                 'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
@@ -109,12 +109,19 @@ class ContactRequestController extends Controller
         sendEmail('contact-request-seeker-premium',$email_data);
 
         //send sms to lead/user
+        $sms_contacts = $listing->getAllContacts(true);
+        $message = "Hi ".$name." \nPlease find below contact details of the listing. \nListing Name: ".$listing->title;
+        if($sms_contacts['emails'] !="")$message.= "\nEmail: ".$sms_contacts['emails'];
+        if($sms_contacts['mobile'] !="")$message.= "\nPhone: ".$sms_contacts['mobile'];
+        if($sms_contacts['landline'] !="")$message.= "\nLandline: ".$sms_contacts['landline'];
+        $message.= "\nWe have shared your contact details with the owner of ".$listing->title;
         $sms_data = [
             'to' => $mobile,
-            'message' => "",
+            'message' => $message,
             'priority' => 'low'
+
         ];
-        // sendSms('contact-request-seeker-premium',$sms_data);
+        sendSms('contact-request-seeker-premium',$sms_data);
 
         if ($listing->owner != null) {
             $user = $listing->owner()->first();
@@ -140,12 +147,14 @@ class ContactRequestController extends Controller
             
             //send sms to owner
             $owner_cont = $user->getPrimaryContact();
+            $message = "Hi ".$user->name.", \n We have shared the contact details of ".$listing->title." with a seeker interested in your listing. \nPlease find below details of the seeker: \nName: ".$name." \nEmail: ".$email." \nPhone: ".$mobile;
+            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/basic-details/'.$email))." to view the profile of ".$name;
             $sms_data = [
                 'to' => $owner_cont['contact_region'].$owner_cont['contact'],
-                'message' => "",
+                'message' => $message,
                 'priority' => 'low'
             ];
-            // sendSms('contact-request-owner-premium',$sms_data);
+            sendSms('contact-request-owner-premium',$sms_data);
         }
     }
 
@@ -165,7 +174,7 @@ class ContactRequestController extends Controller
         $area = Area::with('city')->find($listing->locality_id);
         $email_data = [
             'to' => $email,
-            'subject' => "Listing added under your account on FnB Circle",
+            'subject' => "Contact Details of ".$listing->title,
             'priority' =>'low',
             'template_data' => [
                 'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
@@ -176,13 +185,18 @@ class ContactRequestController extends Controller
         ];
         sendEmail('contact-request-seeker-non-premium',$email_data);
         //send sms to lead/user
+        $sms_contacts = $listing->getAllContacts(true);
+        $message = "Hi ".$name." \nPlease find below contact details of the listing. \nListing Name: ".$listing->title;
+        if($sms_contacts['emails'] !="")$message.= "\nEmail: ".$sms_contacts['emails'];
+        if($sms_contacts['mobile'] !="")$message.= "\nPhone: ".$sms_contacts['mobile'];
+        if($sms_contacts['landline'] !="")$message.= "\nLandline: ".$sms_contacts['landline'];
         $sms_data = [
             'to' => $mobile,
-            'message' => "",
+            'message' => $message,
             'priority' => 'low'
 
         ];
-        // sendSms('contact-request-seeker-premium',$sms_data);
+        sendSms('contact-request-seeker-premium',$sms_data);
     }
     
     public function displayContactInformation(Request $request)

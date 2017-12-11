@@ -374,6 +374,8 @@ class ContactRequestController extends Controller
         $validate     = $enq_cont_obj->validateContactOtp(['otp' => $request->otp],'contact_info');
         // dd($validate);
         $session_payload = Session::get('enquiry_data', []);
+        $json = Session::get('contact_info');
+        $session_contact = json_decode($json,true);
         if ($validate['status'] == 200) {
             if (sizeof($session_payload) > 0) {
                 $cookie_cont_obj     = new CookieController;
@@ -381,8 +383,7 @@ class ContactRequestController extends Controller
                     "path" => "/", 
                     "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true
                 ];
-                $json = Session::get('contact_info');
-                $session_contact = json_decode($json,true);
+                
                 if (Auth::guest()) {
                     $lead_obj = Lead::create([
                         "name" => $session_payload["name"], 
@@ -438,8 +439,8 @@ class ContactRequestController extends Controller
             }
         }elseif($validate['status'] == 400){
             $error = "Incorrect OTP. Please enter valid OTP";
-            $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $session_payload["contact"])->with('error',$error)->render();
-            if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+            $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $session_contact["contact"])->with('error',$error)->render();
+            if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => $session_contact['OTP']]);
             else return response()->json(['html' => $html, 'step' => 'verification']);
         }else{
 

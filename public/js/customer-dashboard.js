@@ -40,4 +40,10 @@
     return $('.job-form').removeClass('hidden');
   });
 
+  $('.job-form').on('submit', function(event) {
+    if ($(this).parsley().isValid()) {
+      $('.job-form-spinner').removeClass('hidden');
+    }
+  });
+
 }).call(this);

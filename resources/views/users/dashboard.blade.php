@@ -562,7 +562,7 @@ Dashboard
                                                 Modify
                                                 @endif
 
-                                                 <i class="fa fa-circle-o-notch fa-spin hidden"></i></button>
+                                                 <i class="fa fa-circle-o-notch fa-spin job-form-spinner hidden"></i></button>
                                             </div>
                                         </div>
                                     </form>

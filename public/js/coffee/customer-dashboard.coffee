@@ -31,6 +31,13 @@ $('#job-form').on 'submit', (event) ->
     $('.resume-loader').removeClass 'hidden'
   return
 
+
 $('body').on 'click', '.show-alert-form', () ->
   $(this).closest('.alert-config').addClass 'hidden'
   $('.job-form').removeClass 'hidden'
+
+
+$('.job-form').on 'submit', (event) ->
+  if $(this).parsley().isValid()
+    $('.job-form-spinner').removeClass 'hidden'
+  return

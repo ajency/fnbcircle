@@ -97,7 +97,7 @@
       <p class="element-title heavier text-darker">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
       @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
       <p class="small text-lighter m-t-20 m-b-0">
-         Disclaimer: F&amp;BCircle is only an intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
+         Disclaimer: FnBCircle is only an intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
       </p>
    </div>
 </div>

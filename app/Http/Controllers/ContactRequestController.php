@@ -76,7 +76,8 @@ class ContactRequestController extends Controller
     public function displayLoginPopup(Request $request)
     {
         $listing = Listing::where('reference', $request->id)->firstorfail();
-        return View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->render();
+        $area = Area::with('city')->find($listing->locality_id);
+        return View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('area',$area)->render();
     }
 
     public function sendPremiumContact($listing){
@@ -97,7 +98,7 @@ class ContactRequestController extends Controller
         $area = Area::with('city')->find($listing->locality_id);
         $email_data = [
             'to' => $email,
-            'subject' => "Listing added under your account on FnB Circle",
+            'subject' => "Contact Details of ".$listing->title,
             'priority' =>'low',
             'template_data' => [
                 'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
@@ -108,12 +109,19 @@ class ContactRequestController extends Controller
         sendEmail('contact-request-seeker-premium',$email_data);
 
         //send sms to lead/user
+        $sms_contacts = $listing->getAllContacts(true);
+        $message = "Hi ".$name." \nPlease find below contact details of the listing. \nListing Name: ".$listing->title;
+        if($sms_contacts['emails'] !="")$message.= "\nEmail: ".$sms_contacts['emails'];
+        if($sms_contacts['mobile'] !="")$message.= "\nPhone: ".$sms_contacts['mobile'];
+        if($sms_contacts['landline'] !="")$message.= "\nLandline: ".$sms_contacts['landline'];
+        $message.= "\nWe have shared your contact details with the owner of ".$listing->title;
         $sms_data = [
             'to' => $mobile,
-            'message' => "",
+            'message' => $message,
             'priority' => 'low'
+
         ];
-        // sendSms('contact-request-seeker-premium',$sms_data);
+        sendSms('contact-request-seeker-premium',$sms_data);
 
         if ($listing->owner != null) {
             $user = $listing->owner()->first();
@@ -139,12 +147,14 @@ class ContactRequestController extends Controller
             
             //send sms to owner
             $owner_cont = $user->getPrimaryContact();
+            $message = "Hi ".$user->name.", \n We have shared the contact details of ".$listing->title." with a seeker interested in your listing. \nPlease find below details of the seeker: \nName: ".$name." \nEmail: ".$email." \nPhone: ".$mobile;
+            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/basic-details/'.$email))." to view the profile of ".$name;
             $sms_data = [
                 'to' => $owner_cont['contact_region'].$owner_cont['contact'],
-                'message' => "",
+                'message' => $message,
                 'priority' => 'low'
             ];
-            // sendSms('contact-request-owner-premium',$sms_data);
+            sendSms('contact-request-owner-premium',$sms_data);
         }
     }
 
@@ -164,7 +174,7 @@ class ContactRequestController extends Controller
         $area = Area::with('city')->find($listing->locality_id);
         $email_data = [
             'to' => $email,
-            'subject' => "Listing added under your account on FnB Circle",
+            'subject' => "Contact Details of ".$listing->title,
             'priority' =>'low',
             'template_data' => [
                 'listing_url' => url('/'.$area->city['slug'].'/'.$listing->slug),
@@ -175,13 +185,18 @@ class ContactRequestController extends Controller
         ];
         sendEmail('contact-request-seeker-non-premium',$email_data);
         //send sms to lead/user
+        $sms_contacts = $listing->getAllContacts(true);
+        $message = "Hi ".$name." \nPlease find below contact details of the listing. \nListing Name: ".$listing->title;
+        if($sms_contacts['emails'] !="")$message.= "\nEmail: ".$sms_contacts['emails'];
+        if($sms_contacts['mobile'] !="")$message.= "\nPhone: ".$sms_contacts['mobile'];
+        if($sms_contacts['landline'] !="")$message.= "\nLandline: ".$sms_contacts['landline'];
         $sms_data = [
             'to' => $mobile,
-            'message' => "",
+            'message' => $message,
             'priority' => 'low'
 
         ];
-        // sendSms('contact-request-seeker-premium',$sms_data);
+        sendSms('contact-request-seeker-premium',$sms_data);
     }
     
     public function displayContactInformation(Request $request)
@@ -226,7 +241,7 @@ class ContactRequestController extends Controller
 
             $ld = $this->similarBusinesses($listing);
             $this->sendNonPremiumContact($listing,$ld);
-            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('listing_data',$ld)->render();
+            return View::make('modals.listing_contact_request.contact-details-non-premium')->with('listing', $listing)->with('new_tab',true)->with('listing_data',$ld)->render();
         }
     }
 
@@ -237,7 +252,7 @@ class ContactRequestController extends Controller
         $simCore    = array_unique(ListingCategory::whereIn('category_id', $categories)->where('core',1)->whereNotIn('listing_id', $similar_id)->pluck('listing_id')->toArray());
 
         //rule : At least 1 core category matching + type + locality
-        $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+        $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('locality_id', $listing->locality_id)->where('premium',1)->orderBy('updated_at')->take(3)->get();
         foreach ($similar as $sim) {
             $similar_id[] = $sim->id;
 
@@ -245,21 +260,21 @@ class ContactRequestController extends Controller
 
         if (count($similar_id) < 4) {
             //rule : At least 1 core category matching + type
-            $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->orderBy('premium')->orderBy('updated_at')->take(2)->get();
+            $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('type', $listing->type)->where('premium',1)->orderBy('updated_at')->take(2)->get();
             foreach ($similar as $sim) {
                 $similar_id[] = $sim->id;
 
             }
             if (count($similar_id) < 4) {
                 //rule : At least 1 core category matching + location
-                $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('premium',1)->orderBy('updated_at')->take(3)->get();
                 foreach ($similar as $sim) {
                     $similar_id[] = $sim->id;
 
                 }
                 if (count($similar_id) < 4) {
                     //rule : At least 1 core category matching
-                    $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('locality_id', $listing->locality_id)->orderBy('premium')->orderBy('updated_at')->take(3)->get();
+                    $similar = Listing::whereNotIn('id', $similar_id)->whereIn('id', $simCore)->where('status', 1)->where('locality_id', $listing->locality_id)->where('premium',1)->orderBy('updated_at')->take(3)->get();
                     foreach ($similar as $sim) {
                         $similar_id[] = $sim->id;
 
@@ -288,9 +303,9 @@ class ContactRequestController extends Controller
 
         $user    = User::findUsingEmail($request->email);
         $listing = Listing::where('reference', $request->id)->firstorfail();
-
+        $area = Area::with('city')->find($listing->locality_id);
         if ($user != null) {
-            $html = View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('error', 'Account already exists. Please login to continue.')->render();
+            $html = View::make('modals.listing_contact_request.get_details')->with('listing', $listing)->with('area',$area)->with('error', 'Account already exists. Please login to continue.')->render();
             return response()->json(['html' => $html, 'step' => 'get-details']);
         }
 
@@ -373,6 +388,8 @@ class ContactRequestController extends Controller
         $validate     = $enq_cont_obj->validateContactOtp(['otp' => $request->otp],'contact_info');
         // dd($validate);
         $session_payload = Session::get('enquiry_data', []);
+        $json = Session::get('contact_info');
+        $session_contact = json_decode($json,true);
         if ($validate['status'] == 200) {
             if (sizeof($session_payload) > 0) {
                 $cookie_cont_obj     = new CookieController;
@@ -380,8 +397,7 @@ class ContactRequestController extends Controller
                     "path" => "/", 
                     "domain" => sizeof(explode('://', env('APP_URL'))) > 1 ? (explode('://', env('APP_URL'))[1]) : (explode('://', env('APP_URL'))[0]), "http_only" => true
                 ];
-                $json = Session::get('contact_info');
-                $session_contact = json_decode($json,true);
+                
                 if (Auth::guest()) {
                     $lead_obj = Lead::create([
                         "name" => $session_payload["name"], 
@@ -437,8 +453,8 @@ class ContactRequestController extends Controller
             }
         }elseif($validate['status'] == 400){
             $error = "Incorrect OTP. Please enter valid OTP";
-            $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $session_payload["contact"])->with('error',$error)->render();
-            if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => json_decode(Session::get('contact_info',[]),true)['OTP']]);
+            $html = View::make('modals.listing_contact_request.verification')->with('listing', $listing)->with('number', $session_contact["contact"])->with('error',$error)->render();
+            if(in_develop()) return response()->json(['html' => $html, 'step' => 'verification', 'OTP' => $session_contact['OTP']]);
             else return response()->json(['html' => $html, 'step' => 'verification']);
         }else{
 

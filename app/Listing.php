@@ -241,7 +241,7 @@ class Listing extends Model
         return $this->morphMany( 'App\PlanAssociation', 'premium');
     }
 
-    public function getAllContacts(){
+    public function getAllContacts($csv = false){
         $contacts = ['email'=>[],'mobile'=>[], 'landline'=>[]];
         if($this->show_primary_email){
             $owner = $this->owner()->first();
@@ -268,6 +268,19 @@ class Listing extends Model
             elseif($contact->type == 'landline'){
                 $contacts['landline'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
             }
+        }
+        if(!$csv) return $contacts;
+        foreach ($contacts as &$contact_type) {
+            foreach ($contact_type as &$contact) {
+                if(isset($contact['email'])) {
+                    $contact = $contact['email'];
+                }
+                if(isset($contact['contact_region'])) {
+                    $contact = $contact['contact_region'].$contact['contact'];
+                    // unset($contact['contact_region']);
+                }
+            }
+            $contact_type = implode(',', $contact_type);
         }
         return $contacts;
     }

@@ -45,7 +45,7 @@
                             <p class="m-b-0 text-lighter default-size lighter published-date"><i>Published on {{ date('F d, Y', strtotime($list_value->published_on)) }}</i></p>
                         </div>
                         <div class="stats flex-row m-t-10">
-                            <a class="fnb-label wholesaler flex-row list-label m-r-10" href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]'>
+                            <a class="fnb-label wholesaler flex-row list-label m-r-10" @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href='{{ generateUrl($list_value->city["slug"], "business-listings") }}?business_types=["{{ $list_value->business_type["slug"] }}"]'>
                                 <i class="fa fa-user user p-r-5" aria-hidden="true"></i>
                                 {{ $list_value->business_type["name"] }}
                             </a>
@@ -64,7 +64,7 @@
                                 <ul class="fnb-cat flex-row">
                                     @foreach($list_value->cores->take(4) as $core_index => $core_value)
                                         @if($core_index < 4)
-                                            <li><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li>
+                                            <li><a @if(isset($new_tab) and $new_tab == true) target="_blank" @endif href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li>
                                         @else
                                             <!-- <li class="desk-hide"><a href="{{ generateUrl($list_value->city['slug'], 'business-listings') }}?categories={{ $core_value->node_categories }}" class="fnb-cat__title">{{ $core_value->name }}</a></li> -->
                                         @endif

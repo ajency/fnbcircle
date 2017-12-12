@@ -9,10 +9,10 @@
                Please login to view the <br class="mobile-hide"> contact details of...
             </h5>
             <div class="seller-enquiry">
-               <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title m-t-10"><span class="brand-name">{{$listing->title}}</span> <span class="fnb-icons verified-icon"></span></p>
+               <p class="sub-title heavier text-darker text-capitalise flex-row seller-enquiry__title m-t-10"><span class="brand-name">{{$listing->title}}</span> @if($listing->verified == 1)<span class="fnb-icons verified-icon"></span>@endif</p>
                <div class="location flex-row mobile-hide">
                   <span class="fnb-icons map-icon"></span>
-                  <p class="location__title m-b-0 text-lighter">Mumbai, Andheri</p>
+                  <p class="location__title m-b-0 text-lighter">{{$area->city['name']}}, {{$area->name}}</p>
                </div>
                <div class="rat-view flex-row mobile-hide">
                   <div class="rating">

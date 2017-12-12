@@ -148,7 +148,7 @@ class ContactRequestController extends Controller
             //send sms to owner
             $owner_cont = $user->getPrimaryContact();
             $message = "Hi ".$user->name.", \n We have shared the contact details of ".$listing->title." with a seeker interested in your listing. \nPlease find below details of the seeker: \nName: ".$name." \nEmail: ".$email." \nPhone: ".$mobile;
-            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/basic-details/'.$email))." to view the profile of ".$name;
+            if(!Auth::guest()) $message.= " \nGo to ".urlShortner(url('/profile/basic-details/'.$email))['id']." to view the profile of ".$name;
             $sms_data = [
                 'to' => $owner_cont['contact_region'].$owner_cont['contact'],
                 'message' => $message,
@@ -391,7 +391,7 @@ class ContactRequestController extends Controller
         $json = Session::get('contact_info');
         $session_contact = json_decode($json,true);
         if ($validate['status'] == 200) {
-            if (sizeof($session_payload) > 0) {
+            if (sizeof($session_payload) > 0 or !Auth::guest()) {
                 $cookie_cont_obj     = new CookieController;
                 $other_cookie_params = [
                     "path" => "/", 
@@ -433,17 +433,18 @@ class ContactRequestController extends Controller
                 $cookie_cont_obj->set('user_id', $lead_obj["id"], $other_cookie_params);
                 $cookie_cont_obj->set('user_type', $lead_type, $other_cookie_params);
                 $cookie_cont_obj->set('is_verified', true, $other_cookie_params);
-                $enquiry_data = [
-                    "user_object_id" => $lead_obj->id, 
-                    "user_object_type" => $lead_type, 
-                    "enquiry_device" => $enq_cont_obj->isMobile() ? "mobile" : "desktop",
-                    "enquiry_to_id" => isset($session_payload["enquiry_to_id"]) ? $session_payload["enquiry_to_id"] : $request->id, 
-                    "enquiry_to_type" => isset($session_payload["enquiry_to_type"]) ? $session_payload["enquiry_to_type"] : "App\Listing", 
-                    "enquiry_message" => $session_payload["enquiry_message"]];
-                $session_payload["user_object_id"] = $enquiry_data["user_object_id"];
-                $session_payload["user_object_type"] = $enquiry_data["user_object_type"];
+                // $enquiry_data = [
+                //     "user_object_id" => $lead_obj->id, 
+                //     "user_object_type" => $lead_type, 
+                //     "enquiry_device" => $enq_cont_obj->isMobile() ? "mobile" : "desktop",
+                //     "enquiry_to_id" => isset($session_payload["enquiry_to_id"]) ? $session_payload["enquiry_to_id"] : $request->id, 
+                //     "enquiry_to_type" => isset($session_payload["enquiry_to_type"]) ? $session_payload["enquiry_to_type"] : "App\Listing", 
+                //     "enquiry_message" => $session_payload["enquiry_message"]];
+                $session_payload["user_object_id"] = $lead_obj->id;
+                $session_payload["user_object_type"] = $lead_type;
+
                 Session::put('enquiry_data',$session_payload);
-                $enq_cont_obj->setOtpVerified(true, $session_payload["contact"]);
+                $enq_cont_obj->setOtpVerified(true, $session_contact["phone_no"]);
                 return $this->getContactRequest($request);
             }
             else{

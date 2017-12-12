@@ -6428,6 +6428,18 @@ input[type=checkbox].custom-checkbox:before {
     font-size: 0.85em !important;
   }
 }
+.icon-notation {
+  font-size: 0.7em;
+  margin-top: -1em;
+}
+.icon-notation .scale-down {
+  width: 25px;
+  position: relative;
+  top: -1px;
+  -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
+}
 .search-section {
   position: relative;
   top: 2em;

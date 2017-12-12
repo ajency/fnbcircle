@@ -1,4 +1,4 @@
-<!-- Thank you -->
+<!-- Thank you  -->
 <div class="thankyou-msg success-stuff">
    <div class="enquiry-success contact-success">
       <div class="flex-row align-top">
@@ -15,7 +15,16 @@
       </div>
    </div>
    <div class="vendor-contact-details">
-      <h6 class="text-color m-b-5">{{$listing->title}} Details</h6>
+      <h6 class="text-color m-b-5 flex-row space-between">{{$listing->title}} Details
+         <div class="icon-notation mobile-hide">
+            <div class="flex-row">
+               <span class="fnb-icons verified-icon scale-down"></span>
+               <span class="text-color">Verified</span>
+               <span class="fa fa-times-circle text-danger m-l-10 m-r-5"></span>
+               <span class="text-color">Unverified</span>
+            </div>
+         </div>
+      </h6>
       <div class="row">
          @php
             $contacts = $listing->getAllContacts();
@@ -26,15 +35,15 @@
             @foreach($contacts['email'] as $email)
             <div class="flex-row flex-wrap">
                <p class="m-b-0">
-                  <a href="email:{{$email['email']}}" class="text-darker m-r-15">{{$email['email']}}</a>
+                  <a href="email:{{$email['email']}}" class="text-darker m-r-10">{{$email['email']}}</a>
                </p>
                <div class="flex-row">
                @if($email['is_verified'])
                   <span class="fnb-icons verified-icon scale-down"></span>
-                  <span class="text-color">Verified</span>
+                  <!-- <span class="text-color">Verified</span> -->
                @else
-                  <span class="fa fa-times-circle text-danger m-l-10 m-r-10"></span>
-                  <span class="text-color">Unverified</span>
+                  <span class="fa fa-times-circle text-danger m-r-10"></span>
+                  <!-- <span class="text-color">Unverified</span> -->
                @endif
                </div>
             </div>
@@ -47,15 +56,15 @@
             @foreach($contacts['mobile'] as $phone)
             <div class="flex-row flex-wrap">
                <p class="m-b-0">
-                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-20">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
+                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-10">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
                </p>
                <div class="flex-row">
                @if($phone['is_verified'])
                   <span class="fnb-icons verified-icon scale-down"></span>
                   <span class="text-color">Verified</span>
                @else
-                  <span class="fa fa-times-circle text-danger m-l-10 m-r-10"></span>
-                  <span class="text-color">Unverified</span>
+                  <span class="fa fa-times-circle text-danger m-r-10"></span>
+                  <!-- <span class="text-color">Unverified</span> -->
                @endif
                </div>
             </div>
@@ -68,7 +77,7 @@
             @foreach($contacts['landline'] as $phone)
             <div class="flex-row flex-wrap">
                <p class="m-b-0">
-                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-20">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
+                  <a href="tel:+{{$phone['contact_region']}}-{{$phone['contact']}}" class="text-darker m-r-10">+{{$phone['contact_region']}}-{{$phone['contact']}}</a>
                </p>
                <div class="flex-row">
                </div>
@@ -92,4 +101,4 @@
       </p>
    </div>
 </div>
-<!-- Thank you End -->
+<!-- Thank you End

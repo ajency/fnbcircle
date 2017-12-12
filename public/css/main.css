@@ -6412,7 +6412,7 @@ input[type=checkbox].custom-checkbox:before {
   -webkit-transform: scale(0.6);
       -ms-transform: scale(0.6);
           transform: scale(0.6);
-  width: 26px;
+  width: 43px;
   margin-left: 0.3em;
   position: relative;
   top: -3px;

@@ -23,7 +23,7 @@
             <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
 
-          Please review “Job”. <span style="color: #ec6d4b;">{{ url('/job/'.$job->getJobSlug()) }}.</span> <br> <br>
+          Please review “<a href="{{ url('/job/'.$job->getJobSlug()) }}"> {{ $job->title}} </a>” Job.  <br> <br>
 
           <div style="text-align: left;">
           <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job:</div>

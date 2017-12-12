@@ -1258,11 +1258,11 @@ class JobController extends Controller
             $ext = pathinfo($filePath, PATHINFO_EXTENSION);
             $mimeType = getFileMimeType($ext);
             $file = $user->getSingleFile($resumeId);
-            $data['attach'] = [['file' => base64_encode($file), 'as'=>'photo.'.$ext, 'mime'=>$mimeType]];
+            $data['attach'] = [['file' => base64_encode($file), 'as'=>'resume.'.$ext, 'mime'=>$mimeType]];
         }
         
 
-        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
+        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'country_code' => $applicantCountryCode,'applicant_city' => $jobApplicant->applicantCity->name,'ownername' => $jobOwner->name,'resumeId' => $resumeId];
         sendEmail('job-application', $data);
  
          // Session::flash('success_message','Successfully applied for job');

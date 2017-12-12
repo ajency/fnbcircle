@@ -644,11 +644,11 @@ class Job extends Model
         $jobCompany  = $this->getJobCompany();
         $locations  = $this->getJobLocationNames();
         $metaData = $this->meta_data;
-         $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
+        $jobKeywords = (isset($metaData['job_keyword'])) ? $metaData['job_keyword'] :[];
         
-        $contactEmail = getCommunicationContactDetail($this->id,'App\Job','email');
-        $contactMobile = getCommunicationContactDetail($this->id,'App\Job','mobile');  
-        $contactLandline = getCommunicationContactDetail($this->id,'App\Job','landline');  
+        $contactEmail = getCommunicationContactDetail($this->job_creator,'App\User','email');
+        $contactMobile = getCommunicationContactDetail($this->job_creator,'App\User','mobile');  
+        $contactLandline = getCommunicationContactDetail($this->job_creator,'App\User','landline');  
 
         $templateData['keywords'] = $jobKeywords;
         $templateData['jobCompany'] = $jobCompany;

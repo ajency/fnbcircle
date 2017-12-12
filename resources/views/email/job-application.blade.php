@@ -31,14 +31,18 @@
               <p style="color: #ec6d4b;text-transform: uppercase;font-weight: 600;margin-bottom: 10px;margin-top: 0;">Details of the applicant</p>
               <b>Name: </b>{{$applicant_name}}<br>
               <b>Email: </b>{{$applicant_email}}<br>
-              <b>Number: </b>{{$applicant_phone}}<br>
+              <b>Number: </b>+({{$country_code}}){{$applicant_phone}}<br>
               <b>City: </b>{{$applicant_city}}<br>
             </div>
           </div>
 
+         
             <br>
+            @if($resumeId)
             Copy of the CV of the applicant is attached with this email.<br><br>
+            @endif
             <br>
+
             <div style="text-align: left;">
             Regards,<br>
             Team FnB Circle

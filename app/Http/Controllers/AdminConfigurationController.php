@@ -716,13 +716,13 @@ class AdminConfigurationController extends Controller
       
        
         $columnOrder = array( 
-                                        '0'=> 'jobs.id',
-                                        '2'=> 'jobs.title',
-                                        '3'=> 'categories.name',
-                                        '5'=> 'companies.title',
-                                        '6'=> 'jobs.date_of_submission',
-                                        '7'=> 'jobs.published_on',
-                                        '8'=> 'jobs.updated_at'
+                                        '7'=> 'users.created_at',
+                                        '8'=> 'users.last_login',
+                                        '9'=> 'user_details.total_listings',
+                                        '10'=> 'user_details.published_listings',
+                                        '11'=> 'user_details.total_jobs',
+                                        '12'=> 'user_details.published_jobs',
+                                        '13'=> 'user_details.jobs_applied'
                                         );
 
         
@@ -786,21 +786,22 @@ class AdminConfigurationController extends Controller
 
          
 
-        $columnName = 'users.created_at';
-        $orderBy = 'desc';
+        // $columnName = 'users.created_at';
+        // $orderBy = 'desc';
         
         
         
-        // if(isset($columnOrder[$orderValue['column']]))
-        // {   
-        //     $columnName = $columnOrder[$orderValue['column']];
-        //     $orderBy = $orderValue['dir'];
-        // }
+        if(isset($columnOrder[$orderValue['column']]))
+        {   
+            $columnName = $columnOrder[$orderValue['column']];
+            $orderBy = $orderValue['dir'];
+        }
 
 
         if($length>1)
         {  
-            $totalUsers = $userQuery->get()->count(); 
+            $totalUsers = User::where('type','external')->count(); 
+            $filteredUsers = $userQuery->get()->count(); 
             $users = $userQuery->orderBy($columnName,$orderBy)->skip($skip)->take($length)->get();   
         }
         else
@@ -828,11 +829,11 @@ class AdminConfigurationController extends Controller
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
                             'date_created' => $user->created_at->toDateTimeString(),
                             'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
-                            'total_listing' => $user->listing()->count() ,
-                            'published_listing' =>  $user->listing()->where('status','3')->count(),
-                            'total_jobs' =>  $user->jobs()->count(),
-                            'published_jobs' =>  $user->jobs()->where('status','3')->count(),
-                            'job_applied' =>  $user->applications()->count(),
+                            'total_listing' => $userDetails->total_listings,
+                            'published_listing' =>  $userDetails->published_listings,
+                            'total_jobs' =>  $userDetails->total_jobs ,
+                            'published_jobs' =>  $userDetails->published_jobs,
+                            'job_applied' =>  $userDetails->jobs_applied,
                             'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
                             'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
                             'status_raw' => $user->status,
@@ -843,7 +844,7 @@ class AdminConfigurationController extends Controller
         $json_data = array(
                 "draw"            => intval( $requestData['draw'] ),
                 "recordsTotal"    => intval( $totalUsers ),
-                "recordsFiltered" => intval( $totalUsers ),
+                "recordsFiltered" => intval( $filteredUsers ),
                 "data"            => $usersData,
             );
               

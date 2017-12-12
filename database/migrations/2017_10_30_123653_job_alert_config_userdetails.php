@@ -26,6 +26,9 @@ class JobAlertConfigUserdetails extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('user_details', function ($table) {
+            $table->dropColumn(['send_job_alerts','job_alert_config']);
+        });
+        
     }
 }

@@ -50,6 +50,8 @@ class AddJobPlan extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('jobs', function ($table) {
+            $table->dropColumn(['job_expires_on']);
+        });
     }
 }

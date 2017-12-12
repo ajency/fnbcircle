@@ -24,7 +24,7 @@
         filters.user_created_from = $('input[name="user_created_from"]').val();
         filters.user_created_to = $('input[name="user_created_to"]').val();
         filters.last_login_from = $('input[name="last_login_from"]').val();
-        filters.user_created_to = $('input[name="user_created_to"]').val();
+        filters.last_login_to = $('input[name="last_login_to"]').val();
         data.filters = filters;
         return data;
       },

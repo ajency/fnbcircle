@@ -4044,12 +4044,31 @@ and (max-device-width: 650px) {
 	}
 }
 
-<<<<<<< HEAD
+
 .no-alert-set{
 	.fnb-btn{
 		font-size: 1em;
     	padding: 0.7em 1.5em;
-=======
+	}
+}
+
+
+.no-customer-activity{
+	padding: 1.5em;
+    background-color: #f7f7f7;
+    margin-top: 2.8em;
+    @media screen and (max-width: @mobile){
+    	margin-bottom: 1em;
+    	margin-top: 0;
+    }
+}
+
+
+.dashboardTitle{
+	@media screen and (max-width: @mobile){
+		font-size: 1.3em;
+	}
+}
 
 // Contact modal changes
 
@@ -4077,26 +4096,25 @@ and (max-device-width: 650px) {
 .internal-contact-row,.contact-phone-intl{
 	.intl-tel-input{
 		display: block;
->>>>>>> contact-request
 	}
 }
 
 
-.no-customer-activity{
-	padding: 1.5em;
-    background-color: #f7f7f7;
-    margin-top: 2.8em;
-    @media screen and (max-width: @mobile){
-    	margin-bottom: 1em;
-    	margin-top: 0;
+.status-checkbox{
+	// border-bottom: 1px solid #eee;
+    padding-top: 0.5em;
+    // padding-bottom: 0.9em;
+    input[type='checkbox']{
+    	&:before{
+    		top: -2px;
+    	}
+    }
+    .email-append{
+    	// padding-left: 3px;
     }
 }
 
-<<<<<<< HEAD
-.dashboardTitle{
-	@media screen and (max-width: @mobile){
-		font-size: 1.3em;
-=======
+
 .contactEnquiry{
 	.seller-enquiry{
 		.verified-icon{
@@ -4116,7 +4134,6 @@ and (max-device-width: 650px) {
 			padding-bottom: 0;
 			font-size: 0.85em !important;
 		}
->>>>>>> contact-request
 	}
 }
 

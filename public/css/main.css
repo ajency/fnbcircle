@@ -91,7 +91,7 @@ body {
   width: 100%;
 }
 @media screen and (max-width: 768px) {
-  body {
+  body.body-animate {
     -webkit-transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
             transition: all 0.8s cubic-bezier(0.44, -0.25, 0.75, 1);
   }
@@ -268,6 +268,9 @@ span {
   background-color: transparent;
   color: #f19279;
   border: 0;
+}
+.fnb-btn.medium-btn {
+  padding: 0.5em 1.5em;
 }
 .social-btn {
   padding: 0.8em 2em;
@@ -893,7 +896,7 @@ input[type=radio].fnb-radio.disabled:before {
   }
   .multilevel-modal .modal-body .levels {
     position: absolute;
-    top: 70px;
+    top: 0;
     -webkit-transition: all 0.3s ease;
             transition: all 0.3s ease;
     -webkit-transform: translate(85%, 0);
@@ -905,6 +908,7 @@ input[type=radio].fnb-radio.disabled:before {
     overflow: hidden;
   }
   .multilevel-modal .modal-body .levels.shown {
+    position: relative;
     -webkit-transform: translate(0, 0);
         -ms-transform: translate(0, 0);
             transform: translate(0, 0);
@@ -991,7 +995,7 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .site-loader.section-loader {
   position: absolute;
-  z-index: 3;
+  z-index: 11;
 }
 @media screen and (max-width: 650px) {
   .site-loader.section-loader {
@@ -1226,6 +1230,7 @@ input[type=radio].fnb-radio.disabled:before {
 .fnb-header.trans-header.change {
   background-color: #fff;
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.32);
+  z-index: 10;
 }
 .fnb-header.trans-header.change .navbar .nav-color {
   color: #6b6b6b;
@@ -2562,6 +2567,12 @@ input[type="checkbox"].toggle__check {
       -ms-flex-pack: center;
           justify-content: center;
 }
+.align-full {
+  -webkit-box-align: inherit;
+  -webkit-align-items: inherit;
+      -ms-flex-align: inherit;
+          align-items: inherit;
+}
 .flex-1 {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -2601,6 +2612,11 @@ input[type="checkbox"].toggle__check {
 .required.left-star:after {
   position: absolute;
   left: -5px;
+}
+.required.with-flag {
+  position: relative;
+  top: -6px;
+  left: -6px;
 }
 .disable {
   pointer-events: none;
@@ -2663,6 +2679,13 @@ input[type="checkbox"].toggle__check {
   }
   .full-m-width {
     width: 100%;
+  }
+  .mobile-column {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 }
 .rating.rating-small {
@@ -2855,6 +2878,32 @@ input[type=checkbox].custom-checkbox:before {
 }
 .intl-tel-input {
   z-index: 10;
+}
+.clear {
+  clear: both;
+}
+.post-tags {
+  padding-right: 1em;
+  width: 100%;
+}
+.post-tags__child {
+  color: #27b7b0;
+  border: 1px solid;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  padding: 5px;
+  display: inline-block;
+  margin-right: 3px;
+}
+.post-tags .fa {
+  color: #27b7b0;
+  padding-right: 5px;
+}
+.related-article .post-tags .fa {
+  padding-right: 0;
 }
 .slide-nav {
   -webkit-box-pack: end;
@@ -6555,49 +6604,8 @@ input[type=checkbox].custom-checkbox:before {
   .cust-dashboard__title {
     font-size: 1em;
   }
-<<<<<<< HEAD
   .row-btm-space {
     margin-top: 3.5em;
-=======
-}
-.contact-modal .best-section .multiselect.multiselect.dropdown-toggle {
-  font-size: 0.95em;
-}
-.contact-modal .best-section .multiselect.multiselect.dropdown-toggle .caret {
-  margin-left: 0.5em;
-}
-.contact-modal .best-section .multiselect-container label.checkbox {
-  margin: 0.5em 0;
-  font-size: 0.95em;
-}
-.contact-modal .best-section .multiselect-container input[type='checkbox'] {
-  position: relative;
-  top: 3px;
-}
-.internal-contact-row .intl-tel-input,
-.contact-phone-intl .intl-tel-input {
-  display: block;
-}
-.status-checkbox {
-  padding-top: 0.5em;
-}
-.status-checkbox input[type='checkbox']:before {
-  top: -2px;
-}
-.contactEnquiry .seller-enquiry .verified-icon {
-  -webkit-transform: scale(0.6);
-      -ms-transform: scale(0.6);
-          transform: scale(0.6);
-  width: 43px;
-  margin-left: 0.3em;
-  position: relative;
-  top: -3px;
-}
-@media screen and (max-width: 768px) {
-  .user-details-container .user-fields {
-    padding-bottom: 0;
-    font-size: 0.85em !important;
->>>>>>> contact-request
   }
   .no-listing-job {
     padding: 1em;
@@ -6676,6 +6684,45 @@ input[type=checkbox].custom-checkbox:before {
 @media screen and (max-width: 768px) {
   .dashboardTitle {
     font-size: 1.3em;
+  }
+}
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle {
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle .caret {
+  margin-left: 0.5em;
+}
+.contact-modal .best-section .multiselect-container label.checkbox {
+  margin: 0.5em 0;
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect-container input[type='checkbox'] {
+  position: relative;
+  top: 3px;
+}
+.internal-contact-row .intl-tel-input,
+.contact-phone-intl .intl-tel-input {
+  display: block;
+}
+.status-checkbox {
+  padding-top: 0.5em;
+}
+.status-checkbox input[type='checkbox']:before {
+  top: -2px;
+}
+.contactEnquiry .seller-enquiry .verified-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 43px;
+  margin-left: 0.3em;
+  position: relative;
+  top: -3px;
+}
+@media screen and (max-width: 768px) {
+  .user-details-container .user-fields {
+    padding-bottom: 0;
+    font-size: 0.85em !important;
   }
 }
 .popover-title {
@@ -12799,6 +12846,7 @@ dl dd {
 }
 .enquiriesRow .fnb-cat li {
   padding: 0.3em 1.2em;
+  cursor: auto;
 }
 .enquiriesRow .fnb-cat li a {
   font-size: 0.9em;
@@ -12899,10 +12947,12 @@ dl dd {
   border-bottom: 1px solid #ddd;
   padding: 0;
 }
+.describe-best .panel-default .panel-body {
+  font-size: 1.05em;
+}
 .describe-best .panel-default a {
   font-size: 0.9em;
   color: #585858;
-  font-weight: 400;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
       -ms-flex: 1;
@@ -12916,6 +12966,7 @@ dl dd {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 13px 10px;
+  font-weight: 600;
 }
 .describe-best .panel-default a:hover,
 .describe-best .panel-default a:active,
@@ -12924,6 +12975,9 @@ dl dd {
 }
 .describe-best .panel-default a[aria-expanded='true'] .fa-plus-circle:before {
   content: '\f056';
+}
+.describe-best .panel-default a.collapsed {
+  font-weight: 400;
 }
 .describe-best .panel-default .option-col .form-group {
   -webkit-box-flex: 1;
@@ -13213,6 +13267,24 @@ dl dd {
   .detail-group label {
     font-size: 0.9em;
   }
+  .describe-form {
+    margin-top: 0;
+  }
+  .describe-best {
+    position: relative;
+  }
+  .save-best-data {
+    position: absolute;
+    top: -3.8em;
+    right: 0;
+    z-index: 10;
+  }
+  .edit-mode .sectionTitle {
+    margin-top: 1em;
+    color: #000;
+    font-size: 1.2em;
+    font-weight: 500;
+  }
 }
 .not-verified {
   width: 20px;
@@ -13232,6 +13304,21 @@ dl dd {
 }
 .custom-verification .c-title {
   margin-bottom: 0;
+  color: #6b6b6b;
+  font-size: 1em;
+}
+.public-enquiry-title {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  font-size: 1.2em;
+}
+@media screen and (max-width: 768px) {
+  .public-enquiry-title {
+    margin-top: 1em;
+    font-size: 1.1em;
+  }
 }
 @media screen and (min-width: 650px) {
   .login-modal .modal-dialog {

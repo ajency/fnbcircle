@@ -3310,7 +3310,7 @@ input[type=checkbox].custom-checkbox:before {
   }
   .seller-info .mobile--enquiry {
     width: 100%;
-    margin-top: 1.5em;
+    margin-top: 1em;
   }
   .seller-info .mobile--enquiry .contact__title {
     margin-bottom: 5px;
@@ -4983,6 +4983,7 @@ input[type=checkbox].custom-checkbox:before {
   background-color: #f3f3f3;
   position: relative;
   padding-top: 4em;
+  margin-top: -1em;
 }
 .verification-modal .suppliers-data .direction-down {
   display: inline-block;
@@ -6113,6 +6114,10 @@ input[type=checkbox].custom-checkbox:before {
   }
   .new-changes .single-contact-section .contact .contact-social .share-btn {
     padding: 0.8em 1em;
+  }
+  .new-changes .single-contact-section .show-contact {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1em;
   }
 }
 .pending-stuff .fa-clock-o {

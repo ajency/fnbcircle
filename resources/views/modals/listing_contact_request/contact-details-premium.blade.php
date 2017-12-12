@@ -79,8 +79,9 @@
       </div>
       <div class="sub-title m-t-30 m-b-10 flex-row flex-wrap">
          <span class="fnb-icons exclamation m-r-10"></span>
-         When you contact the listing, don't forget to mention that you found it on F&amp;BCircle
+         When you contact the listing, don't forget to mention that you found it on FnBCircle
       </div>
-   </div>
+   </div>   
+   <br>   
 </div>
 <!-- Thank you End -->

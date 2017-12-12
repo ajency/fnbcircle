@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <!-- <button class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button> -->
-                <button class="close" data-dismiss="" aria-label="Close" id="close-new-mobile-modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <button class="close" data-dismiss="modal" aria-label="Close" id="close-new-mobile-modal"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
                 <div class="contact-verify-steps add-number">

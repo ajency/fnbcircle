@@ -285,7 +285,7 @@ class CommonController extends Controller
         return \Redirect::back();
     }
 
-    public function canclePremiumRequest($objectType,$referenceId){
+    public function cancelPremiumRequest($objectType,$referenceId){
         if($objectType == 'job'){
             $object = Job::where('reference_id',$referenceId)->first();
         }
@@ -294,5 +294,25 @@ class CommonController extends Controller
 
         Session::flash('success_message','Premium request cancelled successfully.');
         return \Redirect::back();
+    }
+
+    public function updateUserDetails($user = null){
+        if($user == null){
+            $users = User::where('type','external')->get();
+            foreach ($users as $user) {
+                $this->updateUserDetails($user);
+            }
+            return;
+        }else{
+            $details = [
+                'total_listings' => $user->listing()->count() ,
+                'published_listings' =>  $user->listing()->where('status','3')->count(),
+                'total_jobs' =>  $user->jobs()->count(),
+                'published_jobs' =>  $user->jobs()->where('status','3')->count(),
+                'jobs_applied' =>  $user->applications()->count(),
+            ];
+            $user->getUserDetails()->update($details);
+            return;
+        }
     }
 }

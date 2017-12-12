@@ -6,7 +6,7 @@
     'processing': true,
     'serverSide': true,
     'bAutoWidth': false,
-    'aaSorting': [[0, 'desc']],
+    'aaSorting': [[7, 'desc']],
     'drawCallback': function() {},
     'ajax': {
       url: '/admin-dashboard/users/get-registered-users',

@@ -3,7 +3,7 @@ registeredUserTable = $('#datatable-registration').DataTable(
   'processing': true
   'serverSide': true
   'bAutoWidth': false
-  'aaSorting': [[0,'desc']]
+  'aaSorting': [[7,'desc']]
   'drawCallback': () ->
     # displayCheckbox()
   'ajax':

@@ -24,7 +24,7 @@
         
             <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
-          You just received an application for your job <span style="color: #ec6d4b;">{{$job_name}}</span>.<br><br>
+          You just received an application for your job <span style="color: #ec6d4b;"><a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank"> {{ $job->title}} </a></span>.<br><br>
 
           <div style="background-color: #eee;padding: 20px 0px;">
             <div style="width: 250px;text-align: left;margin: 0 auto;">

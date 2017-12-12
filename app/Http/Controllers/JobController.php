@@ -1262,7 +1262,7 @@ class JobController extends Controller
         }
         
 
-        $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'country_code' => $applicantCountryCode,'applicant_city' => $jobApplicant->applicantCity->name,'ownername' => $jobOwner->name,'resumeId' => $resumeId];
+        $data['template_data'] = ['job' => $job,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'country_code' => $applicantCountryCode,'applicant_city' => $jobApplicant->applicantCity->name,'ownername' => $jobOwner->name,'resumeId' => $resumeId];
         sendEmail('job-application', $data);
  
          // Session::flash('success_message','Successfully applied for job');

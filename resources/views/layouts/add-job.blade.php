@@ -133,8 +133,15 @@
                                                 @php
                                                 $nextActionBtn =$job->getNextActionButton();
                                                 @endphp
-                                                
-                                             <a @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >{{ $nextActionBtn['status'] }}</a>
+                                             
+                                                @if($job->status != 5)
+                                                    <a data-toggle="modal" data-target="#confirmBox" href="#">{{ $nextActionBtn['status'] }}</a>
+                                                @elseif($nextActionBtn['id'] == '2')
+                                                    <a  href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"  >Submit Job</a>
+                                                @else    
+                                                    <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}">{{ $nextActionBtn['status'] }}</a>
+                                                @endif
+                                             
                                             @endif
                                         </div>
                                     </div>

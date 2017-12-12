@@ -1,8 +1,8 @@
 @extends('layouts.email')
 
 @section('content')
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr style="text-align: center;">
+ <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr style="text-align: center;background-color: #fff;">
       <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
   
 
@@ -31,8 +31,11 @@
           <b>Business Type:</b> {{ $job->getJobCategoryName() }} <br>
           <b>Job Role:</b> {{ implode(',',$keywords) }} <br>
           @foreach($locations as $city => $locAreas)
-            <b>State:</b> {{ $city }}<br>
-            <b>Area:</b>  {{ implode(',',$locAreas) }}<br>
+            <div style="clear: both;display: table;">
+              <div style="float: left;margin-right: 15px;"><b>State:</b><br> {{ $city }}<br></div>
+              <div style="float: left;"><b>City:</b><br>  {{ implode(',',$locAreas) }}<br></div>
+              <div style="clear: both;display:table;"></div>
+            </div>
           @endforeach
           <b>Company:</b> {{ $jobCompany->title }} <br><br>
 

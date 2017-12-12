@@ -207,7 +207,9 @@
                             <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row space-between flex-wrap">
                                     <div class="contact__info flex-row">
-                                        <button class="btn fnb-btn primary-btn full border-btn show-info">Show contact info</button>
+                                        @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
+                                        @endif
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
 
@@ -215,7 +217,7 @@
                                         <!-- <button class="btn fnb-btn outline full border-btn" data-toggle="modal" data-target="#contact-modal" href="#contact-modal">Show contact info</button> -->
 
                                         <!-- <p class="m-b-0">20</p> -->
-                                        <!-- <p class="contact__title lighter">This lisiting got <b>50+</b> contact requests</p> -->
+                                        <p class="contact__title lighter">This lisiting got <b>{{$data['contact']['requests']}}</b> contact requests</p>
                                     </div>
                                     <!-- <div class="contact__date">
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
@@ -769,7 +771,10 @@
                                 @endisset
                             </div> 
                             
-                            <div class="contact__enquiry mobile--enquiry text-center">                                
+                                <div class="contact__enquiry mobile--enquiry text-center">
+                                @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+                                    <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
+                                @endif                        
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>
@@ -1056,7 +1061,7 @@
             <!-- Enquiry ends -->
         @endif
      </div>
-     <div class="pos-fixed fly-out side-toggle">
+     <!-- <div class="pos-fixed fly-out side-toggle"> -->
         <!-- <div class="mobile-back desk-hide mobile-flex">
             <div class="left mobile-flex">
                 <i class="fa fa-arrow-left text-primary back-icon" aria-hidden="true"></i>
@@ -1147,5 +1152,8 @@
             </div>
         </div>
     </div>
+@endif
+@if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
+ @include('modals.listing_contact_request.modal')
 @endif
 @endsection

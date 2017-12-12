@@ -162,9 +162,11 @@ class Listing extends Model
      }
 
     public function save(array $options = []){
-        $this->last_updated_by = Auth::user()->id;
-        if(Auth::user()->type == 'external') {
-            $this->verified = 1;
+        if(!Auth::guest()){
+            $this->last_updated_by = Auth::user()->id;
+            if(Auth::user()->type == 'external') {
+                $this->verified = 1;
+            }
         }
         parent::save();
     }
@@ -237,6 +239,50 @@ class Listing extends Model
     }
     public function premium(){
         return $this->morphMany( 'App\PlanAssociation', 'premium');
+    }
+
+    public function getAllContacts($csv = false){
+        $contacts = ['email'=>[],'mobile'=>[], 'landline'=>[]];
+        if($this->show_primary_email){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $email = $owner->getPrimaryEmail(true);
+                $contacts['email'][] = $email;
+            }
+        }
+        if($this->show_primary_phone){
+            $owner = $this->owner()->first();
+            if($owner!=null){
+                $phone = $owner->getPrimaryContact();
+                $contacts['mobile'][] = $phone;
+            }
+        }
+        $user_comm = $this->contacts()->where('is_visible',1)->get();
+        foreach ($user_comm as $contact) {
+            if($contact->type == 'email'){
+                $contacts['email'][] =['email'=>$contact->value, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'mobile'){
+                $contacts['mobile'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+            elseif($contact->type == 'landline'){
+                $contacts['landline'][] =['contact'=>$contact->value, 'contact_region'=>$contact->country_code, 'is_verified'=>$contact->is_verified];
+            }
+        }
+        if(!$csv) return $contacts;
+        foreach ($contacts as &$contact_type) {
+            foreach ($contact_type as &$contact) {
+                if(isset($contact['email'])) {
+                    $contact = $contact['email'];
+                }
+                if(isset($contact['contact_region'])) {
+                    $contact = $contact['contact_region'].$contact['contact'];
+                    // unset($contact['contact_region']);
+                }
+            }
+            $contact_type = implode(',', $contact_type);
+        }
+        return $contacts;
     }
 
 }

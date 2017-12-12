@@ -99,3 +99,19 @@ function getSingleListingKeywords($listing){
 	$keywords[] = 'Catalogue';
 	return implode(',', $keywords);
 }
+
+function displayCount($count){
+	if($count < 10){ 
+		return '<10';
+	}elseif ($count < 20 ) {
+		return '10+';
+	}elseif ($count < 50) {
+		return '20+';
+	}elseif($count < 100){
+		return '50+';
+	}elseif ($count <500) {
+		return '100+';
+	}elseif ($count < 1000){
+		return '500+';
+	}else return '1000+';
+}

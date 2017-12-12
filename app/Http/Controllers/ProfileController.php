@@ -390,6 +390,7 @@ class ProfileController extends Controller
                         } else {
                             $temp['enquiry-type'] = 'direct';
                         }
+                        if($enquiry->type == 'contact-request') $temp['enquiry-type'] = 'contact'; 
 
                         //Enquiry Made To
                         if ($enquiry->enquiry_to_id != 0) {
@@ -637,6 +638,65 @@ class ProfileController extends Controller
                                     </div>
 
                                 ';
+                                break;
+
+                            case 'contact':
+                                $temp['html'] = '<div class="enquire-container">
+                                            <h6 class="enquiry-made-by text-medium">
+                                                '.$name.' viewed the
+                                                <label class="fnb-label">
+                                                    Contact Details
+                                                </label>
+                                                of
+                                                <a class=" text-decor" target="_blank" href="' . $temp['enquiree_link'] . '">
+                                                   ' . $temp['enquiree_name'] . '
+                                                </a>
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <dl class="flex-row flex-wrap enquiriesRow">
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Name
+                                                            </dt>
+                                                            <dd>
+                                                                ' . $temp['made-by-name'] . '
+                                                            </dd>
+                                                        </div>
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Email address
+                                                            </dt>
+                                                             <dd>
+                                                           ' . $temp['made-by-email']['email'] ;
+
+                                                            if ($temp['made-by-email']['is_verified'] == 1) {
+                                                                $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                                            } else {
+                                                                $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
+                                                            }
+
+                                $temp['html'] .= '</dd>
+                                                        </div>
+
+                                                        <div class="enquiriesRow__cols">
+                                                            <dt>
+                                                                Phone number
+                                                            </dt>
+                                                            <dd>+' . $temp['made-by-phone']['contact_region'] . ' ' . $temp['made-by-phone']['contact'];
+
+                                if ($temp['made-by-phone']['is_verified'] == 1) {
+                                    $temp['html'] .= '<span class="fnb-icons verified-icon mini"></span>';
+                                } else {
+                                    $temp['html'] .= '<i class="fa fa-times p-l-5 not-verified" aria-hidden="true"></i> ';
+                                }
+
+                                $temp['html'] .= '</dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                            </div>                                                
+                                        </div>';
                                 break;
                         }
 

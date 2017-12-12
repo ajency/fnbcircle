@@ -6555,8 +6555,49 @@ input[type=checkbox].custom-checkbox:before {
   .cust-dashboard__title {
     font-size: 1em;
   }
+<<<<<<< HEAD
   .row-btm-space {
     margin-top: 3.5em;
+=======
+}
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle {
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect.multiselect.dropdown-toggle .caret {
+  margin-left: 0.5em;
+}
+.contact-modal .best-section .multiselect-container label.checkbox {
+  margin: 0.5em 0;
+  font-size: 0.95em;
+}
+.contact-modal .best-section .multiselect-container input[type='checkbox'] {
+  position: relative;
+  top: 3px;
+}
+.internal-contact-row .intl-tel-input,
+.contact-phone-intl .intl-tel-input {
+  display: block;
+}
+.status-checkbox {
+  padding-top: 0.5em;
+}
+.status-checkbox input[type='checkbox']:before {
+  top: -2px;
+}
+.contactEnquiry .seller-enquiry .verified-icon {
+  -webkit-transform: scale(0.6);
+      -ms-transform: scale(0.6);
+          transform: scale(0.6);
+  width: 43px;
+  margin-left: 0.3em;
+  position: relative;
+  top: -3px;
+}
+@media screen and (max-width: 768px) {
+  .user-details-container .user-fields {
+    padding-bottom: 0;
+    font-size: 0.85em !important;
+>>>>>>> contact-request
   }
   .no-listing-job {
     padding: 1em;

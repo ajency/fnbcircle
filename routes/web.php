@@ -230,6 +230,11 @@ Route::group(['prefix' => '{city}'], function() {
 	Route::get('/{listing_slug}', 'ListingViewController@index');
 	Route::get('/', 'LocationController@location');
 });
+Route::post('/contact-request','ContactRequestController@getContactRequest');
+Route::post('/contact-request-details','ContactRequestController@getDetails');
+Route::post('/contact-request-otp','ContactRequestController@verifyOtp');
+Route::post('/contact-request-otp-resend','ContactRequestController@resendOtp');
+Route::post('/contact-request-number-change','ContactRequestController@editNumber');
 
 Route::group(['prefix' => 'api'], function() {
 	Route::post('/get-listview-data', 'ListViewController@getListViewData');

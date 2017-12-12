@@ -99,4 +99,16 @@ return [
         "laravel" => "email.listing-user-notify1",
         "pushcrew" => ""
     ],
+    "contact-request-seeker-premium"=>[
+        "laravel" => "email.success_seeker_contactrequest_premium",
+        "smsgupshup" => "",
+    ],
+    "contact-request-owner-premium"=>[
+        "laravel" => "email.listing_owner_contact-request",
+        "smsgupshup" => "",
+    ],
+    "contact-request-seeker-non-premium"=>[
+        "laravel" => "email.success_seeker_contactrequest_non_premium",
+        "smsgupshup" => "",
+    ],
 ];

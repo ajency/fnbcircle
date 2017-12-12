@@ -34,7 +34,7 @@ $additionalData = ['job'=>$job];
     @endif 
 
 
-    @if(Session::has('success_apply_job')) 
+    @if(Session::has('success_apply_job') || Session::has('success_job_alert_request')) 
      <script type="text/javascript">
     $(document).ready(function() {
       
@@ -95,7 +95,8 @@ $additionalData = ['job'=>$job];
       </div>
    </div>
    <!-- premium benefits -->
-   <div class="row hidden">
+   @if(!$job->premium)
+   <div class="row ">
       <div class="col-sm-12">
          <div class="pre-benefits flex-row">
             <div class="pre-benefits__intro flex-row">
@@ -105,10 +106,11 @@ $additionalData = ['job'=>$job];
                   <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click upgrade premium</p>
                </div>
             </div>
-            <button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button>
+            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button></a>
          </div>
       </div>
    </div>
+  @endif
    <!-- pending review -->
    @if(hasAccess('edit_permission_element_cls',$job->reference_id,'jobs'))
    <div class="row desk-hide">
@@ -128,7 +130,8 @@ $additionalData = ['job'=>$job];
             @endif
 
             @if($job->submitForReview()) 
-             <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a>
+             <!-- <a href="{{ url('/jobs/'.$job->reference_id.'/submit-for-review') }}"><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Submit Job</button></a> -->
+             <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit Job</a>
             @endif
 
             @if($job->getNextActionButton())
@@ -678,7 +681,7 @@ $additionalData = ['job'=>$job];
 
                       <!-- Popover data ends -->
 
-                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
+                      <a href="#" rel="popover" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
@@ -1079,11 +1082,19 @@ $additionalData = ['job'=>$job];
                    <div class="success-apply hidden">
                     <!-- <img src="/img/email-add.png" class="img-responsive center-block" width="60"> -->
                     <h6 class="app-sent flex-row"><i class="fa fa-check-circle text-success p-r-5" aria-hidden="true"></i>
+                      @php
+                        $jobApply = false;
+                      @endphp
                       @if(Session::has('success_apply_job')) 
                         {{ Session::get('success_apply_job') }}
+                        @php
+                        $jobApply = true;
+                        @endphp
+                      @elseif(Session::has('success_job_alert_request')) 
+                        {{ Session::get('success_job_alert_request') }}
                       @else
                         Your application has been sent
-                      @endif
+                      @endif 
                         </h6>
                     <div class="open-details">
                         <div class="jobdesc">
@@ -1284,7 +1295,9 @@ $additionalData = ['job'=>$job];
                               <div class="text-center jobdata-action">
                                   <a href="{{ url('customer-dashboard') }}?job={{ $job->reference_id}}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
                                   <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
+                                  @if($jobApply)
                                   <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
+                                  @endif
                               </div>
                                
                             </div>

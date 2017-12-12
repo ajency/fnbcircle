@@ -198,100 +198,18 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
 
         <!-- Email Body : BEGIN -->
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px;border: 2px solid rgba(222, 222, 222, 0.48);" class="email-container">
-
-          <!-- 1 Column Text + Button : BEGIN -->
-          <tr>
-            <td bgcolor="#ffffff">
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                <tr style="text-align: center;">
-                  <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
-                    <h4 style="margin: 0; text-align: center;font-weight: 600;font-size: 1.1em;color: #7d7d7d;">
-                      Congratulations! Your business is now live on FnB Circle
-                    </h4>
-                    <img src="../public/img/congrats.png" style="margin: 2em auto;display:block;">
-
-                    <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-                      <p>Hi <b style="color: #7f7f7f;">Sammer Rawool,</b></p>
-                      Congratulations! <br>
-                      <b style="color: #7f7f7f;">Mystical the meat &amp; fish store</b><br>
-                      has been approved successfully and is now live on FnB Circle.<br>
-                      <a href="#" style="background-color: #ec6d4b;color: #fff;padding: 0.5em 1em;margin: 1em 0;display: inline-block;text-decoration: none;">Click here to view the listing.</a>
-                    </div>
-
-                    <!-- Tips -->
-  
-                    <div style="margin-top: 2em;">
-                      <h3 style="color: #797979;">Some tips to business owners</h3>
-                      <hr style="border-color: rgba(255, 255, 255, 0.38);width: 30%; margin-bottom: 1.5em;">
-
-                      <div style="margin-bottom: 0.8em;">
-                        <div style="float:left;text-align:left;padding-right: 0.5em;margin-top: 0.3em;">
-                          <img src="../public/img/check-mark.png">
-                        </div>
-                        <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-                          Make sure the details of your listing are correct. Also ensure that your listing is as detailed as possible.
-                        </div>
-                        <div style="clear: both;display:table;"></div>
-                      </div>
-
-                      <div style="margin-bottom: 0.8em;">
-                        <div style="float:left;text-align:left;padding-right: 0.5em;margin-top: 0.3em;">
-                          <img src="../public/img/check-mark.png">
-                        </div>
-                        <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-                          Contact details for the listing should be verified.
-                        </div>
-                        <div style="clear: both;display:table;"></div>
-                      </div>
-
-                      <div style="margin-bottom: 0.8em;">
-                        <div style="float:left;text-align:left;padding-right: 0.5em;margin-top: 0.3em;">
-                          <img src="../public/img/check-mark.png">
-                        </div>
-                        <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-                          Post updates related to your listing regularly. Frequently updated listings will always show up first under browse listings.
-                        </div>
-                        <div style="clear: both;display:table;"></div>
-                      </div>
-
-                      <div style="margin-bottom: 0.8em;">
-                        <div style="float:left;text-align:left;padding-right: 0.5em;margin-top: 0.3em;">
-                          <img src="../public/img/check-mark.png">
-                        </div>
-                        <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-                          Benefits of making your listing premium
-                          <div style="padding-left: 0.8em;">
-                            - Any enquiries or contacts made on the site will be directed to the premium listings.<br>
-                            - Premium listings are displayed on top when the seekers browse through listings.
-                          </div>
-                        </div>
-                        <div style="clear: both;display:table;"></div>
-                      </div>
-                      <br>
-
-                      <a href="#" style="background-color: #ec6d4b;color: #fff;padding: 0.5em 1em;margin: 1em 0;display: inline-block;text-decoration: none;">Let's Go Hunting</a>
-
-                    </div>
-
-                  <!-- Tips ends -->
-
-                  </td>
-                </tr>
-              </table>
-
-
-              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr style="text-align: center;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr style="text-align: center;background-color: #fff;">
       <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;">{{ $ownerName}} </b></p>
+          <p>Hi <b style="color: #7f7f7f;"> </b></p>
          
           
         </div>
 
+       
      <!-- Tips -->
 
         <div style="margin-top: 2em;">
@@ -302,17 +220,25 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
             <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
 
-          Please review “Job”. <span style="color: #ec6d4b;">{{ url('/job/'.$job->getJobSlug()) }}.</span> <br> <br>
+          Please review “<a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank"> {{ $job->title}} </a>” Job.  <br> <br>
 
           <div style="text-align: left;">
           <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job:</div>
           <b>Title:</b> <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">{{ $job->title }}</a> <br>
           <b>Business Type:</b> {{ $job->getJobCategoryName() }} <br>
           <b>Job Role:</b> {{ implode(',',$keywords) }} <br>
+          <div style="clear: both;display: table;">
+          <div style="float: left;margin-right: 15px;min-width: 80px;"><b>State:</b></div>
+          <div style="float: left;"><b>City:</b></div><br>
           @foreach($locations as $city => $locAreas)
-            <b>State:</b> {{ $city }}<br>
-            <b>Area:</b>  {{ implode(',',$locAreas) }}<br>
+            
+              <div style="float: left;margin-right: 15px;min-width: 80px;">{{ $city }}<br></div>
+              <div style="float: left;">   {{ implode(',',$locAreas) }}<br></div>
+              <div style="clear: both;display:table;"></div>
+            
           @endforeach
+          <div style="clear: both;display:table;"></div>
+          </div>
           <b>Company:</b> {{ $jobCompany->title }} <br><br>
 
 
@@ -348,22 +274,9 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
       <!-- Tips ends -->
 
-
       </td>
     </tr>
   </table>
-            </td>
-          </tr>
-          <!-- 1 Column Text + Button : END -->
-
-          <!-- Clear Spacer : BEGIN -->
-          <tr>
-            <td aria-hidden="true" height="0" style="font-size: 0; line-height: 0;">
-              &nbsp;
-            </td>
-          </tr>
-          <!-- Clear Spacer : END -->
-        </table>
         <!-- Email Body : END -->
 
         

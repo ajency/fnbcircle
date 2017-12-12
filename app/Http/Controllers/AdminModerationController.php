@@ -68,6 +68,23 @@ class AdminModerationController extends Controller
             $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
             $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit?show_duplicates=true">' . $listing['name'] . '</a>';
             $listing['#']          = "";
+            switch ($listing['source']){
+                case 'internal_user' :
+                    $listing['source'] = 'Added by internal user';
+                    break;
+                case 'external_user' :
+                    $listing['source'] = 'Added by external user';
+                    break;
+                case 'import' :
+                    $listing['source'] = 'Imported via csv import';
+                    break;
+            }
+            if($listing['owner'] != null){
+                $listing['owner-status'] = $listing['owner']->name.' ('.ucfirst($listing['owner']->status).')';
+            }else{
+                $listing['owner-status'] = 'N/A';
+            }
+            unset($listing['owner']);
 
             // if (count($filters['status'])==1) $listing['#'] = '<td class=" select-checkbox" style="display: table-cell;"></td>';
             // dd($listing['categories']);
@@ -133,6 +150,13 @@ class AdminModerationController extends Controller
             if($filters["premium"][0] == 0) $listings->whereNotIn('id',$request_senders);
            }
         }
+        if(isset($filters['source'])){
+            $listings = $listings->whereIn('source', $filters['source']);
+        }
+        if(isset($filters['user-status'])){
+            $users = User::whereIn('status',$filters['user-status'])->pluck('id')->toArray();
+            $listings = $listings->whereIn('owner_id',$users);
+        }
         if(isset($filters['type'])){
             $listings = $listings->where(function ($listings) use ($filters){
                 foreach($filters['type'] as $type ){
@@ -196,6 +220,8 @@ class AdminModerationController extends Controller
             $response[$listing->id]['categories'] = ListingCategory::getCategories($listing->id);
             if($listing->verified == 1) $response[$listing->id]['type'] = 'Verified';
             else $response[$listing->id]['type'] = 'Orphan';
+            $response[$listing->id]['source'] =  $listing->source;
+            $response[$listing->id]['owner'] = $listing->owner()->first();
         }
         $response1 = array();
         foreach ($response as $resp) {

@@ -57,6 +57,8 @@
       }, {
         "data": "type"
       }, {
+        "data": "owner-status"
+      }, {
         "data": "duplicates"
       }, {
         "data": "premium"
@@ -64,6 +66,8 @@
         "data": "status"
       }, {
         "data": "status_ref"
+      }, {
+        "data": "source"
       }
     ],
     'select': {
@@ -79,7 +83,7 @@
         'className': 'select-checkbox',
         'targets': 0
       }, {
-        'targets': [12],
+        'targets': [13],
         'visible': false,
         'searchable': false
       }
@@ -530,6 +534,16 @@
 
   $('body').on('change', 'select#citySelect', function() {
     filters['city'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#user-status', function() {
+    filters['user-status'] = $(this).val();
+    return sendRequest();
+  });
+
+  $('body').on('change', 'select#source-filter', function() {
+    filters['source'] = $(this).val();
     return sendRequest();
   });
 

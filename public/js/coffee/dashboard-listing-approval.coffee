@@ -51,10 +51,12 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "updated_on"}
     {"data": "last_updated_by"}
     {"data": "type"}
+    {"data": "owner-status"}
     {"data": "duplicates"}
     {"data": "premium"}
     {"data": "status"}
     {"data": "status_ref"}
+    {"data": "source"}
   ]
   'select':
     'style': 'multi'
@@ -71,7 +73,7 @@ approval_table = $('#datatable-listing_approval').DataTable(
     }
     {
       'targets': [
-        12
+        13
       ]
       'visible': false
       'searchable': false
@@ -474,6 +476,13 @@ $('body').on 'change','select#citySelect', ->
   filters['city']= $(this).val()
   sendRequest()
 
+$('body').on 'change','select#user-status', ->
+  filters['user-status']= $(this).val()
+  sendRequest()
+
+$('body').on 'change','select#source-filter', ->
+  filters['source']= $(this).val()
+  sendRequest()
 
 
 $('#datatable-listing_approval').on 'click', 'i.fa-pencil', (e) ->

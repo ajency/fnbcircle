@@ -1305,7 +1305,7 @@ class JobController extends Controller
         if(!empty($userDetails)){
             $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
             if(!empty($userDetails->job_alert_config))
-                $message = 'Your Job alert for "'.$job->title.'" has been updated.'; 
+                $message = 'Your Job alert configuration has been updated.'; 
 
             $userDetails->send_job_alerts = 1;
             $userDetails->save();

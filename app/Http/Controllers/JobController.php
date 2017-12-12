@@ -1221,6 +1221,7 @@ class JobController extends Controller
 
         $jobOwner = $job->createdBy;
         $ownerDetails = $jobOwner->getUserProfileDetails();
+        $userDetails = $user->getUserProfileDetails();
          
 
         // $userDetails = $user->getUserDetails;  
@@ -1244,7 +1245,7 @@ class JobController extends Controller
         // $data['template_data'] = ['job_name' => $job->title,'applicant_name' => $applicantName,'applicant_email' => $applicantEmail,'applicant_phone' => $applicantPhone,'applicant_city' => $applicantCity,'ownername' => $jobOwner->name];
         // sendEmail('job-application', $data);
         
-        Session::put('applicant_email',$ownerDetails['email']);
+        Session::put('applicant_email',$userDetails['email']);
         $data = [];
         $data['from'] = config('constants.email_from');
         $data['name'] = $applicantName;
@@ -1266,7 +1267,7 @@ class JobController extends Controller
         sendEmail('job-application', $data);
  
          // Session::flash('success_message','Successfully applied for job');
-        Session::flash('success_apply_job','Job apply');
+        Session::flash('success_apply_job','Your application has been sent');
         return redirect()->back();
 
     }
@@ -1304,7 +1305,7 @@ class JobController extends Controller
         if(!empty($userDetails)){
             $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
             if(!empty($userDetails->job_alert_config))
-                $message = 'Your Job alert for "'.$job->title.'" has been updated.'; 
+                $message = 'Your Job alert configuration has been updated.'; 
 
             $userDetails->send_job_alerts = 1;
             $userDetails->save();
@@ -1313,7 +1314,7 @@ class JobController extends Controller
 
 
         // Session::flash('success_message','Job Alert Configuration Successfully Updated.');
-        Session::flash('success_apply_job',$message);
+        Session::flash('success_job_alert_request',$message);
         return redirect(url('/job/'.$job->getJobSlug())); 
     }
 

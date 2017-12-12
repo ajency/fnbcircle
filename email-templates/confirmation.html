@@ -204,42 +204,55 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> {{ $ownername }}</b>,</p>
+          <p>Hi <b style="color: #7f7f7f;">{{ $ownerName}} </b></p>
          
           
         </div>
 
-        
-<!-- Tips -->
-        
-        <img src="../public/img/note.png" style="margin: 2em auto 0 auto;display:block;" width="60">
+        <!-- Tips -->
+
+        <img src="../public/img/congrats.png" style="margin: 2em auto;display:block;" width="100">
+
 
         <div style="margin-top: 2em;">
          
 
           <div style="margin-bottom: 0.8em;">
         
-            <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
-          You just received an application for your job <span style="color: #ec6d4b;">{{$job_name}}</span>.<br><br>
 
-          <div style="background-color: #eee;padding: 20px 0px;">
-            <div style="width: 250px;text-align: left;margin: 0 auto;">
-              <p style="color: #ec6d4b;text-transform: uppercase;font-weight: 600;margin-bottom: 10px;margin-top: 0;">Details of the applicant</p>
-              <b>Name: </b>{{$applicant_name}}<br>
-              <b>Email: </b>{{$applicant_email}}<br>
-              <b>Number: </b>{{$applicant_phone}}<br>
-              <b>City: </b>{{$applicant_city}}<br>
-            </div>
+          <h4 style="margin: 0; text-align: center;font-weight: 600;font-size: 1.1em;color: #7d7d7d;">Congratulations!</h4><br><br>
+          <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">{{ $job->title }}</a> has been approved successfully and is now live on FnB Circle.<br><br>
+
+          Click <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">here</a> to view the job. <br><br>
+
+          <div>
+          <div style="float: left;width: 100%;text-align: center;border-bottom: 1px solid #eee;margin-bottom: 0.8em;"><img src="../public/img/power-icon.png" style="margin: 10px 10px 10px auto;" width="35"><h4 style="display: inline-block;color: #7d7d7d;">Why not Go Premium?</h4><br style="clear: both;"></div>
+
+          <b style="margin: 10px 0; display: block;"><span style="width: 30px;height: 30px;line-height: 30px;text-align: center;border-radius: 50%;margin-right: 10px;background-color: #f8836e;color: #fff;display: inline-table;font-size: 14px;font-weight: 400;float:left;text-shadow: 0px 1px 0px #000;">1</span> <span>Get 10 X times more response.</span>
+          <div style="clear: both;display:table;"></div>
+          </b>
+          <b style="margin: 10px 0; display: block;"><span style="width: 30px;height: 30px;line-height: 30px;text-align: center;border-radius: 50%;margin-right: 10px;background-color: #f8836e;color: #fff;display: inline-table;font-size: 14px;font-weight: 400;float:left;text-shadow: 0px 1px 0px #000;">2</span> <span>Get premium tag which makes your requirement stand out from rest.</span>
+          <div style="clear: both;display:table;"></div>
+          </b>
+          <b style="margin: 10px 0;display: block;"><span style="width: 30px;height: 30px;line-height: 30px;text-align: center;border-radius: 50%;margin-right: 10px;background-color: #f8836e;color: #fff;display: inline-table;font-size: 14px;font-weight: 400;float:left;text-shadow: 0px 1px 0px #000;">3</span> <span>Your job gets displayed on top of other non premium jobs and gets top priority. 20 extra days of visibility</span>
+          <div style="clear: both;display:table;"></div>
+          </b>
+          <b style="margin: 10px 0; display: block;"><span style="width: 30px;height: 30px;line-height: 30px;text-align: center;border-radius: 50%;margin-right: 10px;background-color: #f8836e;color: #fff;display: inline-table;font-size: 14px;font-weight: 400;float:left;text-shadow: 0px 1px 0px #000;">4</span> <span>Your job is displayed to candidates while searching for similar other jobs of other employers.</span>
+          <div style="clear: both;display:table;"></div>
+          </b>
+          <b style="margin: 10px 0; display: block;"><span style="width: 30px;height: 30px;line-height: 30px;text-align: center;border-radius: 50%;margin-right: 10px;background-color: #f8836e;color: #fff;display: inline-table;font-size: 14px;font-weight: 400;float:left;text-shadow: 0px 1px 0px #000;margin-bottom: 25px;
+">5</span> <span>Go premium link(this would change send a paid/premium request to admin on the payment sbackend or send an email to admin, informing that user wants to go premium)</span>
+          <div style="clear: both;display:table;"></div>
+          </b>
+          </div>
+            <br>
+          <div>
+          Regards,<br>
+          Team FnB Circle<br>
           </div>
 
-            <br>
-            Copy of the CV of the applicant is attached with this email.<br><br>
-            <br>
-            <div style="text-align: left;">
-            Regards,<br>
-            Team FnB Circle
-            </div>
 
             </div>
             <div style="clear: both;display:table;"></div>

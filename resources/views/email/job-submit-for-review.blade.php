@@ -1,7 +1,7 @@
 @extends('layouts.email')
 
 @section('content')
- <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+       <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="text-align: center;background-color: #fff;">
       <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
   
@@ -23,7 +23,7 @@
             <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
           
 
-          Please review “<a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank"> {{ $job->title}} </a>” Job.  <br> <br>
+          Please review “<a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank" style="color: #ec6d4b;"> {{ $job->title}} </a>” Job.  <br> <br>
 
           <div style="text-align: left;">
           <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job:</div>
@@ -31,15 +31,16 @@
           <b>Business Type:</b> {{ $job->getJobCategoryName() }} <br>
           <b>Job Role:</b> {{ implode(',',$keywords) }} <br>
           <div style="clear: both;display: table;">
-          <div style="float: left;margin-right: 15px;"><b>State:</b><br> City:<br></div>
+          <div style="float: left;margin-right: 15px;min-width: 80px;"><b>State:</b></div>
+          <div style="float: left;"><b>City:</b></div><br>
           @foreach($locations as $city => $locAreas)
             
- 
-              <div style="float: left;"><b>{{ $city }}</b><br>  <br></div>
+              <div style="float: left;margin-right: 15px;min-width: 80px;">{{ $city }}<br></div>
               <div style="float: left;">   {{ implode(',',$locAreas) }}<br></div>
               <div style="clear: both;display:table;"></div>
             
           @endforeach
+          <div style="clear: both;display:table;"></div>
           </div>
           <b>Company:</b> {{ $jobCompany->title }} <br><br>
 

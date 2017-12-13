@@ -73,7 +73,7 @@ class ProfileController extends Controller
                 $descriptions = Description::where('active',1)->get();
                 $data = $user->getUserDetails->getSavedUserSubTypes();
                 
-                return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
+                return view('profile.describes-best')->with('data', $template)->with('descriptions',$descriptions)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':
                 if(!$self and !$admin){
                     $data = $this->getUserEnquiryActivity($user);

@@ -721,6 +721,7 @@ class ProfileController extends Controller
             $details = $user->getUserDetails()->first();
             $details->subtype = serialize($req['user_details']);
             $details->save();
+            $user->setUserType($req['user_details']);
             request()->session()->flash('updateDescription', 'Description Updated');
             
         }

@@ -129,7 +129,7 @@ $featured_cnt =0;
           
 
 <img class="featured-image" src="<?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>">
+			'<?php echo $backgroundImg[0];?> ' <?php }?>">
 	
 
   <div class="featured-content">

@@ -349,4 +349,8 @@ class User extends Authenticatable
       if(!is_array($activities)) $activities = [$activities];
       return $this->morphMany('Spatie\Activitylog\Models\Activity', 'causer')->whereIn('description',$activities);
     }
+
+    public function getUserSubtypes() { 
+        return $this->belongsToMany('App\Description', 'user_descriptions')->wherePivot('user_type','App\\User')->using('App\UserDescription');
+    }
 }

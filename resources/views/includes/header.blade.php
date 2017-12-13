@@ -54,14 +54,17 @@
                                     <i class="fa fa-home home-icon" aria-hidden="true"></i>
                                 </a>
                             </li>
+                            @php
+                                $city_slug_url =(getUserSessionState())?getUserSessionState():'goa';
+                            @endphp
                             <li>
-                                <a href="" class="nav-title-size nav-color">Directory</a>
+                                <a href="{{url('/'.$city_slug_url.'/business-listings')}}" class="nav-title-size nav-color">Directory</a>
                             </li>
                             <li>
-                                <a href="" class="nav-title-size nav-color">Jobs</a>
+                                <a href="{{url('/'.$city_slug_url.'/job-listings')}}" class="nav-title-size nav-color">Jobs</a>
                             </li>
                             <li>
-                                <a href="" class="nav-title-size nav-color">News</a>
+                                <a href="{{url('/news')}}" class="nav-title-size nav-color">News</a>
                             </li>
                             <li class="mobile-hide">
                                 <button class="btn fnb-btn outline mini quote-btn enquiry-modal-btn half-border nav-color" type="button" data-toggle="modal" data-target="#multi-quote-enquiry-modal">Get Multiple quotes</button>

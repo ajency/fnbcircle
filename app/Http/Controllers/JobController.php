@@ -1328,8 +1328,11 @@ class JobController extends Controller
             $jobFilters = $userDetail->job_alert_config;
             $jobFilters['published_date_from'] = config('constants.job_alert_published_date_from');  
             $jobFilters['published_date_to']= config('constants.job_alert_published_date_to');
-            $category[] =  $jobFilters['category']; 
-            $jobFilters['category'] = $category;
+            if(isset($jobFilters['category'])){
+                $category[] =  $jobFilters['category']; 
+                $jobFilters['category'] = $category;
+            }
+            
             $jobFilters['job_status'] = [3];
 
             $length = 5;

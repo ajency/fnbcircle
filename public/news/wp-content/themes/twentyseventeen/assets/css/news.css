@@ -3933,7 +3933,7 @@ body .submit {
 .featured-post .border-layout {
   border: 1px solid #ccc;
   padding: 20px;
-  height: 240px;
+  height: 145px;
   overflow: hidden;
   position: relative;
 }
@@ -3966,14 +3966,13 @@ body .submit {
 }
 .featured-post .border-layout .featured-image {
   background: url(../images/banner-default.png);
-  width: 160px;
-  height: 240px;
+  width: 170px;
+  height: 145px;
   float: left;
   position: relative;
   background-position: 0px;
   background-size: cover !important;
   margin-left: -20px;
-  margin-top: -20px;
 }
 @media screen and (max-width: 768px) {
   .featured-post .border-layout .featured-image {
@@ -3987,7 +3986,6 @@ body .submit {
   }
 }
 .featured-post .border-layout .featured-meta {
-  position: absolute;
   bottom: 10px;
   color: #767676;
   font-size: 12px;
@@ -4013,12 +4011,13 @@ body .submit {
 .featured-post .border-layout .featured-content {
   float: left;
   margin-left: 15px;
-  width: 67%;
+  width: 66%;
 }
 .featured-post .border-layout .featured-content h5 {
   padding: 0px;
   letter-spacing: 0;
   font-weight: 600;
+  margin-top: 13px;
 }
 .featured-post .border-layout .featured-content h5 a {
   color: #000;

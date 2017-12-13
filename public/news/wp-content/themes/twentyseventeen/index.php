@@ -116,12 +116,12 @@ $featured_cnt =0;
   <?php if($featured_cnt<4) : ?>
   <?php  
   	  $current_featured_tags_html ="";  
-  	  $featured_posttags = get_the_tags();	  
+  	  /*$featured_posttags = get_the_tags();	  
    
 	  if($featured_posttags){
 
 	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);
-	  }
+	  }*/
 ?>	
 <div class="featured-post">
 	<div class="border-layout">
@@ -191,7 +191,7 @@ $wp_query = $temp_query;
 <br>
 
 
-<h3 class="bold-t recent_news_title">Latest News</h3>
+<h3 class="bold-t recent_news_title">Latest breaking news in hospitality sector.</h3>
 <p class="text-lighter">What's trending on FnBCircle right now.</p>	
 
 <hr>
@@ -248,12 +248,12 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
   <?php  
   	  $current_recent_tags_html ="";   	 
-  	  $recent_posttags = get_the_tags();	  
+  	  /*$recent_posttags = get_the_tags();	  
    
 	  if($recent_posttags){ 
 
 	  		$current_recent_tags_html = get_tags_markup($recent_posttags,false) ; 
-	  }
+	  }*/
 ?>	
 
 

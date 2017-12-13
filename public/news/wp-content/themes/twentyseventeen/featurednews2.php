@@ -101,7 +101,7 @@ get_header(); ?>
 
 
 
-			<h3 class="bold-t recent_news_title">Featured News on FnB</h3>
+			<h3 class="bold-t recent_news_title">Top Stories on FnB Circle</h3>
 			<p class="text-lighter"></p>	
 
 			<hr>
@@ -179,12 +179,13 @@ get_header(); ?>
 			  
 
 			    <?php  
-		      	  $current_featured_post_tags =""; 
+			    $current_featured_tags_html = "";
+		      	 /* $current_featured_post_tags =""; 
 		      	  $featured_posttags = get_the_tags($post->ID);	  
 		       
 		    	  if($featured_posttags){
 		    	  		$current_featured_tags_html = get_tags_markup($featured_posttags,false); 
-		    	  }
+		    	  }*/
 			    ?>	            
 			  
 			  <div class="featured-content">

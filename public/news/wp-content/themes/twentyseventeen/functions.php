@@ -1167,13 +1167,13 @@ function get_featured_news_by_city(){
 	    
 	   	  $current_featured_tags_html =""; 
 	   	   
-	   	  $featured_posttags = get_the_tags();	  
+	   	  /*$featured_posttags = get_the_tags();	  
 	    
 	 	  if($featured_posttags){
 
 	 	  	$current_featured_tags_html = get_tags_markup($featured_posttags);  
 	 	    
-	 	  }
+	 	  }*/
 	 
 
 
@@ -1283,12 +1283,12 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
   	  $current_recent_tags_html =""; 
   	 
 
-  	  $recent_posttags = get_the_tags();	  
+  	  /*$recent_posttags = get_the_tags();	  
    
 	  if($recent_posttags){ 
 	  		$current_recent_tags_html = get_tags_markup($recent_posttags); 
 	   
-	  }
+	  }*/
  
 
 

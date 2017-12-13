@@ -202,8 +202,8 @@ $wp_query = $temp_query;
 <br>
 
 
-<h3 class="bold-t recent_news_title">Latest breaking news in hospitality sector.</h3>
-<p class="text-lighter">What's trending on FnBCircle right now.</p>	
+<h3 class="bold-t recent_news_title">Latest News</h3>
+<p class="text-lighter">Latest breaking news in hospitality sector.</p>	
 
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>

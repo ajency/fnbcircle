@@ -353,4 +353,13 @@ class User extends Authenticatable
     public function getUserSubtypes() { 
         return $this->belongsToMany('App\Description', 'user_descriptions')->wherePivot('user_type','App\\User')->using('App\UserDescription');
     }
+
+    public function setUserType($descriptions){
+        $this->getUserSubtypes()->detach();
+        $description_ids = Description::getID();
+        foreach ($descriptions  as $description) {
+            $this->getUserSubtypes()->attach($description_ids[$description],['user_type'=>'App\\User']);
+        }
+
+    }
 }

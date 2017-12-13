@@ -26,7 +26,8 @@ class FnbAuthController extends Controller {
 
                 if($user->type != "internal") { // If not internal user, then get his/her city value from profile
                     //set user state session
-                    $userState = $user->getUserDetails->userCity->slug;
+                    if($user->getUserDetails->userCity != null)$userState = $user->getUserDetails->userCity->slug;
+                    else getSinglePopularCity()->slug;
                     session(['user_location' => $userState]);
                     $cookie = cookie('user_state', $userState, config('cookie_config.user_state_expiry'));
                 } else { // If internal User, then get a City 

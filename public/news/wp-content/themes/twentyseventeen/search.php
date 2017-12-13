@@ -84,7 +84,8 @@ get_header(); ?>
 
 <div class="wrap">
 
-	<div class="breadcrumb search--breadcrum"><a href="http://127.0.0.71:8071/news" rel="nofollow">Home</a> / Search Results</div>
+	<div class="breadcrumb search--breadcrum"><a href="<?php echo site_url();?>/" rel="nofollow">Home</a> / Search Results</div>
+
 	<div id="primary" class="content-area">
 	<?php if ( have_posts() ) : ?>
 

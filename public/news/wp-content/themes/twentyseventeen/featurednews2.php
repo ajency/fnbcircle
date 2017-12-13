@@ -78,7 +78,7 @@ get_header(); ?>
 	<?php endif; ?>
 <div class="wrap">
 
-	<div class="breadcrumb"><a href="http://127.0.0.71:8071/news" rel="nofollow">Home</a> / Top Stories</div>
+	<div class="breadcrumb"><a href="<?php echo site_url()?>/" rel="nofollow">Home</a> / Top Stories</div>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 

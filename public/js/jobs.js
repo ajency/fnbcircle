@@ -67,6 +67,11 @@
     });
   });
 
+  $(document).on('click', '.apply-jobs', function() {
+    $('.apply-job-form').removeClass('hidden');
+    return $('.success-apply').addClass('hidden');
+  });
+
   $(document).on('click', '.view-applicant__btn', function() {
     var jobId;
     $('.application-loader').removeClass('hidden');

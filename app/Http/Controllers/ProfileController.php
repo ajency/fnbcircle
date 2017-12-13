@@ -9,6 +9,7 @@ use App\Listing;
 use App\Enquiry;
 use App\UserCommunication;
 use App\EnquirySent;
+use App\Description;
 use Carbon\Carbon;
 use Auth;
 use Hash;
@@ -69,16 +70,9 @@ class ProfileController extends Controller
                 $data['password'] = ($user->signup_source != 'google' and $user->signup_source != 'facebook') ? true : false;
                 return view('profile.basic-details')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'description':
-                $details = unserialize($user->getUserDetails()->first()->subtype);
-                $data = [];
-                if($details != false) {
-                    $config                      = config('helper_generate_html_config.enquiry_popup_display');
-                    foreach ($details as $detail) {
-                        $data[$detail] = $config[$detail]['title'];
-                    }
-                }else{
-
-                }
+                $descriptions = Description::where('active',1)->get();
+                $data = $user->getUserDetails->getSavedUserSubTypes();
+                
                 return view('profile.describes-best')->with('data', $template)->with('details', $data)->with('admin', $admin)->with('self', $self);
             case 'activity':
                 if(!$self and !$admin){

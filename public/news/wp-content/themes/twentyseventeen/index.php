@@ -125,17 +125,25 @@ $featured_cnt =0;
 ?>	
 <div class="featured-post">
 	<div class="border-layout">
-<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
+	
+	$featured_img_src = get_template_directory_uri()."/assets/images/banner-default.png"; 
+	if($backgroundImg!=false && $backgroundImg!=""){
+		 
+		 $featured_img_src = $backgroundImg[0];
+	}
+	 
+?>
           
 
-<img class="featured-image" src="<?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			'<?php echo $backgroundImg[0];?> ' <?php }?>">
+<img class="featured-image" src="<?php  echo $featured_img_src;    ?>">
 	
 
   <div class="featured-content">
 
     <h5 class="font-weight-bold ellipsis-2"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
-    <?php the_excerpt(6); ?>
+    <?php echo substr(get_the_excerpt($post->ID),0,75).' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>' ; ?>
+
     <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
@@ -287,8 +295,11 @@ $show_categories = false;
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true) { ?>in <?php the_category(', '); ?> <?php } ?>
 </div>   
    </div>
-   <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <?php /* <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?> 
+			<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+			<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+			<?php } ?>
    <div class="clear"></div>
 </div>
    

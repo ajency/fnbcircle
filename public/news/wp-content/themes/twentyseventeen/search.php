@@ -84,7 +84,7 @@ get_header(); ?>
 
 <div class="wrap">
 
-
+	<div class="breadcrumb"><a href="http://127.0.0.71:8071/news" rel="nofollow">Home</a> / Search Results</div>
 	<div id="primary" class="content-area">
 	<?php if ( have_posts() ) : ?>
 
@@ -144,8 +144,12 @@ get_header(); ?>
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php /* commented on client request in <?php the_category(', '); ?> */ ?>
 </div>   
    </div>
-   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <?php /* <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?>
+
+	<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+	<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+	<?php } ?>
    <div class="clear"></div>
 </div>
    

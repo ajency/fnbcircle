@@ -117,12 +117,12 @@ get_header(); ?>
 
     <<?php  
   	  $current_featured_tags_html ="";   	 
-  	  $featured_posttags = get_the_tags($post->ID);	  
+  	  /*$featured_posttags = get_the_tags($post->ID);	  
    
 	  if($featured_posttags){
 
 	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);	   
-	  }
+	  }*/
 ?>	 
   
   <div class="featured-content">

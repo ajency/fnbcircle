@@ -53,11 +53,11 @@ get_header(); ?>
  	
 <?php  
 	  $current_featured_tags_html =""; 
-	  $posttags = get_the_tags($post->ID);	  
+	  /*$posttags = get_the_tags($post->ID);	  
 
-  if($posttags){
-  		$current_featured_tags_html = get_tags_markup($posttags,false); 
-  }
+	  if($posttags){
+	  		$current_featured_tags_html = get_tags_markup($posttags,false); 
+	  }*/
 ?>	         
   
   <div class="featured-content">

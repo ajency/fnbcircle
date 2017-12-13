@@ -124,11 +124,11 @@ get_header(); ?>
   <?php  
   	  $current_tags_html =""; 
   	 
-  	  $posttags = get_the_tags($post->ID);	  
+  	  /*$posttags = get_the_tags($post->ID);	  
    
 	  if($posttags){
 	  		$current_tags_html = get_tags_markup($posttags,false);
-	  }
+	  }*/
 ?>	
 
 

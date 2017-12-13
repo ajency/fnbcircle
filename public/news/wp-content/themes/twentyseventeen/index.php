@@ -134,7 +134,7 @@ $featured_cnt =0;
 
   <div class="featured-content">
 
-    <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
+    <h5 class="font-weight-bold ellipsis-2"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
     <?php the_excerpt(6); ?>
     <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">

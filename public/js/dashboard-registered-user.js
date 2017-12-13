@@ -21,6 +21,7 @@
         filters.state = $('select[name="user_state"]').val();
         filters.city = $('select[name="user_city"]').val();
         filters.registration_type = $('select[name="registration_type"]').val();
+        filters.user_description = $('select[name="user_description"]').val();
         filters.user_created_from = $('input[name="user_created_from"]').val();
         filters.user_created_to = $('input[name="user_created_to"]').val();
         filters.last_login_from = $('input[name="last_login_from"]').val();

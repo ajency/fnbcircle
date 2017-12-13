@@ -142,7 +142,7 @@ $featured_cnt =0;
   <div class="featured-content">
 
     <h5 class="font-weight-bold ellipsis-2"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
-    <?php echo substr(get_the_excerpt($post->ID),0,75).' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>' ; ?>
+    <p><?php echo substr(get_the_excerpt($post->ID),0,75).' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>' ; ?></p>
 
     <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">

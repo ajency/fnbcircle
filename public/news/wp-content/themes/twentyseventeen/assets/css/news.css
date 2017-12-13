@@ -3897,6 +3897,10 @@ span {
 .breadcrumb a {
   color: #ec6d4b;
 }
+.search--breadcrum {
+  text-align: left;
+  padding-left: 0;
+}
 body .submit {
   background-color: #ec6d4b !important;
 }
@@ -4120,10 +4124,10 @@ body .submit {
   float: left;
 }
 #featured-img .featured-image {
-  width: 110px;
+  width: 140px;
   float: right;
   display: block;
-  height: 140px;
+  height: 130px;
   background-size: cover;
 }
 @media screen and (max-width: 768px) {

@@ -127,8 +127,11 @@ $featured_cnt =0;
 	<div class="border-layout">
 <?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
           
-  <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+
+<img class="featured-image" src="<?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>">
+	
+
   <div class="featured-content">
 
     <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>

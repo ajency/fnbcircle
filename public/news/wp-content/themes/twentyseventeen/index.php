@@ -164,7 +164,7 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
   <?php 
 	 if($custom_query->post_count>4){
 		//echo "<a href='javascript:void(0);'>View more...</a>";
-		echo "<div class='text-center clear p-t-20'><a href='".site_url()."/featured-news' class='border-btn btn fnb-btn primary-btn full'>View more...</a></div>";
+		echo "<div class='text-right clear p-t-10'><a href='".site_url()."/featured-news' class=' btn fnb-btn text-primary btn-link text-decor'>View more...</a></div>";
 	}
   ?>
   <!-- end of the loop -->

@@ -213,8 +213,13 @@ get_header(); ?>
 			By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true) { ?>in <?php the_category(', '); ?> <?php } ?>
 			</div>   
 			   </div>
-			   <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-						style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+			   <?php /* <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+						style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?>
+
+				<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+				<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+				<?php } ?>
+
 			   <div class="clear"></div>
 			</div>
 			   

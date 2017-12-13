@@ -1154,11 +1154,13 @@ function get_featured_news_by_city(){
 	}
 
 	 if($backgroundImg!=false && $backgroundImg!=""){
-	    			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	    			//$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	    			$featured_img_html = '<img src="'.$backgroundImg[0].'"  class="featured-image " />';
 
 	    		} 
 	    		else{
-	    			$style_avatar ="";
+	    			//$style_avatar ="";
+	    			$featured_img_html = "";
 	    		}
 	 
 	 
@@ -1180,7 +1182,8 @@ function get_featured_news_by_city(){
 	  
 
 
-	 $html.=' <div class="featured-image" '.$style_avatar.'></div>
+	/* $html.=' <div class="featured-image" '.$style_avatar.'></div> */
+	 $html.=$featured_img_html.' 
 	  <div class="featured-content">
 	    <h5 class="font-weight-bold"><a href="'.get_permalink().'">'.get_the_title().'</a></h5>
 	    '.get_the_excerpt(6).$current_featured_tags_html.'
@@ -1256,11 +1259,13 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 	$featured_img_id ="";
 	 $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full' ); 
 	  if($backgroundImg!=false && $backgroundImg!=""){
-	     			$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	     			//$style_avatar = 'style="background-image:url(\''.$backgroundImg[0].'\')"';
+	  				$featured_img_html = '<img src="'.$backgroundImg[0].'"  class="featured-image " />';
 	     			$featured_img_id =' id="featured-img" ';
  		} 
  		else{
- 			$style_avatar ="";
+ 			//$style_avatar ="";
+ 			$featured_img_html ="";
  		}  
 	$html.='<li>
 	    
@@ -1304,8 +1309,9 @@ function get_recent_news_by_city($args=array(),$additional_args = array()){
 	 $html.='By '.get_the_author_posts_link().'<br> on '.get_the_time('F jS, Y').'  ';
 	 /* $html.='in '.$category_display; //commented on client request   */ 
 	$html.='</div>   
-	   </div>
-	   <div class="featured-image" '.$style_avatar.'></div>
+	   </div>';
+	//$html.='   <div class="featured-image" '.$style_avatar.'></div>';
+	$html.=$featured_img_html.'
 	   <div class="clear"></div>
 	</div>
 	   

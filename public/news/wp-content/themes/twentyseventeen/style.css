@@ -3418,13 +3418,15 @@ object {
 
 	.has-sidebar:not(.error404) #primary {
 		float: left;
-		width: 58%;
+		// width: 58%;
+		width: 67%;
 	}
 
 	.has-sidebar #secondary {
 		float: right;
 		padding-top: 0;
-		width: 36%;
+		// width: 36%;
+		width: 30%;
 	}
 
 	.error404 #primary {

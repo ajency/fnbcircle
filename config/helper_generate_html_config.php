@@ -1,21 +1,21 @@
 <?php
 
-use App\Description;
+// use App\Description;
 
-$descriptions = Description::where('active',1)->get();
-$config = [];
-foreach ($descriptions as $description) {
-	$array = json_decode($description->meta,true);
-	foreach ($array as $config_key => $config_data) {
-		if(!isset($config[$config_key])) $config[$config_key]=[];
-		$config_data['content'] = $description->description;
-		if($config_key == 'enquiry_popup_display') $config[$config_key][$description->value] = $config_data;
-		else $config[$config_key][] = $config_data;
-	}
-}
+// $descriptions = Description::where('active',1)->get();
+// $config = [];
+// foreach ($descriptions as $description) {
+// 	$array = json_decode($description->meta,true);
+// 	foreach ($array as $config_key => $config_data) {
+// 		if(!isset($config[$config_key])) $config[$config_key]=[];
+// 		$config_data['content'] = $description->description;
+// 		if($config_key == 'enquiry_popup_display') $config[$config_key][$description->value] = $config_data;
+// 		else $config[$config_key][] = $config_data;
+// 	}
+// }
 
 
-return $config;
+return [];
 	/*	[
 			<$reference-Key> => [
 				....

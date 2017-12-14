@@ -82,14 +82,17 @@
 	                        <select multiple class="form-control multi-dd usersearchinput" name="registration_type">
 	                          <option value="email_signup">Email signup</option>
 	                          <option value="google">Google</option>
-	                          <option value="facebook">Facebook</option>
+                            <option value="facebook">Facebook</option>
+	                          <option value="internal_listing_signup">Created by Internal via Listing</option>
 	                        </select>
 	                      </th>
 	                      <th class="text-center" rowspan="2">Email</th>
 	                      <th class="text-center" rowspan="2">Phone</th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="3">What describe you the best?
-	                        <select multiple class="form-control multi-dd">
-	                          
+	                        <select multiple class="form-control multi-dd usersearchinput" name="user_description">
+                            @foreach(\App\Description::all() as $description)
+  	                          <option value="{{$description->id}}">{{$description->title}}</option>
+                            @endforeach
 	                        </select>
 	                      </th>
 	                      <th rowspan="2" class="no-sort text-center" data-col="4" style="min-width: 70px;">State

@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use App\Job;
 use App\Company;
 use App\UserCommunication;
+use App\UserDescription;
 
 class AdminConfigurationController extends Controller
 {
@@ -769,6 +770,12 @@ class AdminConfigurationController extends Controller
         if(isset($requestData['filters']['user_status']) && !empty($requestData['filters']['user_status']))
         {
             $userQuery->whereIn('users.status',$requestData['filters']['user_status']);
+        }
+
+        if(isset($requestData['filters']['user_description']) && !empty($requestData['filters']['user_description']))
+        {
+            $userDescription = UserDescription::whereIn('description_id',$requestData['filters']['user_description'])->where('user_type','App\\User')->pluck('user_id')->toArray();
+            $userQuery->whereIn('users.id',$userDescription);
         }
 
         

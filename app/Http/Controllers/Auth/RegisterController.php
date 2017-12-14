@@ -95,7 +95,7 @@ class RegisterController extends Controller
             "user" => array("username" => $request->email, "email" => $request->email, "name" => $request->name),
             // "user_comm" => array("object_type" => "App\User", "email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
             "user_comm" => array("object_type" => "App\User", "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
-            "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+            "user_details" => array()
         ];
 
         if($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1'])) {
@@ -162,6 +162,7 @@ class RegisterController extends Controller
         // }
 
         $response = $userauth_obj->updateOrCreateUserDetails($user_obj, $request_data["user_details"], "user_id", $user_obj->id);
+        $user_obj->setUserType($request->description);
         $required_fields_check = $userauth_obj->updateRequiredFields($user_obj);
 
         if($required_fields_check["has_required_fields_filled"]) {
@@ -198,7 +199,8 @@ class RegisterController extends Controller
         $request_data = [
             "user" => array("username" => $request->email, "email" => $request->email, "password" => $request->password, "provider" => "email_signup", "name" => $request->name),
             "user_comm" => array("email" => $request->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0),
-            "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+            // "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+            "user_details" => array()
         ];
 
         if($request->has('is_contact_verified') && in_array(strtolower($request->is_contact_verified), ['true', '1'])) {
@@ -235,6 +237,7 @@ class RegisterController extends Controller
                     $request_data["user"]["roles"] = "customer";
                     $request_data["user"]["type"] = "external";
                     $user_resp = $userauth_obj->updateOrCreateUser($request_data["user"], $request_data["user_details"], $request_data["user_comm"]);
+                    // $user_resp['user']->setUserType($request->description);
                 }
 
                 if($request->has('contact') && isset($user_resp["user"]) && $user_resp["user"]) { // If communication, then enter Mobile No in the UserComm table

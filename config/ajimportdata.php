@@ -11,74 +11,9 @@ $ajimport_config['temptablename'] = 'aj_import_temp';
 
 //$ajimport_config['fileheader'] = array('seq', 'first', 'last', 'age', 'street', 'city', 'state', 'zip', 'email');
 
-$ajimport_config['fileheader'] = array('Id', 'Company Name', 'Add', 'City', 'Pin Code', 'Reference', 'State', 'Phone1', 'Phone2', 'Mobile1', 'Mobile2', 'Email1', 'Email2', 'Year', 'Web', 'Business Type', 'Business Details');
-
-/* Final table on which insertion will be done,
- * name  - master table name
- * field_map - {temp tablefieldname or header column name =>corresponding master table field name }
- */
-
-/*$ajimport_config['mastertable'] = ['name' => 'finaldata',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-];*/
-
-/*
-
-$ajimport_config['mastertable']['areas'] = ['name' => 'areas',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-'childtables'=>['cities']
-];
-
-$ajimport_config['mastertable']['listings'] = ['name' => 'listings',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-'childtables'=>['areas','users']
-];
-
-$ajimport_config['mastertable']['user_communications'] = ['name' => 'user_communications',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-'childtables'=>['users']
-];
-
-$ajimport_config['mastertable']['listing_category'] = ['name' => 'listing_category',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-'childtables'=>['listings','categories']
-];
-
-$ajimport_config['mastertable']['user_communications'] = ['name' => 'user_communications',
-
-'fields_map' => ["seq" => "f_no", "first" => "f_fname", "last"  => "f_lname",
-"age"=> "f_age", "street" => "f_street", "city" => "f_city",
-"zip"  => "f_zip"
-],
-'childtables'=>['listings' ]
-];
-
- */
-
-/* UPdate the column value of any table with custom defined  array of key-pair */
-/*$ajimport_config['customfieldsvalues'][$ajimport_config['temptablename']] = array('ty')
-array("Wholeseller"=> 11,"Retailer"=>12 ,"Manufacturer"=>13);
-];*/
+// $ajimport_config['fileheader'] = array('Id', 'Company Name', 'Add', 'City', 'Pin Code', 'Reference', 'State', 'Phone1', 'Phone2', 'Mobile1', 'Mobile2', 'Email1', 'Email2', 'Year', 'Web', 'Business Type', 'Business Details');
+$ajimport_config['fileheader'] = array('BusinessName', 'BusinessType', 'City', 'Email1', 'Email2', 'Mobile1', 'Mobile2', 'Landline1', 'Landline2', 'CoreCategory1', 'CoreCategory1_id', 'CoreCategory2', 'CoreCategory2_id', 'CoreCategory3', 'CoreCategory3_id', 'CoreCategory4', 'CoreCategory4_id', 'CoreCategory5', 'CoreCategory5_id', 'CoreCategory6',   'CoreCategory6_id',    'CoreCategory7',   'CoreCategory7_id',    'CoreCategory8',   'CoreCategory8_id',    'CoreCategory9',   'CoreCategory9_id',    'CoreCategory10',  'CoreCategory10_id',   'Brand1',  'Brand1_id',   'Brand2',  'Brand2_id',   'Brand3',  'Brand3_id',   'Brand4',  'Brand4_id',   'Brand5',  'Brand5_id',   'Brand6',  'Brand6_id',   'Brand7',  'Brand7_id',   'Brand8',  'Brand8_id',   'Brand9',  'Brand9_id',   'Brand10', 'Brand10_id',  'DisplayAddress',  'AreaOfOperation1',    'AreaOfOperation1_id', 'AreaOfOperation2',    'AreaOfOperation3',    'AreaOfOperation4',    'AreaOfOperation5',    'AreaOfOperation6',    'AreaOfOperation7',    'AreaOfOperation8',    'AreaOfOperation9',    'AreaOfOperation10',   'BusinessDescription', 'BusinessHighlights', 'YearofEstablishment',   'BusinessWebsite',    'PaymentMode1',    'PaymentMode2',    'PaymentMode3',    'PaymentMode4',    'PaymentMode5',    'PaymentMode6',    'PaymentMode7',    'PaymentMode8',   'PaymentMode9');
+ 
 
 $ajimport_config['childtables'][] = array('name' => 'users',
     // 'insertid_temptable'  => 'stateid', // 'Field to be added to temp table to store id of insertion record to child table'

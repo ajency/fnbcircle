@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b14748576b3cd05e6f01627e4957fac7",
+    "content-hash": "4c4edf8f67fff0391bc91949fd984db2",
     "packages": [
         {
             "name": "ajency/laravel-fileimport",
-            "version": "dev-revision",
+            "version": "dev-revision-2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ajency/laravel-fileimport.git",
-                "reference": "ad7fabc7aff3ceaf0d50ab8d9d9591f4b29c1c91"
+                "reference": "6fd052001ffef832ad896bb64ec90d783445468c"
             },
             "type": "library",
             "autoload": {
@@ -30,7 +30,7 @@
                 }
             ],
             "description": "This package allows to import large set of file data  into multiple tables",
-            "time": "2017-12-08 07:18:49"
+            "time": "2017-12-14 09:27:06"
         },
         {
             "name": "anahkiasen/underscore-php",

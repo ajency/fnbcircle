@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ajency/laravel-fileimport.git",
-                "reference": "c1f6bf51cf18c73d5a2c460737632e128316305f"
+                "reference": "ad7fabc7aff3ceaf0d50ab8d9d9591f4b29c1c91"
             },
             "type": "library",
             "autoload": {
@@ -30,7 +30,7 @@
                 }
             ],
             "description": "This package allows to import large set of file data  into multiple tables",
-            "time": "2017-12-06 12:56:04"
+            "time": "2017-12-08 07:18:49"
         },
         {
             "name": "anahkiasen/underscore-php",
@@ -84,29 +84,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-<<<<<<< HEAD
-            "version": "3.45.3",
+            "version": "3.47.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d0abb0b1194fa64973b135191f56df991bc5787c"
+                "reference": "6707345b9e6d670aa45209310b930857043a4557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d0abb0b1194fa64973b135191f56df991bc5787c",
-                "reference": "d0abb0b1194fa64973b135191f56df991bc5787c",
-=======
-            "version": "3.46.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "097abac2676b99ed38af986c3d8d8f3528a5788b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/097abac2676b99ed38af986c3d8d8f3528a5788b",
-                "reference": "097abac2676b99ed38af986c3d8d8f3528a5788b",
->>>>>>> 1190aac44a869fc31bf42a1228ed58f6c8abd4a8
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6707345b9e6d670aa45209310b930857043a4557",
+                "reference": "6707345b9e6d670aa45209310b930857043a4557",
                 "shasum": ""
             },
             "require": {
@@ -173,11 +160,7 @@
                 "s3",
                 "sdk"
             ],
-<<<<<<< HEAD
-            "time": "2017-12-08T21:36:50+00:00"
-=======
-            "time": "2017-12-11T22:12:17+00:00"
->>>>>>> 1190aac44a869fc31bf42a1228ed58f6c8abd4a8
+            "time": "2017-12-12T20:10:41+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -775,16 +758,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.24",
+            "version": "v5.5.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "06135405bb1f736dac5e9529ed1541fc446c9c0f"
+                "reference": "0a5b6112f325c56ae5a6679c08a0a10723153fe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/06135405bb1f736dac5e9529ed1541fc446c9c0f",
-                "reference": "06135405bb1f736dac5e9529ed1541fc446c9c0f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0a5b6112f325c56ae5a6679c08a0a10723153fe0",
+                "reference": "0a5b6112f325c56ae5a6679c08a0a10723153fe0",
                 "shasum": ""
             },
             "require": {
@@ -864,6 +847,7 @@
                 "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers and the ping methods on schedules (~6.0).",
                 "laravel/tinker": "Required to use the tinker console command (~1.0).",
                 "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (~1.0).",
+                "league/flysystem-cached-adapter": "Required to use Flysystem caching (~1.0).",
                 "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (~1.0).",
                 "nexmo/client": "Required to use the Nexmo transport (~1.0).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (~3.0).",
@@ -904,7 +888,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-12-07T01:28:21+00:00"
+            "time": "2017-12-11T14:59:28+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -1962,16 +1946,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "11f933aebe1eeb04f683c4d74118bd4caaea9fe1"
+                "reference": "126d7399ee6d269af5f6190a8407f747acf490e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/11f933aebe1eeb04f683c4d74118bd4caaea9fe1",
-                "reference": "11f933aebe1eeb04f683c4d74118bd4caaea9fe1",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/126d7399ee6d269af5f6190a8407f747acf490e5",
+                "reference": "126d7399ee6d269af5f6190a8407f747acf490e5",
                 "shasum": ""
             },
             "require": {
@@ -2029,7 +2013,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2017-11-13T10:31:04+00:00"
+            "time": "2017-12-13T21:13:56+00:00"
         },
         {
             "name": "spatie/laravel-permission",
@@ -3366,7 +3350,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "Padraic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },

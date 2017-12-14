@@ -116,23 +116,34 @@ $featured_cnt =0;
   <?php if($featured_cnt<4) : ?>
   <?php  
   	  $current_featured_tags_html ="";  
-  	  $featured_posttags = get_the_tags();	  
+  	  /*$featured_posttags = get_the_tags();	  
    
 	  if($featured_posttags){
 
 	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);
-	  }
+	  }*/
 ?>	
 <div class="featured-post">
 	<div class="border-layout">
-<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
+<?php $backgroundImg = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );
+	
+	$featured_img_src = get_template_directory_uri()."/assets/images/banner-default.png"; 
+	if($backgroundImg!=false && $backgroundImg!=""){
+		 
+		 $featured_img_src = $backgroundImg[0];
+	}
+	 
+?>
           
-  <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+
+<img class="featured-image" src="<?php  echo $featured_img_src;    ?>">
+	
+
   <div class="featured-content">
 
-    <h5 class="font-weight-bold"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
-    <?php the_excerpt(6); ?>
+    <h5 class="font-weight-bold ellipsis-2"><a href="<?php the_permalink(); ?>" target ="_blank" ><?php the_title(); ?></a></h5>
+    <p><?php echo substr(get_the_excerpt($post->ID),0,75).' <a class="moretag" href="'. get_permalink($post->ID) . '"  target ="_blank"  >read more...</a>' ; ?></p>
+
     <?php echo $current_featured_tags_html; ?>
 <div class="featured-meta">
 <img src="<?php echo site_url()."/wp-content/themes/twentyseventeen/assets/images/abstract-user.png"; ?>" />
@@ -161,7 +172,7 @@ By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php 
   <?php 
 	 if($custom_query->post_count>4){
 		//echo "<a href='javascript:void(0);'>View more...</a>";
-		echo "<div class='text-center clear p-t-20'><a href='".site_url()."/featured-news' class='border-btn btn fnb-btn primary-btn full'>View more...</a></div>";
+		echo "<div class='text-right clear p-t-10'><a href='".site_url()."/featured-news' class=' btn fnb-btn text-primary btn-link text-decor'>View more...</a></div>";
 	}
   ?>
   <!-- end of the loop -->
@@ -188,11 +199,11 @@ $wp_query = NULL;
 $wp_query = $temp_query;
 ?>
 <div class="clear"></div>
-<br>
 
 
-<h3 class="bold-t recent_news_title">Latest News</h3>
-<p class="text-lighter">What's trending on FnBCircle right now.</p>	
+
+<h3 class="bold-t recent_news_title p-t-20">Latest News</h3>
+<p class="text-lighter">Latest breaking news in hospitality sector.</p>	
 
 <hr>
 <!-- 	<?php if ( is_home() && ! is_front_page() ) : ?>
@@ -248,12 +259,12 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
   <?php  
   	  $current_recent_tags_html ="";   	 
-  	  $recent_posttags = get_the_tags();	  
+  	  /*$recent_posttags = get_the_tags();	  
    
 	  if($recent_posttags){ 
 
 	  		$current_recent_tags_html = get_tags_markup($recent_posttags,false) ; 
-	  }
+	  }*/
 ?>	
 
 
@@ -284,8 +295,11 @@ $show_categories = false;
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F j, Y'); ?>  <?php if($show_categories==true) { ?>in <?php the_category(', '); ?> <?php } ?>
 </div>   
    </div>
-   <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <?php /* <div  class="featured-image " <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?> 
+			<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+			<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+			<?php } ?>
    <div class="clear"></div>
 </div>
    

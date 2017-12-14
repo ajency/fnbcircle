@@ -117,12 +117,12 @@ get_header(); ?>
 
     <<?php  
   	  $current_featured_tags_html ="";   	 
-  	  $featured_posttags = get_the_tags($post->ID);	  
+  	  /*$featured_posttags = get_the_tags($post->ID);	  
    
 	  if($featured_posttags){
 
 	  	$current_featured_tags_html = get_tags_markup($featured_posttags,false);	   
-	  }
+	  }*/
 ?>	 
   
   <div class="featured-content">
@@ -135,8 +135,15 @@ get_header(); ?>
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php /* commented on client request in <?php the_category(', '); ?> */ ?>
 </div>   
    </div>
+   <?php /* 
    <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?>
+			
+	<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+	<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+	<?php } ?>
+
+
    <div class="clear"></div>
 </div>
    

@@ -53,11 +53,11 @@ get_header(); ?>
  	
 <?php  
 	  $current_featured_tags_html =""; 
-	  $posttags = get_the_tags($post->ID);	  
+	  /*$posttags = get_the_tags($post->ID);	  
 
-  if($posttags){
-  		$current_featured_tags_html = get_tags_markup($posttags,false); 
-  }
+	  if($posttags){
+	  		$current_featured_tags_html = get_tags_markup($posttags,false); 
+	  }*/
 ?>	         
   
   <div class="featured-content">
@@ -84,8 +84,14 @@ $show_categories = false;
 By <?php the_author_posts_link(); ?><br> on <?php the_time('F jS, Y'); ?>  <?php if($show_categories==true){ ?> in <?php the_category(', '); ?>  <?php } ?>
 </div>   
    </div>
-   <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
-			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div>
+   <?php /* <div class="featured-image" <?php  if($backgroundImg!=false && $backgroundImg!=""){ ?> 
+			style="background-image: url('<?php echo $backgroundImg[0];?> ')" <?php }?>></div> */ ?>
+
+	<?php if($backgroundImg!=false && $backgroundImg!=""){ ?>
+	<img src="<?php echo $backgroundImg[0];?>"  class="featured-image " />
+	<?php } ?>
+
+
    <div class="clear"></div>
 </div>
    

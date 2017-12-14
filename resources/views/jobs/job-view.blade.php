@@ -569,10 +569,15 @@ $additionalData = ['job'=>$job];
                               @php
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
-                        <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
-                          
-                           
+
+                              @if($job->status != 5)
+                                  <a class="Btn-status" data-toggle="modal" data-target="#confirmBox" href="#"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @elseif($nextActionBtn['id'] == '2')
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"  ><button type="button" class="btn fnb-btn outline full border-btn upgrade">Submit Job</button></a>
+                              @else    
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @endif
+
                           @endif
                        </div>
                     </div>
@@ -1243,7 +1248,7 @@ $additionalData = ['job'=>$job];
                                   <a href="{{ url('customer-dashboard') }}?job={{ $job->reference_id}}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
                                   <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
                                   @if($jobApply)
-                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
+                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}?ref_type=save_job_config" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
                                   @endif
                               </div>
                                

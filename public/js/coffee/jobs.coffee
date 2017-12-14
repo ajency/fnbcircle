@@ -58,6 +58,10 @@ $(document).on 'click', '.remove_resume', ->
       throwError()
       return
 
+$(document).on 'click', '.apply-jobs', ->
+  $('.apply-job-form').removeClass('hidden');
+  $('.success-apply').addClass('hidden');
+  
 
 
 $(document).on 'click', '.view-applicant__btn', ->

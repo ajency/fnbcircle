@@ -1302,13 +1302,17 @@ class JobController extends Controller
         $user =  Auth::user();
         $userDetails = $user->getUserDetails;  
         $message = 'Your Job alert for "'.$job->title.'" has been created.';
+        $refType = (isset($_GET['ref_type']) && $_GET['ref_type']=='save_job_config')? false : true;
         if(!empty($userDetails)){
             $saveJobAlertConfig = $user->saveJobAlertConfig($job,$userDetails->send_job_alerts);
             if(!empty($userDetails->job_alert_config))
                 $message = 'Your Job alert configuration has been updated.'; 
 
-            $userDetails->send_job_alerts = 1;
-            $userDetails->save();
+            if($refType){
+                $userDetails->send_job_alerts = 1;
+                $userDetails->save();
+            }
+            
         }
 
 
@@ -1328,8 +1332,11 @@ class JobController extends Controller
             $jobFilters = $userDetail->job_alert_config;
             $jobFilters['published_date_from'] = config('constants.job_alert_published_date_from');  
             $jobFilters['published_date_to']= config('constants.job_alert_published_date_to');
-            $category[] =  $jobFilters['category']; 
-            $jobFilters['category'] = $category;
+            if(isset($jobFilters['category'])){
+                $category[] =  $jobFilters['category']; 
+                $jobFilters['category'] = $category;
+            }
+            
             $jobFilters['job_status'] = [3];
 
             $length = 5;

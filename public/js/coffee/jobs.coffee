@@ -58,6 +58,10 @@ $(document).on 'click', '.remove_resume', ->
       throwError()
       return
 
+$(document).on 'click', '.apply-jobs', ->
+  $('.apply-job-form').removeClass('hidden');
+  $('.success-apply').addClass('hidden');
+  
 
 
 $(document).on 'click', '.view-applicant__btn', ->
@@ -477,20 +481,21 @@ $(document).on 'countrychange', 'input[name="applicant_phone"]', (e, countryData
 
 
 $(document).on 'click', 'input[name="send_alert"]', ->
-  sendAlerts = ($(this).is(":checked")) ? 1 : 0
-  $.ajax
-    type: 'get'
-    url: '/user/send-job-alerts'
-    data:
-      'send_alert': sendAlerts
-    success: (data) ->
-      $('.edit-criteria').removeClass 'hidden'
-      # console.log data
+  $('.edit-criteria').removeClass 'hidden'
+  # sendAlerts = ($(this).is(":checked")) ? 1 : 0
+  # $.ajax
+  #   type: 'get'
+  #   url: '/user/send-job-alerts'
+  #   data:
+  #     'send_alert': sendAlerts
+  #   success: (data) ->
       
-      return
-    error: (request, status, error) ->
-      throwError()
-      return
+  #     # console.log data
+      
+  #     return
+  #   error: (request, status, error) ->
+  #     throwError()
+  #     return
 
 $('body').on 'click', '.removelocRow', ->
   

@@ -6013,7 +6013,7 @@ input[type=checkbox].custom-checkbox:before {
     padding: 0.8em 0;
   }
   .slide-nav .published-title {
-    font-size: 1em;
+    font-size: 0.9em;
   }
   .slide-nav .share-btn {
     font-size: 1em;
@@ -7008,6 +7008,13 @@ input[type=checkbox].custom-checkbox:before {
 }
 .job-alert-confirm .custom-pop-btn.no {
   color: #d0021b;
+}
+.hot-job-section {
+  padding: 1em 1.5em;
+}
+.hot-job-section__img {
+  position: relative;
+  top: -5px;
 }
 .search-section {
   position: relative;

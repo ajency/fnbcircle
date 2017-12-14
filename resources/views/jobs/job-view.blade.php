@@ -95,18 +95,18 @@ $additionalData = ['job'=>$job];
       </div>
    </div>
    <!-- premium benefits -->
-   @if(!$job->premium)
+   @if(!$job->premium && $job->jobOwnerOrAdmin())
    <div class="row ">
       <div class="col-sm-12">
-         <div class="pre-benefits flex-row">
+         <div class="pre-benefits hot-job-section flex-row">
             <div class="pre-benefits__intro flex-row">
-               <img src="/img/power-icon.png" class="img-repsonsive" width="50">
+               <img src="/img/hot-jobs.png" class="img-repsonsive hot-job-section__img" width="130">
                <div class="pre-benefits__content">
-                  <h5 class="section-title pre-benefits__title">What are the benefits of registering as premium?</h5>
-                  <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click upgrade premium</p>
+                  <h5 class="section-title pre-benefits__title">Upgrade to Premium to enjoy more benefits</h5>
+                  <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click go premium</p>
                </div>
             </div>
-            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Upgrade Premium</button></a>
+            <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Go Premium</button></a>
          </div>
       </div>
    </div>
@@ -139,7 +139,7 @@ $additionalData = ['job'=>$job];
                 $nextActionBtn =$job->getNextActionButton();
                 @endphp
           <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-          <button type="button" class="btn fnb-btn outline full border-btn upgrade" @if($job->status == 3) data-toggle="tooltip" data-placement="top" title="Remove this Job." @endif>{{ $nextActionBtn['status'] }}</button></a>
+          <button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
             
              
             @endif
@@ -506,90 +506,37 @@ $additionalData = ['job'=>$job];
             <!-- similar business ends -->
           @endif
 
-          
+
         <!-- Related article section -->
-          @if(count($news_items) > 0)
        
-              <div class="related-article p-b-20" id="article">
-                  <div class="section-start-head m-b-15 flex-row">
-                    <h6 class="element-title">Related News Articles</h6>
-                    @foreach($news_items as $news_item)
-                    <?php $news_city = strtolower(preg_replace('/[^\w-]/', '', str_replace(' ', '-', $city)));
-
-                    ?>
-                    @endforeach
-                    
-                    <a href="{{ url('/news/') }}" class="secondary-link view-more heavier">View More</a>
-                  </div>
-                  <div class="related-article__section jobs-related-article flex-row align-top">
-                    
-
-                    @foreach($news_items as $news_item)
-                    
-
-
-                    <div class="related-article__col article-col fnb-article">
-                      <a href="" class="article-link">
-                        <div class="fnb-article__banner"  <?php if($news_item['featured_image']['medium']!="" && $news_item['featured_image']['medium']!=false){?> style="background-image: url({{$news_item['featured_image']['medium']}});background-position: inherit;" <?php }  ?>  ></div>
-                        <div class="fnb-article__content m-t-15">
-                        
-                          <h6 class="sub-title fnb-article__title"><a href="{{$news_item['url']}}" class="text-darker ellipsis-2 cust-title-height">{{$news_item['title']}}</a></h6>
-                          <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}</p>
-                          
-                           @if(count($news_item['tags']) > 0)
-                            <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
-                              @foreach($news_item['tags'] as $news_tag)
-                              <span  class="post-tags__child" title="{{ $news_tag}}"><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
-                               @endforeach
-                            </div>
-                           @endif
-                       
-                          <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
-                        </div>
-                      </a>
+          <div class="related-article p-b-20" id="article">
+              <div class="section-start-head m-b-15 flex-row">
+                <h6 class="element-title">Related News Articles</h6>
+                <a href="" class="secondary-link view-more heavier">View More</a>
+              </div>
+              <div class="related-article__section jobs-related-article flex-row align-top">
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
                     </div>
-
-                   
-
-
-                    @endforeach
-
-                    <!-- <div class="related-article__col article-col fnb-article">
-                      <a href="" class="article-link">
-                        <div class="fnb-article__banner"></div>
-                        <div class="fnb-article__content m-t-15">
-                          <h6 class="sub-title fnb-article__title">Preparing for a Career as a Chef</h6>
-                          <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-                          <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="related-article__col article-col fnb-article">
-                      <a href="" class="article-link">
-                        <div class="fnb-article__banner banner-2"></div>
-                        <div class="fnb-article__content m-t-15">
-                          <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
-                          <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
-                          <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
-                        </div>
-                      </a>
-                    </div> -->
-                  </div>
+                  </a>
                 </div>
-
-            @else
-
-                <div class="related-article p-b-20" id="article">
-                    <div class="section-start-head m-b-15 flex-row">
-                        <h6 class="element-title">Related Articles</h6>                                        
+                <div class="related-article__col article-col fnb-article">
+                  <a href="" class="article-link">
+                    <div class="fnb-article__banner banner-2"></div>
+                    <div class="fnb-article__content m-t-15">
+                      <h6 class="sub-title fnb-article__title">19 pieces of advice all line cooks should read</h6>
+                      <p class="fnb-article__caption default-size text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores, perferendis possimus nostrum atque ex enim obcaecati harum facilis id.</p>
+                      <span class="dis-block fnb-article__caption lighter date">Posted on 20 Dec</span>
                     </div>
-                    <div class="related-article__section">
-                        <p class="text-center heavier card no-articles flex-row text-color">No related articles <i class="fa fa-newspaper-o text-primary element-title m-l-10" aria-hidden="true"></i></p>
-                    </div>
+                  </a>
                 </div>
-
-
-            @endif
+              </div>
+            </div>
          </div>
       </div>
       <div class="col-sm-4 tes">
@@ -622,10 +569,15 @@ $additionalData = ['job'=>$job];
                               @php
                               $nextActionBtn =$job->getNextActionButton();
                               @endphp
-                        <a class="Btn-status" @if($job->status != 5) data-toggle="modal" data-target="#confirmBox" href="#" @else href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"  @endif >
-                        <button type="button" class="btn fnb-btn outline full border-btn upgrade" @if($job->status == 3) data-toggle="tooltip" data-placement="top" title="Remove this Job." @endif>{{ $nextActionBtn['status'] }}</button></a>
-                          
-                           
+
+                              @if($job->status != 5)
+                                  <a class="Btn-status" data-toggle="modal" data-target="#confirmBox" href="#"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @elseif($nextActionBtn['id'] == '2')
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"  ><button type="button" class="btn fnb-btn outline full border-btn upgrade">Submit Job</button></a>
+                              @else    
+                                  <a class="Btn-status" href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}"><button type="button" class="btn fnb-btn outline full border-btn upgrade">{{ $nextActionBtn['status'] }}</button></a>
+                              @endif
+
                           @endif
                        </div>
                     </div>
@@ -681,7 +633,7 @@ $additionalData = ['job'=>$job];
 
                       <!-- Popover data ends -->
 
-                      <a href="#" rel="popover" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
+                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif
@@ -875,7 +827,7 @@ $additionalData = ['job'=>$job];
          <!-- browse category -->
          <div class="browse-cat list-of-business">
             <h6 class="element-title">FnB Circle also has business listings</h6>
-            <span class="text-lighter heavier">Below are some top categories</span>
+            <span class="text-lighter">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, doloribus.</span>
             <ul class="browse-cat__list m-t-20">
                <li>
                   <a href="">
@@ -1296,7 +1248,7 @@ $additionalData = ['job'=>$job];
                                   <a href="{{ url('customer-dashboard') }}?job={{ $job->reference_id}}"><button class="btn fnb-btn primary-btn border-btn" type="button">Modify <i class="fa fa-pencil"></i></button></a>
                                   <!-- <button class="btn fnb-btn outline border-btn" type="submit"><i class="fa fa-undo" aria-hidden="true"></i> Undo</button>  -->
                                   @if($jobApply)
-                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
+                                  <a href="{{ url('/users/send-alert-for-job/'.$job->reference_id) }}?ref_type=save_job_config" class="btn fnb-btn outline border-btn" type="submit">Save <i class="fa fa-check-circle" aria-hidden="true"></i></a> 
                                   @endif
                               </div>
                                

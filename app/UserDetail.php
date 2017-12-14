@@ -3,21 +3,24 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Description;
+use UserDescription;
 
 class UserDetail extends Model
 {
     //
-
     public function getUserSubtypes() { // Will return the Key("Referred in DB & Code")-Value("Referred in Template") pair of UserDetail->subtype
-    	return [
-    		"hospitality" => "Hospitality Business Owner",
-    		"professional" => "Working Professional",
-    		"vendor" => "Vendor/Supplier/Service provider",
-    		"student" => "Student",
-    		"enterpreneur" => "Prospective Entrepreneur",
-    		"others" => "Others"
-    	];
+        return [
+         "hospitality" => "Hospitality Business Owner",
+         "professional" => "Working Professional",
+         "vendor" => "Vendor/Supplier/Service provider",
+         "student" => "Student",
+         "enterpreneur" => "Prospective Entrepreneur",
+         "others" => "Others"
+        ];
+
     }
+    
 
 	public function getUser() { 
 		return $this->belongsTo('App\User', 'user_id');
@@ -87,16 +90,20 @@ class UserDetail extends Model
     }
 
     public function getSavedUserSubTypes(){
-        $subtype = $this->getUserSubtypes();
-        $userSubTypes = unserialize($this->subtype);
-        $savedSubTypes = [];
-        if(!empty($userSubTypes)){
-            foreach ($userSubTypes as $userSubType) {
-                $savedSubTypes[$userSubType] = $subtype[$userSubType];
-            }
-        }
+        // $subtype = $this->getUserSubtypes();
+        // $userSubTypes = unserialize($this->subtype);
+        // $savedSubTypes = [];
+        // if(!empty($userSubTypes)){
+        //     foreach ($userSubTypes as $userSubType) {
+        //         $savedSubTypes[$userSubType] = $subtype[$userSubType];
+        //     }
+        // }
         
-
+        $subtype = $this->getUser->getUserSubtypes()->get();
+        $savedSubTypes = [];
+        foreach ($subtype as $userSubType) {
+            $savedSubTypes[$userSubType->value] = $userSubType->title;
+        }
         return $savedSubTypes;
  
     }

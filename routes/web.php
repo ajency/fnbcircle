@@ -221,7 +221,23 @@ Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 //
 //});
 
- 
+/**Import CSV test endpoints BEGINS**/
+Route::get('/aj/importfile', 'AjFileImportController@showUploadFile')->name('showfileupload');
+
+Route::get('/aj/viewdataforimport', 'AjFileImportController@downloadTemptableDataCsv')->name('downloadtemptablecsv');
+
+
+/*Test routes */
+
+// test ajax function
+Route::get('/testschedule', 'AjFileImportController@testSchedule');
+
+Route::post('/aj/startajimport', 'AjFileImportController@uploadFile');
+
+/**Import CSV test endpoints ENDS**/
+
+
+
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');

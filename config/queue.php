@@ -64,6 +64,13 @@ return [
             'retry_after' => 90,
         ],
 
+        'ajfileimportcon' => [
+           'driver' => 'database',
+           'table' => 'aj_import_jobs',
+           'queue' => 'default',
+           'retry_after' => 90,
+       ]
+
     ],
 
     /*

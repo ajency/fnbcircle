@@ -17,5 +17,5 @@ app/Http/Controllers/TestController\.php
 public/bower_components/
 resources/views/errors/error.blade.php
 public/news/wp-config.php
- 
+public/news/wp-content/uploads 
 

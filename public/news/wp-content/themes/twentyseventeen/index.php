@@ -199,10 +199,10 @@ $wp_query = NULL;
 $wp_query = $temp_query;
 ?>
 <div class="clear"></div>
-<br>
 
 
-<h3 class="bold-t recent_news_title">Latest News</h3>
+
+<h3 class="bold-t recent_news_title p-t-20">Latest News</h3>
 <p class="text-lighter">Latest breaking news in hospitality sector.</p>	
 
 <hr>

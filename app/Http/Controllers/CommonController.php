@@ -306,7 +306,7 @@ class CommonController extends Controller
         }else{
             $details = [
                 'total_listings' => $user->listing()->count() ,
-                'published_listings' =>  $user->listing()->where('status','3')->count(),
+                'published_listings' =>  $user->listing()->where('status','1')->count(),
                 'total_jobs' =>  $user->jobs()->count(),
                 'published_jobs' =>  $user->jobs()->where('status','3')->count(),
                 'jobs_applied' =>  $user->applications()->count(),

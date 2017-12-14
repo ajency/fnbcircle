@@ -11,6 +11,7 @@ use Conner\Tagging\Model\TagGroup;
 use Ajency\FileUpload\FileUpload;
 use Carbon\Carbon;
 use Auth;
+use App\Http\Controllers\CommonController;
 use App\Defaults;
 
 class Listing extends Model
@@ -142,6 +143,9 @@ class Listing extends Model
                 $this->owner_id = Auth::user()->id;
                 $this->verified = 1;
                 $this->source = 'external_user';
+                $common = new CommonController;
+                $common->updateUserDetails(Auth::user());
+
             }else{
                 $this->owner_id = null; 
                 $this->source = ($import)? 'import': 'internal_user'; 

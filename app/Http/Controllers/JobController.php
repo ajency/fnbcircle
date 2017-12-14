@@ -170,7 +170,7 @@ class JobController extends Controller
         $job->premium = 0;
         $job->save();
         $common = new CommonController;
-        $common->updateUserDetails($Auth::user());
+        $common->updateUserDetails(Auth::user());
         $jobId = $job->id;
         
         $this->addJobLocation($job,$jobArea);

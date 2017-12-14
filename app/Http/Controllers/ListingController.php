@@ -54,6 +54,8 @@ class ListingController extends Controller
         if($user != null){
             $listing->owner_id = $user->id;
             $listing->save();
+            $common = new CommonController;
+            $common->updateUserDetails($user);
             if($user_details->sendmail == "true"){    
                 $area = Area::with('city')->find($listing->locality_id);
                 $email = [
@@ -98,6 +100,9 @@ class ListingController extends Controller
                 }
                 $listing->owner_id = $user_resp["user"]->id;
                 $listing->save();
+                $common = new CommonController;
+                $common->updateUserDetails($user_resp["user"]);
+
                 //send email here
                 if($user_details->sendmail == "true"){ 
                     $user = Password::broker()->getUser(['email'=>$user_details->email]);

@@ -5191,6 +5191,7 @@ input[type=checkbox].custom-checkbox:before {
   background-color: #f3f3f3;
   position: relative;
   padding-top: 4em;
+  margin-top: -1em;
 }
 .verification-modal .suppliers-data .direction-down {
   display: inline-block;
@@ -6322,6 +6323,10 @@ input[type=checkbox].custom-checkbox:before {
   .new-changes .single-contact-section .contact .contact-social .share-btn {
     padding: 0.8em 1em;
   }
+  .new-changes .single-contact-section .show-contact {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1em;
+  }
 }
 .pending-stuff .fa-clock-o {
   margin-right: 5px;
@@ -7008,6 +7013,18 @@ input[type=checkbox].custom-checkbox:before {
 }
 .job-alert-confirm .custom-pop-btn.no {
   color: #d0021b;
+}
+.icon-notation {
+  font-size: 0.7em;
+  margin-top: -1em;
+}
+.icon-notation .scale-down {
+  width: 25px;
+  position: relative;
+  top: -1px;
+  -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
 }
 .hot-job-section {
   padding: 1em 1.5em;

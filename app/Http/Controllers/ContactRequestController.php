@@ -187,7 +187,7 @@ class ContactRequestController extends Controller
         //send sms to lead/user
         $sms_contacts = $listing->getAllContacts(true);
         $message = "Hi ".$name." \nPlease find below contact details of the listing. \nListing Name: ".$listing->title;
-        if($sms_contacts['emails'] !="")$message.= "\nEmail: ".$sms_contacts['emails'];
+        if($sms_contacts['email'] !="")$message.= "\nEmail: ".$sms_contacts['email'];
         if($sms_contacts['mobile'] !="")$message.= "\nPhone: ".$sms_contacts['mobile'];
         if($sms_contacts['landline'] !="")$message.= "\nLandline: ".$sms_contacts['landline'];
         $sms_data = [

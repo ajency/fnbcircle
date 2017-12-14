@@ -206,7 +206,7 @@
                             </div>
                             <div class="seller-info__footer p-t-20 single-contact-section">
                                 <div class="contact flex-row space-between flex-wrap">
-                                    <div class="contact__info flex-row">
+                                    <div class="contact__info flex-row show-contact">
                                         @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
                                         <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
                                         @endif
@@ -223,7 +223,7 @@
                                         <p class="contact__title"><i>Published on 20 Dec 2016</i></p>
                                     </div> -->
                                     @if(isset($data['publish_date']) and $data['status']['id'] == '1')
-                                    <div class="dropdown social-drop contact-social">
+                                    <div class="dropdown social-drop contact-social mobile-hide">
                                         <button type="button" class="share-btn flex-row" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-share-alt p-r-5" aria-hidden="true"></i> Share <i class="fa fa-caret-down p-l-5" aria-hidden="true"></i></button>
                                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                                             <div class="shareRoundIcons"></div>
@@ -772,9 +772,7 @@
                             </div> 
                             
                                 <div class="contact__enquiry mobile--enquiry text-center">
-                                @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                                    <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
-                                @endif                        
+                                                      
                                 @if($data['status']['id']==1)
                                     <p class="contact__title lighter">This listing got <b>10+</b> enquiries</p>
                                     <button class="btn fnb-btn primary-btn full border-btn enquiry-modal-btn" type="button" data-toggle="modal" data-target="#enquiry-modal"><i class="p-r-5 fa fa-paper-plane-o" aria-hidden="true"></i> Send an Enquiry</button>

@@ -2504,6 +2504,7 @@
     	background-color: #f3f3f3;
     	position: relative;
     	padding-top: 4em;
+    	margin-top: -1em;
     	.direction-down{
     		display: inline-block;
     	}
@@ -3619,6 +3620,10 @@ and (max-device-width: 650px) {
     			padding: 0.8em 1em;
     		}
 		}
+		.show-contact{
+			border-bottom: 1px solid #ddd;
+    		padding-bottom: 1em;
+		}
 	}
 }
 
@@ -4449,9 +4454,19 @@ and (max-device-width: 650px) {
 	    &.no{
 	    	color: @danger;
 	    }
-    }
+	}
 }
 
+.icon-notation{
+	font-size: 0.7em;
+    margin-top: -1em;
+    .scale-down{
+    	width: 25px;
+    	position: relative;
+    	top: -1px;
+    	transform: scale(0.5);
+    }
+}
 
 
 // single view hot job section
@@ -4463,8 +4478,4 @@ and (max-device-width: 650px) {
     	top: -5px;
 	}
 }
-
-
-
-
 

@@ -285,6 +285,10 @@ class AdminModerationController extends Controller
                     $listing->status = Listing::PUBLISHED;
                     $listing->published_on = Carbon::now();
                     $listing->save();
+                    if($listing->owner_id != null){
+                        $common = new CommonController;
+                        $common->updateUserDetails($listing->owner);
+                    }
                     ($listing->owner_id == null)?
                     activity()
                        ->performedOn($listing)

@@ -455,23 +455,7 @@
   });
 
   $(document).on('click', 'input[name="send_alert"]', function() {
-    var ref, sendAlerts;
-    sendAlerts = (ref = $(this).is(":checked")) != null ? ref : {
-      1: 0
-    };
-    return $.ajax({
-      type: 'get',
-      url: '/user/send-job-alerts',
-      data: {
-        'send_alert': sendAlerts
-      },
-      success: function(data) {
-        $('.edit-criteria').removeClass('hidden');
-      },
-      error: function(request, status, error) {
-        throwError();
-      }
-    });
+    return $('.edit-criteria').removeClass('hidden');
   });
 
   $('body').on('click', '.removelocRow', function() {

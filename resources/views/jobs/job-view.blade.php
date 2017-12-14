@@ -633,7 +633,7 @@ $additionalData = ['job'=>$job];
 
                       <!-- Popover data ends -->
 
-                      <a href="#" rel="popover" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
+                      <a href="#" rel="popover" data-trigger="focus" data-popover-content="#list-popover" data-placement="bottom" class="open-popup-alert secondary-link p-l-20 dis-block" title="@if($hasAlertConfig) Do you want to update Job Alert Configuration? @else Do you want to create Job Alert Configuration @endif">
                     @else
                       <a href="#" class="login secondary-link" data-toggle="modal" data-target="#login-modal">
                     @endif

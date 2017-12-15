@@ -6,6 +6,7 @@ $ajimport_config['batchsize'] = "100";
 $ajimport_config['recipient'] = "parag@ajency.in";
 
 $ajimport_config['temptablename'] = 'aj_import_temp';
+$ajimport_config['temptable_default_fields'] = array("tmp_source"=>'y');
 //$ajimport_config['filepath']  = resource_path('uploads') . "/filetoimport.csv";
 
 $ajimport_config['fileheader'] = array(
@@ -77,8 +78,18 @@ $ajimport_config['childtables'][] = array(
     ),
     'fields_map'                              => array(
     //'temp table field'=>'child table field')
-        "Email1" => "email"
-    )
+        "Email1"    => "email",
+        "Email1"      => "name"
+    ),
+    'default_values'        => array(
+    //array("user communication column name"=>"default value for the column")
+        "password"                      => '$2y$10$n1vUiqzSSGmD/3E8IddIw.ZiGiRup3tNf7WjZChIeJcCaOdpd8muK', 
+        "type"                          => "external",
+        'has_required_fields_filled'    => '0',
+        "status"                        =>"inactive",
+        "signup_source"                 =>"import"
+
+    ), 
 ); 
 
 // user communication one for email after user entry
@@ -91,9 +102,12 @@ $ajimport_config['childtables'][] = array(
         "users_id"  => "object_id"
     ),
     'default_values'        => array(
-    //array("user communication column name"=>"default value for the column")
-        "object_type"   => "App\User", 
-        "type"          => "email"
+        "object_type"       => "App\User", 
+        "type"              => "email",
+        "is_primary"        => "1",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
     ), 
 );
 
@@ -107,12 +121,17 @@ $ajimport_config['childtables'][] = array(
     ),
     'default_values'        => array(
         "object_type"   => "App\User", 
-        "type"          => "mobile"
+        "type"          => "mobile",
+        "is_primary"        => "1",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
+        "country_code"      => "91"
     ), 
 );
 
 $ajimport_config['childtables'][] = array(
-    'name' => 'listings',
+    'name'                                    => 'listings',
     'insertid_childtable'                     => 'id',
     'is_mandatary_insertid'                   => 'yes',
     'insertid_temptable'                      => array(

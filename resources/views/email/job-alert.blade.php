@@ -7,7 +7,7 @@
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> {{ $username}}  </b></p>
+          <p>Hi <b style="color: #7f7f7f;"> {{ $username}}  </b>,</p>
          
           
         </div>

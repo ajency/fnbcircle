@@ -127,6 +127,7 @@ Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
 Route::get('user-confirmation/{token}', 'Auth\RegisterController@userConfirmation');
 Route::get('send-confirmation-link', 'Auth\RegisterController@sendConfirmationLink');
+Route::get('/job-cron/{type}','JobController@runCron');
 
 
 /**

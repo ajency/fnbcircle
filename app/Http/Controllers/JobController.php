@@ -1476,7 +1476,18 @@ class JobController extends Controller
 
     }
 
- 
+    public function runCron($type){
+        if($type=='job-alert'){
+            $this->sendJobAlert();
+        }
+        elseif($type=='notification'){
+            sendNotifications();
+        }
+        elseif($type=='archive-job'){
+            archivePublishedJobs();
+        }
+        echo ":)"; 
+    }
 
 
     /**

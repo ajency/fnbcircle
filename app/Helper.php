@@ -494,15 +494,15 @@ function generateJobListUrl($params,$urlCity,$userObj){
 		}
 	}
 
-	if(isset($params['salary_type_text'])){
+	if(isset($params['salary_type_text']) && $params['salary_type_text']!=''){
 		$url .='&salary_type='.str_slug($params['salary_type_text']);
 	}
 
-	if(isset($params['salary_lower'])){
+	if(isset($params['salary_lower']) && $params['salary_lower']!=''){
 		$url .='&salary_lower='.$params['salary_lower'];
 	}
 
-	if(isset($params['salary_upper'])){
+	if(isset($params['salary_upper']) && $params['salary_upper']!=''){
 		$url .='&salary_upper='.$params['salary_upper'];
 	}
 
@@ -510,7 +510,7 @@ function generateJobListUrl($params,$urlCity,$userObj){
 		$url .='&business_type='.$params['category_slug'];
 	}
 
-	if(isset($params['job_type_text'])){
+	if(isset($params['job_type_text']) && !empty($params['job_type_text'])){
 		$url .='&job_type=[';
 		foreach ($params['job_type_text'] as $key => $jobType) {
 			$url .= '"'.str_slug($jobType).'",';
@@ -519,7 +519,7 @@ function generateJobListUrl($params,$urlCity,$userObj){
 		$url .= ']';
 	}
 
-	if(isset($params['experience'])){
+	if(isset($params['experience']) && !empty($params['experience'])){
 		$url .='&experience=[';
 		foreach ($params['experience'] as $key => $exp) {
 			$url .= '"'.str_slug($exp).'",';
@@ -528,16 +528,8 @@ function generateJobListUrl($params,$urlCity,$userObj){
 		$url .= ']';
 	}
 
-	if(isset($params['experience'])){
-		$url .='&experience=[';
-		foreach ($params['experience'] as $key => $exp) {
-			$url .= '"'.str_slug($exp).'",';
-		}
-		$url = rtrim($url, ",");
-		$url .= ']';
-	}
 
-	if(isset($params['keywords_id'])){
+	if(isset($params['keywords_id']) && !empty($params['keywords_id'])){
 		$url .='&job_roles=[';
 		foreach ($params['keywords_id'] as $keywordId => $keyword) {
 			$url .= '"'.$keywordId.'|'.str_slug($keyword).'",';

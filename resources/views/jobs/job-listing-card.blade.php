@@ -21,8 +21,8 @@
                       <p class="location__title default-size m-b-0 text-lighter">{{ $job->getJobCompany()->title }}</p>
                       @endif
 
-                      @if($job->jobPostedOn()!="")
-                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on: {{ $job->jobPostedOn() }}</i></p>
+                      @if($job->jobPublishedOn()!="")
+                      <p class="m-b-0 text-lighter default-size lighter published-date"><i>Posted on: {{ $job->jobPublishedOn() }}</i></p>
                        @endif
  
                   </div>

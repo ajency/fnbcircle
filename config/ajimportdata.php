@@ -55,7 +55,7 @@ $ajimport_config['fileheader'] = array(
         'BusinessHighlight2', 
         'BusinessHighlight3', 
         'BusinessHighlight4', 
-    'YearofEstablishment', 
+    'YearOfEstablishment', 
     'BusinessWebsite', 
     'OnlineBanking', 'OnlineBanking_val', 
         'OnCredit', 'OnCredit_val', 
@@ -142,16 +142,17 @@ $ajimport_config['childtables'][] = array(
     ),
     'fields_map_to_update_temptable_child_id' => array(
         "BusinessName"  => "title", 
-        "City_id"      => "locality_id", 
+        "City_id"       => "locality_id", 
         "users_id"      => "owner_id"
     ),
     'fields_map'                              => array(
-        "BusinessName"   => "title", 
-        "DisplayAddress" => "display_address",
-        "BusinessType"  => "type", 
-        "City_id"       => "locality_id", 
-        "users_id"       => "owner_id",
-        "ReferenceId"      => "reference",
+        "BusinessName"          => "title", 
+        "DisplayAddress"        => "display_address",
+        "BusinessType"          => "type", 
+        "City_id"               => "locality_id", 
+        "users_id"              => "owner_id",
+        "ReferenceId"           => "reference",
+        "BusinessDescription"   => "description"
     ), 
     'columnupdatevalues'                      => array(
         'BusinessType'  => array(
@@ -164,10 +165,33 @@ $ajimport_config['childtables'][] = array(
     'serializevalues'                         => array(
         'other_details' => array(
             'website'           => 'BusinessWebsite', 
-            'establish_year'    => 'YearofEstablishment'
+            'establish_year'    => 'YearOfEstablishment'
+        ),
+        'payment_modes' => array(
+            "online"    => "OnlineBanking_val",
+            "credit"    => "OnCredit_val",
+            "cards"     => "CreditDebitCards_val",
+            "wallets"   => "eMobileWallets_val",
+            "cod"       => "CashOnDelivery_val",
+            "ussd"      => "USSD_AEPS_UPI_val",
+            "cheque"    => "Cheque_val",
+            "draft"     => "Draft_val"
         ),
     ),
-
+    /* multiple columns as array value to field on child table*/
+    'colstoarrayfield'                        => array(
+        'highlights' => array(
+            'BusinessHighlight1',
+            'BusinessHighlight2',
+            'BusinessHighlight3',
+            'BusinessHighlight4', 
+        )
+    ),
+    'default_values'                          => array(
+        'source'                => 'import',
+        'show_primary_email'    => 1,
+        'show_primary_phone'    => 1,
+    ),
 );
 // user communication one for email after listings table  entry
 $ajimport_config['childtables'][] = array(
@@ -179,7 +203,11 @@ $ajimport_config['childtables'][] = array(
     ), 
     'default_values'        => array(
         "object_type"   => "App\Listing", 
-        "type"          => "email"
+        "type"          => "email",
+        "is_primary"        => "1",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
     ), 
 );
 
@@ -193,7 +221,12 @@ $ajimport_config['childtables'][] = array(
     ), 
     'default_values'  => array(
         "object_type"   => "App\Listing", 
-        "type"          => "mobile"
+        "type"          => "mobile",
+        "is_primary"        => "0",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
+        "country_code"      => "91"
     ), 
 );
 
@@ -208,7 +241,12 @@ $ajimport_config['childtables'][] = array(
     ),
     'default_values'            => array(
         "object_type"   => "App\Listing", 
-        "type"          => "landline"
+        "type"          => "landline",
+        "is_primary"        => "0",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
+        "country_code"      => "91"
     ),
 );
 
@@ -222,19 +260,90 @@ $ajimport_config['childtables'][] = array(
     ),
     'default_values'            => array(
         "object_type"   => "App\Listing", 
-        "type"          => "landline"
+        "type"          => "landline",
+        "is_primary"        => "0",
+        "is_communication"  => "1",
+        "is_verified"       => "0",
+        "is_visible"        => "1",
+        "country_code"      => "91"
     ),
 );
 
 
+$ajimport_config['childtables'][] = array(
+    'name'                   => 'listing_category',
+    'is_mandatary_insertid'  => 'no',
+    'fields_map'             => array(
+        "listings_id" => "listing_id"
+    ), 
+    'fields_to_multirecords' => array(
+    //Does not support for multiple comma seperated fields into new records as array here. If more than one field is of type comma seperated and needs to be seperate records, add it as seperate childtable record
+        'category_id' => array(
+            'CoreCategory1_id',
+            'CoreCategory2_id',
+            'CoreCategory3_id',
+            'CoreCategory4_id',
+            'CoreCategory5_id',
+            'CoreCategory6_id',
+            'CoreCategory7_id',
+            'CoreCategory8_id',
+            'CoreCategory9_id',
+            'CoreCategory10_id',
+        )
+    ), 
+    'default_values'         => array(
+        "core" => "1"
+    ),
+);
 
-// $ajimport_config['childtables'][] = array('name' => 'listing_category',
-//     'is_mandatary_insertid'                          => 'no',
-//     'fields_map'                                     => array("listings_id" => "listing_id"), //'temp table field'=>'child table field'
-//     'default_values'                                 => array("object_type" => "App\Listing", "type" => "email"), //array("user communication column name"=>"default value for the column")
-//     'commafield_to_multirecords'                     => array('Business_Details' => 'category_id'), //Does not support for multiple comma seperated fields into new records as array here. If more than one field is of type comma seperated and needs to be seperate records, add it as seperate childtable record
-//     'default_values'                                 => array("core" => "1"), //array("user communication column name"=>"default value for the column")
-// );
+$ajimport_config['childtables'][] = array(
+    'name'                   => 'listing_areas_of_operations',
+    'is_mandatary_insertid'  => 'no',
+    'fields_map'             => array(
+        "listings_id" => "listing_id"
+    ), 
+    'fields_to_multirecords' => array(
+        'area_id' => array(
+            'AreaOfOperation1_id',
+            'AreaOfOperation2_id',
+            'AreaOfOperation3_id',
+            'AreaOfOperation4_id',
+            'AreaOfOperation5_id',
+            'AreaOfOperation6_id',
+            'AreaOfOperation7_id',
+            'AreaOfOperation8_id',
+            'AreaOfOperation9_id',
+            'AreaOfOperation10_id',
+        )
+    ), 
+);
+
+
+$ajimport_config['childtables'][] = array(
+    'name'                   => 'tagging_tagged',
+    'is_mandatary_insertid'  => 'no',
+    'fields_map'             => array(
+        "listings_id" => "taggable_id"
+    ), 
+    'fields_to_multirecords' => array(
+        'tag-slug' => array(
+            'Brand1_id',
+            'Brand2_id',
+            'Brand3_id',
+            'Brand4_id',
+            'Brand5_id',
+            'Brand6_id',
+            'Brand7_id',
+            'Brand8_id',
+            'Brand9_id',
+            'Brand10_id',
+        )
+    ),
+    'default_values'         => array(
+        "taggable_type" => "App\Listing"
+    ),
+);
+
 
 /* End Add Child tables here */
 

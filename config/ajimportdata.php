@@ -2,7 +2,7 @@
 
 $ajimport_config['filetype']  = "csv";
 $ajimport_config['delimiter'] = ",";
-$ajimport_config['batchsize'] = "100";
+$ajimport_config['batchsize'] = "1";
 $ajimport_config['recipient'] = "parag@ajency.in";
 
 $ajimport_config['temptablename'] = 'aj_import_temp';
@@ -41,27 +41,31 @@ $ajimport_config['fileheader'] = array(
         'Brand10', 'Brand10_id', 
     'DisplayAddress', 
     'AreaOfOperation1', 'AreaOfOperation1_id', 
-        'AreaOfOperation2',// 'AreaOfOperation2_id', 
-        'AreaOfOperation3',// 'AreaOfOperation3_id', 
-        'AreaOfOperation4',// 'AreaOfOperation4_id', 
-        'AreaOfOperation5',// 'AreaOfOperation5_id', 
-        'AreaOfOperation6',// 'AreaOfOperation6_id', 
-        'AreaOfOperation7',// 'AreaOfOperation7_id', 
-        'AreaOfOperation8', //'AreaOfOperation8_id', 
-        'AreaOfOperation9',// 'AreaOfOperation9_id', 
-        'AreaOfOperation10',// 'AreaOfOperation10_id', 
+        'AreaOfOperation2', 'AreaOfOperation2_id', 
+        'AreaOfOperation3', 'AreaOfOperation3_id', 
+        'AreaOfOperation4', 'AreaOfOperation4_id', 
+        'AreaOfOperation5', 'AreaOfOperation5_id', 
+        'AreaOfOperation6', 'AreaOfOperation6_id', 
+        'AreaOfOperation7', 'AreaOfOperation7_id', 
+        'AreaOfOperation8', 'AreaOfOperation8_id', 
+        'AreaOfOperation9', 'AreaOfOperation9_id', 
+        'AreaOfOperation10', 'AreaOfOperation10_id', 
     'BusinessDescription', 
-    'BusinessHighlights', 
+    'BusinessHighlight1', 
+        'BusinessHighlight2', 
+        'BusinessHighlight3', 
+        'BusinessHighlight4', 
     'YearofEstablishment', 
     'BusinessWebsite', 
-    'OnlineBanking', 
-        'OnCredit', 
-        'Credit-DebitCards', 
-        'E-MobileWallets', 
-        'CashOnDelivery', 
-        'USSD-AEPS-UPI', 
-        'Cheque', 
-        'Draft', 
+    'OnlineBanking', 'OnlineBanking_val', 
+        'OnCredit', 'OnCredit_val', 
+        'CreditDebitCards', 'CreditDebitCards_val',
+        'eMobileWallets', 'eMobileWallets_val', 
+        'CashOnDelivery', 'CashOnDelivery_val', 
+        'USSD_AEPS_UPI', 'USSD_AEPS_UPI_val',
+        'Cheque', 'Cheque_val',
+        'Draft', 'Draft_val',
+    'ReferenceId', 
 );
 
 $ajimport_config['childtables'][] = array(
@@ -79,7 +83,6 @@ $ajimport_config['childtables'][] = array(
     'fields_map'                              => array(
     //'temp table field'=>'child table field')
         "Email1"    => "email",
-        "Email1"      => "name"
     ),
     'default_values'        => array(
     //array("user communication column name"=>"default value for the column")
@@ -87,8 +90,8 @@ $ajimport_config['childtables'][] = array(
         "type"                          => "external",
         'has_required_fields_filled'    => '0',
         "status"                        =>"inactive",
-        "signup_source"                 =>"import"
-
+        "signup_source"                 =>"import",
+        "name"                          =>"imported user"
     ), 
 ); 
 
@@ -138,20 +141,20 @@ $ajimport_config['childtables'][] = array(
         'listings_id' => 'id'
     ),
     'fields_map_to_update_temptable_child_id' => array(
-        "Company_Name"  => "title", 
-        "areas_id"      => "locality_id", 
+        "BusinessName"  => "title", 
+        "City_id"      => "locality_id", 
         "users_id"      => "owner_id"
     ),
     'fields_map'                              => array(
-        "Company_Name"   => "title", 
+        "BusinessName"   => "title", 
         "DisplayAddress" => "display_address",
-        "Business_Type"  => "type", 
-        "areas_id"       => "locality_id", 
+        "BusinessType"  => "type", 
+        "City_id"       => "locality_id", 
         "users_id"       => "owner_id",
-        "Reference"      => "reference",
+        "ReferenceId"      => "reference",
     ), 
     'columnupdatevalues'                      => array(
-        'Business_Type'  => array(
+        'BusinessType'  => array(
             "Wholeseller"   => 11, 
             "Retailer"      => 12, 
             "Manufacturer"  => 13
@@ -160,8 +163,8 @@ $ajimport_config['childtables'][] = array(
     /*serialize array form at array('column on tagle'=>array of values to be serialized where key will be a static provided by user and value will be field from temp table)    */
     'serializevalues'                         => array(
         'other_details' => array(
-            'website'           => 'Web', 
-            'establish_year'    => 'Year'
+            'website'           => 'BusinessWebsite', 
+            'establish_year'    => 'YearofEstablishment'
         ),
     ),
 

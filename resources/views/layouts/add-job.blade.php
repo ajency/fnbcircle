@@ -137,7 +137,9 @@
                                                 @if($job->status != 5)
                                                     <a data-toggle="modal" data-target="#confirmBox" href="#">{{ $nextActionBtn['status'] }}</a>
                                                 @elseif($nextActionBtn['id'] == '2')
+                                                    @if(!$isPremiumPage)
                                                     <a  href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}"  >Submit Job</a>
+                                                    @endif
                                                 @else    
                                                     <a href="{{ url('/jobs/'.$job->reference_id.'/update-status/'.str_slug($nextActionBtn['status'])) }}">{{ $nextActionBtn['status'] }}</a>
                                                 @endif

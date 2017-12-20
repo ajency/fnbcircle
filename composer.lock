@@ -58,29 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-<<<<<<< HEAD
-            "version": "3.45.3",
+            "version": "3.47.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d0abb0b1194fa64973b135191f56df991bc5787c"
+                "reference": "6707345b9e6d670aa45209310b930857043a4557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d0abb0b1194fa64973b135191f56df991bc5787c",
-                "reference": "d0abb0b1194fa64973b135191f56df991bc5787c",
-=======
-            "version": "3.46.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "097abac2676b99ed38af986c3d8d8f3528a5788b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/097abac2676b99ed38af986c3d8d8f3528a5788b",
-                "reference": "097abac2676b99ed38af986c3d8d8f3528a5788b",
->>>>>>> 1190aac44a869fc31bf42a1228ed58f6c8abd4a8
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6707345b9e6d670aa45209310b930857043a4557",
+                "reference": "6707345b9e6d670aa45209310b930857043a4557",
                 "shasum": ""
             },
             "require": {
@@ -147,11 +134,7 @@
                 "s3",
                 "sdk"
             ],
-<<<<<<< HEAD
-            "time": "2017-12-08T21:36:50+00:00"
-=======
-            "time": "2017-12-11T22:12:17+00:00"
->>>>>>> 1190aac44a869fc31bf42a1228ed58f6c8abd4a8
+            "time": "2017-12-12T20:10:41+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1936,16 +1919,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "2.3.1",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "11f933aebe1eeb04f683c4d74118bd4caaea9fe1"
+                "reference": "126d7399ee6d269af5f6190a8407f747acf490e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/11f933aebe1eeb04f683c4d74118bd4caaea9fe1",
-                "reference": "11f933aebe1eeb04f683c4d74118bd4caaea9fe1",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/126d7399ee6d269af5f6190a8407f747acf490e5",
+                "reference": "126d7399ee6d269af5f6190a8407f747acf490e5",
                 "shasum": ""
             },
             "require": {
@@ -2003,7 +1986,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2017-11-13T10:31:04+00:00"
+            "time": "2017-12-13T21:13:56+00:00"
         },
         {
             "name": "spatie/laravel-permission",

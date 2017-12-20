@@ -2782,7 +2782,7 @@
 			margin-top: 3em;
     		align-items: flex-start;
     		.fa{
-    			font-size: 3em;
+    			font-size: 2em;
     		}
     		&__text{
     			padding-right: 0;
@@ -2794,6 +2794,20 @@
     			font-size: 1.25em;
     			margin-bottom: 0.5em;
     		}
+		}
+		&.contact-modal{
+			.enquiry-success{
+				margin-top: 1em;
+			}
+			.name-mentioned{
+				display: flex;
+    			flex-wrap: inherit;
+    			align-items: flex-start;
+    			.exclamation{
+    				width: 62px;
+    				transform: scale(0.8);
+    			}
+			}
 		}
 		.contact-success{
 			.owner-detail{
@@ -3393,6 +3407,11 @@ and (max-device-width: 650px) {
     			padding: 0;
     			.c-title{
     				display: block;
+    			}
+    		}
+    		&.stat-section{
+    			.verified{
+    				margin-right: 0;
     			}
     		}
     		.fnb-label{

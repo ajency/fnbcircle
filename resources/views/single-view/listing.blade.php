@@ -208,7 +208,7 @@
                                 <div class="contact flex-row space-between flex-wrap">
                                     <div class="contact__info flex-row show-contact">
                                         @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
                                         @endif
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->

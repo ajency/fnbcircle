@@ -68,6 +68,17 @@ $ajimport_config['fileheader'] = array(
     'ReferenceId', 
 );
 
+/**
+ * config to update any id column(for ex user_id) based on set of fields from child table(for ex user_communication table)
+ */
+$ajimport_config['tables_to_update_temp'][] = array(
+    'name'                                            => 'user_communications',
+    /*  'insertid_childtable'                            => 'id',*/
+    'insertid_temptable'                              => array('users_id' => 'object_id'),
+    'fields_map_to_update_temptable_child_id'         => array("Email1" => "value"),
+    'default_fields_map_to_update_temptable_child_id' => array("type" => "email", "object_type" => "App\User"),
+);
+
 $ajimport_config['childtables'][] = array(
     'name'                                    => 'users', 
     'insertid_childtable'                     => 'id',
@@ -152,7 +163,7 @@ $ajimport_config['childtables'][] = array(
         "City_id"               => "locality_id", 
         "users_id"              => "owner_id",
         "ReferenceId"           => "reference",
-        "BusinessDescription"   => "description"
+        // "BusinessDescription"   => "description"
     ), 
     'columnupdatevalues'                      => array(
         'BusinessType'  => array(
@@ -326,7 +337,7 @@ $ajimport_config['childtables'][] = array(
         "listings_id" => "taggable_id"
     ), 
     'fields_to_multirecords' => array(
-        'tag-slug' => array(
+        'tag_slug' => array(
             'Brand1_id',
             'Brand2_id',
             'Brand3_id',

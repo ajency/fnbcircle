@@ -163,7 +163,7 @@ $ajimport_config['childtables'][] = array(
         "City_id"               => "locality_id", 
         "users_id"              => "owner_id",
         "ReferenceId"           => "reference",
-        // "BusinessDescription"   => "description"
+        "BusinessDescription"   => "description"
     ), 
     'columnupdatevalues'                      => array(
         'BusinessType'  => array(

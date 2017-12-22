@@ -54,9 +54,9 @@ approval_table = $('#datatable-listing_approval').DataTable(
     {"data": "owner-status"}
     {"data": "duplicates"}
     {"data": "premium"}
-    {"data": "status"}
-    {"data": "status_ref"}
     {"data": "source"}
+    {"data": "status_ref"}
+    {"data": "status"}
   ]
   'select':
     'style': 'multi'

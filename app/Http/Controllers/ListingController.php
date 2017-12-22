@@ -1022,6 +1022,10 @@ class ListingController extends Controller
             saveListingStatusChange($listing, $listing->status, Listing::ARCHIVED);
             $listing->status = Listing::ARCHIVED;
             $listing->save();
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             Session::flash('statusChange', 'archive');
             return \Redirect::back();
         } else {
@@ -1040,6 +1044,10 @@ class ListingController extends Controller
             $listing->status = Listing::PUBLISHED;
             $listing->save();
             Session::flash('statusChange', 'published');
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             return \Redirect::back();
 
         } else {

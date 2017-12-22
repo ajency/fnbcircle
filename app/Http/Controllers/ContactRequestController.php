@@ -288,6 +288,7 @@ class ContactRequestController extends Controller
             }
         }
         unset($similar_id[0]);
+        if(count($similar_id) == 0) return null;
         $filters = ["listing_ids" => $similar_id];
         $listviewObj = new ListViewController;
         $listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];

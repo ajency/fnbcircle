@@ -86,14 +86,14 @@ class ContactRequestController extends Controller
             $name =  $session['name'];
             $email = $session["email"];
             $email_verified = false; 
-            $mobile = Session::get('otp_verified')['contact'];
+            $mobile = '+('.Session::get('enquiry_data')['contact_code'].')'.Session::get('enquiry_data')['contact'];
             $mobile_verified = true;
         }else{
             $name = Auth::user()->name;
             $email = Auth::user()->getPrimaryEmail();
             $email_verified = true;
             $contact = Auth::user()->getPrimaryContact();
-            $mobile = $contact['contact_region'].$contact['contact'];
+            $mobile = '+('.$contact['contact_region'].')'.$contact['contact'];
             $mobile_verified = true;
         }
         
@@ -448,6 +448,8 @@ class ContactRequestController extends Controller
                 //     "enquiry_message" => $session_payload["enquiry_message"]];
                 $session_payload["user_object_id"] = $lead_obj->id;
                 $session_payload["user_object_type"] = $lead_type;
+                $session_payload["contact"] = $session_contact["phone_no"];;
+                $session_payload["contact_code"] = $session_contact["country_code"];
 
                 Session::put('enquiry_data',$session_payload);
                 $enq_cont_obj->setOtpVerified(true, $session_contact["phone_no"]);

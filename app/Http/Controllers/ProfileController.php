@@ -687,6 +687,16 @@ class ProfileController extends Controller
 
                                 $temp['html'] .= '</dd>
                                                         </div>
+                                                        <div class="enquiriesRow__cols">
+                                                    <dt>
+                                                        What describe you best?
+                                                    </dt>
+                                                    <dd>';
+                                foreach ($temp['made-by-description'] as $value) {
+                                    $temp['html'] .= '<p class="describe-points"><i class="fa fa-hand-o-right" aria-hidden="true"></i> ' . $value . '</p>';
+                                }
+                                $temp['html'] .= '</dd>
+                                                </div>
                                                     </dl>
                                                 </div>
                                             </div>                                                

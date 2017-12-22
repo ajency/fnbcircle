@@ -224,7 +224,7 @@ class CreateDescriptionsTable extends Migration
 
         $entrepreneur = new Description;
         $entrepreneur->title = "Prospective Entrepreneur";
-        $entrepreneur->value = "entrepreneur";
+        $entrepreneur->value = "enterpreneur";
         $entrepreneur->description = "If you see yourself becoming a part of the awesome Hospitality Industry in the near or distant future";
         $entrepreneur->active = 1;
         $entrepreneur->meta = '{
@@ -233,8 +233,8 @@ class CreateDescriptionsTable extends Migration
                 "css_classes": "checkbox",
                 "id": "",
                 "name": "description[]",
-                "value": "entrepreneur",
-                "for": "entrepreneur",
+                "value": "enterpreneur",
+                "for": "enterpreneur",
                 "title": "Prospective Entrepreneur"
             },
             "listing_enquiry_description": {
@@ -242,8 +242,8 @@ class CreateDescriptionsTable extends Migration
                 "css_classes": "checkbox",
                 "id": "",
                 "name": "description[]",
-                "value": "entrepreneur",
-                "for": "entrepreneur",
+                "value": "enterpreneur",
+                "for": "enterpreneur",
                 "title": "Prospective Entrepreneur"
             },
             "enquiry_popup_display": {
@@ -252,7 +252,7 @@ class CreateDescriptionsTable extends Migration
                 "id": "",
                 "name": "",
                 "value": "",
-                "for": "entrepreneur",
+                "for": "enterpreneur",
                 "title": "Prospective Entrepreneur"
             },
             "list_view_enquiry_description": {
@@ -260,8 +260,8 @@ class CreateDescriptionsTable extends Migration
                 "css_classes": "",
                 "id": "",
                 "name": "description[]",
-                "value": "entrepreneur",
-                "for": "entrepreneur",
+                "value": "enterpreneur",
+                "for": "enterpreneur",
                 "title": "Prospective Entrepreneur"
             }
         }';

@@ -84,14 +84,17 @@ class ContactRequestController extends Controller
         if(Auth::guest()){
             $session = Session::get('enquiry_data', ["name"=>""]);
             $name =  $session['name'];
-            $email = $session["email"]; 
+            $email = $session["email"];
+            $email_verified = false; 
             $mobile = Session::get('otp_verified')['contact'];
-
+            $mobile_verified = true;
         }else{
             $name = Auth::user()->name;
             $email = Auth::user()->getPrimaryEmail();
+            $email_verified = true;
             $contact = Auth::user()->getPrimaryContact();
             $mobile = $contact['contact_region'].$contact['contact'];
+            $mobile_verified = true;
         }
         
         //send email to the lead/user with the contact details
@@ -137,7 +140,9 @@ class ContactRequestController extends Controller
                     'name' => $user->name,
                     'customer_name' => $name,
                     'customer_email' => $email,
+                    'email_verified' => $email_verified,
                     'customer_contact' => $mobile,
+                    'contact_verified' => $mobile_verified,
                 ],
             ];
             if(!Auth::guest()){

@@ -76,7 +76,7 @@ class AdminModerationController extends Controller
                     $listing['source'] = 'Added by external user';
                     break;
                 case 'import' :
-                    $listing['source'] = 'Imported via csv import';
+                    $listing['source'] = 'Added by import';
                     break;
             }
             if($listing['owner'] != null){

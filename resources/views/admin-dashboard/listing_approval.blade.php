@@ -166,9 +166,9 @@
                       <th class="no-sort">
                         Listing Source
                         <select multiple class="form-control multi-dd" id="source-filter">
-                          <option value="internal_user" >Internal User</option>
-                          <option value="external_user" >External User</option>
-                          <option value="import" >Import</option>
+                          <option value="internal_user" >Added by internal user</option>
+                          <option value="external_user" >Added by external user</option>
+                          <option value="import" >Added by import</option>
                         </select>
                       </th>
                       <th>Listing status ref</th>

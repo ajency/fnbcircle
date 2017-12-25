@@ -42,8 +42,6 @@ class Job extends Model
     }
 
     public function jobStatusesToChange(){
- 
-
         $statuses = ['1'=>'Draft','2'=>'Submit for review','3'=>'Relist','4'=>'Archive','5'=>'Reject'];
         return $statuses;
     }

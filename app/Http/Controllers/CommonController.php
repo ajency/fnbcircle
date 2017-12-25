@@ -262,10 +262,31 @@ class CommonController extends Controller
             $object->save(); 
 
             
+            
 
             if($premium[$request->plan_id] == "0")
             {
                 return \Redirect::back();
+            }
+            else{
+
+                $jobOwner = $object->createdBy;
+                $templateData = [
+                            'job' => $object,
+                            'user' => $jobOwner,
+                            'planname' => $plan->title,
+                            ];
+
+                $data = [];
+                $data['from'] = $jobOwner->getPrimaryEmail();
+                $data['name'] = $jobOwner->name;
+                $data['to'] = [config('constants.email_to')];
+                $data['subject'] = "Premium request received for job  ".$object->title." !";
+                $data['template_data'] = $templateData;
+                
+                sendEmail('job-premium-request', $data);
+
+
             }
             
             

@@ -708,8 +708,6 @@ function archivePublishedJobs(){
 		$templateData['job'] = $job;
         $templateData['ownerName'] = $jobOwner->name;
         $ownerDetails['email'] = $jobOwner->getPrimaryEmail();
-        $ownerDetails['email'] = 'prajay@ajency.in';
-
          
         $subject =  'Your job has expired. Do you want to relist the job?';
  

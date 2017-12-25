@@ -54,6 +54,10 @@ return [
         "laravel" => "email.job-alert",
         "pushcrew" => ""
     ],
+    "job-premium-request" => [
+        "laravel" => "email.job-premium-request",
+        "pushcrew" => ""
+    ],
     "user-register" => [
         "laravel" => "email.user-register",
         "pushcrew" => ""

@@ -195,7 +195,10 @@ $('body').on 'click','#contact-info', () ->
 $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
   if !$('#contact-modal #get-crdetails-form').parsley().validate()
     return
+
+  if $('#get-crdetails-form').parsley().isValid()
     $('.contact-sub-spin').removeClass 'hidden'
+    
 
   name = $('#contact-modal #get-crdetails-form #contact_name').val()
   email = $('#contact-modal #get-crdetails-form #contact_email').val()

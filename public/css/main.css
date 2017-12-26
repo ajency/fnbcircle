@@ -5421,6 +5421,12 @@ input[type=checkbox].custom-checkbox:before {
             flex-direction: column;
     margin-top: -2px;
   }
+  .verification-modal .enquiry-details .float-label.filled {
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+    font-size: 0.9em;
+  }
   .verification-modal .detail-cols {
     padding: 1em;
   }

@@ -61,7 +61,7 @@
                <div class="flex-row">
                @if($phone['is_verified'])
                   <span class="fnb-icons verified-icon scale-down"></span>
-                  <span class="text-color">Verified</span>
+                  <!-- <span class="text-color">Verified</span> -->
                @else
                   <span class="fa fa-times-circle text-danger m-r-10"></span>
                   <!-- <span class="text-color">Unverified</span> -->

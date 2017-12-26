@@ -37,6 +37,18 @@ class Category extends Model
         return Category::where('parent_id', $this->parent_id)->where('id', '!=', $this->id)->where('status', '1')->count();
     }
 
+    public function getHirarchyAttribute(){
+        try{
+            $p_id = $result = substr($this->path, 0, 5);
+            $b_id = $result = substr($this->path, 5, 10);
+            $parent = self::find($p_id);
+            $branch = self::find($b_id);
+            return $parent->name.">>".$branch->name.">>".$this->name;
+        }catch (\Exception $e) {
+            return 'error';
+        }
+    }
+
     public function getNameAttribute( $value ) { 
         $value = ucwords( $value );      
         return $value;

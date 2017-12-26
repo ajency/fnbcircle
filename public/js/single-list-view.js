@@ -142,14 +142,14 @@
   if ($(window).width() < 769) {
     browsecat = $('.browse-cat').detach();
     $('.similar-business').after(browsecat);
-    status = $('.contact__enquiry').detach();
-    $('.new-changes .seller-info__body').append(status);
     moveelement = $('.move-element').detach();
     $('.nav-info').before(moveelement);
     catlabel = $('.single-cate').detach();
     $('.singleV-title').before(catlabel);
     contactrow = $('.single-contact-section').detach();
-    $('.operate-section').after(contactrow);
+    $('.card-body').append(contactrow);
+    status = $('.contact__enquiry').detach();
+    $('.card-body').append(status);
     $('.back-icon').click(function() {
       $('.fly-out').removeClass('active');
     });

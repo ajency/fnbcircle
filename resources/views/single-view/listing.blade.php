@@ -126,7 +126,7 @@
                         <!-- Card Info starts -->
                         <div class="seller-info card design-2-card new-changes">
                             <div class="seller-info__header flex-row"></div>
-                            <div class="seller-info__body">
+                            <div class="seller-info__body card-body">
                                 <div class="flex-row space-between singleV-title">
                                     <h1 class="seller-info__title main-heading">{{$data['title']['name']}}</h1>
                                     <input readonly id='listing_id' value="{{$data['reference']}}" type="hidden">

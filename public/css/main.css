@@ -3457,6 +3457,19 @@ input[type=checkbox].custom-checkbox:before {
   .seller-info .docs {
     padding-top: 0;
   }
+  .new-changes .contact__enquiry {
+    width: 100%;
+    padding-top: 0.5em;
+  }
+  .new-changes .enquiry-modal-btn {
+    margin-top: 0.5em;
+  }
+  .move-element {
+    margin-top: 1.5em;
+  }
+}
+.non-pre-cards .body-right .get-details {
+  padding-left: 0;
 }
 @media screen and (max-width: 320px) {
   .contact .fnb-btn {
@@ -5420,6 +5433,12 @@ input[type=checkbox].custom-checkbox:before {
         -ms-flex-direction: column;
             flex-direction: column;
     margin-top: -2px;
+  }
+  .verification-modal .enquiry-details .float-label.filled {
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+    font-size: 0.9em;
   }
   .verification-modal .detail-cols {
     padding: 1em;

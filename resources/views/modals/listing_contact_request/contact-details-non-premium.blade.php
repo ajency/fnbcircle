@@ -61,7 +61,7 @@
                <div class="flex-row">
                @if($phone['is_verified'])
                   <span class="fnb-icons verified-icon scale-down"></span>
-                  <span class="text-color">Verified</span>
+                  <!-- <span class="text-color">Verified</span> -->
                @else
                   <span class="fa fa-times-circle text-danger m-r-10"></span>
                   <!-- <span class="text-color">Unverified</span> -->
@@ -93,7 +93,7 @@
    </div>
 
    
-   <div class="suppliers-data ">
+   <div class="suppliers-data non-pre-cards">
       @if($listing_data != null)
       <p class="element-title heavier text-darker">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
       @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))

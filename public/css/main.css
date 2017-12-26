@@ -3468,6 +3468,9 @@ input[type=checkbox].custom-checkbox:before {
     margin-top: 1.5em;
   }
 }
+.non-pre-cards .body-right .get-details {
+  padding-left: 0;
+}
 @media screen and (max-width: 320px) {
   .contact .fnb-btn {
     padding: 0.8em 0.8em;

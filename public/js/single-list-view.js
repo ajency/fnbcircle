@@ -202,6 +202,7 @@
     var description, email, mobile, name, region, url;
     if (!$('#contact-modal #get-crdetails-form').parsley().validate()) {
       return;
+      $('.contact-sub-spin').removeClass('hidden');
     }
     name = $('#contact-modal #get-crdetails-form #contact_name').val();
     email = $('#contact-modal #get-crdetails-form #contact_email').val();
@@ -221,7 +222,8 @@
         description: JSON.stringify(description)
       },
       success: function(data) {
-        return handleResponse(data['step'], data['html']);
+        handleResponse(data['step'], data['html']);
+        return $('.contact-sub-spin').addClass('hidden');
       }
     });
   });

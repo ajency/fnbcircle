@@ -202,6 +202,8 @@
     var description, email, mobile, name, region, url;
     if (!$('#contact-modal #get-crdetails-form').parsley().validate()) {
       return;
+    }
+    if ($('#get-crdetails-form').parsley().isValid()) {
       $('.contact-sub-spin').removeClass('hidden');
     }
     name = $('#contact-modal #get-crdetails-form #contact_name').val();

@@ -169,7 +169,8 @@ class JobController extends Controller
         $job->interview_location_long = $longitude;
         $job->premium = 0;
         $job->save();
-
+        $common = new CommonController;
+        $common->updateUserDetails(Auth::user());
         $jobId = $job->id;
         
         $this->addJobLocation($job,$jobArea);
@@ -1230,6 +1231,8 @@ class JobController extends Controller
         $jobApplicant->resume_id = $resumeId; 
 
         $jobApplicant->save();
+        $common = new CommonController;
+        $common->updateUserDetails($user);
         activity()
            ->performedOn($jobApplicant)
            ->causedBy($user)

@@ -79,7 +79,7 @@ class AdminModerationController extends Controller
                     $listing['source'] = 'Added by external user';
                     break;
                 case 'import' :
-                    $listing['source'] = 'Imported via csv import';
+                    $listing['source'] = 'Added by import';
                     break;
             }
             if($listing['owner'] != null){
@@ -288,6 +288,10 @@ class AdminModerationController extends Controller
                     $listing->status = Listing::PUBLISHED;
                     $listing->published_on = Carbon::now();
                     $listing->save();
+                    if($listing->owner_id != null){
+                        $common = new CommonController;
+                        $common->updateUserDetails($listing->owner);
+                    }
                     ($listing->owner_id == null)?
                     activity()
                        ->performedOn($listing)
@@ -343,6 +347,10 @@ class AdminModerationController extends Controller
                 if ($change->status == (string) Listing::ARCHIVED) {
                     $listing->status = Listing::ARCHIVED;
                     $listing->save();
+                    if($listing->owner_id != null){
+                        $common = new CommonController;
+                        $common->updateUserDetails($listing->owner);
+                    }
                     saveListingStatusChange($listing, Listing::PUBLISHED, Listing::ARCHIVED );
                     $response['data']['success'][] = array('id' => $listing->id, 'name' => $listing->title, 'message' => 'Listing status updated successfully.', 'url' => $link);
                 } else {

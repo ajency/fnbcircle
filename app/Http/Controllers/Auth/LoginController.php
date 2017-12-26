@@ -83,6 +83,8 @@ class LoginController extends Controller
         /*if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }*/
+
+        Session::forget('contact_info');
         
         $user_data = array("username" => $request->email, "email" => $request->email, "password" => $request->password);//, "provider" => "email_signup");
         Session::put('userLoginEmail', $request->email);

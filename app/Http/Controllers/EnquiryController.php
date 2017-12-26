@@ -993,7 +993,7 @@ class EnquiryController extends Controller {
 
 	    					$register_cont_obj = new RegisterController;
 	    					$lead_data = array("id" => $lead_obj->id, "name" => $lead_obj->name, "email" => $lead_obj->email, "user_type" => "lead");
-	    					$register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
+	    					// $register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
 
 	    					$lead_type = "App\Lead";
 

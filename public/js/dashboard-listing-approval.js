@@ -63,11 +63,11 @@
       }, {
         "data": "premium"
       }, {
-        "data": "status"
+        "data": "source"
       }, {
         "data": "status_ref"
       }, {
-        "data": "source"
+        "data": "status"
       }
     ],
     'select': {

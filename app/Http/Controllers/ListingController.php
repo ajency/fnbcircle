@@ -54,6 +54,8 @@ class ListingController extends Controller
         if($user != null){
             $listing->owner_id = $user->id;
             $listing->save();
+            $common = new CommonController;
+            $common->updateUserDetails($user);
             if($user_details->sendmail == "true"){    
                 $area = Area::with('city')->find($listing->locality_id);
                 $email = [
@@ -98,6 +100,9 @@ class ListingController extends Controller
                 }
                 $listing->owner_id = $user_resp["user"]->id;
                 $listing->save();
+                $common = new CommonController;
+                $common->updateUserDetails($user_resp["user"]);
+
                 //send email here
                 if($user_details->sendmail == "true"){ 
                     $user = Password::broker()->getUser(['email'=>$user_details->email]);
@@ -1017,6 +1022,10 @@ class ListingController extends Controller
             saveListingStatusChange($listing, $listing->status, Listing::ARCHIVED);
             $listing->status = Listing::ARCHIVED;
             $listing->save();
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             Session::flash('statusChange', 'archive');
             return \Redirect::back();
         } else {
@@ -1035,6 +1044,10 @@ class ListingController extends Controller
             $listing->status = Listing::PUBLISHED;
             $listing->save();
             Session::flash('statusChange', 'published');
+            if($listing->owner_id != null){
+                $common = new CommonController;
+                $common->updateUserDetails($listing->owner);
+            }
             return \Redirect::back();
 
         } else {

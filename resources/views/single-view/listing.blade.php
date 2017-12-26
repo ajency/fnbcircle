@@ -208,7 +208,7 @@
                                 <div class="contact flex-row space-between flex-wrap">
                                     <div class="contact__info flex-row show-contact">
                                         @if(!hasAccess('edit_permission_element_cls',$data['reference'],'listing'))
-                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info</button>
+                                        <button class="btn fnb-btn primary-btn full border-btn show-info" id="contact-info">Show contact info <i class="fa fa-circle-o-notch fa-spin fa-fw hidden"></i></button>
                                         @endif
                                         <!-- If logged in -->
                                         <!-- <button class="btn fnb-btn primary-btn full border-btn show-info" data-toggle="collapse" href="#contact-data">Show contact info</button> -->
@@ -697,14 +697,15 @@
 
                                                 <p class="fnb-article__caption default-size text-lighter">{{ str_limit($news_item['content'], $limit = 130, $end = '...') }}    </p>
 
-                                                @if(count($news_item['tags']) > 0)
+                                                <?php /* @if(count($news_item['tags']) > 0)
                                                    <div class="post-tags ellipsis-2 text-color" title="{{ implode(',',$news_item['tags']) }}">
                                                      @foreach($news_item['tags'] as $news_tag)
                                                      <span  class="post-tags__child"  title="{{ $news_tag}}" ><i class="fa fa-tag text-lighter" aria-hidden="true"></i> {{ $news_tag}}</span>
                                                       @endforeach
                                                    </div>
-                                                @endif
-                                                <span class="dis-block fnb-article__caption lighter date m-t-10">Posted on {{$news_item['display_date']}}</span>
+
+                                                @endif */ ?>
+                                                <span class="dis-block fnb-article__caption lighter date m-t-5">Posted on {{$news_item['display_date']}}</span>
                                             </div>
                                         </a>
                                     </div>

@@ -228,6 +228,7 @@
 
   $('#contact-modal').on('click', '#edit-cr-number', function() {
     console.log('enters');
+    $('#new-mobile-modal #new-mobile-verify-btn').prop('disabled', false);
     return $('#new-mobile-modal').modal('show');
   });
 

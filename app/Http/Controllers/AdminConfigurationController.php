@@ -1012,6 +1012,9 @@ class AdminConfigurationController extends Controller
             //update job expiry time
             updateJobExpiry($job);
 
+            $common = new CommonController;
+            $common->updateUserDetails($jobOwner);
+
             //for testing
             // $ownerDetails['email'] = 'nutan@ajency.in';
 

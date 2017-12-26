@@ -16,9 +16,9 @@
 					We have shared the contact details of <a href="{{$listing_url}}">{{ $listing_name }}</a> with a seeker interested in your listing.<br>
 					Please find below details of the seeker:<br><br>
 
-					<b>Name:</b> {{ $customer_name }}<br>
-					<b>Email:</b>  {{ $customer_email }}<br>
-					<b>Phone Number:</b> {{ $customer_contact }}<br>
+					<b>Name:</b> {{ $customer_name }} <br>
+					<b>Email:</b>  {{ $customer_email }} @if($email_verified) (verified) @endif<br>
+					<b>Phone Number:</b> {{ $customer_contact }} @if($contact_verified) (verified) @endif<br>
 					
 					@isset($customer_dashboard_url)
 					<a href="{{ $customer_dashboard_url }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">Click here</a> to view the profile of {{ $customer_name }}.

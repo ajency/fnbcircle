@@ -217,6 +217,7 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
 
 $('#contact-modal').on 'click','#edit-cr-number', () ->
   console.log 'enters'
+  $('#new-mobile-modal #new-mobile-verify-btn').prop('disabled', false);
   $('#new-mobile-modal').modal('show')
   
 

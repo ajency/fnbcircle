@@ -86,16 +86,20 @@
          </div>
          @endif
       </div>
-      <div class="sub-title m-t-30 m-b-10 flex-row flex-wrap">
+      <div class="sub-title m-t-30 m-b-10 flex-row flex-wrap name-mention">
          <span class="fnb-icons exclamation m-r-10"></span>
-         When you contact the listing, don't forget to mention that you found it on FnBCircle
+         <div>When you contact the listing, don't forget to mention that you found it on FnBCircle</div>
       </div>
    </div>
 
    
    <div class="suppliers-data ">
+      @if($listing_data != null)
       <p class="element-title heavier text-darker">Don't miss out on these suppliers <img src="/img/direction-down-2.png" class="img-responsive direction-down"></p>
       @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
+      @else
+      <p class="element-title heavier text-darker">No Similar suppliers found</p>
+      @endif
       <p class="small text-lighter m-t-20 m-b-0">
          Disclaimer: FnBCircle is only an intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
       </p>

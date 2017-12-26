@@ -84,14 +84,17 @@ class ContactRequestController extends Controller
         if(Auth::guest()){
             $session = Session::get('enquiry_data', ["name"=>""]);
             $name =  $session['name'];
-            $email = $session["email"]; 
-            $mobile = Session::get('otp_verified')['contact'];
-
+            $email = $session["email"];
+            $email_verified = false; 
+            $mobile = '+('.Session::get('enquiry_data')['contact_code'].')'.Session::get('enquiry_data')['contact'];
+            $mobile_verified = true;
         }else{
             $name = Auth::user()->name;
             $email = Auth::user()->getPrimaryEmail();
+            $email_verified = true;
             $contact = Auth::user()->getPrimaryContact();
-            $mobile = $contact['contact_region'].$contact['contact'];
+            $mobile = '+('.$contact['contact_region'].')'.$contact['contact'];
+            $mobile_verified = true;
         }
         
         //send email to the lead/user with the contact details
@@ -137,7 +140,9 @@ class ContactRequestController extends Controller
                     'name' => $user->name,
                     'customer_name' => $name,
                     'customer_email' => $email,
+                    'email_verified' => $email_verified,
                     'customer_contact' => $mobile,
+                    'contact_verified' => $mobile_verified,
                 ],
             ];
             if(!Auth::guest()){
@@ -283,6 +288,7 @@ class ContactRequestController extends Controller
             }
         }
         unset($similar_id[0]);
+        if(count($similar_id) == 0) return null;
         $filters = ["listing_ids" => $similar_id];
         $listviewObj = new ListViewController;
         $listing_data = $listviewObj->getListingSummaryData("", $filters, 1, 3, "updated_at", "desc")["data"];
@@ -411,7 +417,7 @@ class ContactRequestController extends Controller
                     ]);
                     $register_cont_obj = new RegisterController;
                     $lead_data         = array("id" => $lead_obj->id, "name" => $lead_obj->name, "email" => $lead_obj->email, "user_type" => "lead");
-                    $register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
+                    // $register_cont_obj->confirmEmail('lead', $lead_data, 'welcome-lead');
                     $lead_type = "App\\Lead";
                 } else {
                     $lead_obj  = Auth::user();
@@ -442,6 +448,8 @@ class ContactRequestController extends Controller
                 //     "enquiry_message" => $session_payload["enquiry_message"]];
                 $session_payload["user_object_id"] = $lead_obj->id;
                 $session_payload["user_object_type"] = $lead_type;
+                $session_payload["contact"] = $session_contact["phone_no"];;
+                $session_payload["contact_code"] = $session_contact["country_code"];
 
                 Session::put('enquiry_data',$session_payload);
                 $enq_cont_obj->setOtpVerified(true, $session_contact["phone_no"]);

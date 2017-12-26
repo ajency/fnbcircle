@@ -5484,7 +5484,7 @@ input[type=checkbox].custom-checkbox:before {
             align-items: flex-start;
   }
   .verification-modal .enquiry-success .fa {
-    font-size: 3em;
+    font-size: 2em;
   }
   .verification-modal .enquiry-success__text {
     padding-right: 0;
@@ -5495,6 +5495,28 @@ input[type=checkbox].custom-checkbox:before {
   .verification-modal .enquiry-success .thanks-text {
     font-size: 1.25em;
     margin-bottom: 0.5em;
+  }
+  .verification-modal.contact-modal .enquiry-success {
+    margin-top: 1em;
+  }
+  .verification-modal.contact-modal .name-mentioned {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: inherit;
+        -ms-flex-wrap: inherit;
+            flex-wrap: inherit;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+  }
+  .verification-modal.contact-modal .name-mentioned .exclamation {
+    width: 62px;
+    -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+            transform: scale(0.8);
   }
   .verification-modal .contact-success .owner-detail .fa {
     font-size: 1em;
@@ -6080,6 +6102,9 @@ input[type=checkbox].custom-checkbox:before {
   .design-2-card .stats .views .c-title,
   .design-2-card .stats .verified .c-title {
     display: block;
+  }
+  .design-2-card .stats.stat-section .verified {
+    margin-right: 0;
   }
   .design-2-card .stats .fnb-label {
     -webkit-box-ordinal-group: 2;

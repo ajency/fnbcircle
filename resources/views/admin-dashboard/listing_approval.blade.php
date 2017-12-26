@@ -167,6 +167,15 @@
                           <option value="0">No</option>
                         </select>
                       </th>
+                      <th class="no-sort">
+                        Listing Source
+                        <select multiple class="form-control multi-dd" id="source-filter">
+                          <option value="internal_user" >Added by internal user</option>
+                          <option value="external_user" >Added by external user</option>
+                          <option value="import" >Added by import</option>
+                        </select>
+                      </th>
+                      <th>Listing status ref</th>
                       <th class="no-sort" data-col="11" style="min-width: 10%;">
                         Status
                         <select multiple class="form-control multi-dd" id="status-filter">
@@ -177,15 +186,7 @@
                         <option value="5" >Rejected</option>
                         </select>
                       </th>
-                      <th>Listing status ref</th>
-                      <th class="no-sort">
-                        Listing Source
-                        <select multiple class="form-control multi-dd" id="source-filter">
-                          <option value="internal_user" >Internal User</option>
-                          <option value="external_user" >External User</option>
-                          <option value="import" >Import</option>
-                        </select>
-                      </th>
+                      
                     </tr>
                   </thead>
 

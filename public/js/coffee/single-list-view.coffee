@@ -195,6 +195,8 @@ $('body').on 'click','#contact-info', () ->
 $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
   if !$('#contact-modal #get-crdetails-form').parsley().validate()
     return
+    $('.contact-sub-spin').removeClass 'hidden'
+
   name = $('#contact-modal #get-crdetails-form #contact_name').val()
   email = $('#contact-modal #get-crdetails-form #contact_email').val()
   mobile = $('#contact-modal #get-crdetails-form #contact_number').val()
@@ -214,6 +216,7 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
       description: JSON.stringify description
     success: (data) ->
       handleResponse(data['step'],data['html'])
+      $('.contact-sub-spin').addClass 'hidden'
 
 $('#contact-modal').on 'click','#edit-cr-number', () ->
   console.log 'enters'

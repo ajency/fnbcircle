@@ -80,7 +80,7 @@
          </div>
          <div class="p-t-10">
             <div class="send-action">
-               <button type="button" class="btn fnb-btn primary-btn full border-btn" id="cr-get-details-form-submit">Submit <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
+               <button type="button" class="btn fnb-btn primary-btn full border-btn" id="cr-get-details-form-submit">Submit <i class="fa fa-circle-o-notch fa-spin fa-fw contact-sub-spin hidden"></i></button>
             </div>
          </div>
          </form>

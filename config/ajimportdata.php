@@ -154,7 +154,8 @@ $ajimport_config['childtables'][] = array(
     'fields_map_to_update_temptable_child_id' => array(
         "BusinessName"  => "title", 
         "City_id"       => "locality_id", 
-        "users_id"      => "owner_id"
+        "users_id"      => "owner_id",
+        "BusinessType"  => "type"
     ),
     'fields_map'                              => array(
         "BusinessName"          => "title", 

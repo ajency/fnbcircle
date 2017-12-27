@@ -448,11 +448,11 @@ class AdminModerationController extends Controller
                 $brandModel = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->get();
                 $brands     = [];
                 foreach ($brandModel as $brand) {
-                    $brands[] = array($brand->name, $brand->id);
+                    $brands[] = array($brand->name, $brand->slug);
                 }
                 $sheet->fromArray($brands, null, 'B3', true, false);
                 $sheet->row(2, array(
-                    '', 'Brand Name', 'Brand ID',
+                    '', 'Brand Name', 'Brand Slug',
                 ));
             });
             $excel->sheet('Cities', function ($sheet) {

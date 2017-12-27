@@ -4933,7 +4933,7 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .or-divider {
   position: absolute;
   top: 45%;
-  left: 47%;
+  left: -28px;
   background-color: #fff;
   padding: 14px 15px;
   text-align: center;
@@ -5458,7 +5458,7 @@ input[type=checkbox].custom-checkbox:before {
     padding-top: 3em;
   }
   .verification-modal .or-divider {
-    top: -20px;
+    top: -25px;
     left: 42%;
   }
   .verification-modal .send-enquiry {
@@ -12975,6 +12975,9 @@ input[type='checkbox'].remove-addr {
 .business-leads .pagination li a {
   font-size: 0.9em;
 }
+.details-control {
+  margin-left: 2em;
+}
 .details-control i {
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
@@ -13271,6 +13274,13 @@ input[type='checkbox'].remove-addr {
 }
 .terms-privacy-section input[type="checkbox"]:checked:before {
   color: #27b7b0;
+}
+.archive-action {
+  position: relative;
+  left: 2.2em;
+}
+.fnb-info-text {
+  color: #5cbff1;
 }
 .profile-stats {
   color: #fff;

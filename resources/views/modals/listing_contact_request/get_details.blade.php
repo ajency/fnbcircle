@@ -34,7 +34,7 @@
             @endisset
          </div>
       </div>
-      <div class="detail-cols extra-padding contact col-right enquiry-details__content">
+      <div class="detail-cols extra-padding contact col-right enquiry-details__content relative">
          <form id="get-crdetails-form"> 
          <h5 class="intro-text">Give your details below
          </h5>

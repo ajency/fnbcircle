@@ -12975,6 +12975,9 @@ input[type='checkbox'].remove-addr {
 .business-leads .pagination li a {
   font-size: 0.9em;
 }
+.details-control {
+  margin-left: 2em;
+}
 .details-control i {
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
@@ -13271,6 +13274,13 @@ input[type='checkbox'].remove-addr {
 }
 .terms-privacy-section input[type="checkbox"]:checked:before {
   color: #27b7b0;
+}
+.archive-action {
+  position: relative;
+  left: 2.2em;
+}
+.fnb-info-text {
+  color: #5cbff1;
 }
 .profile-stats {
   color: #fff;

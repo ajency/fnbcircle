@@ -65,7 +65,6 @@ $ajimport_config['fileheader'] = array(
         'USSD_AEPS_UPI', 'USSD_AEPS_UPI_val',
         'Cheque', 'Cheque_val',
         'Draft', 'Draft_val',
-    'ReferenceId', 
 );
 
 /**
@@ -163,7 +162,6 @@ $ajimport_config['childtables'][] = array(
         "BusinessType"          => "type", 
         "City_id"               => "locality_id", 
         "users_id"              => "owner_id",
-        "ReferenceId"           => "reference",
         "BusinessDescription"   => "description"
     ), 
     'columnupdatevalues'                      => array(

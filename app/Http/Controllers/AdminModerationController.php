@@ -476,4 +476,28 @@ class AdminModerationController extends Controller
     public function getFile(){
         return response()->download(storage_path().'/app/public/import.xls');
     }
+
+    public function importCallback(){
+        $listing_ids = \App\Listing::whereNull('reference')->pluck('id')->toArray();
+        if(!empty($listing_ids)){
+            $references = [];
+            $sql = 'UPDATE listings SET reference = (CASE ';
+            foreach ($listing_ids as $listing) {
+                $references[$listing] = str_random(8);
+                $sql.= 'WHEN id = '.$listing.' THEN \''.$references[$listing].'\'';
+            }
+            $sql.= 'END) WHERE id in ('.implode(',', array_keys($references)).')';
+            DB::statement($sql);
+        }
+        $category_ids = \App\ListingCategory::distinct()->whereNull('category_slug')->pluck('category_id')->toArray();
+        if(!empty($category_ids)){
+            $categories = \App\Category::whereIn('id',$category_ids)->pluck('slug','id')->toArray();
+            $sql = 'UPDATE listing_category SET category_slug = (CASE';
+            foreach ($categories as $id => $slug) {
+                 $sql.= ' WHEN category_id = '.$id.' THEN \''.$slug.'\'';
+            }
+            $sql.= 'END) WHERE  category_slug IS NULL';
+            DB::statement($sql);
+        }
+    }
 }

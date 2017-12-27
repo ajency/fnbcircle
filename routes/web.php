@@ -17,7 +17,7 @@ Route::get('/', function () {
 });
  
  
-Route::get('/test','TestController@index');
+// Route::get('/test','TestController@index');
 // Forgot Password
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@validatingEmail');
  
@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
+		Route::get('listing-sheet','AdminModerationController@getFile');
+		Route::get('data-sheet','AdminModerationController@generateFile');
 	});
 	
 	Route::group(['prefix' => 'users'], function() {

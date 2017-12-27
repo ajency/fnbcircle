@@ -432,52 +432,48 @@ class AdminModerationController extends Controller
 
     public function generateFile(){
         $excel = App::make('excel');
-        Excel::load('storage/app/import.xls', function ($file) {
-            // $sheet1 = $file->setActiveSheetIndex(0);
-            $sheet1 = clone $file->getSheetByName('Listings');
-            Excel::create('Listing_import', function ($excel) use ($sheet1) {
-                // $excel->addExternalSheet($sheet1);
-                // $excel->sheet('Listings', function ($sheet) use ($sheet1) {
-                //   $sheet = $sheet1;
-                // });
-                $excel->sheet('Categories', function ($sheet) {
-                    $category_model = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->get();
-                    $categories     = [];
-                    foreach ($category_model as $category) {
-                        $categories[] = array($category->hirarchy, $category->id);
-                    }
-                    $sheet->fromArray($categories, null, 'B3', true, false);
-                    $sheet->row(2, array(
-                        '', 'Node Category', 'Cat Id',
-                    ));
-                });
-                $excel->sheet('Brand', function ($sheet) {
-                    $brandModel = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->get();
-                    $brands     = [];
-                    foreach ($brandModel as $brand) {
-                        $brands[] = array($brand->name, $brand->id);
-                    }
-                    $sheet->fromArray($brands, null, 'B3', true, false);
-                    $sheet->row(2, array(
-                        '', 'Brand Name', 'Brand ID',
-                    ));
-                });
-                $excel->sheet('Cities', function ($sheet) {
-                    $citiesModel = \App\Area::where('status', 1)->orderBy('order')->orderBy('name')->get();
-                    $cities      = [];
-                    foreach ($citiesModel as $city) {
-                        $cities[] = array($city->hirarchy, $city->id);
-                    }
-                    $sheet->fromArray($cities, null, 'B3', true, false);
-                    $sheet->row(2, array(
-                        '', 'City Name', 'City ID',
-                    ));
-                    $sheet->cell('I3', function ($cell) {$cell->setValue('Yes');});
-                    $sheet->cell('I4', function ($cell) {$cell->setValue('No');});
-                    $sheet->cell('J3', function ($cell) {$cell->setValue('1');});
-                    $sheet->cell('J3', function ($cell) {$cell->setValue('0');});
-                });
-            })->export('xls');
-        });
+        Excel::create('Listing_import', function ($excel){
+            $excel->sheet('Categories', function ($sheet) {
+                $category_model = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->get();
+                $categories     = [];
+                foreach ($category_model as $category) {
+                    $categories[] = array($category->hirarchy, $category->id);
+                }
+                $sheet->fromArray($categories, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'Node Category', 'Cat Id',
+                ));
+            });
+            $excel->sheet('Brand', function ($sheet) {
+                $brandModel = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->get();
+                $brands     = [];
+                foreach ($brandModel as $brand) {
+                    $brands[] = array($brand->name, $brand->id);
+                }
+                $sheet->fromArray($brands, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'Brand Name', 'Brand ID',
+                ));
+            });
+            $excel->sheet('Cities', function ($sheet) {
+                $citiesModel = \App\Area::where('status', 1)->orderBy('order')->orderBy('name')->get();
+                $cities      = [];
+                foreach ($citiesModel as $city) {
+                    $cities[] = array($city->hirarchy, $city->id);
+                }
+                $sheet->fromArray($cities, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'City Name', 'City ID',
+                ));
+                $sheet->cell('I3', function ($cell) {$cell->setValue('Yes');});
+                $sheet->cell('I4', function ($cell) {$cell->setValue('No');});
+                $sheet->cell('J3', function ($cell) {$cell->setValue('1');});
+                $sheet->cell('J4', function ($cell) {$cell->setValue('0');});
+            });
+        })->export('xls');
+    }
+
+    public function getFile(){
+        return response()->download(storage_path().'/app/public/import.xls');
     }
 }

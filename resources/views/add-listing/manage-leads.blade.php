@@ -208,12 +208,13 @@
     <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th class="no-sort" style="min-width: 90px;">Type</th>
+                <th class="no-sort" style="min-width: 110px;">Type</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Name</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Email</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Phone</th>
-                <th style="min-width: 80px">What describes you the best?</th>
-                <th style="min-width: 90px;">Action</th>
+                <th style="min-width: 160px">What describes you the best?</th>
+                <th style="min-width: 5px;"></th>
+                <th style="min-width: 30px;">Action</th>
             </tr>
             <tr class="search-row">
                 <th style="min-width: 90px;"></th>
@@ -236,10 +237,12 @@
                     </div>
                 </th>
                 <th style="min-width: 80px;"></th>
-                <th style="min-width: 90px;">
+                <th style="">
+                    
+                </th>
+                <th style="min-width: 120px;">
                     <label class="flex-row show-archive"><input type="checkbox" class="checkbox" id="archivefilter"> Show archive</label>
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>

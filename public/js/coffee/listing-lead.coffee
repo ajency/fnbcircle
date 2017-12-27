@@ -105,16 +105,16 @@ table = $('#listing-leads').DataTable(
         "data":           'archive',
         "render": (d) ->
         	if d == 0 
-        		return '<a href="#" class="archiveaction"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  ' 
+        		return '<a href="#" class="archiveaction archive-action"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  ' 
         	else 
-        		return '<a href="#" class="unarchiveaction"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>'
+        		return '<a href="#" class="unarchiveaction archive-action"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>'
     }
     {
       "orderable":      false,
       "data":  'object_type',
       "render": (d) ->
         if d != 'contact-request' 
-          return '<span class="details-control"><span class="more-less-text">More details</span> <i class="fa fa-angle-down text-color" aria-hidden="true"></i></span>' 
+          return '<span class="details-control text-secondary heavier cursor-pointer"><span class="more-less-text">More details</span> <i class="fa fa-angle-down" aria-hidden="true"></i></span>' 
         else 
           return ''
     }

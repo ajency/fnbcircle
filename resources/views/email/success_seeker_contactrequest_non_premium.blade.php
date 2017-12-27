@@ -43,9 +43,11 @@ Listing Name: {{$listing->title}} <br>
 
 Here are a few similar listings:
 ----------------------
-
+@if($listing_data != null)
 @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
-
+@else
+<p class="element-title heavier text-darker">No Similar suppliers found</p>
+@endif
 						Disclaimer: FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
 						<div>
 	          				Regards,<br>

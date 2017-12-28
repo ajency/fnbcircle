@@ -67,6 +67,22 @@ $ajimport_config['fileheader'] = array(
         'Draft', 'Draft_val',
 );
 
+$ajimport_config['mandatary_tmp_tblfields'] = array( 
+    'BusinessName',
+    'BusinessType',
+    'City_id',
+    'Email1',
+    'CoreCategory1_id',
+    'OnlineBanking_val',
+    'OnCredit_val',
+    'CreditDebitCards_val',
+    'eMobileWallets_val',
+    'CashOnDelivery_val',
+    'USSD_AEPS_UPI_val',
+    'Cheque_val',
+    'Draft_val',
+);
+
 $ajimport_config['invalid_matches'] = array(
     ['Email1','Email2'],
     ['Mobile1','Mobile2'],
@@ -183,8 +199,8 @@ $ajimport_config['childtables'][] = array(
             "Service Provider"          => 16
         )
     ),
-    /*serialize array form at array('column on tagle'=>array of values to be serialized where key will be a static provided by user and value will be field from temp table)    */
-    'serializevalues'                         => array(
+    /*json array form at array('column on table'=>array of values to be json where key will be a static provided by user and value will be field from temp table)    */
+    'jsonvalues'                                => array(
         'other_details' => array(
             'website'           => 'BusinessWebsite', 
             'establish_year'    => 'YearOfEstablishment'

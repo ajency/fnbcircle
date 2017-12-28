@@ -727,7 +727,7 @@ class AdminConfigurationController extends Controller
                                         );
 
         
-        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id', 'left outer');
+        $userQuery = User::select('users.*')->where('users.type','external')->leftJoin('user_details', 'user_details.user_id', '=', 'users.id');
 
         if($requestData['filters']['user_name']!="")
         {
@@ -823,7 +823,13 @@ class AdminConfigurationController extends Controller
         foreach ($users as $key => $user) {
          
             $userDetails = $user->getUserDetails; 
-            $subTypes = $userDetails->getSavedUserSubTypes();
+            if(!$userDetails){
+                $subTypes = [];
+            }else{
+                $subTypes = $userDetails->getSavedUserSubTypes();    
+            }
+            
+            
             
             $usersData[] = [ 
                             'id' => $user->id,
@@ -836,12 +842,12 @@ class AdminConfigurationController extends Controller
                             'city' => (!empty($userDetails) && $userDetails->area) ? $userDetails->userArea->name :'',
                             'date_created' => $user->created_at->toDateTimeString(),
                             'last_login' => ($user->last_login!=null)? $user->last_login->toDateTimeString():"",
-                            'total_listing' => $userDetails->total_listings,
-                            'published_listing' =>  $userDetails->published_listings,
-                            'total_jobs' =>  $userDetails->total_jobs ,
-                            'published_jobs' =>  $userDetails->published_jobs,
-                            'job_applied' =>  $userDetails->jobs_applied,
-                            'resume_uploaded' =>  ($userDetails->resume_id)?'Yes':'No',
+                            'total_listing' => (!empty($userDetails) && $userDetails->total_listings) ? $userDetails->total_listings:"",
+                            'published_listing' =>  (!empty($userDetails) && $userDetails->published_listings) ? $userDetails->published_listings :"",
+                            'total_jobs' =>  (!empty($userDetails) && $userDetails->total_jobs) ? $userDetails->total_jobs :"" ,
+                            'published_jobs' =>  (!empty($userDetails) && $userDetails->published_jobs) ? $userDetails->published_jobs :"",
+                            'job_applied' =>  (!empty($userDetails) && $userDetails->jobs_applied) ? $userDetails->jobs_applied :"",
+                            'resume_uploaded' =>  (!empty($userDetails) && $userDetails->resume_id)?'Yes':'No',
                             'status' =>  ucwords($user->status). '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>',
                             'status_raw' => $user->status,
                             ];

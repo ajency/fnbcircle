@@ -139,12 +139,12 @@ class AdminModerationController extends Controller
         if ($filters['submission_date']['start'] != "") {
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
-        $listings = $listings->where('title','like','%'.$search.'%');
+        if($search!="") $listings = $listings->where('title','like','%'.$search.'%');
         if (isset($filters['city'])) {
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
         }
-        if(isset($filters["updated_by"])){
+        if(isset($filters["updated_by"]) and count($filters["updated_by"]['user_type']) ==1){
             $users  = User::whereIn('type',$filters["updated_by"]['user_type'])->pluck('id')->toArray();
             $listings = $listings->whereIn('last_updated_by',$users);
         }
@@ -183,6 +183,10 @@ class AdminModerationController extends Controller
         // $output->writeln($listings->toSql());
         // $output->writeln($filters['submission_date']['start']);
         // $output->writeln($filters['submission_date']['end']);
+
+        // print_r($listings->toSql());
+        // print_r($listings->getBindings());
+        // die();
 
         $listings = $listings->get();
         // $filtered = count($listings);
@@ -504,7 +508,7 @@ class AdminModerationController extends Controller
             $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->whereIn('slug',$brand_ids)->pluck('name','slug')->toArray();
             $sql = 'UPDATE tagging_tagged SET tag_name = (CASE';
             foreach ($brands as $slug => $name) {
-                sql.= ' WHEN tag_slug = '.$slug.' THEN \''.$name.'\'';
+                $sql.= ' WHEN tag_slug = '.$slug.' THEN \''.$name.'\'';
             }
             $sql.= 'END) WHERE  category_slug IS NULL';
             DB::statement($sql);

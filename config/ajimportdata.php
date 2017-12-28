@@ -213,6 +213,7 @@ $ajimport_config['childtables'][] = array(
         'source'                => 'import',
         'show_primary_email'    => 1,
         'show_primary_phone'    => 1,
+        'status'                => 3,
     ),
 );
 // user communication one for email after listings table  entry

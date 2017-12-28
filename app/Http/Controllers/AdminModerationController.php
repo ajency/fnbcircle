@@ -499,5 +499,15 @@ class AdminModerationController extends Controller
             $sql.= 'END) WHERE  category_slug IS NULL';
             DB::statement($sql);
         }
+        $brand_ids = \Conner\Tagging\Model\Tagged::distinct()->whereNull('tag_name')->pluck('tag_slug')->toArray();
+        if(!empty($brand_ids)){
+            $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->whereIn('slug',$brand_ids)->pluck('name','slug')->toArray();
+            $sql = 'UPDATE tagging_tagged SET tag_name = (CASE';
+            foreach ($brands as $slug => $name) {
+                sql.= ' WHEN tag_slug = '.$slug.' THEN \''.$name.'\'';
+            }
+            $sql.= 'END) WHERE  category_slug IS NULL';
+            DB::statement($sql);
+        }
     }
 }

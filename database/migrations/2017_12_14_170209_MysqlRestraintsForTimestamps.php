@@ -27,6 +27,7 @@ class MysqlRestraintsForTimestamps extends Migration
         //DB::statement('ALTER TABLE  `listings` ADD CONSTRAINT UniqueListings UNIQUE (`title` ,`owner_id` ,`type` ,`locality_id`)');
         //ALTER TABLE  `listings` CHANGE  `reference`  `reference` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
         //ALTER TABLE  `listing_category` CHANGE  `category_slug`  `category_slug` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
+        //ALTER TABLE  `tagging_tagged` CHANGE  `tag_name`  `tag_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
     }
 
     /**
@@ -51,6 +52,6 @@ class MysqlRestraintsForTimestamps extends Migration
         //DB::statement('ALTER TABLE `listings` DROP INDEX UniqueListings;');
 
         //ALTER TABLE  `listing_category` CHANGE  `category_slug`  `category_slug` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ;
-
+        //ALTER TABLE  `tagging_tagged` CHANGE  `tag_name`  `tag_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ;
     }
 }

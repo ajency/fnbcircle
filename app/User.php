@@ -360,6 +360,5 @@ class User extends Authenticatable
         foreach ($descriptions  as $description) {
             $this->getUserSubtypes()->attach($description_ids[$description],['user_type'=>'App\\User']);
         }
-
     }
 }

@@ -199,84 +199,67 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
         <!-- Email Body : BEGIN -->
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr style="text-align: center;background-color: #fff;">
-      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
-  
-
-        <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> </b></p>
-         
-          
-        </div>
-
-       
-     <!-- Tips -->
-
-        <div style="margin-top: 2em;">
-         
-
-          <div style="margin-bottom: 0.8em;">
-        
-            <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-          
-
-          Please review “<a href="{{ url('/job/'.$job->getJobSlug()) }}" target="_blank"> {{ $job->title}} </a>” Job.  <br> <br>
-
-          <div style="text-align: left;">
-          <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job:</div>
-          <b>Title:</b> <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;font-weight: 600;" target="_blank">{{ $job->title }}</a> <br>
-          <b>Business Type:</b> {{ $job->getJobCategoryName() }} <br>
-          <b>Job Role:</b> {{ implode(',',$keywords) }} <br>
-          <div style="clear: both;display: table;">
-          <div style="float: left;margin-right: 15px;min-width: 80px;"><b>State:</b></div>
-          <div style="float: left;"><b>City:</b></div><br>
-          @foreach($locations as $city => $locAreas)
-            
-              <div style="float: left;margin-right: 15px;min-width: 80px;">{{ $city }}<br></div>
-              <div style="float: left;">   {{ implode(',',$locAreas) }}<br></div>
-              <div style="clear: both;display:table;"></div>
-            
-          @endforeach
-          <div style="clear: both;display:table;"></div>
+    <tr style="text-align: center;">
+    <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
+          <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
+            <p>Hi <b style="color: #7f7f7f;">{{ $name }} </b></p>
           </div>
-          <b>Company:</b> {{ $jobCompany->title }} <br><br>
 
+          <!-- Tips -->
+          <div style="margin-top: 2em;">
+        <div style="margin-bottom: 0.8em;">        
+          <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            Thank you for showing your interest in <a href="{{$listing_url}}" style="color: #ec6d4b;">{{$listing->title}} </a>. We have shared your contact details with the owner of this listing. They would contact you soon.<br><br>
+            
+            Please find below contact details of the listing.<br>
+            <b>Listing Name:</b> {{$listing->title}} <br>
 
-          @if(!empty($contactEmail) || !empty($contactMobile))
-          <div style="color:#000;font-weight: 600;margin-bottom: 0.5em;">Details of the job owner:</div>
-         
-          
-          @if(!empty($contactEmail))
-          <b>Email:</b>
-            @foreach($contactEmail as $email)
-              {{ $email['email'] }} (@if($email['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
-            @endforeach
-          @endif
+            @php
+              $contacts = $listing->getAllContacts();
+            @endphp
+            @if(count($contacts['email']))        
+              <b>Email:</b> <br> 
+              @foreach($contacts['email'] as $email)
+                <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])<span style="color: #65bd63;">(verified)</span> @else <span style="color: #d0021b;">(unverified)</span> @endif 
+              @endforeach
+            @endif
             <br>
-          
-          @if(!empty($contactMobile))
-          <b>Phone:</b>
-            @foreach($contactMobile as $mobile)
-              {{ $mobile['mobile'] }} (@if($mobile['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
-            @endforeach
-          @endif
+            @if(count($contacts['mobile']))
+              <b>Phone:</b> <br>
+              @foreach($contacts['mobile'] as $mobile)
+                <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])<span style="color: #65bd63;">(verified)</span> @else <span style="color: #d0021b;">(unverified)</span> @endif <br>
+              @endforeach
+            @endif
+            <br>
+            @if(count($contacts['landline']))
+              <b>Landline:</b> <br>
+              @foreach($contacts['landline'] as $mobile)
+                <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])<span style="color: #65bd63;">(verified)</span> @else <span style="color: #d0021b;">(unverified)</span> @endif <br>
+              @endforeach 
+            @endif
+            <br><br>
 
-          @endif
+            You may now contact the owner directly.
+            When you contact the listing, don't forget to mention that you found it on FnB Circle.
 
+
+          <br><br>
+
+           <div> <b>Disclaimer:</b> FnB Circle is only a intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
+           </div>
+           <br>
+            <div>
+                    Regards,<br>
+                    Team FnB Circle<br>
+                  </div>
           </div>
-
-            </div>
-            <div style="clear: both;display:table;"></div>
+                <div style="clear: both;display:table;"></div>
+              </div>
           </div>
- 
-
-        </div>
-
-      <!-- Tips ends -->
-
-      </td>
+        <!-- Tips ends -->
+    </td>
     </tr>
-  </table>
+</table>
         <!-- Email Body : END -->
 
         

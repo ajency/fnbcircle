@@ -3457,6 +3457,19 @@ input[type=checkbox].custom-checkbox:before {
   .seller-info .docs {
     padding-top: 0;
   }
+  .new-changes .contact__enquiry {
+    width: 100%;
+    padding-top: 0.5em;
+  }
+  .new-changes .enquiry-modal-btn {
+    margin-top: 0.5em;
+  }
+  .move-element {
+    margin-top: 1.5em;
+  }
+}
+.non-pre-cards .body-right .get-details {
+  padding-left: 0;
 }
 @media screen and (max-width: 320px) {
   .contact .fnb-btn {
@@ -4920,7 +4933,7 @@ input[type=checkbox].custom-checkbox:before {
 .verification-modal .or-divider {
   position: absolute;
   top: 45%;
-  left: 47%;
+  left: -28px;
   background-color: #fff;
   padding: 14px 15px;
   text-align: center;
@@ -5421,6 +5434,12 @@ input[type=checkbox].custom-checkbox:before {
             flex-direction: column;
     margin-top: -2px;
   }
+  .verification-modal .enquiry-details .float-label.filled {
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+    font-size: 0.9em;
+  }
   .verification-modal .detail-cols {
     padding: 1em;
   }
@@ -5439,7 +5458,7 @@ input[type=checkbox].custom-checkbox:before {
     padding-top: 3em;
   }
   .verification-modal .or-divider {
-    top: -20px;
+    top: -25px;
     left: 42%;
   }
   .verification-modal .send-enquiry {
@@ -12956,6 +12975,9 @@ input[type='checkbox'].remove-addr {
 .business-leads .pagination li a {
   font-size: 0.9em;
 }
+.details-control {
+  margin-left: 2em;
+}
 .details-control i {
   -webkit-transition: all .5s ease;
           transition: all .5s ease;
@@ -13252,6 +13274,13 @@ input[type='checkbox'].remove-addr {
 }
 .terms-privacy-section input[type="checkbox"]:checked:before {
   color: #27b7b0;
+}
+.archive-action {
+  position: relative;
+  left: 2.2em;
+}
+.fnb-info-text {
+  color: #5cbff1;
 }
 .profile-stats {
   color: #fff;

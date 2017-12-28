@@ -138,14 +138,14 @@ if $(window).width() > 769
 if $(window).width() < 769
   browsecat = $('.browse-cat').detach()
   $('.similar-business').after browsecat
-  status = $('.contact__enquiry').detach()
-  $('.new-changes .seller-info__body').append status
   moveelement = $('.move-element').detach()
   $('.nav-info').before moveelement
   catlabel = $('.single-cate').detach()
   $('.singleV-title').before catlabel
   contactrow = $('.single-contact-section').detach()
-  $('.operate-section').after contactrow
+  $('.card-body').append contactrow
+  status = $('.contact__enquiry').detach()
+  $('.card-body').append status
   $('.back-icon').click ->
     $('.fly-out').removeClass 'active'
     return
@@ -195,6 +195,11 @@ $('body').on 'click','#contact-info', () ->
 $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
   if !$('#contact-modal #get-crdetails-form').parsley().validate()
     return
+
+  if $('#get-crdetails-form').parsley().isValid()
+    $('.contact-sub-spin').removeClass 'hidden'
+    
+
   name = $('#contact-modal #get-crdetails-form #contact_name').val()
   email = $('#contact-modal #get-crdetails-form #contact_email').val()
   mobile = $('#contact-modal #get-crdetails-form #contact_number').val()
@@ -214,6 +219,7 @@ $('#contact-modal').on 'click','#cr-get-details-form-submit',() ->
       description: JSON.stringify description
     success: (data) ->
       handleResponse(data['step'],data['html'])
+      $('.contact-sub-spin').addClass 'hidden'
 
 $('#contact-modal').on 'click','#edit-cr-number', () ->
   console.log 'enters'

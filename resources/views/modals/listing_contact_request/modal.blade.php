@@ -13,7 +13,7 @@
         </div>
         <div class="modal-body">
            <!-- data goes here -->
-<!--            <div class="site-loader">
+          <!--  <div class="site-loader">
                 <div id="floatingBarsG">
                     <div class="blockG" id="rotateG_01"></div>
                     <div class="blockG" id="rotateG_02"></div>

@@ -34,7 +34,7 @@
             @endisset
          </div>
       </div>
-      <div class="detail-cols extra-padding contact col-right enquiry-details__content">
+      <div class="detail-cols extra-padding contact col-right enquiry-details__content relative">
          <form id="get-crdetails-form"> 
          <h5 class="intro-text">Give your details below
          </h5>
@@ -80,7 +80,7 @@
          </div>
          <div class="p-t-10">
             <div class="send-action">
-               <button type="button" class="btn fnb-btn primary-btn full border-btn" id="cr-get-details-form-submit">Submit <i class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
+               <button type="button" class="btn fnb-btn primary-btn full border-btn" id="cr-get-details-form-submit">Submit <i class="fa fa-circle-o-notch fa-spin fa-fw contact-sub-spin hidden"></i></button>
             </div>
          </div>
          </form>

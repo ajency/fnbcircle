@@ -175,9 +175,12 @@ $ajimport_config['childtables'][] = array(
     ), 
     'columnupdatevalues'                      => array(
         'BusinessType'  => array(
-            "Wholeseller"   => 11, 
-            "Retailer"      => 12, 
-            "Manufacturer"  => 13
+            "Wholesaler/Distributor"    => 11, 
+            "Retailer"                  => 12, 
+            "Manufacturer"              => 13,
+            "Importer"                  => 14,
+            "Exporter"                  => 15,
+            "Service Provider"          => 16
         )
     ),
     /*serialize array form at array('column on tagle'=>array of values to be serialized where key will be a static provided by user and value will be field from temp table)    */

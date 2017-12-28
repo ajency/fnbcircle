@@ -727,7 +727,7 @@ class AdminConfigurationController extends Controller
                                         );
 
         
-        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id');
+        $userQuery = User::select('users.*')->where('users.type','external')->join('user_details', 'user_details.user_id', '=', 'users.id', 'left outer');
 
         if($requestData['filters']['user_name']!="")
         {

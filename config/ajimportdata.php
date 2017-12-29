@@ -2,8 +2,7 @@
 
 $ajimport_config['filetype']  = "csv";
 $ajimport_config['delimiter'] = ",";
-$ajimport_config['batchsize'] = "1";
-$ajimport_config['recipient'] = "parag@ajency.in";
+$ajimport_config['batchsize'] = "10";
 
 $ajimport_config['temptablename'] = 'aj_import_temp';
 $ajimport_config['temptable_default_fields'] = array("tmp_source"=>'y');
@@ -67,6 +66,7 @@ $ajimport_config['fileheader'] = array(
         'Draft', 'Draft_val',
 );
 
+/** Fields that need to be mandatary on temp table */
 $ajimport_config['mandatary_tmp_tblfields'] = array( 
     'BusinessName',
     'BusinessType',
@@ -83,14 +83,69 @@ $ajimport_config['mandatary_tmp_tblfields'] = array(
     'Draft_val',
 );
 
+/** Mark records invalid on temp table if set of fields matches each other. For ex if Email1 & Email2 value matches each other in row it will be marked as invalid */
 $ajimport_config['invalid_matches'] = array(
-    ['Email1','Email2'],
-    ['Mobile1','Mobile2'],
-    ['Landline1','Landline2'],
-    ['CoreCategory1_id','CoreCategory2_id','CoreCategory3_id','CoreCategory4_id','CoreCategory5_id','CoreCategory6_id','CoreCategory7_id','CoreCategory8_id','CoreCategory9_id','CoreCategory10_id'],
-    ['Brand1_id','Brand2_id','Brand3_id','Brand4_id','Brand5_id','Brand6_id','Brand7_id','Brand8_id','Brand9_id','Brand10_id'],
-    ['AreaOfOperation1_id','AreaOfOperation2_id','AreaOfOperation3_id','AreaOfOperation4_id','AreaOfOperation5_id','AreaOfOperation6_id','AreaOfOperation7_id','AreaOfOperation8_id','AreaOfOperation9_id','AreaOfOperation10_id'],
+    [
+        'Email1',
+        'Email2'
+    ],
+    [
+        'Mobile1',
+        'Mobile2'
+    ],
+    [
+        'Landline1',
+        'Landline2'
+    ],
+    [
+        'CoreCategory1_id',
+        'CoreCategory2_id',
+        'CoreCategory3_id',
+        'CoreCategory4_id',
+        'CoreCategory5_id',
+        'CoreCategory6_id',
+        'CoreCategory7_id',
+        'CoreCategory8_id',
+        'CoreCategory9_id',
+        'CoreCategory10_id'
+    ],
+    [
+        'Brand1_id',
+        'Brand2_id',
+        'Brand3_id',
+        'Brand4_id',
+        'Brand5_id',
+        'Brand6_id',
+        'Brand7_id',
+        'Brand8_id',
+        'Brand9_id',
+        'Brand10_id'
+    ],
+    [
+        'AreaOfOperation1_id',
+        'AreaOfOperation2_id',
+        'AreaOfOperation3_id',
+        'AreaOfOperation4_id',
+        'AreaOfOperation5_id',
+        'AreaOfOperation6_id',
+        'AreaOfOperation7_id',
+        'AreaOfOperation8_id',
+        'AreaOfOperation9_id',
+        'AreaOfOperation10_id'
+    ],
 );
+
+
+/** Allows to add unique contraint on temp table field */
+$ajimport_config['uniquefields'] = array(
+    'listing_unique' => [
+        "BusinessName", 
+        "City_id" , 
+        "users_id",
+        "BusinessType"
+    ],
+);
+
 
 /**
  * config to update any id column(for ex user_id) based on set of fields from child table(for ex user_communication table)
@@ -98,9 +153,16 @@ $ajimport_config['invalid_matches'] = array(
 $ajimport_config['tables_to_update_temp'][] = array(
     'name'                                            => 'user_communications',
     /*  'insertid_childtable'                            => 'id',*/
-    'insertid_temptable'                              => array('users_id' => 'object_id'),
-    'fields_map_to_update_temptable_child_id'         => array("Email1" => "value"),
-    'default_fields_map_to_update_temptable_child_id' => array("type" => "email", "object_type" => "App\User"),
+    'insertid_temptable'                              => array(
+        'users_id' => 'object_id'
+    ),
+    'fields_map_to_update_temptable_child_id'         => array(
+        "Email1" => "value"
+    ),
+    'default_fields_map_to_update_temptable_child_id' => array(
+        "type" => "email", 
+        "object_type" => "App\User"
+    ),
 );
 
 $ajimport_config['childtables'][] = array(
@@ -391,5 +453,15 @@ $ajimport_config['aj_batchcallbacks'] = array(
         'class_path'   =>'\App\Http\Controllers\AdminModerationController',
        ),         
 ); 
+
+$ajimport_config['import_log_mail'] = array(
+   'from'        => 'nutan@ajency.in',
+   'subject'     => 'Import log -ajency',
+   'to'          => array('harshita@ajency.in'),
+   'cc'          => array('valenie@ajency.in', 'shashank@ajency.in'),
+   'bcc'         => array('parag@ajency.in'),
+   'template'    => '',
+   'mail_params' => array('name' => 'import', 'day' => date('d-m-Y H:i:s')),
+);
 
 return $ajimport_config;

@@ -201,7 +201,7 @@
                                                 @endif
                                                 </div>
                                                 <div>
-                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
+                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5") and ($step != 'business-premium'))
                                                     <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
@@ -393,7 +393,7 @@
 
                                         <!-- Submit for review section -->
                                         <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
-                                        @if($listing->isReviewable() and $listing->status > "2" and $listing->status != "4")
+                                        @if($listing->isReviewable() and $listing->status > "2" and $listing->status != "4" and ($step != 'business-premium'))
                                         <div class="m-t-30 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -479,7 +479,7 @@
 
                 <!-- listing present -->
                
-                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
+                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5") and ($step != 'business-premium'))
                     <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">

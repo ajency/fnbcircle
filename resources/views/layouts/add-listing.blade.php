@@ -202,7 +202,7 @@
                                                 </div>
                                                 <div>
                                                 @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5") and ($step != 'business-premium'))
-                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
+                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Submit Listing</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
                                                     <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a>
@@ -401,7 +401,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                     <a href="#" class="primary-link sub-title" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
+                                                     <a href="#" class="primary-link sub-title" data-toggle="modal" data-target="#confirmBox">Submit Listing</a>
                                                </div>
                                            </div>
                                         </div>

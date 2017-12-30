@@ -2,11 +2,15 @@
   $('input[type=radio][name=plan-select]').change(function() {
     if ($(this).is(':checked')) {
       $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-      if ($(this).closest('.pricing-table__cards').hasClass('free-plan')) {
+      console.log($('input[type=radio][name=plan-select]:checked').val() === $('#pending-plan').val() || $(this).closest('.pricing-table__cards').hasClass('free-plan'));
+      if ($('input[type=radio][name=plan-select]:checked').val() === $('#pending-plan').val() || $(this).closest('.pricing-table__cards').hasClass('free-plan')) {
         $('#subscribe-btn').prop('disabled', true);
       } else {
         $('#subscribe-btn').prop('disabled', false);
       }
+    }
+    if ($('#next-plan-selected').val() === '1') {
+      $('#subscribe-btn').prop('disabled', true);
     }
   });
 

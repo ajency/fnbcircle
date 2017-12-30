@@ -491,7 +491,7 @@ class AdminModerationController extends Controller
                 $sql.= 'WHEN id = '.$listing.' THEN \''.$references[$listing].'\'';
             }
             $sql.= 'END) WHERE id in ('.implode(',', array_keys($references)).')';
-            DB::statement($sql);
+            \DB::statement($sql);
         }
         $category_ids = \App\ListingCategory::distinct()->whereNull('category_slug')->pluck('category_id')->toArray();
         if(!empty($category_ids)){
@@ -501,17 +501,27 @@ class AdminModerationController extends Controller
                  $sql.= ' WHEN category_id = '.$id.' THEN \''.$slug.'\'';
             }
             $sql.= 'END) WHERE  category_slug IS NULL';
-            DB::statement($sql);
+            \DB::statement($sql);
         }
         $brand_ids = \Conner\Tagging\Model\Tagged::distinct()->whereNull('tag_name')->pluck('tag_slug')->toArray();
         if(!empty($brand_ids)){
             $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->whereIn('slug',$brand_ids)->pluck('name','slug')->toArray();
             $sql = 'UPDATE tagging_tagged SET tag_name = (CASE';
             foreach ($brands as $slug => $name) {
-                $sql.= ' WHEN tag_slug = '.$slug.' THEN \''.$name.'\'';
+                $sql.= ' WHEN tag_slug = \''.$slug.'\' THEN \''.$name.'\'';
             }
-            $sql.= 'END) WHERE  category_slug IS NULL';
-            DB::statement($sql);
+            $sql.= 'END) WHERE  tag_name IS NULL';
+            \DB::statement($sql);
         }
+    }
+
+    public function generateDummyCsv($records = 10){
+        Excel::create('Listing_import', function ($excel){
+            $excel->sheet('Listings', function ($sheet) {
+                for($i=0;i<$records;$i++){
+
+                }
+            });
+        })->export('csv');
     }
 }

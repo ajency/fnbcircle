@@ -97,42 +97,6 @@ $ajimport_config['invalid_matches'] = array(
         'Landline1',
         'Landline2'
     ],
-    [
-        'CoreCategory1_id',
-        'CoreCategory2_id',
-        'CoreCategory3_id',
-        'CoreCategory4_id',
-        'CoreCategory5_id',
-        'CoreCategory6_id',
-        'CoreCategory7_id',
-        'CoreCategory8_id',
-        'CoreCategory9_id',
-        'CoreCategory10_id'
-    ],
-    [
-        'Brand1_id',
-        'Brand2_id',
-        'Brand3_id',
-        'Brand4_id',
-        'Brand5_id',
-        'Brand6_id',
-        'Brand7_id',
-        'Brand8_id',
-        'Brand9_id',
-        'Brand10_id'
-    ],
-    [
-        'AreaOfOperation1_id',
-        'AreaOfOperation2_id',
-        'AreaOfOperation3_id',
-        'AreaOfOperation4_id',
-        'AreaOfOperation5_id',
-        'AreaOfOperation6_id',
-        'AreaOfOperation7_id',
-        'AreaOfOperation8_id',
-        'AreaOfOperation9_id',
-        'AreaOfOperation10_id'
-    ],
 );
 
 

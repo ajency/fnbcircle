@@ -9,9 +9,16 @@ $('input[type=radio][name=plan-select]').change ->
         $('#subscribe-btn').prop('disabled',true);
     else
     	$('#subscribe-btn').prop('disabled',false);
-  if $('#next-plan-selected').val() == '1'
+  if $('#next-plan-selected').val() == '1' or $('#submit-terms-check').prop('checked') == false
     $('#subscribe-btn').prop('disabled',true);
   return
+
+$('body').on 'change', '#submit-terms-check',()->
+  if $('#submit-terms-check').prop('checked') == false
+    $('#subscribe-btn').prop('disabled',true);
+  else
+    $('input[type=radio][name=plan-select]').change()
+
 
 $('body').on 'click', '#subscribe-btn', (e) ->
   planID = $('input[type=radio][name=plan-select]:checked').val()

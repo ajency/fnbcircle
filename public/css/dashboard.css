@@ -631,6 +631,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .multiselect-container.dropdown-menu {
   left: -75px;
+  overflow-x: scroll !important;
 }
 .city-select .multiselect-container {
   padding: 0.5em;

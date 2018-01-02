@@ -230,7 +230,7 @@ Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 Route::get('/aj/importfile', 'AjFileImportController@showUploadFile')->name('showfileupload');
 
 Route::get('/aj/viewdataforimport', 'AjFileImportController@downloadTemptableDataCsv')->name('downloadtemptablecsv');
-Route::get('download-dummy-import/{records?}','AdminModerationController@generateDummyCsv');
+Route::get('/download-dummy-import/{records?}','AdminModerationController@generateDummyCsv');
 
 /*Test routes */
 

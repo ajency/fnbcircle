@@ -516,13 +516,280 @@ class AdminModerationController extends Controller
     }
 
     public function generateDummyCsv($records = 10){
-        Excel::create('Listing_import', function ($excel){
-            $excel->sheet('Listings', function ($sheet) {
+        Excel::create('Listing_import', function ($excel)use ($records){
+            $excel->sheet('Listings', function ($sheet) use ($records){
                 $filecontents = array(config('ajimportdata.fileheader'));
-                for($i=0;i<$records;$i++){
+                $type = ['Wholesaler/Distributor','Retailer','Manufacturer','Importer','Exporter', 'Service Provider'];
+                $cities = \App\Area::where('status', 1)->orderBy('order')->orderBy('name')->select('name','id')->get()->toArray();
+                $email_primary = ['intizar_08@yahoo.co.in','manu29809@gmail.com','pankajdhaka.dav@hotmail.com','pranav165@yahoo.com','arya.anit3@gmail.com','meetshrotriya@gmail.com','manugarg1592@yahoo.in','praveen_solanki29@yahoo.com','tanmaysharma07@gmail.com','kartikkumar781@gmail.com','arun.singh2205@gmail.com','rohitneema065@gmail.com','shashikant.1975@rediffmail.com','vikas221965@yahoo.com','dharmendershrm09@gmail.com','publicdial@gmail.com','kumarmrinal27@gmail.com','saikumar6448@gmail.com','saini.sourabh2013@gmail.com','sunyruc718@gmail.com','prasadchinnaa@gmail.com','m_aizaz786@yahoo.com','sundevs@gmail.com','rish.parashar@hotmail.com','kumar4612@gmail.com','vijaysingh361@gmail.com','ankitsingh33@gmail.com','kuldeepetah@yahoo.com','bansi.pathak@gmail.com','aktiwari.94@hotmail.co.uk','kataria1100@yahoo.com','jogendra5336@gmail.com','aniketparoha1@gmail.com','pranavbembi09@gmail.com','chandank973@gmail.com','ki04298@gmail.com','smartyvinod.143@gmail.com','way4dilip@gmail.com','deepakaspact@yahoo.co.in','akhil002.m@gmail.com','sanjeevheikham@gmail.com','princejnv@gmail.com','rahul_singh1990@rediff.com','suneeshjacob@gmail.com','praveenhuded3@gmail.com','vishnaram@gmail.com','omveer2012@yahoo.in','bhupalmehra17@gmail.com','satyam2708@gmail.com','shrihari333@gmail.com','nishug0786@gmail.com','ravikr.singh89@gmail.com','lucky_singh99989@rediffmail.com','jijil.tk@gmail.com','ramnathreddy.pathi@gmail.com','masoodvali.k@gmail.com','himansu1234himanshu@gmail.com','rshthakur80@gmail.com','vt1469@gmail.com','gautamkumarsingh.1993@gmail.com','vipinrajput919@gmail.com','manish.khusrupur@gmail.com','rahulmishra5790@gmail.com','munnakumar_1991@rediffmail.com','kundankumargupta1@gmail.com','diptiranjan076@gmail.com','anujchoubey4@gmail.com','avbaragi@gmail.com','ramakantsingh29@gmail.com','manmohan_1989.23@rediffmail.com','shradanan_thulay@yahoo.co.in','pushpendrasngh09@gmail.com','prasad.reddy008@gmail.com','vijuthakur02@gmail.com','jsrcyberpoint@gmail.com','dineshsundlia@gmail.com','rajeshkumaar786@gmail.com','ut_raghav@yahoo.co.in','sumit_kumar1173@yahoo.com','bskrishna17@gmail.com','vineetkumar039@gmail.com','kumar1niket@gmail.com','pandeyraviraj715@gmail.com','shivvirnh27@gmail.com','vinay9634344545@gmail.com','n.shiva245@gmail.com','laksh_stude@rediffmail.com','bhalaje89@gmail.com','chkadityabaghel@gmail.com','remosroy2011@live.com','amanit3004@gmail.com','shagun13489@gmail.com','sumallya4all@gmail.com','jalajpathak11@yahoo.in','singh16ashok@yahoo.com','jhashashank02@gmail.com','rakesh.pal.indu@gmail.com','mayankgoel9999@gmail.com','singhvishal104@gmail.com','ashishverma261190@gmail.com'];
+                $emails = array_merge($email_primary,array('','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',));
+                $cores = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->select('name','id')->get()->toArray();
+                $categories = array_merge($cores,array(["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""]));
+                $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->select('name','slug')->get()->toArray();
+                $brands = array_merge($brands,array(["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""]));
+                $areas = array_merge($cities,array(["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""]));
+                for($i=0;$i<$records;$i++){
+                    $listing = [];
 
+                    for($j=0;$j< count($filecontents[0]);$j++){
+                        switch ($filecontents[0][$j]) {
+                            case 'BusinessName':
+                                $listing[] = str_random();
+                                break;
+                            case 'BusinessType':
+                                $listing[] = array_random($type);
+                                break;
+                            case 'City':
+                                $city = array_random($cities);
+                                $listing[] = $city['name'];
+                                $listing[] = $city['id'];
+                                $j++;
+                                break;
+                            case 'Email1':
+                                $listing[] = array_random($email_primary);
+                                break;
+                            case 'Email2':
+                                $listing[] = array_random($emails);
+                                break;
+                            case 'Mobile1':
+                                $listing[] = rand(7000000000,9999999999);
+                                break;
+                            case 'Mobile2':
+                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
+                                break;
+                            case 'Landline1':
+                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
+                                break;
+                            case 'Landline2':
+                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
+                                break;
+                            case 'CoreCategory1':
+                                $core = array_random($cores);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break; 
+                            case 'CoreCategory2':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory3':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory4':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory5':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory6':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory7':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory8':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory9':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'CoreCategory10':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'Brand1':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand2':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand3':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand4':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand5':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand6':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand7':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand8':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand9':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'Brand10':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'DisplayAddress':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'AreaOfOperation1':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation2':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation3':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation4':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation5':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation6':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation7':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation8':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation9':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'AreaOfOperation10':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'BusinessDescription':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'BusinessHighlight1':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'BusinessHighlight2':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'BusinessHighlight3':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'BusinessHighlight4':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'YearOfEstablishment':
+                                $listing[] = (rand(0,1))? rand(1950,2017):"";
+                                break;
+                            case 'BusinessWebsite':
+                                $listing[] = (rand(0,1))? 'http://'.str_random().'.com':"";
+                                break;
+                            case 'OnlineBanking':
+                            case 'OnCredit':
+                            case 'CreditDebitCards':
+                            case 'CashOnDelivery':
+                            case 'eMobileWallets':
+                            case 'USSD_AEPS_UPI':
+                            case 'Cheque':
+                            case 'Draft':
+                                if(rand(0,1)){
+                                    $listing[] = "Yes"; $listing[] = 1;
+                                }else{
+                                    $listing[] = "No"; $listing[] = 0;
+                                }
+                                $j++;
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
+                    $filecontents[]=$listing;
                 }
-                dd($filecontents);
+                $sheet->fromArray($filecontents, null, 'A1', true, false);
             });
         })->export('csv');
     }

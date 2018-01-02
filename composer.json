@@ -25,10 +25,9 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "spatie/laravel-activitylog": "^2.2",
         "spatie/laravel-permission": "^2.6",
-	"maatwebsite/excel": "~2.1.0"
+    	"maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
-        "ajency/laravel-fileimport": "dev-revision-2",
         "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",

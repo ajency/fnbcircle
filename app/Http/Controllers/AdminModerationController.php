@@ -518,9 +518,11 @@ class AdminModerationController extends Controller
     public function generateDummyCsv($records = 10){
         Excel::create('Listing_import', function ($excel){
             $excel->sheet('Listings', function ($sheet) {
+                $filecontents = array(config('ajimportdata.fileheader'));
                 for($i=0;i<$records;$i++){
 
                 }
+                dd($filecontents);
             });
         })->export('csv');
     }

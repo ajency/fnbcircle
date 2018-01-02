@@ -7028,6 +7028,17 @@ input[type=checkbox].custom-checkbox:before {
   top: -3px;
 }
 @media screen and (max-width: 768px) {
+  .contactEnquiry .seller-enquiry .verified-icon {
+    -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+            transform: scale(0.8);
+    top: 0;
+  }
+  .contactEnquiry .seller-enquiry .brand-name {
+    font-size: 1.1em;
+  }
+}
+@media screen and (max-width: 768px) {
   .user-details-container .user-fields {
     padding-bottom: 0;
     font-size: 0.85em !important;

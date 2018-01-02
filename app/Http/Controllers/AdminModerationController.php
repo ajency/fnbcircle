@@ -196,6 +196,10 @@ class AdminModerationController extends Controller
         foreach ($listings as $listing) {
             // $output->writeln($listing->submission);
             // dd($listing);
+            if($listing->owner and $listing->owner->status == 'active'){
+                $listing->verified = 1;
+                $listing->save();
+            }
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;

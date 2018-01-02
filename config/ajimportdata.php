@@ -72,6 +72,7 @@ $ajimport_config['mandatary_tmp_tblfields'] = array(
     'BusinessType',
     'City_id',
     'Email1',
+    'Mobile1',
     'CoreCategory1_id',
     'OnlineBanking_val',
     'OnCredit_val',
@@ -92,11 +93,7 @@ $ajimport_config['invalid_matches'] = array(
     [
         'Mobile1',
         'Mobile2'
-    ],
-    [
-        'Landline1',
-        'Landline2'
-    ],
+    ]
 );
 
 

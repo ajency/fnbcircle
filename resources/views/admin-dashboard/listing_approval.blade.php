@@ -366,8 +366,8 @@
                         <h4 class="element-title modal-title">Import Listings</h4>
                     </div>
                     <div class="modal-body">
-                        <a href="{{action('AdminModerationController@getFile')}}"> Download Import File </a>
-                        <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheets </a>
+                        <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
+                        <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
                         {!!$importForm!!}
                     </div>
                     <div class="modal-footer">

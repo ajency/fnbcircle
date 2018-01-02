@@ -13,7 +13,7 @@
 				<div style="margin-bottom: 0.8em;">        
 					<div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
 
-					We have shared the contact details of <a href="{{$listing_url}}">{{ $listing_name }}</a> with a seeker interested in your listing.<br>
+					We have shared the contact details of <a href="{{$listing_url}}" style="color: #ec6d4b;">{{ $listing_name }}</a> with a seeker interested in your listing.<br><br>
 					Please find below details of the seeker:<br><br>
 
 					<b>Name:</b> {{ $customer_name }} <br>

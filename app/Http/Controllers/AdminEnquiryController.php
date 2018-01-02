@@ -113,7 +113,7 @@ class AdminEnquiryController extends Controller
         $enquiry_type = [
             'direct' => '<label class="fnb-label text-secondary m-b-5">Direct Enquiry</label><br>',
             'shared' => '<label class="fnb-label text-primary m-b-5">Shared Enquiry</label><br>',
-            'contact-request' => '<label class="fnb-label fnb-info-text m-b-5">Contact Enquiry</label><br>',
+            'contact-request' => '<label class="fnb-label fnb-info-text m-b-5">Contact Request</label><br>',
         ];
         $enquirer_type = [
             'App\\User' => 'User',

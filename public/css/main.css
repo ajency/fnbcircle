@@ -7088,6 +7088,11 @@ input[type=checkbox].custom-checkbox:before {
   position: relative;
   top: -5px;
 }
+@media screen and (min-width: 769px) {
+  .no-suppliers-data .sad-icon {
+    font-size: 2.5em;
+  }
+}
 .search-section {
   position: relative;
   top: 2em;

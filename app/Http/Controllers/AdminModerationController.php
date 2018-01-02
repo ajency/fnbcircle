@@ -555,11 +555,7 @@ class AdminModerationController extends Controller
                                 $listing[] = rand(7000000000,9999999999);
                                 break;
                             case 'Mobile2':
-                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
-                                break;
                             case 'Landline1':
-                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
-                                break;
                             case 'Landline2':
                                 $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
                                 break;
@@ -570,53 +566,13 @@ class AdminModerationController extends Controller
                                 $j++;
                                 break; 
                             case 'CoreCategory2':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory3':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory4':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory5':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory6':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory7':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory8':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory9':
-                                $core = array_random($categories);
-                                $listing[] = $core['name'];
-                                $listing[] = $core['id'];
-                                $j++;
-                                break;
                             case 'CoreCategory10':
                                 $core = array_random($categories);
                                 $listing[] = $core['name'];
@@ -624,59 +580,14 @@ class AdminModerationController extends Controller
                                 $j++;
                                 break;
                             case 'Brand1':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand2':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand3':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand4':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand5':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand6':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand7':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand8':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand9':
-                                $brand = array_random($brands);
-                                $listing[] = $brand['name'];
-                                $listing[] = $brand['slug'];
-                                $j++;
-                                break;
                             case 'Brand10':
                                 $brand = array_random($brands);
                                 $listing[] = $brand['name'];
@@ -687,59 +598,14 @@ class AdminModerationController extends Controller
                                 $listing[] = (rand(0,1))? str_random():"";
                                 break;
                             case 'AreaOfOperation1':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation2':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation3':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation4':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation5':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation6':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation7':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation8':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation9':
-                                $area = array_random($areas);
-                                $listing[] = $area['name'];
-                                $listing[] = $area['id'];
-                                $j++;
-                                break;
                             case 'AreaOfOperation10':
                                 $area = array_random($areas);
                                 $listing[] = $area['name'];
@@ -747,17 +613,9 @@ class AdminModerationController extends Controller
                                 $j++;
                                 break;
                             case 'BusinessDescription':
-                                $listing[] = (rand(0,1))? str_random():"";
-                                break;
                             case 'BusinessHighlight1':
-                                $listing[] = (rand(0,1))? str_random():"";
-                                break;
                             case 'BusinessHighlight2':
-                                $listing[] = (rand(0,1))? str_random():"";
-                                break;
                             case 'BusinessHighlight3':
-                                $listing[] = (rand(0,1))? str_random():"";
-                                break;
                             case 'BusinessHighlight4':
                                 $listing[] = (rand(0,1))? str_random():"";
                                 break;

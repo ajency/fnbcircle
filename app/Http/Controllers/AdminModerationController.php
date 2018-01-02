@@ -478,7 +478,7 @@ class AdminModerationController extends Controller
     }
 
     public function getFile(){
-        return response()->download(storage_path().'/app/public/import.xls');
+        return response()->download(storage_path().'/app/public/import.xlsx');
     }
 
     public function importCallback(){

@@ -74,62 +74,27 @@
 <h6 class="m-t-30 m-b-30">Our Plans <span id="pending-request">@if($pending != null) (Request pending) @endif</span></h6>
 <!-- pricing grids -->
 <div class="pricing-table plans flex-row flex-wrap job-plans listing-plans">
-    <div class="pricing-table__cards free-plan active">
-        <label class="plan-label">
-            <div class="plans__header">
-               <h6 class="sub-title text-uppercase plans__title text-color">Basic Plan</h6>
-                <div class="plans__fee">
-                    <h5 class="element-title">Free Membership</h5>
-                    <span class="text-lighter lighter default-size"><i class="fa fa-inr" aria-hidden="true"></i> 0.00/month</span>
-                </div>
-                <ul class="points">
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Basic plan
-                    </li>
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Lower Priority Listing
-                    </li>
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Fewer Enquiries
-                    </li>
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Fewer Contact Requests
-                    </li>
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Lower Rating
-                    </li>
-                    <li class="flex-row text-color align-top lighter x-small">
-                        <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        No Power Seller Badge
-                    </li>
-                </ul>
-            </div>
-            <div class="plans__footer">
-                <div class="selection">
-                    <input type="radio" disabled class="fnb-radio" name="plan-select" @if($current['id'] == 0) checked="" @endif></input>
-                    <label class="radio-check"></label>
-                    <span class="dis-block lighter text-lighter planCaption">@if($current['id'] == 0)Your current plan @endif </span>
-                </div>
-            </div>
-        </label>
-    </div>
     @foreach($plans as $plan)
-    <div class="pricing-table__cards plan-1 premium-plans">
+    <div class="pricing-table__cards plan-1 premium-plans @if($current['id'] == $plan->id) active @endif @if($plan->slug == 'free-listing' and isset($current['id'])) free-plan @endif">
         <label class="plan-label">
             <div class="plans__header">
+                @if($plan->slug != 'free-listing')
                 <div class="validity">
                     <span class="validity__text"><h6 class="number">{{(int)$plan->duration/30}}</h6>Months</span>
                 </div>
                 <img src="/img/power-icon.png" class="img-responsive power-icon" width="50">
+                @endif
                 <h6 class="sub-title text-uppercase plans__title text-color">{{$plan->title}}</h6>
+                @if($plan->slug != 'free-listing')
                 <div class="plans__fee">
                     <h5><i class="fa fa-inr" aria-hidden="true"></i> {{$plan->amount}}</h5>
                 </div>
+                @else
+                <div class="plans__fee">
+                    <h5 class="element-title">Free Membership</h5>
+                    <span class="text-lighter lighter default-size"><i class="fa fa-inr" aria-hidden="true"></i> 0.00/month</span>
+                </div>
+                @endif
                 <ul class="points">
                 @php $highlights = json_decode($plan->meta_data); @endphp
                     @foreach($highlights as $highlight)
@@ -140,13 +105,18 @@
             </div>
             <div class="plans__footer">
                 <div class="selection">
-                    <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif></input>
+                    <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif  ></input>
                     <label class="radio-check"></label>
                     <span class="dis-block lighter text-lighter planCaption">
+                    @if($current['id'] == $plan->id) 
+                        Your current plan<br>
+                    @endif
                     @if($pending != null and $pending->plan_id == $plan->id) 
                         Your request for this plan is under process 
-                    @elseif($current['id'] == $plan->id) 
-                        Your current plan
+                        <input type="hidden" id="pending-plan" value="{{$pending->plan_id}}">
+                    @elseif($current['next'] == $plan->id)
+                        Your payment is processed. You will shift to this plan after current cycle
+                        <input type="hidden" id="next-plan-selected" value="1">
                     @else Click here to choose this plan 
                     @endif</span>
                 </div>
@@ -157,7 +127,8 @@
     
 </div>
 <div class="text-right m-t-30 m-b-30 subscribe-plan">
-    <button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
+    <input type="checkbox" id="submit-terms-check" checked> I agree to <a href="#"> terms and conditions </a>
+    <button id="submit-btn" data-toggle="modal" data-target="#confirmBox" class="btn fnb-btn outline full border-btn" type="button">@if($listing->status == 3 or $listing->status == 5)Submit Listing @else Subscribe @endif </button>
 </div>
 </div>
 

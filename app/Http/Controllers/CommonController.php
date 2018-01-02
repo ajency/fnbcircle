@@ -296,7 +296,7 @@ class CommonController extends Controller
             return response()->json(['status'=>"400", 'message'=>"Invalid Type"]);
         }
 
-        Session::flash('success_message','Premium request sent successfully.');
+        Session::flash('success_message','Request sent successfully.');
         // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
         $object->premium()->where('status',0)->update(['status'=>2]);
         $premium = new PlanAssociation;

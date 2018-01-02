@@ -517,6 +517,23 @@ class AdminModerationController extends Controller
             $sql.= 'END) WHERE  tag_name IS NULL';
             \DB::statement($sql);
         }
+        $user_comms = \App\UserCommunication::whereNull('value')->orWhere('value','')->delete();
+        $listings = \App\Listing::whereNull('slug')->get();
+        foreach ($listings as $listing) {
+            $slug  = str_slug($listing->title);
+            $count = \App\Listing::where('slug', $slug)->where('id','!=',$listing->id)->count();
+            $i     = 1;
+            $slug1 = $slug;
+            if ($count > 0) {
+                do {
+                    $slug1 = $slug . '-' . $i;
+                    $count = \App\Listing::where('slug', $slug1)->count();
+                    $i++;
+                } while ($count > 0);
+            }
+            $listing->slug = $slug1;
+            $listing->save();
+        }
     }
 
     public function generateDummyCsv($records = 10){

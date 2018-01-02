@@ -2,7 +2,7 @@
 
 $ajimport_config['filetype']  = "csv";
 $ajimport_config['delimiter'] = ",";
-$ajimport_config['batchsize'] = "10";
+$ajimport_config['batchsize'] = env('IMPORT_BATCH',100);
 
 $ajimport_config['temptablename'] = 'aj_import_temp';
 $ajimport_config['temptable_default_fields'] = array("tmp_source"=>'y');

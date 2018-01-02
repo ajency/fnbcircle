@@ -7028,6 +7028,17 @@ input[type=checkbox].custom-checkbox:before {
   top: -3px;
 }
 @media screen and (max-width: 768px) {
+  .contactEnquiry .seller-enquiry .verified-icon {
+    -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+            transform: scale(0.8);
+    top: 0;
+  }
+  .contactEnquiry .seller-enquiry .brand-name {
+    font-size: 1.1em;
+  }
+}
+@media screen and (max-width: 768px) {
   .user-details-container .user-fields {
     padding-bottom: 0;
     font-size: 0.85em !important;
@@ -7076,6 +7087,11 @@ input[type=checkbox].custom-checkbox:before {
 .hot-job-section__img {
   position: relative;
   top: -5px;
+}
+@media screen and (min-width: 769px) {
+  .no-suppliers-data .sad-icon {
+    font-size: 2.5em;
+  }
 }
 .search-section {
   position: relative;
@@ -12934,6 +12950,11 @@ input[type='checkbox'].remove-addr {
 .listing-lead .lead-verify {
   vertical-align: text-top;
 }
+@media screen and (max-width: 768px) {
+  .listing-lead .lead-verify {
+    margin-left: 5px;
+  }
+}
 .listing-lead .rating {
   overflow: hidden;
   width: 15px;
@@ -12944,6 +12965,11 @@ input[type='checkbox'].remove-addr {
 .listing-lead .rating .bg:before,
 .listing-lead .rating .value:before {
   font-size: 1em;
+}
+@media screen and (max-width: 768px) {
+  div.dataTables_info {
+    white-space: normal !important;
+  }
 }
 .business-leads .dataTables_info.dataTables_info {
   text-align: right;

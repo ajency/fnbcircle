@@ -4606,6 +4606,9 @@ input[type='checkbox'].remove-addr{
 	}
 	.lead-verify{
 		vertical-align: text-top;
+		@media screen and (max-width: @mobile){
+			margin-left: 5px;
+		}
 	}
 	.rating{
 		overflow: hidden;
@@ -4620,6 +4623,14 @@ input[type='checkbox'].remove-addr{
     	}
 	}
 }
+
+
+@media screen and (max-width: @mobile){
+	div.dataTables_info{
+		white-space: normal !important;
+	}
+}
+
 
 
 .business-leads{

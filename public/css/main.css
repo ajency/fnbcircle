@@ -12945,6 +12945,11 @@ input[type='checkbox'].remove-addr {
 .listing-lead .lead-verify {
   vertical-align: text-top;
 }
+@media screen and (max-width: 768px) {
+  .listing-lead .lead-verify {
+    margin-left: 5px;
+  }
+}
 .listing-lead .rating {
   overflow: hidden;
   width: 15px;
@@ -12955,6 +12960,11 @@ input[type='checkbox'].remove-addr {
 .listing-lead .rating .bg:before,
 .listing-lead .rating .value:before {
   font-size: 1em;
+}
+@media screen and (max-width: 768px) {
+  div.dataTables_info {
+    white-space: normal !important;
+  }
 }
 .business-leads .dataTables_info.dataTables_info {
   text-align: right;

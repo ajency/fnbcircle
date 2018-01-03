@@ -423,4 +423,9 @@ class AdminModerationController extends Controller
         $default->save();
         return response()->json(['status'=>'200', 'message'=>'OK']);
     }
+
+    public function internalEmails(Request $request){
+        return view('admin-dashboard.internal_emails');
+    }
 }
+

@@ -226,8 +226,8 @@ class ListingViewController extends Controller
             $pagedata['status']['text']   = "The current status of your listing is ";
             $pagedata['status']['status'] = 'Rejected';
             $pagedata['status']['id']     = '5';
-            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Submit for Review</button></form>';
-            $pagedata['status']['next'] = 'Submit for Review';
+            $pagedata['status']['change'] = '<form action="' . action('ListingController@submitForReview') . '" method="post"><input type="hidden" name="listing_id" value="' . $listing->reference . '"><button class="btn fnb-btn text-primary border-btn no-border" type="submit">Submit Listing</button></form>';
+            $pagedata['status']['next'] = 'Submit Listing';
         }
         if (isset($pagedata['highlights']) or isset($pagedata['description']) or isset($pagedata['established']) or isset($pagedata['website']) or isset($pagedata['hours']) or isset($pagedata['address']) or isset($pagedata['location'])) {
             $pagedata['overview'] = true;

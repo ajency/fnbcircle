@@ -4,7 +4,9 @@ $('input[type=radio][name=plan-select]').change ->
     # console.log $(this).closest('.pricing-table__cards').hasClass('free-plan')
     # $(this).closest('.selection').find('.planCaption').text 'Your current plan'
     # $(this).closest('.pricing-table__cards').siblings().find('.planCaption').text 'Click here to choose this plan'
-    if $('input[type=radio][name=plan-select]:checked').val() == $('#pending-plan').val() or $(this).closest('.pricing-table__cards').hasClass('free-plan')
+    console.log $('input[type=radio][name=plan-select]:checked').val()
+    console.log $('#pending-plan').val()
+    if $('input[type=radio][name=plan-select]:checked').val() == $('#pending-plan').val() #or $(this).closest('.pricing-table__cards').hasClass('free-plan')
         # console.log 'free-plan'
         $('#submit-btn').prop('disabled',true);
     else

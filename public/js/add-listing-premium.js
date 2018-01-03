@@ -2,7 +2,9 @@
   $('input[type=radio][name=plan-select]').change(function() {
     if ($(this).is(':checked')) {
       $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-      if ($('input[type=radio][name=plan-select]:checked').val() === $('#pending-plan').val() || $(this).closest('.pricing-table__cards').hasClass('free-plan')) {
+      console.log($('input[type=radio][name=plan-select]:checked').val());
+      console.log($('#pending-plan').val());
+      if ($('input[type=radio][name=plan-select]:checked').val() === $('#pending-plan').val()) {
         $('#submit-btn').prop('disabled', true);
       } else {
         $('#submit-btn').prop('disabled', false);

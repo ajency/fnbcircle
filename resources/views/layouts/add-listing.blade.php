@@ -479,7 +479,7 @@
 
                 <!-- listing present -->
                
-                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5") and ($step == 'business-premium'))
+                @if($listing->isReviewable() and  ($step == 'business-premium'))
                     <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">

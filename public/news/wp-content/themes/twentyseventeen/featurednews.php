@@ -69,7 +69,8 @@ get_header(); ?>
 		<!-- <H1 class="bold-t" >FnB Circle News</H1> -->
 <h1 class="bold-t">
     <div class="newsLogo">
-		<div class="dis-inline custom-logo">FnB</div><div class="dis-inline news-tag">News</div>
+		<!-- <div class="dis-inline custom-logo">FnB</div> -->
+		<div class="dis-inline news-tag">News</div>
 	</div>
 </h1>
 		<div class="news-banner__overlay"></div>

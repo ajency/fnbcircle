@@ -534,6 +534,8 @@ class AdminModerationController extends Controller
             $listing->slug = $slug1;
             $listing->save();
         }
+        $common = new CommonController;
+        $common->updateUserDetails();
     }
 
     public function generateDummyCsv($records = 10){

@@ -75,7 +75,7 @@
 <!-- pricing grids -->
 <div class="pricing-table plans flex-row flex-wrap job-plans listing-plans">
     @foreach($plans as $plan)
-    <div class="pricing-table__cards plan-1 premium-plans @if($current['id'] == $plan->id) active @endif @if($plan->slug == 'free-listing' and isset($current['id'])) free-plan @endif">
+    <div class="pricing-table__cards plan-1 premium-plans @if($current['id'] == $plan->id) active @endif @if($plan->slug == 'free-listing') free-plan @if($current['id'] == null) active @endif @endif">
         <label class="plan-label">
             <div class="plans__header">
                 @if($plan->slug != 'free-listing')
@@ -105,7 +105,7 @@
             </div>
             <div class="plans__footer">
                 <div class="selection">
-                    <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if($current['id'] == $plan->id) checked="" @endif  ></input>
+                    <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if(($current['id'] == $plan->id) or ($current['id'] == null and $plan->slug == 'free-listing')) checked="" @endif  ></input>
                     <label class="radio-check"></label>
                     <span class="dis-block lighter text-lighter planCaption">
                     @if($current['id'] == $plan->id) 

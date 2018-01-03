@@ -440,7 +440,7 @@ class AdminModerationController extends Controller
 
     public function generateFile(){
         $excel = App::make('excel');
-        Excel::create('Listing_import', function ($excel){
+        Excel::create('DataSheet', function ($excel){
             $excel->sheet('Categories', function ($sheet) {
                 $category_model = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->get();
                 $categories     = [];
@@ -482,7 +482,7 @@ class AdminModerationController extends Controller
     }
 
     public function getFile(){
-        return response()->download(storage_path().'/app/public/import.xlsx');
+        return response()->download(storage_path().'/app/public/import-sample-file.xlsx');
     }
 
     public function importCallback(){

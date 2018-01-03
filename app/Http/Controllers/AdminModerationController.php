@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\User;
 use Spatie\Activitylog\Models\Activity;
+use View;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -430,7 +431,31 @@ class AdminModerationController extends Controller
     }
 
     public function getInternalMailFilters(Request $request){
-        
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        $email_type = Defaults::where('type','internal_email')->where('label',$request->type)->first();
+        if($email_type == null) abort(404);
+        $email_data = json_decode($email_type->meta_data,true);
+        $html = "";
+        foreach ($email_data['user_filters'] as $filter) {
+            switch($filter){
+                case 'location_filter':
+                    $cities = City::where('status', '1')->get();
+                    $html.= View::make('modals.location_select.display');
+                    $html.= View::make('modals.location_select.popup')->with('cities',$cities);
+                    break;
+                case 'category_filter':
+                    $html.='<label>Category Filter</label>
+                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
+                      <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                      <div id="categories" class="node-list"></div>';
+                    $html.= View::make('modals.categories_list');
+                    break;
+            }
+        }
+        print_r($html);
+        die(); 
     }
 }
 

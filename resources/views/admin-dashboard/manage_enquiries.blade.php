@@ -66,8 +66,7 @@
                       
                     </div>
                     <div class="cat-filter__wrapper">
-                      <label>Location Filter</label>
-                      <a href="#area-select" data-target="#area-select" data-toggle="modal" class="btn btn-link btn-sm heavier addArea" id="area-modal-link">Filter based on Locations</a>
+                      
                       @include('modals.location_select.display')
                     </div>
                   </div>

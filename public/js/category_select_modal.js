@@ -1,5 +1,5 @@
 (function() {
-  var change_view, getBranchNodeCategories, getCategoryDom, getNodeCategories, getPreviouslyAvailableCategories;
+  var change_view, getBranchNodeCategories, getNodeCategories, getPreviouslyAvailableCategories;
 
   getBranchNodeCategories = function(path, parent_id) {
     var html;
@@ -9,7 +9,7 @@
       url: '/api/get_listing_categories',
       data: {
         'category': [parent_id],
-        'is_branch_select': $(document).find("#is_branch_category_checkbox").val() ? true : false
+        'is_branch_select': ($(document).find("#is_branch_category_checkbox").val()) ? true : false
       },
       success: function(data) {
         var key;
@@ -77,7 +77,7 @@
   };
 
   getPreviouslyAvailableCategories = function() {
-    var error, error1, get_core_cat_checked;
+    var error, get_core_cat_checked;
     get_core_cat_checked = [];
     try {
       if ($("#category-select #previously_available_categories").val().length > 1 && JSON.parse($("#category-select #previously_available_categories").val()).length > 0) {
@@ -90,13 +90,13 @@
     return get_core_cat_checked;
   };
 
-  getCategoryDom = function(path, level) {
+  window.getCategoryDom = function(path, level) {
     $.ajax({
       type: 'post',
       url: '/api/get_categories_modal_dom',
       data: {
         'level': level,
-        'is_parent_select': $(document).find("#is_parent_category_checkbox").val() ? true : false
+        'is_parent_select': ($(document).find("#is_parent_category_checkbox").val()) ? true : false
       },
       success: function(data) {
         $(path).html(data["modal_template"]);

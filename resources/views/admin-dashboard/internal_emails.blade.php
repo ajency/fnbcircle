@@ -2,7 +2,16 @@
 
 @section('js')
   @parent
+  <!-- for location select -->
+  <script type="text/javascript" src="/js/underscore-min.js" ></script>
+  <script type="text/javascript" src="/js/handlebars.js"></script>
+  <script type="text/javascript" src="/js/location_select.js"></script>
+  <!-- for categories select -->
+  <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
+  <!-- page js -->
   <script type="text/javascript" src="/js/dashboard-internal-emails.js"></script>
+  
 @endsection
 
 @section('meta')
@@ -37,7 +46,7 @@
                     <option value="{{$type->label}}">{{$data['name']}}</option>
                  @endforeach 
                 </select>
-
+                <div id="filter-area"></div>
               </div>
             </div>
           </div>

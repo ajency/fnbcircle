@@ -74,7 +74,8 @@ if(isset($laravel_user_state)){
 	
 <h1 class="bold-t">
 	<div class="newsLogo">
-		<div class="dis-inline custom-logo">FnB</div><div class="dis-inline news-tag">News</div>	
+		<!-- <div class="dis-inline custom-logo">FnB</div> -->
+		<div class="dis-inline news-tag">News</div>	
 	</div>
 </h1>
 

@@ -117,7 +117,7 @@
                     @elseif($current['next'] == $plan->id)
                         Your payment is processed. You will shift to this plan after current cycle
                         <input type="hidden" id="next-plan-selected" value="1">
-                    @else Click here to choose this plan 
+                    @elseif($current['id'] != $plan->id) Click here to choose this plan 
                     @endif</span>
                 </div>
             </div>

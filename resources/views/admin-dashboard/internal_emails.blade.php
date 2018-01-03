@@ -1,5 +1,13 @@
  @extends('layouts.admin-dashboard')
 
+@section('js')
+  @parent
+  <script type="text/javascript" src="/js/dashboard-internal-emails.js"></script>
+@endsection
+
+@section('meta')
+  <meta property="mailtype-change-url" content="{{action('AdminModerationController@getInternalMailFilters')}}">
+ @endsection
 
  @section('page-data')
   <div class="right_col" role="main">
@@ -20,7 +28,16 @@
             <div class="x_panel">
               <div class="x_content  table-responsive">
 
-              	<select id="internal-email-type"></select>
+              	<select id="internal-email-type">
+                 <option value="">Select type</option>
+                 @foreach($types as $type)
+                    @php
+                      $data = json_decode($type->meta_data,true);
+                    @endphp
+                    <option value="{{$type->label}}">{{$data['name']}}</option>
+                 @endforeach 
+                </select>
+
               </div>
             </div>
           </div>

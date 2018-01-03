@@ -425,7 +425,12 @@ class AdminModerationController extends Controller
     }
 
     public function internalEmails(Request $request){
-        return view('admin-dashboard.internal_emails');
+        $internal = Defaults::where('type','internal_email')->get();
+        return view('admin-dashboard.internal_emails')->with('types',$internal);
+    }
+
+    public function getInternalMailFilters(Request $request){
+        
     }
 }
 

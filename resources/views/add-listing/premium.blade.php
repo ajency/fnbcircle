@@ -127,7 +127,7 @@
     
 </div>
 <div class="text-right m-t-30 m-b-30 subscribe-plan">
-    <input type="checkbox" id="submit-terms-check" checked> I agree to <a href="#"> terms and conditions </a>
+    <input type="checkbox" id="submit-terms-check" checked> I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.
     <button id="submit-btn" data-toggle="modal" data-target="#confirmBox" class="btn fnb-btn outline full border-btn" type="button">@if($listing->status == 3 or $listing->status == 5)Submit Listing @else Subscribe @endif </button>
 </div>
 </div>

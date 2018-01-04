@@ -137,7 +137,7 @@
     @if($listing->status == 3 or $listing->status == 5)<input type="checkbox" id="submit-terms-check" checked> I agree to the Terms of Service &amp; Privacy Policy of FnB Circle.
     <button id="submit-btn" data-toggle="modal" data-target="#confirmBox" class="btn fnb-btn outline full border-btn" type="button">Submit Listing</button>
     @else
-    <button id="submit-btn" data-toggle="modal" data-target="#confirmBox" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
+    <button id="subscribe-btn" class="btn fnb-btn outline full border-btn" type="button">Subscribe</button>
     @endif
 </div>
 </div>

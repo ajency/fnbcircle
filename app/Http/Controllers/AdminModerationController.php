@@ -437,7 +437,7 @@ class AdminModerationController extends Controller
         $email_type = Defaults::where('type','internal_email')->where('label',$request->type)->first();
         if($email_type == null) abort(404);
         $email_data = json_decode($email_type->meta_data,true);
-        $html = "";
+        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"';
         foreach ($email_data['user_filters'] as $filter) {
             switch($filter){
                 case 'location_filter':
@@ -480,8 +480,22 @@ class AdminModerationController extends Controller
                     break;
             }
         }
+        $html .= '<br><button type="button" id="mail-check">Send Mail</button>';
         print_r($html);
         die(); 
+    }
+
+    public function getMailCount(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        if($request->type == 'draft-listing-active'){
+            //select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3 and locality_id in ("23", "24", "15", "16")) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;
+            $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
+            $users = collect(\DB::Select($sql))->groupBy('userID');
+            
+            die();
+        }
     }
 }
 

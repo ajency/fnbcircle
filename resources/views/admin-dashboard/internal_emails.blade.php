@@ -19,6 +19,7 @@
 
 @section('meta')
   <meta property="mailtype-change-url" content="{{action('AdminModerationController@getInternalMailFilters')}}">
+  <meta property="mail-count" content="{{action('AdminModerationController@getMailCount')}}">
  @endsection
 
  @section('page-data')

@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ajency/laravel-fileimport.git",
-                "reference": "9d4c502bdbe8602811f03474d1f18aa9fec1240c"
+                "reference": "b5ed070b44d9cc10950cf9a8a0ddcc5cd1be97ab"
             },
             "type": "library",
             "autoload": {
@@ -30,7 +30,7 @@
                 }
             ],
             "description": "This package allows to import large set of file data  into multiple tables",
-            "time": "2018-01-02 06:21:39"
+            "time": "2018-01-04 07:57:30"
         },
         {
             "name": "anahkiasen/underscore-php",
@@ -84,16 +84,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.48.6",
+            "version": "3.48.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "53e489f7d13c2f65bb28fde21d96a4f261092dda"
+                "reference": "1f272175777111bb5b18831a9048e3aa113c4538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/53e489f7d13c2f65bb28fde21d96a4f261092dda",
-                "reference": "53e489f7d13c2f65bb28fde21d96a4f261092dda",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1f272175777111bb5b18831a9048e3aa113c4538",
+                "reference": "1f272175777111bb5b18831a9048e3aa113c4538",
                 "shasum": ""
             },
             "require": {
@@ -160,7 +160,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-12-29T17:28:50+00:00"
+            "time": "2018-01-02T21:47:08+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2565,16 +2565,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.7.7",
+            "version": "2.7.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "afce2b8892877af2fe80c31670a102a36016fb32"
+                "reference": "e63427e4c364061f05f03fc893727198669c43c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/afce2b8892877af2fe80c31670a102a36016fb32",
-                "reference": "afce2b8892877af2fe80c31670a102a36016fb32",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/e63427e4c364061f05f03fc893727198669c43c7",
+                "reference": "e63427e4c364061f05f03fc893727198669c43c7",
                 "shasum": ""
             },
             "require": {
@@ -2626,7 +2626,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2017-12-31T21:28:46+00:00"
+            "time": "2018-01-02T16:39:56+00:00"
         },
         {
             "name": "spatie/string",

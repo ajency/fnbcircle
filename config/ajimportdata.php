@@ -226,7 +226,7 @@ $ajimport_config['childtables'][] = array(
     'jsonvalues'                                => array(
         'other_details' => array(
             'website'           => 'BusinessWebsite', 
-            'establish_year'    => 'YearOfEstablishment'
+            'established'    => 'YearOfEstablishment'
         ),
         'payment_modes' => array(
             "online"    => "OnlineBanking_val",

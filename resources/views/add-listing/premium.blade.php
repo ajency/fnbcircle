@@ -116,10 +116,9 @@
                     <input type="radio" class="fnb-radio" name="plan-select" value="{{$plan->id}}" @if(($current['id'] == $plan->id) or ($current['id'] == null and $plan->slug == 'free-listing')) checked="" @endif  ></input>
                     <label class="radio-check"></label>
                     <span class="dis-block lighter text-lighter planCaption">
-                    @if($current['id'] == $plan->id) 
+                    @if($current['id'] == $plan->id or ($current['id']==null and $plan->slug=='free-listing')) 
                         Your current plan<br>
-                    @endif
-                    @if($pending != null and $pending->plan_id == $plan->id) 
+                    @elseif($pending != null and $pending->plan_id == $plan->id) 
                         Your request for this plan is under process 
                         <input type="hidden" id="pending-plan" value="{{$pending->plan_id}}">
                     @elseif($current['next'] == $plan->id)

@@ -19,10 +19,13 @@
             <br>
             <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
               <b style="display: block;padding-bottom: 5px;font-size: 14px;margin-bottom: 5px;text-transform: uppercase;border-bottom: 1px solid #c7c3c3;color: #ec6d4b;">Details of the Listing</b>
-              <b>Listing Name</b>: {{$listing_name}}<br>
-              <b>Type</b>: {{$listing_type}}<br>
-              <b>State</b>: {{$listing_state}}<br>
-              <b>City</b>: {{$listing_city}}<br>
+              @foreach($listings as $listing)
+              <b>Listing Name</b>: {{$listing['listing_name']}}<br>
+              <b>Type</b>: {{$listing['listing_type']}}<br>
+              <b>State</b>: {{$listing['listing_state']}}<br>
+              <b>City</b>: {{$listing['listing_city']}}<br>
+              <br>
+              @endforeach
             </div>
 
             <div style="text-align: left;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-top: 20px;">

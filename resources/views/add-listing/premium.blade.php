@@ -12,12 +12,20 @@
 
 @section('form-data')
 
-
+@if(Session::has('success_message'))
+ <div class="alert fnb-alert alert-success alert-dismissible fade in active" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+    <span class="success-message">{{session('success_message')}}</span>
+</div>
+<script>
+    setTimeout(function(){ $('.alert-success').removeClass('active'); }, 4000);
+</script>
+@else
  <div class="alert fnb-alert alert-success alert-dismissible fade in " role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
     <span class="success-message">Photos/Documents saved successfully.</span>
 </div>
-
+@endif
 
 <div class="premium tab-pane fade active in" id="business_premium">
 <div class="flex-row space-between preview-detach">

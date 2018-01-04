@@ -452,6 +452,15 @@ class AdminModerationController extends Controller
                       <div id="categories" class="node-list"></div>';
                     $html.= View::make('modals.categories_list');
                     break;
+                case 'listing_source':
+                    $html.='<label>Listing Source Filter</label>
+                            <select name="listing_source">
+                                <option value="">Select</option>
+                                <option value="import">Import</option>
+                                <option value="internal_user">Internal User</option>
+                                <option value="external_user">External User</option>
+                            </select>';
+                    break;
             }
         }
         print_r($html);

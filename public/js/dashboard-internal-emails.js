@@ -11,7 +11,14 @@
         },
         success: function(response) {
           console.log(response);
-          return $('#filter-area').html(response);
+          $('#filter-area').html(response);
+          $('#submissionDate').daterangepicker({
+            autoUpdateInput: false,
+            maxDate: moment()
+          });
+          return $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+            return $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+          });
         }
       });
     }

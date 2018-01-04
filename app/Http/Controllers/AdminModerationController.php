@@ -461,6 +461,23 @@ class AdminModerationController extends Controller
                                 <option value="external_user">External User</option>
                             </select>';
                     break;
+                case 'description_filter':
+                    $description = \App\Description::where('active',1)->get();
+                    $html.='<label>Description Filter</label>
+                            <select name="description">
+                                <option value="">Select</option>';
+                    foreach ($description as $des) {
+                        $html.='<option value="'.$des->value.'">'.$des->title.'</option>';
+                    }
+                    $html.='</select>
+                            ';
+                    break;
+                case 'user_created_filter':
+                    $html .= '<label>User Created</label>
+                    <div class="form-group">
+                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
+                    </div>';
+                    break;
             }
         }
         print_r($html);

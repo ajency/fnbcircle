@@ -9,6 +9,9 @@
   <!-- for categories select -->
   <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
+   <!-- bootstrap-daterangepicker -->
+    <script src="/bower_components/moment/min/moment.min.js"></script>
+    <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
   <!-- page js -->
   <script type="text/javascript" src="/js/dashboard-internal-emails.js"></script>
   

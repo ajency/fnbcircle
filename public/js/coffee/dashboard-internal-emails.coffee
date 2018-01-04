@@ -9,6 +9,12 @@ $('body').on 'change', '#internal-email-type', ->
 			success: (response) ->
 				console.log response
 				$('#filter-area').html response
+				$('#submissionDate').daterangepicker({
+			        autoUpdateInput:false,
+			        maxDate: moment()
+			    });
+				$('#submissionDate').on 'apply.daterangepicker', (ev, picker) ->
+					$('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
 
 $('body').on 'show.bs.modal','#category-select', ->
 	getCategoryDom("#category-select #level-one-category-dom", "level_1")

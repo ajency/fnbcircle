@@ -91,6 +91,11 @@
          <div>When you contact the listing, don't forget to mention that you found it on FnBCircle</div>
       </div>
    </div>   
-   <br>   
+   <div class="suppliers-data non-pre-cards">     
+      <p class="small text-lighter m-t-20 m-b-0">
+         Disclaimer: FnBCircle is only an intermediary platform between the business owners and seekers and hence shall neither be responsible nor liable to mediate or resolve any disputes or disagreements between the business owners and seekers.
+      </p>
+   </div>
+
 </div>
 <!-- Thank you End

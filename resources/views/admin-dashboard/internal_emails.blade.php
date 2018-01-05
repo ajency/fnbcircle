@@ -42,7 +42,7 @@
             <div class="x_panel">
               <div class="x_content  table-responsive">
 
-              	<select id="internal-email-type">
+              	<select class="form-control" id="internal-email-type">
                  <option value="">Select type</option>
                  @foreach($types as $type)
                     @php

@@ -454,7 +454,7 @@ class AdminModerationController extends Controller
                     break;
                 case 'listing_source':
                     $html.='<label>Listing Source Filter</label>
-                            <select name="listing_source">
+                            <select name="listing_source" class="form-control">
                                 <option value="">Select</option>
                                 <option value="import">Import</option>
                                 <option value="internal_user">Internal User</option>
@@ -480,7 +480,7 @@ class AdminModerationController extends Controller
                     break;
             }
         }
-        $html .= '<br><button type="button" id="mail-check">Send Mail</button>';
+        $html .= '<br><button class="btn primary-btn border-btn fnb-btn" type="button" id="mail-check">Send Mail</button>';
         print_r($html);
         die(); 
     }
@@ -496,6 +496,12 @@ class AdminModerationController extends Controller
                 $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
+            case 'draft-listing-inactive':
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
+                return collect(\DB::Select($sql))->groupBy('userID');
+                break;
+            default:
+                abort(404);
         }
     }
 
@@ -503,7 +509,7 @@ class AdminModerationController extends Controller
         $this->validate($request,[
             'type'=>'required'
         ]);
-        if($request->type == 'draft-listing-active'){
+        if($request->type == 'draft-listing-active'or $request->type == 'draft-listing-inactive'){
             $users = $this->getMailGroups($request);
             if(in_develop()){
                 return response()->json(['email_count'=>count($users),'users'=>$users]);
@@ -517,7 +523,7 @@ class AdminModerationController extends Controller
         $this->validate($request,[
             'type'=>'required'
         ]);
-        if($request->type == 'draft-listing-active'){
+        if($request->type == 'draft-listing-active' or $request->type == 'draft-listing-inactive'){
             $users = $this->getMailGroups($request);
             foreach ($users as $uid => $listings) {
                 $user = User::find($uid);

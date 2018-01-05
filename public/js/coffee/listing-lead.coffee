@@ -114,6 +114,8 @@ table = $('#listing-leads').DataTable(
       "data":  'object_type',
       "render": (d) ->
         if d != 'contact-request' 
+          tabWidth = $('#listing-leads').width()
+          $('#listing-leads_wrapper').css('width',tabWidth)
           return '<span class="details-control text-secondary heavier cursor-pointer"><span class="more-less-text">More details</span> <i class="fa fa-angle-down" aria-hidden="true"></i></span>' 
         else 
           return ''
@@ -273,3 +275,4 @@ $('body').on 'click','.unarchiveaction', ->
 					$('.alert-success').removeClass 'active'
 					return
 				), 5000
+

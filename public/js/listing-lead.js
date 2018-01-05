@@ -54,7 +54,10 @@
         "orderable": false,
         "data": 'object_type',
         "render": function(d) {
+          var tabWidth;
           if (d !== 'contact-request') {
+            tabWidth = $('#listing-leads').width();
+            $('#listing-leads_wrapper').css('width', tabWidth);
             return '<span class="details-control text-secondary heavier cursor-pointer"><span class="more-less-text">More details</span> <i class="fa fa-angle-down" aria-hidden="true"></i></span>';
           } else {
             return '';

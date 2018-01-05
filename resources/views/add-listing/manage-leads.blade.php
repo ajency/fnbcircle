@@ -203,7 +203,7 @@
 </div>
 
 
-    <div class="m-t-50 relative">
+    <div class="m-t-50 relative leads-tab-section">
 
     <table id="listing-leads" class="table table-striped listing-lead" cellspacing="0" width="100%">
         <thead>
@@ -236,7 +236,7 @@
                         <input type="text" class="form-control fnb-input" placeholder="Search" id="phonefilter">
                     </div>
                 </th>
-                <th style="min-width: 80px;"></th>
+                <th style="min-width: 40px;"></th>
                 <th style="">
                     
                 </th>

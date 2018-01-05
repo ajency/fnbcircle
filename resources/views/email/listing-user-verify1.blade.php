@@ -15,15 +15,18 @@
         <div style="margin-top: 2em;">
           <div style="margin-bottom: 0.8em;">
 
-            <p style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-bottom: 15px;">We have added listing <b><a href="{{url('/listing/'.$listing_reference.'/edit')}}">{{$listing_name}}</a></b> under your account on FnB Circle.</p>
+            <p style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;margin-bottom: 15px;">We have added listing(s) under your account on FnB Circle.</p>
 
 
         <div style="font-size: 14px;text-align: center;background-color: #eee;padding: 15px 0;">
             <b style="display: block;padding-bottom: 5px;font-size: 14px;margin-bottom: 5px;text-transform: uppercase;border-bottom: 1px solid #c7c3c3;color: #ec6d4b;">Details of the Listing</b>
-            <b>Listing Name</b>: {{$listing_name}}<br>
-            <b>Type</b>: {{$listing_type}}<br>
-            <b>State</b>: {{$listing_state}}<br>
-            <b>City</b>: {{$listing_city}}<br>
+            @foreach($listings as $listing)
+              <b>Listing Name</b>: <a href="{{url('/listing/'.$listing['listing_reference'].'/edit')}}">{{$listing['listing_name']}}</a><br>
+              <b>Type</b>: {{$listing['listing_type']}}<br>
+              <b>State</b>: {{$listing['listing_state']}}<br>
+              <b>City</b>: {{$listing['listing_city']}}<br>
+              <br>
+            @endforeach
         </div>    
         <br>
             <div style="text-align: center;color: rgba(97, 95, 95, 0.77);font-size: 0.9em;">

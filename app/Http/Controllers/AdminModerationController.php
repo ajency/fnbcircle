@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Spatie\Activitylog\Models\Activity;
 use View;
+use Illuminate\Support\Facades\Password;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -523,36 +524,71 @@ class AdminModerationController extends Controller
         $this->validate($request,[
             'type'=>'required'
         ]);
-        if($request->type == 'draft-listing-active' or $request->type == 'draft-listing-inactive'){
-            $users = $this->getMailGroups($request);
-            foreach ($users as $uid => $listings) {
-                $user = User::find($uid);
-                $listing_details = [];
-                foreach ($listings as  $user_listing) {
-                    $listing = Listing::find($user_listing->listingID);
-                    $area = Area::with('city')->find($listing->locality_id);
-                    $detail = [
-                        'listing_name' => $listing->title,
-                        'listing_type' => Listing::listing_business_type[$listing->type],
-                        'listing_state' => $area->city['name'],
-                        'listing_city' => $area->name,
-                        'listing_reference' => $listing->reference,
+        switch($request->type){
+            case 'draft-listing-active':
+                $users = $this->getMailGroups($request);
+                foreach ($users as $uid => $listings) {
+                    $user = User::find($uid);
+                    $listing_details = [];
+                    foreach ($listings as  $user_listing) {
+                        $listing = Listing::find($user_listing->listingID);
+                        $area = Area::with('city')->find($listing->locality_id);
+                        $detail = [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                            'listing_reference' => $listing->reference,
+                        ];
+                        $listing_details[] = $detail;
+                    }
+                    $email = [
+                        'to' => $user->getPrimaryEmail(),
+                        'subject' => "Listing(s) added under your account on FnB Circle",
+                        'template_data' => [
+                            'owner_name' => $user->name,
+                            'listings'=> $listing_details,
+                            
+                        ],
                     ];
-                    $listing_details[] = $detail;
+                    sendEmail('listing-user-notify',$email);
                 }
-                $email = [
-                    'to' => $user->getPrimaryEmail(),
-                    'subject' => "Listing(s) added under your account on FnB Circle",
-                    'template_data' => [
-                        'owner_name' => $user->name,
-                        'listings'=> $listing_details,
-                        
-                    ],
-                ];
-                sendEmail('listing-user-notify',$email);
-            }
+                break;
+            case 'draft-listing-inactive':
+                $users = $this->getMailGroups($request);
+                foreach ($users as $uid => $listings) {
+                    $user = User::find($uid);
+                    $listing_details = [];
+                    foreach ($listings as  $user_listing) {
+                        $listing = Listing::find($user_listing->listingID);
+                        $area = Area::with('city')->find($listing->locality_id);
+                        $detail = [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                            'listing_reference' => $listing->reference,
+                        ];
+                        $listing_details[] = $detail;
+                    }
+                    $email = [
+                        'to' => $user->getPrimaryEmail(),
+                        'subject' => "Listing(s) added under your account on FnB Circle",
+                        'template_data' => [
+                            'confirmationLink' => $reset_password_url,
+                            'listings'=> $listing_details,
+                            
+                        ],
+                    ];
+                    sendEmail('listing-user-notify',$email);
+                }
+                break;
+
+            default:
+                abort(404);
+                break;
+            return response()->json([],200);
         }
-        return response()->json([],200);
     }
 }
 

@@ -19,6 +19,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\User;
 use Spatie\Activitylog\Models\Activity;
+use View;
+use Illuminate\Support\Facades\Password;
 use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -674,4 +676,170 @@ class AdminModerationController extends Controller
             });
         })->export('csv');
     }
+
+    public function internalEmails(Request $request){
+        $internal = Defaults::where('type','internal_email')->get();
+        return view('admin-dashboard.internal_emails')->with('types',$internal);
+    }
+
+    public function getInternalMailFilters(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        $email_type = Defaults::where('type','internal_email')->where('label',$request->type)->first();
+        if($email_type == null) abort(404);
+        $email_data = json_decode($email_type->meta_data,true);
+        $html = '<input type="hidden" name="mail-type" value="'.$email_type->label.'"';
+        foreach ($email_data['user_filters'] as $filter) {
+            switch($filter){
+                case 'location_filter':
+                    $cities = City::where('status', '1')->get();
+                    $html.= View::make('modals.location_select.display');
+                    $html.= View::make('modals.location_select.popup')->with('cities',$cities);
+                    break;
+                case 'category_filter':
+                    $html.='<label>Category Filter</label>
+                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
+                      <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                      <div id="categories" class="node-list"></div>';
+                    $html.= View::make('modals.categories_list');
+                    break;
+                case 'listing_source':
+                    $html.='<label>Listing Source Filter</label>
+                            <select name="listing_source" class="form-control">
+                                <option value="">Select</option>
+                                <option value="import">Import</option>
+                                <option value="internal_user">Internal User</option>
+                                <option value="external_user">External User</option>
+                            </select>';
+                    break;
+                case 'description_filter':
+                    $description = \App\Description::where('active',1)->get();
+                    $html.='<label>Description Filter</label>
+                            <select name="description">
+                                <option value="">Select</option>';
+                    foreach ($description as $des) {
+                        $html.='<option value="'.$des->value.'">'.$des->title.'</option>';
+                    }
+                    $html.='</select>
+                            ';
+                    break;
+                case 'user_created_filter':
+                    $html .= '<label>User Created</label>
+                    <div class="form-group">
+                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
+                    </div>';
+                    break;
+            }
+        }
+        $html .= '<br><button class="btn primary-btn border-btn fnb-btn" type="button" id="mail-check">Send Mail</button>';
+        print_r($html);
+        die(); 
+    }
+
+    public function getMailGroups($request){
+         $this->validate($request,[
+            'type'=>'required'
+        ]);
+        $type = $request->type;
+        switch ($type) {
+            case 'draft-listing-active':
+                //select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3 and locality_id in ("23", "24", "15", "16")) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
+                return collect(\DB::Select($sql))->groupBy('userID');
+                break;
+            case 'draft-listing-inactive':
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
+                return collect(\DB::Select($sql))->groupBy('userID');
+                break;
+            default:
+                abort(404);
+        }
+    }
+
+    public function getMailCount(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        if($request->type == 'draft-listing-active'or $request->type == 'draft-listing-inactive'){
+            $users = $this->getMailGroups($request);
+            if(in_develop()){
+                return response()->json(['email_count'=>count($users),'users'=>$users]);
+            }
+            return response()->json(['email_count'=>count($users)]);
+            //die();
+        }
+    }
+
+    public function sendSelectedUsersMail(Request $request){
+        $this->validate($request,[
+            'type'=>'required'
+        ]);
+        switch($request->type){
+            case 'draft-listing-active':
+                $users = $this->getMailGroups($request);
+                foreach ($users as $uid => $listings) {
+                    $user = User::find($uid);
+                    $listing_details = [];
+                    foreach ($listings as  $user_listing) {
+                        $listing = Listing::find($user_listing->listingID);
+                        $area = Area::with('city')->find($listing->locality_id);
+                        $detail = [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                            'listing_reference' => $listing->reference,
+                        ];
+                        $listing_details[] = $detail;
+                    }
+                    $email = [
+                        'to' => $user->getPrimaryEmail(),
+                        'subject' => "Listing(s) added under your account on FnB Circle",
+                        'template_data' => [
+                            'owner_name' => $user->name,
+                            'listings'=> $listing_details,
+                            
+                        ],
+                    ];
+                    sendEmail('listing-user-notify',$email);
+                }
+                break;
+            case 'draft-listing-inactive':
+                $users = $this->getMailGroups($request);
+                foreach ($users as $uid => $listings) {
+                    $user = User::find($uid);
+                    $listing_details = [];
+                    foreach ($listings as  $user_listing) {
+                        $listing = Listing::find($user_listing->listingID);
+                        $area = Area::with('city')->find($listing->locality_id);
+                        $detail = [
+                            'listing_name' => $listing->title,
+                            'listing_type' => Listing::listing_business_type[$listing->type],
+                            'listing_state' => $area->city['name'],
+                            'listing_city' => $area->name,
+                            'listing_reference' => $listing->reference,
+                        ];
+                        $listing_details[] = $detail;
+                    }
+                    $email = [
+                        'to' => $user->getPrimaryEmail(),
+                        'subject' => "Listing(s) added under your account on FnB Circle",
+                        'template_data' => [
+                            'confirmationLink' => $reset_password_url,
+                            'listings'=> $listing_details,
+                            
+                        ],
+                    ];
+                    sendEmail('listing-user-notify',$email);
+                }
+                break;
+
+            default:
+                abort(404);
+                break;
+            return response()->json([],200);
+        }
+    }
 }
+

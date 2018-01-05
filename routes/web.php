@@ -175,6 +175,10 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 		Route::get('locations','AdminConfigurationController@locationView');
 	});
 	Route::get('email-notification', 'AdminModerationController@emailNotification');
+	Route::get('internal-email', 'AdminModerationController@internalEmails');
+	Route::post('internal-mail-filters','AdminModerationController@getInternalMailFilters');
+	Route::post('internal-mail-count','AdminModerationController@getMailCount');
+	Route::post('internal-mail-send','AdminModerationController@sendSelectedUsersMail');
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');

@@ -45,7 +45,7 @@ getAreas = (cityID) ->
 
 array = []
         
-$('#area-select').on 'show.bs.modal', (e) ->
+$('body').on 'show.bs.modal', '#area-select', (e) ->
   setTimeout (->
     $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
     return
@@ -72,7 +72,7 @@ $('#area-select').on 'show.bs.modal', (e) ->
   return
 
 
-$('#category-select').on 'show.bs.modal', (e) ->
+$('body').on 'show.bs.modal','#category-select', (e) ->
   setTimeout (->
     $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
     return
@@ -139,7 +139,7 @@ populate = () ->
   template = Handlebars.compile(source)
   $('div#disp-operation-areas.node-list').html template(cities)
     
-$('#disp-operation-areas').on 'click', '.delete-cat', ->
+$('body').on 'click', '#disp-operation-areas .delete-cat', ->
   pid = parseInt($(this).closest('.single-category').attr('data-city-id'))
   console.log pid
   delete(cities['cities'][pid])
@@ -148,7 +148,7 @@ $('#disp-operation-areas').on 'click', '.delete-cat', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
-$('#disp-operation-areas').on 'click', '.fnb-cat .remove', ->
+$('body').on 'click', '#disp-operation-areas .fnb-cat .remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
   list= item.parent()
   cid = parseInt($(this).closest('.single-category').attr('data-city-id'))

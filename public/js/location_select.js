@@ -58,7 +58,7 @@
 
   array = [];
 
-  $('#area-select').on('show.bs.modal', function(e) {
+  $('body').on('show.bs.modal', '#area-select', function(e) {
     var cityID;
     setTimeout((function() {
       $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
@@ -89,7 +89,7 @@
     });
   });
 
-  $('#category-select').on('show.bs.modal', function(e) {
+  $('body').on('show.bs.modal', '#category-select', function(e) {
     return setTimeout((function() {
       $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
     }), 500);
@@ -146,7 +146,7 @@
     return $('div#disp-operation-areas.node-list').html(template(cities));
   };
 
-  $('#disp-operation-areas').on('click', '.delete-cat', function() {
+  $('body').on('click', '#disp-operation-areas .delete-cat', function() {
     var pid;
     pid = parseInt($(this).closest('.single-category').attr('data-city-id'));
     console.log(pid);
@@ -155,7 +155,7 @@
     return $('.city-list a#checkbox-' + pid).prop('checked', false).change();
   });
 
-  $('#disp-operation-areas').on('click', '.fnb-cat .remove', function() {
+  $('body').on('click', '#disp-operation-areas .fnb-cat .remove', function() {
     var aid, cid, item, list;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();

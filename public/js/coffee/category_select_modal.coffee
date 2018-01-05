@@ -103,7 +103,7 @@ getPreviouslyAvailableCategories = () ->
 
 	return get_core_cat_checked
 
-getCategoryDom = (path, level) ->
+window.getCategoryDom = (path, level) ->
 	$.ajax
 		type: 'post'
 		url: '/api/get_categories_modal_dom'

@@ -80,6 +80,7 @@
                 <ul class="nav child_menu" style="display: block">
                 
                   <li class="sub_menu @if(Request::path() == 'admin-dashboard/email-notification' )current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/email-notification')#@else {{action('AdminModerationController@emailNotification')}} @endif">Notifications</a></li>
+                  <li class="sub_menu @if(Request::path() == 'admin-dashboard/internal-email' )current-page @endif"><a href="@if(Request::path() == 'admin-dashboard/internal-email')#@else {{action('AdminModerationController@internalEmails')}} @endif">Internal Emails</a></li>
                 
                 </ul>
               </li>

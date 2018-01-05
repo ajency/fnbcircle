@@ -1,5 +1,5 @@
 (function() {
-  var change_view, getBranchNodeCategories, getCategoryDom, getNodeCategories, getPreviouslyAvailableCategories;
+  var change_view, getBranchNodeCategories, getNodeCategories, getPreviouslyAvailableCategories;
 
   getBranchNodeCategories = function(path, parent_id) {
     var html;
@@ -90,7 +90,7 @@
     return get_core_cat_checked;
   };
 
-  getCategoryDom = function(path, level) {
+  window.getCategoryDom = function(path, level) {
     $.ajax({
       type: 'post',
       url: '/api/get_categories_modal_dom',

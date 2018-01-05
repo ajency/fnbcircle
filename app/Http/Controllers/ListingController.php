@@ -81,7 +81,7 @@ class ListingController extends Controller
         $request_data = [
             "user" => array("username" => $user_details->email, "email" => $user_details->email, "password" => str_random(10) , "provider" => "internal_listing_signup", "name" => explode('@', $user_details->email)[0]),
             "user_comm" => array("email" => $user_details->email, "is_primary" => 1, "is_communication" => 1, "is_visible" => 0, "is_verified" => 0),
-            "user_details" => array("is_job_seeker" => 0, "has_job_listing" => 0, "has_business_listing" => 0, "has_restaurant_listing" => 0)
+            "user_details" => array()
         ];
         $userauth_obj = new UserAuth;
         $valid_response = $userauth_obj->validateUserLogin($request_data["user"], "email_signup");

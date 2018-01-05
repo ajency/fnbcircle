@@ -19,7 +19,7 @@ $('body').on 'change', '#internal-email-type', ->
 $('body').on 'show.bs.modal','#category-select', ->
 	getCategoryDom("#category-select #level-one-category-dom", "level_1")
 
-$('body').on 'click','#mail-check',()->
+getSelectedFilters = (url_check)->
 	type = $('input[name="mail-type"]').val()
 	if type == 'draft-listing-active' or 'draft-listing-inactive'
 		loc_city_array = []
@@ -34,13 +34,41 @@ $('body').on 'click','#mail-check',()->
 				loc_city_array.push(cities['cities'][entry]['id'])
 		console.log 'cities=',loc_city_array
 		console.log 'areas=',loc_area_array
-		url = document.head.querySelector('[property="mail-count"]').content
-		$.ajax
-			url:url
-			type: 'post'
-			data:
-				type: type
-				areas: loc_area_array
-				cities: loc_city_array
-			success: (response)->
-				console.log response
+		url_count = document.head.querySelector('[property="mail-count"]').content
+		url_send = document.head.querySelector('[property="mail-send"]').content
+		switch url_check
+			when url_count
+				$.ajax
+					url:url_count
+					type: 'post'
+					data:
+						type: type
+						areas: loc_area_array
+						cities: loc_city_array
+					success: (response)->
+						console.log response
+						$('#user_number').html response['email_count'];
+						$('#confirmBox').modal('show')
+				return
+			when url_send
+				$.ajax
+					url:url_send
+					type: 'post'
+					data:
+						type: type
+						areas: loc_area_array
+						cities: loc_city_array
+					success: (response)->
+						console.log response
+						$('#messageBox').modal('show')
+				return
+
+$('body').on 'click','#mail-check',()->
+	url = document.head.querySelector('[property="mail-count"]').content
+	getSelectedFilters(url)
+
+$('body').on 'click','#send-mail-confirm', ()->
+	$('#confirmBox').modal('hide')
+	url = document.head.querySelector('[property="mail-send"]').content
+	getSelectedFilters(url)
+		

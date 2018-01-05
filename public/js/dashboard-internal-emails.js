@@ -1,4 +1,6 @@
 (function() {
+  var getSelectedFilters;
+
   $('body').on('change', '#internal-email-type', function() {
     var url;
     if (this.value !== "") {
@@ -28,8 +30,8 @@
     return getCategoryDom("#category-select #level-one-category-dom", "level_1");
   });
 
-  $('body').on('click', '#mail-check', function() {
-    var entry, i, j, loc_area_array, loc_city_array, type, url;
+  getSelectedFilters = function(url_check) {
+    var entry, i, j, loc_area_array, loc_city_array, type, url_count, url_send;
     type = $('input[name="mail-type"]').val();
     if (type === 'draft-listing-active' || 'draft-listing-inactive') {
       loc_city_array = [];
@@ -47,20 +49,54 @@
       }
       console.log('cities=', loc_city_array);
       console.log('areas=', loc_area_array);
-      url = document.head.querySelector('[property="mail-count"]').content;
-      return $.ajax({
-        url: url,
-        type: 'post',
-        data: {
-          type: type,
-          areas: loc_area_array,
-          cities: loc_city_array
-        },
-        success: function(response) {
-          return console.log(response);
-        }
-      });
+      url_count = document.head.querySelector('[property="mail-count"]').content;
+      url_send = document.head.querySelector('[property="mail-send"]').content;
+      switch (url_check) {
+        case url_count:
+          $.ajax({
+            url: url_count,
+            type: 'post',
+            data: {
+              type: type,
+              areas: loc_area_array,
+              cities: loc_city_array
+            },
+            success: function(response) {
+              console.log(response);
+              $('#user_number').html(response['email_count']);
+              return $('#confirmBox').modal('show');
+            }
+          });
+          break;
+        case url_send:
+          $.ajax({
+            url: url_send,
+            type: 'post',
+            data: {
+              type: type,
+              areas: loc_area_array,
+              cities: loc_city_array
+            },
+            success: function(response) {
+              console.log(response);
+              return $('#messageBox').modal('show');
+            }
+          });
+      }
     }
+  };
+
+  $('body').on('click', '#mail-check', function() {
+    var url;
+    url = document.head.querySelector('[property="mail-count"]').content;
+    return getSelectedFilters(url);
+  });
+
+  $('body').on('click', '#send-mail-confirm', function() {
+    var url;
+    $('#confirmBox').modal('hide');
+    url = document.head.querySelector('[property="mail-send"]').content;
+    return getSelectedFilters(url);
   });
 
 }).call(this);

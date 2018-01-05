@@ -819,7 +819,7 @@ class AdminConfigurationController extends Controller
 
 
         $usersData = [];
-        $sourceType = ['email_signup'=>'Email signup','google'=>'Google','facebook'=>'Facebook', 'internal_listing_signup' => 'Created by Internal via Listing' ];
+        $sourceType = ['email_signup'=>'Email signup','google'=>'Google','facebook'=>'Facebook', 'internal_listing_signup' => 'Created by Internal via Listing', 'import' => 'Created via Import' ];
         foreach ($users as $key => $user) {
          
             $userDetails = $user->getUserDetails; 

@@ -201,8 +201,8 @@
                                                 @endif
                                                 </div>
                                                 <div>
-                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
-                                                    <a href="#" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
+                                                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5") and ($step != 'business-premium'))
+                                                    <a href="#" class="review-submit-link" >Submit Listing</a>
                                                 @endif
                                                 @if($listing->isReviewable() and ($listing->status == "1"))
                                                     <a href="#" data-toggle="modal" data-target="#confirmBox">Archive</a>
@@ -393,7 +393,7 @@
 
                                         <!-- Submit for review section -->
                                         <input type="hidden" id="listing_id" value="{{$listing->reference}}"  readonly>
-                                        @if($listing->isReviewable() and $listing->status > "2" and $listing->status != "4")
+                                        @if($listing->isReviewable() and $listing->status > "2" and $listing->status != "4" and ($step != 'business-premium'))
                                         <div class="m-t-30 c-gap">
                                            <div class="review-note flex-row space-between">
                                                 <div class="review-note__text flex-row">
@@ -401,7 +401,7 @@
                                                     <p class="review-note__title">If you don't want to further complete/edit the listing, you can submit it for review</p>
                                                 </div>
                                                <div class="review-note__submit">
-                                                     <a href="#" class="primary-link sub-title" data-toggle="modal" data-target="#confirmBox">Submit for Review</a>
+                                                     <a href="#" class="primary-link sub-title review-submit-link">Submit Listing</a>
                                                </div>
                                            </div>
                                         </div>
@@ -479,7 +479,7 @@
 
                 <!-- listing present -->
                
-                @if($listing->isReviewable() and ($listing->status == "3" or $listing->status == "5"))
+                @if($listing->isReviewable() and  ($step == 'business-premium'))
                     <div class="modal fnb-modal confirm-box fade modal-center" id="confirmBox" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-sm" role="document">
                           <div class="modal-content">
@@ -488,10 +488,10 @@
                               </div>
                               <div class="modal-body text-center">
                                   <div class="listing-message">
-                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to send your listing for review?</h4>
+                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to submit listing with selected plan?</h4>
                                   </div>  
                                   <div class="confirm-actions text-right">
-                                      <a href="#" class="review-submit-link" > <button class="btn fnb-btn text-primary border-btn no-border" >Send for Review</button></a>
+                                      <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="subscribe-btn" >@if($listing->status == 3 or $listing->status == 5)Submit Listing @else Subscribe @endif</button></a>
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">Cancel</button>
                                   </div>
                               </div>

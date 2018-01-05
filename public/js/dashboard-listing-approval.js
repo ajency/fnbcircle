@@ -662,4 +662,8 @@
     return approval_table.ajax.reload();
   };
 
+  $('body').on('click', 'button#importListing', function(e) {
+    return $('#importListingModal').modal('show');
+  });
+
 }).call(this);

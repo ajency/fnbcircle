@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App;
+use Excel;
+
 use App\Category;
 use App\City;
 use App\Area;
@@ -16,6 +19,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\User;
 use Spatie\Activitylog\Models\Activity;
+use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -28,7 +32,9 @@ class AdminModerationController extends Controller
     {
         $parent_categ = Category::whereNull('parent_id')->orderBy('order')->orderBy('name')->where('status','1')->where('type','listing')->get();
         $cities       = City::where('status', '1')->get();
-        return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities);
+        $aj_file_import = new AjCsvFileImport();
+        $form_view = $aj_file_import->fileuploadform();
+        return view('admin-dashboard.listing_approval')->with('parents', $parent_categ)->with('cities', $cities)->with('importForm',$form_view);
     }
 
     public function displayListingsDum(Request $request)
@@ -133,12 +139,12 @@ class AdminModerationController extends Controller
         if ($filters['submission_date']['start'] != "") {
             $listings->where('submission_date', '>', $filters['submission_date']['start'])->where('submission_date', '<', $end->addDay()->toDateTimeString());
         }
-        $listings = $listings->where('title','like','%'.$search.'%');
+        if($search!="") $listings = $listings->where('title','like','%'.$search.'%');
         if (isset($filters['city'])) {
             $areas = Area::whereIn('city_id', $filters['city'])->pluck('id')->toArray();
             $listings = $listings->whereIn('locality_id',$areas);
         }
-        if(isset($filters["updated_by"])){
+        if(isset($filters["updated_by"]) and count($filters["updated_by"]['user_type']) ==1){
             $users  = User::whereIn('type',$filters["updated_by"]['user_type'])->pluck('id')->toArray();
             $listings = $listings->whereIn('last_updated_by',$users);
         }
@@ -178,6 +184,10 @@ class AdminModerationController extends Controller
         // $output->writeln($filters['submission_date']['start']);
         // $output->writeln($filters['submission_date']['end']);
 
+        // print_r($listings->toSql());
+        // print_r($listings->getBindings());
+        // die();
+
         $listings = $listings->get();
         // $filtered = count($listings);
         // $output->writeln(json_encode($listings));
@@ -186,6 +196,10 @@ class AdminModerationController extends Controller
         foreach ($listings as $listing) {
             // $output->writeln($listing->submission);
             // dd($listing);
+            if($listing->owner and $listing->owner->status == 'active'){
+                $listing->verified = 1;
+                $listing->save();
+            }
             $sub                                       = ($listing->submission_date != null) ? $listing->submission_date->toDateTimeString() : '';
             $response[$listing->id]                    = array('id' => $listing->id, 'name' => $listing->title, 'submission_date' => $sub, 'updated_on' => $listing->updated_at->toDateTimeString());
             $response[$listing->id]['status']          = $listing->status;
@@ -422,5 +436,242 @@ class AdminModerationController extends Controller
         $default->meta_data = json_encode($data);
         $default->save();
         return response()->json(['status'=>'200', 'message'=>'OK']);
+    }
+
+    public function generateFile(){
+        $excel = App::make('excel');
+        Excel::create('DataSheet', function ($excel){
+            $excel->sheet('Categories', function ($sheet) {
+                $category_model = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->get();
+                $categories     = [];
+                foreach ($category_model as $category) {
+                    $categories[] = array($category->hirarchy, $category->id);
+                }
+                $sheet->fromArray($categories, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'Node Category', 'Cat Id',
+                ));
+            });
+            $excel->sheet('Brand', function ($sheet) {
+                $brandModel = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->get();
+                $brands     = [];
+                foreach ($brandModel as $brand) {
+                    $brands[] = array($brand->name, $brand->slug);
+                }
+                $sheet->fromArray($brands, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'Brand Name', 'Brand Slug',
+                ));
+            });
+            $excel->sheet('Cities', function ($sheet) {
+                $citiesModel = \App\Area::where('status', 1)->orderBy('order')->orderBy('name')->get();
+                $cities      = [];
+                foreach ($citiesModel as $city) {
+                    $cities[] = array($city->hirarchy, $city->id);
+                }
+                $sheet->fromArray($cities, null, 'B3', true, false);
+                $sheet->row(2, array(
+                    '', 'City Name', 'City ID',
+                ));
+                $sheet->cell('I3', function ($cell) {$cell->setValue('Yes');});
+                $sheet->cell('I4', function ($cell) {$cell->setValue('No');});
+                $sheet->cell('J3', function ($cell) {$cell->setValue('1');});
+                $sheet->cell('J4', function ($cell) {$cell->setValue('0');});
+            });
+        })->export('xls');
+    }
+
+    public function getFile(){
+        return response()->download(storage_path().'/app/public/import-sample-file.xlsx');
+    }
+
+    public function importCallback(){
+        $listing_ids = \App\Listing::whereNull('reference')->pluck('id')->toArray();
+        if(!empty($listing_ids)){
+            $references = [];
+            $sql = 'UPDATE listings SET reference = (CASE ';
+            foreach ($listing_ids as $listing) {
+                $references[$listing] = str_random(8);
+                $sql.= 'WHEN id = '.$listing.' THEN \''.$references[$listing].'\'';
+            }
+            $sql.= 'END) WHERE id in ('.implode(',', array_keys($references)).')';
+            \DB::statement($sql);
+        }
+        $category_ids = \App\ListingCategory::distinct()->whereNull('category_slug')->pluck('category_id')->toArray();
+        if(!empty($category_ids)){
+            $categories = \App\Category::whereIn('id',$category_ids)->pluck('slug','id')->toArray();
+            $sql = 'UPDATE listing_category SET category_slug = (CASE';
+            foreach ($categories as $id => $slug) {
+                 $sql.= ' WHEN category_id = '.$id.' THEN \''.$slug.'\'';
+            }
+            $sql.= 'END) WHERE  category_slug IS NULL';
+            \DB::statement($sql);
+        }
+        $brand_ids = \Conner\Tagging\Model\Tagged::distinct()->whereNull('tag_name')->pluck('tag_slug')->toArray();
+        if(!empty($brand_ids)){
+            $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->whereIn('slug',$brand_ids)->pluck('name','slug')->toArray();
+            $sql = 'UPDATE tagging_tagged SET tag_name = (CASE';
+            foreach ($brands as $slug => $name) {
+                $sql.= ' WHEN tag_slug = \''.$slug.'\' THEN \''.$name.'\'';
+            }
+            $sql.= 'END) WHERE  tag_name IS NULL';
+            \DB::statement($sql);
+        }
+        $user_comms = \App\UserCommunication::whereNull('value')->orWhere('value','')->delete();
+        $listings = \App\Listing::whereNull('slug')->get();
+        foreach ($listings as $listing) {
+            $slug  = str_slug($listing->title);
+            $count = \App\Listing::where('slug', $slug)->where('id','!=',$listing->id)->count();
+            $i     = 1;
+            $slug1 = $slug;
+            if ($count > 0) {
+                do {
+                    $slug1 = $slug . '-' . $i;
+                    $count = \App\Listing::where('slug', $slug1)->count();
+                    $i++;
+                } while ($count > 0);
+            }
+            $listing->slug = $slug1;
+            $listing->save();
+        }
+        $common = new CommonController;
+        $common->updateUserDetails();
+    }
+
+    public function generateDummyCsv($records = 10){
+        Excel::create('Listing_import', function ($excel)use ($records){
+            $excel->sheet('Listings', function ($sheet) use ($records){
+                $filecontents = array(config('ajimportdata.fileheader'));
+                $type = ['Wholesaler/Distributor','Retailer','Manufacturer','Importer','Exporter', 'Service Provider'];
+                $cities = \App\Area::where('status', 1)->orderBy('order')->orderBy('name')->select('name','id')->get()->toArray();
+                $email_primary = ['intizar_08@yahoo.co.in','manu29809@gmail.com','pankajdhaka.dav@hotmail.com','pranav165@yahoo.com','arya.anit3@gmail.com','meetshrotriya@gmail.com','manugarg1592@yahoo.in','praveen_solanki29@yahoo.com','tanmaysharma07@gmail.com','kartikkumar781@gmail.com','arun.singh2205@gmail.com','rohitneema065@gmail.com','shashikant.1975@rediffmail.com','vikas221965@yahoo.com','dharmendershrm09@gmail.com','publicdial@gmail.com','kumarmrinal27@gmail.com','saikumar6448@gmail.com','saini.sourabh2013@gmail.com','sunyruc718@gmail.com','prasadchinnaa@gmail.com','m_aizaz786@yahoo.com','sundevs@gmail.com','rish.parashar@hotmail.com','kumar4612@gmail.com','vijaysingh361@gmail.com','ankitsingh33@gmail.com','kuldeepetah@yahoo.com','bansi.pathak@gmail.com','aktiwari.94@hotmail.co.uk','kataria1100@yahoo.com','jogendra5336@gmail.com','aniketparoha1@gmail.com','pranavbembi09@gmail.com','chandank973@gmail.com','ki04298@gmail.com','smartyvinod.143@gmail.com','way4dilip@gmail.com','deepakaspact@yahoo.co.in','akhil002.m@gmail.com','sanjeevheikham@gmail.com','princejnv@gmail.com','rahul_singh1990@rediff.com','suneeshjacob@gmail.com','praveenhuded3@gmail.com','vishnaram@gmail.com','omveer2012@yahoo.in','bhupalmehra17@gmail.com','satyam2708@gmail.com','shrihari333@gmail.com','nishug0786@gmail.com','ravikr.singh89@gmail.com','lucky_singh99989@rediffmail.com','jijil.tk@gmail.com','ramnathreddy.pathi@gmail.com','masoodvali.k@gmail.com','himansu1234himanshu@gmail.com','rshthakur80@gmail.com','vt1469@gmail.com','gautamkumarsingh.1993@gmail.com','vipinrajput919@gmail.com','manish.khusrupur@gmail.com','rahulmishra5790@gmail.com','munnakumar_1991@rediffmail.com','kundankumargupta1@gmail.com','diptiranjan076@gmail.com','anujchoubey4@gmail.com','avbaragi@gmail.com','ramakantsingh29@gmail.com','manmohan_1989.23@rediffmail.com','shradanan_thulay@yahoo.co.in','pushpendrasngh09@gmail.com','prasad.reddy008@gmail.com','vijuthakur02@gmail.com','jsrcyberpoint@gmail.com','dineshsundlia@gmail.com','rajeshkumaar786@gmail.com','ut_raghav@yahoo.co.in','sumit_kumar1173@yahoo.com','bskrishna17@gmail.com','vineetkumar039@gmail.com','kumar1niket@gmail.com','pandeyraviraj715@gmail.com','shivvirnh27@gmail.com','vinay9634344545@gmail.com','n.shiva245@gmail.com','laksh_stude@rediffmail.com','bhalaje89@gmail.com','chkadityabaghel@gmail.com','remosroy2011@live.com','amanit3004@gmail.com','shagun13489@gmail.com','sumallya4all@gmail.com','jalajpathak11@yahoo.in','singh16ashok@yahoo.com','jhashashank02@gmail.com','rakesh.pal.indu@gmail.com','mayankgoel9999@gmail.com','singhvishal104@gmail.com','ashishverma261190@gmail.com'];
+                $emails = array_merge($email_primary,array('','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',));
+                $cores = \App\Category::where('level', 3)->where('status', 1)->orderBy('order')->orderBy('name')->select('name','id')->get()->toArray();
+                $categories = array_merge($cores,array(["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""]));
+                $brands = \Conner\Tagging\Model\Tag::where('tag_group_id', 1)->orderBy('name')->select('name','slug')->get()->toArray();
+                $brands = array_merge($brands,array(["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""],["name" => "", "slug" => ""]));
+                $areas = array_merge($cities,array(["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""],["name" => "", "id" => ""]));
+                for($i=0;$i<$records;$i++){
+                    $listing = [];
+
+                    for($j=0;$j< count($filecontents[0]);$j++){
+                        switch ($filecontents[0][$j]) {
+                            case 'BusinessName':
+                                $listing[] = str_random();
+                                break;
+                            case 'BusinessType':
+                                $listing[] = array_random($type);
+                                break;
+                            case 'City':
+                                $city = array_random($cities);
+                                $listing[] = $city['name'];
+                                $listing[] = $city['id'];
+                                $j++;
+                                break;
+                            case 'Email1':
+                                $listing[] = array_random($email_primary);
+                                break;
+                            case 'Email2':
+                                $listing[] = array_random($emails);
+                                break;
+                            case 'Mobile1':
+                                $listing[] = rand(7000000000,9999999999);
+                                break;
+                            case 'Mobile2':
+                            case 'Landline1':
+                            case 'Landline2':
+                                $listing[] = (rand(0,1))? rand(7000000000,9999999999):"";
+                                break;
+                            case 'CoreCategory1':
+                                $core = array_random($cores);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break; 
+                            case 'CoreCategory2':
+                            case 'CoreCategory3':
+                            case 'CoreCategory4':
+                            case 'CoreCategory5':
+                            case 'CoreCategory6':
+                            case 'CoreCategory7':
+                            case 'CoreCategory8':
+                            case 'CoreCategory9':
+                            case 'CoreCategory10':
+                                $core = array_random($categories);
+                                $listing[] = $core['name'];
+                                $listing[] = $core['id'];
+                                $j++;
+                                break;
+                            case 'Brand1':
+                            case 'Brand2':
+                            case 'Brand3':
+                            case 'Brand4':
+                            case 'Brand5':
+                            case 'Brand6':
+                            case 'Brand7':
+                            case 'Brand8':
+                            case 'Brand9':
+                            case 'Brand10':
+                                $brand = array_random($brands);
+                                $listing[] = $brand['name'];
+                                $listing[] = $brand['slug'];
+                                $j++;
+                                break;
+                            case 'DisplayAddress':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'AreaOfOperation1':
+                            case 'AreaOfOperation2':
+                            case 'AreaOfOperation3':
+                            case 'AreaOfOperation4':
+                            case 'AreaOfOperation5':
+                            case 'AreaOfOperation6':
+                            case 'AreaOfOperation7':
+                            case 'AreaOfOperation8':
+                            case 'AreaOfOperation9':
+                            case 'AreaOfOperation10':
+                                $area = array_random($areas);
+                                $listing[] = $area['name'];
+                                $listing[] = $area['id'];
+                                $j++;
+                                break;
+                            case 'BusinessDescription':
+                            case 'BusinessHighlight1':
+                            case 'BusinessHighlight2':
+                            case 'BusinessHighlight3':
+                            case 'BusinessHighlight4':
+                                $listing[] = (rand(0,1))? str_random():"";
+                                break;
+                            case 'YearOfEstablishment':
+                                $listing[] = (rand(0,1))? rand(1950,2017):"";
+                                break;
+                            case 'BusinessWebsite':
+                                $listing[] = (rand(0,1))? 'http://'.str_random().'.com':"";
+                                break;
+                            case 'OnlineBanking':
+                            case 'OnCredit':
+                            case 'CreditDebitCards':
+                            case 'CashOnDelivery':
+                            case 'eMobileWallets':
+                            case 'USSD_AEPS_UPI':
+                            case 'Cheque':
+                            case 'Draft':
+                                if(rand(0,1)){
+                                    $listing[] = "Yes"; $listing[] = 1;
+                                }else{
+                                    $listing[] = "No"; $listing[] = 0;
+                                }
+                                $j++;
+                                break;
+                            default:
+                                # code...
+                                break;
+                        }
+                    }
+                    $filecontents[]=$listing;
+                }
+                $sheet->fromArray($filecontents, null, 'A1', true, false);
+            });
+        })->export('csv');
     }
 }

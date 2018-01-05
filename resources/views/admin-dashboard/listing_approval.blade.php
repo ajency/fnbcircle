@@ -32,7 +32,11 @@
 
         <div class="page-title">
           <div class="title_left">
-            <h5>Listing Approval <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a><button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button></h5>
+            <h5>Listing Approval 
+              <a href="{{url('/listing/create')}}" class="btn btn-link btn-sm">+ Add Listing</a>
+              <button type="button" class="btn btn-link btn-sm" id="importListing">+ Import Listings</button>
+              <button type="button" class="btn btn-link btn-sm" id="resetAll">Reset all Filters</button>
+            </h5>
           </div>
         </div>
 
@@ -354,7 +358,24 @@
             </div>
         </div>
 
-
+        <div class="modal fnb-modal modal-center" id="importListingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" aria-label="Close">&#10005;</button>
+                        <h4 class="element-title modal-title">Import Listings</h4>
+                    </div>
+                    <div class="modal-body">
+                        <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
+                        <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
+                        {!!$importForm!!}
+                    </div>
+                    <div class="modal-footer">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
       </div>

@@ -110,9 +110,9 @@ Route::get('/get-job-titles','JobController@getJobTitles');
 Route::get('/get-company','JobController@getCompanies');
 Route::get('user-confirmation/{token}', 'Auth\RegisterController@userConfirmation');
 Route::get('send-confirmation-link', 'Auth\RegisterController@sendConfirmationLink');
+ 
 Route::get('/job-cron/{type}','JobController@runCron');
-
-
+ 
 /**
 logged in users group
 permission group
@@ -178,6 +178,8 @@ Route::group(['middleware' => ['auth','fnbpermission'], 'prefix' => 'admin-dashb
 	Route::group(['prefix' => 'moderation'], function() {
 		Route::get('listing-approval','AdminModerationController@listingApproval');
 		Route::get('manage-enquiries','AdminEnquiryController@manageEnquiries');
+		Route::get('listing-sheet','AdminModerationController@getFile');
+		Route::get('data-sheet','AdminModerationController@generateFile');
 	});
 	
 	Route::group(['prefix' => 'users'], function() {
@@ -224,7 +226,23 @@ Route::get('/wp-jobbusiness-tags','WpNewsController@getJobBusinessTags');
 //
 //});
 
- 
+/**Import CSV test endpoints BEGINS**/
+Route::get('/aj/importfile', 'AjFileImportController@showUploadFile')->name('showfileupload');
+
+Route::get('/aj/viewdataforimport', 'AjFileImportController@downloadTemptableDataCsv')->name('downloadtemptablecsv');
+Route::get('/download-dummy-import/{records?}','AdminModerationController@generateDummyCsv');
+
+/*Test routes */
+
+// test ajax function
+Route::get('/testschedule', 'AjFileImportController@testSchedule');
+
+Route::post('/aj/startajimport', 'AjFileImportController@uploadFile');
+
+/**Import CSV test endpoints ENDS**/
+
+
+
 /* List View of Listing */
 Route::group(['prefix' => '{city}'], function() {
 	Route::get('/business-listings', 'ListViewController@listView');

@@ -584,3 +584,5 @@ sendRequest = ()->
   #     'page':'1'
   #     'sort':'submission_date'
   #   }
+$('body').on 'click','button#importListing', (e)->
+  $('#importListingModal').modal('show')

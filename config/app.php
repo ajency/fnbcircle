@@ -171,6 +171,7 @@ return [
         Ajency\FileUpload\FileUploadServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Ajency\Comm\CommServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -187,6 +188,13 @@ return [
         // Aws\Laravel\AwsServiceProvider::class,
         Ajency\User\LaravelAjUserServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
+
+        /*
+        * Laravel Framework Service Providers...
+        */         
+
+         /** Aj laravel import Package Service Providers */       
+        Ajency\Ajfileimport\AjFileImportServiceProvider::class        
 
     ],
 
@@ -243,6 +251,7 @@ return [
         'AjUser' => Ajency\User\LaravelAjUserServiceProvider::class,
         'Role' => Spatie\Permission\Models\Role::class,
         'AjComm' => Ajency\Comm\CommServiceProvider::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

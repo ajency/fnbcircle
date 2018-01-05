@@ -3,22 +3,30 @@
   "description": "bower packages",
   "main": "",
   "authors": [
-    "fnbcircle"
+    "Nutan Kamat <nutan@ajency.in>"
   ],
   "license": "MIT",
   "homepage": "https://github.com/ajency/fnbcircle",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "bootstrap-confirmation2": "^2.4.0",
-    "datatables-select": "^1.2.2",
-    "datatables.net-bs": "^2.1.1",
-    "datatables.net-select-dt": "^1.2.2",
     "autosize": "^4.0.0",
     "bootstrap-daterangepicker": "^2.1.25",
-    "ekko-lightbox": "^5.2.0",
-    "jquery": "^3.2.1",
+    "bootstrap-confirmation2": "^2.4.0",
+    "datatables.net-select-dt": "^1.2.2",
+    "datatables.net-bs": "^2.1.1",
+    "datatables-select": "^1.2.2",
     "handlebars": "^4.0.10",
+    "ekko-lightbox": "^5.2.0",
     "intl-tel-input": "^12.1.0",
+    "jquery": "^3.2.1",
     "jquery-flexdatalist": "^2.2.2",
-    "jssocials": "^1.5.0" 
+    "jssocials": "^1.5.0"
   }
 }

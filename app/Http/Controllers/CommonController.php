@@ -187,7 +187,7 @@ class CommonController extends Controller
         $plan = Plan::find($request->plan_id);
 
         if(empty($plan)){
-            return \Redirect::back()->withErrors(array('review' => 'Please select valod plan'));
+            return \Redirect::back()->withErrors(array('review' => 'Please select valid plan'));
         }
 
         if($request->type == 'listing'){
@@ -289,19 +289,21 @@ class CommonController extends Controller
 
 
             }
-            
-            
-
+         
         }else{
             return response()->json(['status'=>"400", 'message'=>"Invalid Type"]);
         }
 
-        Session::flash('success_message','Premium request sent successfully.');
+        
         // dd(Plan::where('type', $config[$request->type]['type'])->where('id',$request->plan_id)->toSql());
         $object->premium()->where('status',0)->update(['status'=>2]);
-        $premium = new PlanAssociation;
-        $premium->plan_id = $plan->id;
-        $object->premium()->save($premium);
+        
+        if($plan->slug != 'free-listing'){
+            Session::flash('success_message','Request sent successfully.');
+            $premium = new PlanAssociation;
+            $premium->plan_id = $plan->id;
+            $object->premium()->save($premium);
+        }
 
         return \Redirect::back();
     }

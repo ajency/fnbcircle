@@ -4,21 +4,35 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    
+    "repositories": [
+       {
+           "type": "git",
+           "name": "laravel-fileimport",
+           "url": "https://github.com/ajency/laravel-fileimport.git"
+       }
+     ],     
+
+
     "require": {
         "php": ">=5.6.4",
+        "ajency/laravel-fileimport": "dev-revision-2",
+        "doctrine/dbal": "^2.6",
         "intervention/image": "^2.4",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "spatie/laravel-activitylog": "^2.2",
-        "spatie/laravel-permission": "^2.6"
+        "spatie/laravel-permission": "^2.6",
+    	"maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
+        "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~6.0",
-        "filp/whoops": "~2.0"
+        "phpunit/phpunit": "~6.0"
     },
     "autoload": {
         "classmap": [

@@ -4,12 +4,23 @@ $('input[type=radio][name=plan-select]').change ->
     # console.log $(this).closest('.pricing-table__cards').hasClass('free-plan')
     # $(this).closest('.selection').find('.planCaption').text 'Your current plan'
     # $(this).closest('.pricing-table__cards').siblings().find('.planCaption').text 'Click here to choose this plan'
-    if $(this).closest('.pricing-table__cards').hasClass('free-plan')
+    console.log $('input[type=radio][name=plan-select]:checked').val()
+    console.log $('#pending-plan').val()
+    if $('input[type=radio][name=plan-select]:checked').val() == $('#pending-plan').val() #or $(this).closest('.pricing-table__cards').hasClass('free-plan')
         # console.log 'free-plan'
-        $('#subscribe-btn').prop('disabled',true);
+        $('#submit-btn').prop('disabled',true);
     else
-    	$('#subscribe-btn').prop('disabled',false);
+    	$('#submit-btn').prop('disabled',false);
+  if $('#next-plan-selected').val() == '1' or $('#submit-terms-check').prop('checked') == false
+    $('#submit-btn').prop('disabled',true);
   return
+
+$('body').on 'change', '#submit-terms-check',()->
+  if $('#submit-terms-check').prop('checked') == false
+    $('#submit-btn').prop('disabled',true);
+  else
+    $('input[type=radio][name=plan-select]').change()
+
 
 $('body').on 'click', '#subscribe-btn', (e) ->
   planID = $('input[type=radio][name=plan-select]:checked').val()

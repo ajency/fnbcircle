@@ -2,11 +2,24 @@
   $('input[type=radio][name=plan-select]').change(function() {
     if ($(this).is(':checked')) {
       $(this).closest('.pricing-table__cards').addClass('active').siblings().removeClass('active');
-      if ($(this).closest('.pricing-table__cards').hasClass('free-plan')) {
-        $('#subscribe-btn').prop('disabled', true);
+      console.log($('input[type=radio][name=plan-select]:checked').val());
+      console.log($('#pending-plan').val());
+      if ($('input[type=radio][name=plan-select]:checked').val() === $('#pending-plan').val()) {
+        $('#submit-btn').prop('disabled', true);
       } else {
-        $('#subscribe-btn').prop('disabled', false);
+        $('#submit-btn').prop('disabled', false);
       }
+    }
+    if ($('#next-plan-selected').val() === '1' || $('#submit-terms-check').prop('checked') === false) {
+      $('#submit-btn').prop('disabled', true);
+    }
+  });
+
+  $('body').on('change', '#submit-terms-check', function() {
+    if ($('#submit-terms-check').prop('checked') === false) {
+      return $('#submit-btn').prop('disabled', true);
+    } else {
+      return $('input[type=radio][name=plan-select]').change();
     }
   });
 

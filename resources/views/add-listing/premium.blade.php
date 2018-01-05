@@ -44,10 +44,11 @@
             <i class="fa fa-check-circle mobile-hide" aria-hidden="true"></i>
         </div> -->
         <ul class="premium-points">
-            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Premium businesses will show up first when users browse through various businesses.</li>
-            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>On the single view of business page they will not have competitors displayed as similar businesses. For free listings users will be encouraged to visit other businesses.</li>
-            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>More Leads - Premium businesses will receive more contacts and enquiries and hence a higher rating.</li>
-            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Premium businesses will be indicated by a Power Seller badge.</li>
+            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Premium Businesses will show up first (above non premium Businesses) when prospective Customers are looking for Suppliers.</li>
+            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>On the main Business Listing page they will not have competitor businesses displayed under similar businesses section. Premium businesses get this exclusivity on their Business page. In addition to this, additional leads will also be passed to premium clients.</li>
+            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Better Rating - Premium businesses will receive more contacts and enquiries, which will result in higher traffic and hence higher rating.</li>
+            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>More Leads - Premium businesses generally receive upto 10 X more contacts and enquiries compared to normal listings.</li>
+            <li class="flex-row text-color align-top"><i class="fa fa-check p-r-5" aria-hidden="true"></i>Premium businesses will be indicated by a Power Seller Badge, which makes the listing stand out from others.</li>
         </ul>
     </div>
     <div class="col-sm-6 c-gap">
@@ -89,9 +90,9 @@
                     </li>
                     <li class="flex-row text-color align-top lighter x-small">
                         <i class="fa fa-check p-r-5" aria-hidden="true"></i>
-                        Lower Priority Listing
+                        Lower response and fewer inquiries as compared to premium plan.
                     </li>
-                    <li class="flex-row text-color align-top lighter x-small">
+                   <!--  <li class="flex-row text-color align-top lighter x-small">
                         <i class="fa fa-check p-r-5" aria-hidden="true"></i>
                         Fewer Enquiries
                     </li>
@@ -106,7 +107,7 @@
                     <li class="flex-row text-color align-top lighter x-small">
                         <i class="fa fa-check p-r-5" aria-hidden="true"></i>
                         No Power Seller Badge
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="plans__footer">

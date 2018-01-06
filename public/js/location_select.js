@@ -19,37 +19,36 @@
   getAreas = function(cityID) {
     var loader;
     loader = '<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>';
-    if (city[cityID] !== true) {
-      $('div[name="' + cityID + '"].tab-pane').addClass('relative');
-      $('div[name="' + cityID + '"].tab-pane ul.nodes').html(loader);
-      $.ajax({
-        type: 'post',
-        url: '/get_areas',
-        data: {
-          'city': cityID
-        },
-        success: function(data) {
-          var html, key;
-          html = '';
-          for (key in data) {
-            html += '<li><label class="flex-row"><input type="checkbox" ';
-            if (_.indexOf(array, data[key]['id']) !== -1) {
-              html += 'checked';
-            }
-            html += ' class="checkbox" for="' + slugify(data[key]['name']) + '" value="' + data[key]['id'] + '" name="' + data[key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[key]['name']) + '">' + data[key]['name'] + '</p></label></li>';
+    $('div[name="' + cityID + '"].tab-pane').addClass('relative');
+    $('div[name="' + cityID + '"].tab-pane ul.nodes').html(loader);
+    $.ajax({
+      type: 'post',
+      url: '/get_areas',
+      data: {
+        'city': cityID
+      },
+      success: function(data) {
+        var html, key;
+        html = '';
+        for (key in data) {
+          html += '<li><label class="flex-row"><input type="checkbox" ';
+          if (_.indexOf(array, data[key]['id']) !== -1) {
+            html += 'checked';
           }
-          city[cityID] = true;
-          $('div[name="' + cityID + '"].tab-pane ul.nodes').html(html);
-        },
-        error: function(request, status, error) {
-          throwError();
-        },
-        async: false
-      });
-    }
+          html += ' class="checkbox" for="' + slugify(data[key]['name']) + '" value="' + data[key]['id'] + '" name="' + data[key]['name'] + '"><p class="lighter nodes__text" id="' + slugify(data[key]['name']) + '">' + data[key]['name'] + '</p></label></li>';
+        }
+        city[cityID] = true;
+        $('div[name="' + cityID + '"].tab-pane ul.nodes').html(html);
+      },
+      error: function(request, status, error) {
+        throwError();
+      },
+      async: false
+    });
     if ($('div[name="' + cityID + '"].tab-pane ul.nodes input[type=\'checkbox\']:checked').length === $('div[name="' + cityID + '"].tab-pane ul.nodes input[type=\'checkbox\']').length) {
       return $('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked', true);
     } else {
+      $('div[name="' + cityID + '"].tab-pane ul.nodes').removeClass('disable-section');
       if ($('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked')) {
         return $('div[name="' + cityID + '"].tab-pane input#throughout_city').prop('checked', false);
       }
@@ -106,7 +105,9 @@
         $(this).closest('.tab-pane').find('input#throughout_city').prop('checked', false);
       }
       cityID = $(this).closest('div').find('input[name="city"]').attr('data-city-id');
-      delete cities['cities'][cityID]['areas'][$(this).val()];
+      if (cities['cities'][cityID] && cities['cities'][cityID]['areas'][$(this).val()]) {
+        delete cities['cities'][cityID]['areas'][$(this).val()];
+      }
     }
   });
 
@@ -156,9 +157,11 @@
   });
 
   $('body').on('click', '#disp-operation-areas .fnb-cat .remove', function() {
-    var aid, cid, item, list;
+    var $deletedAreaCity, aid, cid, item, list;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();
+    $deletedAreaCity = list.closest('.single-area').attr('data-city-id');
+    $('#area-select input#checkbox-' + $deletedAreaCity).prop('checked', false);
     cid = parseInt($(this).closest('.single-category').attr('data-city-id'));
     aid = parseInt(item.find('input[type="hidden"]').val());
     console.log(cid, aid);

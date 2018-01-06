@@ -9,37 +9,41 @@ $('body').on 'click', 'div.toggle-collapse.desk-hide', ->
 
 getAreas = (cityID) ->
   loader ='<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>'
-  if city[cityID] != true
-    $('div[name="'+cityID+'"].tab-pane').addClass 'relative'
-    $('div[name="'+cityID+'"].tab-pane ul.nodes').html loader
-    $.ajax
-      type: 'post'
-      url: '/get_areas'
-      data:
-        'city': cityID
-      success: (data) ->
-        # console.log data
-        html=''
-        # console.log array
-        for key of data
-          html+='<li><label class="flex-row"><input type="checkbox" '
-          # console.log data[key]['id'], _.indexOf(array,data[key]['id'])
-          if _.indexOf(array,data[key]['id']) != -1
-            html+='checked'
-          html+= ' class="checkbox" for="'+slugify(data[key]['name'])+'" value="'+data[key]['id']+'" name="'+data[key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[key]['name'])+'">'+data[key]['name']+'</p></label></li>'
-        city[cityID] = true
-        # console.log html
-        $('div[name="'+cityID+'"].tab-pane ul.nodes').html html
-        return
-      error: (request, status, error) ->
-        throwError()
-        return
-      async: false
+  # if city[cityID] != true
+  $('div[name="'+cityID+'"].tab-pane').addClass 'relative'
+  $('div[name="'+cityID+'"].tab-pane ul.nodes').html loader
+  $.ajax
+    type: 'post'
+    url: '/get_areas'
+    data:
+      'city': cityID
+    success: (data) ->
+      # console.log data
+      html=''
+      # console.log array
+      for key of data
+        html+='<li><label class="flex-row"><input type="checkbox" '
+        # console.log data[key]['id'], _.indexOf(array,data[key]['id'])
+        if _.indexOf(array,data[key]['id']) != -1
+          html+='checked'
+        html+= ' class="checkbox" for="'+slugify(data[key]['name'])+'" value="'+data[key]['id']+'" name="'+data[key]['name']+'"><p class="lighter nodes__text" id="'+slugify(data[key]['name'])+'">'+data[key]['name']+'</p></label></li>'
+      city[cityID] = true
+      # console.log html
+      $('div[name="'+cityID+'"].tab-pane ul.nodes').html html
+      return
+    error: (request, status, error) ->
+      throwError()
+      return
+    async: false
+
   if $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']:checked').length == $('div[name="'+cityID+'"].tab-pane ul.nodes input[type=\'checkbox\']').length
     $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',true);
-  else 
+  else
+    $('div[name="'+cityID+'"].tab-pane ul.nodes').removeClass('disable-section') 
     if $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked')
       $('div[name="'+cityID+'"].tab-pane input#throughout_city').prop('checked',false)
+      
+
   
 
 
@@ -52,6 +56,7 @@ $('body').on 'show.bs.modal', '#area-select', (e) ->
   ), 500
   array=[]
   $('.city-list li').each (index,item)->
+    # $(this).find('input.city-checkbox').prop('checked',false);
     if index == 0
       $('.tab-pane').removeClass('active')
       $(this).addClass('active')
@@ -88,7 +93,8 @@ $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', -
     if $(this).closest('.tab-pane').find('input#throughout_city').prop('checked')
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);
     cityID =  $(this).closest('div').find('input[name="city"]').attr('data-city-id');
-    delete cities['cities'][cityID]['areas'][$(this).val()]
+    if cities['cities'][cityID] and cities['cities'][cityID]['areas'][$(this).val()]
+      delete cities['cities'][cityID]['areas'][$(this).val()]
   return
 
 $('body').on 'click', '.fnb-modal button.operation-save', ->
@@ -151,6 +157,8 @@ $('body').on 'click', '#disp-operation-areas .delete-cat', ->
 $('body').on 'click', '#disp-operation-areas .fnb-cat .remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
   list= item.parent()
+  $deletedAreaCity = list.closest('.single-area').attr('data-city-id')
+  $('#area-select input#checkbox-'+$deletedAreaCity).prop('checked',false)
   cid = parseInt($(this).closest('.single-category').attr('data-city-id'))
   aid = parseInt(item.find('input[type="hidden"]').val())
   console.log cid,aid

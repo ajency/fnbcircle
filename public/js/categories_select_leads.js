@@ -67,7 +67,7 @@
     $('div#categories.node-list').html(template(categories));
   };
 
-  $('#categories.node-list').on('click', '.delete-cat', function() {
+  $('body').on('click', '#categories.node-list .delete-cat', function() {
     var pid;
     pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
     console.log(pid);
@@ -75,7 +75,7 @@
     return $(this).closest('.single-category').remove();
   });
 
-  $('#categories.node-list').on('click', '.branch-remove', function() {
+  $('body').on('click', '#categories.node-list .branch-remove', function() {
     var bid, item, pid;
     item = $(this).closest('.branch-container');
     pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
@@ -84,7 +84,7 @@
     return item.remove();
   });
 
-  $('#categories.node-list').on('click', '.fnb-cat .node-remove', function() {
+  $('body').on('click', '#categories.node-list .fnb-cat .node-remove', function() {
     var bid, item, list, nid, pid;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();

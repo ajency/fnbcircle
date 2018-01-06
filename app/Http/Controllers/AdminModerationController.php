@@ -451,6 +451,8 @@ class AdminModerationController extends Controller
                     $html.='<label>Category Filter</label>
                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
                       <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                      <input type="hidden" id="is_parent_category_checkbox" value="1">
+                      <input type="hidden" id="is_branch_category_checkbox" value="1">
                       <div id="categories" class="node-list"></div>';
                     $html.= View::make('modals.categories_list');
                     break;

@@ -101,7 +101,7 @@ populate = () ->
   $('div#categories.node-list').html template(categories)
   return
 
-$('#categories.node-list').on 'click', '.delete-cat', ->
+$('body').on 'click', '#categories.node-list .delete-cat', ->
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))
   console.log pid
   delete(categories['parents'][pid])
@@ -109,14 +109,14 @@ $('#categories.node-list').on 'click', '.delete-cat', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
-$('#categories.node-list').on 'click', '.branch-remove', ->
+$('body').on 'click', '#categories.node-list .branch-remove', ->
   item = $(this).closest('.branch-container')
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))
   bid = parseInt($(this).closest('.branch-container').attr('data-categ-id'))
   delete(categories['parents'][pid]['branches'][bid])
   item.remove()
 
-$('#categories.node-list').on 'click', '.fnb-cat .node-remove', ->
+$('body').on 'click', '#categories.node-list .fnb-cat .node-remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
   list= item.parent()
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))

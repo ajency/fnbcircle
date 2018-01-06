@@ -358,7 +358,7 @@
             </div>
         </div>
 
-        <div class="modal fnb-modal modal-center" id="importListingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal fnb-modal modal-center import-listing" id="importListingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -366,8 +366,11 @@
                         <h4 class="element-title modal-title">Import Listings</h4>
                     </div>
                     <div class="modal-body">
+                      <div class="flex-row">
                         <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
+                        <span class="p-l-5 p-r-5">|</span>
                         <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
+                      </div>
                         {!!$importForm!!}
                     </div>
                     <div class="modal-footer">

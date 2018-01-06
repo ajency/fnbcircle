@@ -505,8 +505,27 @@ class AdminModerationController extends Controller
                 if(!empty($request->areas) and $request->areas!=[""]){
                     $areas = array_unique(array_merge($areas,$request->areas));
                 }
+                $filter_categories =[];
+                if(!empty($request->categories) and $request->categories!=[""]){
+                    $filter_nodes = [];
+                    $categories = json_decode($request->categories);
+                    if(count($categories)!=0){
+                        foreach($categories as $category_id){
+                            $category = Category::find($category_id);
+                            if($category->level == 3){
+                                $filter_nodes[] = $category->id;
+                            }else{
+                                $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                                $filter_nodes = array_merge($filter_nodes,$nodes);
+                            }
+                        }
+                        $filter_categories = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                    }
+                }
+
                 $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
                 if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($filter_categories)) $sql.= " and id in ('".implode("','",$filter_categories)."')";
                 if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
                 $sql.=") as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
@@ -520,8 +539,26 @@ class AdminModerationController extends Controller
                 if(!empty($request->areas) and $request->areas!=[""]){
                     $areas = array_unique(array_merge($areas,$request->areas));
                 }
+                $filter_categories =[];
+                if(!empty($request->categories) and $request->categories!=[""]){
+                    $filter_nodes = [];
+                    $categories = json_decode($request->categories);
+                    if(count($categories)!=0){
+                        foreach($categories as $category_id){
+                            $category = Category::find($category_id);
+                            if($category->level == 3){
+                                $filter_nodes[] = $category->id;
+                            }else{
+                                $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                                $filter_nodes = array_merge($filter_nodes,$nodes);
+                            }
+                        }
+                        $filter_categories = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                    }
+                }
                 $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
                 if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($filter_categories)) $sql.= " and id in ('".implode("','",$filter_categories)."')";
                 if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
                 $sql.=") as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');

@@ -18,6 +18,7 @@ use App\User;
 use Spatie\Activitylog\Models\Activity;
 use View;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\Auth\RegisterController;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -465,10 +466,10 @@ class AdminModerationController extends Controller
                 case 'description_filter':
                     $description = \App\Description::where('active',1)->get();
                     $html.='<label>Description Filter</label>
-                            <select name="description">
+                            <select name="description" multiple>
                                 <option value="">Select</option>';
                     foreach ($description as $des) {
-                        $html.='<option value="'.$des->value.'">'.$des->title.'</option>';
+                        $html.='<option value="'.$des->id.'">'.$des->title.'</option>';
                     }
                     $html.='</select>
                             ';
@@ -501,6 +502,26 @@ class AdminModerationController extends Controller
                 $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
+
+            case 'user-activate':
+                $users = User::where('status','inactive');
+                if(!empty($request->description) and $request->description != [""]){
+                    $description_users = \App\UserDescription::whereIn('description_id',$request->description)->select('user_id')->distinct()->pluck('user_id')->toArray();
+                    $users=$users->whereIn('id',$description_users);
+                }
+                if(!empty($request->cities) or !empty($request->areas)){
+                    $areas = UserDetail::whereIn('area',$request->areas)->pluck('user_id')->toArray();
+                    $cities = UserDetail::whereIn('city',$request->cities)->pluck('user_id')->toArray();
+                    $location_filter = array_unique(array_merge($cities,$areas));
+                    $users = $users->whereIn('id',$location_filter);
+                }
+                if(isset($request->start) and $request->start != ""){
+                    $users->where('created_at','>',\Carbon\Carbon::createFromFormat('Y-m-d',$request->start)->startOfDay());
+                }
+                if(isset($request->end) and $request->end != ""){
+                    $users->where('created_at','<',\Carbon\Carbon::createFromFormat('Y-m-d',$request->end)->endOfDay());
+                }
+                return $users;
             default:
                 abort(404);
         }
@@ -517,6 +538,15 @@ class AdminModerationController extends Controller
             }
             return response()->json(['email_count'=>count($users)]);
             //die();
+        }
+        if($request->type == 'user-activate'){
+            $users = $this->getMailGroups($request);
+
+            
+            if(in_develop()){
+                return response()->json(['email_count'=>$users->count(),'users'=>$users->get()]);
+            }
+            return response()->json(['email_count'=>$users->count()]);
         }
     }
 
@@ -556,38 +586,54 @@ class AdminModerationController extends Controller
                 break;
             case 'draft-listing-inactive':
                 $users = $this->getMailGroups($request);
+                $errors = [];
                 foreach ($users as $uid => $listings) {
-                    $user = User::find($uid);
-                    $listing_details = [];
-                    foreach ($listings as  $user_listing) {
-                        $listing = Listing::find($user_listing->listingID);
-                        $area = Area::with('city')->find($listing->locality_id);
-                        $detail = [
-                            'listing_name' => $listing->title,
-                            'listing_type' => Listing::listing_business_type[$listing->type],
-                            'listing_state' => $area->city['name'],
-                            'listing_city' => $area->name,
-                            'listing_reference' => $listing->reference,
+                    try{
+                        $user = User::find($uid);
+                        $listing_details = [];
+                        $user1 = Password::broker()->getUser(['email'=>$user->getPrimaryEmail()]);
+                        $token =Password::broker()->createToken($user1);
+                        $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user->getPrimaryEmail().'&new_user=true';
+                        foreach ($listings as  $user_listing) {
+                            $listing = Listing::find($user_listing->listingID);
+                            $area = Area::with('city')->find($listing->locality_id);
+                            $detail = [
+                                'listing_name' => $listing->title,
+                                'listing_type' => Listing::listing_business_type[$listing->type],
+                                'listing_state' => $area->city['name'],
+                                'listing_city' => $area->name,
+                                'listing_reference' => $listing->reference,
+                            ];
+                            $listing_details[] = $detail;
+                        }
+                        $email = [
+                            'to' => $user->getPrimaryEmail(),
+                            'subject' => "Listing(s) added under your account on FnB Circle",
+                            'template_data' => [
+                                'confirmationLink' => $reset_password_url,
+                                'listings'=> $listing_details,
+                                
+                            ],
                         ];
-                        $listing_details[] = $detail;
+                        sendEmail('listing-user-notify',$email);
+                        // break;
+                    }catch (\Exception $e){
+                        $errors[] = $user;
                     }
-                    $email = [
-                        'to' => $user->getPrimaryEmail(),
-                        'subject' => "Listing(s) added under your account on FnB Circle",
-                        'template_data' => [
-                            'confirmationLink' => $reset_password_url,
-                            'listings'=> $listing_details,
-                            
-                        ],
-                    ];
-                    sendEmail('listing-user-notify',$email);
                 }
                 break;
+            case 'user-activate':
+                $users = $this->getMailGroups($request)->get();
+                $RC = new RegisterController;
 
+                foreach ($users as $user) {
+                    $RC->confirmEmail('register',["id"=>$user->id,'email'=>$user->getPrimaryEmail(),'name'=>$user->name]);
+                }
+                break;
             default:
                 abort(404);
                 break;
-            return response()->json([],200);
+            return response()->json(['errors'=>$errors],200);
         }
     }
 }

@@ -1,5 +1,9 @@
 (function() {
-  var getSelectedFilters;
+  var end_date, getSelectedFilters, start_date;
+
+  start_date = "";
+
+  end_date = "";
 
   $('body').on('change', '#internal-email-type', function() {
     var url;
@@ -12,14 +16,17 @@
           type: this.value
         },
         success: function(response) {
-          console.log(response);
           $('#filter-area').html(response);
           $('#submissionDate').daterangepicker({
             autoUpdateInput: false,
             maxDate: moment()
           });
+          start_date = "";
+          end_date = "";
           return $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
-            return $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+            $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+            start_date = picker.startDate.format('YYYY-MM-DD');
+            return end_date = picker.endDate.format('YYYY-MM-DD');
           });
         }
       });
@@ -31,9 +38,9 @@
   });
 
   getSelectedFilters = function(url_check) {
-    var entry, i, j, loc_area_array, loc_city_array, type, url_count, url_send;
+    var description_filter, entry, i, j, loc_area_array, loc_city_array, type, url_count, url_send;
     type = $('input[name="mail-type"]').val();
-    if (type === 'draft-listing-active' || 'draft-listing-inactive') {
+    if (type === 'draft-listing-active' || type === 'draft-listing-inactive') {
       loc_city_array = [];
       loc_area_array = [];
       for (entry in cities['cities']) {
@@ -62,7 +69,59 @@
               cities: loc_city_array
             },
             success: function(response) {
-              console.log(response);
+              $('#user_number').html(response['email_count']);
+              return $('#confirmBox').modal('show');
+            }
+          });
+          return;
+        case url_send:
+          $.ajax({
+            url: url_send,
+            type: 'post',
+            data: {
+              type: type,
+              areas: loc_area_array,
+              cities: loc_city_array
+            },
+            success: function(response) {
+              return $('#messageBox').modal('show');
+            }
+          });
+          return;
+      }
+    }
+    if (type === 'user-activate') {
+      description_filter = $('select[name="description"]').val();
+      loc_city_array = [];
+      loc_area_array = [];
+      for (entry in cities['cities']) {
+        j = 0;
+        for (i in cities['cities'][entry]['areas']) {
+          console.log;
+          loc_area_array.push(cities['cities'][entry]['areas'][i]['id']);
+          j++;
+        }
+        if (j === 0) {
+          loc_city_array.push(cities['cities'][entry]['id']);
+        }
+      }
+      console.log(description_filter);
+      url_count = document.head.querySelector('[property="mail-count"]').content;
+      url_send = document.head.querySelector('[property="mail-send"]').content;
+      switch (url_check) {
+        case url_count:
+          $.ajax({
+            url: url_count,
+            type: 'post',
+            data: {
+              type: type,
+              areas: loc_area_array,
+              cities: loc_city_array,
+              description: description_filter,
+              start: start_date,
+              end: end_date
+            },
+            success: function(response) {
               $('#user_number').html(response['email_count']);
               return $('#confirmBox').modal('show');
             }
@@ -75,10 +134,12 @@
             data: {
               type: type,
               areas: loc_area_array,
-              cities: loc_city_array
+              cities: loc_city_array,
+              description: description_filter,
+              start: start_date,
+              end: end_date
             },
             success: function(response) {
-              console.log(response);
               return $('#messageBox').modal('show');
             }
           });

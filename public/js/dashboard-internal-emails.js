@@ -38,9 +38,10 @@
   });
 
   getSelectedFilters = function(url_check) {
-    var description_filter, entry, i, j, loc_area_array, loc_city_array, type, url_count, url_send;
+    var description_filter, entry, i, j, loc_area_array, loc_city_array, source_filter, type, url_count, url_send;
     type = $('input[name="mail-type"]').val();
     if (type === 'draft-listing-active' || type === 'draft-listing-inactive') {
+      source_filter = $('select[name="listing_source"]').val();
       loc_city_array = [];
       loc_area_array = [];
       for (entry in cities['cities']) {
@@ -66,7 +67,9 @@
             data: {
               type: type,
               areas: loc_area_array,
-              cities: loc_city_array
+              cities: loc_city_array,
+              categories: JSON.stringify(getLeafNodes()),
+              source: source_filter
             },
             success: function(response) {
               $('#user_number').html(response['email_count']);
@@ -81,7 +84,9 @@
             data: {
               type: type,
               areas: loc_area_array,
-              cities: loc_city_array
+              cities: loc_city_array,
+              categories: JSON.stringify(getLeafNodes()),
+              source: source_filter
             },
             success: function(response) {
               return $('#messageBox').modal('show');

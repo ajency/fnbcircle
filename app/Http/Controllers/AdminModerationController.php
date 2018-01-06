@@ -456,7 +456,7 @@ class AdminModerationController extends Controller
                     break;
                 case 'listing_source':
                     $html.='<label>Listing Source Filter</label>
-                            <select name="listing_source" class="form-control">
+                            <select name="listing_source" class="form-control" multiple>
                                 <option value="">Select</option>
                                 <option value="import">Import</option>
                                 <option value="internal_user">Internal User</option>
@@ -495,11 +495,33 @@ class AdminModerationController extends Controller
         switch ($type) {
             case 'draft-listing-active':
                 //select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3 and locality_id in ("23", "24", "15", "16")) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;
-                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
+                $areas =[]; 
+                if(!empty($request->cities) and $request->cities!=[""]){
+                    $locations = Area::whereIn('city_id',$request->cities)->pluck('id')->toArray();
+                    $areas = array_merge($areas,$locations);
+                }
+                if(!empty($request->areas) and $request->areas!=[""]){
+                    $areas = array_unique(array_merge($areas,$request->areas));
+                }
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
+                if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
+                $sql.=") as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
             case 'draft-listing-inactive':
-                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
+                $areas =[]; 
+                if(!empty($request->cities) and $request->cities!=[""]){
+                    $locations = Area::whereIn('city_id',$request->cities)->pluck('id')->toArray();
+                    $areas = array_merge($areas,$locations);
+                }
+                if(!empty($request->areas) and $request->areas!=[""]){
+                    $areas = array_unique(array_merge($areas,$request->areas));
+                }
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
+                if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
+                $sql.=") as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
 

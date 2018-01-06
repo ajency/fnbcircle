@@ -27,6 +27,7 @@ $('body').on 'show.bs.modal','#category-select', ->
 getSelectedFilters = (url_check)->
 	type = $('input[name="mail-type"]').val()
 	if type == 'draft-listing-active' or type == 'draft-listing-inactive'
+		source_filter = $('select[name="listing_source"]').val();
 		loc_city_array = []
 		loc_area_array = []
 		for entry of cities['cities']
@@ -50,6 +51,8 @@ getSelectedFilters = (url_check)->
 						type: type
 						areas: loc_area_array
 						cities: loc_city_array
+						categories: JSON.stringify(getLeafNodes())
+						source: source_filter
 					success: (response)->
 						$('#user_number').html response['email_count'];
 						$('#confirmBox').modal('show')
@@ -62,6 +65,8 @@ getSelectedFilters = (url_check)->
 						type: type
 						areas: loc_area_array
 						cities: loc_city_array
+						categories: JSON.stringify(getLeafNodes())
+						source: source_filter
 					success: (response)->
 						$('#messageBox').modal('show')
 				return

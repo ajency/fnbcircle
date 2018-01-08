@@ -23,22 +23,20 @@
           'image-url': element['parent']['icon_url'],
           'name': element['parent']['name'],
           'slug': element['parent']['slug'],
-          'selected': 0,
           'branches': []
         };
       }
-      if (element.hasOwnProperty('branch') && categories['parents'][parentID]['selected'] === 0) {
+      if (element.hasOwnProperty('branch')) {
         branchID = element['branch']['id'];
         if (!categories['parents'][parentID]['branches'].hasOwnProperty(branchID)) {
           categories['parents'][parentID]['branches'][branchID] = {
             'id': element['branch']['id'],
             'name': element['branch']['name'],
             'slug': element['branch']['slug'],
-            'selected': 0,
             'nodes': []
           };
         }
-        if (element.hasOwnProperty('node') && categories['parents'][parentID]['branches'][branchID]['selected'] === 0) {
+        if (element.hasOwnProperty('node')) {
           nodeID = element['node']['id'];
           if (!categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty(nodeID)) {
             return categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] = {
@@ -119,15 +117,15 @@
   };
 
   $(document).ready(function() {
-    $(document).on("shown.bs.modal", "#category-select", function(event) {
+    $(document).on("show.bs.modal", "#category-select", function(event) {
       var enquiry_categories, enquiry_categories_string;
       enquiry_categories = getLeafNodes();
       enquiry_categories_string = [];
       enquiry_categories.forEach(function(element) {
         enquiry_categories_string.push(element.toString());
       });
-      console.log(enquiry_categories_string);
       $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories_string));
+      console.log($("#category-select #previously_available_categories").val());
     });
   });
 

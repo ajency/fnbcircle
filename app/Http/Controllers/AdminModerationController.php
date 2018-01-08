@@ -454,7 +454,7 @@ class AdminModerationController extends Controller
                       <input type="hidden" id="is_parent_category_checkbox" value="1">
                       <input type="hidden" id="is_branch_category_checkbox" value="1">
                       <div id="categories" class="node-list"></div>';
-                    $html.= View::make('modals.categories_list');
+                    // $html.= View::make('modals.categories_list');
                     break;
                 case 'listing_source':
                     $html.='<label>Listing Source Filter</label>

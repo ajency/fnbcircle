@@ -25,6 +25,7 @@
   getNodeCategories = function(path, branch_id, checked_values, is_all_checked) {
     var html;
     html = '';
+    console.log(checked_values);
     if (checked_values.length <= 0) {
       $.each($(path + " input[type='checkbox']:checked"), function() {
         checked_values.push($(this).val());
@@ -182,10 +183,22 @@
     });
 
     /* --- On Category Modal Shown --- */
-    $(document).on("shown.bs.modal", "#category-select", function(event) {
+    $(document).on("show.bs.modal", "#category-select", function(event) {
+      var get_core_cat_checked;
       $("#category-select #level-two-category").addClass("hidden");
       $("#category-select #level-one-category").removeClass("hidden");
       $("#category-select #level-one-category input[type='radio']").prop("checked", false);
+      get_core_cat_checked = getPreviouslyAvailableCategories();
+      console.log(get_core_cat_checked);
+      setTimeout((function() {
+        return $('#category-select #level-one-category .cat-select li .multi-label-select input[type="checkbox"][name="select-categories"]').each(function(index, element) {
+          if (!$.inArray(this.value, get_core_cat_checked)) {
+            return $(this).prop('checked', true).change();
+          } else {
+            return $(this).prop('checked', false).change();
+          }
+        });
+      }), 300);
     });
 
     /* --- On click of "Back to Categories", display "Category-One" & hide "Category-Two" --- */
@@ -216,7 +229,18 @@
       get_core_cat_checked = [];
       setTimeout((function() {
         get_core_cat_checked = getPreviouslyAvailableCategories();
-        getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false);
+        $('#category-select #level-two-category ul#branch_categories li input[type="checkbox"][name="branch_categories_select"]').each(function(index, element) {
+          console.log(this.value);
+          if ($.inArray(this.value, get_core_cat_checked) > -1) {
+            console.log(this.value);
+            return $(this).prop('checked', true).change();
+          } else {
+            return $(this).prop('checked', false).change();
+          }
+        });
+        if (!$('#category-select #level-two-category #branch_categories li.active input[type="checkbox"][name="branch_categories_select"]').prop('checked')) {
+          getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false);
+        }
       }), 300);
       event.stopImmediatePropagation();
     });

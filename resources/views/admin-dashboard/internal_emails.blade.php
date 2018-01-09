@@ -53,7 +53,7 @@
                 <div class="col-sm-3">
                   <p class="default-size bolder">Please select the type</p>
                   <select class="fnb-select select-variant" id="internal-email-type" style="font-size: 1em;">
-                   <option value="">Select type</option>
+                   <option value="">Select email type</option>
                    @foreach($types as $type)
                       @php
                         $data = json_decode($type->meta_data,true);

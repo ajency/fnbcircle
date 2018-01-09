@@ -366,11 +366,11 @@
                         <h4 class="element-title modal-title">Import Listings</h4>
                     </div>
                     <div class="modal-body">
-                       <div class="flex-row">
-                          <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
-                          <span class="p-l-5 p-r-5">|</span>
-                          <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
-                       </div>
+                      <div class="flex-row">
+                        <a href="{{action('AdminModerationController@getFile')}}"> Download Import Sample File </a>
+                        <span class="p-l-5 p-r-5">|</span>
+                        <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
+                      </div>
                         {!!$importForm!!}
                     </div>
                     <div class="modal-footer">

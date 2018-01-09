@@ -721,8 +721,7 @@ class AdminModerationController extends Controller
                     $description = \App\Description::where('active',1)->get();
                     $html.='<div class="m-t-10 m-b-10 flex-row">
                             <label class="bolder m-b-0 m-r-10 desc-filter">Description Filter</label>
-                            <select name="description" multiple>
-                                <option value="">Select</option>';
+                            <select name="description" multiple>';
                     foreach ($description as $des) {
                         $html.='<option value="'.$des->id.'">'.$des->title.'</option>';
                     }

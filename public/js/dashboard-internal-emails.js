@@ -76,6 +76,12 @@
               source: source_filter
             },
             success: function(response) {
+              if (response['email_count'] === 0) {
+                $('#confirm-mail-message').html('No listings available to send this type of email');
+                $('#send-mail-confirm').prop('disabled', true);
+                return;
+              }
+              $('#send-mail-confirm').prop('disabled', false);
               if (type === 'draft-listing-active') {
                 $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' active users whose listings are in draft. Are you sure you want to send email to all the users?');
               } else if (type === 'draft-listing-inactive') {
@@ -136,6 +142,12 @@
               end: end_date
             },
             success: function(response) {
+              if (response['email_count'] === 0) {
+                $('#confirm-mail-message').html('No listings available to send this type of email');
+                $('#send-mail-confirm').prop('disabled', true);
+                return;
+              }
+              $('#send-mail-confirm').prop('disabled', false);
               $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' inactive users.Are you sure you want to send email to all the users?');
               return $('#confirmBox').modal('show');
             }

@@ -37,6 +37,12 @@
     }
   });
 
+  $('body').on('click', '.clear-user-date', function() {
+    $('#submissionDate').val("");
+    start_date = "";
+    return end_date = "";
+  });
+
   $('body').on('show.bs.modal', '#category-select', function() {
     return getCategoryDom("#category-select #level-one-category-dom", "level_1");
   });

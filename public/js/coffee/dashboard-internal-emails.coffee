@@ -24,6 +24,11 @@ $('body').on 'change', '#internal-email-type', ->
 					includeSelectAllOption: true
 					nonSelectedText: 'Select Type'
 
+$('body').on 'click','.clear-user-date', ->
+	$('#submissionDate').val("")
+	start_date="";
+	end_date = "";
+
 $('body').on 'show.bs.modal','#category-select', ->
 	getCategoryDom("#category-select #level-one-category-dom", "level_1")
 

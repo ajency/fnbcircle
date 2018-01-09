@@ -729,7 +729,7 @@ class AdminModerationController extends Controller
                             </div>';
                     break;
                 case 'user_created_filter':
-                    $html .= '<div class="flex-row" style="margin-top: -10px;"><label class="m-b-0 m-r-20">User Created Date</label>
+                    $html .= '<div class="flex-row" style="margin-top: -10px;"><label class="m-b-0 m-r-20">User Created Date</label> <a href="#" class="clear-user-date">Clear</a> 
                     <div class="form-group" style="width:250px;">
                       <input type="text" id="submissionDate" name="" class="form-control fnb-input">
                     </div></div>';

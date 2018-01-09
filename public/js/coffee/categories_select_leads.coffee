@@ -8,7 +8,7 @@ $('body').on 'click','#category-select-btn', ()->
     selected_categ_id.push $(this).val()
     selected_categ.push JSON.parse $(this).parent().find('input[type="hidden"]#hierarchy').val()
     return
-  # console.log selected_categ
+  console.log selected_categ
   selected_categ.forEach( (element) ->
   	parentID = element['parent']['id']
   	# console.log parentID
@@ -38,9 +38,14 @@ $('body').on 'click','#category-select-btn', ()->
           'slug': element['node']['slug']
       else
         categories['parents'][parentID]['branches'][branchID]['selected'] = 1
+        categories['parents'][parentID]['branches'][branchID]['nodes'] =[]
         # console.log element
     else
       categories['parents'][parentID]['selected'] = 1
+      # delete(categories['parents'][parentID]['branches'])
+      console.log 'parent selected deleting branches'
+      # categories['parents'][parentID]['branches'] = []
+      categories['parents'][parentID]['branches'].length = 0
       # console.log 'parent select ', element
   )
   console.log categories

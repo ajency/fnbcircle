@@ -14,6 +14,7 @@
       selected_categ_id.push($(this).val());
       selected_categ.push(JSON.parse($(this).parent().find('input[type="hidden"]#hierarchy').val()));
     });
+    console.log(selected_categ);
     selected_categ.forEach(function(element) {
       var branchID, nodeID, parentID;
       parentID = element['parent']['id'];
@@ -46,10 +47,13 @@
             };
           }
         } else {
-          return categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
+          categories['parents'][parentID]['branches'][branchID]['selected'] = 1;
+          return categories['parents'][parentID]['branches'][branchID]['nodes'] = [];
         }
       } else {
-        return categories['parents'][parentID]['selected'] = 1;
+        categories['parents'][parentID]['selected'] = 1;
+        console.log('parent selected deleting branches');
+        return categories['parents'][parentID]['branches'].length = 0;
       }
     });
     console.log(categories);

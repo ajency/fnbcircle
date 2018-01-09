@@ -699,8 +699,8 @@ class AdminModerationController extends Controller
                     $html.= View::make('modals.location_select.popup')->with('cities',$cities);
                     break;
                 case 'category_filter':
-                    $html.='<label>Category Filter</label>
-                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
+                    $html.='<div class="m-t-10 m-b-10"><label>Category Filter</label>
+                       <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm heavier" id="select-more-categories">Filter based on Categories</a></div>
                       <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
                       <input type="hidden" id="is_parent_category_checkbox" value="1">
                       <input type="hidden" id="is_branch_category_checkbox" value="1">
@@ -708,30 +708,32 @@ class AdminModerationController extends Controller
                     // $html.= View::make('modals.categories_list');
                     break;
                 case 'listing_source':
-                    $html.='<label>Listing Source Filter</label>
+                    $html.='<div class="m-t-10 m-b-10 flex-row listing-source">
+                            <label class="m-b-0 m-r-10">Listing Source Filter</label>
                             <select name="listing_source" class="form-control" multiple>
                                 <option value="">Select</option>
                                 <option value="import">Import</option>
                                 <option value="internal_user">Internal User</option>
                                 <option value="external_user">External User</option>
-                            </select>';
+                            </select></div>';
                     break;
                 case 'description_filter':
                     $description = \App\Description::where('active',1)->get();
-                    $html.='<label>Description Filter</label>
+                    $html.='<div class="m-t-10 m-b-10 flex-row">
+                            <label class="bolder m-b-0 m-r-10 desc-filter">Description Filter</label>
                             <select name="description" multiple>
                                 <option value="">Select</option>';
                     foreach ($description as $des) {
                         $html.='<option value="'.$des->id.'">'.$des->title.'</option>';
                     }
                     $html.='</select>
-                            ';
+                            </div>';
                     break;
                 case 'user_created_filter':
-                    $html .= '<label>User Created</label>
-                    <div class="form-group">
+                    $html .= '<div class="flex-row" style="margin-top: -10px;"><label class="m-b-0 m-r-20">User Created</label>
+                    <div class="form-group" style="width:250px;">
                       <input type="text" id="submissionDate" name="" class="form-control fnb-input">
-                    </div>';
+                    </div></div>';
                     break;
             }
         }

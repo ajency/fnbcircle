@@ -23,10 +23,14 @@
           });
           start_date = "";
           end_date = "";
-          return $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
+          $('#submissionDate').on('apply.daterangepicker', function(ev, picker) {
             $('#submissionDate').val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
             start_date = picker.startDate.format('YYYY-MM-DD');
             return end_date = picker.endDate.format('YYYY-MM-DD');
+          });
+          return $('select[name="listing_source"],select[name="description"]').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: 'Select Type'
           });
         }
       });

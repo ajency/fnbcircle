@@ -888,7 +888,7 @@ class AdminModerationController extends Controller
                     }
                     $email = [
                         'to' => $user->getPrimaryEmail(),
-                        'subject' => "Listing(s) added under your account on FnB Circle",
+                        'subject' => "Your Listing(s) are in draft",
                         'template_data' => [
                             'owner_name' => $user->name,
                             'listings'=> $listing_details,

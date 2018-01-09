@@ -817,6 +817,10 @@ table.dataTable tr th.selected.select-checkbox:after {
   background-color: #ddd;
   margin: 0 -20px;
 }
+.filter-area {
+  padding-top: 1em;
+  margin-top: 1.5em;
+}
 .filter-area .desc-filter + .multiselect-native-select {
   display: inline-block;
 }

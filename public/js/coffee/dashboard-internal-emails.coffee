@@ -9,7 +9,6 @@ $('body').on 'change', '#internal-email-type', ->
 			data:
 				type: @value
 			success: (response) ->
-				$('#filter-area').addClass('filter-area')
 				$('#filter-area').html response
 				$('#submissionDate').daterangepicker({
 					autoUpdateInput:false,

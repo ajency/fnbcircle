@@ -4934,7 +4934,7 @@ input[type='search'] {
 }
 @media screen and (max-width: 768px) {
   .news-banner {
-    height: 180px;
+    height: 80px;
   }
 }
 /*# sourceMappingURL=news.css.map */

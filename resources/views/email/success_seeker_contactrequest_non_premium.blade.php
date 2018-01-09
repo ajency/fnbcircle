@@ -1,48 +1,51 @@
 @extends('layouts.email')
 
 @section('content')
-<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="text-align: center;">
-		<td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
-	        <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-	          <p>Hi <b style="color: #7f7f7f;">{{ $name }} </b></p>
-	        </div>
+    <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
+          <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
+            <p>Hi <b style="color: #7f7f7f;">{{ $name }} </b></p>
+          </div>
 
-	        <!-- Tips -->
-	        <div style="margin-top: 2em;">
-				<div style="margin-bottom: 0.8em;">        
-					<div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-						Thank you for showing your interest in <a href="{{$listing_url}}">{{$listing->title}} </a>. We have shared your contact details with the owner of this listing. They would contact you soon.<br>
+          <!-- Tips -->
+          <div style="margin-top: 2em;">
+        <div style="margin-bottom: 0.8em;">        
+          <div style="float: left;text-align: left;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+            Thank you for showing your interest in <a href="{{$listing_url}}">{{$listing->title}} </a>. We have shared your contact details with the owner of this listing. They would contact you soon.<br><br>
 Please find below contact details of the listing.<br>
-Listing Name: {{$listing->title}} <br>
+<b>Listing Name</b>: {{$listing->title}} <br>
 
 @php
-	$contacts = $listing->getAllContacts();
+  $contacts = $listing->getAllContacts();
+  $is_email = true;
 @endphp
-@if(count($contacts['email']))				
-	Email:<br> 
-	@foreach($contacts['email'] as $email)
-		<a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif 
-	@endforeach
+@if(count($contacts['email']))        
+  <b>Email</b>:<br> 
+  @foreach($contacts['email'] as $email)
+    <a href="mailto:{{$email['email']}}"> {{$email['email']}} </a> @if($email['is_verified'])(verified) @else (unverified) @endif 
+  @endforeach
 @endif
 @if(count($contacts['mobile']))
-	Phone: <br>
-	@foreach($contacts['mobile'] as $mobile)
-		<a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
-	@endforeach
+  <b>Phone</b>: <br>
+  @foreach($contacts['mobile'] as $mobile)
+    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
+  @endforeach
 @endif
 @if(count($contacts['landline']))
-	Landline: <br>
-	@foreach($contacts['landline'] as $mobile)
-		<a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
-	@endforeach	
+  <b>Landline</b>: <br>
+  @foreach($contacts['landline'] as $mobile)
+    <a href="tel:{{$mobile['contact_region']}}{{$mobile['contact']}}"> +{{$mobile['contact_region']}}-{{$mobile['contact']}} </a> @if($mobile['is_verified'])(verified) @else (unverified) @endif <br>
+  @endforeach 
 @endif
+<br><br>
+You may now contact the owner directly.
+When you contact the listing, don't forget to mention that you found it on FnB Circle.
 
-						You may now contact the owner directly.
-						When you contact the listing, don't forget to mention that you found it on FnB Circle.
+<br><br>
 
-Here are a few similar listings:
-----------------------
+<p style="text-align: center;"><b>Here are a few similar listings:</b></p>
+
 @if($listing_data != null)
 @include('list-view.single-card.listing_card', array('exclude_enquiry' => 'true'))
 @else

@@ -22,6 +22,7 @@ use Spatie\Activitylog\Models\Activity;
 use View;
 use Illuminate\Support\Facades\Password;
 use Ajency\Ajfileimport\Helpers\AjCsvFileImport;
+use App\Http\Controllers\Auth\RegisterController;
 // use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdminModerationController extends Controller
@@ -701,12 +702,14 @@ class AdminModerationController extends Controller
                     $html.='<label>Category Filter</label>
                        <a href="#category-select" data-toggle="modal" data-target="#category-select" class="btn btn-link btn-sm" id="select-more-categories">Filter based on Categories</a>
                       <input type="hidden" id="modal_categories_chosen" name="modal_categories_chosen" value="[]">
+                      <input type="hidden" id="is_parent_category_checkbox" value="1">
+                      <input type="hidden" id="is_branch_category_checkbox" value="1">
                       <div id="categories" class="node-list"></div>';
-                    $html.= View::make('modals.categories_list');
+                    // $html.= View::make('modals.categories_list');
                     break;
                 case 'listing_source':
                     $html.='<label>Listing Source Filter</label>
-                            <select name="listing_source" class="form-control">
+                            <select name="listing_source" class="form-control" multiple>
                                 <option value="">Select</option>
                                 <option value="import">Import</option>
                                 <option value="internal_user">Internal User</option>
@@ -716,10 +719,10 @@ class AdminModerationController extends Controller
                 case 'description_filter':
                     $description = \App\Description::where('active',1)->get();
                     $html.='<label>Description Filter</label>
-                            <select name="description">
+                            <select name="description" multiple>
                                 <option value="">Select</option>';
                     foreach ($description as $des) {
-                        $html.='<option value="'.$des->value.'">'.$des->title.'</option>';
+                        $html.='<option value="'.$des->id.'">'.$des->title.'</option>';
                     }
                     $html.='</select>
                             ';
@@ -745,13 +748,92 @@ class AdminModerationController extends Controller
         switch ($type) {
             case 'draft-listing-active':
                 //select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3 and locality_id in ("23", "24", "15", "16")) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;
-                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
+                $areas =[]; 
+                if(!empty($request->cities) and $request->cities!=[""]){
+                    $locations = Area::whereIn('city_id',$request->cities)->pluck('id')->toArray();
+                    $areas = array_merge($areas,$locations);
+                }
+                if(!empty($request->areas) and $request->areas!=[""]){
+                    $areas = array_unique(array_merge($areas,$request->areas));
+                }
+                $filter_categories =[];
+                if(!empty($request->categories) and $request->categories!=[""]){
+                    $filter_nodes = [];
+                    $categories = json_decode($request->categories);
+                    if(count($categories)!=0){
+                        foreach($categories as $category_id){
+                            $category = Category::find($category_id);
+                            if($category->level == 3){
+                                $filter_nodes[] = $category->id;
+                            }else{
+                                $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                                $filter_nodes = array_merge($filter_nodes,$nodes);
+                            }
+                        }
+                        $filter_categories = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                    }
+                }
+
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
+                if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($filter_categories)) $sql.= " and id in ('".implode("','",$filter_categories)."')";
+                if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
+                $sql.=") as draft_listings join (select * from users where status = 'active') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
             case 'draft-listing-inactive':
-                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3) as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
+                $areas =[]; 
+                if(!empty($request->cities) and $request->cities!=[""]){
+                    $locations = Area::whereIn('city_id',$request->cities)->pluck('id')->toArray();
+                    $areas = array_merge($areas,$locations);
+                }
+                if(!empty($request->areas) and $request->areas!=[""]){
+                    $areas = array_unique(array_merge($areas,$request->areas));
+                }
+                $filter_categories =[];
+                if(!empty($request->categories) and $request->categories!=[""]){
+                    $filter_nodes = [];
+                    $categories = json_decode($request->categories);
+                    if(count($categories)!=0){
+                        foreach($categories as $category_id){
+                            $category = Category::find($category_id);
+                            if($category->level == 3){
+                                $filter_nodes[] = $category->id;
+                            }else{
+                                $nodes = Category::where('path','like',$category->path.str_pad($category->id, 5, '0', STR_PAD_LEFT)."%")->where('level',3)->pluck('id')->toArray();
+                                $filter_nodes = array_merge($filter_nodes,$nodes);
+                            }
+                        }
+                        $filter_categories = array_unique(ListingCategory::whereIn('category_id',$filter_nodes)->pluck('listing_id')->toArray());
+                    }
+                }
+                $sql="select active_users.id as userID,draft_listings.id as listingID from (select * from listings where status = 3";
+                if(!empty($areas)) $sql.= " and locality_id in ('".implode("','",$areas)."')";
+                if(!empty($filter_categories)) $sql.= " and id in ('".implode("','",$filter_categories)."')";
+                if(!empty($request->source) and $request->source != [""]) $sql.= " and source in ('".implode("','",$request->source)."')";
+                $sql.=") as draft_listings join (select * from users where status = 'inactive') as active_users on draft_listings.owner_id = active_users.id;";
                 return collect(\DB::Select($sql))->groupBy('userID');
                 break;
+
+            case 'user-activate':
+                $users = User::where('status','inactive');
+                if(!empty($request->description) and $request->description != [""]){
+                    $description_users = \App\UserDescription::whereIn('description_id',$request->description)->select('user_id')->distinct()->pluck('user_id')->toArray();
+                    $users=$users->whereIn('id',$description_users);
+                }
+                if(!empty($request->cities) or !empty($request->areas)){
+                    $areas = UserDetail::whereIn('area',$request->areas)->pluck('user_id')->toArray();
+                    $cities = UserDetail::whereIn('city',$request->cities)->pluck('user_id')->toArray();
+                    $location_filter = array_unique(array_merge($cities,$areas));
+                    $users = $users->whereIn('id',$location_filter);
+                }
+                if(isset($request->start) and $request->start != ""){
+                    $users->where('created_at','>',\Carbon\Carbon::createFromFormat('Y-m-d',$request->start)->startOfDay());
+                }
+                if(isset($request->end) and $request->end != ""){
+                    $users->where('created_at','<',\Carbon\Carbon::createFromFormat('Y-m-d',$request->end)->endOfDay());
+                }
+                return $users;
             default:
                 abort(404);
         }
@@ -768,6 +850,15 @@ class AdminModerationController extends Controller
             }
             return response()->json(['email_count'=>count($users)]);
             //die();
+        }
+        if($request->type == 'user-activate'){
+            $users = $this->getMailGroups($request);
+
+            
+            if(in_develop()){
+                return response()->json(['email_count'=>$users->count(),'users'=>$users->get()]);
+            }
+            return response()->json(['email_count'=>$users->count()]);
         }
     }
 
@@ -807,38 +898,54 @@ class AdminModerationController extends Controller
                 break;
             case 'draft-listing-inactive':
                 $users = $this->getMailGroups($request);
+                $errors = [];
                 foreach ($users as $uid => $listings) {
-                    $user = User::find($uid);
-                    $listing_details = [];
-                    foreach ($listings as  $user_listing) {
-                        $listing = Listing::find($user_listing->listingID);
-                        $area = Area::with('city')->find($listing->locality_id);
-                        $detail = [
-                            'listing_name' => $listing->title,
-                            'listing_type' => Listing::listing_business_type[$listing->type],
-                            'listing_state' => $area->city['name'],
-                            'listing_city' => $area->name,
-                            'listing_reference' => $listing->reference,
+                    try{
+                        $user = User::find($uid);
+                        $listing_details = [];
+                        $user1 = Password::broker()->getUser(['email'=>$user->getPrimaryEmail()]);
+                        $token =Password::broker()->createToken($user1);
+                        $reset_password_url = url(config('app.url').route('password.reset', $token, false)) . "?email=" . $user->getPrimaryEmail().'&new_user=true';
+                        foreach ($listings as  $user_listing) {
+                            $listing = Listing::find($user_listing->listingID);
+                            $area = Area::with('city')->find($listing->locality_id);
+                            $detail = [
+                                'listing_name' => $listing->title,
+                                'listing_type' => Listing::listing_business_type[$listing->type],
+                                'listing_state' => $area->city['name'],
+                                'listing_city' => $area->name,
+                                'listing_reference' => $listing->reference,
+                            ];
+                            $listing_details[] = $detail;
+                        }
+                        $email = [
+                            'to' => $user->getPrimaryEmail(),
+                            'subject' => "Listing(s) added under your account on FnB Circle",
+                            'template_data' => [
+                                'confirmationLink' => $reset_password_url,
+                                'listings'=> $listing_details,
+                                
+                            ],
                         ];
-                        $listing_details[] = $detail;
+                        sendEmail('listing-user-notify',$email);
+                        // break;
+                    }catch (\Exception $e){
+                        $errors[] = $user;
                     }
-                    $email = [
-                        'to' => $user->getPrimaryEmail(),
-                        'subject' => "Listing(s) added under your account on FnB Circle",
-                        'template_data' => [
-                            'confirmationLink' => $reset_password_url,
-                            'listings'=> $listing_details,
-                            
-                        ],
-                    ];
-                    sendEmail('listing-user-notify',$email);
                 }
                 break;
+            case 'user-activate':
+                $users = $this->getMailGroups($request)->get();
+                $RC = new RegisterController;
 
+                foreach ($users as $user) {
+                    $RC->confirmEmail('register',["id"=>$user->id,'email'=>$user->getPrimaryEmail(),'name'=>$user->name]);
+                }
+                break;
             default:
                 abort(404);
                 break;
-            return response()->json([],200);
+            return response()->json(['errors'=>$errors],200);
         }
     }
 }

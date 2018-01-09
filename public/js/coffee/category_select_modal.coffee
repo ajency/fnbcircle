@@ -20,7 +20,7 @@ getBranchNodeCategories = (path, parent_id) ->
 
 getNodeCategories = (path, branch_id, checked_values, is_all_checked) ->
 	html = ''
-
+	console.log checked_values
 	if checked_values.length <= 0
 		$.each $(path + " input[type='checkbox']:checked"), ->
 			checked_values.push $(this).val()
@@ -203,17 +203,29 @@ $(document).ready () ->
 	  change_view()
 
 	### --- On Category Modal Shown --- ###
-	$(document).on "shown.bs.modal", "#category-select", (event) ->
+	$(document).on "show.bs.modal", "#category-select", (event) ->
 		#$("#category-select #level-one-category-dom")
 		$("#category-select #level-two-category").addClass "hidden"
 		$("#category-select #level-one-category").removeClass "hidden"
 		$("#category-select #level-one-category input[type='radio']").prop "checked", false
+		## -- Get the Core Categories slug array  -- ##
+		get_core_cat_checked = getPreviouslyAvailableCategories()
+		console.log get_core_cat_checked
+		setTimeout ( ->
+			$('#category-select #level-one-category .cat-select li .multi-label-select input[type="checkbox"][name="select-categories"]').each (index,element)->
+				# console.log @value,get_core_cat_checked,$.inArray(@value,get_core_cat_checked)
+				if !$.inArray(@value,get_core_cat_checked)
+					$(this).prop('checked', true).change()
+				else
+					$(this).prop('checked', false).change()
+		),300
 		return
 
 	### --- On click of "Back to Categories", display "Category-One" & hide "Category-Two" --- ###
 	$(document).on "click", "#category-select #back_to_categories", () ->
 		$("#category-select #level-two-category").addClass "hidden"
 		$("#category-select #level-one-category").removeClass "hidden"
+
 		return
 
 	### --- On click of 'x', hide / close the Modal --- ###
@@ -235,13 +247,20 @@ $(document).ready () ->
 		$(this).closest("div#level-one-category").addClass "hidden"
 		get_core_cat_checked = []
 
-			
 		setTimeout ( ->
 			## -- Get the Core Categories slug array  -- ##
 			get_core_cat_checked = getPreviouslyAvailableCategories()
-			
+			$('#category-select #level-two-category ul#branch_categories li input[type="checkbox"][name="branch_categories_select"]').each (index,element)->
+				console.log @value
+				if $.inArray(@value,get_core_cat_checked) > -1
+					console.log @value
+					$(this).prop('checked', true).change()
+				else
+					$(this).prop('checked', false).change()
+
 			# console.log $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls")
-			getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false)
+			if !$('#category-select #level-two-category #branch_categories li.active input[type="checkbox"][name="branch_categories_select"]').prop('checked')
+				getNodeCategories("#category-select #level-two-category ", $("#category-select #level-two-category #branch_categories li.active").find('a').attr("aria-controls"), get_core_cat_checked, false)
 			return
 		), 300
 		event.stopImmediatePropagation() # Prevent making multiple AJAX calls

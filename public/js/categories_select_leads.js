@@ -23,22 +23,20 @@
           'image-url': element['parent']['icon_url'],
           'name': element['parent']['name'],
           'slug': element['parent']['slug'],
-          'selected': 0,
           'branches': []
         };
       }
-      if (element.hasOwnProperty('branch') && categories['parents'][parentID]['selected'] === 0) {
+      if (element.hasOwnProperty('branch')) {
         branchID = element['branch']['id'];
         if (!categories['parents'][parentID]['branches'].hasOwnProperty(branchID)) {
           categories['parents'][parentID]['branches'][branchID] = {
             'id': element['branch']['id'],
             'name': element['branch']['name'],
             'slug': element['branch']['slug'],
-            'selected': 0,
             'nodes': []
           };
         }
-        if (element.hasOwnProperty('node') && categories['parents'][parentID]['branches'][branchID]['selected'] === 0) {
+        if (element.hasOwnProperty('node')) {
           nodeID = element['node']['id'];
           if (!categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty(nodeID)) {
             return categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] = {
@@ -67,7 +65,7 @@
     $('div#categories.node-list').html(template(categories));
   };
 
-  $('#categories.node-list').on('click', '.delete-cat', function() {
+  $('body').on('click', '#categories.node-list .delete-cat', function() {
     var pid;
     pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
     console.log(pid);
@@ -75,7 +73,7 @@
     return $(this).closest('.single-category').remove();
   });
 
-  $('#categories.node-list').on('click', '.branch-remove', function() {
+  $('body').on('click', '#categories.node-list .branch-remove', function() {
     var bid, item, pid;
     item = $(this).closest('.branch-container');
     pid = parseInt($(this).closest('.single-category').attr('data-categ-id'));
@@ -84,7 +82,7 @@
     return item.remove();
   });
 
-  $('#categories.node-list').on('click', '.fnb-cat .node-remove', function() {
+  $('body').on('click', '#categories.node-list .fnb-cat .node-remove', function() {
     var bid, item, list, nid, pid;
     item = $(this).closest('.fnb-cat__title').parent();
     list = item.parent();
@@ -119,15 +117,15 @@
   };
 
   $(document).ready(function() {
-    $(document).on("shown.bs.modal", "#category-select", function(event) {
+    $(document).on("show.bs.modal", "#category-select", function(event) {
       var enquiry_categories, enquiry_categories_string;
       enquiry_categories = getLeafNodes();
       enquiry_categories_string = [];
       enquiry_categories.forEach(function(element) {
         enquiry_categories_string.push(element.toString());
       });
-      console.log(enquiry_categories_string);
       $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories_string));
+      console.log($("#category-select #previously_available_categories").val());
     });
   });
 

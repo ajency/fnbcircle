@@ -7,8 +7,9 @@
   <script type="text/javascript" src="/js/handlebars.js"></script>
   <script type="text/javascript" src="/js/location_select.js"></script>
   <!-- for categories select -->
-  <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
   <script type="text/javascript" src="{{ asset('js/categories_select_leads.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/category_select_modal.js') }}"></script>
+  
    <!-- bootstrap-daterangepicker -->
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>

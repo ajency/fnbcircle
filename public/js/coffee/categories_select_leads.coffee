@@ -18,18 +18,18 @@ $('body').on 'click','#category-select-btn', ()->
       'image-url': element['parent']['icon_url']
       'name': element['parent']['name']
       'slug': element['parent']['slug']
-      'selected': 0
+      # 'selected': 0
       'branches': []
-    if element.hasOwnProperty('branch') and categories['parents'][parentID]['selected'] == 0
+    if element.hasOwnProperty('branch') #and categories['parents'][parentID]['selected'] == 0
       branchID = element['branch']['id']
       if !categories['parents'][parentID]['branches'].hasOwnProperty branchID
         categories['parents'][parentID]['branches'][branchID] =
         'id': element['branch']['id']
         'name': element['branch']['name']
         'slug': element['branch']['slug']
-        'selected': 0
+        # 'selected': 0
         'nodes': []
-      if element.hasOwnProperty('node') and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
+      if element.hasOwnProperty('node') #and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
         nodeID = element['node']['id']
         if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
           categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
@@ -101,7 +101,7 @@ populate = () ->
   $('div#categories.node-list').html template(categories)
   return
 
-$('#categories.node-list').on 'click', '.delete-cat', ->
+$('body').on 'click', '#categories.node-list .delete-cat', ->
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))
   console.log pid
   delete(categories['parents'][pid])
@@ -109,14 +109,14 @@ $('#categories.node-list').on 'click', '.delete-cat', ->
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
-$('#categories.node-list').on 'click', '.branch-remove', ->
+$('body').on 'click', '#categories.node-list .branch-remove', ->
   item = $(this).closest('.branch-container')
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))
   bid = parseInt($(this).closest('.branch-container').attr('data-categ-id'))
   delete(categories['parents'][pid]['branches'][bid])
   item.remove()
 
-$('#categories.node-list').on 'click', '.fnb-cat .node-remove', ->
+$('body').on 'click', '#categories.node-list .fnb-cat .node-remove', ->
   item = $(this).closest('.fnb-cat__title').parent()
   list= item.parent()
   pid = parseInt($(this).closest('.single-category').attr('data-categ-id'))
@@ -143,13 +143,13 @@ window.getLeafNodes = () ->
   return leaf_nodes
 
 $(document).ready ()->
-  $(document).on "shown.bs.modal", "#category-select", (event) ->
+  $(document).on "show.bs.modal", "#category-select", (event) ->
     enquiry_categories = getLeafNodes()
     enquiry_categories_string = []
     enquiry_categories.forEach (element) ->
       enquiry_categories_string.push(element.toString())
       return
-    console.log enquiry_categories_string
     $("#category-select #previously_available_categories").val(JSON.stringify(enquiry_categories_string))
+    console.log $("#category-select #previously_available_categories").val()
     return
   return

@@ -28,4 +28,10 @@
         </li>
        @endforeach
     </ul>
+    @if(isset($is_parent_select) && $is_parent_select)
+    <div class="footer-actions mobile-hide text-right">
+        <button class="btn fnb-btn outline border-btn grey" type="button" data-dismiss="modal">Cancel</button>
+        <button id="category-select-btn" class="btn fnb-btn outline border-btn" type="button" data-dismiss="modal">Save</button>
+    @endif
+    </div>
 </div>

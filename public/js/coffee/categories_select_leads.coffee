@@ -9,6 +9,7 @@ $('body').on 'click','#category-select-btn', ()->
     selected_categ.push JSON.parse $(this).parent().find('input[type="hidden"]#hierarchy').val()
     return
   console.log selected_categ
+  categories['parents'].length = 0
   selected_categ.forEach( (element) ->
   	parentID = element['parent']['id']
   	# console.log parentID
@@ -18,18 +19,22 @@ $('body').on 'click','#category-select-btn', ()->
       'image-url': element['parent']['icon_url']
       'name': element['parent']['name']
       'slug': element['parent']['slug']
-      # 'selected': 0
+      'selected': 0
       'branches': []
-    if element.hasOwnProperty('branch') #and categories['parents'][parentID]['selected'] == 0
+    # else
+    #   categories['parents'][parentID]['selected'] = 0
+    if element.hasOwnProperty('branch') and categories['parents'][parentID]['selected'] == 0
       branchID = element['branch']['id']
       if !categories['parents'][parentID]['branches'].hasOwnProperty branchID
         categories['parents'][parentID]['branches'][branchID] =
         'id': element['branch']['id']
         'name': element['branch']['name']
         'slug': element['branch']['slug']
-        # 'selected': 0
+        'selected': 0
         'nodes': []
-      if element.hasOwnProperty('node') #and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
+      # else
+      #   categories['parents'][parentID]['branches'][branchID]['selected'] = 0
+      if element.hasOwnProperty('node') and categories['parents'][parentID]['branches'][branchID]['selected'] == 0
         nodeID = element['node']['id']
         if !categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty nodeID
           categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] =
@@ -43,9 +48,9 @@ $('body').on 'click','#category-select-btn', ()->
     else
       categories['parents'][parentID]['selected'] = 1
       # delete(categories['parents'][parentID]['branches'])
-      console.log 'parent selected deleting branches'
-      # categories['parents'][parentID]['branches'] = []
-      categories['parents'][parentID]['branches'].length = 0
+      # console.log 'parent selected deleting branches'
+      # # categories['parents'][parentID]['branches'] = []
+      # categories['parents'][parentID]['branches'].length = 0
       # console.log 'parent select ', element
   )
   console.log categories

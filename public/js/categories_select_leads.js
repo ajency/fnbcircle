@@ -15,6 +15,7 @@
       selected_categ.push(JSON.parse($(this).parent().find('input[type="hidden"]#hierarchy').val()));
     });
     console.log(selected_categ);
+    categories['parents'].length = 0;
     selected_categ.forEach(function(element) {
       var branchID, nodeID, parentID;
       parentID = element['parent']['id'];
@@ -24,20 +25,22 @@
           'image-url': element['parent']['icon_url'],
           'name': element['parent']['name'],
           'slug': element['parent']['slug'],
+          'selected': 0,
           'branches': []
         };
       }
-      if (element.hasOwnProperty('branch')) {
+      if (element.hasOwnProperty('branch') && categories['parents'][parentID]['selected'] === 0) {
         branchID = element['branch']['id'];
         if (!categories['parents'][parentID]['branches'].hasOwnProperty(branchID)) {
           categories['parents'][parentID]['branches'][branchID] = {
             'id': element['branch']['id'],
             'name': element['branch']['name'],
             'slug': element['branch']['slug'],
+            'selected': 0,
             'nodes': []
           };
         }
-        if (element.hasOwnProperty('node')) {
+        if (element.hasOwnProperty('node') && categories['parents'][parentID]['branches'][branchID]['selected'] === 0) {
           nodeID = element['node']['id'];
           if (!categories['parents'][parentID]['branches'][branchID]['nodes'].hasOwnProperty(nodeID)) {
             return categories['parents'][parentID]['branches'][branchID]['nodes'][nodeID] = {
@@ -51,9 +54,7 @@
           return categories['parents'][parentID]['branches'][branchID]['nodes'] = [];
         }
       } else {
-        categories['parents'][parentID]['selected'] = 1;
-        console.log('parent selected deleting branches');
-        return categories['parents'][parentID]['branches'].length = 0;
+        return categories['parents'][parentID]['selected'] = 1;
       }
     });
     console.log(categories);

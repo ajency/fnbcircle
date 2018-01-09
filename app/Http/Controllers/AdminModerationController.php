@@ -867,6 +867,7 @@ class AdminModerationController extends Controller
         $this->validate($request,[
             'type'=>'required'
         ]);
+        $errors = [];
         switch($request->type){
             case 'draft-listing-active':
                 $users = $this->getMailGroups($request);
@@ -899,7 +900,7 @@ class AdminModerationController extends Controller
                 break;
             case 'draft-listing-inactive':
                 $users = $this->getMailGroups($request);
-                $errors = [];
+                
                 foreach ($users as $uid => $listings) {
                     try{
                         $user = User::find($uid);
@@ -946,8 +947,9 @@ class AdminModerationController extends Controller
             default:
                 abort(404);
                 break;
-            return response()->json(['errors'=>$errors],200);
+            
         }
+        return response()->json(['errors'=>$errors, 'email_count'=>$users->count()],200);
     }
 }
 

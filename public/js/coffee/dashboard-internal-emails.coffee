@@ -57,7 +57,10 @@ getSelectedFilters = (url_check)->
 						categories: JSON.stringify(getLeafNodes())
 						source: source_filter
 					success: (response)->
-						$('#user_number').html response['email_count'];
+						if type == 'draft-listing-active'
+							$('#confirm-mail-message').html 'There are total '+response['email_count']+' active users whose listings are in draft. Are you sure you want to send email to all the users?';
+						else if type == 'draft-listing-inactive'
+							$('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users whose listings are in draft. Are you sure you want to send email to all the users?';
 						$('#confirmBox').modal('show')
 				return
 			when url_send
@@ -71,7 +74,9 @@ getSelectedFilters = (url_check)->
 						categories: JSON.stringify(getLeafNodes())
 						source: source_filter
 					success: (response)->
+						$('#email-sent-message').html 'Email will be sent in the background to '+response['email_count']+' users.'
 						$('#messageBox').modal('show')
+
 				return
 	if type == 'user-activate'
 		description_filter = $('select[name="description"]').val();
@@ -101,7 +106,7 @@ getSelectedFilters = (url_check)->
 						start:start_date
 						end:end_date
 					success: (response)->
-						$('#user_number').html response['email_count'];
+						$('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users.Are you sure you want to send email to all the users?';
 						$('#confirmBox').modal('show')
 				return
 			when url_send
@@ -116,6 +121,7 @@ getSelectedFilters = (url_check)->
 						start:start_date
 						end:end_date
 					success: (response)->
+						$('#email-sent-message').html 'Email will be sent in the background to '+response['email_count']+' users.'
 						$('#messageBox').modal('show')
 				return
 

@@ -76,7 +76,11 @@
               source: source_filter
             },
             success: function(response) {
-              $('#user_number').html(response['email_count']);
+              if (type === 'draft-listing-active') {
+                $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' active users whose listings are in draft. Are you sure you want to send email to all the users?');
+              } else if (type === 'draft-listing-inactive') {
+                $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' inactive users whose listings are in draft. Are you sure you want to send email to all the users?');
+              }
               return $('#confirmBox').modal('show');
             }
           });
@@ -93,6 +97,7 @@
               source: source_filter
             },
             success: function(response) {
+              $('#email-sent-message').html('Email will be sent in the background to ' + response['email_count'] + ' users.');
               return $('#messageBox').modal('show');
             }
           });
@@ -131,7 +136,7 @@
               end: end_date
             },
             success: function(response) {
-              $('#user_number').html(response['email_count']);
+              $('#confirm-mail-message').html('There are total ' + response['email_count'] + ' inactive users.Are you sure you want to send email to all the users?');
               return $('#confirmBox').modal('show');
             }
           });
@@ -149,6 +154,7 @@
               end: end_date
             },
             success: function(response) {
+              $('#email-sent-message').html('Email will be sent in the background to ' + response['email_count'] + ' users.');
               return $('#messageBox').modal('show');
             }
           });

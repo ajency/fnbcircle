@@ -83,7 +83,7 @@
                               </div>
                               <div class="modal-body text-center">
                                   <div class="listing-message">
-                                      <h4 class="element-title text-medium text-left text-color">Are you sure you want to send email to <span id="user_number"></span> users?</h4>
+                                      <h4 class="element-title text-medium text-left text-color" id="confirm-mail-message"></h4>
                                   </div>  
                                   <div class="confirm-actions text-right">
                                       <a href="#" class="" > <button class="btn fnb-btn text-primary border-btn no-border" id="send-mail-confirm">Send Email</button></a>
@@ -105,7 +105,7 @@
                               </div>
                               <div class="modal-body text-center">
                                   <div class="listing-message">
-                                      <h4 class="element-title text-medium text-left text-color">Emails will get sent to selected users in background</h4>
+                                      <h4 class="element-title text-medium text-left text-color" id="email-sent-message"></h4>
                                   </div>  
                                   <div class="confirm-actions text-right">
                                         <button class="btn fnb-btn outline cancel-modal border-btn no-border" data-dismiss="modal">OK</button>

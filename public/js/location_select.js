@@ -1,5 +1,5 @@
 (function() {
-  var array, city, getAreas, populate;
+  var array, city, getAreas, populate, selectState;
 
   city = [];
 
@@ -19,6 +19,9 @@
   getAreas = function(cityID) {
     var loader;
     loader = '<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>';
+    if (city[cityID] === true) {
+      return;
+    }
     $('div[name="' + cityID + '"].tab-pane').addClass('relative');
     $('div[name="' + cityID + '"].tab-pane ul.nodes').html(loader);
     $.ajax({
@@ -136,6 +139,11 @@
         delete cities['cities'][pid]['areas'][$(this).val()];
       }
     });
+    $('.city-list li .city-checkbox:checked').each(function() {
+      var pid;
+      pid = $(this).siblings('a').attr('name');
+      return cities['cities'][pid]['areas'].length = 0;
+    });
     populate();
   });
 
@@ -153,7 +161,7 @@
     console.log(pid);
     delete cities['cities'][pid];
     $(this).closest('.single-category').remove();
-    return $('.city-list a#checkbox-' + pid).prop('checked', false).change();
+    return $('.city-list input#checkbox-' + pid).prop('checked', false).change();
   });
 
   $('body').on('click', '#disp-operation-areas .fnb-cat .remove', function() {
@@ -166,20 +174,24 @@
     aid = parseInt(item.find('input[type="hidden"]').val());
     console.log(cid, aid);
     delete cities['cities'][cid]['areas'][aid];
-    return item.remove();
+    item.remove();
+    if (list.children().length === 0) {
+      console.log(cid);
+      return selectState($('.city-list input[type="checkbox"]#checkbox-' + cid).prop('checked', true)[0]);
+    }
   });
 
-  $('body').on('change', '.city-list input[type="checkbox"]', function() {
+  selectState = function(element) {
     var cityID, cityValue, city_link;
-    city_link = $(this).parent().find('a');
+    console.log(element);
+    city_link = $(element).parent().find('a');
     city_link.click();
-    if (this.checked) {
+    if (element.checked) {
       $('.tab-pane.active .nodes').addClass('disable-section');
       setTimeout((function() {
         $('.tab-pane .disable-section input[type="checkbox"]').prop("checked", true);
       }), 100);
       cityID = city_link.attr('name');
-      $('div[name="' + cityID + '"].tab-pane input[type="checkbox"]').prop("checked", false);
       cityValue = $('div[name="' + cityID + '"].tab-pane input[type="hidden"][name="city"]').val();
       console.log(cityID, cityValue);
       cities['cities'][cityID] = {
@@ -194,6 +206,10 @@
       cityID = city_link.attr('name');
       delete cities['cities'][cityID];
     }
+  };
+
+  $('body').on('change', '.city-list input[type="checkbox"]', function() {
+    return selectState(this);
   });
 
   $('body').on('change', '.mobile-child-selection', function() {

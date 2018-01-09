@@ -9,7 +9,9 @@ $('body').on 'click', 'div.toggle-collapse.desk-hide', ->
 
 getAreas = (cityID) ->
   loader ='<div class="site-loader section-loader half-loader"><div id="floatingBarsG"><div class="blockG" id="rotateG_01"></div><div class="blockG" id="rotateG_02"></div><div class="blockG" id="rotateG_03"></div><div class="blockG" id="rotateG_04"></div><div class="blockG" id="rotateG_05"></div><div class="blockG" id="rotateG_06"></div><div class="blockG" id="rotateG_07"></div><div class="blockG" id="rotateG_08"></div></div></div>'
-  # if city[cityID] != true
+  if city[cityID] == true
+  # if (_.indexOf(city,cityID) != -1)
+    return
   $('div[name="'+cityID+'"].tab-pane').addClass 'relative'
   $('div[name="'+cityID+'"].tab-pane ul.nodes').html loader
   $.ajax
@@ -121,6 +123,9 @@ $('body').on 'click', '.fnb-modal button.operation-save', ->
       # console.log $(this).val()
       delete cities['cities'][pid]['areas'][$(this).val()]
     return
+  $('.city-list li .city-checkbox:checked').each ->
+    pid = $(this).siblings('a').attr('name')
+    cities['cities'][pid]['areas'].length = 0
   populate()
   return
 
@@ -150,7 +155,7 @@ $('body').on 'click', '#disp-operation-areas .delete-cat', ->
   console.log pid
   delete(cities['cities'][pid])
   $(this).closest('.single-category').remove()
-  $('.city-list a#checkbox-'+pid).prop('checked', false).change()
+  $('.city-list input#checkbox-'+pid).prop('checked', false).change()
   # if document.getElementById('disp-operation-areas').children.length == 0
   #   $('#area-modal-link').html '+ Add area(s)'
 
@@ -164,7 +169,10 @@ $('body').on 'click', '#disp-operation-areas .fnb-cat .remove', ->
   console.log cid,aid
   delete(cities['cities'][cid]['areas'][aid])
   item.remove()
-  # if list.children().length == 0
+  if list.children().length == 0
+    console.log cid
+    selectState($('.city-list input[type="checkbox"]#checkbox-'+cid).prop('checked', true)[0])
+
   #   pid = parseInt(list.closest('.single-category').attr('data-city-id'))
   #   delete(cities['cities'][pid])
   #   list.closest('.single-category').remove()
@@ -173,18 +181,18 @@ $('body').on 'click', '#disp-operation-areas .fnb-cat .remove', ->
   #   $('#area-modal-link').html '+ Add area(s)'
 
 
-
-$('body').on 'change', '.city-list input[type="checkbox"]', ->
-  city_link = $(this).parent().find('a')
+selectState = (element)->
+  console.log element
+  city_link = $(element).parent().find('a')
   city_link.click()
-  if @checked
+  if element.checked
     $('.tab-pane.active .nodes').addClass 'disable-section'
     setTimeout (->
       $('.tab-pane .disable-section input[type="checkbox"]').prop "checked",true
       return
     ), 100
     cityID = city_link.attr 'name'
-    $('div[name="'+cityID+'"].tab-pane input[type="checkbox"]').prop "checked",false
+    # $('div[name="'+cityID+'"].tab-pane input[type="checkbox"]').prop "checked",false
     #//////////////////////////////////////////////Disable the div
     cityValue = $('div[name="'+cityID+'"].tab-pane input[type="hidden"][name="city"]').val()
     console.log cityID, cityValue
@@ -200,6 +208,9 @@ $('body').on 'change', '.city-list input[type="checkbox"]', ->
     #//////////////////////////////////////Enable the div
     delete(cities['cities'][cityID])
   return
+
+$('body').on 'change', '.city-list input[type="checkbox"]', ->
+  selectState(this)
 
 
 $('body').on 'change', '.mobile-child-selection', ->

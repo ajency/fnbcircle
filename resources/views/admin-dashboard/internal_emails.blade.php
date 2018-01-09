@@ -64,7 +64,7 @@
                 </div>
               </div>
               	
-                <div id="filter-area"></div>
+                <div id="filter-area" class="filter-area"></div>
               </div>
             </div>
           </div>

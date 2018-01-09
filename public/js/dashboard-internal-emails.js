@@ -16,7 +16,6 @@
           type: this.value
         },
         success: function(response) {
-          $('#filter-area').addClass('filter-area');
           $('#filter-area').html(response);
           $('#submissionDate').daterangepicker({
             autoUpdateInput: false,

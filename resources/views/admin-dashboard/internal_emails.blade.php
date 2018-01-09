@@ -1,5 +1,12 @@
  @extends('layouts.admin-dashboard')
 
+@section('css')
+  <!-- bootstrap-daterangepicker -->
+    <link href="/bower_components/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="{{ asset('/css/dashboard.css') }}" rel="stylesheet">
+@endsection
+
 @section('js')
   @parent
   <!-- for location select -->
@@ -41,17 +48,22 @@
 
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
-              <div class="x_content  table-responsive">
-
-              	<select class="form-control" id="internal-email-type">
-                 <option value="">Select type</option>
-                 @foreach($types as $type)
-                    @php
-                      $data = json_decode($type->meta_data,true);
-                    @endphp
-                    <option value="{{$type->label}}">{{$data['name']}}</option>
-                 @endforeach 
-                </select>
+              <div class="x_content">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="default-size bolder">Please select the type</p>
+                  <select class="fnb-select select-variant" id="internal-email-type" style="font-size: 1em;">
+                   <option value="">Select type</option>
+                   @foreach($types as $type)
+                      @php
+                        $data = json_decode($type->meta_data,true);
+                      @endphp
+                      <option value="{{$type->label}}">{{$data['name']}}</option>
+                   @endforeach 
+                  </select>  
+                </div>
+              </div>
+              	
                 <div id="filter-area"></div>
               </div>
             </div>

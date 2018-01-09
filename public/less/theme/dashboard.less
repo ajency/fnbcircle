@@ -768,3 +768,40 @@ table.dataTable tr th.selected.select-checkbox:after {
 	}
 }
 
+
+.filter-area{
+	border-top: 1px solid #eee;
+    padding-top: 1em;
+    margin-top: 1.5em;
+    .desc-filter{
+    	& + .multiselect-native-select{
+    		display: inline-block;
+    	}
+    }
+	.multiselect.dropdown-toggle{
+		border-bottom: 1px solid #ddd;
+		font-size: 1em;
+		min-width: 150px;
+		display: flex;
+		span{
+			font-size: 1em;
+		}
+	}
+	.multiselect-container{
+		li{
+			a{
+				label{
+					input[type='checkbox']{
+						position: relative;
+						&:before{
+							top: -7px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+

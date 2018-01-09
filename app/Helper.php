@@ -690,8 +690,10 @@ function sendUserRegistrationMails($user){
  
 
     $userDetail = $user->getUserDetails;
-    $userDetail->has_previously_login = 1;
-    $userDetail->save();
+    if($userDetail!=null){
+	    $userDetail->has_previously_login = 1;
+	    $userDetail->save();
+	}
 
 
     Auth::login($user);

@@ -817,13 +817,11 @@ table.dataTable tr th.selected.select-checkbox:after {
   background-color: #ddd;
   margin: 0 -20px;
 }
-.filter-area {
-  border-top: 1px solid #eee;
-  padding-top: 1em;
-  margin-top: 1.5em;
-}
 .filter-area .desc-filter + .multiselect-native-select {
   display: inline-block;
+}
+.filter-area .multiselect-container {
+  overflow: auto !important;
 }
 .filter-area .multiselect.dropdown-toggle {
   border-bottom: 1px solid #ddd;
@@ -833,10 +831,30 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .filter-area .multiselect.dropdown-toggle span {
   font-size: 1em;
+  padding: 0 0.5em;
 }
 .filter-area .multiselect-container li a label input[type='checkbox'] {
   position: relative;
 }
 .filter-area .multiselect-container li a label input[type='checkbox']:before {
   top: -7px;
+}
+.category-modal .catOptions {
+  flex-wrap: wrap;
+}
+@media screen and (min-width: 769px) {
+  .category-modal .catOptions {
+    width: 700px;
+    margin: 45px auto 0 auto;
+  }
+}
+.category-modal .catOptions li {
+  flex: 1 0 40%;
+  text-align: center;
+}
+.category-modal .catOptions .multi-label-select label {
+  justify-content: center;
+}
+.category-modal .main-category .add-container h5 span {
+  display: none;
 }

@@ -9,6 +9,7 @@ $('body').on 'change', '#internal-email-type', ->
 			data:
 				type: @value
 			success: (response) ->
+				$('#filter-area').addClass('filter-area')
 				$('#filter-area').html response
 				$('#submissionDate').daterangepicker({
 					autoUpdateInput:false,
@@ -20,6 +21,9 @@ $('body').on 'change', '#internal-email-type', ->
 					$('#submissionDate').val(picker.startDate.format('YYYY-MM-DD')+' to '+picker.endDate.format('YYYY-MM-DD'))
 					start_date = picker.startDate.format('YYYY-MM-DD')
 					end_date = picker.endDate.format('YYYY-MM-DD')
+				$('select[name="listing_source"],select[name="description"]').multiselect
+					includeSelectAllOption: true
+					nonSelectedText: 'Select Type'
 
 $('body').on 'show.bs.modal','#category-select', ->
 	getCategoryDom("#category-select #level-one-category-dom", "level_1")
@@ -125,4 +129,5 @@ $('body').on 'click','#send-mail-confirm', ()->
 	$('#confirmBox').modal('hide')
 	url = document.head.querySelector('[property="mail-send"]').content
 	getSelectedFilters(url)
+
 		

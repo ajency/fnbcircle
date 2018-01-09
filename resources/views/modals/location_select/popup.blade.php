@@ -15,7 +15,7 @@
             <div class="modal-body">
                 <div class="">
                     <div class="instructions flex-row space-between">
-                        <h6 class="instructions__title bat-color sub-title">Select your area(s) of operation.</h6>
+                        <h6 class="instructions__title bat-color sub-title">Select Location(s)</h6>
                         <button id="" class="btn fnb-btn outline border-btn operation-save re-save" type="button" data-dismiss="modal">save</button>
                     </div>
                     <div class="node-select flex-row custom-node-select">

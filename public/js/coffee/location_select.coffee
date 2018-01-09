@@ -91,6 +91,8 @@ $('body').on 'change', '.tab-pane.collapse ul.nodes input[type=\'checkbox\']', -
   if @checked
     if $(this).closest('ul.nodes').find('input[type=\'checkbox\']:checked').length == $(this).closest('ul.nodes').find('input[type=\'checkbox\']').length
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',true);
+      cityID =  $(this).closest('div').find('input[name="city"]').attr('data-city-id');
+      $('.city-list input#checkbox-'+cityID).prop('checked', true).change()
   else
     if $(this).closest('.tab-pane').find('input#throughout_city').prop('checked')
       $(this).closest('.tab-pane').find('input#throughout_city').prop('checked',false);

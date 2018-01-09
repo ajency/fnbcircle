@@ -927,7 +927,7 @@ class AdminModerationController extends Controller
                                 
                             ],
                         ];
-                        sendEmail('listing-user-notify',$email);
+                        sendEmail('listing-user-verify',$email);
                         // break;
                     }catch (\Exception $e){
                         $errors[] = $user;

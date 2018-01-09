@@ -295,7 +295,9 @@ Dashboard
                             
                             <img src="/img/no-data.png" class="img-responsive center-block" width="100">
 
-                            <p class="m-b-30 m-t-30 text-lighter text-medium">You dont have any Jobs or Listings created</p>
+                            <p class="m-b-30 m-t-30 text-darker text-medium">You don't have any business listings or Job posts yet!
+                            <br>
+                            Your business listings and jobs will appear here and also the jobs that you apply to.</p>
                         </div>
 
 

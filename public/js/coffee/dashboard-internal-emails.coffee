@@ -1,6 +1,7 @@
 start_date="";
 end_date = "";
 $('body').on 'change', '#internal-email-type', ->
+	window.city = []
 	if @value != ""
 		url = document.head.querySelector('[property="mailtype-change-url"]').content
 		$.ajax

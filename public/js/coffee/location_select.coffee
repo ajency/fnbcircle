@@ -1,4 +1,4 @@
-city = []
+window.city = []
 window.cities = 'cities': []
 $('body').on 'click', '.city-list a', ->
 	getAreas($(this).attr('name'))

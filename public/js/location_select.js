@@ -1,7 +1,7 @@
 (function() {
-  var array, city, getAreas, populate, selectState;
+  var array, getAreas, populate, selectState;
 
-  city = [];
+  window.city = [];
 
   window.cities = {
     'cities': []

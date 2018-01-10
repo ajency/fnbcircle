@@ -7,6 +7,7 @@
 
   $('body').on('change', '#internal-email-type', function() {
     var url;
+    window.city = [];
     if (this.value !== "") {
       url = document.head.querySelector('[property="mailtype-change-url"]').content;
       return $.ajax({

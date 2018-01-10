@@ -7,7 +7,7 @@
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> </b>,</p>
+          <p>Hi <b style="color: #7f7f7f;"> </b></p>
          
           
         </div>
@@ -55,7 +55,6 @@
               {{ $email['email'] }} (@if($email['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
             @endforeach
           @endif
-            <br>
           
           @if(!empty($contactMobile))
           <b>Phone:</b>

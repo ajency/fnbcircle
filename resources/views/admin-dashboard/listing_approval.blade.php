@@ -371,6 +371,7 @@
                         <span class="p-l-5 p-r-5">|</span>
                         <a href="{{action('AdminModerationController@generateFile')}}"> Download Data Sheet </a>
                       </div>
+                      <div>Please Note: Once Import file is uploaded, import process cannot be cancelled</div>
                         {!!$importForm!!}
                     </div>
                     <div class="modal-footer">

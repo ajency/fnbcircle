@@ -819,7 +819,7 @@ table.dataTable tr th.selected.select-checkbox:after {
 }
 .filter-area {
   padding-top: 1em;
-  margin-top: 1.5em;
+  margin-top: 1em;
 }
 .filter-area .desc-filter + .multiselect-native-select {
   display: inline-block;

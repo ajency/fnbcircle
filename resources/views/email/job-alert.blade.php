@@ -21,7 +21,7 @@
         
             <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
  
-              Here are new job(s) matching the your job alert criteria.<br><br>
+              Here are new job(s) matching your job alert criteria.<br><br>
               Your current job search criteria is as follows:<br>
               @if(!empty($filters['category_name']))
               Job Category : {{ $filters['category_name'] }}
@@ -29,17 +29,17 @@
               @endif
 
               @if(!empty($filters['keywords_id']))
-              Keywords : {{ implode(',', $filters['keywords_id']) }}
+              Job Roles : {{ implode(',', $filters['keywords_id']) }}
               <br><br>
               @endif
 
               @if(!empty($filters['salary_type_text']))
-              Salary : {{ moneyFormatIndia($filters['salary_lower']) }} - {{ moneyFormatIndia($filters['salary_upper']) }} {{ salarayTypeText($filters['salary_type_text']) }}
+              Salary : Rs {{ moneyFormatIndia($filters['salary_lower']) }} - Rs {{ moneyFormatIndia($filters['salary_upper']) }} {{ salarayTypeText($filters['salary_type_text']) }}
               <br><br>
               @endif
 
               @if(!empty($filters['experience']))
-              Years of exp : {{ implode(' years ,', $filters['experience']) }} years
+              Years of Experience : {{ implode(' years ,', $filters['experience']) }} years
               <br><br>
               @endif
 
@@ -56,7 +56,6 @@
               <br><br>
               @endif
 
-              Here are new job(s) matching the your job alert criteria.<br>
               
               @foreach($jobs as $job)
               <div>
@@ -82,7 +81,7 @@
 
               
               @foreach($searchUrls as $url)
-                <a href="{{ $url['url'] }}">{{ $url['state'] }}<br><br>
+                <a href="{{ $url['url'] }}">{{ $url['state'] }}</a><br><br>
               @endforeach
                
 <br><br>

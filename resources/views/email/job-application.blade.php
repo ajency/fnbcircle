@@ -32,7 +32,7 @@
               <b>Name: </b>{{$applicant_name}}<br>
               <b>Email: </b>{{$applicant_email}}<br>
               <b>Number: </b>+({{$country_code}}){{$applicant_phone}}<br>
-              <b>City: </b>{{$applicant_city}}<br>
+              <b>State: </b>{{$applicant_city}}<br>
             </div>
           </div>
 

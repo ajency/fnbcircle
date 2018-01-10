@@ -65,6 +65,7 @@ getSelectedFilters = (url_check)->
 						if response['email_count'] == 0
 							$('#confirm-mail-message').html 'No listings available to send this type of email'
 							$('#send-mail-confirm').prop 'disabled',true
+							$('#confirmBox').modal('show')
 							return
 						$('#send-mail-confirm').prop 'disabled',false
 						if type == 'draft-listing-active'
@@ -119,6 +120,7 @@ getSelectedFilters = (url_check)->
 						if response['email_count'] == 0
 							$('#confirm-mail-message').html 'No listings available to send this type of email'
 							$('#send-mail-confirm').prop 'disabled',true
+							$('#confirmBox').modal('show')
 							return
 						$('#send-mail-confirm').prop 'disabled',false
 						$('#confirm-mail-message').html 'There are total '+response['email_count']+' inactive users.Are you sure you want to send email to all the users?';

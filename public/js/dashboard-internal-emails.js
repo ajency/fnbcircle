@@ -85,6 +85,7 @@
               if (response['email_count'] === 0) {
                 $('#confirm-mail-message').html('No listings available to send this type of email');
                 $('#send-mail-confirm').prop('disabled', true);
+                $('#confirmBox').modal('show');
                 return;
               }
               $('#send-mail-confirm').prop('disabled', false);
@@ -151,6 +152,7 @@
               if (response['email_count'] === 0) {
                 $('#confirm-mail-message').html('No listings available to send this type of email');
                 $('#send-mail-confirm').prop('disabled', true);
+                $('#confirmBox').modal('show');
                 return;
               }
               $('#send-mail-confirm').prop('disabled', false);

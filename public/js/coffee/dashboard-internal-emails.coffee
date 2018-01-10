@@ -23,6 +23,8 @@ $('body').on 'change', '#internal-email-type', ->
 				$('select[name="listing_source"],select[name="description"]').multiselect
 					includeSelectAllOption: true
 					nonSelectedText: 'Select Type'
+	else
+		$('#filter-area').html ""
 
 $('body').on 'click','.clear-user-date', ->
 	$('#submissionDate').val("")

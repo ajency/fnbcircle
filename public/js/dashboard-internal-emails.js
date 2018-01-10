@@ -34,6 +34,8 @@
           });
         }
       });
+    } else {
+      return $('#filter-area').html("");
     }
   });
 

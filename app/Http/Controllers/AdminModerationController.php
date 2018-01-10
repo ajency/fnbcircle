@@ -737,6 +737,51 @@ class AdminModerationController extends Controller
             }
         }
         $html .= '<br><button class="btn primary-btn border-btn fnb-btn" type="button" id="mail-check">Send Mail</button>';
+        switch($request->type){
+            case 'draft-listing-active':
+                $owner_name = "OWNER NAME";
+                $listings = [[
+                    'listing_reference' => "dummy-ref",
+                    'listing_name' => "Dummy Name 1",
+                    'listing_type' => "Dummy type",
+                    'listing_state' => "Dummy State",
+                    'listing_city' => "Dummy City"
+                ],[
+                   'listing_reference' => "dummy-ref",
+                    'listing_name' => "Dummy Name 2",
+                    'listing_type' => "Dummy type",
+                    'listing_state' => "Dummy State 2",
+                    'listing_city' => "Dummy City 2" 
+                ]];
+                $template = View::make('email.listing-user-notify1')->with(compact('owner_name','listings'));
+                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                break;
+            case 'draft-listing-inactive':
+                $confirmationLink = url('/dummy-confirmation-link');
+                $listings = [[
+                    'listing_reference' => "dummy-ref",
+                    'listing_name' => "Dummy Name 1",
+                    'listing_type' => "Dummy type",
+                    'listing_state' => "Dummy State",
+                    'listing_city' => "Dummy City"
+                ],[
+                   'listing_reference' => "dummy-ref",
+                    'listing_name' => "Dummy Name 2",
+                    'listing_type' => "Dummy type",
+                    'listing_state' => "Dummy State 2",
+                    'listing_city' => "Dummy City 2" 
+                ]];
+                $template = View::make('email.listing-user-verify1')->with(compact('confirmationLink','listings'));
+                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                break;
+            case 'user-activate':
+                $name = "User Name"; 
+                $confirmationLink = url('/dummy-confirmation-link');
+                $contactEmail =  config('constants.email_from');
+                $template = View::make('email.user-verify')->with(compact('confirmationLink','name','contactEmail'));
+                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                break;
+        }
         print_r($html);
         die(); 
     }

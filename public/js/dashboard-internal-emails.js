@@ -8,6 +8,10 @@
   $('body').on('change', '#internal-email-type', function() {
     var url;
     window.city = [];
+    window.categories = {
+      'parents': []
+    };
+    $("#category-select #previously_available_categories").val("");
     if (this.value !== "") {
       url = document.head.querySelector('[property="mailtype-change-url"]').content;
       return $.ajax({

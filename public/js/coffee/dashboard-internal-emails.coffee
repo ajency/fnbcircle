@@ -2,6 +2,8 @@ start_date="";
 end_date = "";
 $('body').on 'change', '#internal-email-type', ->
 	window.city = []
+	window.categories = 'parents': []
+	$("#category-select #previously_available_categories").val ""
 	if @value != ""
 		url = document.head.querySelector('[property="mailtype-change-url"]').content
 		$.ajax

@@ -192,7 +192,7 @@
       console.log(get_core_cat_checked);
       setTimeout((function() {
         return $('#category-select #level-one-category .cat-select li .multi-label-select input[type="checkbox"][name="select-categories"]').each(function(index, element) {
-          if (!$.inArray(this.value, get_core_cat_checked)) {
+          if ($.inArray(this.value, get_core_cat_checked) !== -1) {
             return $(this).prop('checked', true).change();
           } else {
             return $(this).prop('checked', false).change();

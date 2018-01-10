@@ -214,7 +214,7 @@ $(document).ready () ->
 		setTimeout ( ->
 			$('#category-select #level-one-category .cat-select li .multi-label-select input[type="checkbox"][name="select-categories"]').each (index,element)->
 				# console.log @value,get_core_cat_checked,$.inArray(@value,get_core_cat_checked)
-				if !$.inArray(@value,get_core_cat_checked)
+				if $.inArray(@value,get_core_cat_checked) != -1
 					$(this).prop('checked', true).change()
 				else
 					$(this).prop('checked', false).change()

@@ -730,14 +730,14 @@ class AdminModerationController extends Controller
                             </div>';
                     break;
                 case 'user_created_filter':
-                    $html .= '<div class="flex-row" style="margin-top: -10px;"><label class="m-b-0 m-r-20">User Created</label>
-                    <div class="form-group" style="width:250px;">
-                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
+                    $html .= '<div class="flex-row"><label class="m-b-0 m-r-20">User Created</label>
+                    <div class="form-group" style="width:220px;margin-bottom: 10px;">
+                      <input type="text" id="submissionDate" name="" class="form-control fnb-input" style="padding-bottom: 0;font-size: 1em;">
                     </div></div>';
                     break;
             }
         }
-        $html .= '<br><button class="btn primary-btn border-btn fnb-btn" type="button" id="mail-check">Send Mail</button>';
+        $html .= '<br><button class="btn primary-btn border-btn fnb-btn m-r-15" type="button" id="mail-check">Send Mail</button>';
         print_r($html);
         die(); 
     }

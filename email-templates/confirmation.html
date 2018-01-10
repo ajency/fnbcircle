@@ -199,53 +199,51 @@ Note: The Fluid and Responsive templates have a different width (600px). The hyb
 
         <!-- Email Body : BEGIN -->
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr style="text-align: center;">
-      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
+    <tr style="text-align: center;background-color: #fff;">
+      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> Admin </b>,</p>
+          <p>Hi <b style="color: #7f7f7f;"> {{$owner_name}}</b>,</p>
          
           
         </div>
 
-        <!-- Tips -->
+ <!-- Tips -->
 
-        <div style="margin-top: 2em;">
-         
+            <div style="margin-top: 2em;">
+             
 
-          <div style="margin-bottom: 0.8em;">
-        
-            <div style="float: left;text-align: left;width: 85%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
- 
+              <div style="margin-bottom: 0.8em;">
             
-          The owner of job <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;" target="_blank">{{ $job->title }}</a> has sent a request for paid plan.<br>
+                <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+              
+
           
-          <b style="display:block;margin:0.8em 0;">Details as follows:</b>
+              
+             We regret to inform you that your business <a href="" style="color: #ec6d4b;" target="_blank">{{$listing_name}}</a> which was sent for review has been rejected by our team.<br><br>
 
-          <b>Job Name</b> :{{ $job->title }}<br>
-          <b>Plan</b> :{{ $planname }}<br>
-          <b>Job Status</b> :{{ $job->getJobStatus()}}<br>
-          <b>Owner Name</b> :{{ $user->name}}<br>
-          <b>Email</b> : {{ $user->getPrimaryEmail()}}<br>
-          <b>Phone</b> : +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br><br>
+              <div style=""><span style="font-weight: 600;">NOTE:</span> Rejected listings can be submitted for review again.</div><br>
 
-               
-              Regards,<br>
-              Team FnB Circle<br>
+              Please *contact us* for any queries or concerns.<br><br>
 
+              <div style="text-align: left;">
+                Regards,<br>
+                Team FnB Circle<br>
+              </div>
 
 
 
+
+
+                </div>
+                <div style="clear: both;display:table;"></div>
+              </div>
+     
 
             </div>
-            <div style="clear: both;display:table;"></div>
-          </div>
- 
 
-        </div>
-
-      <!-- Tips ends -->
+          <!-- Tips ends -->
 
       </td>
     </tr>

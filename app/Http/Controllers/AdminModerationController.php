@@ -729,14 +729,14 @@ class AdminModerationController extends Controller
                             </div>';
                     break;
                 case 'user_created_filter':
-                    $html .= '<div class="flex-row" style="margin-top: -10px;"><label class="m-b-0 m-r-20">User Created Date</label> <a href="#" class="clear-user-date">Clear</a> 
-                    <div class="form-group" style="width:250px;">
-                      <input type="text" id="submissionDate" name="" class="form-control fnb-input">
+                    $html .= '<div class="flex-row"><label class="m-b-0 m-r-20">User Created Date</label> <a href="#" class="clear-user-date m-r-10">Clear</a> 
+                    <div class="form-group" style="width:220px;margin-bottom: 5px;">
+                      <input type="text" id="submissionDate" name="" class="form-control fnb-input" style="padding-bottom: 0;font-size: 1em;">
                     </div></div>';
                     break;
             }
         }
-        $html .= '<br><button class="btn primary-btn border-btn fnb-btn" type="button" id="mail-check">Send Mail</button>';
+        $html .= '<br><button class="btn primary-btn border-btn fnb-btn m-r-15" type="button" id="mail-check">Send Mail</button>';
         switch($request->type){
             case 'draft-listing-active':
                 $owner_name = "OWNER NAME";
@@ -754,7 +754,7 @@ class AdminModerationController extends Controller
                     'listing_city' => "Dummy City 2" 
                 ]];
                 $template = View::make('email.listing-user-notify1')->with(compact('owner_name','listings'));
-                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                $html.= '<button class="btn fnb-btn outline" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse m-t-15" id="collapseExample">'.$template.'</div>';
                 break;
             case 'draft-listing-inactive':
                 $confirmationLink = url('/dummy-confirmation-link');
@@ -772,14 +772,14 @@ class AdminModerationController extends Controller
                     'listing_city' => "Dummy City 2" 
                 ]];
                 $template = View::make('email.listing-user-verify1')->with(compact('confirmationLink','listings'));
-                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                $html.= '<button class="btn fnb-btn outline" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse m-t-15" id="collapseExample">'.$template.'</div>';
                 break;
             case 'user-activate':
                 $name = "User Name"; 
                 $confirmationLink = url('/dummy-confirmation-link');
                 $contactEmail =  config('constants.email_from');
                 $template = View::make('email.user-verify')->with(compact('confirmationLink','name','contactEmail'));
-                $html.= '<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse" id="collapseExample">'.$template.'</div>';
+                $html.= '<button class="btn fnb-btn outline" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Email Template</button><div class="collapse m-t-15" id="collapseExample">'.$template.'</div>';
                 break;
         }
         print_r($html);

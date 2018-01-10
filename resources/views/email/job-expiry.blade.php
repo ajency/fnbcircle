@@ -20,7 +20,7 @@
               <div style="margin-bottom: 0.8em;">
             
                 <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
-              Your job <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;" target="_blank">{{ $job->title }}</a> has expired and is no longer listed on FnB Circle. <br>
+              <b>Your job <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;" target="_blank">{{ $job->title }}</a> has expired and is no longer listed on FnB Circle.</b> <br><br>
               Have you filled the position yet? Still looking for appropriate candidates? <br>
               Relist your job now!!<br><br>
 

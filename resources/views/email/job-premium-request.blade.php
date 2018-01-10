@@ -7,7 +7,7 @@
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
-          <p>Hi <b style="color: #7f7f7f;"> Hi Admin </b>,</p>
+          <p>Hi <b style="color: #7f7f7f;"> Admin </b>,</p>
          
           
         </div>
@@ -30,7 +30,7 @@
           Plan:{{ $planname }}<br>
           Job Status:{{ $job->getJobStatus()}}<br>
           Owner Name:{{ $user->name}}<br>
-          Email:{{ $user->getPrimaryEmail()}}<br>
+          Email: {{ $user->getPrimaryEmail()}}<br>
           Phone: +({{ $user->getPrimaryContact()['contact_region'] }}) {{ $user->getPrimaryContact()['contact']}}<br><br>
 
 

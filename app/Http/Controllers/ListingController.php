@@ -971,11 +971,18 @@ class ListingController extends Controller
             }
             if ($step == 'summary'){
                 $updates = $listing->updates()->orderBy('updated_at', 'desc')->first();
-                $stats = $this->getListingStats($listing);
+                $stats = $this->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
                 return view('add-listing.summary')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates)->with('stats',$stats);
             }
         }
         abort(404);
+    }
+
+    public function getListingStatsByDate(Request $request){
+        $listing = Listing::where('reference', $request->reference)->firstorFail();
+        $stats = $this->getListingStats($listing,$request->start,$request->end);
+        return response()->json($stats);
+
     }
 
     public function getListingStats($listing,$start="",$end=""){
@@ -983,11 +990,13 @@ class ListingController extends Controller
         $enquiries1 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
         $enquiries2 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
         $enquiries3 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
-        // if($start!="" and $end != ""){
-        //     $end = new Carbon($end);
-        //     $start_date = new Carbon($start);
-        //     $enquiries = $enquiries->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
-        // }
+        if($start!="" and $end != ""){
+            $end = new Carbon($end);
+            $start_date = new Carbon($start);
+            $enquiries1 = $enquiries1->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+            $enquiries2 = $enquiries2->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+            $enquiries3 = $enquiries3->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+        }
         $direct = EnquirySent::where('enquiry_type','direct')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
         $shared = EnquirySent::where('enquiry_type','shared')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
         $contact = EnquirySent::where('enquiry_type','contact-request')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();

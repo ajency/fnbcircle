@@ -32,15 +32,34 @@ $('.requestDate').daterangepicker(
 	endDate: moment()
 
 )
+$('.requestDate').on 'apply.daterangepicker', (ev, picker) ->
+	start_date = picker.startDate.format('YYYY-MM-DD')
+	end_date = picker.endDate.format('YYYY-MM-DD')
+	url = document.head.querySelector('[property="listing-stats"]').content
+	$.ajax
+		url:url
+		type: 'post'
+		data:
+			reference: document.getElementById('listing_id').value
+			start: start_date
+			end: end_date
+		success: (response)->
+			# console.log response
+			$('#direct-count').html response['direct']
+			$('#shared-count').html response['shared']
+			$('#contact-count').html response['contact']
+
+
 filters = {}
 table = $('#listing-leads').DataTable(
   # 'paging': false
   'ordering': false
-  "dom": 'iltrp'
+  "dom": 'ltr'
   "searching": false
   # 'info': false
   # "dom": 'ilrtp'
-  'pageLength': 10
+  'pageLength': 5
+  'lengthChange':false
   'processing': true
   'serverSide':true
   'ajax':

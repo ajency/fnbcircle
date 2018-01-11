@@ -59,6 +59,7 @@ Route::group( ['middleware' => ['auth','fnbpermission']], function() {
 	Route::get('listing/create','ListingController@create');
 	//edit listing
 	Route::get('/listing/{reference}/edit/{step?}','ListingController@edit');
+	Route::post('/listing/stats','ListingController@getListingStatsByDate');
 	//manage categories 
 	Route::post('/list-categories','AdminConfigurationController@categConfigList');
 	Route::post('/save-category','AdminConfigurationController@saveCategory');

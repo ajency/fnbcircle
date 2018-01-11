@@ -20,8 +20,8 @@
 
 @section('meta')
   <meta property="listing-enquiry" content="{{action('AdminEnquiryController@displaylistingEnquiries')}}">
-  <meta property="listing-enquiry-archive" content="{{action('AdminEnquiryController@archiveEnquiry')}}">
-  <meta property="listing-enquiry-unarchive" content="{{action('AdminEnquiryController@unarchiveEnquiry')}}">
+  <meta property="listing-stats" content="{{action('ListingController@getListingStatsByDate')}}">
+  
 @endsection
 
 
@@ -118,17 +118,17 @@
         </div>
         <div class="col-md-3">
             <h5>Contact Requests</h5>
-            <h3>{{$stats['contact']}}</h3>
+            <h3 id="contact-count">{{$stats['contact']}}</h3>
             Number of requests sent for the contact details of the listing
         </div>
         <div class="col-md-3">
             <h5>Direct Enquiries</h5>
-            <h3>{{$stats['direct']}}</h3>
+            <h3 id="direct-count">{{$stats['direct']}}</h3>
             Number of direct enquiries sent to the listing <a href="#">View</a>
         </div>
         <div class="col-md-3">
             <h5>Indirect Enquiries</h5>
-            <h3>{{$stats['shared']}}</h3>
+            <h3 id="shared-count">{{$stats['shared']}}</h3>
             number of indirect enquiries sent to this listing based on category and area the listing belongs to <a href="#">View</a>
         </div>
     </div>

@@ -36,6 +36,6 @@ Categories: <br/>
 Details of the listing owner:<br/>
 Name: {{$owner_name}}<br/>
 Email : {{$owner_email}} ($email_verified)<br/>
-Phone: {{$owner_phone}} ($phone_verified)<br/>
+Phone: +{{$owner_phone['contact_region']}}-{{$owner_phone['contact']}} ($phone_verified)<br/>
 
 @endsection

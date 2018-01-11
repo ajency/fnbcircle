@@ -967,6 +967,10 @@ class ListingController extends Controller
                 $cities       = City::where('status', '1')->get();
                 return view('add-listing.manage-leads')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('parents', $parent_categ)->with('cities', $cities);
             }
+            if ($step == 'summary'){
+                $updates = $listing->updates()->orderBy('updated_at', 'desc')->first();
+                return view('add-listing.summary')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates);
+            }
         }
         abort(404);
     }

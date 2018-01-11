@@ -5,7 +5,14 @@
     return '<div class="row leads-drop"> <div class="col-sm-6"> <div class="operations m-b-20"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">State - Cities</p>' + d.areas + '</div> <div class="operations"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0"><i class="fa fa-comments text-primary" aria-hidden="true"></i> Message</p> <div class="ca-holder">' + d.message + '</div> </div> </div> <div class="col-sm-6"> <div class="operations cate-list"> <p class="m-b-5 operations__title default-size text-uppercase grey-darker heavier m-t-0">Categories</p>' + d.categories + '</div> </div> </div>';
   };
 
-  $('.requestDate').daterangepicker();
+  $('.requestDate').daterangepicker({
+    locale: {
+      format: 'DD-MM-YYYY'
+    },
+    maxDate: moment(),
+    startDate: moment().subtract(1, 'months'),
+    endDate: moment()
+  });
 
   filters = {};
 
@@ -40,17 +47,6 @@
       }, {
         "data": "enquirer_details"
       }, {
-        "className": 'text-secondary cursor-pointer',
-        "orderable": false,
-        "data": 'archive',
-        "render": function(d) {
-          if (d === 0) {
-            return '<a href="#" class="archive-action"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  ';
-          } else {
-            return '<a href="#" class="archive-action"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>';
-          }
-        }
-      }, {
         "orderable": false,
         "data": 'object_type',
         "render": function(d) {
@@ -77,7 +73,6 @@
 
   $('#listing-leads tbody').on('click', '.details-control', function() {
     var row, tr;
-    console.log('sadfs');
     tr = $(this).closest('tr');
     row = table.row(tr);
     if (row.child.isShown()) {

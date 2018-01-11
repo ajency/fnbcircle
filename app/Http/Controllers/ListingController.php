@@ -18,6 +18,8 @@ use Session;
 use Carbon\Carbon;
 use App\Plan;
 use App\PlanAssociation;
+use App\Enquiry;
+use App\EnquirySent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
@@ -969,10 +971,32 @@ class ListingController extends Controller
             }
             if ($step == 'summary'){
                 $updates = $listing->updates()->orderBy('updated_at', 'desc')->first();
-                return view('add-listing.summary')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates);
+                $stats = $this->getListingStats($listing);
+                return view('add-listing.summary')->with('listing', $listing)->with('step', 'manage-leads')->with('back', 'business-premium')->with('cityy',$cityy)->with('updates',$updates)->with('stats',$stats);
             }
         }
         abort(404);
+    }
+
+    public function getListingStats($listing,$start="",$end=""){
+        $listing_enquiry = EnquirySent::where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $enquiries1 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        $enquiries2 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        $enquiries3 = Enquiry::where('enquiry_to_type',get_class($listing))->whereIn('id',$listing_enquiry);
+        // if($start!="" and $end != ""){
+        //     $end = new Carbon($end);
+        //     $start_date = new Carbon($start);
+        //     $enquiries = $enquiries->where('created_at', '>', $start_date->startOfDay()->toDateTimeString())->where('created_at', '<', $end->endOfDay()->toDateTimeString());
+        // }
+        $direct = EnquirySent::where('enquiry_type','direct')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $shared = EnquirySent::where('enquiry_type','shared')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        $contact = EnquirySent::where('enquiry_type','contact-request')->where('enquiry_to_id',$listing->id)->pluck('enquiry_id')->toArray();
+        // dd($direct,$shared,$contact);
+        $direct_count = $enquiries1->whereIn('id',$direct)->count();
+        $shared_count = $enquiries2->whereIn('id',$shared)->count();
+        $contact_count = $enquiries3->whereIn('id',$contact)->count();
+        return ['direct' => $direct_count, 'shared'=> $shared_count, 'contact'=>$contact_count];
+        
     }
 
     public function submitForReview(Request $request)

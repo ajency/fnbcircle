@@ -99,7 +99,39 @@
     </div>
     <!-- updates section ends -->
 
-
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Listing Stats</h4>
+        </div>
+        <div class="col-md-3">
+            Filter your stats for a particular time period 
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control fnb-input requestDate default-size" placeholder="Request Date" id="submissionDate">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <h5>Views</h5>
+            <h3>1</h3>
+            By default displays the number of views in the last 30 days
+        </div>
+        <div class="col-md-3">
+            <h5>Contact Requests</h5>
+            <h3>{{$stats['contact']}}</h3>
+            Number of requests sent for the contact details of the listing
+        </div>
+        <div class="col-md-3">
+            <h5>Direct Enquiries</h5>
+            <h3>{{$stats['direct']}}</h3>
+            Number of direct enquiries sent to the listing <a href="#">View</a>
+        </div>
+        <div class="col-md-3">
+            <h5>Indirect Enquiries</h5>
+            <h3>{{$stats['shared']}}</h3>
+            number of indirect enquiries sent to this listing based on category and area the listing belongs to <a href="#">View</a>
+        </div>
+    </div>
 
 
     <div class="m-t-50 relative leads-tab-section">
@@ -112,7 +144,6 @@
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Email</th>
                 <th class="width-control" style="min-width: 80px;width: 130px !important;">Phone</th>
                 <th style="min-width: 160px">What describes you the best?</th>
-                <th style="min-width: 5px;"></th>
                 <th style="min-width: 30px;">Action</th>
             </tr>
             

@@ -23,7 +23,15 @@ format = (d) ->
 
 	</div>'
 
-$('.requestDate').daterangepicker()
+$('.requestDate').daterangepicker(
+	locale: {
+		format: 'DD-MM-YYYY'
+	}
+	maxDate: moment(),
+	startDate: moment().subtract(1, 'months'),
+	endDate: moment()
+
+)
 filters = {}
 table = $('#listing-leads').DataTable(
   # 'paging': false
@@ -51,16 +59,6 @@ table = $('#listing-leads').DataTable(
     {"data": "enquirer_phone"}
     {"data": "enquirer_details"}
     {
-        "className":      'text-secondary cursor-pointer',
-        "orderable":      false,
-        "data":           'archive',
-        "render": (d) ->
-        	if d == 0 
-        		return '<a href="#" class="archive-action"><i class="fa fa-star-o lead-star archive" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Archive"></i></a>  ' 
-        	else 
-        		return '<a href="#" class="archive-action"><i class="fa fa-star lead-star archived" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Unarchive"></i></a>'
-    }
-    {
       "orderable":      false,
       "data":  'object_type',
       "render": (d) ->
@@ -83,7 +81,6 @@ tooltipinit()
 
 # Add event listener for opening and closing details
 $('#listing-leads tbody').on 'click', '.details-control', ->
-	console.log 'sadfs'
 	tr = $(this).closest('tr')
 	row = table.row(tr)
 	if row.child.isShown()

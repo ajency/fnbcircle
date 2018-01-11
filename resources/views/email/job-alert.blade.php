@@ -33,6 +33,21 @@
               <br><br>
               @endif
 
+             @if(isset($filters['location_text']) && !empty($filters['location_text']))
+               <div style="clear: both;display: table;">
+                  <div style="float: left;margin-right: 15px;min-width: 80px;"><b>State:</b></div>
+                  <div style="float: left;"><b>City:</b></div><br>
+                   @foreach($filters['location_text'] as $location)
+                      <div style="float: left;margin-right: 15px;min-width: 80px;">{{ $location['city_name'] }}<br></div>
+                      <div style="float: left;">   {{ implode(",",$location['areas']) }}<br></div>
+                      <div style="clear: both;display:table;"></div>
+                  @endforeach
+                  <div style="clear: both;display:table;"></div>
+                </div>
+                <br><br>
+              @endif
+
+
               @if(!empty($filters['salary_type_text']))
               Salary : Rs {{ moneyFormatIndia($filters['salary_lower']) }} - Rs {{ moneyFormatIndia($filters['salary_upper']) }} {{ salarayTypeText($filters['salary_type_text']) }}
               <br><br>
@@ -48,13 +63,8 @@
               <br><br>
               @endif
 
-              @if(isset($filters['location_text']) && !empty($filters['location_text']))
-                @foreach($filters['location_text'] as $location)
-                State : {{ $location['city_name'] }} <br>
-                City : {{ implode(",",$location['areas']) }}<br><br>
-                @endforeach
-              <br><br>
-              @endif
+
+  
 
               
               @foreach($jobs as $job)

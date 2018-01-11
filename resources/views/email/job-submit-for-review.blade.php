@@ -52,14 +52,14 @@
           @if(!empty($contactEmail))
           <b>Email:</b>
             @foreach($contactEmail as $email)
-              {{ $email['email'] }} (@if($email['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
+              {{ $email['email'] }} - @if($email['verified']) <span style="font-weight: 600;"><img src="{{ asset('img/verified.png') }}" width="15" style="vertical-align: sub;">verified</span> @else <span style="font-weight: 600;"><img src="{{ asset('img/not-verified.png') }}" width="15" style="vertical-align: sub;"> Not Verified</span> @endif <br>
             @endforeach
           @endif
           
           @if(!empty($contactMobile))
           <b>Phone:</b>
             @foreach($contactMobile as $mobile)
-              +({{ $mobile['country_code'] }}){{ $mobile['mobile'] }} (@if($mobile['verified']) <span style="color: #27b7b0;font-weight: 600;">verified</span> @else <span style="color: #6b6b6b;font-weight: 600;">unverified</span>  @endif) <br>
+              +({{ $mobile['country_code'] }}){{ $mobile['mobile'] }}  - @if($mobile['verified']) <span style="font-weight: 600;"><img src="{{ asset('img/verified.png') }}" width="15" style="vertical-align: sub;">verified</span> @else <span style="font-weight: 600;"><img src="{{ asset('img/not-verified.png') }}" width="15" style="vertical-align: sub;"> Not Verified</span>  @endif <br>
             @endforeach
           @endif
 

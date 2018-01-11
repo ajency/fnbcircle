@@ -124,12 +124,12 @@
         <div class="col-md-3">
             <h5>Direct Enquiries</h5>
             <h3 id="direct-count">{{$stats['direct']}}</h3>
-            Number of direct enquiries sent to the listing <a href="#">View</a>
+            Number of direct enquiries sent to the listing <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=direct">View</a>
         </div>
         <div class="col-md-3">
             <h5>Indirect Enquiries</h5>
             <h3 id="shared-count">{{$stats['shared']}}</h3>
-            number of indirect enquiries sent to this listing based on category and area the listing belongs to <a href="#">View</a>
+            number of indirect enquiries sent to this listing based on category and area the listing belongs to <a href="/listing/{{$listing->reference}}/edit/manage-leads?step=true&type=shared">View</a>
         </div>
     </div>
 

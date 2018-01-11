@@ -71,9 +71,14 @@ format = (d) ->
 
 	</div>'
 
-
+# alert($_GET['type'])
 $('.requestDate').daterangepicker()
-filters = {}
+if $_GET['type'] == undefined or $_GET['type'] == "" 
+  filters = {}
+else
+  filters = 'enquiry_type': [$_GET['type']]
+  $('input.type-filter[value="'+$_GET['type']+'"]').prop("checked",true)
+
 table = $('#listing-leads').DataTable(
   # 'paging': false
   'ordering': false

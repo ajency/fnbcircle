@@ -1,5 +1,5 @@
 (function() {
-  var $_GET, getID, previewL, submitForm;
+  var getID, previewL, submitForm;
 
   window.change = 0;
 
@@ -119,7 +119,7 @@
     }
   };
 
-  $_GET = [];
+  window.$_GET = [];
 
   window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(a, name, value) {
     $_GET[name] = value;

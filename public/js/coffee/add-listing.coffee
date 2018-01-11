@@ -131,7 +131,7 @@ submitForm = (e) ->
 
 # console.log categories
 
-$_GET = []
+window.$_GET = []
 window.location.href.replace /[?&]+([^=&]+)=([^&]*)/gi, (a, name, value) ->
   $_GET[name] = value
   return

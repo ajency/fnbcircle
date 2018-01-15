@@ -30,5 +30,7 @@ return [
 
     'send_delay_dev' => 2, // In mins -> This delay will be used in Email / SMS sending
  	/* Dev Mode Ends */
+
+    'google-analytics' => env('GOOGLE_ANALYTICS_ID','UA-112473904-1'),
 ];
  

@@ -494,6 +494,14 @@ a:hover {
 .table > thead > tr > th {
   padding: 10px 8px;
 }
+.list-approval-tab.table > tbody > tr > td,
+.list-approval-tab.table > tbody > tr > th,
+.list-approval-tab.table > tfoot > tr > td,
+.list-approval-tab.table > tfoot > tr > th,
+.list-approval-tab.table > thead > tr > td,
+.list-approval-tab.table > thead > tr > th {
+  padding: 10px 7px;
+}
 .dataTable .sorting,
 .dataTable .sorting_asc,
 .dataTable .sorting_desc {

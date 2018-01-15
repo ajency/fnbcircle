@@ -74,7 +74,7 @@ class AdminModerationController extends Controller
 
         foreach ($response['data'] as &$listing) {
             $listing['status_ref'] = $listing['status'];
-            $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil"></i></a>';
+            $listing['status']     = $status[$listing['status']] . '<a href="#updateStatusModal" data-target="#updateStatusModal" data-toggle="modal"><i class="fa fa-pencil p-l-10"></i></a>';
             $listing['name']       = '<a target="_blank" href="/listing/' . $listing['reference'] . '/edit?show_duplicates=true">' . $listing['name'] . '</a>';
             $listing['#']          = "";
             switch ($listing['source']){

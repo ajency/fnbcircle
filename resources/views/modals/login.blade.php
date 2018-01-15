@@ -80,12 +80,14 @@
                             <span>Email ID has been verified successfully.</span>
                         </div>
                         <h3 class="welcome-text text-medium">Let's get you inside the Circle.</h3>
+                        @if(false)
                         <div class="social-login flex-row col-direction">
                             <!-- <button class="fnb-btn social-btn fb" type="button"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</button> -->
                             <a href="{{ url('redirect/facebook') }}" class="fnb-btn social-btn fb"><i class="fa fa-facebook-official" aria-hidden="true"></i>Log in with Facebook</a>
                             <!-- <button class="fnb-btn social-btn google" type="button"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</button> -->
                             <a href="{{ url('redirect/google') }}" class="fnb-btn social-btn google"><i class="fa fa-google-plus" aria-hidden="true"></i>Log in with Google</a>
                         </div>
+                        @endif
                         <div class="alternate-login">
                             <p class="sub-title text-color text-medium m-b-0 alternate-login__title"><span>Already part of the Circle?</span></p>
                             <form method="POST" action="{{ route('login') }}" id="login_form_modal">

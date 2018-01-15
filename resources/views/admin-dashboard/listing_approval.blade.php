@@ -114,7 +114,7 @@
 
                 <hr>
 
-                <table id="datatable-listing_approval" class="table table-striped" cellspacing="0" width="100%">
+                <table id="datatable-listing_approval" class="table table-striped list-approval-tab" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th class="select-checkbox sorting_disabled" aria-label="" style="width: 10px;"></th>

@@ -102,8 +102,8 @@ $additionalData = ['job'=>$job];
             <div class="pre-benefits__intro flex-row">
                <img src="/img/hot-jobs.png" class="img-repsonsive hot-job-section__img" width="130">
                <div class="pre-benefits__content">
-                  <h5 class="section-title pre-benefits__title">Upgrade to Premium to enjoy more benefits</h5>
-                  <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click go premium</p>
+                  <h5 class="section-title pre-benefits__title m-b-0">Upgrade to Premium to enjoy more benefits</h5>
+                  <!-- <p class="pre-benefits__caption lighter text-color m-b-0">You are currently using a free version of F&amp;BCircle to upgrade to the premium version click go premium</p> -->
                </div>
             </div>
             <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" ><button type="button" class="btn fnb-btn primary-btn full border-btn upgrade">Go Premium</button></a>

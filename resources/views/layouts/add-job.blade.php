@@ -125,6 +125,7 @@
 
 
                                             </div>
+                                            <div>
                                             @if($job->submitForReview() && !$isPremiumPage) 
                                             <a href="{{ url('/jobs/'.$job->reference_id.'/go-premium') }}" >Submit Job</a>
                                             @endif
@@ -146,6 +147,7 @@
                                                 @if($job->status == 3) <i class="fa fa-info-circle text-color m-l-5" data-toggle="tooltip" data-placement="top" title="Remove this Job." ></i>@endif
                                              
                                             @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

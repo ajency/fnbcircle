@@ -23,6 +23,8 @@ use App\EnquirySent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
+use Spatie\Analytics\Period;
+use Analytics;
 /*
  *    This class defines the actions required for adding a listing to the database and editing it.
  *    This can be used as a route or as a resource.
@@ -1101,6 +1103,43 @@ class ListingController extends Controller
         } else {
             return \Redirect::back()->withErrors(array('PUBLISHED' => 'You can only publish an archived listing'));
         }
+    }
+
+    public function updateViewCount(){
+        $startIndex = 1;
+        Listing::where('views_count','>',0)->update(['views_count'=>0]);
+        do{
+            $response = Analytics::performQuery(
+                Period::days(30),
+                'ga:pageviews',
+                [
+                    // 'dimensions'=>'ga:pagepath,ga:pagepathlevel2',
+                    'dimensions'=>'ga:pagepathlevel2',
+                    'max-results' =>10000,
+                    'start-index' => $startIndex,
+                ]
+            );
+            $views = collect($response['rows'] ?? [])->map(function (array $dateRow) {
+                return [
+                    // 'url' => $dateRow[0],
+                    'slug' => substr($dateRow[0], 1),
+                    'views' => (int) $dateRow[1],
+                ];
+            })->pluck('views','slug')->toArray();
+            $listings = Listing::where('status',1)->whereIn('slug',array_keys($views))->get();
+            // $cities = City::all()->pluck('slug','id')->toArray();
+            foreach ($listings as $listing) {
+                // $url = '/'.$cities[$listing->location['city_id']].'/'.$listing->slug;
+                $stats = $this->getListingStats($listing,Carbon::now()->subMonth()->toDateString(),Carbon::now()->toDateString());
+                $listing->contact_request_count = $stats['contact'];
+                if(isset($views[$listing->slug])){
+                    $listing->views_count = $views[$listing->slug];
+                     
+                }
+                $listing->save();            
+            }
+            $startIndex+=10000;
+        }while($response->nextLink != null);
     }
 
 }

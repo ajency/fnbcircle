@@ -3,7 +3,7 @@
 @section('content')
 <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr style="text-align: center;">
-      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;">
+      <td style="padding: 30px; font-family: sans-serif; font-size: 16px; line-height: 24px; color: #555555;background-color: #fff;">
   
 
         <div style="color: rgba(123, 123, 123, 0.77);font-weight: 300;">
@@ -19,7 +19,7 @@
 
               <div style="margin-bottom: 0.8em;">
             
-                <div style="width: 100%;color: rgba(123, 123, 123, 0.77);font-size: 0.9em;">
+                <div style="width: 100%;color: rgb(127, 127, 127);font-size: 0.9em;">
               <b>Your job <a href="{{ url('/job/'.$job->getJobSlug()) }}" style="color: #ec6d4b;" target="_blank">{{ $job->title }}</a> has expired and is no longer listed on FnB Circle.</b> <br><br>
               Have you filled the position yet? Still looking for appropriate candidates? <br>
               Relist your job now!!<br><br>

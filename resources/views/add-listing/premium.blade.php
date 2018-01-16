@@ -96,7 +96,7 @@
                 <h6 class="sub-title text-uppercase plans__title text-color">{{$plan->title}}</h6>
                 @if($plan->slug != 'free-listing')
                 <div class="plans__fee">
-                    <h5><i class="fa fa-inr" aria-hidden="true"></i> {{$plan->amount}}</h5>
+                    <h5 class="flex-row justify-center"><i class="fa fa-inr" aria-hidden="true"></i> {{$plan->amount}} <span class="text-medium p-l-5 xx-small"> / Month</span></h5>
                 </div>
                 @else
                 <div class="plans__fee">
